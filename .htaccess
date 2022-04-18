@@ -1,0 +1,17 @@
+# CodeIgniter Subfolder .Htaccess
+# today hints by www.insanen.com
+# SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+Options +FollowSymLinks
+
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+RewriteEngine On
+# Please do-not forget to change RewriteBase /admin
+
+RewriteRule ^$ index.php [L]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond $1 !^(index\.php|robots\.txt|favicon\.ico)
+
+RewriteRule ^(.*)$ index.php?/$1 [L]

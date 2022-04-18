@@ -1,0 +1,398 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Data extends MX_Model {
+
+	var $pos=[];
+	var $cek_tgl=true;
+	var $miti_aktual=[];
+	public function __construct()
+    {
+        parent::__construct();
+	}
+
+	function get_detail_char(){
+		switch (intval($this->pos['data']['type_chat'])){
+			case 1:
+				$rows = $this->detail_lap_mitigasi();
+				break;
+			case 2:
+				$rows = $this->detail_lap_ketepatan();
+				break;
+			case 3:
+				$rows = $this->detail_lap_komitment();
+				break;
+			default:
+				break;
+		}
+
+		return $rows;
+	}
+
+	function detail_lap_mitigasi($mode=[]){
+		$this->filter_data();
+		$rows_progres = $this->db->select('rcsa_mitigasi_id, rcsa_mitigasi_detail_id, created_at, target, aktual')->order_by('rcsa_mitigasi_detail_id, created_at desc')->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
+		$progres=[];
+		$id=0;
+		$tgl='2000/01/01';
+		foreach($rows_progres as $row){
+			if ($id!==$row['rcsa_mitigasi_detail_id']){
+				$progres[$row['rcsa_mitigasi_detail_id']]=$row;
+			}elseif($row['created_at']>$tgl){
+				$progres[$row['rcsa_mitigasi_detail_id']]=$row;
+				$tgl=$row['created_at'];
+			}
+			$id=$row['rcsa_mitigasi_detail_id'];
+		}
+
+		$rows=[];
+		// dumps($progres);
+		foreach($progres as $key=>$row){
+			if (array_key_exists($row['rcsa_mitigasi_id'], $rows)){
+				$rows[$row['rcsa_mitigasi_id']]['target'] +=floatval($row['target']);
+				$rows[$row['rcsa_mitigasi_id']]['aktual'] +=floatval($row['aktual']);
+				++$rows[$row['rcsa_mitigasi_id']]['jml'];
+			}else{
+				$rows[$row['rcsa_mitigasi_id']]['target'] =floatval($row['target']);
+				$rows[$row['rcsa_mitigasi_id']]['aktual'] =floatval($row['aktual']);
+				$rows[$row['rcsa_mitigasi_id']]['jml'] =1;
+			}
+		}
+		foreach($rows as $key=>&$row){
+			$row['target']=floatval($row['target'])/$row['jml'];
+			$row['aktual']=floatval($row['aktual'])/$row['jml'];
+		}
+		unset($row);
+
+		$mitigasi=[];
+		$mitigasi[1]=['category'=>'Selesai','nilai'=>0];
+		$mitigasi[2]=['category'=>'Belum Selesai, On Schdule','nilai'=>0];
+		$mitigasi[3]=['category'=>'Belum Selesai, Terlambat','nilai'=>0];
+		$mitigasi[4]=['category'=>'Belum Dilaksanakan','nilai'=>0];
+
+		$id=[];
+		$id[]=0;
+		foreach($rows as $key=>$row){
+			if ($row['target']>=100 && $row['aktual']>=100){
+				if (intval($this->pos['data']['param_id'])==1){
+					$id[]=$key;
+				}
+			}elseif ($row['target']==$row['aktual'] && floatval($row['target'])!=100){
+				if (intval($this->pos['data']['param_id'])==2){
+					$id[]=$key;
+				}
+			}elseif ($row['target']>0 && floatval($row['aktual'])==0){
+				if (intval($this->pos['data']['param_id'])==3){
+					$id[]=$key;
+				}
+			}elseif(intval($this->pos['data']['param_id'])==4){
+				$id[]=$key;
+			}
+		}
+		// dumps($id);
+
+		$mit = $this->db->where_in('id', $id)->get(_TBL_VIEW_RCSA_MITIGASI)->result_array();
+		foreach($mit as &$row){
+			$row['target']=$rows[$row['id']]['target'];
+			$row['aktual']=$rows[$row['id']]['aktual'];
+		}
+		unset($row);
+		$hasil['data']=$mit;
+
+		return $hasil;
+	}
+
+	function detail_lap_ketepatan(){
+		$owner=[];
+		$rows=$this->db->select('*, 0 as target, 0 as aktual, "" as tgl_propose, "" AS file ')->where('owner_code<>','')->get(_TBL_OWNER)->result_array();
+		foreach($rows as $row){
+			$owner[$row['id']]=$row;
+		}
+
+		unset($this->pos['tgl1']);
+		$this->filter_data();
+		$this->db->where('kode_dept<>','');
+		$rows=$this->db->select('owner_id as id, kode_dept as owner_code, owner_name, 0 as status')->group_by(['owner_id', 'kode_dept','owner_name'])->get(_TBL_VIEW_RCSA_APPROVAL_MITIGASI)->result_array();
+		$tmp=[];
+		foreach($rows as $row){
+			$tmp[$row['id']]=$row;
+		}
+		$id=[];
+		$tgl_lapor=[];
+		foreach($owner as $key=>$row){
+			if (array_key_exists($key, $tmp)){
+				unset($owner[$key]);
+				if (intval($this->pos['data']['param_id'])==1){
+					$id[]=$key;
+					$tgl_lapor[$key]=$row['tgl_propose'];
+				}
+			}else{
+				if (intval($this->pos['data']['param_id'])==0){
+					$id[]=$row;
+					$tgl_lapor[$key]=$row['tgl_propose'];
+				}
+			}
+		}
+
+		unset($row);
+		// dumps($id);
+		if (intval($this->pos['data']['param_id'])==1){
+			$this->filter_data();
+			if (!$id){
+				$id[]=0;
+			}
+			$this->db->where_in('owner_id',$id);
+			$rows=$this->db->select('owner_id, kode_dept as owner_code, owner_name, tgl_propose, 0 as status, 0 as target, 0 as aktual, file_att as file ')->get(_TBL_VIEW_RCSA_APPROVAL_MITIGASI)->result_array();
+		}else{
+			$rows=$owner;
+		}
+
+		$hasil['data']=$rows;
+
+		return $hasil;
+	}
+
+	function detail_lap_komitment(){
+		$owner=[];
+		$rows=$this->db->select('*, 0 as target, 0 as aktual , "" as tgl_propose, "" as file ')->where('owner_code<>','')->get(_TBL_OWNER)->result_array();
+		foreach($rows as $row){
+			$owner[$row['id']]=$row;
+		}
+
+		$this->filter_data();
+		$rows=$this->db->select('owner_id, status_lengkap, 0 as status')->group_by(['owner_id', 'status_lengkap'])->get(_TBL_VIEW_RCSA_APPROVAL_MITIGASI)->result_array();
+		$tmp=[];
+		foreach($rows as $row){
+			$tmp[$row['owner_id']]=$row;
+		}
+		$id=[];
+		foreach($owner as $key=>&$row){
+			if (array_key_exists($key, $tmp)){
+				unset($owner[$key]);
+				if (intval($this->pos['data']['param_id'])==1 && $tmp[$key]['status_lengkap']==1){
+					$id[]=$key;
+				}elseif (intval($this->pos['data']['param_id'])==2 && $tmp[$key]['status_lengkap']==2){
+					$id[]=$key;
+				}
+			}else{
+				if (intval($this->pos['data']['param_id'])==0){
+					$id[]=$key;
+				}
+			}
+		}
+		if (!$id){
+			$id[]=0;
+		}
+		if (intval($this->pos['data']['param_id'])>0){
+			$this->filter_data();
+			$this->db->where_in('owner_id',$id);
+			$rows=$this->db->select('owner_id, kode_dept as owner_code, owner_name, tgl_propose, 0 as status, 0 as target, 0 as aktual, file_att as file  ')->get(_TBL_VIEW_RCSA_APPROVAL_MITIGASI)->result_array();
+		}else{
+			$rows=$owner;
+		}
+		$hasil['data']=$rows;
+
+		return $hasil;
+	}
+
+	function filter_data($custom = false){
+		$minggu = [];
+		if ($this->cek_tgl){
+			if (isset($this->pos['minggu'])){
+				if (intval($this->pos['minggu']) && $custom==false){
+					
+						$rows= $this->db->select('*')->where('id', intval($this->pos['minggu']))->get(_TBL_COMBO)->row_array();
+						$this->pos['tgl1']=$rows['param_date'];
+						$this->pos['tgl2']=$rows['param_date_after'];
+
+					
+				}else{
+
+					if ($custom==true && intval($this->pos['minggu'])==0) {
+						$rows= $this->db->select('*')->where('id', $this->pos['term'])->get(_TBL_COMBO)->row();
+						$tgl1=date('Y-m-d');
+						$tgl2=date('Y-m-d');
+						if($rows){
+							$tgl1=$rows->param_date;
+							$tgl2=$rows->param_date_after;
+						}
+						$bulan= $this->db->select('id')->where('kelompok', 'minggu')->where('param_date>=', $tgl1)->where('param_date_after<=', $tgl2)->get(_TBL_COMBO)->result_array();
+						$minggu = array_column($bulan, 'id');
+					}
+				}
+			}
+
+			// if (!isset($this->pos['tgl1'])){
+			// 	if (isset($this->pos['term'])){
+			// 		if (intval($this->pos['term'])){
+			// 			$rows= $this->db->select('*')->where('id', intval($this->pos['term']))->get(_TBL_COMBO)->row_array();
+			// 			$this->pos['tgl1']=$rows['param_date'];
+			// 			$this->pos['tgl2']=$rows['param_date_after'];
+			// 		}
+			// 	}
+			// }
+		}
+		if ($this->pos){
+			if ($this->pos['owner']){
+				if($this->owner_child){
+					$this->db->where_in('owner_id', $this->owner_child);
+				}
+			}
+			if ($this->pos['type_ass']){
+				$this->db->where('type_ass_id', $this->pos['type_ass']);
+			}
+			if ($this->pos['period']){
+				$this->db->where('period_id', $this->pos['period']);
+			}
+
+			if ($this->pos['term']){
+				$this->db->where('term_id', $this->pos['term']);
+			}
+
+			if (isset($this->pos['tgl1']) && $custom==false){
+				$this->db->where('created_at>=', $this->pos['tgl1']);
+				$this->db->where('created_at<=', $this->pos['tgl2']);
+			}elseif (isset($this->pos['minggu'])){
+				// $this->db->where('minggu_id', $this->pos['minggu']);
+			// dumps($minggu);
+
+				if (count($minggu)>0) {
+					$this->db->where_in('minggu_id', $minggu);
+				}elseif(intval($this->pos['minggu']) > 0){
+					$this->db->where('minggu_id', $this->pos['minggu']);
+				}
+			}
+		}else{
+			$this->db->where('period_id', _TAHUN_ID_);
+			$this->db->where('term_id', _TERM_ID_);
+		}
+	}
+
+	function get_data_grap(){
+		$this->filter_data(true);
+		$rows_progres = $this->db->select('rcsa_mitigasi_id, rcsa_mitigasi_detail_id, created_at, target, aktual')->order_by('rcsa_mitigasi_detail_id, created_at desc')
+		// ->get_compiled_select(_TBL_VIEW_RCSA_MITIGASI_PROGRES);
+		->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
+		// dumps($rows_progres);
+		// die();
+		$progres=[];
+		$id=0;
+		$tgl='2000/01/01';
+		foreach($rows_progres as $row){
+			if ($id!==$row['rcsa_mitigasi_detail_id']){
+				$progres[$row['rcsa_mitigasi_detail_id']]=$row;
+			}elseif($row['created_at']>$tgl){
+				$progres[$row['rcsa_mitigasi_detail_id']]=$row;
+				$tgl=$row['created_at'];
+			}
+			$id=$row['rcsa_mitigasi_detail_id'];
+		}
+
+		$rows=[];
+		foreach($progres as $key=>$row){
+			if (array_key_exists($row['rcsa_mitigasi_id'], $rows)){
+				$rows[$row['rcsa_mitigasi_id']]['target'] +=floatval($row['target']);
+				$rows[$row['rcsa_mitigasi_id']]['aktual'] +=floatval($row['aktual']);
+				++$rows[$row['rcsa_mitigasi_id']]['jml'];
+			}else{
+				$rows[$row['rcsa_mitigasi_id']]['target'] =floatval($row['target']);
+				$rows[$row['rcsa_mitigasi_id']]['aktual'] =floatval($row['aktual']);
+				$rows[$row['rcsa_mitigasi_id']]['jml'] =1;
+			}
+		}
+		foreach($rows as $key=>&$row){
+			$row['target']=floatval($row['target'])/$row['jml'];
+			$row['aktual']=floatval($row['aktual'])/$row['jml'];
+		}
+		unset($row);
+
+		$mitigasi=[];
+		$mitigasi[1]=['category'=>'Selesai','nilai'=>0];
+		$mitigasi[2]=['category'=>'Belum Selesai, On Schdule','nilai'=>0];
+		$mitigasi[3]=['category'=>'Belum Selesai, Terlambat','nilai'=>0];
+		$mitigasi[4]=['category'=>'Belum Dilaksanakan','nilai'=>0];
+		foreach($rows as $key=>$row){
+			if ($row['target']>=100 && $row['aktual']>=100){
+				++$mitigasi[1]['nilai'];
+			}elseif ($row['target']==$row['aktual'] && floatval($row['target'])!=100){
+				++$mitigasi[2]['nilai'];
+			}elseif ($row['target']>0 && floatval($row['aktual'])==0){
+				++$mitigasi[3]['nilai'];
+			}else{
+				++$mitigasi[4]['nilai'];
+			}
+		}
+		
+		$hasil['mitigasi']=$mitigasi;
+
+		$owner=[];
+		$rows=$this->db->where('owner_code<>','')->get(_TBL_OWNER)->result_array();
+		foreach($rows as $row){
+			$owner[$row['id']]=$row;
+		}
+
+		unset($this->pos['tgl1']);
+		$this->filter_data();
+		$this->db->where('kode_dept<>','');
+		$rows=$this->db->select('owner_id, kode_dept, owner_name, 0 as status')->group_by(['owner_id', 'kode_dept','owner_name'])->get(_TBL_VIEW_RCSA_APPROVAL_MITIGASI)->result_array();
+		$tmp=[];
+		foreach($rows as $row){
+			$tmp[$row['owner_id']]=$row;
+		}
+		$ownerx=$owner;
+		foreach($ownerx as $key=>&$row){
+			if (array_key_exists($key, $tmp)){
+				$row['status']=1;
+			}else{
+				$row['status']=0;
+			}
+		}
+		unset($row);
+
+		$hasil['tepat']['owner']=$ownerx;
+		$hasil['tepat']['total']=count($owner);
+		$hasil['tepat']['sudah']=count($rows);
+		$hasil['tepat']['belum']=count($owner)-count($rows);
+		$hasil['tepat']['sudah_persen']=number_format((count($rows)/count($owner))*100,2);
+		$hasil['tepat']['belum_persen']=number_format(((count($owner)-count($rows))/count($owner))*100,2);
+
+		// if ($this->pos){
+		// 	if ($this->pos['period']){
+		// 		$this->db->where('period_id', $this->pos['period']);
+		// 	}
+		// 	if ($this->pos['term']){
+		// 		$this->db->where('term_id', $this->pos['term']);
+		// 	}
+		// 	if ($this->pos['minggu']){
+		// 		$this->db->where('minggu_id', $this->pos['minggu']);
+		// 	}
+		// }
+		$this->filter_data();
+		$rows=$this->db->select('owner_id, status_lengkap, 0 as status')->group_by(['owner_id', 'status_lengkap'])->get(_TBL_VIEW_RCSA_APPROVAL_MITIGASI)->result_array();
+		$tmp=[];
+		foreach($rows as $row){
+			$tmp[$row['owner_id']]=$row;
+		}
+		foreach($owner as $key=>&$row){
+			if (array_key_exists($key, $tmp)){
+				$row['status']=$tmp[$key]['status_lengkap'];
+			}else{
+				$row['status']=0;
+			}
+		}
+		unset($row);
+		$stat[2]=['category'=>'Dibicarakan rutin setiap minggu dengan Evidence', 'nilai'=>0];
+		$stat[1]=['category'=>'Dibicarakan rutin setiap minggu dengan Evidence tidak lengkap', 'nilai'=>0];
+		$stat[0]=['category'=>'Tidak dibicarakan', 'nilai'=>0];
+		// dumps($owner);die();
+		foreach($owner as $key=>$row){
+			++$stat[$row['status']]['nilai'];
+		}
+
+		$hasil['komitment']['owner']=$owner;
+		$hasil['komitment']['total']=count($owner);
+		$hasil['komitment']['data']=$stat;
+		return $hasil;
+	}
+}
+/* End of file app_login_model.php */
+/* Location: ./application/models/app_login_model.php */
