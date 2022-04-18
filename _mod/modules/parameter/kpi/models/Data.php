@@ -78,6 +78,26 @@ class Data extends MX_Model {
 		}
 		return $hasil;
 	}
+
+	function save_detail($newid=0,$data=array(), $img)
+	{
+		$owner = [];
+		if (isset($data['term']) ) {
+			foreach ($data['term'] as $key => $value) {
+				$owner[] = intval($value);
+			}
+		}
+		$ow = json_encode($owner);
+
+		$this->crud->crud_table(_TBL_COMBO);
+		$this->crud->crud_field('param_text', $ow);
+		$this->crud->crud_where(['field'=>'id', 'value'=>$data['id'], 'op'=>'=']);
+		$this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
+		$this->crud->crud_type('edit');
+		$this->crud->process_crud();
+	
+		return true;
+	}
 }
 /* End of file app_login_model.php */
 /* Location: ./application/models/app_login_model.php */

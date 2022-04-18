@@ -17,8 +17,10 @@ class Kpi extends MY_Controller {
 		$this->addField(['field'=>'id', 'type'=>'int', 'show'=>false, 'size'=>4]);
 		$this->addField(['field'=>'data', 'title'=>'Nama KPI', 'required'=>true, 'search'=>true, 'size'=>100]);
 		$this->addField(['field'=>'kelompok', 'show'=>false, 'save'=>true, 'default'=>$this->kelompok_id]);
+		$this->addField(['field'=>'param_text', 'show'=>false, 'save'=>false]);
 		$this->addField(['field'=>'urut', 'input'=>'updown', 'size'=>20, 'min'=>1, 'default'=>1]);
 		$this->addField(['field'=>'active', 'input'=>'boolean', 'size'=>20]);
+		$this->addField(['field'=>'risk_type', 'title'=>'List Term', 'type'=>'free', 'mode'=>'a']);
 		$this->addField(['field'=>'uri_title', 'show'=>false, 'save'=>true]);
 
 		$this->set_Field_Primary($this->tbl_master, 'id');
@@ -27,6 +29,7 @@ class Kpi extends MY_Controller {
 		$this->set_Sort_Table($this->tbl_master,'data');
 
 		$this->set_Table_List($this->tbl_master,'data');
+		$this->set_Table_List($this->tbl_master,'param_text', 'Total Dept');
 		$this->set_Table_List($this->tbl_master,'urut');
 		$this->set_Table_List($this->tbl_master,'active','',7, 'center');
 
@@ -59,5 +62,30 @@ class Kpi extends MY_Controller {
 		if ($rows['data']!==$old['data'])
 			$title=create_unique_slug($rows['data'], $this->tbl_master);
 		return $title;
+	}
+
+	function inputBox_RISK_TYPE($mode, $field, $row, $value){
+		if ($mode=='add'){
+			$rows=[];
+		}else{
+			$rows=json_decode($row['param_text'], true);
+		}
+		
+		$owner=$this->get_combo_parent_dept();
+
+		$content = $this->load->view('term', ['data'=>$rows, 'owner'=>$owner], true);
+		return $content;
+	}
+
+	function afterSave($id , $new_data, $old_data, $mode){
+		$result=$this->data->save_detail($id , $new_data, $old_data, $mode);
+		return $result;
+	}
+
+	function listBox_PARAM_TEXT($field, $rows, $value){
+        $val = json_decode($value, true);
+		$jml = (is_array($val))?count($val):0;
+		
+		return $jml;
 	}
 }
