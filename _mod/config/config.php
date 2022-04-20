@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['frontend_url'] = 'http://webgisdev.site';
 $config['base_url'] = '';
 $config['base_url'] = 'http://webgisdev.site/admin';
-$root = "https://".$_SERVER['HTTP_HOST'];
+$root = "https://".$_SERVER['HTTP_HOST'].'/cek';
 $config['base_url'] = str_replace('\/','',$root);
 
 // $config['base_url'] .= '/admin';
