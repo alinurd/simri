@@ -172,7 +172,9 @@ $(function(){
 		var data={'kpi_id':kpi, 'edit_id':id,'minggu':minggu, 'rcsa_id':rcsa_id};
 		var target_combo = $(".entri_kri");
 		var url = modul_name+"/kri-edit";
-		_ajax_("post", parent, data, target_combo, url);
+		// _ajax_("post", parent, data, target_combo, url);
+
+		_ajax_("post", parent, data, '', url, 'indikator_kpi');
 	})
 
 	$(document).on("click","#add_kri", function () {
@@ -184,15 +186,19 @@ $(function(){
 		var data={'kpi_id':kpi, 'edit_id':id,'minggu':minggu, 'rcsa_id':rcsa_id};
 		var target_combo = $(".entri_kri");
 		var url = modul_name+"/kri-edit";
-		_ajax_("post", parent, data, target_combo, url);
+		_ajax_("post", parent, data, '', url, 'indikator_kpi');
+
+		// _ajax_("post", parent, data, target_combo, url);
 	})
 
 	$(document).on('click','#simpan_kri', function(){
 		var parent = $(this).parent().parent().parent();
 		
 		var data = $("#form_kri").serialize();
-		var target_combo = $("#list_kri");
+		var target_combo = $("#parent_risk");
+		// var target_combo = $("#list_kri");
 		var url = modul_name + "/simpan-kri";
+		
 		_ajax_("post", parent, data, target_combo, url, 'indikator_kri');
 	})
 

@@ -694,11 +694,15 @@ class Progress_Mitigasi extends MY_Controller {
 		$post=$this->input->post();
 		$this->data->post=$post;
 		$id=$this->data->simpan_kri();
-		$data['kpi_id']=$post['kpi_id'];
-		$data['rcsa_id']=$post['rcsa_id'];
+		// $data['kpi_id']=$post['kpi_id'];
+		// $data['rcsa_id']=$post['rcsa_id'];
+		// $data['minggu']=$post['minggu'];
+		// $post['id']=0;
+
 		$data['minggu']=$post['minggu'];
-		$post['id']=0;
-		$this->kri_add($post);
+		$data['id']=$post['rcsa_id'];
+		$this->list_kpi($data);
+		// $this->kri_add($post);
 	}
 
 	function entri_kri($post=[], $input=true){
@@ -870,6 +874,17 @@ class Progress_Mitigasi extends MY_Controller {
 			$data['list']=$this->db->where('a.minggu_id', $post['minggu'])->where('a.rcsa_id', intval($post['id']))->or_group_start()->where('a.sts_add',0)->where('a.rcsa_id', intval($post['id']))->group_end()->where('a.kpi_id',0)->get(_TBL_RCSA_KPI." as a")->result_array();
 		}
 	
+		$id_kpi = [];
+		foreach ($data['list'] as $key => $value) {
+			$id_kpi[] = $value['id'];
+		}
+		$data['list_kpi'] = [];
+		if (count($id_kpi)>0) {
+			$data['list_kpi']=$this->db->where_in('kpi_id', $id_kpi)->get(_TBL_RCSA_KPI)->result_array();
+		}
+	
+		// $data['combo'] = $this->load->view('kri', $data, true);
+
 		$data['parent']=$post['id'];
 		$data['minggu']=$post['minggu'];
 		$result['combo'] = $this->load->view('kpi', $data, true);
@@ -957,8 +972,12 @@ class Progress_Mitigasi extends MY_Controller {
 		$this->crud->crud_where(['field' => 'id', 'value' => $post['edit_id']]);
 		$this->crud->process_crud();
 		$data = $post;
-		$data['id']=$post['edit_id'];
-		$this->kri_add($data);
+		// $data['id']=$post['edit_id'];
+		// $this->kri_add($data);
+		$data['del']=true;
+		$data['minggu']=$post['minggu'];
+		$data['id']=$post['rcsa_id'];
+		$this->list_kpi($data);
 	}
 
 	function optionalPersonalButton($button, $row){

@@ -44,6 +44,7 @@ foreach($like as $key=>$row):
     <?php
     endforeach;?>
 <hr/>
+<span class="btn bg-warning-400 btn-labeled btn-labeled-left legitRipple" data-id="<?=$param['rcsa_id'];?>" data-minggu="<?=$param['minggu'];?>"  id="back_list_kpi"><b><i class="icon-arrow-left5"></i></b> <?=_l('fld_back_kpi');?></span>
 <span class="btn bg-success-400 btn-labeled btn-labeled-right legitRipple pull-right" id="simpan_kri"><b><i class="icon-floppy-disk "></i></b> <?=_l('fld_save_kri');?></span>
 <br/>
 <hr/>

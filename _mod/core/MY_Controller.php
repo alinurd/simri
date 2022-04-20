@@ -746,27 +746,38 @@ class MY_Controller extends MX_Controller {
 				if (array_key_exists($row['field'], $value))
 					$isi=$value[$row['field']];
 			}
+			
 			if ($row['search']){
 				$x='';
 				if($row['search']){
+					
 					$mdl='inputBox_'.strtoupper($row['field']);
 					if (method_exists($this->router->fetch_class(),$mdl)){
 						$x=$this->$mdl('edit', $row, $value, $isi);
 					}
+					
 					if ($isi){
+						
 						if (array_key_exists('values', $row)){
 							$method_name='searchBox_'.strtoupper($row['field']);
+							
 							if (method_exists($this->router->fetch_class(),$method_name)){
 								$row['values']=$this->$method_name($value, $isi);
+								
 							}
+							
 							if (array_key_exists($isi, $row['values'])){
+								
 								$search[]=['field'=>$row['title'], 'value'=>$row['values'][$isi]];
 							}else{
 								$search[]=['field'=>$row['title'], 'value'=>$isi];
 							}
+							
 						}else{
 							$search[]=['field'=>$row['title'], 'value'=>$isi];
 						}
+
+						
 					}
 				}
 				
@@ -777,6 +788,7 @@ class MY_Controller extends MX_Controller {
 				}
 			}
 		}
+		
 		unset($row);
 		$this->tmp_data['search']=$search;
 	}
@@ -1828,8 +1840,7 @@ class MY_Controller extends MX_Controller {
 		$this->crud->cPost=$this->post;
 		$this->crud->getQuery();
 		$rows = $this->crud->getAllData();
-		// echo $this->crud->last_query();
-		// die();
+		
 		$this->crud->iStsLimit=false;
 		$this->crud->getQuery();
 		$countRowNoLimit = $this->crud->getCountData();

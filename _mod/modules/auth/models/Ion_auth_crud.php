@@ -192,7 +192,7 @@ class Ion_auth_crud extends MX_Model
 			foreach($this->cParamsModul['m_tbl'] as $key=>$row)
 			{
 				if (count($row)>=3){
-					$this->db->join($row['sp'], $row['sp'].'.'.$row['id_sp'].' = '.$row['pk'].'.'.$row['id_pk']);
+					$this->db->join($row['sp'], $row['sp'].'.'.$row['id_sp'].' = '.$row['pk'].'.'.$row['id_pk'], $row['type']);
 				}
 			}
 		}
@@ -209,6 +209,7 @@ class Ion_auth_crud extends MX_Model
 	function getAllData(){
 		$rows = $this->cResultRows->result_array();
 		$this->last_query=$this->db->last_query();
+		
 		$this->session->set_userdata('list_data_all', $rows);
 		return  $rows;
 	}
