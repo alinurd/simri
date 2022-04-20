@@ -45,6 +45,7 @@ foreach($like as $key=>$row):
     <br/>
 <hr/>
 <span class="btn bg-warning-400 btn-labeled btn-labeled-left legitRipple" data-id="<?=$param['rcsa_detail_no'];?>" data-bk="<?=$param['bk_tipe'];?>" id="back_like_indi"><b><i class="icon-arrow-left5"></i></b> <?=_l('fld_back_like_indi');?></span>
+<!-- save  ke js-->
 <span class="btn bg-success-400 btn-labeled btn-labeled-right legitRipple pull-right" id="simpan_like_indi"><b><i class="icon-floppy-disk "></i></b> <?=_l('fld_save_like_indi');?></span>
 <br/>
 <hr/>

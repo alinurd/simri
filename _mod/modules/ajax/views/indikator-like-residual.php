@@ -36,6 +36,8 @@
                     <td class="text-center"><?=$row['pembobotan'];?></td>
                     <!-- <td class="text-center"><?php //$row['pencapaian'];?></td> -->
                     <td class="text-center"><?=$row['score'];?></td>
+                    <td class="text-center"><?=$row['p_5'];?> <?=$row['s_5_min'];?> - <?=$row['s_5_max'];?></td>
+                    <td class="text-center"><?=$row['p_4'];?> <?=$row['s_4_min'];?> - <?=$row['s_4_max'];?></td>
                     <td class="text-center"><?=$row['p_3'];?> <?=$row['s_3_min'];?> - <?=$row['s_3_max'];?></td>
                     <td class="text-center"><?=$row['p_2'];?> <?=$row['s_2_min'];?> - <?=$row['s_2_max'];?></td>
                     <td class="text-center"><?=$row['p_1'];?> <?=$row['s_1_min'];?> - <?=$row['s_1_max'];?></td>

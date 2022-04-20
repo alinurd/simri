@@ -225,7 +225,7 @@ class Cause_Library extends MY_Controller {
 		$result = $this->data->save_library($id , $new_data);
 		return $result;
 	}
-
+	// buten per list / action 
 	function optionalPersonalButton($button, $row){
 		
 		$v1=$this->data->get_child($row['id'], 2);
