@@ -67,18 +67,28 @@ Sasaran Departemen :
 
                         if ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_1_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_1_max']){
                             $warna='bg-success-400';
-                            $bg="background-color: #66bb6a;";
+                            $bg="background-color: #2c5b29;";
                             $int = 1;
                         }elseif ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_2_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_2_max']){
                             $warna='bg-orange-400';
-                            $bg="background-color: #ffa726;";
+                            $bg="background-color: #50ca4e;";
 
                             $int = 2;
                         }elseif ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_3_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_3_max']){
                             $warna='bg-danger-400';
-                            $bg="background-color: #ef5350;";
+                            $bg="background-color: #edfd17;";
 
                             $int = 3;
+                        }elseif ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_4_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_4_max']){
+                            $warna='bg-danger-400';
+                            $bg="background-color: #f0ca0f;";
+
+                            $int = 4;
+                        }elseif ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_5_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_5_max']){
+                            $warna='bg-danger-400';
+                            $bg="background-color: #e70808;";
+
+                            $int = 5;
                         }
                     ?>
                     <td><?=$row['bulan'][$x]['p_1'].' '.$row['bulan'][$x]['s_1_min'].'-'.$row['bulan'][$x]['s_1_max'];?></td>
@@ -125,18 +135,28 @@ Sasaran Departemen :
                         <?php 
                             if ($row_det['bulan'][$x]['score'] >= $row_det['bulan'][$x]['s_1_min'] && $row_det['bulan'][$x]['score'] <= $row_det['bulan'][$x]['s_1_max']){
                                 $warna='bg-success-400';
-                                $bg="background-color: #66bb6a;";
+                                $bg="background-color: #2c5b29";
                                 $int = 1;
                             }elseif ($row_det['bulan'][$x]['score'] >= $row_det['bulan'][$x]['s_2_min'] && $row_det['bulan'][$x]['score'] <= $row_det['bulan'][$x]['s_2_max']){
                                 $warna='bg-orange-400';
-                                $bg="background-color: #ffa726;";
+                                $bg="background-color: #50ca4e";
 
                                 $int = 2;
                             }elseif ($row_det['bulan'][$x]['score'] >= $row_det['bulan'][$x]['s_3_min'] && $row_det['bulan'][$x]['score'] <= $row_det['bulan'][$x]['s_3_max']){
                                 $warna='bg-danger-400';
-                                $bg="background-color: #ef5350;";
+                                $bg="background-color: #edfd17";
 
                                 $int = 3;
+                            }elseif ($row_det['bulan'][$x]['score'] >= $row_det['bulan'][$x]['s_4_min'] && $row_det['bulan'][$x]['score'] <= $row_det['bulan'][$x]['s_4_max']){
+                                $warna='bg-danger-400';
+                                $bg="background-color: #f0ca0f";
+
+                                $int = 4;
+                            }elseif ($row_det['bulan'][$x]['score'] >= $row_det['bulan'][$x]['s_5_min'] && $row_det['bulan'][$x]['score'] <= $row_det['bulan'][$x]['s_5_max']){
+                                $warna='bg-danger-400';
+                                $bg="background-color: #e70808";
+
+                                $int = 5;
                             }
                         ?>
                         <td><?=$row_det['bulan'][$x]['p_1'].' '.$row_det['bulan'][$x]['s_1_min'].'-'.$row_det['bulan'][$x]['s_1_max'];?></td>
