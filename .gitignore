@@ -1,0 +1,4 @@
+_mod/config/database.php
+_mod/config/config.php
+_mod/logs/*.php
+_mod/modules/library/cek_data/*
