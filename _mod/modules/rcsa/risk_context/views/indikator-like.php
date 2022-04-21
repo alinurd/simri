@@ -4,8 +4,9 @@
     <table class="table table-hover table-bordered tabel-framed" id="tbl_list_like_indi">
         <thead>
             <tr class="bg-primary-300">
-                <th width="5%">No</th>
+                <th width="5%"></th>
                 <th><?=_l('fld_kri');?></th>
+                <!--  fld_pembobotan ada di setingan bhasa -->
                 <th width="10%" class="text-center"><?=_l('fld_pembobotan');?></th>
                 <th width="10%" class="text-center"><?=_l('fld_pencapaian');?></th>
                 <th width="10%" class="text-center"><?=_l('fld_score');?></th>
@@ -33,6 +34,7 @@
                     <td class="text-center"><?=$row['score'];?></td>
                     <td class="text-center"><?=$nilai;?></td>
                     <td class="pointer">
+                        <!-- masuk ke javascript utk edit -->
                         <i class="icon-database-edit2 text-primary-400 update-like-indi" data-parent="<?=$parent;?>" data-id="<?=$row['id'];?>"></i> | 
                         <i class="icon-database-remove text-danger-400 delete-like-indi" data-parent="<?=$parent;?>" data-id="<?=$row['id'];?>" data-bk="1"></i> </td>
                 </tr>

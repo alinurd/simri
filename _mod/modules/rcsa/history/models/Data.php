@@ -233,7 +233,7 @@ class Data extends MX_Model {
 			$this->crud->crud_field('rcsa_detail_id', $id);
 			$this->crud->process_crud();
 
-			$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [2, $id]);
+			$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [2, $id]);
 			// $this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [3, $id]);
 			$this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by) (SELECT ?,rcsa_detail_id,kri_id, created_by from il_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [2, $id]);
 			// $this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by) (SELECT ?,rcsa_detail_id,kri_id, created_by from il_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [3, $id]);
@@ -241,7 +241,7 @@ class Data extends MX_Model {
 			$cek=$this->db->where('bk_tipe', 2)->where('rcsa_detail_id', $id)->get(_TBL_RCSA_DET_LIKE_INDI)->result_array();
 			$cek2=$this->db->where('bk_tipe', 2)->where('rcsa_detail_id', $id)->get(_TBL_RCSA_DET_DAMPAK_INDI)->result_array();
 			if (!$cek && !$cek2){
-				$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [2, $id]);
+				$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [2, $id]);
 				$this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by) (SELECT ?,rcsa_detail_id,kri_id, created_by from il_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [2, $id]);
 			}
 		}
@@ -284,7 +284,7 @@ class Data extends MX_Model {
 			$id = $this->crud->last_id();
 		}
 		if($data['sts_save_evaluasi']==0){
-			$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=2)', [3, $id]);
+			$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=2)', [3, $id]);
 			$this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by) (SELECT ?,rcsa_detail_id,kri_id, created_by from il_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=2)', [3, $id]);
 
 			$this->crud->crud_field('like_target_id', $data['like_residual_id']);
@@ -294,7 +294,7 @@ class Data extends MX_Model {
 			$cek=$this->db->where('bk_tipe', 3)->where('rcsa_detail_id', $id)->get(_TBL_RCSA_DET_LIKE_INDI)->result_array();
 			$cek2=$this->db->where('bk_tipe', 3)->where('rcsa_detail_id', $id)->get(_TBL_RCSA_DET_DAMPAK_INDI)->result_array();
 			if (!$cek && !$cek2){
-				$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=2)', [3, $id]);
+				$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=2)', [3, $id]);
 			$this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by) (SELECT ?,rcsa_detail_id,kri_id, created_by from il_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=2)', [3, $id]);
 			}
 		}
@@ -414,6 +414,12 @@ class Data extends MX_Model {
 			$this->crud->crud_field('p_3', $data['p_3']);
 			$this->crud->crud_field('s_3_min', $data['s_3_min']);
 			$this->crud->crud_field('s_3_max', $data['s_3_max']);
+			$this->crud->crud_field('p_4', $data['p_4']);
+			$this->crud->crud_field('s_4_min', $data['s_4_min']);
+			$this->crud->crud_field('s_4_max', $data['s_4_max']);
+			$this->crud->crud_field('p_5', $data['p_5']);
+			$this->crud->crud_field('s_5_min', $data['s_5_min']);
+			$this->crud->crud_field('s_5_max', $data['s_5_max']);
 			$this->crud->crud_field('score', $data['score']);
 		}else{
 			$this->crud->crud_table(_TBL_RCSA_DET_LIKE_INDI);

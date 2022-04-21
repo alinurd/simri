@@ -17,13 +17,15 @@ class Cause_Library extends MY_Controller {
 		$this->cbo_status=$this->crud->combo_value([1=>'aktif', 2=>'tidak aktif'])->result_combo();
 
 		$this->set_Tbl_Master(_TBL_VIEW_LIBRARY);
-
+		// tbl_master dr set_Tbl_Master tabel view _TBL_VIEW_LIBRARY
+		// menu tambah
 		$this->set_Open_Tab('Data Risk Event Library');
 			$this->addField(['field'=>'id', 'type'=>'int', 'show'=>false, 'size'=>4]);
 			$this->addField(['field'=>'kel', 'save'=>false, 'input'=>'combo', 'search'=>true, 'values'=>$this->kel, 'size'=>50]);
 			$this->addField(['field'=>'risk_type_no','title'=>'Tipe Risiko', 'type'=>'int', 'input'=>'combo', 'search'=>true, 'values'=>[' - Pilih - '], 'size'=>50]);
 			$this->addField(['field'=>'library', 'title'=>'Penyebab Risiko', 'input'=>'multitext', 'search'=>true, 'size'=>500]);
 			$this->addField(['field'=>'jml_couse', 'title'=>'Jml Event', 'type'=>'free', 'show'=>false, 'search'=>false]);
+			// custom tampilan
 			$this->addField(['field'=>'jml_impact', 'type'=>'free', 'show'=>false, 'search'=>false]);
 			$this->addField(['field'=>'used', 'type'=>'free', 'show'=>false, 'search'=>false]);
 			$this->addField(['field'=>'cause', 'title'=>'Peristiwa', 'type'=>'free', 'search'=>false, 'mode'=>'o']);
@@ -41,7 +43,7 @@ class Cause_Library extends MY_Controller {
 
 		$this->set_Sort_Table($this->tbl_master,'id');
 		$this->set_Where_Table(['tbl'=>$this->tbl_master, 'field'=>'type', 'op'=>'=', 'value'=>$this->type_risk]);
-
+		// list tabel
 		$this->set_Table_List($this->tbl_master,'nama_kelompok', 'Klasifikasi Risiko');
 		$this->set_Table_List($this->tbl_master,'risk_type', 'Tipe Risiko');
 		$this->set_Table_List($this->tbl_master,'library');
@@ -72,7 +74,7 @@ class Cause_Library extends MY_Controller {
 		if ($id)
 			$this->data->cari_total_dipakai($id);
 	}
-
+	// mengubah inputan
 	function inputBox_RISK_TYPE_NO($mode, $field, $rows, $value){
 		if ($mode=='edit'){
 			$id=0;
@@ -223,7 +225,7 @@ class Cause_Library extends MY_Controller {
 		$result = $this->data->save_library($id , $new_data);
 		return $result;
 	}
-
+	// buten per list / action 
 	function optionalPersonalButton($button, $row){
 		
 		$v1=$this->data->get_child($row['id'], 2);
