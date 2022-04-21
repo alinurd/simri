@@ -43,7 +43,8 @@
                     <td class="text-center <?=$bg;?>"><?=$row['indikator'];?></td>
                     <td class="pointer text-center">
                         <i class="icon-database-edit2 text-primary-400 edit-kri" data-minggu="<?=$param['minggu'];?>" data-rcsa="<?=$param['rcsa_id'];?>" data-parent="<?=$parent;?>" data-id="<?=$row['id'];?>"></i> | 
-                        <i class="icon-database-remove text-danger-400 delete-kri" data-minggu="<?=$param['minggu'];?>" data-rcsa="<?=$param['rcsa_id'];?>" data-parent="<?=$parent;?>" data-id="<?=$row['id'];?>"></i> </td>
+                        <i class="icon-database-remove text-danger-400 delete-kri" data-minggu="<?=$param['minggu'];?>" data-rcsa="<?=$param['rcsa_id'];?>" data-parent="<?=$parent;?>" data-id="<?=$row['id'];?>"></i> 
+                    </td>
                 </tr>
             <?php endforeach;?>
         </tbody>

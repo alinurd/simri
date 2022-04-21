@@ -8,15 +8,13 @@
                 <th><?=_l('fld_kpi');?></th>
                 <th width="10%" class="text-center"><?=_l('fld_score');?></th>
                 <th width="10%" class="text-center"><?=_l('fld_indikator');?></th>
-                <th width="10%" class="text-center"><?=_l('fld_jml_kri');?></th>
-                <th width="7%" class="text-center"><?=_l('fld_add_kri');?></th>
                 <th width="8%">Aksi</th>
             </tr>
         </thead>
         <tbody>
             <?php
             $no=0;
-            foreach($list as $row):
+            foreach($list as $row): 
                 $bg='';
                 if ($row['score'] >= $row['s_1_min'] && $row['score'] <= $row['s_1_max']){
                     $bg='bg-success-400';
@@ -38,12 +36,44 @@
                     <td><?=$row['title'];?> </td>
                     <td class="text-center"><?=$row['score'];?></td>
                     <td class="text-center <?=$bg;?>"><?=$row['indikator'];?></td>
-                    <td class="text-center"><?=$row['kri_count'];?></td>
-                    <td class="text-center"><span class="btn btn-primary add-kri" data-parent="<?=$parent;?>"  data-minggu="<?=$minggu;?>"  data-id="<?=$row['id'];?>"> Tambah KRI </span></td>
+                   
                     <td class="pointer text-center">
                         <i class="icon-database-edit2 text-primary-400 edit_kpi" data-parent="<?=$parent;?>"  data-minggu="<?=$minggu;?>" data-id="<?=$row['id'];?>"></i> | 
-                        <i class="icon-database-remove text-danger-400 delete_kpi" data-parent="<?=$parent;?>"  data-minggu="<?=$minggu;?>" data-id="<?=$row['id'];?>"></i> </td>
+                        <i class="icon-database-remove text-danger-400 delete_kpi" data-parent="<?=$parent;?>"  data-minggu="<?=$minggu;?>" data-id="<?=$row['id'];?>"></i> 
+                    </td>
                 </tr>
+                <?php if (count($list_kpi)>0): ?>
+                    <?php
+                     $nod=-1;
+                     $alphabet = range('A', 'Z');    
+                    ?>
+                    <?php foreach($list_kpi as $r):?>
+
+                        <?php if ($r['kpi_id'] == $row['id']): ?>
+                        <?php
+                        $huruf=$alphabet[++$nod];
+                        $bgx='';
+                        if ($r['score'] >= $r['s_1_min'] && $r['score'] <= $r['s_1_max']){
+                            $bgx='bg-success-400';
+                        }elseif ($r['score'] >= $r['s_2_min'] && $r['score'] <= $r['s_2_max']){
+                            $bgx='bg-orange-400';
+                        }elseif ($r['score'] >= $r['s_3_min'] && $r['score'] <= $r['s_3_max']){
+                            $bgx='bg-danger-400';
+                        }    
+                        ?>
+                        <tr>
+                            <td></td>
+                            <td><?=$huruf.'. '.$r['title'];?></td>
+                            <td class="text-center"><?=$r['score'];?></td>
+                            <td class="text-center <?=$bgx;?>"><?=$r['indikator'];?></td>
+                            <td class="pointer text-center">
+                                <i class="icon-database-edit2 text-primary-400 edit-kri" data-minggu="<?=$minggu;?>" data-rcsa="<?=$parent?>" data-parent="<?=$row['id'];?>" data-id="<?=$r['id'];?>"></i> | 
+                                <i class="icon-database-remove text-danger-400 delete-kri" data-minggu="<?=$minggu;?>" data-rcsa="<?=$parent;?>" data-parent="<?=$row['id'];?>" data-id="<?=$r['id'];?>"></i> 
+                            </td>
+                        </tr>
+                    <?php endif;?>
+                <?php endforeach;?>
+                <?php endif;?>
             <?php endforeach;?>
         </tbody>
     </table>

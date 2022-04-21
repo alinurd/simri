@@ -375,8 +375,8 @@ class Risk_Context extends MY_Controller {
 
 		// dumps($jml_like_indi);
 		// dumps($jml_dampak_indi);
-		$kpi=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'kpi')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-		
+		$kpi=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'kpi')->combo_where('param_text like ', '%'.$parent['owner_id'].'%')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+	
 		$aktivitas=$this->crud->combo_select(['id', 'concat(kode,\' - \',data) as data'])->combo_where('pid', intval($parent['owner_id']))->combo_where('kelompok', 'aktivitas')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		$sasaran=$this->crud->combo_select(['id', 'data'])->combo_where('pid', intval($parent['owner_id']))->combo_where('kelompok', 'sasaran-aktivitas')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		
