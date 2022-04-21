@@ -68,9 +68,9 @@ class Kpi extends MY_Controller {
 		if ($mode=='add'){
 			$rows=[];
 		}else{
-			$rows=json_decode($row['param_text'], true);
+			$rows=($row['param_text'])?json_decode($row['param_text'], true):[];
 		}
-		
+       
 		$owner=$this->get_combo_parent_dept();
 
 		$content = $this->load->view('term', ['data'=>$rows, 'owner'=>$owner], true);
