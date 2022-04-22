@@ -1398,6 +1398,9 @@ class Risk_Context extends MY_Controller {
 						$data['p_4']=0;
 						$data['s_4_min']=0;
 						$data['s_4_max']=0;
+						$data['p_5']=0;
+						$data['s_5_min']=0;
+						$data['s_5_max']=0;
 						$data['score']=0;
 						$data['dampak_id']=$post['dampak_id'];
 						$this->data->simpan_like_indi($data);
@@ -1618,7 +1621,7 @@ class Risk_Context extends MY_Controller {
 		$fields['mitigasi'] = ['mitigasi', 'batas_waktu', 'biaya', 'penanggung_jawab_id', 'koordinator_id', 'status_jangka'];
 		$fields['mitigasi_detail'] =['aktifitas_mitigasi', 'batas_waktu_detail', 'penanggung_jawab_detail_id', 'koordinator_detail_id', 'target', 'aktual'];
 		$fields['dampak_indi'] =['bk_tipe', 'kri_id'];
-		$fields['like_indi'] =['bk_tipe', 'kri_id', 'satuan_id', 'pembobotan', 'p_1', 's_1_min', 's_1_max', 'p_2', 's_2_min', 's_2_max', 'p_3', 's_3_min', 's_3_max', 'p_4', 's_4_min', 's_4_max', 'score', 'param'];
+		$fields['like_indi'] =['bk_tipe', 'kri_id', 'satuan_id', 'pembobotan', 'p_1', 's_1_min', 's_1_max', 'p_2', 's_2_min', 's_2_max', 'p_3', 's_3_min', 's_3_max', 'p_4', 's_4_min', 's_4_max', 'p_5', 's_5_min', 's_5_max', 'score', 'param'];
 
 		$rows = $this->db->where('parent_id', $post['id'])->where('period_id', $post['periode'])->where('term_id', $post['term'])->get(_TBL_RCSA)->row_array();
         if ($rows) {

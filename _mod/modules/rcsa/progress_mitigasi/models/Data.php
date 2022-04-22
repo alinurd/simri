@@ -66,7 +66,11 @@ class Data extends MX_Model {
 
 	function simpan_kpi(){
 
-		if (floatval($this->post['score'])>=floatval($this->post['s_3_min'])){
+		if (floatval($this->post['score'])>=floatval($this->post['s_5_min'])){
+			$indi=5;
+		}elseif (floatval($this->post['score'])>=floatval($this->post['s_4_min'])){
+			$indi=4;
+		}elseif (floatval($this->post['score'])>=floatval($this->post['s_3_min'])){
 			$indi=3;
 		}elseif (floatval($this->post['score'])>=floatval($this->post['s_2_min'])){
 			$indi=2;
@@ -75,7 +79,7 @@ class Data extends MX_Model {
 		}else{
 			$indi=0;
 		}
-
+	
 		$this->crud->crud_table(_TBL_RCSA_KPI);
 		$this->crud->crud_field('rcsa_id', $this->post['rcsa_id'], 'int');
 		$this->crud->crud_field('minggu_id', $this->post['minggu'], 'int');
@@ -91,6 +95,12 @@ class Data extends MX_Model {
 		$this->crud->crud_field('p_3', $this->post['p_3']);
 		$this->crud->crud_field('s_3_min', $this->post['s_3_min']);
 		$this->crud->crud_field('s_3_max', $this->post['s_3_max']);
+		$this->crud->crud_field('p_4', $this->post['p_4']);
+		$this->crud->crud_field('s_4_min', $this->post['s_4_min']);
+		$this->crud->crud_field('s_4_max', $this->post['s_4_max']);
+		$this->crud->crud_field('p_5', $this->post['p_5']);
+		$this->crud->crud_field('s_5_min', $this->post['s_5_min']);
+		$this->crud->crud_field('s_5_max', $this->post['s_5_max']);
 		$this->crud->crud_field('score', $this->post['score']);
 		$this->crud->crud_field('indikator', $indi);
 		if($this->post['edit_id']==0){
@@ -107,8 +117,11 @@ class Data extends MX_Model {
 	
 
 	function simpan_kri(){
-
-		if (floatval($this->post['score'])>=floatval($this->post['s_3_min'])){
+		if (floatval($this->post['score'])>=floatval($this->post['s_5_min'])){
+			$indi=5;
+		}elseif (floatval($this->post['score'])>=floatval($this->post['s_4_min'])){
+			$indi=4;
+		}elseif (floatval($this->post['score'])>=floatval($this->post['s_3_min'])){
 			$indi=3;
 		}elseif (floatval($this->post['score'])>=floatval($this->post['s_2_min'])){
 			$indi=2;
@@ -133,6 +146,12 @@ class Data extends MX_Model {
 		$this->crud->crud_field('p_3', $this->post['p_3']);
 		$this->crud->crud_field('s_3_min', $this->post['s_3_min']);
 		$this->crud->crud_field('s_3_max', $this->post['s_3_max']);
+		$this->crud->crud_field('p_4', $this->post['p_4']);
+		$this->crud->crud_field('s_4_min', $this->post['s_4_min']);
+		$this->crud->crud_field('s_4_max', $this->post['s_4_max']);
+		$this->crud->crud_field('p_5', $this->post['p_5']);
+		$this->crud->crud_field('s_5_min', $this->post['s_5_min']);
+		$this->crud->crud_field('s_5_max', $this->post['s_5_max']);
 		$this->crud->crud_field('score', $this->post['score']);
 		$this->crud->crud_field('indikator', $indi);
 		if($this->post['edit_id']==0){
