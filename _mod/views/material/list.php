@@ -100,7 +100,7 @@ if ($search)
 
         // Highlighting rows and columns on mouseover
         var lastIdx = null;
-        var table = $('#datatable-list').DataTable({
+        this.oTable = $('#datatable-list').DataTable({
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
             pageLength:50,
             columnDefs: [ 
@@ -112,8 +112,28 @@ if ($search)
             "fnDrawCallback": function( oSettings ) {
                 $('[data-toggle="tooltip"]').tooltip();
                 $('[data-toggle="popover"]').popover();
+                
+                var len = $('input[name="chk_list[]"]:checked').length;
+                if (len>0){
+                    $('#btn_save_modul').removeClass('disabled');
+                    $('#chk_list_parent').prop('checked', true);
+                }else{
+                    $('#btn_save_modul').addClass('disabled');
+                    $('#chk_list_parent').prop('checked', false);
+                }
             },
-            ajax: '<?php echo _MODULE_NAME_;?>'+"/list-data",
+            ajax: {
+                url: '<?php echo _MODULE_NAME_; ?>' + "/list-data",
+                beforeSend: function() {
+                    var col = $("#datatable-list > thead").find("tr:first th").length;
+                    // Here, manually add the loading message.
+                    $('#datatable-list > tbody').html(
+                        '<tr class="odd">' +
+                        '<td valign="top" colspan="' + col + '" class="dataTables_empty"><img src="<?= img_url('ajax-loader.gif') ?>"></td>' +
+                        '</tr>'
+                    );
+                }
+            },
             processing: true,
             bServerSide: true,
             language:{
@@ -141,7 +161,8 @@ if ($search)
                 }
             }
         });
-        
+        // console.log(table);
+        // return table;
     };
 
     // Select2 for length menu styling

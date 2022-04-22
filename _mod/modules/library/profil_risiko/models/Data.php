@@ -11,9 +11,15 @@ class Data extends MX_Model {
 		$this->nm_tbl="profil_risiko";
 	}
 
-	function checklist()
+	function checklist($period=0, $term=0)
 	{
 		$checklist = [];
+		if ($period!=0) {
+			$this->db->where('period_id', $period);
+		}
+		if ($term!=0) {
+			$this->db->where('term_id', $term);
+		}
 		$check = $this->db->select("rcsa_detail_id")->get($this->nm_tbl)->result();
 	
 		foreach ($check as $key => $value) {
@@ -134,14 +140,17 @@ class Data extends MX_Model {
 	
 	function delete_data($id){
 		$this->db->where_in('id', $id);
+		$this->db->where('period_id', $period);
+		$this->db->where('term_id', $term);
 		$this->db->delete($this->nm_tbl);
 		$jml=$this->db->affected_rows();
 		return $jml;
 	}
 
-	function simpan_data($data){
+	function simpan_data($data, $period, $term){
 		// $this->db->empty_table('profil_risiko');
-		$old = $this->checklist();
+		$old = $this->checklist($period, $term);
+		
 		$new = [];
 		$del = [];
 		$newdata = [];
@@ -158,12 +167,18 @@ class Data extends MX_Model {
 		}
 		if(count($del)>0){
 			$this->db->where_in('rcsa_detail_id', $del);
+			$this->db->where('period_id', $period);
+			$this->db->where('term_id', $term);
 			$this->db->delete($this->nm_tbl);
 		}
 
 		if(count($new)>0){
 			foreach ($new as $key => $value) {
-				$newdata[] = ['rcsa_detail_id' => $value];
+				$newdata[] = [
+					'rcsa_detail_id' => $value,
+					'period_id' => $period,
+					'term_id' => $term,
+				];
 			}
 		
 			$this->db->insert_batch($this->nm_tbl,$newdata);
