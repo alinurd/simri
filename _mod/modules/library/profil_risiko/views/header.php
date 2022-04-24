@@ -11,7 +11,7 @@
     <div class="form-group row">
         <label class="col-form-label col-lg-2"><?= _l('fld_term_id'); ?></label>
         <div class="col-lg-10">
-            <?php echo form_dropdown('term', $term, _TERM_ID_, 'class="form-control select" style="width:100%;"  id="term"'); ?>
+            <?php echo form_dropdown('term', $term, _TERM_ID_, 'class="form-control select term" style="width:100%;"  id="term"'); ?>
         </div>
     </div>
     <div class="form-group row">

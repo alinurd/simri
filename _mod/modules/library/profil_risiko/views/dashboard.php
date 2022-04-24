@@ -30,16 +30,14 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-form-label col-lg-2 text-right"><?=_l('fld_term_id');?></label>
-                    <div class="col-lg-10">
-                        <?php echo form_dropdown('term', $term, _TERM_ID_, 'class="form-control select" style="width:100%;"  id="term"');?>
+                    <div class="col-lg-5">
+                        <?php echo form_dropdown('term_mulai', $term, _TERM_ID_, 'class="form-control select term" style="width:100%;"  id="term_mulai"');?>
+                    </div>
+                    <div class="col-lg-5">
+                        <?php echo form_dropdown('term_akhir', $term, _TERM_ID_, 'class="form-control select term" style="width:100%;"  id="term_akhir"');?>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-form-label col-lg-2 text-right"><?=_l('fld_minggu_id');?></label>
-                    <div class="col-lg-10">
-                        <?php echo form_dropdown('minggu', $minggu, _MINGGU_ID_, 'class="form-control select" style="width:100%;"  id="minggu"');?>
-                    </div>
-                </div>
+                
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <span class="btn btn-primary pointer pull-right" id="proses"> Proses </span>
@@ -79,6 +77,25 @@
                     <div class="tab-pane fade" id="content-tab-01"><?=$map_residual;?></div>
                     <div class="tab-pane fade" id="content-tab-02"><?=$map_target;?></div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header header-elements-sm-inline">
+                <h6 class="card-title">Daftar Identifikasi</h6>
+                <div class="header-elements">
+                    <div class="list-icons">
+                        <a class="list-icons-item" data-action="reload"></a>
+                        <a class="list-icons-item" data-action="collapse"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" id="detail_list">
+                
             </div>
         </div>
     </div>

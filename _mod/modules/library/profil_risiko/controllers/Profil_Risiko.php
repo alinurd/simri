@@ -132,7 +132,7 @@ class Profil_Risiko extends MY_Controller {
 		$period=intval($this->input->get('period'));
 		$term=intval($this->input->get('term'));
 		$check = $this->data->checklist();
-
+	
 		if ($period>0 && $term>0) {
 			$check = $this->data->checklist($period, $term);
 		}
@@ -826,8 +826,9 @@ class Profil_Risiko extends MY_Controller {
 	function map(){
 		$this->data->filter_data();
 		
-		$rows = $this->db->SELECT('risiko_inherent as id, COUNT(risiko_inherent) as nilai, level_color, level_color_residual, level_color_target')->group_by('risiko_inherent')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
-		
+		$rows = $this->db->SELECT('risiko_inherent as id, COUNT(risiko_inherent) as nilai, level_color, level_color_residual, level_color_target')->group_by('risiko_inherent')
+		// ->get_compiled_select(_TBL_VIEW_PROFILE_RISIKO);
+		->get(_TBL_VIEW_PROFILE_RISIKO)->result_array();
 		
 		$data['map_inherent']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>1])->draw();
 		$jml=$this->map->get_total_nilai();
@@ -838,7 +839,7 @@ class Profil_Risiko extends MY_Controller {
 			$data['jml_inherent']='<span class="badge bg-primary badge-pill"> '.$jml.' </span>';
 		}
 		$this->data->filter_data();
-		$rows = $this->db->SELECT('risiko_residual as id, COUNT(risiko_residual) as nilai, level_color, level_color_residual, level_color_target')->group_by('risiko_residual')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		$rows = $this->db->SELECT('risiko_residual as id, COUNT(risiko_residual) as nilai, level_color, level_color_residual, level_color_target')->group_by('risiko_residual')->get(_TBL_VIEW_PROFILE_RISIKO)->result_array();
 		$data['map_residual']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>2])->draw();
 		$jml=$this->map->get_total_nilai();
 		$jmlstatus=$this->map->get_jumlah_status();
@@ -848,7 +849,7 @@ class Profil_Risiko extends MY_Controller {
 			$data['jml_residual']='<span class="badge bg-success badge-pill"> '.$jml.' </span>';
 		}
 		$this->data->filter_data();
-		$rows = $this->db->SELECT('risiko_target as id, COUNT(risiko_target) as nilai, level_color, level_color_residual, level_color_target')->group_by('risiko_target')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		$rows = $this->db->SELECT('risiko_target as id, COUNT(risiko_target) as nilai, level_color, level_color_residual, level_color_target')->group_by('risiko_target')->get(_TBL_VIEW_PROFILE_RISIKO)->result_array();
 		$data['map_target']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>3])->draw();
 		$jml=$this->map->get_total_nilai();
 		$jmlstatus=$this->map->get_jumlah_status();
@@ -870,6 +871,10 @@ class Profil_Risiko extends MY_Controller {
 
 		$data=$this->map();
 		$hasil['combo']=$this->load->view('map',$data, true);
+
+		$x=$this->data->get_data_map();
+		$hasil['detail_list']=$this->load->view('identifikasi', $x, true);
+
 
 		echo json_encode($hasil);
 	}
