@@ -1071,11 +1071,28 @@ function cek_isian_identifikasi(awal = false) {
 var checkboxes = [];
 
 function readyCheckbox() {
-    $('input[name="chk_list[]"]:checked').each(function() {
+    $('input[name="chk_list[]"]:checked').each(function(){
         id = $(this).val();
-        checkboxes.push(id);
+        var arrPos = checkboxes.indexOf(id);
+        if(arrPos == -1){
+            checkboxes.push(id);
+        }
     });
-    $("#idOfHiddenInput").val(checkboxes);
+
+    setTimeout(function () {
+        $('input[name="chk_list[]"]').each(function(index){
+            idx = $(this).val();
+            var arrPosx = checkboxes.indexOf(idx);
+            if(!$(this).is(":checked")){
+                if(arrPosx > -1){
+                    checkboxes.splice(arrPosx,1);
+                }
+            }
+        });
+        $("#idOfHiddenInput").val(checkboxes);
+    }, 200)
+
+    // $("#idOfHiddenInput").val(checkboxes);
 
 }
 
@@ -1107,8 +1124,19 @@ function updateCheckboxes(checkbox) {
         checkboxes.push(id);
     }
 
-    //Finally update the hidden input
-    $("#idOfHiddenInput").val(checkboxes);
+    setTimeout(function () {
+        $('input[name="chk_list[]"]').each(function(index){
+            idx = $(this).val();
+            var arrPosx = checkboxes.indexOf(idx);
+            if(!$(this).is(":checked")){
+                if(arrPosx > -1){
+                    checkboxes.splice(arrPosx,1);
+                }
+            }
+        });
+      
+        $("#idOfHiddenInput").val(checkboxes);
+    }, 200)
 }
 
 function cek_isian_mitigasi() {
