@@ -7,12 +7,17 @@ class Profil_Risiko extends MY_Controller {
 	var $table="";
 	var $post=array();
 	var $sts_cetak=false;
+	var $super_user=0;
+	var $ownerx=0;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->library('map');
 		$this->load->language('risk_context');
 
+		
+		
 	}
 
 	function init($action='list'){
@@ -71,19 +76,22 @@ class Profil_Risiko extends MY_Controller {
 		$this->set_Table_List($this->tbl_master,'like_code_target', 'Risiko Target');
 		$this->set_Table_List($this->tbl_master,'jml', 'Mitigasi');
 
+		$this->_set_Where_Owner();
 
 		$this->set_Close_Setting();
-
+		$this->super_user = intval($this->_data_user_['is_admin']);
+		$this->ownerx = intval(($this->super_user==0)?$this->_data_user_['owner_id']:0);
 		$configuration = [
 			'show_title_header' => false,
-			'show_list_header' => true,
+			'show_list_header' => false,
+			'content_title' => 'Profil Risiko List'.form_hidden(['is_admin'=>$this->super_user, 'owner'=>$this->ownerx])
 		];
 		return [
 			'configuration'	=> $configuration
 		];
 	}
 
-	function setContentHeader($mode=''){
+	function setContentHeaderx($mode=''){
 		$data['period'] = $this->period;
 		$data['term'] = [];
 		$content=$this->load->view('header', $data, true);
@@ -129,14 +137,20 @@ class Profil_Risiko extends MY_Controller {
 	}
 
 	function listBox_id($field, $rows, $value){
-		$period=intval($this->input->get('period'));
-		$term=intval($this->input->get('term'));
-		$check = $this->data->checklist();
-	
-		if ($period>0 && $term>0) {
-			$check = $this->data->checklist($period, $term);
-		}
+		// $period=intval($this->input->get('period'));
+		// $term=intval($this->input->get('term'));
+		$this->super_user = intval($this->_data_user_['is_admin']);
+		$this->ownerx = intval(($this->super_user==0)?$this->_data_user_['owner_id']:0);
+		// $check = $this->data->checklist();
 		
+		
+		// if ($period>0 && $term>0) {
+		// if ($this->super_user==0) {
+			$check = $this->data->checklist($this->ownerx);
+			// dumps($check);
+			// die();
+		// }
+	
 		$select = (in_array($rows['id'], $check))?'checked':'';
 		$a='<div class="text-center"  style="padding:0px 20px 20px 0px;"><input type="checkbox" class="form-check-input pointer text-center" name="chk_list[]" style="padding:0;margin:0;" value="'.$rows['id'].'" '.$select.'/></div>';
 		return $a;
@@ -146,6 +160,7 @@ class Profil_Risiko extends MY_Controller {
 		if ($mode=='list'){
 			unset($button['delete']);
 			unset($button['print']);
+			unset($button['insert']);
 			// unset($button['search']);
 
 			$button['save']=[
@@ -771,9 +786,11 @@ class Profil_Risiko extends MY_Controller {
 
 	function save_modul(){
 		$post=explode(",",$this->input->post('id'));
-		$period=$this->input->post('period');
-		$term=$this->input->post('term');
-		$result = $this->data->simpan_data($post, $period, $term);
+		// $period=$this->input->post('period');
+		// $term=$this->input->post('term');
+		$is_admin=$this->input->post('is_admin');
+		$owner=$this->input->post('owner');
+		$result = $this->data->simpan_data($post, $owner);
 	
 		echo json_encode($result);
 	}

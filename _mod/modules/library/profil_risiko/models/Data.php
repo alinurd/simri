@@ -11,17 +11,23 @@ class Data extends MX_Model {
 		$this->nm_tbl="profil_risiko";
 	}
 
-	function checklist($period=0, $term=0)
+	function checklist($owner=0)
 	{
 		$checklist = [];
-		if ($period!=0) {
-			$this->db->where('period_id', $period);
-		}
-		if ($term!=0) {
-			$this->db->where('term_id', $term);
-		}
-		$check = $this->db->select("rcsa_detail_id")->get($this->nm_tbl)->result();
-	
+		// if ($period!=0) {
+		// 	$this->db->where('period_id', $period);
+		// }
+		// if ($term!=0) {
+		// 	$this->db->where('term_id', $term);
+		// }
+
+		// if ($owner!=0) {
+			$this->db->where('owner_id', $owner);
+		// }
+
+		$check = $this->db->select("rcsa_detail_id")
+		->get($this->nm_tbl)->result();
+		
 		foreach ($check as $key => $value) {
 			$checklist[] = $value->rcsa_detail_id;
 		}
@@ -76,7 +82,7 @@ class Data extends MX_Model {
 			}
 			
 			if ($this->pos['period']){
-				$this->db->where('period_id_profil', $this->pos['period']);
+				$this->db->where('period_id', $this->pos['period']);
 			}
 
 			if (isset($this->pos['tgl1'])){
@@ -87,8 +93,8 @@ class Data extends MX_Model {
 			// 	// $this->db->where('minggu_id', $this->pos['minggu']);
 			// }
 		}else{
-			$this->db->where('period_id_profil', _TAHUN_ID_);
-			$this->db->where('term_id_profil', _TERM_ID_);
+			$this->db->where('period_id', _TAHUN_ID_);
+			$this->db->where('term_id', _TERM_ID_);
 		}
 
 		// if(count($check)>0){
@@ -117,7 +123,7 @@ class Data extends MX_Model {
 			$progres[$row['id']]=$row['jml'];
 		}
 		// $this->filter_data();
-		$this->filter_data_all(_TBL_VIEW_PROFILE_RISIKO);
+		$this->filter_data_all(_TBL_VIEW_RCSA_DETAIL);
 
 		// if ($this->pos['level']==1){
 		// 	$this->db->where('risiko_inherent',$this->pos['id']);
@@ -129,8 +135,8 @@ class Data extends MX_Model {
 		// 	$this->db->where('owner_id',$this->pos['id']);
 		// }
 
-		$rows=$this->db->get(_TBL_VIEW_PROFILE_RISIKO)->result_array();
-		// $rows=$this->db->get_compiled_select(_TBL_VIEW_PROFILE_RISIKO);
+		$rows=$this->db->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		// $rows=$this->db->get_compiled_select(_TBL_VIEW_RCSA_DETAIL);
 		// dumps($rows);
 		// die();
 		foreach($rows as &$row){
@@ -196,7 +202,7 @@ class Data extends MX_Model {
 				$this->db->where($field.'type_ass_id', $this->pos['type_ass']);
 			}
 			if ($this->pos['period']){
-				$this->db->where($field.'period_id_profil', $this->pos['period']);
+				$this->db->where($field.'period_id', $this->pos['period']);
 			}
 
 			if (isset($this->pos['tgl1'])){
@@ -214,8 +220,8 @@ class Data extends MX_Model {
 			// 	$this->db->where('minggu_id', $this->pos['minggu']);
 			// }
 		}else{
-			$this->db->where($field.'period_id_profil', _TAHUN_ID_);
-			$this->db->where($field.'term_id_profil', _TERM_ID_);
+			$this->db->where($field.'period_id', _TAHUN_ID_);
+			$this->db->where($field.'term_id', _TERM_ID_);
 			// $c =$this->session->userdata('data_user');
 			// if ($c['group']['param']['privilege_owner']>=2){
 			// 	if ($c['owner']){
@@ -255,18 +261,17 @@ class Data extends MX_Model {
 	}
 
 	
-	function delete_data($id){
+	function delete_data($id, $owner){
 		$this->db->where_in('id', $id);
-		$this->db->where('period_id', $period);
-		$this->db->where('term_id', $term);
+		$this->db->where('owner_id', $owner);
 		$this->db->delete($this->nm_tbl);
 		$jml=$this->db->affected_rows();
 		return $jml;
 	}
 
-	function simpan_data($data, $period, $term){
+	function simpan_data($data, $owner){
 		// $this->db->empty_table('profil_risiko');
-		$old = $this->checklist($period, $term);
+		$old = $this->checklist($owner);
 		
 		$new = [];
 		$del = [];
@@ -284,8 +289,7 @@ class Data extends MX_Model {
 		}
 		if(count($del)>0){
 			$this->db->where_in('rcsa_detail_id', $del);
-			$this->db->where('period_id', $period);
-			$this->db->where('term_id', $term);
+			$this->db->where('owner_id', $owner);
 			$this->db->delete($this->nm_tbl);
 		}
 
@@ -293,8 +297,7 @@ class Data extends MX_Model {
 			foreach ($new as $key => $value) {
 				$newdata[] = [
 					'rcsa_detail_id' => $value,
-					'period_id' => $period,
-					'term_id' => $term,
+					'owner_id' => $owner,
 				];
 			}
 		
