@@ -41,6 +41,7 @@ class Risk_Context extends MY_Controller {
 			$this->addField(['field'=>'alat_metode_id', 'title'=>'Alat & Metode', 'type'=>'string','input'=>'combo', 'multiselect'=>true, 'search'=>false, 'values'=>$this->alat]);
 			$this->addField(['field'=>'period_id', 'title'=>'Period', 'type'=>'int', 'required'=>true,'input'=>'combo', 'search'=>true, 'values'=>$this->period]);
 			$this->addField(['field'=>'term_id', 'title'=>'Term', 'type'=>'int', 'required'=>true,'input'=>'combo', 'search'=>true, 'values'=>[]]);
+			$this->addField(['field'=>'minggu_id', 'title'=>'Bulan', 'type'=>'int', 'required'=>false,'input'=>'combo', 'search'=>true, 'values'=>[]]);
 			// $this->addField(['field'=>'active', 'input'=>'boolean', 'size'=>20]);
 			$this->addField(['field'=>'term', 'show'=>false]);
 			$this->addField(['field'=>'kode_dept', 'show'=>false]);
@@ -250,6 +251,23 @@ class Risk_Context extends MY_Controller {
 				$id=$rows['period_id'];
 			$field['values'] = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'term')->combo_where('pid', $id)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		}
+		
+		$content = $this->set_box_input($field, $value);
+		return $content;
+	}
+
+	function inputBox_MINGGU_ID($mode, $field, $rows, $value){
+		if ($mode=='edit'){
+			$id=0;
+			if (isset($rows['term_id']))
+				$id=$rows['term_id'];
+
+			$field['values']=$this->data->get_data_minggu($id);
+			
+			// $field['values'] = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'minggu')->combo_where('pid', $id)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		}
+		// dumps($field['values']);
+		// die();
 		$content = $this->set_box_input($field, $value);
 		return $content;
 	}
