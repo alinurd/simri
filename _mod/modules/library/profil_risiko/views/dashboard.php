@@ -13,7 +13,7 @@
                 <div class="form-group row d-none">
                     <label class="col-form-label col-lg-2 text-right"><?=_l('fld_owner_id');?></label>
                     <div class="col-lg-10">
-                        <?php echo form_dropdown('owner', $owner,'', 'class="form-control select" style="width:100%;" id="owner"');?>
+                        <?php echo form_dropdown('owner', $owner, $dtowner, 'class="form-control select" style="width:100%;" id="owner"');?>
                     </div>
                 </div>
                 <div class="form-group row d-none">

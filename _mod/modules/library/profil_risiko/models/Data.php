@@ -46,7 +46,7 @@ class Data extends MX_Model {
 			$check = $this->checklist($this->ownerx);
 
 		}
-		
+	
 		if ($this->cek_tgl){
 			if (isset($this->pos['minggu'])){
 				if (intval($this->pos['minggu'])){
@@ -75,6 +75,12 @@ class Data extends MX_Model {
 			}
 		}
 
+		if(count($check)>0){
+			$this->db->where_in('id', $check);
+		}else{
+			$this->db->where('id', '-1');
+		}
+
 		if ($this->pos){
 			if ($this->pos['owner']){
 				if($this->owner_child){
@@ -92,8 +98,26 @@ class Data extends MX_Model {
 
 			if (isset($this->pos['tgl1'])){
 				$this->db->where('tgl_mulai_minggu', $this->pos['tgl1']);
+			}
+
+			if (isset($this->pos['tgl2'])){
 				$this->db->or_where('tgl_akhir_minggu', $this->pos['tgl2']);
 			}
+			if ($this->pos['owner']){
+				if($this->owner_child){
+					$this->db->where_in('owner_id', $this->owner_child);
+				}
+			}
+			
+			if ($this->pos['type_ass']){
+				$this->db->where('type_ass_id', $this->pos['type_ass']);
+			}
+			
+			if ($this->pos['period']){
+				$this->db->where('period_id', $this->pos['period']);
+			}
+
+			
 			// elseif ($this->pos['minggu']){
 			// 	// $this->db->where('minggu_id', $this->pos['minggu']);
 			// }
@@ -113,23 +137,26 @@ class Data extends MX_Model {
 	function get_data_map($dtuser){
 		// $data['rcsa'] = $this->db->where('id', $this->pos['id'])->get(_TBL_VIEW_RCSA)->row_array();
 		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_MITIGASI)->result_array();
+		
 		$miti=[];
 		foreach($rows as $row){
 			$miti[$row['id']]=$row['jml'];
 		}
 		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)->result_array();
 		$aktifitas=[];
+		
 		foreach($rows as $row){
 			$aktifitas[$row['id']]=$row['jml'];
 		}
 		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
 		$progres=[];
+		
 		foreach($rows as $row){
 			$progres[$row['id']]=$row['jml'];
 		}
 		// $this->filter_data();
 		$this->filter_data_all(_TBL_VIEW_RCSA_DETAIL, $dtuser);
-
+		
 		// if ($this->pos['level']==1){
 		// 	$this->db->where('risiko_inherent',$this->pos['id']);
 		// }elseif ($this->pos['level']==2){
@@ -140,10 +167,11 @@ class Data extends MX_Model {
 		// 	$this->db->where('owner_id',$this->pos['id']);
 		// }
 
+		
+		// dumps("cek");
+		// die();
 		$rows=$this->db->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 		// $rows=$this->db->get_compiled_select(_TBL_VIEW_RCSA_DETAIL);
-		// dumps($rows);
-		// die();
 		foreach($rows as &$row){
 			if (array_key_exists($row['id'], $miti)){
 				$row['jml']=$miti[$row['id']];
@@ -171,6 +199,7 @@ class Data extends MX_Model {
 			$check = $this->checklist($this->ownerx);
 
 		}
+		
 		$field = ($customfield!='')?$customfield.".":'';
 		if ($this->cek_tgl){
 			if (isset($this->pos['minggu'])){
@@ -199,7 +228,7 @@ class Data extends MX_Model {
 				}
 			}
 		}
-
+		
 		if ($this->pos){
 			if ($this->pos['owner']){
 				if ($this->pos['owner'] != 0 && $this->pos['owner']!=1) {
@@ -208,6 +237,12 @@ class Data extends MX_Model {
 
 					$this->db->where_in($field.'owner_id', $this->owner_child);
 				}
+			}
+
+			if(count($check)>0){
+				$this->db->where_in('id', $check);
+			}else{
+				$this->db->where('id', '-1');
 			}
 			
 		
@@ -220,18 +255,29 @@ class Data extends MX_Model {
 
 			if (isset($this->pos['tgl1'])){
 				$this->db->where('tgl_mulai_minggu', $this->pos['tgl1']);
+			}
+
+			
+			if (isset($this->pos['tgl2'])){
 				$this->db->or_where('tgl_akhir_minggu', $this->pos['tgl2']);
 			}
-			// if ($this->pos['term']){
-			// 	$this->db->where($field.'term_id', $this->pos['term']);
-			// }
 
-			// if (isset($this->pos['tgl1'])){
-			// 	$this->db->where('DATE('._TBL_VIEW_RCSA_DETAIL.'.created_at)>=', $this->pos['tgl1']);
-			// 	$this->db->where('DATE('._TBL_VIEW_RCSA_DETAIL.'.created_at)<=', $this->pos['tgl2']);
-			// }elseif ($this->pos['minggu']){
-			// 	$this->db->where('minggu_id', $this->pos['minggu']);
-			// }
+			
+			if ($this->pos['owner']){
+				if ($this->pos['owner'] != 0 && $this->pos['owner']!=1) {
+
+					$this->db->where_in($field.'owner_id', $this->owner_child);
+				}
+			}
+			
+			if ($this->pos['type_ass']){
+				$this->db->where($field.'type_ass_id', $this->pos['type_ass']);
+			}
+			if ($this->pos['period']){
+				$this->db->where($field.'period_id', $this->pos['period']);
+			}
+
+			
 		}else{
 			$this->db->where($field.'period_id', _TAHUN_ID_);
 			$this->db->where($field.'term_id', _TERM_ID_);
@@ -243,27 +289,6 @@ class Data extends MX_Model {
 			// 	}
 			// }
 		}
-
-
-		
-		// if (isset($this->post['period'])){
-		// 	$this->db->where('period_id', $this->post['period']);
-		// }else{
-		// 	$this->db->where('period_id', _TAHUN_ID_);
-		// }
-
-		// if (isset($this->post['term'])){
-		// 	$this->db->where('term_id', $this->post['term']);
-		// }else{
-		// 	$this->db->where('term_id', _TERM_ID_);
-		// }
-
-		// if (isset($this->post['owner'])){
-		// 	if ($this->post['owner'] != 0 && $this->post['owner']!=1) {
-		// 		$this->db->where('owner_id', $this->post['owner']);
-		// 	}
-		// }
-
 		if (isset($this->pos['type_ass'])){
 			if (intval($this->pos['type_ass'])) {
 				$this->db->where('type_ass_id', $this->pos['type_ass']);
@@ -275,6 +300,8 @@ class Data extends MX_Model {
 		}else{
 			$this->db->where('id', '-1');
 		}
+
+		
 		// $this->db->where('type_ass_id', 128);
 	}
 

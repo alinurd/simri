@@ -816,8 +816,11 @@ class Profil_Risiko extends MY_Controller {
 		// dumps($x);
 		$data=$this->map();
 		// die();
+		$this->super_user = intval($this->_data_user_['is_admin']);
+		$this->ownerx = intval(($this->super_user==0)?$this->_data_user_['owner_id']:0);
 
 		$data['owner']=$this->get_combo_parent_dept();
+		$data['dtowner']=$this->ownerx;
 		$data['type_ass']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'ass-type')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 
 		$data['period']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'period')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
@@ -825,10 +828,12 @@ class Profil_Risiko extends MY_Controller {
 		$data['minggu']=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		// $data['minggu']=$this->crud->combo_select(['id', 'concat(param_string,\' minggu ke - \',data, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		// die($this->db->last_query());
+		
+		
 
 		$this->data->pos['tgl1']=$tgl1;
 		$this->data->pos['tgl2']=$tgl2;
-		$this->data->pos['owner']=0;
+		$this->data->pos['owner']=$this->ownerx;
 		$this->data->pos['type_ass']=0;
 		$this->data->pos['period']=_TAHUN_ID_;
 		$this->data->pos['term']=_TERM_ID_;
@@ -859,9 +864,9 @@ class Profil_Risiko extends MY_Controller {
 		// ->group_by('risiko_inherent')
 		// ->get_compiled_select(_TBL_VIEW_RCSA_DETAIL);
 		->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
-		$data['map_inherent']=$this->map->set_data_profile($rows, $this->pos)->set_param(['tipe'=>'angka', 'level'=>1])->draw_profile();
-		// dumps($data['map_inherent']);
+		// dumps($rows);
 		// die();
+		$data['map_inherent']=$this->map->set_data_profile($rows, $this->pos)->set_param(['tipe'=>'angka', 'level'=>1])->draw_profile();
 
 		$jml=$this->map->get_total_nilai();
 		$jmlstatus=$this->map->get_jumlah_status();
@@ -909,7 +914,7 @@ class Profil_Risiko extends MY_Controller {
 		$this->data->owner_child[]=intval($this->pos['owner']);
 		$this->data->get_owner_child(intval($this->pos['owner']));
 		$this->owner_child=$this->data->owner_child;
-		// dumps($this->data->get_data_map());
+		// dumps($this->data->get_data_map($this->_data_user_));
 		// die();
 		$data=$this->map();
 		$hasil['combo']=$this->load->view('map',$data, true);
