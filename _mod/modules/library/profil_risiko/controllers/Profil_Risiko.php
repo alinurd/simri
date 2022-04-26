@@ -7,12 +7,17 @@ class Profil_Risiko extends MY_Controller {
 	var $table="";
 	var $post=array();
 	var $sts_cetak=false;
+	var $super_user=0;
+	var $ownerx=0;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->library('map');
 		$this->load->language('risk_context');
 
+		
+		
 	}
 
 	function init($action='list'){
@@ -53,10 +58,11 @@ class Profil_Risiko extends MY_Controller {
 		$this->addField(['field'=>'owner_id', 'title'=>'Owner', 'type'=>'int', 'required'=>false,'input'=>'combo', 'search'=>true, 'values'=>$this->cbo_owner, 'show'=>false]);
 		$this->addField(['field'=>'period_id', 'title'=>'Period', 'type'=>'int', 'required'=>false,'input'=>'combo', 'search'=>true, 'values'=>$this->period, 'show'=>false]);
 		$this->addField(['field'=>'term_id', 'title'=>'Term', 'type'=>'int', 'required'=>false,'input'=>'combo', 'search'=>true, 'values'=>$this->term, 'show'=>false]);
+		$this->addField(['field'=>'minggu_id', 'title'=>'Minggu', 'type'=>'int', 'required'=>false,'input'=>'combo', 'search'=>true, 'values'=>[], 'show'=>false]);
 
 		$this->set_Field_Primary($this->tbl_master, 'id');
 
-		$this->set_Sort_Table($this->tbl_master,'id');
+		$this->set_Sort_Table($this->tbl_master,'created_at', 'desc');
 
 		$this->set_Table_List($this->tbl_master,'id', '<input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;">','0%','left','no-sort');
 		$this->set_Table_List($this->tbl_master,'owner_name', 'Owner');
@@ -71,19 +77,22 @@ class Profil_Risiko extends MY_Controller {
 		$this->set_Table_List($this->tbl_master,'like_code_target', 'Risiko Target');
 		$this->set_Table_List($this->tbl_master,'jml', 'Mitigasi');
 
+		$this->_set_Where_Owner();
 
 		$this->set_Close_Setting();
-
+		$this->super_user = intval($this->_data_user_['is_admin']);
+		$this->ownerx = intval(($this->super_user==0)?$this->_data_user_['owner_id']:0);
 		$configuration = [
 			'show_title_header' => false,
-			'show_list_header' => true,
+			'show_list_header' => false,
+			'content_title' => 'Profil Risiko List'.form_hidden(['is_admin'=>$this->super_user, 'owner'=>$this->ownerx])
 		];
 		return [
 			'configuration'	=> $configuration
 		];
 	}
 
-	function setContentHeader($mode=''){
+	function setContentHeaderx($mode=''){
 		$data['period'] = $this->period;
 		$data['term'] = [];
 		$content=$this->load->view('header', $data, true);
@@ -101,6 +110,13 @@ class Profil_Risiko extends MY_Controller {
 		return $content;
 	}
 	
+	function listBox_TERM_ID($field, $rows, $value){
+		$cbominggu=$this->data->get_data_minggu($value);
+		$minggu = ($rows['minggu_id'])?$cbominggu[$rows['minggu_id']]:'';
+		$a = $this->term[$value].' - '.$minggu;
+		return $a;
+	}
+
 	function listBox_like_code($field, $rows, $value){
 		$a = '<div class="text-center" style="padding:20px;background-color:'.$rows['color'].';color:'.$rows['color_text'].';">'.$rows['level_color'].'<br/><small>'.$rows['like_code'].'x'.$rows['impact_code'].' : '.$rows['risiko_inherent_text'].'</small></div>';
 		return $a;
@@ -129,14 +145,20 @@ class Profil_Risiko extends MY_Controller {
 	}
 
 	function listBox_id($field, $rows, $value){
-		$period=intval($this->input->get('period'));
-		$term=intval($this->input->get('term'));
-		$check = $this->data->checklist();
-	
-		if ($period>0 && $term>0) {
-			$check = $this->data->checklist($period, $term);
-		}
+		// $period=intval($this->input->get('period'));
+		// $term=intval($this->input->get('term'));
+		$this->super_user = intval($this->_data_user_['is_admin']);
+		$this->ownerx = intval(($this->super_user==0)?$this->_data_user_['owner_id']:0);
+		// $check = $this->data->checklist();
 		
+		
+		// if ($period>0 && $term>0) {
+		// if ($this->super_user==0) {
+			$check = $this->data->checklist($this->ownerx);
+			// dumps($check);
+			// die();
+		// }
+	
 		$select = (in_array($rows['id'], $check))?'checked':'';
 		$a='<div class="text-center"  style="padding:0px 20px 20px 0px;"><input type="checkbox" class="form-check-input pointer text-center" name="chk_list[]" style="padding:0;margin:0;" value="'.$rows['id'].'" '.$select.'/></div>';
 		return $a;
@@ -146,6 +168,7 @@ class Profil_Risiko extends MY_Controller {
 		if ($mode=='list'){
 			unset($button['delete']);
 			unset($button['print']);
+			unset($button['insert']);
 			// unset($button['search']);
 
 			$button['save']=[
@@ -771,15 +794,18 @@ class Profil_Risiko extends MY_Controller {
 
 	function save_modul(){
 		$post=explode(",",$this->input->post('id'));
-		$period=$this->input->post('period');
-		$term=$this->input->post('term');
-		$result = $this->data->simpan_data($post, $period, $term);
+		// $period=$this->input->post('period');
+		// $term=$this->input->post('term');
+		$is_admin=$this->input->post('is_admin');
+		$owner=$this->input->post('owner');
+		$result = $this->data->simpan_data($post, $owner);
 	
 		echo json_encode($result);
 	}
 
 	function dashboard()
 	{
+		$this->pos=$this->input->post();
 		$x = $this->session->userdata('periode');
 		$tgl1=date('Y-m-d');
 		$tgl2=date('Y-m-d');
@@ -789,7 +815,12 @@ class Profil_Risiko extends MY_Controller {
 		}
 		// dumps($x);
 		$data=$this->map();
+		// die();
+		$this->super_user = intval($this->_data_user_['is_admin']);
+		$this->ownerx = intval(($this->super_user==0)?$this->_data_user_['owner_id']:0);
+
 		$data['owner']=$this->get_combo_parent_dept();
+		$data['dtowner']=$this->ownerx;
 		$data['type_ass']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'ass-type')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 
 		$data['period']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'period')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
@@ -797,10 +828,12 @@ class Profil_Risiko extends MY_Controller {
 		$data['minggu']=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		// $data['minggu']=$this->crud->combo_select(['id', 'concat(param_string,\' minggu ke - \',data, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		// die($this->db->last_query());
+		
+		
 
 		$this->data->pos['tgl1']=$tgl1;
 		$this->data->pos['tgl2']=$tgl2;
-		$this->data->pos['owner']=0;
+		$this->data->pos['owner']=$this->ownerx;
 		$this->data->pos['type_ass']=0;
 		$this->data->pos['period']=_TAHUN_ID_;
 		$this->data->pos['term']=_TERM_ID_;
@@ -824,13 +857,17 @@ class Profil_Risiko extends MY_Controller {
 	}
 
 	function map(){
-		$this->data->filter_data();
 		
-		$rows = $this->db->SELECT('risiko_inherent as id, COUNT(risiko_inherent) as nilai, level_color, level_color_residual, level_color_target')->group_by('risiko_inherent')
-		// ->get_compiled_select(_TBL_VIEW_PROFILE_RISIKO);
-		->get(_TBL_VIEW_PROFILE_RISIKO)->result_array();
-		
-		$data['map_inherent']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>1])->draw();
+		$this->data->filter_data($this->_data_user_);
+		// -- COUNT(risiko_inherent) as nilai,
+		$rows = $this->db->SELECT('risiko_inherent as id, level_color, level_color_residual, level_color_target, minggu_id')
+		// ->group_by('risiko_inherent')
+		// ->get_compiled_select(_TBL_VIEW_RCSA_DETAIL);
+		->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		// dumps($rows);
+		// die();
+		$data['map_inherent']=$this->map->set_data_profile($rows, $this->pos)->set_param(['tipe'=>'angka', 'level'=>1])->draw_profile();
+
 		$jml=$this->map->get_total_nilai();
 		$jmlstatus=$this->map->get_jumlah_status();
 		$data['jml_inherent_status']=$jmlstatus;
@@ -838,9 +875,13 @@ class Profil_Risiko extends MY_Controller {
 		if ($jml>0){
 			$data['jml_inherent']='<span class="badge bg-primary badge-pill"> '.$jml.' </span>';
 		}
-		$this->data->filter_data();
-		$rows = $this->db->SELECT('risiko_residual as id, COUNT(risiko_residual) as nilai, level_color, level_color_residual, level_color_target')->group_by('risiko_residual')->get(_TBL_VIEW_PROFILE_RISIKO)->result_array();
-		$data['map_residual']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>2])->draw();
+		$this->data->filter_data($this->_data_user_);
+		// COUNT(risiko_residual) as nilai,
+		$rows = $this->db->SELECT('risiko_residual as id,  level_color, level_color_residual, level_color_target, minggu_id')
+		// ->group_by('risiko_residual')
+		->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		$data['map_residual']=$this->map->set_data_profile($rows, $this->pos)->set_param(['tipe'=>'angka', 'level'=>2])->draw_profile();
+
 		$jml=$this->map->get_total_nilai();
 		$jmlstatus=$this->map->get_jumlah_status();
 		$data['jml_residual_status']=$jmlstatus;
@@ -848,9 +889,13 @@ class Profil_Risiko extends MY_Controller {
 		if ($jml>0){
 			$data['jml_residual']='<span class="badge bg-success badge-pill"> '.$jml.' </span>';
 		}
-		$this->data->filter_data();
-		$rows = $this->db->SELECT('risiko_target as id, COUNT(risiko_target) as nilai, level_color, level_color_residual, level_color_target')->group_by('risiko_target')->get(_TBL_VIEW_PROFILE_RISIKO)->result_array();
-		$data['map_target']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>3])->draw();
+		$this->data->filter_data($this->_data_user_);
+		// COUNT(risiko_target) as nilai
+		$rows = $this->db->SELECT('risiko_target as id,  level_color, level_color_residual, level_color_target, minggu_id')
+		// ->group_by('risiko_target')
+		->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		$data['map_target']=$this->map->set_data_profile($rows, $this->pos)->set_param(['tipe'=>'angka', 'level'=>3])->draw_profile();
+
 		$jml=$this->map->get_total_nilai();
 		$jmlstatus=$this->map->get_jumlah_status();
 		$data['jml_target_status']=$jmlstatus;
@@ -858,6 +903,7 @@ class Profil_Risiko extends MY_Controller {
 		if ($jml>0){
 			$data['jml_target']='<span class="badge bg-warning badge-pill"> '.$jml.' </span>';
 		}
+
 		return $data;
 	}
 
@@ -868,11 +914,14 @@ class Profil_Risiko extends MY_Controller {
 		$this->data->owner_child[]=intval($this->pos['owner']);
 		$this->data->get_owner_child(intval($this->pos['owner']));
 		$this->owner_child=$this->data->owner_child;
-
+		// dumps($this->data->get_data_map($this->_data_user_));
+		// die();
 		$data=$this->map();
 		$hasil['combo']=$this->load->view('map',$data, true);
-
-		$x=$this->data->get_data_map();
+		$x=$this->data->get_data_map($this->_data_user_);
+		$x['post']=$this->pos;
+		$x['minggu']=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		
 		$hasil['detail_list']=$this->load->view('identifikasi', $x, true);
 
 

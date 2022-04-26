@@ -21,14 +21,14 @@ $(function(){
                 $(':checkbox').each(function() {
                     this.checked = false;
                 });
-                $('#btn_save_modul').addClass('disabled');
+                // $('#btn_save_modul').addClass('disabled');
             }
             
         } else {
             $(':checkbox').each(function() {
                 this.checked = false;
             });
-            $('#btn_save_modul').addClass('disabled');
+            // $('#btn_save_modul').addClass('disabled');
         }
     });
 
@@ -36,12 +36,14 @@ $(function(){
         var x=$(this);
         var jml=0;
         var data = $("#idOfHiddenInput").val();
-        var period = $("#period").val();
-        var term = $("#term").val();
+        // var period = $("#period").val();
+        // var term = $("#term").val();
+        var is_admin = $('input[name="is_admin"]').val();
+        var owner = $('input[name="owner"]').val();
 
         if (data!=""){
             var cek = cek_isian_identifikasi();
-            if (cek) {
+            // if (cek) {
                 var notyConfirm = new Noty({
                     text: '<h6 class="mb-3">Konfirmasi</h6><label>Apa Anda yakin akan merubah '+jml+' data tersebut pada Dashboard Profil Risiko ?</label>',
                     timeout: false,
@@ -61,13 +63,13 @@ $(function(){
                                 $.ajax({
                                     type:'post',
                                     url:x.data('url'),
-                                    data:{id:data, period:period, term:term},
+                                    data:{id:data, is_admin:is_admin, owner:owner},
                                     dataType: "json",
                                     success:function(result){
                                         stopLooding(x.parent().parent());
                                         console.log(result);
                                         alert("data berhasil disimpan");
-                                        $('#proses_check').trigger('click')
+                                        oTable.ajax.reload()
                                         // location.reload();
                                     },
                                     error:function(msg){
@@ -81,9 +83,9 @@ $(function(){
                         )
                     ]
                 }).show();
-            }else{
-                alert(pesan);
-            }
+            // }else{
+            //     alert(pesan);
+            // }
         }
     });
 
@@ -93,7 +95,7 @@ $(function(){
             $('#btn_save_modul').removeClass('disabled');
             $('#chk_list_parent').prop('checked', true);
         }else{
-            $('#btn_save_modul').addClass('disabled');
+            // $('#btn_save_modul').addClass('disabled');
             $('#chk_list_parent').prop('checked', false);
         }
         updateCheckboxes($(this));
@@ -128,7 +130,7 @@ $(function(){
 		var data = {
 			'id': nilai
 		};
-		var target_combo = $("#minggu");
+		var target_combo = $(".minggu");
 		var url = "ajax/get-minggu";
 		_ajax_("post", parent, data, target_combo, url);
     })
