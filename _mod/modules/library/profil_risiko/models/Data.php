@@ -36,8 +36,6 @@ class Data extends MX_Model {
 		
 	}
 
-	
-
 	function filter_data(){
 
 		// $check = $this->checklist($this->pos['period'], $this->pos['term']);
@@ -306,6 +304,24 @@ class Data extends MX_Model {
 
 		return true;
 		
+	}
+
+	function get_data_minggu($id){
+		$rows= $this->db->select('*')->where('id', $id)->get(_TBL_COMBO)->row();
+		$tgl1=date('Y-m-d');
+		$tgl2=date('Y-m-d');
+		if($rows){
+			$tgl1=$rows->param_date;
+			$tgl2=$rows->param_date_after;
+		}
+		$rows= $this->db->select('*')->where('kelompok', 'minggu')->where('param_date>=', $tgl1)->where('param_date_after<=', $tgl2)->get(_TBL_COMBO)->result();
+		$option[""] = _l('cbo_select');
+		foreach($rows as $row){
+			$option[$row->id] = $row->param_string;
+			// .' ('.date('d-m-Y',strtotime($row->param_date)).' s.d '.date('d-m-Y',strtotime($row->param_date_after)).')';
+		}
+
+		return $option;
 	}
 }
 /* End of file app_login_model.php */

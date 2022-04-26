@@ -58,10 +58,11 @@ class Profil_Risiko extends MY_Controller {
 		$this->addField(['field'=>'owner_id', 'title'=>'Owner', 'type'=>'int', 'required'=>false,'input'=>'combo', 'search'=>true, 'values'=>$this->cbo_owner, 'show'=>false]);
 		$this->addField(['field'=>'period_id', 'title'=>'Period', 'type'=>'int', 'required'=>false,'input'=>'combo', 'search'=>true, 'values'=>$this->period, 'show'=>false]);
 		$this->addField(['field'=>'term_id', 'title'=>'Term', 'type'=>'int', 'required'=>false,'input'=>'combo', 'search'=>true, 'values'=>$this->term, 'show'=>false]);
+		$this->addField(['field'=>'minggu_id', 'title'=>'Minggu', 'type'=>'int', 'required'=>false,'input'=>'combo', 'search'=>true, 'values'=>[], 'show'=>false]);
 
 		$this->set_Field_Primary($this->tbl_master, 'id');
 
-		$this->set_Sort_Table($this->tbl_master,'id');
+		$this->set_Sort_Table($this->tbl_master,'created_at', 'desc');
 
 		$this->set_Table_List($this->tbl_master,'id', '<input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;">','0%','left','no-sort');
 		$this->set_Table_List($this->tbl_master,'owner_name', 'Owner');
@@ -109,6 +110,13 @@ class Profil_Risiko extends MY_Controller {
 		return $content;
 	}
 	
+	function listBox_TERM_ID($field, $rows, $value){
+		$cbominggu=$this->data->get_data_minggu($value);
+		$minggu = ($rows['minggu_id'])?$cbominggu[$rows['minggu_id']]:'';
+		$a = $this->term[$value].' - '.$minggu;
+		return $a;
+	}
+
 	function listBox_like_code($field, $rows, $value){
 		$a = '<div class="text-center" style="padding:20px;background-color:'.$rows['color'].';color:'.$rows['color_text'].';">'.$rows['level_color'].'<br/><small>'.$rows['like_code'].'x'.$rows['impact_code'].' : '.$rows['risiko_inherent_text'].'</small></div>';
 		return $a;

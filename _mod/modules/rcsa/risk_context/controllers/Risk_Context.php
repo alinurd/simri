@@ -24,6 +24,8 @@ class Risk_Context extends MY_Controller {
 		$this->type_ass_no=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'ass-type')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		$this->period=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'period')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		$this->alat=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'metode-alat')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		$this->term=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'term')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+
 		$this->stakeholder=$this->crud->combo_select(['id', 'officer_name'])->combo_where('active', 1)->combo_tbl(_TBL_VIEW_OFFICER)->get_combo()->result_combo();
 		$this->cboDept=$this->get_combo_parent_dept();
 		$this->cboStack=$this->get_combo_parent_dept(false);
@@ -66,10 +68,10 @@ class Risk_Context extends MY_Controller {
 		$this->set_Table_List($this->tbl_master,'id', '<input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;">','0%','left','no-sort');
 		$this->set_Table_List($this->tbl_master,'owner_name', _l('fld_owner_id'));
 		$this->set_Table_List($this->tbl_master,'kode_dept','');
-		$this->set_Table_List($this->tbl_master,'stakeholder_id');
+		$this->set_Table_List($this->tbl_master,'stakeholder_id', '',15);
 		$this->set_Table_List($this->tbl_master,'type_ass_id');
 		$this->set_Table_List($this->tbl_master,'period_id');
-		$this->set_Table_List($this->tbl_master,'term', 'Periode');
+		$this->set_Table_List($this->tbl_master,'term_id', 'Periode');
 		$this->set_Table_List($this->tbl_master,'status_id');
 		$this->set_Table_List($this->tbl_master,'tgl_propose');
 		$this->set_Table_List($this->tbl_master,'register','',7, 'center');
@@ -137,7 +139,12 @@ class Risk_Context extends MY_Controller {
 		}
 		
 	}
-
+	function listBox_TERM_ID($field, $rows, $value){
+		$cbominggu=$this->data->get_data_minggu($value);
+		$minggu = ($rows['minggu_id'])?$cbominggu[$rows['minggu_id']]:'';
+		$a = $this->term[$value].' - '.$minggu;
+		return $a;
+	}
 	function listBox_id($field, $rows, $value){
 		$check = $this->data->checklist();
 		// $select = (in_array($rows['id'], $check))?'checked':'';
@@ -1614,9 +1621,14 @@ class Risk_Context extends MY_Controller {
         foreach ($rows as $row) {
             $cbo_term[$row['id']] = $row['name'];
 		}
+		$mingguId = ($data['rcsa']['minggu_id'])?$data['rcsa']['minggu_id']:0;
+		$cbominggu=$this->data->get_data_minggu($mingguId);
+
 		$data['cbo_term']=$cbo_term;
+		$data['cbo_minggu']=$cbominggu;
         $data['periode'] = form_dropdown('periode_copy', $this->period, $data['rcsa']['period_id'], 'class="form-control" id="periode_copy"');
         $data['term'] = form_dropdown('term_copy', $cbo_term, '', 'class="form-control" id="term_copy"');
+        $data['minggu'] = form_dropdown('minggu_copy', $cbominggu, '', 'class="form-control" id="minggu_copy"');
         $data['id'] = form_hidden(['id' => $id]);
         $data['rcsa_detail'] = $this->db->where('rcsa_id', $id)->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
         $field = $this->load->view('copi', $data, true);
@@ -1636,9 +1648,9 @@ class Risk_Context extends MY_Controller {
 		$fields['mitigasi'] = ['mitigasi', 'batas_waktu', 'biaya', 'penanggung_jawab_id', 'koordinator_id', 'status_jangka'];
 		$fields['mitigasi_detail'] =['aktifitas_mitigasi', 'batas_waktu_detail', 'penanggung_jawab_detail_id', 'koordinator_detail_id', 'target', 'aktual'];
 		$fields['dampak_indi'] =['bk_tipe', 'kri_id'];
-		$fields['like_indi'] =['bk_tipe', 'kri_id', 'satuan_id', 'pembobotan', 'p_1', 's_1_min', 's_1_max', 'p_2', 's_2_min', 's_2_max', 'p_3', 's_3_min', 's_3_max', 'p_4', 's_4_min', 's_4_max', 'score', 'param'];
+		$fields['like_indi'] =['bk_tipe', 'kri_id', 'satuan_id', 'pembobotan', 'p_1', 's_1_min', 's_1_max', 'p_2', 's_2_min', 's_2_max', 'p_3', 's_3_min', 's_3_max', 'p_4', 's_4_min', 's_4_max', 'p_5', 's_5_min', 's_5_max', 'score', 'param'];
 
-		$rows = $this->db->where('parent_id', $post['id'])->where('period_id', $post['periode'])->where('term_id', $post['term'])->get(_TBL_RCSA)->row_array();
+		$rows = $this->db->where('parent_id', $post['id'])->where('period_id', $post['periode'])->where('term_id', $post['term'])->where('minggu_id', $post['minggu'])->get(_TBL_RCSA)->row_array();
         if ($rows) {
             $data['pesan'] = "Data Periode : " . $row['period_name'] . ' kwartal : ' . $row['term'] . ' sudah ada dalam database';
             $data['sts'] = false;
@@ -1655,6 +1667,7 @@ class Risk_Context extends MY_Controller {
 				$this->crud->crud_field('parent_id', $post['id']);
 				$this->crud->crud_field('period_id', $post['periode']);
 				$this->crud->crud_field('term_id', $post['term']);
+				$this->crud->crud_field('minggu_id', $post['minggu']);
 				$this->crud->process_crud();
 				$rcsa_id = $this->crud->last_id();
 				
