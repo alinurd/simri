@@ -36,9 +36,16 @@ class Data extends MX_Model {
 		
 	}
 
-	function filter_data(){
+	function filter_data($dtuser){
 
-		// $check = $this->checklist($this->pos['period'], $this->pos['term']);
+		if(isset($this->pos['owner'])){
+			$check = $this->checklist($this->pos['owner']);
+		}else{
+			$this->super_user = intval($dtuser['is_admin']);
+			$this->ownerx = intval(($this->super_user==0)?$dtuser['owner_id']:0);
+			$check = $this->checklist($this->ownerx);
+
+		}
 		
 		if ($this->cek_tgl){
 			if (isset($this->pos['minggu'])){
@@ -84,8 +91,8 @@ class Data extends MX_Model {
 			}
 
 			if (isset($this->pos['tgl1'])){
-				$this->db->where('tgl_mulai_term>=', $this->pos['tgl1']);
-				$this->db->where('tgl_akhir_term<=', $this->pos['tgl2']);
+				$this->db->where('tgl_mulai_minggu', $this->pos['tgl1']);
+				$this->db->or_where('tgl_akhir_minggu', $this->pos['tgl2']);
 			}
 			// elseif ($this->pos['minggu']){
 			// 	// $this->db->where('minggu_id', $this->pos['minggu']);
@@ -95,15 +102,15 @@ class Data extends MX_Model {
 			$this->db->where('term_id', _TERM_ID_);
 		}
 
-		// if(count($check)>0){
-		// 	$this->db->where_in('id', $check);
-		// }else{
-		// 	$this->db->where('id', '-1');
-		// }
+		if(count($check)>0){
+			$this->db->where_in('id', $check);
+		}else{
+			$this->db->where('id', '-1');
+		}
 		
 	}
 
-	function get_data_map(){
+	function get_data_map($dtuser){
 		// $data['rcsa'] = $this->db->where('id', $this->pos['id'])->get(_TBL_VIEW_RCSA)->row_array();
 		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_MITIGASI)->result_array();
 		$miti=[];
@@ -121,7 +128,7 @@ class Data extends MX_Model {
 			$progres[$row['id']]=$row['jml'];
 		}
 		// $this->filter_data();
-		$this->filter_data_all(_TBL_VIEW_RCSA_DETAIL);
+		$this->filter_data_all(_TBL_VIEW_RCSA_DETAIL, $dtuser);
 
 		// if ($this->pos['level']==1){
 		// 	$this->db->where('risiko_inherent',$this->pos['id']);
@@ -155,7 +162,15 @@ class Data extends MX_Model {
 		return $data;
 	}
 
-	function filter_data_all($customfield=''){
+	function filter_data_all($customfield='', $dtuser){
+		if(isset($this->pos['owner'])){
+			$check = $this->checklist($this->pos['owner']);
+		}else{
+			$this->super_user = intval($dtuser['is_admin']);
+			$this->ownerx = intval(($this->super_user==0)?$dtuser['owner_id']:0);
+			$check = $this->checklist($this->ownerx);
+
+		}
 		$field = ($customfield!='')?$customfield.".":'';
 		if ($this->cek_tgl){
 			if (isset($this->pos['minggu'])){
@@ -204,8 +219,8 @@ class Data extends MX_Model {
 			}
 
 			if (isset($this->pos['tgl1'])){
-				$this->db->where('tgl_mulai_term>=', $this->pos['tgl1']);
-				$this->db->where('tgl_akhir_term<=', $this->pos['tgl2']);
+				$this->db->where('tgl_mulai_minggu', $this->pos['tgl1']);
+				$this->db->or_where('tgl_akhir_minggu', $this->pos['tgl2']);
 			}
 			// if ($this->pos['term']){
 			// 	$this->db->where($field.'term_id', $this->pos['term']);
@@ -255,6 +270,11 @@ class Data extends MX_Model {
 			}
 		}
 
+		if(count($check)>0){
+			$this->db->where_in('id', $check);
+		}else{
+			$this->db->where('id', '-1');
+		}
 		// $this->db->where('type_ass_id', 128);
 	}
 

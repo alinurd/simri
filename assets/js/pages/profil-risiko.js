@@ -130,7 +130,7 @@ $(function(){
 		var data = {
 			'id': nilai
 		};
-		var target_combo = $("#minggu");
+		var target_combo = $(".minggu");
 		var url = "ajax/get-minggu";
 		_ajax_("post", parent, data, target_combo, url);
     })

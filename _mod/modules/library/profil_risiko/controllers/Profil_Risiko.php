@@ -805,6 +805,7 @@ class Profil_Risiko extends MY_Controller {
 
 	function dashboard()
 	{
+		$this->pos=$this->input->post();
 		$x = $this->session->userdata('periode');
 		$tgl1=date('Y-m-d');
 		$tgl2=date('Y-m-d');
@@ -814,6 +815,8 @@ class Profil_Risiko extends MY_Controller {
 		}
 		// dumps($x);
 		$data=$this->map();
+		// die();
+
 		$data['owner']=$this->get_combo_parent_dept();
 		$data['type_ass']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'ass-type')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 
@@ -849,13 +852,17 @@ class Profil_Risiko extends MY_Controller {
 	}
 
 	function map(){
-		$this->data->filter_data();
 		
-		$rows = $this->db->SELECT('risiko_inherent as id, COUNT(risiko_inherent) as nilai, level_color, level_color_residual, level_color_target')->group_by('risiko_inherent')
-		// ->get_compiled_select(_TBL_VIEW_PROFILE_RISIKO);
-		->get(_TBL_VIEW_PROFILE_RISIKO)->result_array();
-		
-		$data['map_inherent']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>1])->draw();
+		$this->data->filter_data($this->_data_user_);
+		// -- COUNT(risiko_inherent) as nilai,
+		$rows = $this->db->SELECT('risiko_inherent as id, level_color, level_color_residual, level_color_target, minggu_id')
+		// ->group_by('risiko_inherent')
+		// ->get_compiled_select(_TBL_VIEW_RCSA_DETAIL);
+		->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		$data['map_inherent']=$this->map->set_data_profile($rows, $this->pos)->set_param(['tipe'=>'angka', 'level'=>1])->draw_profile();
+		// dumps($data['map_inherent']);
+		// die();
+
 		$jml=$this->map->get_total_nilai();
 		$jmlstatus=$this->map->get_jumlah_status();
 		$data['jml_inherent_status']=$jmlstatus;
@@ -863,9 +870,13 @@ class Profil_Risiko extends MY_Controller {
 		if ($jml>0){
 			$data['jml_inherent']='<span class="badge bg-primary badge-pill"> '.$jml.' </span>';
 		}
-		$this->data->filter_data();
-		$rows = $this->db->SELECT('risiko_residual as id, COUNT(risiko_residual) as nilai, level_color, level_color_residual, level_color_target')->group_by('risiko_residual')->get(_TBL_VIEW_PROFILE_RISIKO)->result_array();
-		$data['map_residual']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>2])->draw();
+		$this->data->filter_data($this->_data_user_);
+		// COUNT(risiko_residual) as nilai,
+		$rows = $this->db->SELECT('risiko_residual as id,  level_color, level_color_residual, level_color_target, minggu_id')
+		// ->group_by('risiko_residual')
+		->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		$data['map_residual']=$this->map->set_data_profile($rows, $this->pos)->set_param(['tipe'=>'angka', 'level'=>2])->draw_profile();
+
 		$jml=$this->map->get_total_nilai();
 		$jmlstatus=$this->map->get_jumlah_status();
 		$data['jml_residual_status']=$jmlstatus;
@@ -873,9 +884,13 @@ class Profil_Risiko extends MY_Controller {
 		if ($jml>0){
 			$data['jml_residual']='<span class="badge bg-success badge-pill"> '.$jml.' </span>';
 		}
-		$this->data->filter_data();
-		$rows = $this->db->SELECT('risiko_target as id, COUNT(risiko_target) as nilai, level_color, level_color_residual, level_color_target')->group_by('risiko_target')->get(_TBL_VIEW_PROFILE_RISIKO)->result_array();
-		$data['map_target']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>3])->draw();
+		$this->data->filter_data($this->_data_user_);
+		// COUNT(risiko_target) as nilai
+		$rows = $this->db->SELECT('risiko_target as id,  level_color, level_color_residual, level_color_target, minggu_id')
+		// ->group_by('risiko_target')
+		->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		$data['map_target']=$this->map->set_data_profile($rows, $this->pos)->set_param(['tipe'=>'angka', 'level'=>3])->draw_profile();
+
 		$jml=$this->map->get_total_nilai();
 		$jmlstatus=$this->map->get_jumlah_status();
 		$data['jml_target_status']=$jmlstatus;
@@ -883,6 +898,7 @@ class Profil_Risiko extends MY_Controller {
 		if ($jml>0){
 			$data['jml_target']='<span class="badge bg-warning badge-pill"> '.$jml.' </span>';
 		}
+
 		return $data;
 	}
 
@@ -893,11 +909,14 @@ class Profil_Risiko extends MY_Controller {
 		$this->data->owner_child[]=intval($this->pos['owner']);
 		$this->data->get_owner_child(intval($this->pos['owner']));
 		$this->owner_child=$this->data->owner_child;
-
+		// dumps($this->data->get_data_map());
+		// die();
 		$data=$this->map();
 		$hasil['combo']=$this->load->view('map',$data, true);
-
-		$x=$this->data->get_data_map();
+		$x=$this->data->get_data_map($this->_data_user_);
+		$x['post']=$this->pos;
+		$x['minggu']=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		
 		$hasil['detail_list']=$this->load->view('identifikasi', $x, true);
 
 
