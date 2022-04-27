@@ -21,7 +21,14 @@ $(function(){
                 $(':checkbox').each(function() {
                     this.checked = false;
                 });
+                setTimeout(function () {
+                                
+                    readyCheckbox();
+                  
+                }, 200)
                 // $('#btn_save_modul').addClass('disabled');
+                $("#idOfHiddenInput").val("");
+
             }
             
         } else {
@@ -29,6 +36,12 @@ $(function(){
                 this.checked = false;
             });
             // $('#btn_save_modul').addClass('disabled');
+            setTimeout(function () {
+                                
+                readyCheckbox();
+              
+            }, 200)
+            $("#idOfHiddenInput").val("");
         }
     });
 
@@ -40,8 +53,14 @@ $(function(){
         // var term = $("#term").val();
         var is_admin = $('input[name="is_admin"]').val();
         var owner = $('input[name="owner"]').val();
-
         if (data!=""){
+            var dt = data;
+        }else{
+            var dt = "";
+        }
+
+
+        // if (data!=""){
             var cek = cek_isian_identifikasi();
             // if (cek) {
                 var notyConfirm = new Noty({
@@ -63,13 +82,20 @@ $(function(){
                                 $.ajax({
                                     type:'post',
                                     url:x.data('url'),
-                                    data:{id:data, is_admin:is_admin, owner:owner},
+                                    data:{id:dt, is_admin:is_admin, owner:owner},
                                     dataType: "json",
                                     success:function(result){
                                         stopLooding(x.parent().parent());
                                         console.log(result);
                                         alert("data berhasil disimpan");
-                                        oTable.ajax.reload()
+                                        // oTable.ajax.reload()
+                                        oTable.ajax.url(modul_name+ "/list-data").load(function () {
+                                            setTimeout(function () {
+                                
+                                                readyCheckbox();
+                                              
+                                            }, 200)
+                                        } );
                                         // location.reload();
                                     },
                                     error:function(msg){
@@ -86,7 +112,7 @@ $(function(){
             // }else{
             //     alert(pesan);
             // }
-        }
+        // }
     });
 
     $(document).on('click','input[name="chk_list[]"]', function (event) {
@@ -216,6 +242,8 @@ $(function(){
 var checkboxes = [];
 
 function readyCheckbox() {
+    var lens = checkboxes.length;
+
     $('input[name="chk_list[]"]:checked').each(function(){
         id = $(this).val();
         var arrPos = checkboxes.indexOf(id);
@@ -223,19 +251,20 @@ function readyCheckbox() {
             checkboxes.push(id);
         }
     });
-
-    setTimeout(function () {
-        $('input[name="chk_list[]"]').each(function(index){
-            idx = $(this).val();
-            var arrPosx = checkboxes.indexOf(idx);
-            if(!$(this).is(":checked")){
-                if(arrPosx > -1){
-                    checkboxes.splice(arrPosx,1);
+    // if (lens>0) {
+        setTimeout(function () {
+            $('input[name="chk_list[]"]').each(function(index){
+                idx = $(this).val();
+                var arrPosx = checkboxes.indexOf(idx);
+                if(!$(this).is(":checked")){
+                    if(arrPosx > -1){
+                        checkboxes.splice(arrPosx,1);
+                    }
                 }
-            }
-        });
-        $("#idOfHiddenInput").val(checkboxes);
-    }, 200)
+            });
+            $("#idOfHiddenInput").val(checkboxes);
+        }, 200)
+    // }
 
     // $("#idOfHiddenInput").val(checkboxes);
 
@@ -261,19 +290,23 @@ function updateCheckboxes(checkbox){
         checkboxes.push(id);
     }
 
-    setTimeout(function () {
-        $('input[name="chk_list[]"]').each(function(index){
-            idx = $(this).val();
-            var arrPosx = checkboxes.indexOf(idx);
-            if(!$(this).is(":checked")){
-                if(arrPosx > -1){
-                    checkboxes.splice(arrPosx,1);
+    if(lens>0){
+        setTimeout(function () {
+            $('input[name="chk_list[]"]').each(function(index){
+                idx = $(this).val();
+                var arrPosx = checkboxes.indexOf(idx);
+                if(!$(this).is(":checked")){
+                    if(arrPosx > -1){
+                        checkboxes.splice(arrPosx,1);
+                    }
                 }
-            }
-        });
-      
+            });
+          
+            $("#idOfHiddenInput").val(checkboxes);
+        }, 200)
+    }else{
         $("#idOfHiddenInput").val(checkboxes);
-    }, 200)
+    }
 
    
 }
