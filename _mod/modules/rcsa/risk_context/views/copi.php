@@ -59,6 +59,13 @@
                     <?= $term; ?>
                 </td>
             </tr>
+
+            <tr>
+                <td>Bulan : </td>
+                <td>
+                    <?= $minggu; ?>
+                </td>
+            </tr>
         </table>
         <br />
         <?php
@@ -91,5 +98,16 @@
             var url = "ajax/get-term";
             _ajax_("post", parent, data, target_combo, url);
         });
+
+        $("#term_copy").change(function () {
+		var parent = $(this).parent();
+		var nilai = $(this).val();
+		var data = {
+			'id': nilai
+		};
+		var target_combo = $("#minggu_copy");
+		var url = "ajax/get-minggu";
+		_ajax_("post", parent, data, target_combo, url);
+    })
     })
 </script>

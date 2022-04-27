@@ -950,11 +950,13 @@ $(function() {
         var parent = $(this).parent();
         var periode = $("#periode_copy").val();
         var term = $("#term_copy").val();
+        var minggu = $("#minggu_copy").val();
         var id = $("input[name='id']").val();
 
         var data = {
             'periode': periode,
             'term': term,
+            'minggu': minggu,
             'id': id,
         };
         var target_combo = $("#term_copy");

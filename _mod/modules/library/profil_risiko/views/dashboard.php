@@ -10,13 +10,13 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="form-group row">
+                <div class="form-group row d-none">
                     <label class="col-form-label col-lg-2 text-right"><?=_l('fld_owner_id');?></label>
                     <div class="col-lg-10">
-                        <?php echo form_dropdown('owner', $owner,'', 'class="form-control select" style="width:100%;" id="owner"');?>
+                        <?php echo form_dropdown('owner', $owner, $dtowner, 'class="form-control select" style="width:100%;" id="owner"');?>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row d-none">
                     <label class="col-form-label col-lg-2 text-right"><?=_l('fld_type_ass_id');?></label>
                     <div class="col-lg-10">
                         <?php echo form_dropdown('type_ass', $type_ass,'', 'class="form-control select" style="width:100%;" id="type_ass"');?>
@@ -30,11 +30,17 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-form-label col-lg-2 text-right"><?=_l('fld_term_id');?></label>
+                    <div class="col-lg-10">
+                        <?php echo form_dropdown('term', $term, _TERM_ID_, 'class="form-control select" style="width:100%;"  id="term"');?>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-lg-2 text-right"><?=_l('fld_minggu_id');?></label>
                     <div class="col-lg-5">
-                        <?php echo form_dropdown('term_mulai', $term, _TERM_ID_, 'class="form-control select term" style="width:100%;"  id="term_mulai"');?>
+                        <?php echo form_dropdown('term_mulai', $minggu, _TERM_ID_, 'class="form-control select minggu" style="width:100%;"  id="term_mulai"');?>
                     </div>
                     <div class="col-lg-5">
-                        <?php echo form_dropdown('term_akhir', $term, _TERM_ID_, 'class="form-control select term" style="width:100%;"  id="term_akhir"');?>
+                        <?php echo form_dropdown('term_akhir', $minggu, _TERM_ID_, 'class="form-control select minggu" style="width:100%;"  id="term_akhir"');?>
                     </div>
                 </div>
                 

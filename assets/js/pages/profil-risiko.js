@@ -21,14 +21,27 @@ $(function(){
                 $(':checkbox').each(function() {
                     this.checked = false;
                 });
-                $('#btn_save_modul').addClass('disabled');
+                setTimeout(function () {
+                                
+                    readyCheckbox();
+                  
+                }, 200)
+                // $('#btn_save_modul').addClass('disabled');
+                $("#idOfHiddenInput").val("");
+
             }
             
         } else {
             $(':checkbox').each(function() {
                 this.checked = false;
             });
-            $('#btn_save_modul').addClass('disabled');
+            // $('#btn_save_modul').addClass('disabled');
+            setTimeout(function () {
+                                
+                readyCheckbox();
+              
+            }, 200)
+            $("#idOfHiddenInput").val("");
         }
     });
 
@@ -36,12 +49,20 @@ $(function(){
         var x=$(this);
         var jml=0;
         var data = $("#idOfHiddenInput").val();
-        var period = $("#period").val();
-        var term = $("#term").val();
-
+        // var period = $("#period").val();
+        // var term = $("#term").val();
+        var is_admin = $('input[name="is_admin"]').val();
+        var owner = $('input[name="owner"]').val();
         if (data!=""){
+            var dt = data;
+        }else{
+            var dt = "";
+        }
+
+
+        // if (data!=""){
             var cek = cek_isian_identifikasi();
-            if (cek) {
+            // if (cek) {
                 var notyConfirm = new Noty({
                     text: '<h6 class="mb-3">Konfirmasi</h6><label>Apa Anda yakin akan merubah '+jml+' data tersebut pada Dashboard Profil Risiko ?</label>',
                     timeout: false,
@@ -61,13 +82,20 @@ $(function(){
                                 $.ajax({
                                     type:'post',
                                     url:x.data('url'),
-                                    data:{id:data, period:period, term:term},
+                                    data:{id:dt, is_admin:is_admin, owner:owner},
                                     dataType: "json",
                                     success:function(result){
                                         stopLooding(x.parent().parent());
                                         console.log(result);
                                         alert("data berhasil disimpan");
-                                        $('#proses_check').trigger('click')
+                                        // oTable.ajax.reload()
+                                        oTable.ajax.url(modul_name+ "/list-data").load(function () {
+                                            setTimeout(function () {
+                                
+                                                readyCheckbox();
+                                              
+                                            }, 200)
+                                        } );
                                         // location.reload();
                                     },
                                     error:function(msg){
@@ -81,10 +109,10 @@ $(function(){
                         )
                     ]
                 }).show();
-            }else{
-                alert(pesan);
-            }
-        }
+            // }else{
+            //     alert(pesan);
+            // }
+        // }
     });
 
     $(document).on('click','input[name="chk_list[]"]', function (event) {
@@ -93,7 +121,7 @@ $(function(){
             $('#btn_save_modul').removeClass('disabled');
             $('#chk_list_parent').prop('checked', true);
         }else{
-            $('#btn_save_modul').addClass('disabled');
+            // $('#btn_save_modul').addClass('disabled');
             $('#chk_list_parent').prop('checked', false);
         }
         updateCheckboxes($(this));
@@ -128,7 +156,7 @@ $(function(){
 		var data = {
 			'id': nilai
 		};
-		var target_combo = $("#minggu");
+		var target_combo = $(".minggu");
 		var url = "ajax/get-minggu";
 		_ajax_("post", parent, data, target_combo, url);
     })
@@ -214,6 +242,8 @@ $(function(){
 var checkboxes = [];
 
 function readyCheckbox() {
+    var lens = checkboxes.length;
+
     $('input[name="chk_list[]"]:checked').each(function(){
         id = $(this).val();
         var arrPos = checkboxes.indexOf(id);
@@ -221,19 +251,20 @@ function readyCheckbox() {
             checkboxes.push(id);
         }
     });
-
-    setTimeout(function () {
-        $('input[name="chk_list[]"]').each(function(index){
-            idx = $(this).val();
-            var arrPosx = checkboxes.indexOf(idx);
-            if(!$(this).is(":checked")){
-                if(arrPosx > -1){
-                    checkboxes.splice(arrPosx,1);
+    // if (lens>0) {
+        setTimeout(function () {
+            $('input[name="chk_list[]"]').each(function(index){
+                idx = $(this).val();
+                var arrPosx = checkboxes.indexOf(idx);
+                if(!$(this).is(":checked")){
+                    if(arrPosx > -1){
+                        checkboxes.splice(arrPosx,1);
+                    }
                 }
-            }
-        });
-        $("#idOfHiddenInput").val(checkboxes);
-    }, 200)
+            });
+            $("#idOfHiddenInput").val(checkboxes);
+        }, 200)
+    // }
 
     // $("#idOfHiddenInput").val(checkboxes);
 
@@ -259,19 +290,23 @@ function updateCheckboxes(checkbox){
         checkboxes.push(id);
     }
 
-    setTimeout(function () {
-        $('input[name="chk_list[]"]').each(function(index){
-            idx = $(this).val();
-            var arrPosx = checkboxes.indexOf(idx);
-            if(!$(this).is(":checked")){
-                if(arrPosx > -1){
-                    checkboxes.splice(arrPosx,1);
+    if(lens>0){
+        setTimeout(function () {
+            $('input[name="chk_list[]"]').each(function(index){
+                idx = $(this).val();
+                var arrPosx = checkboxes.indexOf(idx);
+                if(!$(this).is(":checked")){
+                    if(arrPosx > -1){
+                        checkboxes.splice(arrPosx,1);
+                    }
                 }
-            }
-        });
-      
+            });
+          
+            $("#idOfHiddenInput").val(checkboxes);
+        }, 200)
+    }else{
         $("#idOfHiddenInput").val(checkboxes);
-    }, 200)
+    }
 
    
 }
