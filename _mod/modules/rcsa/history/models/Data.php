@@ -6,6 +6,19 @@ class Data extends MX_Model {
         parent::__construct();
 	}
 
+	function checklist()
+	{
+		$checklist = [];
+		$check = $this->db->select("id")->get(_TBL_VIEW_RCSA)->result();
+	
+		foreach ($check as $key => $value) {
+			$checklist[] = $value->id;
+		}
+		
+		return $checklist;
+		
+	}
+
 	function simpan_identifikasi($data){
 		$mode='add';
 
@@ -145,6 +158,7 @@ class Data extends MX_Model {
 
 		$this->crud->crud_table(_TBL_RCSA_DETAIL);
 		$this->crud->crud_field('rcsa_id', $data['rcsa_id']);
+		$this->crud->crud_field('id_kpi', $data['id_kpi']);
 		$this->crud->crud_field('aktifitas_id', $data['aktifitas_id']);
 		$this->crud->crud_field('sasaran_id',$data['sasaran_id']);
 		$this->crud->crud_field('tahapan', $data['tahapan']);
@@ -179,6 +193,7 @@ class Data extends MX_Model {
 			$this->crud->crud_field('impact_id', $data['impact_id_2']);
 		}elseif(intval($data['tipe_analisa_no'])==3){
 			$this->crud->crud_field('aspek_risiko_id', $data['aspek_risiko_id']);
+			$this->crud->crud_field('aspek_det', $data['aspek_det']);
 			$this->crud->crud_field('like_id', $data['like_id_3']);
 			$this->crud->crud_field('impact_id', $data['impact_id_3']);
 			$this->crud->crud_field('impact_text', $data['impact_text_3']);
@@ -191,23 +206,55 @@ class Data extends MX_Model {
 		if (isset($data['check_item'])){
 			$nama_kontrol=implode('###',$data['check_item']);
 			$this->crud->crud_field('nama_kontrol', $nama_kontrol);
+		}else{
+			$this->crud->crud_field('nama_kontrol', "");
 		}
 
 		$this->crud->crud_field('nama_kontrol_note', $data['note_control']);
 		$this->crud->crud_field('efek_kontrol', $data['efek_kontrol']);
-		// $this->crud->crud_field('lampiran', $data['lampiran']);
+		ini_set('MAX_EXECUTION_TIME', -1);
+	
+		
+        $upload=upload_image_new(array('type'=>'xls|xlsx|csv|doc|docx|pdf|zip|rar','nm_file'=>'lampiran','path'=>'rcsa','thumb'=>false));
+		
+		if($upload){
+			$inputFileName = file_path_relative('rcsa/'.$upload['file_name']);
+	
+			$this->crud->crud_field('lampiran', $inputFileName);
+		}
 
 		$id=intval($data['rcsa_detail_id']);
 		if ($id>0){
 			$this->crud->crud_type('edit');
+			if ($data['like_residual_id']=='' || $data['impact_residual_id']=='') {
+				if(intval($data['tipe_analisa_no'])==3){
+					$this->crud->crud_field('like_residual_id', $data['like_id_3']);
+					$this->crud->crud_field('impact_residual_id', $data['impact_id_3']);
+					$this->crud->crud_field('risiko_residual', $data['risiko_inherent']);
+				}elseif(intval($data['tipe_analisa_no'])==2){
+					$this->crud->crud_field('like_residual_id', $data['like_id_2']);
+					$this->crud->crud_field('impact_residual_id', $data['impact_id_2']);
+					$this->crud->crud_field('risiko_residual', $data['risiko_inherent']);
+				}
+			}
+
 			$this->crud->crud_where(['field' => 'id', 'value' => $id]);
 			$this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
 			$mode='edit';
 		}else{
 			$this->crud->crud_type('add');
-			$this->crud->crud_field('like_residual_id', $data['like_id']);
-			$this->crud->crud_field('impact_residual_id', $data['impact_id']);
+			if(intval($data['tipe_analisa_no'])==3){
+				$this->crud->crud_field('like_residual_id', $data['like_id_3']);
+				$this->crud->crud_field('impact_residual_id', $data['impact_id_3']);
+			}elseif(intval($data['tipe_analisa_no'])==2){
+				$this->crud->crud_field('like_residual_id', $data['like_id_2']);
+				$this->crud->crud_field('impact_residual_id', $data['impact_id_2']);
+			}else{
+				$this->crud->crud_field('like_residual_id', $data['like_id']);
+				$this->crud->crud_field('impact_residual_id', $data['impact_id']);
+			}
 			$this->crud->crud_field('risiko_residual', $data['risiko_inherent']);
+			
 			// $this->crud->crud_field('like_target_id', $data['like_id']);
 			// $this->crud->crud_field('impact_target_id', $data['impact_id']);
 			// $this->crud->crud_field('risiko_target', $data['risiko_inherent']);
@@ -233,16 +280,195 @@ class Data extends MX_Model {
 			$this->crud->crud_field('rcsa_detail_id', $id);
 			$this->crud->process_crud();
 
-			$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [2, $id]);
+			$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max, p_3, s_3_min, s_3_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max , p_3, s_3_min, s_3_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [2, $id]);
 			// $this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [3, $id]);
-			$this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by) (SELECT ?,rcsa_detail_id,kri_id, created_by from il_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [2, $id]);
+			$this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by, detail) (SELECT ?,rcsa_detail_id,kri_id, created_by, detail from il_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [2, $id]);
 			// $this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by) (SELECT ?,rcsa_detail_id,kri_id, created_by from il_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [3, $id]);
 		}else{
-			$cek=$this->db->where('bk_tipe', 2)->where('rcsa_detail_id', $id)->get(_TBL_RCSA_DET_LIKE_INDI)->result_array();
-			$cek2=$this->db->where('bk_tipe', 2)->where('rcsa_detail_id', $id)->get(_TBL_RCSA_DET_DAMPAK_INDI)->result_array();
-			if (!$cek && !$cek2){
-				$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [2, $id]);
-				$this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by) (SELECT ?,rcsa_detail_id,kri_id, created_by from il_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=1)', [2, $id]);
+			$cek=$this->db->where('bk_tipe', 2)->where('rcsa_detail_id', $id)->get(_TBL_VIEW_RCSA_DET_LIKE_INDI)->result_array();
+			$cek2=$this->db->where('bk_tipe', 2)->where('rcsa_detail_id', $id)->get(_TBL_VIEW_RCSA_DET_DAMPAK_INDI)->result_array();
+			// dumps($cek2);
+			// die();
+			if (!$cek){
+
+				$w = $this->db->query('SELECT rcsa_detail_id,  kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max, p_3, s_3_min, s_3_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=1', [$id])->result_array();
+				
+				foreach ($w as $key => $value) {
+					$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max, p_3, s_3_min, s_3_max ,score, param, created_by) values('.$value['rcsa_detail_id'].', 2, '.$value['kri_id'].', '.$value['satuan_id'].', '.$value['pembobotan'].', "'.$value['p_1'].'", '.$value['s_1_min'].', '.$value['s_1_max'].', "'.$value['p_4'].'", '.$value['s_4_min'].', '.$value['s_4_max'].', "'.$value['p_2'].'", '.$value['s_2_min'].', '.$value['s_2_max'].', "'.$value['p_5'].'", '.$value['s_5_min'].', '.$value['s_5_max'].', "'.$value['p_3'].'", '.$value['s_3_min'].', '.$value['s_3_max'].', '.$value['score'].', "'.$value['param'].'", "'.$value['created_by'].'")');
+				
+				}
+			}else{
+				$prev = $this->db->query('SELECT kri_id,rcsa_detail_id from il_rcsa_det_like_indi WHERE rcsa_detail_id='.$id.' AND bk_tipe=1')->result_array();
+				$jenis1 = [];
+				$jenis2 = [];
+				// dumps($prev);
+				foreach ($prev as $u => $v) {
+					$jenis1[] = $v['kri_id'];
+				}
+
+				foreach ($cek as $u => $v) {
+					$jenis2[] = $v['kri_id'];
+				}
+			
+				$diff = array_diff($jenis2,$jenis1);
+				
+				foreach ($diff as $key => $value) {
+					$cekagain = $this->db->query('SELECT id from il_rcsa_det_like_indi WHERE rcsa_detail_id='.$id.' AND bk_tipe=2 AND kri_id='.$value)->row_array();
+					if ($cekagain) {
+						$this->db->query('DELETE FROM il_rcsa_det_like_indi
+						WHERE id = '.$cekagain['id']);
+					}
+					
+				}
+
+				foreach ($prev as $u => $v) {
+					$cekagain = $this->db->query('SELECT kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max, p_3, s_3_min, s_3_max, score, param,created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id='.$v['rcsa_detail_id'].' AND bk_tipe=2 AND kri_id='.$v['kri_id'])->row_array();
+
+					// dumps($v['kri_id']);
+					if ($cekagain) {
+
+						foreach ($cek as $key => $value) {
+							$dd = $this->db->query('SELECT kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max, p_3, s_3_min, s_3_max, score, param,created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=1', [$value['rcsa_detail_id']])->result_array();
+		
+							foreach($dd as $o => $i){
+								if (isset($cek[$o])) {
+									$this->db->query('UPDATE il_rcsa_det_like_indi SET 
+									kri_id='.$i['kri_id'].' ,
+									satuan_id='.$i['satuan_id'].' ,
+									pembobotan='.$i['pembobotan'].' ,
+									p_1="'.$i['p_1'].'" ,
+									s_1_min='.$i['s_1_min'].' ,
+									s_1_max='.$i['s_1_max'].' ,
+									p_4="'.$i['p_4'].'",
+									s_4_min='.$i['s_4_min'].' ,
+									s_4_max='.$i['s_4_max'].' ,
+									p_2="'.$i['p_2'].'",
+									s_2_min='.$i['s_2_min'].' ,
+									s_2_max='.$i['s_2_max'].' ,
+									p_5="'.$i['p_5'].'",
+									s_5_min='.$i['s_5_min'].' ,
+									s_5_max='.$i['s_5_max'].' ,
+									p_3="'.$i['p_3'].'",
+									s_3_min='.$i['s_3_min'].' ,
+									s_3_max='.$i['s_3_max'].' ,
+									score='.$i['score'].' ,
+									param="'.$i['param'].'" 
+									
+									WHERE id=?', [$cek[$o]['id']]);
+								}
+							}	
+		
+								$this->crud->crud_table(_TBL_RCSA_DETAIL);
+								$this->crud->crud_type('edit');
+								if(intval($data['tipe_analisa_no'])==3){
+									$this->crud->crud_field('like_residual_id', $data['like_id_3']);
+									$this->crud->crud_field('impact_residual_id', $data['impact_id_3']);
+									$this->crud->crud_field('risiko_residual', $data['risiko_inherent']);
+								}elseif(intval($data['tipe_analisa_no'])==2){
+									$this->crud->crud_field('like_residual_id', $data['like_id_2']);
+									$this->crud->crud_field('impact_residual_id', $data['impact_id_2']);
+									$this->crud->crud_field('risiko_residual', $data['risiko_inherent']);
+								}
+								
+		
+								$this->crud->crud_where(['field' => 'id', 'value' => $value['rcsa_detail_id']]);
+								$this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
+								$this->crud->process_crud();
+							
+						}
+
+					}else{
+
+						$vo = $this->db->query('SELECT rcsa_detail_id,  kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max, p_3, s_3_min, s_3_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=1 AND kri_id=?', [$id, $v['kri_id']])->result_array();
+						
+						foreach ($vo as $key => $va) {
+							$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max, p_3, s_3_min, s_3_max, score, param, created_by) values('.$va['rcsa_detail_id'].', 2, '.$va['kri_id'].', '.$va['satuan_id'].', '.$va['pembobotan'].', "'.$va['p_1'].'", '.$va['s_1_min'].', '.$va['s_1_max'].', "'.$va['p_4'].'", '.$va['s_4_min'].', '.$va['s_4_max'].', "'.$va['p_2'].'", '.$va['s_2_min'].', '.$va['s_2_max'].', "'.$va['p_5'].'", '.$va['s_5_min'].', '.$va['s_5_max'].', "'.$va['p_3'].'", '.$va['s_3_min'].', '.$va['s_3_max'].', '.$va['score'].', "'.$va['param'].'", "'.$va['created_by'].'")');
+						
+						}
+
+
+						
+					}
+
+				
+				}
+
+				
+			}
+
+			if(!$cek2){
+
+				$v = $this->db->query('SELECT ?,rcsa_detail_id,kri_id, created_by, detail from il_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=1', [2, $id])->result_array();
+
+				foreach ($v as $key => $value) {
+					$this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by, detail) values (2,'.$value['rcsa_detail_id'].','.$value['kri_id'].', "'.$value['created_by'].'", "'.$value['detail'].'")');
+				}
+			}else{
+				
+				$prev = $this->db->query('SELECT jenis_kri_id,rcsa_detail_id from il_view_rcsa_det_dampak_indi WHERE rcsa_detail_id='.$id.' AND bk_tipe=1')->result_array();
+				$jenis1 = [];
+				$jenis2 = [];
+				
+				foreach ($prev as $u => $v) {
+					$jenis1[] = $v['jenis_kri_id'];
+				}
+
+				foreach ($cek2 as $u => $v) {
+					$jenis2[] = $v['jenis_kri_id'];
+				}
+			
+				$diff = array_diff($jenis2,$jenis1);
+				foreach ($diff as $key => $value) {
+					$cekagain = $this->db->query('SELECT id from il_view_rcsa_det_dampak_indi WHERE rcsa_detail_id='.$id.' AND bk_tipe=2 AND jenis_kri_id='.$value)->row_array();
+					if ($cekagain) {
+						$this->db->query('DELETE FROM il_rcsa_det_dampak_indi
+						WHERE id = '.$cekagain['id']);
+					}
+					
+				}
+		
+				foreach ($prev as $u => $v) {
+					$cekagain = $this->db->query('SELECT kri_id, detail from il_view_rcsa_det_dampak_indi WHERE rcsa_detail_id='.$v['rcsa_detail_id'].' AND bk_tipe=2 AND jenis_kri_id='.$v['jenis_kri_id'])->row_array();
+					if ($cekagain) {
+						foreach ($cek2 as $key => $value) {
+					
+							$kriid = $this->db->query('SELECT kri_id, detail from il_view_rcsa_det_dampak_indi WHERE rcsa_detail_id='.$value['rcsa_detail_id'].' AND bk_tipe=1 AND jenis_kri_id='.$value['jenis_kri_id'])->row_array();
+							if($kriid){
+								$this->db->query('UPDATE il_rcsa_det_dampak_indi SET 
+									kri_id='.$kriid['kri_id'].',
+									detail="'.$kriid['detail'].'" WHERE id=?', [$value['id']]);
+
+							}
+								
+								$this->crud->crud_table(_TBL_RCSA_DETAIL);
+								$this->crud->crud_type('edit');
+								if(intval($data['tipe_analisa_no'])==3){
+									$this->crud->crud_field('like_residual_id', $data['like_id_3']);
+									$this->crud->crud_field('impact_residual_id', $data['impact_id_3']);
+									$this->crud->crud_field('risiko_residual', $data['risiko_inherent']);
+								}elseif(intval($data['tipe_analisa_no'])==2){
+									$this->crud->crud_field('like_residual_id', $data['like_id_2']);
+									$this->crud->crud_field('impact_residual_id', $data['impact_id_2']);
+									$this->crud->crud_field('risiko_residual', $data['risiko_inherent']);
+								}
+								
+		
+								$this->crud->crud_where(['field' => 'id', 'value' => $value['rcsa_detail_id']]);
+								$this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
+								$this->crud->process_crud();
+								
+						}
+					}else{
+						$vo = $this->db->query('SELECT ?,rcsa_detail_id,kri_id, created_by, detail from il_view_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=1 AND jenis_kri_id='.$v['jenis_kri_id'], [2, $id])->result_array();
+
+						foreach ($vo as $key => $va) {
+							$this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by, detail) values(2,'.$va['rcsa_detail_id'].','.$va['kri_id'].', "'.$va['created_by'].'", "'.$va['detail'].'")');
+						}
+						
+					}
+
+				
+				}
 			}
 		}
 
@@ -260,6 +486,8 @@ class Data extends MX_Model {
 	}
 
 	function simpan_evaluasi($data){
+		// dumps($data['sts_save_evaluasi']);
+		// die();
 		$this->crud->crud_table(_TBL_RCSA_DETAIL);
 		$this->crud->crud_field('like_residual_id', $data['like_residual_id']);
 		$this->crud->crud_field('impact_residual_id', $data['impact_residual_id']);
@@ -284,18 +512,188 @@ class Data extends MX_Model {
 			$id = $this->crud->last_id();
 		}
 		if($data['sts_save_evaluasi']==0){
-			$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=2)', [3, $id]);
-			$this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by) (SELECT ?,rcsa_detail_id,kri_id, created_by from il_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=2)', [3, $id]);
+		
+			$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max, p_3, s_3_min, s_3_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max, p_3, s_3_min, s_3_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=2)', [3, $id]);
 
+			$this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by, detail) (SELECT ?,rcsa_detail_id,kri_id, created_by, detail from il_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=2)', [3, $id]);
+
+			// $this->crud->crud_field('like_target_id', $data['like_residual_id']);
+			// $this->crud->crud_field('impact_target_id', $data['impact_residual_id']);
+			// $this->crud->crud_field('risiko_target', $data['risiko_residual']);
+
+			$this->crud->crud_table(_TBL_RCSA_DETAIL);
+			$this->crud->crud_type('edit');
 			$this->crud->crud_field('like_target_id', $data['like_residual_id']);
 			$this->crud->crud_field('impact_target_id', $data['impact_residual_id']);
 			$this->crud->crud_field('risiko_target', $data['risiko_residual']);
+		
+			$this->crud->crud_where(['field' => 'id', 'value' => $id]);
+			$this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
+			$this->crud->process_crud();
 		}else{
-			$cek=$this->db->where('bk_tipe', 3)->where('rcsa_detail_id', $id)->get(_TBL_RCSA_DET_LIKE_INDI)->result_array();
-			$cek2=$this->db->where('bk_tipe', 3)->where('rcsa_detail_id', $id)->get(_TBL_RCSA_DET_DAMPAK_INDI)->result_array();
-			if (!$cek && !$cek2){
-				$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by) (SELECT rcsa_detail_id, ?, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_2, s_2_min, s_2_max, p_3, s_3_min, s_3_max, p_4, s_4_min, s_4_max, p_5, s_5_min, s_5_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=2)', [3, $id]);
-			$this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by) (SELECT ?,rcsa_detail_id,kri_id, created_by from il_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=2)', [3, $id]);
+			
+			$cek=$this->db->where('bk_tipe', 3)->where('rcsa_detail_id', $id)->get(_TBL_VIEW_RCSA_DET_LIKE_INDI)->result_array();
+			$cek2=$this->db->where('bk_tipe', 3)->where('rcsa_detail_id', $id)->get(_TBL_VIEW_RCSA_DET_DAMPAK_INDI)->result_array();
+
+			
+
+			if (!$cek){
+				
+				$w = $this->db->query('SELECT rcsa_detail_id,  kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max, p_3, s_3_min, s_3_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=2', [$id])->result_array();
+				
+				
+				foreach ($w as $key => $value) {
+					$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max, p_3, s_3_min, s_3_max, score, param, created_by) values('.$value['rcsa_detail_id'].', 3, '.$value['kri_id'].', '.$value['satuan_id'].', '.$value['pembobotan'].', "'.$value['p_1'].'", '.$value['s_1_min'].', '.$value['s_1_max'].', "'.$value['p_4'].'", '.$value['s_4_min'].', '.$value['s_4_max'].', "'.$value['p_2'].'", '.$value['s_2_min'].', '.$value['s_2_max'].', "'.$value['p_5'].'", '.$value['s_5_min'].', '.$value['s_5_max'].', "'.$value['p_3'].'", '.$value['s_3_min'].', '.$value['s_3_max'].', '.$value['score'].', "'.$value['param'].'", "'.$value['created_by'].'")');
+				
+				}
+			}else{
+				$prev = $this->db->query('SELECT kri_id,rcsa_detail_id from il_rcsa_det_like_indi WHERE rcsa_detail_id='.$id.' AND bk_tipe=2')->result_array();
+				$jenis1 = [];
+				$jenis2 = [];
+				// dumps($prev);
+				foreach ($prev as $u => $v) {
+					$jenis1[] = $v['kri_id'];
+				}
+
+				foreach ($cek as $u => $v) {
+					$jenis2[] = $v['kri_id'];
+				}
+			
+				$diff = array_diff($jenis2,$jenis1);
+				
+				foreach ($diff as $key => $value) {
+					$cekagain = $this->db->query('SELECT id from il_rcsa_det_like_indi WHERE rcsa_detail_id='.$id.' AND bk_tipe=3 AND kri_id='.$value)->row_array();
+					if ($cekagain) {
+						$this->db->query('DELETE FROM il_rcsa_det_like_indi
+						WHERE id = '.$cekagain['id']);
+					}
+					
+				}
+
+				foreach ($prev as $u => $v) {
+					$cekagain = $this->db->query('SELECT kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max, p_3, s_3_min, s_3_max, score, param,created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id='.$v['rcsa_detail_id'].' AND bk_tipe=3 AND kri_id='.$v['kri_id'])->row_array();
+
+					// dumps($v['kri_id']);
+					if ($cekagain) {
+						foreach ($cek as $key => $value) {
+							$dd = $this->db->query('SELECT kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max, p_3, s_3_min, s_3_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=2', [$value['rcsa_detail_id']])->result_array();
+		
+							foreach($dd as $o => $i){
+								if(isset($cek[$o])){
+									$this->db->query('UPDATE il_rcsa_det_like_indi SET 
+									kri_id='.$i['kri_id'].' ,
+									satuan_id='.$i['satuan_id'].' ,
+									pembobotan='.$i['pembobotan'].' ,
+									p_1="'.$i['p_1'].'" ,
+									s_1_min='.$i['s_1_min'].' ,
+									s_1_max='.$i['s_1_max'].' ,
+									p_4="'.$i['p_4'].'",
+									s_4_min='.$i['s_4_min'].' ,
+									s_4_max='.$i['s_4_max'].' ,
+									p_2="'.$i['p_2'].'",
+									s_2_min='.$i['s_2_min'].' ,
+									s_2_max='.$i['s_2_max'].' ,
+									p_5="'.$i['p_5'].'",
+									s_5_min='.$i['s_5_min'].' ,
+									s_5_max='.$i['s_5_max'].' ,
+									p_3="'.$i['p_3'].'",
+									s_3_min='.$i['s_3_min'].' ,
+									s_3_max='.$i['s_3_max'].' ,
+									score='.$i['score'].' ,
+									param="'.$i['param'].'" 
+									
+									WHERE id=?', [$cek[$o]['id']]);
+								}
+							}	
+								$this->crud->crud_table(_TBL_RCSA_DETAIL);
+								$this->crud->crud_type('edit');
+								$this->crud->crud_field('like_target_id', $data['like_residual_id']);
+								$this->crud->crud_field('impact_target_id', $data['impact_residual_id']);
+								$this->crud->crud_field('risiko_target', $data['risiko_residual']);
+							
+								$this->crud->crud_where(['field' => 'id', 'value' => $value['rcsa_detail_id']]);
+								$this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
+								$this->crud->process_crud();
+							
+						}
+					}else{
+
+						$vo = $this->db->query('SELECT rcsa_detail_id,  kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max, p_3, s_3_min, s_3_max, score, param, created_by from il_rcsa_det_like_indi WHERE rcsa_detail_id=? AND bk_tipe=2 AND kri_id=?', [$id, $v['kri_id']])->result_array();
+						
+						foreach ($vo as $key => $va) {
+							$this->db->query('INSERT INTO il_rcsa_det_like_indi(rcsa_detail_id, bk_tipe, kri_id, satuan_id, pembobotan, p_1, s_1_min, s_1_max, p_4, s_4_min, s_4_max, p_2, s_2_min, s_2_max, p_5, s_5_min, s_5_max, p_3, s_3_min, s_3_max, score, param, created_by) values('.$va['rcsa_detail_id'].', 3, '.$va['kri_id'].', '.$va['satuan_id'].', '.$va['pembobotan'].', "'.$va['p_1'].'", '.$va['s_1_min'].', '.$va['s_1_max'].', "'.$va['p_4'].'", '.$va['s_4_min'].', '.$va['s_4_max'].', "'.$va['p_2'].'", '.$va['s_2_min'].', '.$va['s_2_max'].', "'.$va['p_5'].'", '.$va['s_5_min'].', '.$va['s_5_max'].', "'.$va['p_3'].'", '.$va['s_3_min'].', '.$va['s_3_max'].', '.$va['score'].', "'.$va['param'].'", "'.$va['created_by'].'")');
+						
+						}
+					}
+				}
+				
+			}
+
+			if(!$cek2){
+				$v = $this->db->query('SELECT ?,rcsa_detail_id,kri_id, created_by, detail from il_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=2', [3, $id])->result_array();
+
+				foreach ($v as $key => $value) {
+					$this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by, detail) values(3,'.$value['rcsa_detail_id'].','.$value['kri_id'].', "'.$value['created_by'].'", "'.$value['detail'].'")');
+				}
+			}else{
+				
+				$prev = $this->db->query('SELECT jenis_kri_id,rcsa_detail_id from il_view_rcsa_det_dampak_indi WHERE rcsa_detail_id='.$id.' AND bk_tipe=2')->result_array();
+				$jenis1 = [];
+				$jenis2 = [];
+				
+				foreach ($prev as $u => $v) {
+					$jenis1[] = $v['jenis_kri_id'];
+				}
+
+				foreach ($cek2 as $u => $v) {
+					$jenis2[] = $v['jenis_kri_id'];
+				}
+			
+				$diff = array_diff($jenis2,$jenis1);
+				foreach ($diff as $key => $value) {
+					$cekagain = $this->db->query('SELECT id from il_view_rcsa_det_dampak_indi WHERE rcsa_detail_id='.$id.' AND bk_tipe=3 AND jenis_kri_id='.$value)->row_array();
+					if ($cekagain) {
+						$this->db->query('DELETE FROM il_rcsa_det_dampak_indi
+						WHERE id = '.$cekagain['id']);
+					}
+					
+				}
+
+				foreach ($prev as $u => $v) {
+					$cekagain = $this->db->query('SELECT kri_id, detail from il_view_rcsa_det_dampak_indi WHERE rcsa_detail_id='.$v['rcsa_detail_id'].' AND bk_tipe=3 AND jenis_kri_id='.$v['jenis_kri_id'])->row_array();
+					if ($cekagain) {
+						foreach ($cek2 as $key => $value) {
+				
+
+								$kriid = $this->db->query('SELECT kri_id, detail from il_view_rcsa_det_dampak_indi WHERE rcsa_detail_id='.$value['rcsa_detail_id'].' AND bk_tipe=2 AND jenis_kri_id='.$value['jenis_kri_id'])->row_array();
+								if($kriid){
+		
+									$this->db->query('UPDATE il_rcsa_det_dampak_indi SET 
+										kri_id='.$kriid['kri_id'].',
+										detail="'.$kriid['detail'].'" WHERE id=?', [$value['id']]);
+								}
+								$this->crud->crud_table(_TBL_RCSA_DETAIL);
+								$this->crud->crud_type('edit');
+								$this->crud->crud_field('like_target_id', $data['like_residual_id']);
+								$this->crud->crud_field('impact_target_id', $data['impact_residual_id']);
+								$this->crud->crud_field('risiko_target', $data['risiko_residual']);
+							
+								$this->crud->crud_where(['field' => 'id', 'value' => $value['rcsa_detail_id']]);
+								$this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
+								$this->crud->process_crud();
+							
+						}
+					}else{
+						$vo = $this->db->query('SELECT ?,rcsa_detail_id,kri_id, created_by, detail from il_view_rcsa_det_dampak_indi WHERE rcsa_detail_id=? AND bk_tipe=2 AND jenis_kri_id='.$v['jenis_kri_id'], [3, $id])->result_array();
+
+						foreach ($vo as $key => $va) {
+							$this->db->query('INSERT INTO il_rcsa_det_dampak_indi(bk_tipe,rcsa_detail_id,kri_id,created_by, detail) values(3,'.$va['rcsa_detail_id'].','.$va['kri_id'].', "'.$va['created_by'].'", "'.$va['detail'].'")');
+						}
+						
+					}
+				}
+
+				
 			}
 		}
 
@@ -408,18 +806,18 @@ class Data extends MX_Model {
 			$this->crud->crud_field('p_1', $data['p_1']);
 			$this->crud->crud_field('s_1_min', $data['s_1_min']);
 			$this->crud->crud_field('s_1_max', $data['s_1_max']);
-			$this->crud->crud_field('p_2', $data['p_2']);
-			$this->crud->crud_field('s_2_min', $data['s_2_min']);
-			$this->crud->crud_field('s_2_max', $data['s_2_max']);
-			$this->crud->crud_field('p_3', $data['p_3']);
-			$this->crud->crud_field('s_3_min', $data['s_3_min']);
-			$this->crud->crud_field('s_3_max', $data['s_3_max']);
 			$this->crud->crud_field('p_4', $data['p_4']);
 			$this->crud->crud_field('s_4_min', $data['s_4_min']);
 			$this->crud->crud_field('s_4_max', $data['s_4_max']);
+			$this->crud->crud_field('p_2', $data['p_2']);
+			$this->crud->crud_field('s_2_min', $data['s_2_min']);
+			$this->crud->crud_field('s_2_max', $data['s_2_max']);
 			$this->crud->crud_field('p_5', $data['p_5']);
 			$this->crud->crud_field('s_5_min', $data['s_5_min']);
 			$this->crud->crud_field('s_5_max', $data['s_5_max']);
+			$this->crud->crud_field('p_3', $data['p_3']);
+			$this->crud->crud_field('s_3_min', $data['s_3_min']);
+			$this->crud->crud_field('s_3_max', $data['s_3_max']);
 			$this->crud->crud_field('score', $data['score']);
 		}else{
 			$this->crud->crud_table(_TBL_RCSA_DET_LIKE_INDI);

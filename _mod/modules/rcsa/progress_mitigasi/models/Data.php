@@ -66,13 +66,13 @@ class Data extends MX_Model {
 
 	function simpan_kpi(){
 
-		if (floatval($this->post['score'])>=floatval($this->post['s_5_min'])){
+		if (floatval($this->post['score'])>=floatval($this->post['s_3_min'])){
 			$indi=5;
-		}elseif (floatval($this->post['score'])>=floatval($this->post['s_4_min'])){
+		}elseif (floatval($this->post['score'])>=floatval($this->post['s_5_min'])){
 			$indi=4;
-		}elseif (floatval($this->post['score'])>=floatval($this->post['s_3_min'])){
-			$indi=3;
 		}elseif (floatval($this->post['score'])>=floatval($this->post['s_2_min'])){
+			$indi=3;
+		}elseif (floatval($this->post['score'])>=floatval($this->post['s_4_min'])){
 			$indi=2;
 		}elseif (floatval($this->post['score'])>=floatval($this->post['s_1_min'])){
 			$indi=1;
@@ -89,18 +89,18 @@ class Data extends MX_Model {
 		$this->crud->crud_field('p_1', $this->post['p_1']);
 		$this->crud->crud_field('s_1_min', $this->post['s_1_min']);
 		$this->crud->crud_field('s_1_max', $this->post['s_1_max']);
-		$this->crud->crud_field('p_2', $this->post['p_2']);
-		$this->crud->crud_field('s_2_min', $this->post['s_2_min']);
-		$this->crud->crud_field('s_2_max', $this->post['s_2_max']);
-		$this->crud->crud_field('p_3', $this->post['p_3']);
-		$this->crud->crud_field('s_3_min', $this->post['s_3_min']);
-		$this->crud->crud_field('s_3_max', $this->post['s_3_max']);
 		$this->crud->crud_field('p_4', $this->post['p_4']);
 		$this->crud->crud_field('s_4_min', $this->post['s_4_min']);
 		$this->crud->crud_field('s_4_max', $this->post['s_4_max']);
+		$this->crud->crud_field('p_2', $this->post['p_2']);
+		$this->crud->crud_field('s_2_min', $this->post['s_2_min']);
+		$this->crud->crud_field('s_2_max', $this->post['s_2_max']);
 		$this->crud->crud_field('p_5', $this->post['p_5']);
 		$this->crud->crud_field('s_5_min', $this->post['s_5_min']);
 		$this->crud->crud_field('s_5_max', $this->post['s_5_max']);
+		$this->crud->crud_field('p_3', $this->post['p_3']);
+		$this->crud->crud_field('s_3_min', $this->post['s_3_min']);
+		$this->crud->crud_field('s_3_max', $this->post['s_3_max']);
 		$this->crud->crud_field('score', $this->post['score']);
 		$this->crud->crud_field('indikator', $indi);
 		if($this->post['edit_id']==0){
@@ -117,13 +117,13 @@ class Data extends MX_Model {
 	
 
 	function simpan_kri(){
-		if (floatval($this->post['score'])>=floatval($this->post['s_5_min'])){
+		if (floatval($this->post['score'])>=floatval($this->post['s_3_min'])){
 			$indi=5;
-		}elseif (floatval($this->post['score'])>=floatval($this->post['s_4_min'])){
+		}elseif (floatval($this->post['score'])>=floatval($this->post['s_5_min'])){
 			$indi=4;
-		}elseif (floatval($this->post['score'])>=floatval($this->post['s_3_min'])){
-			$indi=3;
 		}elseif (floatval($this->post['score'])>=floatval($this->post['s_2_min'])){
+			$indi=3;
+		}elseif (floatval($this->post['score'])>=floatval($this->post['s_4_min'])){
 			$indi=2;
 		}elseif (floatval($this->post['score'])>=floatval($this->post['s_1_min'])){
 			$indi=1;
@@ -140,18 +140,18 @@ class Data extends MX_Model {
 		$this->crud->crud_field('p_1', $this->post['p_1']);
 		$this->crud->crud_field('s_1_min', $this->post['s_1_min']);
 		$this->crud->crud_field('s_1_max', $this->post['s_1_max']);
-		$this->crud->crud_field('p_2', $this->post['p_2']);
-		$this->crud->crud_field('s_2_min', $this->post['s_2_min']);
-		$this->crud->crud_field('s_2_max', $this->post['s_2_max']);
-		$this->crud->crud_field('p_3', $this->post['p_3']);
-		$this->crud->crud_field('s_3_min', $this->post['s_3_min']);
-		$this->crud->crud_field('s_3_max', $this->post['s_3_max']);
 		$this->crud->crud_field('p_4', $this->post['p_4']);
 		$this->crud->crud_field('s_4_min', $this->post['s_4_min']);
 		$this->crud->crud_field('s_4_max', $this->post['s_4_max']);
+		$this->crud->crud_field('p_2', $this->post['p_2']);
+		$this->crud->crud_field('s_2_min', $this->post['s_2_min']);
+		$this->crud->crud_field('s_2_max', $this->post['s_2_max']);
 		$this->crud->crud_field('p_5', $this->post['p_5']);
 		$this->crud->crud_field('s_5_min', $this->post['s_5_min']);
 		$this->crud->crud_field('s_5_max', $this->post['s_5_max']);
+		$this->crud->crud_field('p_3', $this->post['p_3']);
+		$this->crud->crud_field('s_3_min', $this->post['s_3_min']);
+		$this->crud->crud_field('s_3_max', $this->post['s_3_max']);
 		$this->crud->crud_field('score', $this->post['score']);
 		$this->crud->crud_field('indikator', $indi);
 		if($this->post['edit_id']==0){
