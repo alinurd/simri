@@ -135,6 +135,17 @@ $(function() {
         _ajax_("post", parent, data, target_combo, url);
     })
 
+    $("#term_id").change(function () {
+		var parent = $(this).parent();
+		var nilai = $(this).val();
+		var data = {
+			'id': nilai
+		};
+		var target_combo = $("#minggu_id");
+		var url = "ajax/get-minggu";
+		_ajax_("post", parent, data, target_combo, url);
+    })
+
 
 
     $(document).on("change", "#penyebab_id", function() {
@@ -939,11 +950,13 @@ $(function() {
         var parent = $(this).parent();
         var periode = $("#periode_copy").val();
         var term = $("#term_copy").val();
+        var minggu = $("#minggu_copy").val();
         var id = $("input[name='id']").val();
 
         var data = {
             'periode': periode,
             'term': term,
+            'minggu': minggu,
             'id': id,
         };
         var target_combo = $("#term_copy");
@@ -1071,11 +1084,28 @@ function cek_isian_identifikasi(awal = false) {
 var checkboxes = [];
 
 function readyCheckbox() {
-    $('input[name="chk_list[]"]:checked').each(function() {
+    $('input[name="chk_list[]"]:checked').each(function(){
         id = $(this).val();
-        checkboxes.push(id);
+        var arrPos = checkboxes.indexOf(id);
+        if(arrPos == -1){
+            checkboxes.push(id);
+        }
     });
-    $("#idOfHiddenInput").val(checkboxes);
+
+    setTimeout(function () {
+        $('input[name="chk_list[]"]').each(function(index){
+            idx = $(this).val();
+            var arrPosx = checkboxes.indexOf(idx);
+            if(!$(this).is(":checked")){
+                if(arrPosx > -1){
+                    checkboxes.splice(arrPosx,1);
+                }
+            }
+        });
+        $("#idOfHiddenInput").val(checkboxes);
+    }, 200)
+
+    // $("#idOfHiddenInput").val(checkboxes);
 
 }
 
@@ -1107,8 +1137,19 @@ function updateCheckboxes(checkbox) {
         checkboxes.push(id);
     }
 
-    //Finally update the hidden input
-    $("#idOfHiddenInput").val(checkboxes);
+    setTimeout(function () {
+        $('input[name="chk_list[]"]').each(function(index){
+            idx = $(this).val();
+            var arrPosx = checkboxes.indexOf(idx);
+            if(!$(this).is(":checked")){
+                if(arrPosx > -1){
+                    checkboxes.splice(arrPosx,1);
+                }
+            }
+        });
+      
+        $("#idOfHiddenInput").val(checkboxes);
+    }, 200)
 }
 
 function cek_isian_mitigasi() {

@@ -18,13 +18,13 @@
                 $bg='';
                 if ($row['score'] >= $row['s_1_min'] && $row['score'] <= $row['s_1_max']){
                     $bg='"style = "background-color:#2c5b29;"';
-                }elseif ($row['score'] >= $row['s_2_min'] && $row['score'] <= $row['s_2_max']){
-                    $bg='"style = "background-color:#50ca4e;"';
-                }elseif ($row['score'] >= $row['s_3_min'] && $row['score'] <= $row['s_3_max']){
-                    $bg='"style = "background-color:#edfd17;"';
                 }elseif ($row['score'] >= $row['s_4_min'] && $row['score'] <= $row['s_4_max']){
-                    $bg='"style = "background-color:#f0ca0f;';
+                    $bg='"style = "background-color:#50ca4e;"';
+                }elseif ($row['score'] >= $row['s_2_min'] && $row['score'] <= $row['s_2_max']){
+                    $bg='"style = "background-color:#edfd17;"';
                 }elseif ($row['score'] >= $row['s_5_min'] && $row['score'] <= $row['s_5_max']){
+                    $bg='"style = "background-color:#f0ca0f;';
+                }elseif ($row['score'] >= $row['s_3_min'] && $row['score'] <= $row['s_3_max']){
                     $bg='"style = "background-color:#e70808;"';
                 }
                 // if ($row['indikator']==1){
@@ -59,13 +59,13 @@
                         $bgx='';
                         if ($r['score'] >= $r['s_1_min'] && $r['score'] <= $r['s_1_max']){
                             $bgx='"style = "background-color:#2c5b29;"';
-                        }elseif ($r['score'] >= $r['s_2_min'] && $r['score'] <= $r['s_2_max']){
-                            $bgx='"style = "background-color:#50ca4e;"';
-                        }elseif ($r['score'] >= $r['s_3_min'] && $r['score'] <= $r['s_3_max']){
-                            $bgx='"style = "background-color:#edfd17;"';
                         }elseif ($r['score'] >= $r['s_4_min'] && $r['score'] <= $r['s_4_max']){
-                            $bgx='"style = "background-color:#f0ca0f;"';
+                            $bgx='"style = "background-color:#50ca4e;"';
+                        }elseif ($r['score'] >= $r['s_2_min'] && $r['score'] <= $r['s_2_max']){
+                            $bgx='"style = "background-color:#edfd17;"';
                         }elseif ($r['score'] >= $r['s_5_min'] && $r['score'] <= $r['s_5_max']){
+                            $bgx='"style = "background-color:#f0ca0f;"';
+                        }elseif ($r['score'] >= $r['s_3_min'] && $r['score'] <= $r['s_3_max']){
                             $bgx='"style = "background-color:#e70808;"';
                         }     
                         ?>

@@ -124,6 +124,7 @@ class MX_Controller
 		$table = $this->db->list_tables();
 		foreach ($table as $tbl){
 			$nama=strtoupper(str_replace($prefix, '_tbl_', $tbl));
+			
 			define($nama, $tbl);
 		}
 	}

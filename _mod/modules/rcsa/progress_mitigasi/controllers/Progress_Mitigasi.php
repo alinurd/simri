@@ -721,13 +721,13 @@ class Progress_Mitigasi extends MY_Controller {
 
 			$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#2c5b29" class="btn bg-successx-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian'),'isi'=>form_input('p_1', ($mit)?$mit['p_1']:'', 'class="form-control" '.$disabled.' id="p_1" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_1_min', ($mit)?$mit['s_1_min']:'', 'class="form-control text-center" '.$disabled.' id="s_1_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_1_max', ($mit)?$mit['s_1_max']:'', 'class="form-control text-center" '.$disabled.' id="s_1_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
 
-			$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#50ca4e;" class="btn bg-orangex-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_2'),'isi'=>form_input('p_2', ($mit)?$mit['p_2']:'', 'class="form-control" '.$disabled.' id="p_2" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_2_min', ($mit)?$mit['s_2_min']:'', 'class="form-control text-center" '.$disabled.' id="s_2_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_2_max', ($mit)?$mit['s_2_max']:'', 'class="form-control text-center" '.$disabled.' id="s_2_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
+			$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#50ca4e;" class="btn bg-orangex-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_4'),'isi'=>form_input('p_4', ($mit)?$mit['p_4']:'', 'class="form-control" '.$disabled.' id="p_4" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_4_min', ($mit)?$mit['s_4_min']:'', 'class="form-control text-center" '.$disabled.' id="s_4_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_4_max', ($mit)?$mit['s_4_max']:'', 'class="form-control text-center" '.$disabled.' id="s_4_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
 
-			$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#edfd17;" class="btn bg-dangerx-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_3'),'isi'=>form_input('p_3', ($mit)?$mit['p_3']:'', 'class="form-control" '.$disabled.' id="p_3" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_3_min', ($mit)?$mit['s_3_min']:'', 'class="form-control text-center" '.$disabled.' id="s_3_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_3_max', ($mit)?$mit['s_3_max']:'', 'class="form-control text-center" '.$disabled.' id="s_3_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
+			$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#edfd17;" class="btn bg-dangerx-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_2'),'isi'=>form_input('p_2', ($mit)?$mit['p_2']:'', 'class="form-control" '.$disabled.' id="p_2" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_2_min', ($mit)?$mit['s_2_min']:'', 'class="form-control text-center" '.$disabled.' id="s_2_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_2_max', ($mit)?$mit['s_2_max']:'', 'class="form-control text-center" '.$disabled.' id="s_2_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
 
-			$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#f0ca0f;" class="btn bg-dangerx-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_4'),'isi'=>form_input('p_4', ($mit)?$mit['p_4']:'', 'class="form-control" '.$disabled.' id="p_4" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_4_min', ($mit)?$mit['s_4_min']:'', 'class="form-control text-center" '.$disabled.' id="s_4_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_4_max', ($mit)?$mit['s_4_max']:'', 'class="form-control text-center" '.$disabled.' id="s_4_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
+			$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#f0ca0f;" class="btn bg-dangerx-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_5'),'isi'=>form_input('p_5', ($mit)?$mit['p_5']:'', 'class="form-control" '.$disabled.' id="p_5" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_5_min', ($mit)?$mit['s_5_min']:'', 'class="form-control text-center" '.$disabled.' id="s_5_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_5_max', ($mit)?$mit['s_5_max']:'', 'class="form-control text-center" '.$disabled.' id="s_5_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
 
-			$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#e70808" class="btn bg-dangerx-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_5'),'isi'=>form_input('p_5', ($mit)?$mit['p_5']:'', 'class="form-control" '.$disabled.' id="p_5" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_5_min', ($mit)?$mit['s_5_min']:'', 'class="form-control text-center" '.$disabled.' id="s_5_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_5_max', ($mit)?$mit['s_5_max']:'', 'class="form-control text-center" '.$disabled.' id="s_5_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
+			$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#e70808" class="btn bg-dangerx-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_3'),'isi'=>form_input('p_3', ($mit)?$mit['p_3']:'', 'class="form-control" '.$disabled.' id="p_3" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_3_min', ($mit)?$mit['s_3_min']:'', 'class="form-control text-center" '.$disabled.' id="s_3_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_3_max', ($mit)?$mit['s_3_max']:'', 'class="form-control text-center" '.$disabled.' id="s_3_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
 
 			$data['like'][] = ['title'=>_l('fld_score'),'help'=>_h('help_score'),'isi'=>'<div class="input-group" style="width:15%;text-align:center;">'.form_input('score', ($mit)?$mit['score']:'', 'class="form-control" id="score" placeholder="'._l('fld_score').'"').'</div>'];
 		}else{
@@ -769,18 +769,18 @@ class Progress_Mitigasi extends MY_Controller {
 						'p_1' => $value['p_1'],
 						's_1_min' => $value['s_1_min'],
 						's_1_max' => $value['s_1_max'],
-						'p_2' => $value['p_2'],
-						's_2_min' => $value['s_2_min'],
-						's_2_max' => $value['s_2_max'],
-						'p_3' => $value['p_3'],
-						's_3_min' => $value['s_3_min'],
-						's_3_max' => $value['s_3_max'],
 						'p_4' => $value['p_4'],
 						's_4_min' => $value['s_4_min'],
 						's_4_max' => $value['s_4_max'],
+						'p_2' => $value['p_2'],
+						's_2_min' => $value['s_2_min'],
+						's_2_max' => $value['s_2_max'],
 						'p_5' => $value['p_5'],
 						's_5_min' => $value['s_5_min'],
 						's_5_max' => $value['s_5_max'],
+						'p_3' => $value['p_3'],
+						's_3_min' => $value['s_3_min'],
+						's_3_max' => $value['s_3_max'],
 						'score' => $value['score'],
 					];
 					$this->data->post=$dataKpi;
@@ -800,18 +800,18 @@ class Progress_Mitigasi extends MY_Controller {
 							'p_1' => $v['p_1'],
 							's_1_min' => $v['s_1_min'],
 							's_1_max' => $v['s_1_max'],
-							'p_2' => $v['p_2'],
-							's_2_min' => $v['s_2_min'],
-							's_2_max' => $v['s_2_max'],
-							'p_3' => $v['p_3'],
-							's_3_min' => $v['s_3_min'],
-							's_3_max' => $v['s_3_max'],
 							'p_4' => $v['p_4'],
 							's_4_min' => $v['s_4_min'],
 							's_4_max' => $v['s_4_max'],
+							'p_2' => $v['p_2'],
+							's_2_min' => $v['s_2_min'],
+							's_2_max' => $v['s_2_max'],
 							'p_5' => $v['p_5'],
 							's_5_min' => $v['s_5_min'],
 							's_5_max' => $v['s_5_max'],
+							'p_3' => $v['p_3'],
+							's_3_min' => $v['s_3_min'],
+							's_3_max' => $v['s_3_max'],
 							'score' => $v['score'],
 						];
 						$this->data->post=$dataKri;
@@ -834,18 +834,18 @@ class Progress_Mitigasi extends MY_Controller {
 									'p_1' => 0,
 									's_1_min' => 0,
 									's_1_max' => 0,
-									'p_2' => 0,
-									's_2_min' => 0,
-									's_2_max' => 0,
-									'p_3' => 0,
-									's_3_min' => 0,
-									's_3_max' => 0,
 									'p_4' => 0,
 									's_4_min' => 0,
 									's_4_max' => 0,
+									'p_2' => 0,
+									's_2_min' => 0,
+									's_2_max' => 0,
 									'p_5' => 0,
 									's_5_min' => 0,
 									's_5_max' => 0,
+									'p_3' => 0,
+									's_3_min' => 0,
+									's_3_max' => 0,
 									'score' => 0,
 								];
 								$this->data->post=$dataKpi;
@@ -867,18 +867,18 @@ class Progress_Mitigasi extends MY_Controller {
 											'p_1' => 0,
 											's_1_min' => 0,
 											's_1_max' => 0,
-											'p_2' => 0,
-											's_2_min' => 0,
-											's_2_max' => 0,
-											'p_3' => 0,
-											's_3_min' => 0,
-											's_3_max' => 0,
 											'p_4' => 0,
 											's_4_min' => 0,
 											's_4_max' => 0,
+											'p_2' => 0,
+											's_2_min' => 0,
+											's_2_max' => 0,
 											'p_5' => 0,
 											's_5_min' => 0,
 											's_5_max' => 0,
+											'p_3' => 0,
+											's_3_min' => 0,
+											's_3_max' => 0,
 											'score' => 0,
 										];
 										$this->data->post=$dataKri;
@@ -955,13 +955,13 @@ class Progress_Mitigasi extends MY_Controller {
 		$data['like'][] = ['title'=>_l('fld_satuan'),'help'=>_h('help_satuan'),'isi'=>form_dropdown('satuan_id', $this->cboSatuan, ($mit)?$mit['satuan_id']:'', 'class="form-control select" '.$disabled.' id="satuan_id"')];
 		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#2c5b29" class="btn bg-successx-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian'),'isi'=>form_input('p_1', ($mit)?$mit['p_1']:'', 'class="form-control" '.$disabled.' id="p_1" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_1_min', ($mit)?$mit['s_1_min']:'', 'class="form-control text-center" '.$disabled.' id="s_1_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_1_max', ($mit)?$mit['s_1_max']:'', 'class="form-control text-center" '.$disabled.' id="s_1_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
 
-		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#50ca4e;" class="btn bg-orangex-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_2'),'isi'=>form_input('p_2', ($mit)?$mit['p_2']:'', 'class="form-control" '.$disabled.' id="p_2" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_2_min', ($mit)?$mit['s_2_min']:'', 'class="form-control text-center" '.$disabled.' id="s_2_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_2_max', ($mit)?$mit['s_2_max']:'', 'class="form-control text-center" '.$disabled.' id="s_2_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
+		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#50ca4e;" class="btn bg-orangex-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_4'),'isi'=>form_input('p_4', ($mit)?$mit['p_4']:'', 'class="form-control" '.$disabled.' id="p_4" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_4_min', ($mit)?$mit['s_4_min']:'', 'class="form-control text-center" '.$disabled.' id="s_4_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_4_max', ($mit)?$mit['s_4_max']:'', 'class="form-control text-center" '.$disabled.' id="s_4_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
 
-		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#edfd17;" class="btn bg-dangers-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_3'),'isi'=>form_input('p_3', ($mit)?$mit['p_3']:'', 'class="form-control" '.$disabled.' id="p_3" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_3_min', ($mit)?$mit['s_3_min']:'', 'class="form-control text-center" '.$disabled.' id="s_3_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_3_max', ($mit)?$mit['s_3_max']:'', 'class="form-control text-center" '.$disabled.' id="s_3_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
+		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#edfd17;" class="btn bg-dangers-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_2'),'isi'=>form_input('p_2', ($mit)?$mit['p_2']:'', 'class="form-control" '.$disabled.' id="p_2" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_2_min', ($mit)?$mit['s_2_min']:'', 'class="form-control text-center" '.$disabled.' id="s_2_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_2_max', ($mit)?$mit['s_2_max']:'', 'class="form-control text-center" '.$disabled.' id="s_2_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
 
-		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#f0ca0f;" class="btn bg-dangers-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_4'),'isi'=>form_input('p_4', ($mit)?$mit['p_4']:'', 'class="form-control" '.$disabled.' id="p_4" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_4_min', ($mit)?$mit['s_4_min']:'', 'class="form-control text-center" '.$disabled.' id="s_4_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_4_max', ($mit)?$mit['s_4_max']:'', 'class="form-control text-center" '.$disabled.' id="s_4_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
+		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#f0ca0f;" class="btn bg-dangers-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_5'),'isi'=>form_input('p_5', ($mit)?$mit['p_5']:'', 'class="form-control" '.$disabled.' id="p_5" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_5_min', ($mit)?$mit['s_5_min']:'', 'class="form-control text-center" '.$disabled.' id="s_5_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_5_max', ($mit)?$mit['s_5_max']:'', 'class="form-control text-center" '.$disabled.' id="s_5_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
 
-		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#e70808" class="btn bg-dangers-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_5'),'isi'=>form_input('p_5', ($mit)?$mit['p_5']:'', 'class="form-control" '.$disabled.' id="p_5" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_5_min', ($mit)?$mit['s_5_min']:'', 'class="form-control text-center" '.$disabled.' id="s_5_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_5_max', ($mit)?$mit['s_5_max']:'', 'class="form-control text-center" '.$disabled.' id="s_5_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
+		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#e70808" class="btn bg-dangers-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_3'),'isi'=>form_input('p_3', ($mit)?$mit['p_3']:'', 'class="form-control" '.$disabled.' id="p_3" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_3_min', ($mit)?$mit['s_3_min']:'', 'class="form-control text-center" '.$disabled.' id="s_3_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_3_max', ($mit)?$mit['s_3_max']:'', 'class="form-control text-center" '.$disabled.' id="s_3_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
 
 		$data['like'][] = ['title'=>_l('fld_score'),'help'=>_h('help_score'),'isi'=>'<div class="input-group" style="width:15%;text-align:center;">'.form_input('score', ($mit)?$mit['score']:'', 'class="form-control" id="score" placeholder="'._l('fld_score').'"').'</div>'];
 

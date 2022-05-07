@@ -359,7 +359,9 @@ class MY_Controller extends MX_Controller {
 			// dumps($this->canTmp);
 		$this->can = array_merge($this->can, $this->canTmp);
 		// die($this->router->fetch_module());
-		// dump($this->router->fetch_module())
+		// !$this->can['read'] true
+		// dumps($method_cek);
+		// die();
 			// !$this->configuration['user']['is_admin']
 		if (!$this->can['read']  &&  $this->router->fetch_module()!=='errorpage' && !in_array($this->router->fetch_module(), $this->free_modul)  && (!$this->ion_auth->is_admin()) ){
 			header('location:'.base_url('access-denied'));
