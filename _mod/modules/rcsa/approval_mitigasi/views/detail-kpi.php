@@ -56,7 +56,7 @@ Sasaran Departemen :
               
 
                 $int=intval($row['indikator']);
-                if ($int<1 || $int>3){
+                if ($int<1 || $int>5){
                     $int=1;
                 }
                 
@@ -125,7 +125,7 @@ Sasaran Departemen :
                     
 
                     $int=intval($row_det['indikator']);
-                    if ($int<1 || $int>3){
+                    if ($int<1 || $int>5){
                         $int=1;
                     }
                     // dumps($row_det);
