@@ -29,10 +29,10 @@
             <td><?=++$no;?></td>
             <td><?=$row['title'];?></td>
             <td><?=$row['satuan'];?></td>
-            <td><?=$row['p_5'].' ['.$row['s_5_min'].' &#8805; '.$row['s_5_max'].']';?></td>
-            <td><?=$row['p_4'].' ['.$row['s_4_min'].' &#8805; '.$row['s_4_max'].']';?></td>
             <td><?=$row['p_3'].' ['.$row['s_3_min'].' &#8805; '.$row['s_3_max'].']';?></td>
+            <td><?=$row['p_5'].' ['.$row['s_5_min'].' &#8805; '.$row['s_5_max'].']';?></td>
             <td><?=$row['p_2'].' ['.$row['s_2_min'].' &#8805; '.$row['s_2_max'].']';?></td>
+            <td><?=$row['p_4'].' ['.$row['s_4_min'].' &#8805; '.$row['s_4_max'].']';?></td>
             <td><?=$row['p_1'].' ['.$row['s_1_min'].' &#8805; '.$row['s_1_max'].']';?></td>
         </tr>
             <?php
@@ -44,10 +44,10 @@
                 <td>&nbsp;</td>
                 <td><?=$huruf.'. '.$row_det['title'];?></td>
                 <td><?=$row_det['satuan'];?></td>
-                <td><?=$row_det['p_5'].' ['.$row_det['s_5_min'].' &#8805; '.$row_det['s_5_max'].']';?></td>
-                <td><?=$row_det['p_4'].' ['.$row_det['s_4_min'].' &#8805; '.$row_det['s_4_max'].']';?></td>
                 <td><?=$row_det['p_3'].' ['.$row_det['s_3_min'].' &#8805; '.$row_det['s_3_max'].']';?></td>
+                <td><?=$row_det['p_5'].' ['.$row_det['s_5_min'].' &#8805; '.$row_det['s_5_max'].']';?></td>
                 <td><?=$row_det['p_2'].' ['.$row_det['s_2_min'].' &#8805; '.$row_det['s_2_max'].']';?></td>
+                <td><?=$row_det['p_4'].' ['.$row_det['s_4_min'].' &#8805; '.$row_det['s_4_max'].']';?></td>
                 <td><?=$row_det['p_1'].' ['.$row_det['s_1_min'].' &#8805; '.$row_det['s_1_max'].']';?></td>
             
                 </tr>

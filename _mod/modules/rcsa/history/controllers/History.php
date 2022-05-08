@@ -1256,13 +1256,16 @@ class History extends MY_Controller {
 	function indikator_like_add(){
 		$post=$this->input->post();
 		$data['param']=$post;
-		$this->cboKri=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'kri')->combo_where('param_int', 1)->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		// $kpi = ($post['id_kpi'])?$post['id_kpi']:'1=1';
+		$this->cboKri=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'kri')->combo_where('param_int', 1)->combo_where('param_other_int', $post['id_kpi'])->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+
+	
 		$this->cboSatuan=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'satuan')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 
 		$rows=$this->db->where('rcsa_detail_id', intval($post['rcsa_detail_no']))->get(_TBL_VIEW_RCSA_DET_LIKE_INDI)->result_array();
 		$mak=100;
 		foreach($rows as $row){
-			$mak-=floatval($row['pembobotan']);
+			$mak+=floatval($row['pembobotan']);
 		}
 		$mit=$this->db->where('id', intval($post['id']))->get(_TBL_VIEW_RCSA_DET_LIKE_INDI)->row_array();
 		if($mit){
@@ -1277,19 +1280,27 @@ class History extends MY_Controller {
 				-
 			</button>';
 
-		$pembobotan .= form_input(array('type'=>'number','name'=>'pembobotan'), ($mit)?$mit['pembobotan']:''," class='form-control touchspin-postfix text-center'  ".$disabled." max='".$mak."' min='1' step='1' style='15' id='pembobotan' ");
+		$pembobotan .= form_input(array('type'=>'number','name'=>'pembobotan'), ($mit)?$mit['pembobotan']:''," class='form-control touchspin-postfix text-center'  ".$disabled." max='".$mak."' min='".($mak*-1)."' step='1' id='pembobotan' ");
 
 		$pembobotan .= '<button type="button" onclick="this.parentNode.querySelector(\'[type=number]\').stepUp();">
 				+
 			</button>
 			</div>';
-
+		// inputan likelihod view
 		$data['like'][] = ['title'=>_l('fld_kri'),'help'=>_h('help_kri'), 'add'=>false,'isi'=>form_dropdown('kri_id', $this->cboKri, ($mit)?$mit['kri_id']:'', 'class="form-control select" '.$disabled.' id="kri_id"')];
 		$data['like'][] = ['title'=>_l('fld_pembobotan'),'help'=>_h('help_pembobotan'),'isi'=>$pembobotan];
 		$data['like'][] = ['title'=>_l('fld_satuan'),'help'=>_h('help_satuan'),'isi'=>form_dropdown('satuan_id', $this->cboSatuan, ($mit)?$mit['satuan_id']:'', 'class="form-control select" '.$disabled.' id="satuan_id"')];
-		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;" class="btn bg-success-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian'),'isi'=>form_input('p_1', ($mit)?$mit['p_1']:'', 'class="form-control" '.$disabled.' id="p_1" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_1_min', ($mit)?$mit['s_1_min']:'', 'class="form-control text-center" '.$disabled.' id="s_1_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_1_max', ($mit)?$mit['s_1_max']:'', 'class="form-control text-center" '.$disabled.' id="s_1_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
-		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;" class="btn bg-orange-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_2'),'isi'=>form_input('p_2', ($mit)?$mit['p_2']:'', 'class="form-control" '.$disabled.' id="p_2" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_2_min', ($mit)?$mit['s_2_min']:'', 'class="form-control text-center" '.$disabled.' id="s_2_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_2_max', ($mit)?$mit['s_2_max']:'', 'class="form-control text-center" '.$disabled.' id="s_2_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
-		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;" class="btn bg-danger-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_3'),'isi'=>form_input('p_3', ($mit)?$mit['p_3']:'', 'class="form-control" '.$disabled.' id="p_3" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_3_min', ($mit)?$mit['s_3_min']:'', 'class="form-control text-center" '.$disabled.' id="s_3_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_3_max', ($mit)?$mit['s_3_max']:'', 'class="form-control text-center" '.$disabled.' id="s_3_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
+
+		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#2c5b29" class="btn bg-successx-400 rounded-round btn-icon btn-sm" ><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian'),'isi'=>form_input('p_1', ($mit)?$mit['p_1']:'', 'class="form-control" '.$disabled.' id="p_1" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_1_min', ($mit)?$mit['s_1_min']:'', 'class="form-control text-center" '.$disabled.' id="s_1_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_1_max', ($mit)?$mit['s_1_max']:'', 'class="form-control text-center" '.$disabled.' id="s_1_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
+
+		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#50ca4e;" class="btn bg-orangex-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_4'),'isi'=>form_input('p_4', ($mit)?$mit['p_4']:'', 'class="form-control" '.$disabled.' id="p_4" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_4_min', ($mit)?$mit['s_4_min']:'', 'class="form-control text-center" '.$disabled.' id="s_4_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_4_max', ($mit)?$mit['s_4_max']:'', 'class="form-control text-center" '.$disabled.' id="s_4_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
+
+		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#edfd17;" class="btn bg-dangerx-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_2'),'isi'=>form_input('p_2', ($mit)?$mit['p_2']:'', 'class="form-control" '.$disabled.' id="p_2" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_2_min', ($mit)?$mit['s_2_min']:'', 'class="form-control text-center" '.$disabled.' id="s_2_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_2_max', ($mit)?$mit['s_2_max']:'', 'class="form-control text-center" '.$disabled.' id="s_2_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
+
+		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#f0ca0f;" class="btn bg-dangers-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_5'),'isi'=>form_input('p_5', ($mit)?$mit['p_5']:'', 'class="form-control" '.$disabled.' id="p_5" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_5_min', ($mit)?$mit['s_5_min']:'', 'class="form-control text-center" '.$disabled.' id="s_5_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_5_max', ($mit)?$mit['s_5_max']:'', 'class="form-control text-center" '.$disabled.' id="s_5_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
+
+		$data['like'][] = ['title'=>'<a style="height:1.4rem;width:1.4rem;background-color:#e70808" class="btn bg-dangers-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>','help'=>_h('help_pencapaian_3'),'isi'=>form_input('p_3', ($mit)?$mit['p_3']:'', 'class="form-control" '.$disabled.' id="p_3" placeholder="'._l('fld_pencapaian').'" style="width:50%"').'&nbsp;&nbsp;&nbsp;'.form_input('s_3_min', ($mit)?$mit['s_3_min']:'', 'class="form-control text-center" '.$disabled.' id="s_3_min" placeholder="'._l('fld_min_satuan').'" style="width:10%"').'&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;'.form_input('s_3_max', ($mit)?$mit['s_3_max']:'', 'class="form-control text-center" '.$disabled.' id="s_3_max" placeholder="'._l('fld_mak_satuan').'" style="width:10%"').' <span class="input-group-text"> Satuan </span> '];
+
 		$data['like'][] = ['title'=>_l('fld_score'),'help'=>_h('help_score'),'isi'=>'<div class="input-group" style="width:15%;text-align:center;">'.form_input('score', ($mit)?$mit['score']:'', 'class="form-control" id="score" placeholder="'._l('fld_score').'"').'</div>'];
 
 		$result['combo'] = $this->load->view('input-indikator-like', $data, true);
@@ -1384,9 +1395,9 @@ class History extends MY_Controller {
 		$fields['mitigasi'] = ['mitigasi', 'batas_waktu', 'biaya', 'penanggung_jawab_id', 'koordinator_id', 'status_jangka'];
 		$fields['mitigasi_detail'] =['aktifitas_mitigasi', 'batas_waktu_detail', 'penanggung_jawab_detail_id', 'koordinator_detail_id', 'target', 'aktual'];
 		$fields['dampak_indi'] =['bk_tipe', 'kri_id'];
-		$fields['like_indi'] =['bk_tipe', 'kri_id', 'satuan_id', 'pembobotan', 'p_1', 's_1_min', 's_1_max', 'p_2', 's_2_min', 's_2_max', 'p_3', 's_3_min', 's_3_max', 'score', 'param'];
+		$fields['like_indi'] =['bk_tipe', 'kri_id', 'satuan_id', 'pembobotan', 'p_1', 's_1_min', 's_1_max', 'p_4', 's_4_min', 's_4_max', 'p_2', 's_2_min', 's_2_max', 'p_5', 's_5_min', 's_5_max', 'p_3', 's_3_min', 's_3_max', 'score', 'param'];
 
-		$rows = $this->db->where('parent_id', $post['id'])->where('period_id', $post['periode'])->where('term_id', $post['term'])->get(_TBL_RCSA)->row_array();
+		$rows = $this->db->where('parent_id', $post['id'])->where('period_id', $post['periode'])->where('term_id', $post['term'])->where('minggu_id', $post['minggu'])->get(_TBL_RCSA)->row_array();
         if ($rows) {
             $data['pesan'] = "Data Periode : " . $row['period_name'] . ' kwartal : ' . $row['term'] . ' sudah ada dalam database';
             $data['sts'] = false;
@@ -1403,6 +1414,7 @@ class History extends MY_Controller {
 				$this->crud->crud_field('parent_id', $post['id']);
 				$this->crud->crud_field('period_id', $post['periode']);
 				$this->crud->crud_field('term_id', $post['term']);
+				$this->crud->crud_field('minggu_id', $post['minggu']);
 				$this->crud->process_crud();
 				$rcsa_id = $this->crud->last_id();
 				
