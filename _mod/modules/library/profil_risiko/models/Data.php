@@ -11,7 +11,7 @@ class Data extends MX_Model {
 		$this->nm_tbl="profil_risiko";
 	}
 
-	function checklist($owner=0)
+	function checklist($owner=0, $period=0)
 	{
 		$checklist = [];
 		// if ($period!=0) {
@@ -23,13 +23,18 @@ class Data extends MX_Model {
 
 		// if ($owner!=0) {
 			$this->db->where('owner_id', $owner);
+			if ($period!=0) {
+				$this->db->where('period_id', $period);
+			}
 		// }
 
-		$check = $this->db->select("rcsa_detail_id")
-		->get($this->nm_tbl)->result();
+		$check = $this->db->select("rcsa_detail_id, kode_risiko_dept, kode_aktifitas, kode_dept, period_id")
+		->get($this->nm_tbl)->result_array();
 		
 		foreach ($check as $key => $value) {
-			$checklist[] = $value->rcsa_detail_id;
+			// $urut=str_pad($value['kode_risiko_dept'],3,0,STR_PAD_LEFT );
+			$kode = $value['kode_dept'].'-'.$value['kode_aktifitas'].'-'.$value['kode_risiko_dept'].'-'.$value['period_id'];
+			$checklist[] = $kode;
 		}
 		
 		return $checklist;
@@ -313,8 +318,54 @@ class Data extends MX_Model {
 		$jml=$this->db->affected_rows();
 		return $jml;
 	}
+	
+	function simpan_data($data, $owner, $ori){
+		$del = array_diff($ori, $data);
 
-	function simpan_data($data, $owner){
+		if(count($del)>0){
+			foreach ($del as $key => $value) {
+				$kodeX = explode('-',$value);
+
+				$this->db->where('kode_dept', $kodeX[0]);
+				$this->db->where('kode_aktifitas', $kodeX[1]);
+				$this->db->where('kode_risiko_dept', $kodeX[2]);
+				$this->db->where('period_id', $kodeX[3]);
+				$this->db->where('owner_id', $owner);
+				$this->db->delete($this->nm_tbl);
+					
+			}
+		}
+
+		$newdata = [];
+		foreach ($data as $key => $value) {
+			$kodeX = explode('-',$value);
+			// $old = $this->checklist($owner, $kodeX[3]);
+
+			$this->db->where('kode_dept', $kodeX[0]);
+			$this->db->where('kode_aktifitas', $kodeX[1]);
+			$this->db->where('kode_risiko_dept', $kodeX[2]);
+			$this->db->where('period_id', $kodeX[3]);
+			$this->db->where('owner_id', $owner);
+			$cek = $this->db->get($this->nm_tbl)->row_array();
+		
+			if ($cek == null) {
+				$newdata[] = [
+					'kode_dept' => $kodeX[0],
+					'kode_aktifitas' => $kodeX[1],
+					'kode_risiko_dept' => $kodeX[2],
+					'period_id' => $kodeX[3],
+					'owner_id' => $owner,
+				];
+			}
+		}
+
+		if (count($newdata)) {
+			$this->db->insert_batch($this->nm_tbl,$newdata);
+		}
+
+	}
+
+	function simpan_datax($data, $owner){
 		// $this->db->empty_table('profil_risiko');
 		$old = $this->checklist($owner);
 		
@@ -326,26 +377,58 @@ class Data extends MX_Model {
 				$del[] = $value;
 			}
 		}
-
+		// dumps($old);
+		// dumps($del);
+		// die();
 		foreach ($data as $key => $value) {
 			if (!in_array($value, $old)) {
 				$new[] = $value;
 			}
 		}
+		
 		if(count($del)>0){
-			$this->db->where_in('rcsa_detail_id', $del);
-			$this->db->where('owner_id', $owner);
-			$this->db->delete($this->nm_tbl);
+			foreach ($del as $key => $value) {
+				$kodeX = explode('-',$value);
+
+				$this->db->where('period_id', $kodeX[3]);
+				$this->db->where('owner_id', $owner);
+				$cek = $this->db->get($this->nm_tbl)->result_array();
+
+				if (count($cek)>0) {
+					foreach ($cek as $key => $value) {
+						$this->db->where('kode_dept', $value['kode_dept']);
+						$this->db->where('kode_aktifitas', $value['kode_aktifitas']);
+						$this->db->where('kode_risiko_dept', $value['kode_risiko_dept']);
+						$this->db->where('period_id', $value['period_id']);
+						$this->db->where('owner_id', $owner);
+						$this->db->delete($this->nm_tbl);
+					}
+				}
+			}
 		}
 
 		if(count($new)>0){
 			foreach ($new as $key => $value) {
-				$newdata[] = [
-					'rcsa_detail_id' => $value,
-					'owner_id' => $owner,
-				];
+				$kodeX = explode('-',$value);
+
+				$this->db->where('kode_dept', $kodeX[0]);
+				$this->db->where('kode_aktifitas', $kodeX[1]);
+				$this->db->where('kode_risiko_dept', $kodeX[2]);
+				$this->db->where('period_id', $kodeX[3]);
+				$this->db->where('owner_id', $owner);
+				$cek = $this->db->get($this->nm_tbl)->row_array();
+			
+				if ($cek == null) {
+					$newdata[] = [
+						'kode_dept' => $kodeX[0],
+						'kode_aktifitas' => $kodeX[1],
+						'kode_risiko_dept' => $kodeX[2],
+						'period_id' => $kodeX[3],
+						'owner_id' => $owner,
+					];
+				}
 			}
-		
+			
 			$this->db->insert_batch($this->nm_tbl,$newdata);
 		}
 

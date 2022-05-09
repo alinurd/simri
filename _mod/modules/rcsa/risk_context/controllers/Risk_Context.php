@@ -43,7 +43,7 @@ class Risk_Context extends MY_Controller {
 			$this->addField(['field'=>'alat_metode_id', 'title'=>'Alat & Metode', 'type'=>'string','input'=>'combo', 'multiselect'=>true, 'search'=>false, 'values'=>$this->alat]);
 			$this->addField(['field'=>'period_id', 'title'=>'Period', 'type'=>'int', 'required'=>true,'input'=>'combo', 'search'=>true, 'values'=>$this->period]);
 			$this->addField(['field'=>'term_id', 'title'=>'Term', 'type'=>'int', 'required'=>true,'input'=>'combo', 'search'=>true, 'values'=>[]]);
-			$this->addField(['field'=>'minggu_id', 'title'=>'Bulan', 'type'=>'int', 'required'=>false,'input'=>'combo', 'search'=>true, 'values'=>[]]);
+			$this->addField(['field'=>'minggu_id', 'title'=>'Bulan', 'type'=>'int', 'required'=>true,'input'=>'combo', 'search'=>true, 'values'=>[]]);
 			// $this->addField(['field'=>'active', 'input'=>'boolean', 'size'=>20]);
 			$this->addField(['field'=>'term', 'show'=>false]);
 			$this->addField(['field'=>'kode_dept', 'show'=>false]);
