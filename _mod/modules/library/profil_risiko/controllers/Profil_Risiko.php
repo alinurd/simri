@@ -94,7 +94,7 @@ class Profil_Risiko extends MY_Controller {
 
 		$configuration = [
 			'show_title_header' => false,
-			'show_list_header' => false,
+			'show_list_header' => true,
 			'content_title' => 'Profil Risiko List'.form_hidden(['is_admin'=>$this->super_user, 'owner'=>$this->ownerx])
 		];
 		return [
@@ -122,7 +122,7 @@ class Profil_Risiko extends MY_Controller {
 
 	}
 
-	function setContentHeaderx($mode=''){
+	function setContentHeader($mode=''){
 		$data['period'] = $this->period;
 		$data['term'] = [];
 		$content=$this->load->view('header', $data, true);
