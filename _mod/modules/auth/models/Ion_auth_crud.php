@@ -138,6 +138,11 @@ class Ion_auth_crud extends MX_Model
 			$this->db->where($this->cParamsModul['primary']['tbl'].'.'.$this->cParamsModul['primary']['id'], $this->cId);
 		}
 
+		if (array_key_exists("group",$this->cParamsModul)){
+			foreach($this->cParamsModul['group'] as $grp){
+				$this->db->group_by($grp['tbl'].'.'.$grp['id']);
+			}
+		}
 		
 		if (array_key_exists("where",$this->cParamsModul)){
 			foreach($this->cParamsModul['where'] as $whr)
@@ -209,7 +214,8 @@ class Ion_auth_crud extends MX_Model
 	function getAllData(){
 		$rows = $this->cResultRows->result_array();
 		$this->last_query=$this->db->last_query();
-		
+		// Doi::dump($this->last_query);
+		// die();
 		$this->session->set_userdata('list_data_all', $rows);
 		return  $rows;
 	}

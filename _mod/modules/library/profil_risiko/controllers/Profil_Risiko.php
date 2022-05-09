@@ -9,21 +9,21 @@ class Profil_Risiko extends MY_Controller {
 	var $sts_cetak=false;
 	var $super_user=0;
 	var $ownerx=0;
+	var $ori=[];
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->library('map');
 		$this->load->language('risk_context');
-
-		
-		
 	}
 
 	function init($action='list'){
+
 		$this->cbo_owner = $this->get_combo_parent_dept();
 		$this->period=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'period')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		$this->term=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'term')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		$this->minggu=$this->crud->combo_select(['id', 'concat(param_string) as minggu'])->combo_where('kelompok', 'minggu')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 
 		
 		$this->set_Tbl_Master(_TBL_VIEW_RCSA_DETAIL);
@@ -31,6 +31,10 @@ class Profil_Risiko extends MY_Controller {
 		$this->addField(array('field'=>'id', 'type'=>'int', 'show'=>false, 'size'=>4));
 		$this->addField(array('field'=>'rcsa_id', 'type'=>'int', 'show'=>false, 'size'=>4));
 		$this->addField(['field'=>'risiko_dept', 'show'=>false]);
+		$this->addField(['field'=>'kode_risk', 'show'=>false]);
+		$this->addField(['field'=>'kode_risiko_dept', 'show'=>false]);
+		$this->addField(['field'=>'kode_aktifitas', 'show'=>false]);
+		$this->addField(['field'=>'kode_dept', 'show'=>false]);
 		$this->addField(['field'=>'klasifikasi_risiko', 'show'=>false]);
 		$this->addField(['field'=>'tipe_risiko', 'show'=>false]);
 		$this->addField(['field'=>'owner_name', 'show'=>false]);
@@ -63,11 +67,15 @@ class Profil_Risiko extends MY_Controller {
 		$this->set_Field_Primary($this->tbl_master, 'id');
 
 		$this->set_Sort_Table($this->tbl_master,'created_at', 'desc');
+		$this->set_Group_Table($this->tbl_master,'kode_risk');
+		$this->set_Group_Table($this->tbl_master,'period_id');
+
 
 		$this->set_Table_List($this->tbl_master,'id', '<input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;">','0%','left','no-sort');
+		$this->set_Table_List($this->tbl_master,'kode_risk', 'Kode Risiko');
 		$this->set_Table_List($this->tbl_master,'owner_name', 'Owner');
 		$this->set_Table_List($this->tbl_master,'period_id', 'Periode');
-		$this->set_Table_List($this->tbl_master,'term_id', 'Triwulan');
+		// $this->set_Table_List($this->tbl_master,'term_id', 'Triwulan');
 		$this->set_Table_List($this->tbl_master,'risiko_dept', 'Risiko Dept.');
 		$this->set_Table_List($this->tbl_master,'klasifikasi_risiko', 'Klasifikasi');
 		$this->set_Table_List($this->tbl_master,'like_code', 'Risiko Inheren');
@@ -82,6 +90,8 @@ class Profil_Risiko extends MY_Controller {
 		$this->set_Close_Setting();
 		$this->super_user = intval($this->_data_user_['is_admin']);
 		$this->ownerx = intval(($this->super_user==0)?$this->_data_user_['owner_id']:0);
+		$this->ori = [];
+
 		$configuration = [
 			'show_title_header' => false,
 			'show_list_header' => false,
@@ -90,6 +100,26 @@ class Profil_Risiko extends MY_Controller {
 		return [
 			'configuration'	=> $configuration
 		];
+	}
+
+	public function MASTER_DATA_LISTX($arrId, $rows)
+    {
+
+		// $this->ori=[];
+		
+		foreach ($rows as $row){
+			
+			$this->super_user = intval($this->_data_user_['is_admin']);
+			$this->ownerx = intval(($this->super_user==0)?$this->_data_user_['owner_id']:0);
+			$check = $this->data->checklist($this->ownerx, $row['period_id']);
+
+			$kode = $row['kode_dept'].'-'.$row['kode_aktifitas'].'-'.$row['kode_risiko_dept'].'-'.$row['period_id'];
+			if (in_array($kode, $check)) {
+				$this->ori[] = $kode;
+			}
+		}
+		// Doi::dump($this->ori);
+
 	}
 
 	function setContentHeaderx($mode=''){
@@ -108,6 +138,28 @@ class Profil_Risiko extends MY_Controller {
 		}
 		$content = $this->set_box_input($field, $value);
 		return $content;
+	}
+
+	function inputBox_MINGGU_ID($mode, $field, $rows, $value){
+		if ($mode=='edit'){
+			$id=0;
+			if (isset($rows['term_id']))
+				$id=$rows['term_id'];
+
+			$field['values']=$this->data->get_data_minggu($id);
+			
+			// $field['values'] = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'minggu')->combo_where('pid', $id)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		}
+		// dumps($field['values']);
+		// die();
+		$content = $this->set_box_input($field, $value);
+		return $content;
+	}
+	
+	function listBox_KODE_RISIKO_DEPTX($field, $rows, $value){
+		$urut=str_pad($value,3,0,STR_PAD_LEFT );
+
+		return $rows['kode_dept'].'-'.$rows['kode_aktifitas'].' - '.$urut;
 	}
 	
 	function listBox_TERM_ID($field, $rows, $value){
@@ -154,17 +206,20 @@ class Profil_Risiko extends MY_Controller {
 		
 		// if ($period>0 && $term>0) {
 		// if ($this->super_user==0) {
-			$check = $this->data->checklist($this->ownerx);
+			$check = $this->data->checklist($this->ownerx, $rows['period_id']);
 			// dumps($check);
 			// die();
 		// }
-	
-		$select = (in_array($rows['id'], $check))?'checked':'';
-		$a='<div class="text-center"  style="padding:0px 20px 20px 0px;"><input type="checkbox" class="form-check-input pointer text-center" name="chk_list[]" style="padding:0;margin:0;" value="'.$rows['id'].'" '.$select.'/></div>';
+		$urut=str_pad($rows['kode_risiko_dept'],3,0,STR_PAD_LEFT );
+		$kode = $rows['kode_dept'].'-'.$rows['kode_aktifitas'].'-'.$rows['kode_risiko_dept'].'-'.$rows['period_id'];
+
+		$select = (in_array($kode, $check))?'checked':'';
+		$a='<div class="text-center"  style="padding:0px 20px 20px 0px;"><input type="checkbox" class="form-check-input pointer text-center" name="chk_list[]" style="padding:0;margin:0;" value="'.$kode.'" data-dept="'.$rows['kode_dept'].'" data-aktifitas="'.$rows['kode_aktifitas'].'" data-risiko="'.$rows['kode_risiko_dept'].'" data-period="'.$rows['period_id'].'" '.$select.'/></div>';
 		return $a;
 	}
 
 	function optionalButton($button, $mode){
+	
 		if ($mode=='list'){
 			unset($button['delete']);
 			unset($button['print']);
@@ -177,6 +232,7 @@ class Profil_Risiko extends MY_Controller {
 				'id'=>'btn_save_modul',
 				'name'=>'Save',
 				'value'=>'Simpan',
+				'attr'=>'data-ori="ok"',
 				'type'=>'submit',
 				'round'=>($this->configuration['round_button'])?'rounded-round':'',
 				'icon' =>'icon-floppy-disk',
@@ -794,11 +850,12 @@ class Profil_Risiko extends MY_Controller {
 
 	function save_modul(){
 		$post=explode(",",$this->input->post('id'));
+		$ori=explode(",",$this->input->post('dtori'));
 		// $period=$this->input->post('period');
 		// $term=$this->input->post('term');
 		$is_admin=$this->input->post('is_admin');
 		$owner=$this->input->post('owner');
-		$result = $this->data->simpan_data($post, $owner);
+		$result = $this->data->simpan_data($post, $owner, $ori);
 	
 		echo json_encode($result);
 	}

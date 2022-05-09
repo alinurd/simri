@@ -570,6 +570,10 @@ class MY_Controller extends MX_Controller {
 		$this->tmp_data['sort'][]=array('tbl'=>$nmtbl, 'id'=>$field, 'type'=>$type);
 	}
 
+	function set_Group_Table($nmtbl, $field){
+		$this->tmp_data['group'][]=array('tbl'=>$nmtbl, 'id'=>$field);
+	}
+
 	function set_Where_Table($param=[]){
 		if (!array_key_exists('tbl', $param)){
 			$param['tbl']=$this->tmp_data['primary']['tbl'];
@@ -1842,7 +1846,8 @@ class MY_Controller extends MX_Controller {
 		$this->crud->cPost=$this->post;
 		$this->crud->getQuery();
 		$rows = $this->crud->getAllData();
-		
+		// Doi::dump($rows);
+		// die();
 		$this->crud->iStsLimit=false;
 		$this->crud->getQuery();
 		$countRowNoLimit = $this->crud->getCountData();

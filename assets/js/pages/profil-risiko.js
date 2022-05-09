@@ -4,22 +4,29 @@ $(function(){
         id: 'idOfHiddenInput',
         name: 'idOfHiddenInput'
     }).appendTo('#datatable-list');
+    
+    $('<input>').attr({
+        type: 'hidden',
+        id: 'idOri',
+        name: 'idOri'
+    }).appendTo('#datatable-list');
+
     $('#datatable-list').on( 'init.dt', function () {
         readyCheckbox();
     } ).DataTable().column(0).visible(false);
 
     $('#chk_list_parent').click(function(event) {
-        if(this.checked) {
+        if($(this).is(":checked")) {
             // Iterate each checkbox
             var len = $('input[name="chk_list[]"]:checked').length;
             if (len>0){
                 $(':checkbox').each(function() {
-                    this.checked = true;
+                    $(this).is(":checked") = true;
                 });
                 $('#btn_save_modul').removeClass('disabled');
             }else{
                 $(':checkbox').each(function() {
-                    this.checked = false;
+                    $(this).is(":checked") = false;
                 });
                 setTimeout(function () {
                                 
@@ -33,7 +40,7 @@ $(function(){
             
         } else {
             $(':checkbox').each(function() {
-                this.checked = false;
+                $(this).is(":checked") = false;
             });
             // $('#btn_save_modul').addClass('disabled');
             setTimeout(function () {
@@ -49,6 +56,7 @@ $(function(){
         var x=$(this);
         var jml=0;
         var data = $("#idOfHiddenInput").val();
+        var dataOri = $("#idOri").val();
         // var period = $("#period").val();
         // var term = $("#term").val();
         var is_admin = $('input[name="is_admin"]').val();
@@ -59,7 +67,18 @@ $(function(){
             var dt = "";
         }
 
+        if (dataOri!=""){
+            var dtOri = dataOri;
+        }else{
+            var dtOri = "";
+        }
 
+        var datax = {
+            id:dt,
+            dtori:dtOri,
+            is_admin:is_admin, 
+            owner:owner
+        };
         // if (data!=""){
             var cek = cek_isian_identifikasi();
             // if (cek) {
@@ -82,7 +101,7 @@ $(function(){
                                 $.ajax({
                                     type:'post',
                                     url:x.data('url'),
-                                    data:{id:dt, is_admin:is_admin, owner:owner},
+                                    data:datax,
                                     dataType: "json",
                                     success:function(result){
                                         stopLooding(x.parent().parent());
@@ -161,6 +180,17 @@ $(function(){
 		_ajax_("post", parent, data, target_combo, url);
     })
 
+    $("#term_id").change(function () {
+		var parent = $(this).parent();
+		var nilai = $(this).val();
+		var data = {
+			'id': nilai
+		};
+		var target_combo = $("#minggu_id");
+		var url = "ajax/get-minggu";
+		_ajax_("post", parent, data, target_combo, url);
+    })
+
 
     $(document).on('click','.detail-peta', function() {
         var parent = $(this).parent().parent().parent();
@@ -235,6 +265,8 @@ $(function(){
 
     $(document).ready(function(){
         $("#period").trigger('change');
+        // $("#period_id").trigger('change');
+        // $("#term_id").trigger('change');
         // $("#proses_check").trigger('click');
     })
 });
@@ -263,10 +295,14 @@ function readyCheckbox() {
                 }
             });
             $("#idOfHiddenInput").val(checkboxes);
+            $("#idOri").val(checkboxes);
         }, 200)
     // }
-
-    // $("#idOfHiddenInput").val(checkboxes);
+    // let checkboxesX = checkboxes.filter((c, index) => {
+    //     return checkboxes.indexOf(c) === index;
+    // });
+    $("#idOfHiddenInput").val(checkboxes);
+    $("#idOri").val(checkboxes);
 
 }
 
@@ -280,8 +316,9 @@ function updateCheckboxes(checkbox){
     //Check the array for the id
     var arrPos = checkboxes.indexOf(id);
 
+    
     //If it exists and we unchecked it, remove it
-    if(arrPos > -1 && !checkbox.checked){
+    if(arrPos > -1 && !checkbox.is(":checked")){
         checkboxes.splice(arrPos,1);
     }
     //Else it doesn't exist and we checked it
@@ -289,25 +326,12 @@ function updateCheckboxes(checkbox){
     {
         checkboxes.push(id);
     }
+    
+    let checkboxesX = checkboxes.filter((c, index) => {
+        return checkboxes.indexOf(c) === index;
+    });
 
-    if(lens>0){
-        setTimeout(function () {
-            $('input[name="chk_list[]"]').each(function(index){
-                idx = $(this).val();
-                var arrPosx = checkboxes.indexOf(idx);
-                if(!$(this).is(":checked")){
-                    if(arrPosx > -1){
-                        checkboxes.splice(arrPosx,1);
-                    }
-                }
-            });
-          
-            $("#idOfHiddenInput").val(checkboxes);
-        }, 200)
-    }else{
-        $("#idOfHiddenInput").val(checkboxes);
-    }
-
+    $("#idOfHiddenInput").val(checkboxesX);
    
 }
 
