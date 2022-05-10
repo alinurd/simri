@@ -164,8 +164,11 @@ $(function(){
 		var data = {
 			'id': nilai
 		};
-		var target_combo = $(".term");
-		var url = "ajax/get-term";
+		// var target_combo = $(".term");
+		var target_combo = $(".minggu");
+        
+		// var url = "ajax/get-term";
+		var url = "ajax/get-minggu-by-tahun";
 		_ajax_("post", parent, data, target_combo, url);
     })
 

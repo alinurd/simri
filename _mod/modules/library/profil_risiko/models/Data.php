@@ -44,12 +44,18 @@ class Data extends MX_Model {
 	function filter_data($dtuser){
 
 		if(isset($this->pos['owner'])){
-			$check = $this->checklist($this->pos['owner']);
+			$check = $this->checklist($this->pos['owner'], $this->pos['period']);
 		}else{
 			$this->super_user = intval($dtuser['is_admin']);
 			$this->ownerx = intval(($this->super_user==0)?$dtuser['owner_id']:0);
-			$check = $this->checklist($this->ownerx);
-
+			$check = $this->checklist($this->ownerx, $this->pos['period']);
+		}
+		$ck = [];
+		if (count($check)>0) {
+			foreach ($check as $key => $value) {
+				$k = explode('-',$value);
+				$ck[] = $k[0].'-'.$k[1].'-'.str_pad($k[2],3,0,STR_PAD_LEFT );
+			}
 		}
 	
 		if ($this->cek_tgl){
@@ -80,10 +86,10 @@ class Data extends MX_Model {
 			}
 		}
 
-		if(count($check)>0){
-			$this->db->where_in('id', $check);
+		if(count($ck)>0){
+			$this->db->where_in('kode_risk', $ck);
 		}else{
-			$this->db->where('id', '-1');
+			$this->db->where('kode_risk', '-1');
 		}
 
 		if ($this->pos){
@@ -131,10 +137,10 @@ class Data extends MX_Model {
 			$this->db->where('term_id', _TERM_ID_);
 		}
 
-		if(count($check)>0){
-			$this->db->where_in('id', $check);
+		if(count($ck)>0){
+			$this->db->where_in('kode_risk', $ck);
 		}else{
-			$this->db->where('id', '-1');
+			$this->db->where('kode_risk', '-1');
 		}
 		
 	}
@@ -197,14 +203,20 @@ class Data extends MX_Model {
 
 	function filter_data_all($customfield='', $dtuser){
 		if(isset($this->pos['owner'])){
-			$check = $this->checklist($this->pos['owner']);
+			$check = $this->checklist($this->pos['owner'], $this->pos['period']);
 		}else{
 			$this->super_user = intval($dtuser['is_admin']);
 			$this->ownerx = intval(($this->super_user==0)?$dtuser['owner_id']:0);
-			$check = $this->checklist($this->ownerx);
+			$check = $this->checklist($this->ownerx, $this->pos['period']);
 
 		}
-		
+		$ck = [];
+		if (count($check)>0) {
+			foreach ($check as $key => $value) {
+				$k = explode('-',$value);
+				$ck[] = $k[0].'-'.$k[1].'-'.str_pad($k[2],3,0,STR_PAD_LEFT );
+			}
+		}
 		$field = ($customfield!='')?$customfield.".":'';
 		if ($this->cek_tgl){
 			if (isset($this->pos['minggu'])){
@@ -244,10 +256,10 @@ class Data extends MX_Model {
 				}
 			}
 
-			if(count($check)>0){
-				$this->db->where_in('id', $check);
+			if(count($ck)>0){
+				$this->db->where_in('kode_risk', $ck);
 			}else{
-				$this->db->where('id', '-1');
+				$this->db->where('kode_risk', '-1');
 			}
 			
 		
@@ -300,10 +312,10 @@ class Data extends MX_Model {
 			}
 		}
 
-		if(count($check)>0){
-			$this->db->where_in('id', $check);
+		if(count($ck)>0){
+			$this->db->where_in('kode_risk', $ck);
 		}else{
-			$this->db->where('id', '-1');
+			$this->db->where('kode_risk', '-1');
 		}
 
 		
