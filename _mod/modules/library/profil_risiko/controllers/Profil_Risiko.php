@@ -867,12 +867,15 @@ class Profil_Risiko extends MY_Controller {
 		$tgl1=date('Y-m-d');
 		$tgl2=date('Y-m-d');
 		if ($x){
-			$tgl1=$x['tgl_awal'];
-			$tgl2=$x['tgl_akhir'];
+			// $tgl1=$x['tgl_awal'];
+			// $tgl2=$x['tgl_akhir'];
+			$tgl1=$x['period'].'-01-01';
+			$tgl2=$x['period'].'-12-31';
 		}
-		// dumps($x);
-		$data=$this->map();
+		// dumps($tgl1);
+		// dumps($tgl2);
 		// die();
+		$data=$this->map();
 		$this->super_user = intval($this->_data_user_['is_admin']);
 		$this->ownerx = intval(($this->super_user==0)?$this->_data_user_['owner_id']:0);
 
@@ -881,12 +884,16 @@ class Profil_Risiko extends MY_Controller {
 		$data['type_ass']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'ass-type')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 
 		$data['period']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'period')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+
 		$data['term']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'term')->combo_where('pid', _TAHUN_ID_)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-		$data['minggu']=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+
+		$data['minggu']=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')
+		// ->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)
+		->combo_where('pid', _TAHUN_ID_)
+		->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		// $data['minggu']=$this->crud->combo_select(['id', 'concat(param_string,\' minggu ke - \',data, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		// die($this->db->last_query());
-		
-		
+	
 
 		$this->data->pos['tgl1']=$tgl1;
 		$this->data->pos['tgl2']=$tgl2;

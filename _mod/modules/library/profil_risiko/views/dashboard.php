@@ -28,12 +28,12 @@
                         <?php echo form_dropdown('period', $period, _TAHUN_ID_, 'class="form-control select" style="width:100%;"  id="period"');?>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-form-label col-lg-2 text-right"><?=_l('fld_term_id');?></label>
-                    <div class="col-lg-10">
-                        <?php echo form_dropdown('term', $term, _TERM_ID_, 'class="form-control select" style="width:100%;"  id="term"');?>
-                    </div>
-                </div>
+                <!-- <div class="form-group row"> -->
+                    <!-- <label class="col-form-label col-lg-2 text-right"><?php //_l('fld_term_id');?></label> -->
+                    <!-- <div class="col-lg-10"> -->
+                        <?php // echo form_dropdown('term', $term, _TERM_ID_, 'class="form-control select" style="width:100%;"  id="term"');?>
+                    <!-- </div> -->
+                <!-- </div> -->
                 <div class="form-group row">
                     <label class="col-form-label col-lg-2 text-right"><?=_l('fld_minggu_id');?></label>
                     <div class="col-lg-5">
