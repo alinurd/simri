@@ -320,22 +320,25 @@ class Data extends MX_Model {
 	}
 	
 	function simpan_data($data, $owner, $ori){
+	
 		$del = array_diff($ori, $data);
-
+	
 		if(count($del)>0){
 			foreach ($del as $key => $value) {
-				$kodeX = explode('-',$value);
-
-				$this->db->where('kode_dept', $kodeX[0]);
-				$this->db->where('kode_aktifitas', $kodeX[1]);
-				$this->db->where('kode_risiko_dept', $kodeX[2]);
-				$this->db->where('period_id', $kodeX[3]);
-				$this->db->where('owner_id', $owner);
-				$this->db->delete($this->nm_tbl);
+				if ($value!="") {
+					$kodeX = explode('-',$value);
+	
+					$this->db->where('kode_dept', $kodeX[0]);
+					$this->db->where('kode_aktifitas', $kodeX[1]);
+					$this->db->where('kode_risiko_dept', $kodeX[2]);
+					$this->db->where('period_id', $kodeX[3]);
+					$this->db->where('owner_id', $owner);
+					$this->db->delete($this->nm_tbl);
+				}
 					
 			}
 		}
-
+		
 		$newdata = [];
 		foreach ($data as $key => $value) {
 			$kodeX = explode('-',$value);
