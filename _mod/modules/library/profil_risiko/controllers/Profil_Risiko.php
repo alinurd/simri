@@ -862,7 +862,7 @@ class Profil_Risiko extends MY_Controller {
 
 	function dashboard()
 	{
-		$this->pos=$this->input->post();
+		
 		$x = $this->session->userdata('periode');
 		$tgl1=date('Y-m-d');
 		$tgl2=date('Y-m-d');
@@ -872,10 +872,16 @@ class Profil_Risiko extends MY_Controller {
 			$tgl1=$x['period'].'-01-01';
 			$tgl2=$x['period'].'-12-31';
 		}
-		// dumps($tgl1);
-		// dumps($tgl2);
-		// die();
+		if ($this->input->post()) {
+			$this->pos=$this->input->post();
+		}else{
+			$this->pos=[
+				'term_mulai' => $tgl1,
+				'term_akhir' => $tgl2,
+			];
+		}
 		$data=$this->map();
+	
 		$this->super_user = intval($this->_data_user_['is_admin']);
 		$this->ownerx = intval(($this->super_user==0)?$this->_data_user_['owner_id']:0);
 
@@ -928,10 +934,10 @@ class Profil_Risiko extends MY_Controller {
 		// ->group_by('risiko_inherent')
 		// ->get_compiled_select(_TBL_VIEW_RCSA_DETAIL);
 		->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
-		// dumps($rows);
-		// die();
+	
 		$data['map_inherent']=$this->map->set_data_profile($rows, $this->pos)->set_param(['tipe'=>'angka', 'level'=>1])->draw_profile();
 
+		
 		$jml=$this->map->get_total_nilai();
 		$jmlstatus=$this->map->get_jumlah_status();
 		$data['jml_inherent_status']=$jmlstatus;

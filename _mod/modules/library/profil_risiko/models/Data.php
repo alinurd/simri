@@ -48,7 +48,7 @@ class Data extends MX_Model {
 		}else{
 			$this->super_user = intval($dtuser['is_admin']);
 			$this->ownerx = intval(($this->super_user==0)?$dtuser['owner_id']:0);
-			$check = $this->checklist($this->ownerx, $this->pos['period']);
+			$check = $this->checklist($this->ownerx, _TAHUN_ID_);
 		}
 		$ck = [];
 		if (count($check)>0) {
@@ -207,7 +207,7 @@ class Data extends MX_Model {
 		}else{
 			$this->super_user = intval($dtuser['is_admin']);
 			$this->ownerx = intval(($this->super_user==0)?$dtuser['owner_id']:0);
-			$check = $this->checklist($this->ownerx, $this->pos['period']);
+			$check = $this->checklist($this->ownerx, _TAHUN_ID_);
 
 		}
 		$ck = [];
