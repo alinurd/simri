@@ -994,11 +994,13 @@ class Profil_Risiko extends MY_Controller {
 
 		$aw = (isset($x['minggu'][$x['post']['term_mulai']]))?$x['minggu'][$x['post']['term_mulai']]:'';
 		$ak = (isset($x['minggu'][$x['post']['term_akhir']]))?$x['minggu'][$x['post']['term_akhir']]:'';
-		$hasil['range']= $aw.' - '. $ak;
+		$hasil['range']= 'Jan - Des';
 	
 		$hasil['detail_list']=$this->load->view('identifikasi', $x, true);
 
-		$det = $this->data->get_detail_data();
+		$det = $this->data->get_detail_data($this->_data_user_);
+		$det['mode']=0;
+
 		$hasil['kpi'] = $this->load->view('detail', $det, true);
 
 		$hasil['progress']='';
