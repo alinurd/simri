@@ -634,7 +634,6 @@ class Profil_Risiko extends MY_Controller {
 			$control.='</ul>';
 		}
 	
-
 		$l_events='auto';
 		$i_events='auto';
 		if ($data['efek_kontrol']==1){
@@ -885,6 +884,7 @@ class Profil_Risiko extends MY_Controller {
 		$this->super_user = intval($this->_data_user_['is_admin']);
 		$this->ownerx = intval(($this->super_user==0)?$this->_data_user_['owner_id']:0);
 
+		$data['post'] = $this->pos;
 		$data['owner']=$this->get_combo_parent_dept();
 		$data['dtowner']=$this->ownerx;
 		$data['type_ass']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'ass-type')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
@@ -991,8 +991,17 @@ class Profil_Risiko extends MY_Controller {
 		$x=$this->data->get_data_map($this->_data_user_);
 		$x['post']=$this->pos;
 		$x['minggu']=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-		
+
+		$aw = (isset($x['minggu'][$x['post']['term_mulai']]))?$x['minggu'][$x['post']['term_mulai']]:'';
+		$ak = (isset($x['minggu'][$x['post']['term_akhir']]))?$x['minggu'][$x['post']['term_akhir']]:'';
+		$hasil['range']= $aw.' - '. $ak;
+	
 		$hasil['detail_list']=$this->load->view('identifikasi', $x, true);
+
+		$det = $this->data->get_detail_data();
+		$hasil['kpi'] = $this->load->view('detail', $det, true);
+
+		$hasil['progress']='';
 
 
 		echo json_encode($hasil);

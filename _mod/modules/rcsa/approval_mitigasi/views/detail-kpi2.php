@@ -7,7 +7,7 @@
             <th width="5%" rowspan="2">No.</th>
             <th rowspan="2">Parameter</th>
             <th rowspan="2" width="8%">Satuan</th>
-            <th colspan="3" width="15%">Keterangan</th>
+            <th colspan="5" width="15%">Keterangan</th>
         </tr>
         <tr class="text-center">
             <th class="bg-dangerx-400" style="background-color:#e70808">Merah</th>
