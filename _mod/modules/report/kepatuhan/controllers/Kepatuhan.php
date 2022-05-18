@@ -87,6 +87,7 @@ class Kepatuhan extends MY_Controller {
 		$data['is_triwulan'] = (strpos(strtolower(_TERM_), 'triwulan')!== false)?1:0;
 
 		$data['detail'] = $this->load->view('detail', $data, true);
+		$data['detail2'] = $this->load->view('detail2', $data, true);
 
 		$this->hasil=$this->load->view('lapunit',$data, true);
 		return $this->hasil;
@@ -144,5 +145,28 @@ class Kepatuhan extends MY_Controller {
 		header("Content-Disposition: attachment; filename=$file_name");
 		echo $x;
 		
+	}
+
+	function get_detail()
+	{
+		$post = $this->input->post();
+		$offset = strpos($post['term_t'],'[');
+		$tgl = substr($post['term_t'], $offset+1, 10);
+		
+		
+		$data = $this->data->get_data_lap($post['tahun'], $post['term'], 0, $post['divisi'], $tgl);
+		
+		// Doi::dump($data);
+		// die();
+		$data['divisi'] = $post['divisi'];
+		$data['term_t'] = $tgl;
+		$data['title'] = $post['term_t'] . ' - ' . $post['tahun_t'];
+		// $data['title'] = "cek";
+		$data['is_triwulan'] = (strpos(strtolower($post['term_t']), 'triwulan')!== false)?1:0;
+		
+		$hasil['detail'] = $this->load->view('detail', $data, true);
+		$hasil['detail2'] = $this->load->view('detail2', $data, true);
+
+		echo json_encode($hasil);
 	}
 }
