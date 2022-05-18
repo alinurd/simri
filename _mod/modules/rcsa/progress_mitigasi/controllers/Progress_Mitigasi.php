@@ -774,16 +774,17 @@ class Progress_Mitigasi extends MY_Controller {
 		$this->db->group_by("a.id");
 		$data['list']=$this->db->where('a.minggu_id', $post['minggu'])->where('a.rcsa_id', intval($post['id']))->or_group_start()->where('a.sts_add',0)->where('a.rcsa_id', intval($post['id']))->group_end()->where('a.kpi_id',0)->get(_TBL_RCSA_KPI." as a")->result_array();
 
-		$kpi=$this->db->select('id_kpi, kpi_detail, GROUP_CONCAT(id) as id')->where('rcsa_id', intval($post['id']))->order_by('kode_dept')->group_by('id_kpi')->order_by('kode_aktifitas')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
-
-		// dumps(count($data['list'])==0);
-		// die();
+		$kpi=$this->db->select('id_kpi, kpi_detail, GROUP_CONCAT(id) as id')->where('rcsa_id', intval($post['id']))->where('kpi_detail !=',null)->order_by('kode_dept')->group_by('id_kpi')->order_by('kode_aktifitas')
+		// ->get_compiled_select(_TBL_VIEW_RCSA_DETAIL);
+		->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 		
 		if(count($data['list'])==0){
 			$this->db->where('rcsa_id', $post['id']);
 			$this->db->where('minggu_id', '(select min(minggu_id) from '._TBL_RCSA_KPI.' where rcsa_id ='.$post['id'].')', false);
+			// $cekKpi = $this->db->get_compiled_select(_TBL_RCSA_KPI);
 			$cekKpi = $this->db->get(_TBL_RCSA_KPI);
-			
+			// dumps($cekKpi);
+			// die();
 			if(count($cekKpi->result_array())>0){
 				foreach ($cekKpi->result_array() as $key => $value) {
 					$dataKpi = [
@@ -846,11 +847,14 @@ class Progress_Mitigasi extends MY_Controller {
 
 				}
 			}else{
+			
 				if (!isset($post['del'])) {
+					
 					if (count($kpi)>0) {
 						foreach ($kpi as $key => $value) {
 							if ($value['id_kpi']!='') {
 								$idkri = explode(',', $value['id']);
+								
 								$dataKpi = [
 									'minggu' => $post['minggu'],
 									'rcsa_id' => $post['id'],
@@ -878,9 +882,13 @@ class Progress_Mitigasi extends MY_Controller {
 								$this->data->simpan_kpi();
 								$idKpi = $this->crud->last_id();
 								// // $value['kpi_detail']
-								$kri=$this->db->where('bk_tipe', 1)->where('rcsa_id', $post['id'])->where_in('rcsa_detail_id', $idkri)->get(_TBL_VIEW_RCSA_DET_LIKE_INDI)->result_array();
+								$kri=$this->db->where('bk_tipe', 1)->where('rcsa_id', $post['id'])->where_in('rcsa_detail_id', $idkri)
+								->group_by('kri_id')
+								// ->get_compiled_select(_TBL_VIEW_RCSA_DET_LIKE_INDI);
+
+								->get(_TBL_VIEW_RCSA_DET_LIKE_INDI)->result_array();
 				
-	
+								
 								if (count($kri)>0) {
 									foreach ($kri as $k => $v) {
 										$dataKri = [
@@ -948,6 +956,7 @@ class Progress_Mitigasi extends MY_Controller {
 		$pos['owner']=$rows['owner_id'];
 		$pos['period']=$rows['period_id'];
 		$pos['term']=$rows['term_id'];
+		$pos['minggu']=$rows['minggu_id'];
 
 		$this->data->pos=$pos;
 		$data = $this->data->get_detail_data();

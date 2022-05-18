@@ -168,6 +168,7 @@ class Data extends MX_Model {
 
 	function get_detail_data(){
 		$bulan=[1,12];
+		// dumps($this->pos);die();
 		
 		if (intval($this->pos['term'])>0){
 			$rows= $this->db->select('*')->where('id', intval($this->pos['term']))->get(_TBL_COMBO)->row_array();
@@ -189,6 +190,9 @@ class Data extends MX_Model {
 			$owner_kode = $parent['owner_code'];
 		}
 	
+		if (intval($this->pos['minggu'])>0) {
+			$this->db->where('minggu_id_rcsa',$this->pos['minggu']);
+		}
 
 		$rows = $this->db->where('minggu_type',1)
 			->where('bulan_int>=',$bulan[0])
@@ -198,12 +202,16 @@ class Data extends MX_Model {
 			// ->where('kode_dept',$owner_kode)
 			->where('owner_id',$owner)
 			// ->group_by('satuan')
+			// ->get_compiled_select(_TBL_VIEW_RCSA_KPI);
 			->get(_TBL_VIEW_RCSA_KPI)->result_array();
 
+
+		
 		$lap2=[];
 		foreach ($rows as $row){
 			$tmp=[];
 			$d = $this->db->where('kpi_id',$row['id'])->get(_TBL_VIEW_RCSA_KPI_DETAIL)->result_array();
+
 			$detail=[];
 			foreach ($d as $dd){
 				$detail[]=$dd;
@@ -212,6 +220,7 @@ class Data extends MX_Model {
 			$tmp['detail']=$detail;
 			$lap2[$row['id']]=$tmp;
 		}
+
 
 		$detail=[];
 		foreach ($rows as $row){
@@ -251,8 +260,9 @@ class Data extends MX_Model {
 			}
 			$x[$key]=$xx;
 		}
+
 		unset($row);
-		// dumps($x);die();
+		// dumps($rows);die();
 		$y=[];
 		$owner_id=0;
 		foreach ($rows as $key=>$row){
@@ -261,6 +271,8 @@ class Data extends MX_Model {
 				$y[$row['id']]['satuan']=$row['satuan'];
 				$y[$row['id']]['title']=$row['title'];
 				$y[$row['id']]['indikator']=$row['indikator'];
+				// $y[$row['id']]['rcsa_id']=$row['rcsa_id'];
+				// $y[$row['id']]['minggu_id_rcsa']=$row['minggu_id_rcsa'];
 				$owner_id=$row['id'];
 			}
 			$dd = $this->db->where('minggu_type',1)
@@ -270,12 +282,13 @@ class Data extends MX_Model {
 				
 				->where('title',$row['title'])
 				->get(_TBL_VIEW_RCSA_KPI)->result_array();
+
 			foreach ($dd as $key => $value) {
 				$y[$row['id']]['bulan'][$value['bulan_int']]=$value;
 			}
 		}
+		
 		unset($row);
-		// dumps($x);
 		foreach($y as $key=>&$row){
 			if (array_key_exists($key, $x)){
 				// dumps('xxx');
@@ -285,7 +298,8 @@ class Data extends MX_Model {
 			}
 		}
 
-		// dumps($y);
+		// dumps($y);die();
+
 		unset($row);
 
 		$hasil['bulan']=$bulan;

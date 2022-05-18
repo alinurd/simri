@@ -1,11 +1,11 @@
 <div class='table-responsive' id="div_like_indi">
-    <?=_l('fld_list_kpi');?>
+    Daftar KPI/KRI
     <span class="btn bg-primary-400 btn-labeled btn-labeled-right legitRipple pull-right d-none" data-parent="<?=$parent;?>" data-minggu="<?=$minggu;?>" id="add_kpi" ><b><i class="icon-file-plus "></i></b> <?=_l('fld_add_kpi');?></span><br/>&nbsp;<br/>&nbsp;
     <table class="table table-hover table-bordered tabel-framed" id="tbl_list_like_indi">
         <thead>
             <tr class="bg-primary-300">
                 <th width="5%">No</th>
-                <th><?=_l('fld_kpi');?></th>
+                <th>KPI/KRI</th>
                 <th width="10%" class="text-center"><?=_l('fld_score');?></th>
                 <th width="10%" class="text-center"><?=_l('fld_indikator');?></th>
                 <th width="8%">Aksi</th>

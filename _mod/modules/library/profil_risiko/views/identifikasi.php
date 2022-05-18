@@ -12,6 +12,7 @@
         <thead>
             <tr class="bg-primary-300">
                 <th width="5%">No.</th>
+                <th>Kode Risk</th>
                 <th>Departemen</th>
                 <th>Risiko Dept.</th>
                 <th>Klasifikasi</th>
@@ -32,6 +33,7 @@
 
             <tr class="pointer detail-rcsa" data-id="<?=$row['id'];?>" data-dampak="<?=$row['impact_residual_id'];?>">
                 <td><?=++$no;?></td>
+                <td><?=$row['kode_risk'];?></td>
                 <td><?=$row['owner_name'];?></td>
                 <td><?=$row['risiko_dept'];?></td>
                 <td><?=$row['klasifikasi_risiko'].' | '.$row['tipe_risiko'];?></td>
@@ -54,6 +56,7 @@
         <thead>
             <tr class="bg-primary-300">
                 <th width="5%">No.</th>
+                <th>Kode Risk</th>
                 <th>Departemen</th>
                 <th>Risiko Dept.</th>
                 <th>Klasifikasi</th>
@@ -74,6 +77,7 @@
 
             <tr class="pointer detail-rcsa" data-id="<?=$row['id'];?>" data-dampak="<?=$row['impact_residual_id'];?>">
                 <td><?=++$no;?></td>
+                <td><?=$row['kode_risk'];?></td>
                 <td><?=$row['owner_name'];?></td>
                 <td><?=$row['risiko_dept'];?></td>
                 <td><?=$row['klasifikasi_risiko'].' | '.$row['tipe_risiko'];?></td>
