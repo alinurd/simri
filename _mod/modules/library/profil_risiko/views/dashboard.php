@@ -106,3 +106,41 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header header-elements-sm-inline">
+                <h6 class="card-title">KPI/KRI (<span class="range"></span>)</h6>
+                <div class="header-elements">
+                    <div class="list-icons">
+                        <a class="list-icons-item" data-action="reload"></a>
+                        <a class="list-icons-item" data-action="collapse"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" id="kpi">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header header-elements-sm-inline">
+                <h6 class="card-title">Progres Mitigasi (<span class="range"></span>)</h6>
+                <div class="header-elements">
+                    <div class="list-icons">
+                        <a class="list-icons-item" data-action="reload"></a>
+                        <a class="list-icons-item" data-action="collapse"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" id="progress">
+                
+            </div>
+        </div>
+    </div>
+</div>

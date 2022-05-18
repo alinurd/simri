@@ -201,7 +201,7 @@ class Data extends MX_Model {
 		return $data;
 	}
 
-	function filter_data_all($customfield='', $dtuser){
+	function filter_data_all($customfield='', $dtuser, $range=false){
 		if(isset($this->pos['owner'])){
 			$check = $this->checklist($this->pos['owner'], $this->pos['period']);
 		}else{
@@ -270,28 +270,39 @@ class Data extends MX_Model {
 				$this->db->where($field.'period_id', $this->pos['period']);
 			}
 
-			if (isset($this->pos['tgl1'])){
-				$this->db->where('tgl_mulai_minggu', $this->pos['tgl1']);
-			}
+			if ($range) {
+				if (isset($this->pos['tgl1'])){
+					$this->db->where('tgl_mulai_minggu>=', $this->pos['tgl1']);
+				}
+				if (isset($this->pos['tgl2'])){
+					$this->db->where('tgl_akhir_minggu<=', $this->pos['tgl2']);
+				}
 
-			
-			if (isset($this->pos['tgl2'])){
-				$this->db->or_where('tgl_akhir_minggu', $this->pos['tgl2']);
-			}
+			}else{
 
-			
-			if ($this->pos['owner']){
-				if ($this->pos['owner'] != 0 && $this->pos['owner']!=1) {
-
-					$this->db->where_in($field.'owner_id', $this->owner_child);
+				if (isset($this->pos['tgl1'])){
+					$this->db->where('tgl_mulai_minggu', $this->pos['tgl1']);
+				}
+	
+				if (isset($this->pos['tgl2'])){
+					$this->db->or_where('tgl_akhir_minggu', $this->pos['tgl2']);
 				}
 			}
-			
-			if ($this->pos['type_ass']){
-				$this->db->where($field.'type_ass_id', $this->pos['type_ass']);
-			}
-			if ($this->pos['period']){
-				$this->db->where($field.'period_id', $this->pos['period']);
+
+			if (!$range) {
+				if ($this->pos['owner']){
+					if ($this->pos['owner'] != 0 && $this->pos['owner']!=1) {
+	
+						$this->db->where_in($field.'owner_id', $this->owner_child);
+					}
+				}
+				
+				if ($this->pos['type_ass']){
+					$this->db->where($field.'type_ass_id', $this->pos['type_ass']);
+				}
+				if ($this->pos['period']){
+					$this->db->where($field.'period_id', $this->pos['period']);
+				}
 			}
 
 			
@@ -306,17 +317,21 @@ class Data extends MX_Model {
 			// 	}
 			// }
 		}
-		if (isset($this->pos['type_ass'])){
-			if (intval($this->pos['type_ass'])) {
-				$this->db->where('type_ass_id', $this->pos['type_ass']);
+		if (!$range) {
+			if (isset($this->pos['type_ass'])){
+				if (intval($this->pos['type_ass'])) {
+					$this->db->where('type_ass_id', $this->pos['type_ass']);
+				}
 			}
+	
+			if(count($ck)>0){
+				$this->db->where_in('kode_risk', $ck);
+			}else{
+				$this->db->where('kode_risk', '-1');
+			}
+
 		}
 
-		if(count($ck)>0){
-			$this->db->where_in('kode_risk', $ck);
-		}else{
-			$this->db->where('kode_risk', '-1');
-		}
 
 		
 		// $this->db->where('type_ass_id', 128);
@@ -467,6 +482,182 @@ class Data extends MX_Model {
 		}
 
 		return $option;
+	}
+
+	function get_detail_data($dtuser){
+
+		$bulan=[1,12];
+		
+
+		// if (isset($this->pos['term_mulai'])){
+		// 	if (intval($this->pos['term_mulai'])){
+		// 		$rows= $this->db->select('*')->where('id', intval($this->pos['term_mulai']))->get(_TBL_COMBO)->row_array();
+				
+		// 		$bulan[0]=date('n',strtotime($rows['param_date']));
+		// 	}
+		// }
+
+		// if (isset($this->pos['term_akhir'])){
+		// 	if (intval($this->pos['term_akhir'])){
+		// 		$rows= $this->db->select('*')->where('id', intval($this->pos['term_akhir']))->get(_TBL_COMBO)->row_array();
+		// 		$bulan[1]=date('n',strtotime($rows['param_date_after']));
+		// 	}
+		// }
+		
+		// $period=date('Y');
+		// if (intval($this->pos['period'])>0){
+		// 	$period = $this->pos['period'];
+		// }
+
+		
+		$owner=0;
+		$parent=[];
+		$owner_name=' All Departement ';
+		// if (intval($this->pos['owner'])>0){
+		// 	$owner = $this->pos['owner'];
+		// 	$parent = $this->db->where('id', $owner)->get(_TBL_OWNER)->row_array();
+		// 	$owner_name = $parent['owner_name'];
+		// }
+		$minggu = 0;
+		// $minggu = $this->pos['minggu'];
+		// if ($minggu>0) {
+		// 	$this->db->where('minggu_id', $minggu);
+		// }
+		$this->filter_data_all(_TBL_VIEW_RCSA_DETAIL, $dtuser, true);
+		$rcsa = $this->db->select('rcsa_id')->group_by('rcsa_id')
+		->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		
+		$rcsa_id = [];
+		foreach ($rcsa as $key => $value) {
+			$rcsa_id[] = $value['rcsa_id'];
+		}
+		if (count($rcsa_id)>0) {
+			$this->db->where_in('rcsa_id', $rcsa_id);
+		}else{
+			$this->db->where('rcsa_id', '-1');
+		}
+
+		$rows = $this->db
+		// ->get_compiled_select(_TBL_VIEW_RCSA_KPI);
+		->get(_TBL_VIEW_RCSA_KPI)->result_array();
+		// dumps($rows);
+		// die();
+		$lap2=[];
+		foreach ($rows as $row){
+			$tmp=[];
+			$d = $this->db->where('kpi_id',$row['id'])->get(_TBL_VIEW_RCSA_KPI_DETAIL)->result_array();
+			$detail=[];
+			foreach ($d as $dd){
+				$detail[]=$dd;
+			}
+			$tmp=$row;
+			$tmp['detail']=$detail;
+			$lap2[]=$tmp;
+		}
+		// dumps($lap2);die();
+
+		$detail=[];
+		foreach ($rows as $row){
+			$d = $this->db->where('kpi_id',$row['id'])->get(_TBL_VIEW_RCSA_KPI_DETAIL)->result_array();
+			foreach ($d as $dd){
+				$detail[$row['id']]['detail'][$dd['id']]=$dd;
+			}
+		}
+
+		$x=[];
+		// dumps($detail);die();
+		foreach ($detail as $key=>$row){
+			$owner_id=0;
+			$xx=[];
+			foreach ($row['detail'] as $k=>$d){
+				if($owner_id!==$key){
+					// dumps($d);
+					$xx[$k]['name']=$d['owner_name'];
+					$xx[$k]['satuan']=$d['satuan'];
+					$xx[$k]['title']=trim($d['title']);
+					$xx[$k]['indikator']=$d['indikator'];
+					$owner_id=$d['kpi_id'];
+				}
+				if ($minggu==0) {
+					if (count($rcsa_id)>0) {
+						$this->db->where_in('rcsa_id', $rcsa_id);
+					}else{
+						$this->db->where('rcsa_id', '-1');
+					}
+					$dd = $this->db->where('minggu_type',1)
+						// ->where('bulan_int>=',$bulan[0]) 
+						// ->where('bulan_int<=',$bulan[1])
+						// ->where('period_id',$period)
+						->where('title like ',"%".$d['title'])
+	
+
+						->get(_TBL_VIEW_RCSA_KPI_DETAIL)->result_array();
+
+						foreach ($dd as $ke => $va) {
+							$xx[$k]['bulan'][$va['bulan_int']]=$va;
+						}
+				} else {
+					$xx[$k]['bulan'][$d['bulan_int']]=$d;
+				}
+				
+				
+			}
+			$x[$key]=$xx;
+		}
+		unset($row);
+		// dumps($minggu);die();
+		$y=[];
+		$owner_id=0;
+		foreach ($rows as $key=>$row){
+			if($owner_id!==$row['id']){
+				$y[$row['id']]['name']=$row['owner_name'];
+				$y[$row['id']]['satuan']=$row['satuan'];
+				$y[$row['id']]['title']=trim($row['title']);
+				$y[$row['id']]['indikator']=$row['indikator'];
+				$owner_id=$row['id'];
+			}
+			if ($minggu==0) {
+				if (count($rcsa_id)>0) {
+					$this->db->where_in('rcsa_id', $rcsa_id);
+				}else{
+					$this->db->where('rcsa_id', '-1');
+				}
+				$dd = $this->db->where('minggu_type',1)
+					// ->where('bulan_int>=',$bulan[0])
+					// ->where('bulan_int<=',$bulan[1])
+					// ->where('period_id',$period)
+					
+					->where('title like ',"%".$row['title'])
+					->get(_TBL_VIEW_RCSA_KPI)->result_array();
+
+				foreach ($dd as $key => $value) {
+					$y[$row['id']]['bulan'][$value['bulan_int']]=$value;
+				}
+
+			}else{
+				$y[$row['id']]['bulan'][$row['bulan_int']]=$row;
+			}
+		}
+		unset($row);
+		// dumps($x);
+		foreach($y as $key=>&$row){
+			if (array_key_exists($key, $x)){
+				// dumps('xxx');
+				$row['detail']=$x[$key];
+			}else{
+				$row['detail']=[];
+			}
+		}
+
+		// dumps($y);
+		unset($row);
+
+		$hasil['bulan']=$bulan;
+		$hasil['data']=$y;
+		$hasil['lap2']=$lap2;
+		$hasil['parent']=$parent;
+		$hasil['owner_name']=$owner_name;
+		return $hasil;
 	}
 }
 /* End of file app_login_model.php */

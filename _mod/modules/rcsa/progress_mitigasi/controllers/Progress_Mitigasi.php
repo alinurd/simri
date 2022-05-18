@@ -22,6 +22,7 @@ class Progress_Mitigasi extends MY_Controller {
 		$this->period=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'period')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		$this->alat=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'metode-alat')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		$this->stakeholder=$this->crud->combo_select(['id', 'officer_name'])->combo_where('active', 1)->combo_tbl(_TBL_VIEW_OFFICER)->get_combo()->result_combo();
+		$this->term=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'term')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		$this->cboDept=$this->get_combo_parent_dept();
 		$this->cboStack=$this->get_combo_parent_dept(false);
 
@@ -38,6 +39,8 @@ class Progress_Mitigasi extends MY_Controller {
 		$this->addField(['field'=>'alat_metode_id', 'title'=>'Alat & Metode', 'type'=>'int','input'=>'combo', 'search'=>true, 'values'=>$this->alat]);
 		$this->addField(['field'=>'period_id', 'title'=>'Periode', 'type'=>'int', 'required'=>true,'input'=>'combo', 'search'=>true, 'values'=>$this->period]);
 		$this->addField(['field'=>'term_id', 'title'=>'Term', 'type'=>'int', 'required'=>true,'input'=>'combo', 'search'=>true, 'values'=>[]]);
+		$this->addField(['field'=>'minggu_id', 'title'=>'Bulan', 'type'=>'int', 'required'=>true,'input'=>'combo', 'search'=>true, 'values'=>[]]);
+
 		$this->addField(['field'=>'active', 'input'=>'boolean', 'size'=>20]);
 		$this->addField(['field'=>'status_id', 'show'=>false]);
 		$this->addField(['field'=>'status_final', 'show'=>false]);
@@ -66,10 +69,10 @@ class Progress_Mitigasi extends MY_Controller {
 
 		$this->set_Table_List($this->tbl_master,'owner_name');
 		$this->set_Table_List($this->tbl_master,'kode_dept','');
-		$this->set_Table_List($this->tbl_master,'stakeholder_id');
+		$this->set_Table_List($this->tbl_master,'stakeholder_id', '', 15);
 		$this->set_Table_List($this->tbl_master,'type_ass_id', 'Tipe Ass');
 		$this->set_Table_List($this->tbl_master,'period_id', 'Tahun');
-		$this->set_Table_List($this->tbl_master,'term', 'Periode');
+		$this->set_Table_List($this->tbl_master,'term_id', 'Periode');
 		$this->set_Table_List($this->tbl_master,'status_id_mitigasi','Status Mitigasi');
 		$this->set_Table_List($this->tbl_master,'tgl_propose_mitigasi');
 		$this->set_Table_List($this->tbl_master,'register','',7, 'center');
@@ -132,6 +135,13 @@ class Progress_Mitigasi extends MY_Controller {
 		}
 	}
 
+	function listBox_TERM_ID($field, $rows, $value){
+		$cbominggu=$this->data->get_data_minggu($value);
+		$minggu = ($rows['minggu_id'])?$cbominggu[$rows['minggu_id']]:'';
+		$a = $this->term[$value].' - '.$minggu;
+		return $a;
+	}
+
 	function listBox_id($field, $rows, $value){
 		$check = $this->data->checklist();
 		// $select = (in_array($rows['id'], $check))?'checked':'';
@@ -187,6 +197,22 @@ class Progress_Mitigasi extends MY_Controller {
 		return $content;
 	}
 
+	function inputBox_MINGGU_ID($mode, $field, $rows, $value){
+		if ($mode=='edit'){
+			$id=0;
+			if (isset($rows['term_id']))
+				$id=$rows['term_id'];
+
+			$field['values']=$this->data->get_data_minggu($id);
+			
+			// $field['values'] = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'minggu')->combo_where('pid', $id)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		}
+		// dumps($field['values']);
+		// die();
+		$content = $this->set_box_input($field, $value);
+		return $content;
+	}
+	
 	function progress(){
 		if ($this->input->is_ajax_request()){
 			$id=intval($this->input->post('id'));

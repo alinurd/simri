@@ -212,7 +212,10 @@ $(function(){
     $(document).on('click','.detail-rcsa', function() {
 		var parent = $(this).parent().parent().parent();
 		var id = $(this).data('id');
-		var data={'id':id};
+
+		var dampak = $(this).data('dampak');
+
+		var data={'id':id, 'dampak_id':dampak};
 		var target_combo = '';
 		var url = "ajax/get-detail-rcsa";
 		_ajax_("post", parent, data, target_combo, url, 'list_mitigasi');
@@ -345,7 +348,8 @@ function list_map(hasil){
 }
 
 function list_mitigasi(hasil){
-    $('#result_mitigasi').html(hasil.combo);
+    $("#modal_general").find(".modal-body").html(hasil.combo);
+    $("#modal_general").modal("show");
 }
 
 function list_aktifitas_mitigasi(hasil){
@@ -357,7 +361,10 @@ function list_progres_aktifitas_mitigasi(hasil){
 
 function result_map(hasil){
     $("#maps").html(hasil.combo);
+    $(".range").html(hasil.range);
     $("#detail_list").html(hasil.detail_list);
+    $("#kpi").html(hasil.kpi);
+    $("#progress").html(hasil.progress);
     // $("#result_grap1").html(hasil.grap1);
     // $("#result_grap2").html(hasil.data_grap1);
 }

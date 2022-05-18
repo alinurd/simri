@@ -8,7 +8,7 @@
                 <th rowspan="2" width="10%" class="text-center">Satuan</th>
                 <th rowspan="2" width="10%" class="text-center"><?=_l('fld_pembobotan');?></th>
                 <th rowspan="2" width="10%" class="text-center"><?=_l('fld_score');?></th>
-                <th colspan="3" width="15%">Keterangan</th>
+                <th colspan="5" width="15%">Keterangan</th>
                
             </tr>
             <tr class="text-center">
