@@ -36,9 +36,23 @@ Sasaran Departemen :
         <?php
         $no=0;
         $cek=[];
-        // dumps($data);
+        // $cekminggu = array_column($data, 'minggu_id_rcsa');
+        // dumps($cekminggu);
+        // dumps(count(array_unique($cekminggu)));
         foreach($data as $key=>$row):?>
-        
+        <?php
+            // $kondisi = false;
+            // if ($row['minggu_id_rcsa'] > 0 && $row['rcsa_id'] == $id) {
+            //     $kondisi = ($row['rcsa_id'] == $id);
+            //     $t = "ada";
+            // }elseif($row['minggu_id_rcsa'] == 0){
+            //     $kondisi =  (!in_array(trim($row['title']), $cek));
+            //     $t = "gada";
+
+            // }
+           
+        ?>
+        <!--  && -->
         <?php if(!in_array(trim($row['title']), $cek)):?>
         <tr>
             <td><?=++$no;?></td>

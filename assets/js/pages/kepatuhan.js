@@ -22,14 +22,24 @@ $(function(){
     })
 
     $(document).on('click','#proses', function() {
+
         var parent = $(this).parent().parent().parent();
-		var owner = $("#owner").val();
-		var period = $("#period").val();
-		var type_ass = $("#type_ass").val();
-		var term = $("#term").val();
-		var minggu = $("#minggu").val();
-		var data={'period':period,'owner':owner,'type_ass':type_ass, 'term':term,'minggu':minggu};
-		var url = modul_name+"/get-map";
+        var tahun = $("#periode_no").val();
+        var tahun_text = $("#periode_no :selected").text();
+        var term = $("#term_no").val();
+        var term_text = $("#term_no :selected").text();
+        var asse_type = $("#asse_type").val();
+        var divisi = $("#divisi").val();
+
+        var data = {
+            'term': term,
+            'tahun': tahun,
+            'term_t': term_text,
+            'tahun_t': tahun_text,
+            'asse_type': asse_type,
+            'divisi': divisi
+        };
+        var url = modul_name + "/get-detail";
 		_ajax_("post", parent, data, '', url,'result_map');
     });
 });
@@ -41,7 +51,8 @@ function list_map(hasil){
 }
 
 function result_map(hasil){
-    $("#result_grap3").html(hasil.grap1);
+    $("#detail").html(hasil.detail);
+    $("#detail2").html(hasil.detail2);
 }
 
 function show_result(hasil){

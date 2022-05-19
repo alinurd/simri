@@ -57,6 +57,8 @@
                 <th width="10%" class="text-center"></th>
                 <th width="10%" class="text-center"></th>
                 <th width="10%" class="text-center"></th>
+                <th width="10%" class="text-center"></th>
+                <th width="10%" class="text-center"></th>
                
             </tr>
         </tfoot>
