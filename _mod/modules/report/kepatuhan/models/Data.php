@@ -221,12 +221,14 @@ class Data extends MX_Model {
 
         $rows = $this->db->WHERE('period_id', $tahun)->WHERE('term_id', $term)
         ->where_in('type_ass_id',[128])
+        ->where('minggu_id !=',0)
         ->WHERE_IN('owner_id', $child_div)->order_by('urut_owner')
         // ->get_compiled_select(_TBL_VIEW_RCSA);
 
         ->get(_TBL_VIEW_RCSA)->result_array();
 
-      
+    //   dumps($rows);
+    //     die();
         if ($bulan!='') {
             // $rows_before = $this->db
             // // ->WHERE('period_no', $tahun)
