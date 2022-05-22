@@ -48,7 +48,7 @@
         
         <tr>
             <?php foreach($minggu as $m):?>
-            <th width="4%" class="text-center">Kelengkapan</th>
+            <th width="4%" class="text-center">Kelengkapan<br>(deadline)</th>
             <th width="8%" class="text-center">Tanggal Approved</th>
             <th width="8%" class="text-center">Ketepatan Waktu</th> 
             <?php endforeach;?>
@@ -65,83 +65,62 @@
         <?php $no=0; ?>
         <?php foreach($proyek_all as $row):?>
             <?php 
-                
+                $created = [];
+                $total1 = [];
                 if ($row['bkx'] > 0) {
-                    if ($row[0]['id']>0) {
-                        $created='<i class="fa fa-check-circle text-primary"></i>';
-                        $total1 += 1;
-                    }else{
-                        $created='<i class="fa fa-minus-circle text-danger"></i>';
+                    foreach($minggu as $x => $m){
+                        if (isset($row[0][$x])) {
+                            $created[$x] ='<i class="fa fa-check-circle text-primary"></i><br><small><b>'.date('d-m-Y', strtotime($row[0][$x]['deadline'])).'</b></b></small>';
+                            // $total1[$x] += 1;
+                            // if (($row[0][$x])>0) {
+                            // }else{
+                            //     $created[$x]='<i class="fa fa-minus-circle text-danger"></i>';
+                            // }
+
+                        }else{
+                            $created[0]='<i class="fa fa-minus-circle text-danger"></i>';
+                        }
                     }
                     
                 } elseif ($row['bkx'] == 0) {
-                    $created='<i class="fa fa-minus-circle text-danger"></i>';
+                    $created[0]='<i class="fa fa-minus-circle text-danger"></i>';
                 } 
 
-                $bk1 = '';
-                $tgl_approved = '';
-                $diff = '';
-                if ($row['bk1'] == '1') {
-                    $bk1='<i class="fa fa-check-circle text-primary"></i>';
-                    if (isset($row[0]['tgl_propose'])) {
-                        if ($divisi==-1) {
-                            $co = $this->data->get_data_lap_by_div($row[0]['period_no'], $row[0]['term_no'], 0, $row[0]['owner_no'], $term_t);
-                            $total1x = 0;
-                            $kepatuhanx = 0;
-
-                            if(count($co['proyek_all'])>0){
-                                foreach ($co['proyek_all'] as $p => $q) {
-                                    if ($q['bkx'] > 0) {
-                                        if ($q[0]['id']>0) {
-                                            $total1x += 1;
-                                        }
-                                    }
-                                    
-                                    $bk3x = '';
-                                    $tgl_approvedx = '';
-                                    $diffx = '';
-                                    if ($q['bk1'] == '1') {
-                                        if (isset($q[0]['tgl_propose'])) {
-
-                                            $tgl_approvedx = $q[0]['tgl_propose'];
-                                            $date1x=date_create($tgl_approvedx);
-                                            $date2x=date_create($deadline);
-                                            $diff0x=date_diff($date2x,$date1x);
-                                            $nilai_diffx=intval($diff0x->format("%R%a"));
-                                            $diffx = kepatuhan($nilai_diffx)."%";
-                                            $kepatuhanx += kepatuhan($nilai_diffx);
-                                        }
-                                        
-                                    }
-                                }
-                                $patuh = ($total1x>0)?($kepatuhanx/$total1x):0;
-                                $kepatuhan += $patuh;
-                                $diff = number_format($patuh, 2).'%';
-                                
-                            }
-
-                            $tgl_approved = $row[0]['tgl_propose'];
-
-                        } else {
-                            $tgl_approved = $row[0]['tgl_propose'];
-                            $date1=date_create($tgl_approved);
-                            $date2=date_create($deadline);
-                            $diffo=date_diff($date2,$date1);
-                            $nilai_diff=intval($diffo->format("%R%a"));
-                            $diff = kepatuhan($nilai_diff)."%";
-                            $kepatuhan += kepatuhan($nilai_diff); 
-                        }
+                $bk1 = [];
+                $tgl_approved = [];
+                $diff = [];
+                foreach($minggu as $x => $m){
+                    if (isset($row[0][$x])) {
+                        if ($row[0][$x]['bk1'] == '1') {
+                            $bk1[0]='<i class="fa fa-check-circle text-primary"></i>';
+                            $tgl_approved[$x] = $row[0][$x]['tgl_propose'];
+                            $date1=date_create($tgl_approved[$x]);
+                            $date2=date_create($row[0][$x]['deadline']);
+                            $diffo[$x]=date_diff($date2,$date1);
+                            $nilai_diff[$x]=intval($diffo[$x]->format("%R%a"));
+                            $diff[$x] = kepatuhan($nilai_diff[$x])."%";
+                            // $kepatuhan += kepatuhan($nilai_diff); 
+                            // $total2 += 1;
+    
+                        } elseif ($row[0][$x]['bk1'] == '0') {
+                            $bk1[0]='<i class="fa fa-minus-circle text-danger"></i>';
+                            $tgl_approved[0]='';
+                            $diff[0]='';
+                        } 
+                    }else{
+                        $bk1[0]='<i class="fa fa-minus-circle text-danger"></i>';
+                        $tgl_approved[0]='';
+                        $diff[0]='';
                     }
-                    $total2 += 1;
+                    
+                }
+            
 
-                } elseif ($row['bk1'] == '0') {
-                    $bk1='<i class="fa fa-minus-circle text-danger"></i>';
-                } 
-
-                $perUnit = '';
-                $satu = (isset($nilai_diff))?intval(kepatuhan($nilai_diff)):0;
-                $totalPerUnit = $satu;
-                $perUnit = number_format($totalPerUnit,2).'%';
+                // $perUnit = '';
+                // $satu = (isset($nilai_diff))?intval(kepatuhan($nilai_diff)):0;
+                // $totalPerUnit = $satu;
+                // $perUnit = number_format($totalPerUnit,2).'%';
+                // dumps($tgl_approved);
                 
             ?>
             <tr>
@@ -150,9 +129,26 @@
 
                 <?php foreach($minggu as $x => $m):?>
 
-                <td class="text-center"><?=$created?></td>
-                <td class="text-center"><?=($tgl_approved!='')?date('d-m-Y', strtotime($tgl_approved)):'';?></td>
-                <td class="text-center"><?=$diff?></td>
+                <td class="text-center p-0"><?=(isset($created[$x]))?$created[$x]:$created[0]?></td>
+                <td class="text-center p-0">
+                    <?php
+                    if (isset($tgl_approved[$x])) {
+                        $c =  ($tgl_approved[$x]!='')?date('d-m-Y', strtotime($tgl_approved[$x])):'';
+                        echo '<small><b>'.$c.'</b></small>';
+                    }else{
+                        echo ($tgl_approved[0]!='')?date('d-m-Y', strtotime($tgl_approved[0])):'';
+                    }
+                    ?>
+                </td>
+                <td class="text-center">
+                <?php 
+                if (isset($diff[$x])) {
+                    echo $diff[$x];
+                }else{
+                    echo $diff[0];
+                }
+                ?>
+                </td>
                 <?php endforeach;?>
 
             </tr>
@@ -166,31 +162,31 @@
     <tfoot class="d-none">
         <tr class="bg-warning" style="font-weight:bold;font-size:16px;">
             <td colspan="2" rowspan="2" class="text-right">Total</td>
-            <td class="text-center" rowspan="2"><?=number_format($total1,0)?></td>
-            <td class="text-center" rowspan="2"><?=number_format($total2,0)?></td>
+            <td class="text-center" rowspan="2"><?php //number_format($total1,0)?></td>
+            <td class="text-center" rowspan="2"><?php //number_format($total2,0)?></td>
             <td class="text-center"></td>
         </tr>
         <tr class="bg-warning"></tr>
         <tr class="bg-warning" style="font-weight:bold;font-size:16px;">
             <td colspan="2" class="text-right">Nilai (%)</td>
             <?php
-                $nilai = ($total1>0)?($total2/$total1)*100:0;
-                $kelengkapan = $nilai;
-                $kepatuhan_total = ($total1>0)?($kepatuhan/$total1):0;
-                $kepatuhan_total_all = $kepatuhan_total;
+                // $nilai = ($total1>0)?($total2/$total1)*100:0;
+                // $kelengkapan = $nilai;
+                // $kepatuhan_total = ($total1>0)?($kepatuhan/$total1):0;
+                // $kepatuhan_total_all = $kepatuhan_total;
             ?>
-            <td class="text-center"><?=number_format($nilai,2)?>%</td>
+            <td class="text-center"><?php //number_format($nilai,2)?>%</td>
             <td class="text-center"></td>
-            <td class="text-center"><?=number_format($kepatuhan_total,2)?>%</td>
+            <td class="text-center"><?php //number_format($kepatuhan_total,2)?>%</td>
 
         </tr>
         <tr class="bg-warning" style="font-weight:bold;font-size:16px;">
             <td colspan="2" class="text-right">Kelengkapan Dokumen</td>
-            <td class="text-left" colspan="<?=$col?>"><?=number_format($kelengkapan, 2)?>%</td>
+            <td class="text-left" colspan="<?=$col?>"><?php //number_format($kelengkapan, 2)?>%</td>
         </tr>
         <tr class="bg-warning" style="font-weight:bold;font-size:16px;">
             <td colspan="2" class="text-right">Ketepatan Waktu</td>
-            <td class="text-left" colspan="<?=$col?>"><?=number_format($kepatuhan_total_all, 2)?>%</td>
+            <td class="text-left" colspan="<?=$col?>"><?php //number_format($kepatuhan_total_all, 2)?>%</td>
         </tr>
     </tfoot>
 </table> 

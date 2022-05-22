@@ -159,6 +159,7 @@ class Kepatuhan extends MY_Controller {
 			$tgl1 = $term['param_date'];
 			$tgl2 = $term['param_date_after'];
 		}
+		
 		$minggu=$this->crud->combo_select(['id', 'param_string as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		unset($minggu[""]);
 

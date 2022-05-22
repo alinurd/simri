@@ -192,6 +192,14 @@ class Data extends MX_Model {
         }
     }
 
+    function get_minggu($id)
+    {
+        $minggu=$this->crud->combo_select(['id', 'param_date'])->combo_where('kelompok', 'minggu')->combo_where('id', $id)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		unset($minggu[""]);
+
+        return (isset($minggu[$id]))?$minggu[$id]:0;
+    }
+
 	function get_data_lap($tahun = 0, $term = 0, $asse = 0, $owner=0, $bulan='')
     {
 
@@ -229,157 +237,92 @@ class Data extends MX_Model {
 
     //   dumps($rows);
     //     die();
-        if ($bulan!='') {
-            // $rows_before = $this->db
-            // // ->WHERE('period_no', $tahun)
-            // ->WHERE('tgl_mulai_term >=', "date_trunc('month', DATE '".$bulan."' - interval '1' month)", false)
-            // ->WHERE('tgl_mulai_term <', "date_trunc('month', DATE '".$bulan."')", false)->where_in('type_ass',[69,68])->WHERE_IN('owner_id', $child_div)->order_by('urut_owner')
-            // // ->get_compiled_select(_TBL_VIEW_RCSA);
-            // ->get(_TBL_VIEW_RCSA)->result_array();
-        }
 
-
-        // if ($bulan!='') {
-
-        //     $rows_loss = $this->db
-        //     ->WHERE('tgl_mulai_term >=', "date_trunc('month', DATE '".$bulan."' - interval '1' month)", false)
-        //     ->WHERE('tgl_mulai_term <', "date_trunc('month', DATE '".$bulan."')", false)
-        //     // ->WHERE('period_no', $tahun)->WHERE('term_no', $term)
-        //     ->where_in('tgl_mulai_term',[69,68])->WHERE('parent', 0)
-        //     ->WHERE_IN('owner_id', $child_div)->order_by('urut_owner')->get(_TBL_VIEW_LOSS_EVENT)->result_array();
-        // }
         $project=[];
         foreach($rows as $row){
-            $project[$row['owner_id']]=$row;
+            $project[$row['owner_id']][$row['minggu_id']]=$row;
         }
-        
-        // $project_before=[];
-        // if ($bulan!='') {
-        //     foreach($rows_before as $row){
-        //         $project_before[$row['owner_id']]=$row;
-        //     }
-        // }
-
-        // $loss=[];
-        // if ($bulan!='') {
-
-        //     foreach($rows_loss as $row){
-        //         $loss[$row['owner_id']]=$row;
-        //     }
-        // }
         
         $unit = $this->db->WHERE('period_id', $tahun)->WHERE('term_id', $term)->WHERE_IN('owner_id', $child_div)->get(_TBL_VIEW_RCSA)->result_array();
 
-        
-    //     dumps($project);
-    //   die();
         $proyek_all = [];
-        
-        
-        // if ($owner != 0) {
-            foreach ($projectx as $key => $val) {
-                $res['status_final']=0;
-                $res['status_final_mitigasi']=0;
-                $res['id']=0;
-                $bk1=0;
-                $bk3=0;
-                // $res_before['sts_final']=0;
-                // $res_before['sts_final_bk3']=0;
-                // $res_before['id']=0;
-                // $bk1_before=0;
-                // $bk3_before=0;
-                // $res_loss['sts_final']=0;
-                // $res_loss['id']=0;
-                // $bk1_loss=0;
-                if ($val['owner_code'] != "") {
-                   
-                  
-                    if (array_key_exists($val['id'], $project)) {
-                        $res = $project[$val['id']];
-                        $bkx = $res['urut_owner'];
-                        $tgl = $res['tgl_mulai_term'];
-                        $time = strtotime($tgl);
-
-                        $newformat = date('Y-m',$time);
-                        $deadline = $newformat.'-05';
-                        if ($res['status_final'] == 1) {
-                            $bk1 = 1;
-                        }
-                        if ($res['status_final_mitigasi'] == 1) {
-                            $bk3 = 1;
-                        }
-                    } else {
-                        $res['owner_name'] = $val['owner_name'];
-                        $res['kode_dept'] = $val['owner_code'];
-                        $res['kategori'] = '';
-                        $bkx = 1000;
-                        $bk1 = '';
-                        $bk3 = '';
-                        $tgl = '';
-                        $deadline = '';
-
-                        
-                    }
-
-                    // if (array_key_exists($val['id'], $project_before)) {
-                    //     $res_before = $project_before[$val['id']];
-                    //     $bkx_before = $res_before['urut_owner'];
-                    //     $tgl_before = $res_before['tgl_mulai_term'];
-
-                    //     if ($res_before['sts_final'] == 1) {
-                    //         $bk1_before = 1;
-                    //     }
-                    //     if ($res_before['sts_final_bk3'] == 1) {
-                    //         $bk3_before = 1;
-                    //     }
-                    // } else {
-                    //     $res_before['owner_name'] = $val['owner_name'];
-                    //     $res_before['kategori'] = '';
-                    //     $bkx_before = 1000;
-                    //     $bk1_before = '';
-                    //     $bk3_before = '';
-                    //     $tgl_before = '';
-                    // }
-
-                    // if (array_key_exists($val['id'], $loss)) {
-                    //     $res_loss = $loss[$val['id']];
-                    //     $bkx_loss = $res_loss['urut_owner'];
-                    //     $tgl_loss = $res_loss['tgl_mulai_term'];
-                    //     if ($res_loss['sts_final'] == 1) {
-                    //         $bk1_loss = 1;
-                    //     }
-                    // } else {
-                    //     $res_loss['owner_name'] = $val['owner_name'];
-                    //     $res_loss['kategori'] = '';
-                    //     $bkx_loss = 1000;
-                    //     $bk1_loss = '';
-                    //     $tgl_loss = '';
-                        
-                    // }
-    
-                    $proyek_all[] = [
-                        $res,
-                        // $res_before,
-                        // $res_loss,
-                        'deadline' => $deadline,
-                        'bkx' => $bkx,
-                        'bk1' => $bk1,
-                        'bk3' => $bk3,
-                        'tgl' => $tgl,
-                        // 'bkx_before' => $bkx_before,
-                        // 'bk1_before' => $bk1_before,
-                        // 'bk3_before' => $bk3_before,
-                        // 'tgl_before' => $tgl_before,
-                        // 'bkx_loss' => $bkx_loss,
-                        // 'bk1_loss' => $bk1_loss,
-                        // 'tgl_loss' => $tgl_loss,
-                    ];
-                }
-            } 
-        // }
-        // dumps($proyek_all);
+        // dumps($project);
       
         // die();
+        foreach ($projectx as $key => $val) { 
+            $res['status_final']=0;
+            $res['status_final_mitigasi']=0;
+            $res['id']=0;
+            $bk1=0;
+            $bk3=0;
+            if ($val['owner_code'] != "") {
+
+                $res = [];
+                if (array_key_exists($val['id'], $project)) {
+					foreach ($project[$val['id']] as $k => $v) {
+						$res[$k] = $v;
+						
+						$res[$k]['mitigasi'] = [];
+						$miti=$this->db->where('rcsa_id', $v['id'])->where('term_id', $v['term_id'])->get(_TBL_VIEW_RCSA_APPROVAL_MITIGASI)->result_array();
+						
+						if (count($miti)>0) {
+							foreach ($miti as $km => $vm) {
+								$res[$k]['mitigasi'][$vm['minggu_id']] = $vm;
+							}
+						}
+						
+                        $tgl = $this->get_minggu($v['minggu_id']);
+                        $time = strtotime($tgl);
+    
+                        $newformat = date('Y-m',$time);
+                        $deadline = $newformat.'-05';
+                        if ($v['status_final'] == 1) {
+                            $bk1 = 1;
+                        }
+                        if ($v['status_final_mitigasi'] == 1) {
+                            $bk3 = 1;
+                        }
+
+                        $urut_owner = $v['urut_owner'];
+
+						$res[$k]['bk1'] = $bk1;
+						$res[$k]['bk3'] = $bk3;
+						$res[$k]['deadline'] = $deadline;
+						
+                    }
+                    
+                    $res['owner_name'] = $val['owner_name'];
+                    $res['kode_dept'] = $val['owner_code'];
+                    $res['kategori'] = '';
+                    $bkx = $urut_owner;
+                    $tgl = '';
+                    $deadline = '';
+                    $bk1 = '';
+                    $bk3 = '';
+                } else {
+                    $res['owner_name'] = $val['owner_name'];
+                    $res['kode_dept'] = $val['owner_code'];
+                    $res['kategori'] = '';
+                    $bkx = 1000;
+                    $bk1 = '';
+                    $bk3 = '';
+                    $tgl = '';
+                    $deadline = '';
+                }
+
+                $proyek_all[] = [
+                    $res,
+                    'deadline' => $deadline,
+                    'bkx' => $bkx,
+                    'bk1' => $bk1,
+                    'bk3' => $bk3,
+                    'tgl' => $tgl,
+                ];
+            }
+         
+        } 
+        // dumps($proyek_all);
+		// die();
         
         // ambil kolom yg dibutuhkan untuk sort
         $bkxsort = array_column($proyek_all, 'bkx');
