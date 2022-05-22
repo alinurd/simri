@@ -160,29 +160,21 @@ class Data extends MX_Model {
 			$aktifitas[$row['id']]=$row['jml'];
 		}
 		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
+	
 		$progres=[];
 		
 		foreach($rows as $row){
 			$progres[$row['id']]=$row['jml'];
 		}
 		// $this->filter_data();
-		$this->filter_data_all(_TBL_VIEW_RCSA_DETAIL, $dtuser);
-		
-		// if ($this->pos['level']==1){
-		// 	$this->db->where('risiko_inherent',$this->pos['id']);
-		// }elseif ($this->pos['level']==2){
-		// 	$this->db->where('risiko_residual',$this->pos['id']);
-		// }elseif ($this->pos['level']==3){
-		// 	$this->db->where('risiko_target',$this->pos['id']);
-		// }elseif ($this->pos['level']==9){
-		// 	$this->db->where('owner_id',$this->pos['id']);
-		// }
-
+		$this->filter_data_all(_TBL_VIEW_RCSA_DETAIL, $dtuser, true);
+	
 		
 		// dumps("cek");
 		// die();
-		$rows=$this->db->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		$rows=$this->db->order_by('tgl_mulai_minggu')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 		// $rows=$this->db->get_compiled_select(_TBL_VIEW_RCSA_DETAIL);
+		// dumps($rows);
 		foreach($rows as &$row){
 			if (array_key_exists($row['id'], $miti)){
 				$row['jml']=$miti[$row['id']];
@@ -657,6 +649,59 @@ class Data extends MX_Model {
 		$hasil['lap2']=$lap2;
 		$hasil['parent']=$parent;
 		$hasil['owner_name']=$owner_name;
+		return $hasil;
+	}
+
+	function get_data_kompilasi($dtuser){
+	
+		$rcsa = [];
+		$rcsa_detail = [];
+		$this->filter_data_all(_TBL_VIEW_RCSA_DETAIL, $dtuser, true);
+	
+		$rows=$this->db->order_by('tgl_mulai_minggu')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		foreach ($rows as $key => $value) {
+			if (!in_array($value['id'], $rcsa_detail)) {
+				$rcsa_detail[] = $value['id'];
+			}
+
+			if (!in_array($value['rcsa_id'], $rcsa)) {
+				$rcsa[] = $value['rcsa_id'];
+			}
+		}
+	
+		
+		$rows=$this->db->where_in('rcsa_detail_id', $rcsa_detail)
+		// ->get_compiled_select(_TBL_VIEW_RCSA_MITIGASI_PROGRES);
+		->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
+
+		// dumps($rows);
+		// die();
+		$mit=[];
+		$jml['aktif']=[];
+		foreach($rows as $row){
+			$mit[$row['penyebab_id']][]=$row;
+			$jml['aktif'][$row['rcsa_mitigasi_detail_id']][]=$row['id'];
+		}
+		$hasil=$jml;
+		$rows=$this->db->where_in('id', $rcsa)->get(_TBL_VIEW_RCSA)->row_array();
+		$parent=$rows;
+		$mitigasi=$mit;
+		$rows=$this->db->where_in('rcsa_detail_id', $rcsa_detail)->get(_TBL_VIEW_MONITORING)->result_array();
+		$rows = $this->convert_owner->set_data($rows)->set_param(['penanggung_jawab'=>'penanggung_jawab_detail_id', 'koordinator'=>'koordinator_detail_id'])->draw();
+		$rowsx=$rows;
+
+		$jml['miti']=[];
+		$jml['identi']=[];
+		foreach($rows as $row){
+			$jml['identi'][$row['rcsa_detail_id']][]=$row['id'];
+			$jml['miti'][$row['mitigasi_id']][]=$row['id'];
+		}
+		$hasil=$jml;
+		$hasil['rows']=$rowsx;
+	
+		$hasil['parent']=$parent;
+		$hasil['mitigasi']=$mit;
+		$hasil['minggu']=$this->crud->combo_select(['id', 'concat(param_string) as minggu'])->combo_where('kelompok', 'minggu')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		return $hasil;
 	}
 }

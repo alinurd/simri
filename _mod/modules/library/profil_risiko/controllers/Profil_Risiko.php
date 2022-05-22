@@ -992,8 +992,9 @@ class Profil_Risiko extends MY_Controller {
 		$x['post']=$this->pos;
 		$x['minggu']=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 
-		$aw = (isset($x['minggu'][$x['post']['term_mulai']]))?$x['minggu'][$x['post']['term_mulai']]:'';
-		$ak = (isset($x['minggu'][$x['post']['term_akhir']]))?$x['minggu'][$x['post']['term_akhir']]:'';
+		// $aw = (isset($x['minggu'][$x['post']['term_mulai']]))?$x['minggu'][$x['post']['term_mulai']]:'';
+		// $ak = (isset($x['minggu'][$x['post']['term_akhir']]))?$x['minggu'][$x['post']['term_akhir']]:'';
+		
 		$hasil['range']= 'Jan - Des';
 	
 		$hasil['detail_list']=$this->load->view('identifikasi', $x, true);
@@ -1003,7 +1004,10 @@ class Profil_Risiko extends MY_Controller {
 
 		$hasil['kpi'] = $this->load->view('detail', $det, true);
 
-		$hasil['progress']='';
+		$y=$this->data->get_data_kompilasi($this->pos['period'],$this->pos['owner'],$this->pos['type_ass'], $this->_data_user_);
+		$y['pos'] = $this->pos;
+	
+		$hasil['progress']=$this->hasil=$this->load->view('monitoring',$y, true);
 
 
 		echo json_encode($hasil);
