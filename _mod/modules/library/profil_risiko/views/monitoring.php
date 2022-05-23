@@ -1,5 +1,6 @@
 <?php
-    $show='';
+    $show=' d-none ';
+
     if (isset($export)){
         if (!$export){
             $show=' d-none ';
@@ -63,7 +64,6 @@
                         $tmp2=0;
                         $core = [];
                         $rcsa = [];
-
                         foreach($rows as $row):
 
                             if (!in_array($row['penyebab_id'], $core)) {
@@ -83,7 +83,7 @@
                             // }
                         ?>
 
-                           <tr>
+                           <tr class="pointer detail-progress" data-id="<?=$row['rcsa_detail_id'];?>" data-rcsa="<?=$row['rcsa_id'];?>">
                                 <?php
                                 //if ($row['rcsa_detail_id']!==$tmp):
                                   //  $tmp=$row['rcsa_detail_id'];

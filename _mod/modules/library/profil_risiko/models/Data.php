@@ -562,6 +562,7 @@ class Data extends MX_Model {
 			$owner_id=0;
 			$xx=[];
 			foreach ($row['detail'] as $k=>$d){
+				$idi = '-1';
 				if($owner_id!==$key){
 					// dumps($d);
 					$xx[$k]['name']=$d['owner_name'];
@@ -569,67 +570,78 @@ class Data extends MX_Model {
 					$xx[$k]['title']=trim($d['title']);
 					$xx[$k]['indikator']=$d['indikator'];
 					$owner_id=$d['kpi_id'];
+					$idi=$key;
 				}
-				if ($minggu==0) {
-					if (count($rcsa_id)>0) {
-						$this->db->where_in('rcsa_id', $rcsa_id);
-					}else{
-						$this->db->where('rcsa_id', '-1');
-					}
-					$dd = $this->db->where('minggu_type',1)
-						// ->where('bulan_int>=',$bulan[0]) 
-						// ->where('bulan_int<=',$bulan[1])
-						// ->where('period_id',$period)
-						->where('title like ',"%".$d['title'])
-	
+				// if (count($rcsa_id)>0) {
+				// }else{
+				// 	$this->db->where('rcsa_id', '-1');
+				// }
+				$this->db->where_in('kpi_id', $idi);
+				$dd = $this->db->where('minggu_type',1)
+				// ->where('bulan_int>=',$bulan[0]) 
+				// ->where('bulan_int<=',$bulan[1])
+				// ->where('period_id',$period)
+				->where('title like ',"%".$d['title'])
 
-						->get(_TBL_VIEW_RCSA_KPI_DETAIL)->result_array();
 
-						foreach ($dd as $ke => $va) {
-							$xx[$k]['bulan'][$va['bulan_int']]=$va;
-						}
-				} else {
-					$xx[$k]['bulan'][$d['bulan_int']]=$d;
+				// ->get_compiled_select(_TBL_VIEW_RCSA_KPI_DETAIL);
+				->get(_TBL_VIEW_RCSA_KPI_DETAIL)->result_array();
+				// dumps($idi);
+				// die();
+				// dumps($dd);
+
+				foreach ($dd as $ke => $va) {
+					$xx[$k]['bulan'][$va['bulan_int']]=$va;
 				}
+				// if ($minggu==0) {
+				// } else {
+				// 	$xx[$k]['bulan'][$d['bulan_int']]=$d;
+				// }
 				
 				
 			}
 			$x[$key]=$xx;
 		}
+		// dumps($x);
+		// die();
 		unset($row);
-		// dumps($minggu);die();
 		$y=[];
 		$owner_id=0;
 		foreach ($rows as $key=>$row){
+			$idi=0;
+
 			if($owner_id!==$row['id']){
 				$y[$row['id']]['name']=$row['owner_name'];
 				$y[$row['id']]['satuan']=$row['satuan'];
 				$y[$row['id']]['title']=trim($row['title']);
 				$y[$row['id']]['indikator']=$row['indikator'];
 				$owner_id=$row['id'];
+				$idi=$d['id'];
+
 			}
-			if ($minggu==0) {
-				if (count($rcsa_id)>0) {
-					$this->db->where_in('rcsa_id', $rcsa_id);
-				}else{
-					$this->db->where('rcsa_id', '-1');
-				}
-				$dd = $this->db->where('minggu_type',1)
-					// ->where('bulan_int>=',$bulan[0])
-					// ->where('bulan_int<=',$bulan[1])
-					// ->where('period_id',$period)
-					
-					->where('title like ',"%".$row['title'])
-					->get(_TBL_VIEW_RCSA_KPI)->result_array();
-
-				foreach ($dd as $key => $value) {
-					$y[$row['id']]['bulan'][$value['bulan_int']]=$value;
-				}
-
+			if (count($rcsa_id)>0) {
+				$this->db->where_in('rcsa_id', $rcsa_id);
 			}else{
-				$y[$row['id']]['bulan'][$row['bulan_int']]=$row;
+				$this->db->where('rcsa_id', '-1');
 			}
+			$dd = $this->db->where('minggu_type',1)
+				// ->where('bulan_int>=',$bulan[0])
+				// ->where('bulan_int<=',$bulan[1])
+				// ->where('period_id',$period)
+				
+				->where('title like ',"%".$row['title'])
+				->get(_TBL_VIEW_RCSA_KPI)->result_array();
+
+			foreach ($dd as $key => $value) {
+				$y[$row['id']]['bulan'][$value['bulan_int']]=$value;
+			}
+			// if ($minggu==0) {
+
+			// }else{
+			// 	$y[$row['id']]['bulan'][$row['bulan_int']]=$row;
+			// }
 		}
+		
 		unset($row);
 		// dumps($x);
 		foreach($y as $key=>&$row){
@@ -641,7 +653,8 @@ class Data extends MX_Model {
 			}
 		}
 
-		// dumps($y);
+		// dumps($x);
+		// die();
 		unset($row);
 
 		$hasil['bulan']=$bulan;
@@ -699,6 +712,37 @@ class Data extends MX_Model {
 		$hasil=$jml;
 		$hasil['rows']=$rowsx;
 	
+		$hasil['parent']=$parent;
+		$hasil['mitigasi']=$mit;
+		$hasil['minggu']=$this->crud->combo_select(['id', 'concat(param_string) as minggu'])->combo_where('kelompok', 'minggu')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		return $hasil;
+	}
+
+	function get_data_monitoring_profil($id, $rcsa){
+		$rows=$this->db->where('rcsa_detail_id', $id)->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
+		
+		$mit=[];
+		$jml['aktif']=[];
+		foreach($rows as $row){
+			$mit[$row['rcsa_mitigasi_detail_id']][]=$row;
+			$jml['aktif'][$row['rcsa_mitigasi_detail_id']][]=$row['id'];
+		}
+		$hasil=$jml;
+		$rows=$this->db->where('id', $rcsa)->get(_TBL_VIEW_RCSA)->row_array();
+		$parent=$rows;
+		$mitigasi=$mit;
+		$rows=$this->db->where('rcsa_detail_id', $id)->get(_TBL_VIEW_MONITORING)->result_array();
+		$rows = $this->convert_owner->set_data($rows)->set_param(['penanggung_jawab'=>'penanggung_jawab_detail_id', 'koordinator'=>'koordinator_detail_id'])->draw();
+		$rowsx=$rows;
+		
+		$jml['miti']=[];
+		$jml['identi']=[];
+		foreach($rows as $row){
+			$jml['identi'][$row['rcsa_detail_id']][]=$row['id'];
+			$jml['miti'][$row['mitigasi_id']][]=$row['id'];
+		}
+		$hasil=$jml;
+		$hasil['rows']=$rowsx;
 		$hasil['parent']=$parent;
 		$hasil['mitigasi']=$mit;
 		$hasil['minggu']=$this->crud->combo_select(['id', 'concat(param_string) as minggu'])->combo_where('kelompok', 'minggu')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();

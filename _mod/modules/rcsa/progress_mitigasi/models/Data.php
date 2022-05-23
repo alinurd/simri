@@ -260,7 +260,6 @@ class Data extends MX_Model {
 			}
 			$x[$key]=$xx;
 		}
-
 		unset($row);
 		// dumps($rows);die();
 		$y=[];

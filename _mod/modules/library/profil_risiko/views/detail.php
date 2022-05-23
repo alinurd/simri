@@ -1,6 +1,6 @@
 <?php
 if (!$mode):?>
-<a class="btn btn-primary" href="<?=base_url(_MODULE_NAME_.'/cetak');?>" target="_blank"><i class="icon-file-excel"> Ms-Excel </i></a>
+<a class="btn btn-primary d-none" href="<?=base_url(_MODULE_NAME_.'/cetak');?>" target="_blank"><i class="icon-file-excel"> Ms-Excel </i></a>
 <?php endif;?>
 <center>
 PELAPORAN KEY RISK INDICATOR<br/>
@@ -38,8 +38,9 @@ Sasaran Departemen :
         $cek=[];
         // dumps($data);
         foreach($data as $key=>$row):?>
-        
-        <?php if(!in_array(trim($row['title']), $cek)):?>
+       
+        <!-- !in_array(trim($row['title']), $cek) &&  -->
+        <?php if(!in_array(trim($row['title']), $cek) && count($row['detail'])>0):?>
         <tr>
             <td><?=++$no;?></td>
             <td><?=$row['title'];?></td>
@@ -106,7 +107,6 @@ Sasaran Departemen :
             endfor; ?>
         </tr>
         <?php
-            // dumps($row);
             $nod=-1;
             $alphabet = range('A', 'Z');
             foreach($row['detail'] as $row_det):

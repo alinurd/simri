@@ -253,6 +253,18 @@ $(function(){
 		_ajax_("post", parent, data, '', url,'result_map');
     });
 
+    $(document).on('click','.detail-progress', function() {
+		var parent = $(this).parent().parent().parent();
+		var id = $(this).data('id');
+
+		var rcsa = $(this).data('rcsa');
+
+		var data={'id':id, 'rcsa':rcsa};
+		var target_combo = '';
+		var url = modul_name+"/get-monitoring";
+		_ajax_("post", parent, data, target_combo, url, 'list_mitigasi');
+    })
+
     $(document).on('click','#proses_check', function() {
         var parent = $(this).parent().parent().parent();
 		var period = $("#period").val();

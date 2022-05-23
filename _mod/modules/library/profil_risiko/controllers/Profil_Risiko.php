@@ -1020,4 +1020,13 @@ class Profil_Risiko extends MY_Controller {
 		$hasil['combo']=$this->load->view('ajax/identifikasi', $x, true);
 		echo json_encode($hasil);
 	}
+
+	function get_monitoring(){
+		$id = $this->input->post('id');
+		$rcsa = $this->input->post('rcsa');
+		$data=$this->data->get_data_monitoring_profil($id, $rcsa);
+		$data['id']=$id;
+		$x['combo']=$this->load->view('risk_context/monitoring', $data, true);
+		echo json_encode($x);
+	}
 }
