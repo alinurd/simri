@@ -54,10 +54,11 @@ class Kepatuhan extends MY_Controller {
 		$owner =$this->get_combo_parent_dept();
 		$period =$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'period')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		$term=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'term')->combo_where('pid', _TAHUN_ID_)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-		$data['minggu']=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-		// $data['minggu']=$this->crud->combo_select(['id', 'concat(param_string,\' minggu ke - \',data, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-		// die($this->db->last_query());
 
+
+		$minggu=$this->crud->combo_select(['id', 'param_string as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		unset($minggu[""]);
+		
 		$this->data->pos['tgl1']=$tgl1;
 		$this->data->pos['tgl2']=$tgl2;
 		$this->data->pos['owner']=0;
@@ -66,17 +67,13 @@ class Kepatuhan extends MY_Controller {
 		$this->data->pos['term']=_TERM_ID_;
 		$this->data->pos['minggu']=_MINGGU_ID_;
 
-		// $x=$this->data->get_data_grap();
-		// $dat['data']=$x['tepat'];
-		// $data['grap2'] = $this->hasil=$this->load->view('grap3',$dat, true);
-		// $data['data_grap2']= $this->hasil=$this->load->view('grap4',$dat, true);
-
 		$data = [];
 		$divisi = $this->data->get_data_lap_basic();
 		$data = $this->data->get_data_lap();
 		
 		$data['periode'] = $period;
 		$data['term'] = $term;
+		$data['minggu'] = $minggu;
 		$data['asse_type'] = $asse_type;
 		$data['divisi'] = $divisi;
 		$data['term_t'] = '';
@@ -152,13 +149,26 @@ class Kepatuhan extends MY_Controller {
 		$post = $this->input->post();
 		$offset = strpos($post['term_t'],'[');
 		$tgl = substr($post['term_t'], $offset+1, 10);
+
+		// $x = $post['term'];
+		$tgl1=date('Y-m-d');
+		$tgl2=date('Y-m-d');
+	
+		$term= $this->db->select('param_date, param_date_after')->where('kelompok','term')->where('id', $post['term'])->where('active', 1)->get(_TBL_COMBO)->row_array();
+		if ($term) {
+			$tgl1 = $term['param_date'];
+			$tgl2 = $term['param_date_after'];
+		}
 		
+		$minggu=$this->crud->combo_select(['id', 'param_string as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		unset($minggu[""]);
+
 		
 		$data = $this->data->get_data_lap($post['tahun'], $post['term'], 0, $post['divisi'], $tgl);
 		
-		// Doi::dump($data);
-		// die();
+	
 		$data['divisi'] = $post['divisi'];
+		$data['minggu'] = $minggu;
 		$data['term_t'] = $tgl;
 		$data['title'] = $post['term_t'] . ' - ' . $post['tahun_t'];
 		// $data['title'] = "cek";

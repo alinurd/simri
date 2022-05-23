@@ -60,13 +60,13 @@
 
                 <div class="tab-content">
                     <div class="tab-pane fade active show" id="content-tab-00">
-                        <div id="detail">
+                        <div id="detail" class="table-responsive">
                             <?= $detail; ?>
                         </div>
                     </div>
                     <div class="tab-pane fade " id="content-tab-01">
-                        <div id="detail2">
-                            <?php // $detail2; ?>
+                        <div id="detail2" class="table-responsive">
+                            <?php echo $detail2; ?>
 
                         </div>
 

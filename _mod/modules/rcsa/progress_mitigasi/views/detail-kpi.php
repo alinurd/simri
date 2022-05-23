@@ -77,7 +77,7 @@ Sasaran Departemen :
                 
                 if (array_key_exists($x, $row['bulan'])):?>
 
-<?php
+                <?php
 
                         if ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_1_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_1_max']){
                             $warna='bg-success-400';
@@ -104,7 +104,7 @@ Sasaran Departemen :
 
                             $int = 5;
                         }
-                    ?>
+                ?>
                     <td><?=$row['bulan'][$x]['p_1'].' '.$row['bulan'][$x]['s_1_min'].'-'.$row['bulan'][$x]['s_1_max'];?></td>
                     <td><?=$row['bulan'][$x]['score'];?></td>
                     <td class="<?=$warna;?>" style="<?=$bg?>"></td>
@@ -116,7 +116,8 @@ Sasaran Departemen :
             endfor; ?>
         </tr>
         <?php
-            // dumps($row);
+                        dumps($row['detail']);
+
             $nod=-1;
             $alphabet = range('A', 'Z');
             foreach($row['detail'] as $row_det):
