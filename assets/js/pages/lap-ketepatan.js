@@ -41,7 +41,8 @@ function list_map(hasil){
 }
 
 function result_map(hasil){
-    $("#result_grap3").html(hasil.grap1);
+    $("#result_grap3").html(hasil.grap2);
+    $("#result_grap4").html(hasil.data_grap2);
 }
 
 function show_result(hasil){
@@ -88,7 +89,6 @@ function eConsole(param) {
 function grafik_pie(data, target){
     var pie_basic_element = document.getElementById(target);
     var myChart = echarts.init(pie_basic_element);
-    
     // specify chart configuration item and data
     var option = {
 
@@ -113,7 +113,9 @@ function grafik_pie(data, target){
                 fontSize: 13,
                 fontFamily: 'Roboto, sans-serif'
             },
-            formatter: "{b}: {c} ({d}%)"
+            formatter: function (params) {
+                return params.name;
+            }
         },
 
         // Add series

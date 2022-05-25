@@ -67,6 +67,7 @@ class Lap_Ketepatan extends MY_Controller {
 		$this->data->pos['minggu']=_MINGGU_ID_;
 
 		$x=$this->data->get_data_grap();
+		
 		$dat['data']=$x['tepat'];
 		$data['grap2'] = $this->hasil=$this->load->view('grap3',$dat, true);
 		$data['data_grap2']= $this->hasil=$this->load->view('grap4',$dat, true);
@@ -84,9 +85,12 @@ class Lap_Ketepatan extends MY_Controller {
 		$this->owner_child=$this->data->owner_child;
 		
 		$x=$this->data->get_data_grap();
-
+		
 		$dat['data']=$x['tepat'];
+		// dumps($x['tepat'][0]);
+		// die();
 		$hasil['grap2'] = $this->hasil=$this->load->view('grap3',$dat, true);
+		// $hasil['data_grap2']= '';
 		$hasil['data_grap2']= $this->hasil=$this->load->view('grap4',$dat, true);
 
 		echo json_encode($hasil);
