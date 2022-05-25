@@ -65,7 +65,7 @@
         <?php $no=0; ?>
         <?php foreach($proyek_all as $row):?>
             <?php 
-                $created = [];
+                $created[0]='<i class="fa fa-minus-circle text-danger"></i>';
                 $total1 = [];
                 if ($row['bkx'] > 0) {
                     foreach($minggu as $x => $m){
@@ -87,8 +87,8 @@
                 } 
 
                 $bk3 = [];
-                $tgl_approved = [];
-                $diff = [];
+                $tgl_approved[0]='';
+                $diff[0]='';
                 foreach($minggu as $x => $m){
                     if (isset($row[0][$x])) {
                         if ($row[0][$x]['bk3'] == '1') {
