@@ -229,7 +229,7 @@ class Template {
      * Stylesheet trigger
      * @param string $source
      */
-    public function trigger_stylesheet($url, $attributes = FALSE) {
+    public function trigger_stylesheet($url, $attributes = FALSE, $cdn=false) {
         // array support
         if (is_array($url)) {
             $return = '';
@@ -238,9 +238,45 @@ class Template {
             }
             return $return;
         }
-        $url = $this->_ci->config->item('css_path').$url;
-        if (!stristr($url, 'http://') && !stristr($url, 'https://') && substr($url, 0, 2) != '//') {
-            $url = $this->_ci->config->item('base_url') .'/'. $url;
+        if ($cdn == false) {
+            $url = $this->_ci->config->item('css_path').$url;
+            if (!stristr($url, 'http://') && !stristr($url, 'https://') && substr($url, 0, 2) != '//') {
+                $url = $this->_ci->config->item('base_url') .'/'. $url;
+            }
+        }
+
+        // legacy support for media
+        if (is_string($attributes)) {
+            $attributes = array('media' => $attributes);
+        }
+
+        if (is_array($attributes)) {
+        	$attributeString = "";
+
+        	foreach ($attributes as $key => $value) {
+	        	$attributeString .= $key . '="' . $value . '" ';
+        	}
+        	
+            return '<link rel="stylesheet" href="' . htmlspecialchars(strip_tags($url)) . '" ' . $attributeString . '>' . "\n\t";
+        } else {
+            return '<link rel="stylesheet" href="' . htmlspecialchars(strip_tags($url)) . '">' . "\n\t";
+        }
+    }
+
+    public function trigger_stylesheet_end($url, $attributes = FALSE, $cdn=false) {
+        // array support
+        if (is_array($url)) {
+            $return = '';
+            foreach ($url as $u) {
+                $return .= $this->trigger_stylesheet_end($u, $attributes);
+            }
+            return $return;
+        }
+        if ($cdn == false) {
+            $url = $this->_ci->config->item('css_path').$url;
+            if (!stristr($url, 'http://') && !stristr($url, 'https://') && substr($url, 0, 2) != '//') {
+                $url = $this->_ci->config->item('base_url') .'/'. $url;
+            }
         }
 
         // legacy support for media
@@ -265,7 +301,7 @@ class Template {
      * Javascript trigger
      * @param string $source
      */
-    public function trigger_javascript($url) {
+    public function trigger_javascript($url, $cdn=false) {
         // array support
         if (is_array($url)) {
             $return = '';
@@ -274,9 +310,30 @@ class Template {
             }
             return $return;
         }
-         $url = $this->_ci->config->item('js_path').$url;
-        if (!stristr($url, 'http://') && !stristr($url, 'https://') && substr($url, 0, 2) != '//') {
-            $url = $this->_ci->config->item('base_url') .'/'. $url;
+        if ($cdn==false) {
+            $url = $this->_ci->config->item('js_path').$url;
+           if (!stristr($url, 'http://') && !stristr($url, 'https://') && substr($url, 0, 2) != '//') {
+               $url = $this->_ci->config->item('base_url') .'/'. $url;
+           }
+        }
+        
+        return '<script src="' . htmlspecialchars(strip_tags($url)) . '"></script>' . "\n\t";
+    }
+
+    public function trigger_javascript_end($url, $cdn=false) {
+        // array support
+        if (is_array($url)) {
+            $return = '';
+            foreach ($url as $u) {
+                $return .= $this->trigger_javascript($u);
+            }
+            return $return;
+        }
+        if ($cdn==false) {
+            $url = $this->_ci->config->item('js_path').$url;
+           if (!stristr($url, 'http://') && !stristr($url, 'https://') && substr($url, 0, 2) != '//') {
+               $url = $this->_ci->config->item('base_url') .'/'. $url;
+           }
         }
         
         return '<script src="' . htmlspecialchars(strip_tags($url)) . '"></script>' . "\n\t";

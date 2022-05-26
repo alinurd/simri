@@ -995,7 +995,7 @@ class MY_Controller extends MX_Controller {
 
 				break;
 			case 'html':
-				$content = form_textarea($label, $isi," id='$label' class='summernote'");
+				$content = form_textarea($label, html_entity_decode($isi)," id='$label' class='trumbowyg'");
 				// $content ='<div class="summernote">';
 				// $content .=$isi;
 				// $content .='</div>';
@@ -2396,6 +2396,7 @@ class MY_Controller extends MX_Controller {
 		// $this->_css_[] = 'datatable/buttons.bootstrap4.min.css';
 		// $this->_css_[] = 'datatable/responsive.bootstrap4.min.css';
 		$this->_css_[] = 'summernote.css';
+		$this->_css_[] = 'plugins/editors/trumbowyg/ui/trumbowyg.min.css';
 		$this->_css_[] = 'style.css';
 	}
 
@@ -2426,6 +2427,8 @@ class MY_Controller extends MX_Controller {
 		$this->_js_[] = 'plugins/notifications/jgrowl.min.js';
 		$this->_js_[] = 'plugins/notifications/noty.min.js';
 		$this->_js_[] = 'plugins/editors/summernote/summernote.min.js';
+		$this->_js_[] = 'plugins/editors/trumbowyg/trumbowyg.min.js';
+		$this->_js_[] = 'plugins/editors/trumbowyg/plugins/pasteembed/trumbowyg.pasteembed.js';
 		
 		$this->_js_[] = 'plugins/datatable/datatables.min.js';
 		$this->_js_[] = 'plugins/datatable/fixed_columns.min.js';

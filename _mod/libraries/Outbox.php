@@ -27,7 +27,7 @@ class Outbox
 
 			if ($rows){
 				$this->_datas['subject']=$rows['subject'];
-				$this->_datas['message']=$rows['content_html'];
+				$this->_datas['message']=html_entity_decode($rows['content_html']);
 				$this->_datas['message_text']=$rows['content_text'];
 			}
 		}
@@ -73,6 +73,9 @@ class Outbox
 					$this->_datas['subject'] = str_replace($key, $row, $this->_datas['subject']);
 				}
 			}
+
+		
+			
 			$dat['email']=$this->_datas['recipient'];
 			if (!empty($this->_datas['recipient']))
 				$this->_datas['recipient'] = json_encode($this->_datas['recipient']);

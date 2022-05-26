@@ -579,6 +579,7 @@ class Progress_Mitigasi extends MY_Controller {
 		$post=$this->input->post();
 		$alur=json_decode($post['alur'], true);
         $notif=json_decode($post['notif'], true);
+	
         $sts_final=0;
         if (count($alur)==$notif['urut']){
             $sts_final=1;
@@ -675,18 +676,27 @@ class Progress_Mitigasi extends MY_Controller {
 		$this->crud->crud_where(['field' => 'sts_add', 'value' => 0]);
 		$this->crud->process_crud();
 
-		$content_replace = ['[[owner]]'=>$notif['staft']];
+		if ($notif['email']) {
+			$datasOutbox = [
+				'recipient' => [$notif['email']],
+			];
+			$content_replace = [
+				'[[konteks]]' => 'Progress Mitigasi',
+				'[[redir]]' => 2,
+				'[[id]]' => $post['id'],
+				'[[notif]]' => $notif['staft'],
+				'[[sender]]' => $this->session->userdata('data_user')['real_name'],
+				'[[link]]' => base_url() . "approval-mitigasi",
+				'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
 
-		$datasOutbox=[
-			'recipient' => $notif['email'],
-		];
+			];
 
-		$this->load->library('outbox');
-		$this->outbox->setTemplate('NOTIF01');
-		$this->outbox->setParams($content_replace);
-		$this->outbox->setDatas($datasOutbox);
-		$this->outbox->send();
-
+			$this->load->library('outbox');
+			$this->outbox->setTemplate('NOTIF01');
+			$this->outbox->setParams($content_replace);
+			$this->outbox->setDatas($datasOutbox);
+			$this->outbox->send();
+		}
 		// echo json_encode(['data'=>true]);
 		header('location:'.base_url(_MODULE_NAME_));
 	}

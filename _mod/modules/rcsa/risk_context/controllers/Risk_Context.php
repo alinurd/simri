@@ -1250,11 +1250,11 @@ class Risk_Context extends MY_Controller {
 			'recipient' => $notif['email'] ,
 		];
 
-		$this->load->library('outbox');
-		$this->outbox->setTemplate('NOTIF01');
-		$this->outbox->setParams($content_replace);
-		$this->outbox->setDatas($datasOutbox);
-		$this->outbox->send();
+		// $this->load->library('outbox');
+		// $this->outbox->setTemplate('NOTIF01');
+		// $this->outbox->setParams($content_replace);
+		// $this->outbox->setDatas($datasOutbox);
+		// $this->outbox->send();
 		
 		header('location:'.base_url(_MODULE_NAME_));
 	}

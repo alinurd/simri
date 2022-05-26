@@ -9,7 +9,9 @@
 		<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
 		
 		<?=$this->template->stylesheet;?>
+		<?=$this->template->stylesheet_end;?>
 		<?=$this->template->javascript;?>
+		<?=$this->template->javascript_end;?>
 	</head>
 	<body class="navbar-top <?=($this->template->_params['left_sidebar_mini'])?'sidebar-xs':''?>">
 		<?php echo $this->template->widget("Header", array('title' => 'Project name','params'=>$this->template->_params));?>
@@ -111,6 +113,13 @@
 				$('input[name="'+csrf_token_name+'"]').val(csrf_hash);
 				return true;
 			});
+		});
+
+		$('.summernote-code').summernote({
+				height: 400,   //set editable area's height
+				codemirror: { // codemirror options
+				theme: 'monokai'
+			}
 		});
 	</script>
 	</body>

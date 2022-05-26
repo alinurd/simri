@@ -226,6 +226,8 @@ $(function() {
 		placeholder: 'type everyting',
 	 });
 
+	 $('.trumbowyg').trumbowyg();
+
 
 	 $('[data-toggle="popover"]').popover(); 
 	 
