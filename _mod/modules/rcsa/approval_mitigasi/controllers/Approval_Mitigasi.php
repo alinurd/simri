@@ -498,6 +498,7 @@ class Approval_Mitigasi extends MY_Controller {
 		$post=$this->input->post();
 		$alur=json_decode($post['alur'], true);
         $notif=json_decode($post['notif'], true);
+	
         $sts_final=0;
         if (count($alur)==$notif['urut']){
             $sts_final=1;
@@ -539,19 +540,27 @@ class Approval_Mitigasi extends MY_Controller {
 
 		$creatorEmail = $this->data->get_email_creator($post['id']);
 		if ($creatorEmail) {
-			
-			$content_replace = ['[[owner]]'=>$this->_data_user_['real_name']];
-	
-			$datasOutbox=[
-				'recipient' => $creatorEmail->email,
+			$datasOutbox = [
+				'recipient' => [$creatorEmail->email],
 			];
-	
+			$content_replace = [
+				'[[konteks]]' => 'Progress Mitigasi',
+				'[[redir]]' => 2,
+				'[[id]]' => $post['id'],
+				'[[notif]]' => $creatorEmail->real_name,
+				'[[sender]]' => $this->session->userdata('data_user')['real_name'],
+				'[[link]]' => base_url() . "progress-mitigasi",
+				'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
+
+			];
+
 			$this->load->library('outbox');
 			$this->outbox->setTemplate('NOTIF02');
 			$this->outbox->setParams($content_replace);
 			$this->outbox->setDatas($datasOutbox);
 			$this->outbox->send();
 		}
+		
 
 		echo json_encode(['data'=>true]);
 		// header('location:'.base_url(_MODULE_NAME_));

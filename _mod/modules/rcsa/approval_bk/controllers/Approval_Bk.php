@@ -268,18 +268,29 @@ class Approval_Bk extends MY_Controller {
 		$this->crud->process_crud();
 
 		$creatorEmail = $this->data->get_email_creator($post['id']);
+			
+		if ($creatorEmail) {
+			$datasOutbox = [
+				'recipient' => [$creatorEmail->email],
+			];
+			$content_replace = [
+				'[[konteks]]' => 'Konteks Risiko',
+				'[[redir]]' => 3,
+				'[[id]]' => $post['id'],
+				'[[notif]]' => $creatorEmail->real_name,
+				'[[sender]]' => $this->session->userdata('data_user')['real_name'],
+				'[[link]]' => base_url() . "risk-context",
+				'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
 
-		$content_replace = ['[[owner]]'=>$this->_data_user_['real_name']];
+			];
 
-		$datasOutbox=[
-			'recipient' => $creatorEmail->email,
-		];
+			$this->load->library('outbox');
+			$this->outbox->setTemplate('NOTIF03');
+			$this->outbox->setParams($content_replace);
+			$this->outbox->setDatas($datasOutbox);
+			$this->outbox->send();
+		}
 
-		$this->load->library('outbox');
-		$this->outbox->setTemplate('NOTIF03');
-		$this->outbox->setParams($content_replace);
-		$this->outbox->setDatas($datasOutbox);
-		$this->outbox->send();
 
 		echo json_encode(['combo'=>true]);
 	}
@@ -412,7 +423,7 @@ class Approval_Bk extends MY_Controller {
 
 		$staft_name = [];
 		$staft_email = [];
-
+		
 		if ($staft['urut'] == 3 && $post['sts_final'] != 1) {
 			$all_admin = $this->data->get_email_role_admin_mr();
 			
@@ -423,22 +434,87 @@ class Approval_Bk extends MY_Controller {
 				} 				
 			}
 
-			$content_replace = ['[[owner]]'=> implode(", ",$staft_name)];
+			// $content_replace = ['[[owner]]'=> implode(", ",$staft_name)];
 
-			$datasOutbox=[
-				'recipient' => $staft_email
-			];
+			// $datasOutbox=[
+			// 	'recipient' => $staft_email
+			// ];
+			
+			if ($staft_email) {
+				foreach ($staft_email as $key => $value) {
+					$datasOutbox = [
+						'recipient' => [$value],
+					];
+					$content_replace = [
+						'[[konteks]]' => 'Konteks Risiko',
+						'[[redir]]' => 1,
+						'[[id]]' => $post['id'],
+						'[[notif]]' => $staft_name[$key],
+						'[[sender]]' => $this->session->userdata('data_user')['real_name'],
+						'[[link]]' => base_url() . "approval-bk",
+						'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
+		
+					];
+					$this->load->library('outbox');
+					$this->outbox->setTemplate('NOTIF01');
+					$this->outbox->setParams($content_replace);
+					$this->outbox->setDatas($datasOutbox);
+					$this->outbox->send();
+					
+				}
+			}
 		} else {
-			$content_replace = ['[[owner]]'=>$staft['staft']];
-
-			$datasOutbox=[
-				'recipient' => $staft['email'],
-			];
+			if ($staft['staft']) {
+			
+				$datasOutbox = [
+					'recipient' => [$staft['email']],
+				];
+				$content_replace = [
+					'[[konteks]]' => 'Konteks Risiko',
+					'[[redir]]' => 1,
+					'[[id]]' => $post['id'],
+					'[[notif]]' => $staft['staft'],
+					'[[sender]]' => $this->session->userdata('data_user')['real_name'],
+					'[[link]]' => base_url() . "approval-bk",
+					'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
+	
+				];
+	
+				$this->load->library('outbox');
+				$this->outbox->setTemplate('NOTIF01');
+				$this->outbox->setParams($content_replace);
+				$this->outbox->setDatas($datasOutbox);
+				$this->outbox->send();
+			}
+		}
+		
+		if ($post['sts_final'] == 1) {
+			$creatorEmail = $this->data->get_email_creator($post['id']);
+			
+			if ($creatorEmail) {
+				$datasOutbox = [
+					'recipient' => [$creatorEmail->email],
+				];
+				$content_replace = [
+					'[[konteks]]' => 'Konteks Risiko',
+					'[[redir]]' => 2,
+					'[[id]]' => $post['id'],
+					'[[notif]]' => $creatorEmail->real_name,
+					'[[sender]]' => $this->session->userdata('data_user')['real_name'],
+					'[[link]]' => base_url() . "risk-context",
+					'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
+	
+				];
+	
+				$this->load->library('outbox');
+				$this->outbox->setTemplate('NOTIF02');
+				$this->outbox->setParams($content_replace);
+				$this->outbox->setDatas($datasOutbox);
+				$this->outbox->send();
+			}
 
 		}
-
-		$this->__send_email($content_replace, $datasOutbox);
-
+	
 		header('location:'.base_url(_MODULE_NAME_));
 	}
 
