@@ -30,35 +30,93 @@ class Cli extends MX_Controller {
 	}
 
 	function update_minggu_aktif(){
-		$rows = $this->db->select('period, pid as period_id, id as term_id, data as term, param_date as tgl_awal, param_date_after as tgl_akhir')->where('param_date<=', date('Y-m-d'))->where('param_date_after>=', date('Y-m-d'))->get(_TBL_VIEW_TERM)->row_array();
 
-		$thn = 0;
-		$term = 0;
-		$minggu = 0;
-		if($rows){
-			$thn=$rows['period_id'];
-			$term=$rows['term_id'];
-		}
 		
-		$rows = $this->db->select('id as minggu_id, data as minggu, param_date as tgl_awal, param_date_after as tgl_akhir')->where('kelompok', 'minggu')->where('param_date<=', date('Y-m-d'))->where('param_date_after>=', date('Y-m-d'))->get(_TBL_COMBO)->row_array();
-		if($rows){
-			$minggu=$rows['minggu_id'];
+		if (date('m') == 25) {
+			$rows = $this->db->select('period, pid as period_id, id as term_id, data as term, param_date as tgl_awal, param_date_after as tgl_akhir')->where('param_date<=', date('Y-m-d'))->where('param_date_after>=', date('Y-m-d'))->get(_TBL_VIEW_TERM)->row_array();
+		
+			$thn = 0;
+			$term = 0;
+			$minggu = 0;
+			if($rows){
+				$thn=$rows['period_id'];
+				$term=$rows['term_id'];
+			}
+			
+			// $rows = $this->db->select('id as minggu_id, data as minggu, param_date as tgl_awal, param_date_after as tgl_akhir')->where('kelompok', 'minggu')->where('param_date<=', date('Y-m-d'))->where('param_date_after>=', date('Y-m-d'))->get(_TBL_COMBO)->row_array();
+			// if($rows){
+			// 	$minggu=$rows['minggu_id'];
+			// }
+		
+			$userId = [];
+			$id = [];
+			$rows = $this->db->select('id, created_by, updated_by')
+				->where('period_id', $thn)
+				// ->where('term_id', $term)
+				->where('status_final_mitigasi', 1)
+				// ->where('minggu_id_mitigasi<>', $minggu)
+				// ->where('minggu_id_mitigasi<>', 0)
+				// ->get_compiled_select(_TBL_RCSA);
+				->get(_TBL_RCSA)->result_array();
+	
+			foreach ($rows as $key => $value) {
+				if (!empty($value['created_by']) || !empty($value['updated_by'])) {
+					if (!in_array($value['created_by'], $userId) || !in_array($value['updated_by'], $userId)) {
+						$userId[] = (!empty($value['created_by']))?$value['created_by']:$value['updated_by'];
+					}
+				}
+				$id[] = $value['id'];
+			}
+		
+			if(!empty($id)){
+				foreach ($id as $key => $value) {
+					$this->crud->crud_table(_TBL_RCSA);
+					$this->crud->crud_type('edit');
+					$this->crud->crud_field('status_id_mitigasi', 0);
+					$this->crud->crud_field('status_final_mitigasi', 0);
+					$this->crud->crud_field('tgl_propose_mitigasi', null);
+					$this->crud->crud_field('note_propose_mitigasi', '');
+					$this->crud->crud_field('param_approval_mitigasi', '');
+					$this->crud->crud_where(['field'=>'id', 'value'=>$value]);
+					// $this->crud->crud_where(['field'=>'period_id', 'value'=>$thn]);
+					// $this->crud->crud_where(['field'=>'term_id', 'value'=>$term]);
+					// $this->crud->crud_where(['field'=>'status_final_mitigasi', 'value'=>1]);
+					// $this->crud->crud_where(['field'=>'minggu_id_mitigasi', 'op'=>'<>', 'value'=>$minggu]);
+					// $this->crud->crud_where(['field'=>'minggu_id_mitigasi', 'op'=>'<>', 'value'=>0]);
+					$this->crud->process_crud();
+				}
+			}
+	
+			
+			$this->db->where_in('username', $userId);
+			$users = $this->db->select('email, real_name')->from('il_users')->get()->result_array();
+			// dumps($users);
+			// die();
+			foreach ($users as $key => $value) {
+				if ($value['email']) {
+					$datasOutbox = [
+						'recipient' => [$value['email']],
+					];
+					$content_replace = [
+						'[[konteks]]' => 'Konteks Risiko',
+						'[[redir]]' => 2,
+						'[[id]]' => 0,
+						'[[notif]]' => $value['real_name'],
+						'[[sender]]' => 'Administrator',
+						'[[link]]' => base_url() . "progress-mitigasi",
+						'[[footer]]' => 'PT Indonesia Asahan Aluminium (INALUM)'
+		
+					];
+					$this->load->library('outbox');
+					$this->outbox->setTemplate('NOTIF05');
+					$this->outbox->setParams($content_replace);
+					$this->outbox->setDatas($datasOutbox);
+					$this->outbox->send();
+				}
+			}
 		}
-		if($thn>0 && $term>0 && $minggu>0){
-			$this->crud->crud_table(_TBL_RCSA);
-			$this->crud->crud_type('edit');
-			$this->crud->crud_field('status_id_mitigasi', 0);
-			$this->crud->crud_field('status_final_mitigasi', 0);
-			$this->crud->crud_field('tgl_propose_mitigasi', null);
-			$this->crud->crud_field('note_propose_mitigasi', '');
-			$this->crud->crud_field('param_approval_mitigasi', '');
-			$this->crud->crud_where(['field'=>'period_id', 'value'=>$thn]);
-			$this->crud->crud_where(['field'=>'term_id', 'value'=>$term]);
-			$this->crud->crud_where(['field'=>'status_final_mitigasi', 'value'=>1]);
-			$this->crud->crud_where(['field'=>'minggu_id_mitigasi', 'op'=>'<>', 'value'=>$minggu]);
-			$this->crud->crud_where(['field'=>'minggu_id_mitigasi', 'op'=>'<>', 'value'=>0]);
-			$this->crud->process_crud();
-		}
+
+		
 	}
 
 	function create_folder(){
@@ -123,14 +181,17 @@ class Cli extends MX_Controller {
         }
 	}
 
-	function test_cli(){
-		$this->crud->crud_table(_TBL_BAHASA);
-		$this->crud->crud_type('add');
-		
-		$this->crud->crud_field('key', 'Key_'.date('His'));
-		$this->crud->crud_field('title', 'data ke '. date('Ymd His'));
-		$this->crud->process_crud();
-		$nolast = $this->crud->last_id();
-		echo "1 data berhasil ditambah dengan id : ".$nolast;
+	function test_cli($to = 'World'){
+		echo "Hello {$to}!".PHP_EOL;
+	}
+
+	function email_dua_lima()
+	{
+		$tgl = date('d');
+		if ($tgl == 25) {
+			echo $tgl;
+		}else{
+			echo "bukan";
+		}
 	}
 }
