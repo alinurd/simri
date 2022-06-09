@@ -221,6 +221,44 @@ $(function(){
 		_ajax_("post", parent, data, target_combo, url, 'list_mitigasi');
     })
 
+    $(document).on('click', '.col-prog', function(e) { e.stopPropagation() });
+
+    $(document).on('click','.progress', function(e) {
+        e.stopPropagation() 
+		var parent = $(this).parent();
+		var id = $(this).parent().parent().data('id');
+      
+        var owner = $("#owner").val();
+		var period = $("#period").val();
+		var type_ass = $("#type_ass").val();
+		var term_mulai = $("#term_mulai").val();
+		var term_akhir = $("#term_akhir").val();
+		// var minggu = $("#minggu").val();
+		var data={'id':id, 'period':period,'owner':owner,'type_ass':type_ass, 'term_mulai':term_mulai,'term_akhir':term_akhir};
+		var target_combo = '';
+        var url = modul_name+"/get-progress";
+
+		_ajax_("post", parent, data, target_combo, url, 'list_progress');
+    })
+
+    $(document).on('click','#back_list', function(e) {
+       
+		var parent = $(this).parent();
+		var id = $(this).data('id');
+      
+        var owner = $("#owner").val();
+		var period = $("#period").val();
+		var type_ass = $("#type_ass").val();
+		var term_mulai = $("#term_mulai").val();
+		var term_akhir = $("#term_akhir").val();
+		// var minggu = $("#minggu").val();
+		var data={'id':id, 'period':period,'owner':owner,'type_ass':type_ass, 'term_mulai':term_mulai,'term_akhir':term_akhir};
+		var target_combo = '';
+        var url = modul_name+"/get-progress";
+
+		_ajax_("post", parent, data, target_combo, url, 'list_progress');
+    })
+
     $(document).on('click','.detail-mitigasi', function() {
 		var parent = $(this).parent().parent().parent();
 		var id = $(this).data('id');
@@ -360,6 +398,11 @@ function list_map(hasil){
 }
 
 function list_mitigasi(hasil){
+    $("#modal_general").find(".modal-body").html(hasil.combo);
+    $("#modal_general").modal("show");
+}
+
+function list_progress(hasil){
     $("#modal_general").find(".modal-body").html(hasil.combo);
     $("#modal_general").modal("show");
 }

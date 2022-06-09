@@ -1013,6 +1013,18 @@ class Profil_Risiko extends MY_Controller {
 		echo json_encode($hasil);
 	}
 
+	function get_progress()
+	{
+		$id = $this->input->post('id');
+		$this->pos=$this->input->post();
+
+		$y=$this->data->get_data_kompilasi_by_id($id);
+		$y['pos'] = $this->pos;
+	
+		$hasil['combo']=$this->hasil=$this->load->view('monitoring',$y, true);
+
+		echo json_encode($hasil);
+	}
 	function get_detail_map(){
 		$post = $this->input->post();
 		$this->data->pos=$post;
@@ -1026,6 +1038,8 @@ class Profil_Risiko extends MY_Controller {
 		$rcsa = $this->input->post('rcsa');
 		$data=$this->data->get_data_monitoring_profil($id, $rcsa);
 		$data['id']=$id;
+		$data['export']=false;
+		$data['back']=true;
 		$x['combo']=$this->load->view('risk_context/monitoring', $data, true);
 		echo json_encode($x);
 	}
