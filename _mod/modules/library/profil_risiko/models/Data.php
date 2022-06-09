@@ -718,6 +718,59 @@ class Data extends MX_Model {
 		return $hasil;
 	}
 
+	function get_data_kompilasi_by_id($id){
+	
+		$rcsa = [];
+		$rcsa_detail = [];
+		$this->db->where('id', $id);
+	
+		$rows=$this->db->order_by('tgl_mulai_minggu')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		foreach ($rows as $key => $value) {
+			if (!in_array($value['id'], $rcsa_detail)) {
+				$rcsa_detail[] = $value['id'];
+			}
+
+			if (!in_array($value['rcsa_id'], $rcsa)) {
+				$rcsa[] = $value['rcsa_id'];
+			}
+		}
+	
+		
+		$rows=$this->db->where_in('rcsa_detail_id', $rcsa_detail)
+		// ->get_compiled_select(_TBL_VIEW_RCSA_MITIGASI_PROGRES);
+		->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
+
+		// dumps($rows);
+		// die();
+		$mit=[];
+		$jml['aktif']=[];
+		foreach($rows as $row){
+			$mit[$row['penyebab_id']][]=$row;
+			$jml['aktif'][$row['rcsa_mitigasi_detail_id']][]=$row['id'];
+		}
+		$hasil=$jml;
+		$rows=$this->db->where_in('id', $rcsa)->get(_TBL_VIEW_RCSA)->row_array();
+		$parent=$rows;
+		$mitigasi=$mit;
+		$rows=$this->db->where_in('rcsa_detail_id', $rcsa_detail)->get(_TBL_VIEW_MONITORING)->result_array();
+		$rows = $this->convert_owner->set_data($rows)->set_param(['penanggung_jawab'=>'penanggung_jawab_detail_id', 'koordinator'=>'koordinator_detail_id'])->draw();
+		$rowsx=$rows;
+
+		$jml['miti']=[];
+		$jml['identi']=[];
+		foreach($rows as $row){
+			$jml['identi'][$row['rcsa_detail_id']][]=$row['id'];
+			$jml['miti'][$row['mitigasi_id']][]=$row['id'];
+		}
+		$hasil=$jml;
+		$hasil['rows']=$rowsx;
+	
+		$hasil['parent']=$parent;
+		$hasil['mitigasi']=$mit;
+		$hasil['minggu']=$this->crud->combo_select(['id', 'concat(param_string) as minggu'])->combo_where('kelompok', 'minggu')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		return $hasil;
+	}
+
 	function get_data_monitoring_profil($id, $rcsa){
 		$rows=$this->db->where('rcsa_detail_id', $id)->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
 		

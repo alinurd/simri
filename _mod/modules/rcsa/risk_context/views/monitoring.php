@@ -10,9 +10,16 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-header header-elements-sm-inline">
+            <?php if(isset($back)):?>   
+            <span class="btn bg-warning-400 btn-labeled btn-labeled-left legitRipple" data-id="<?=$id?>" id="back_list"><b><i class="icon-arrow-left5"></i></b> Kembali</span>
+            <?php endif;?>   
+
+            
             <a href="<?=base_url('/progress-mitigasi/cetak-lap/' . $id)?>">
                 <h6 class="card-title"><span class="btn bg-primary pointer pull-right <?=$show;?>" id="export_excel"> Export to Ms-Excel </span></h6>
             </a>
+
+            
             </div>
             <div class="card-body" >
                 <table class="table table-borderless">

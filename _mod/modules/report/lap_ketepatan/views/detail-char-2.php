@@ -2,7 +2,7 @@
 if (!$mode):?>
 <a class="btn btn-primary" href="<?=base_url(_MODULE_NAME_.'/cetak');?>" target="_blank"><i class="icon-file-excel"> Ms-Excel </i></a>
 <?php endif;?>
-<table class="table table-bordered table-striped table-hover border="1"
+<table class="table table-bordered table-striped table-hover" border="1">
     <thead>
         <tr>
             <th width="5%">No.</th>

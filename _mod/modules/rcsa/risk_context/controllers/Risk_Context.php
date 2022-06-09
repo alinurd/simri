@@ -1244,17 +1244,27 @@ class Risk_Context extends MY_Controller {
 			}
 		}
 
-		$content_replace = ['[[owner]]' => $notif['staft']];
+		if ($notif['email']) {
+			$datasOutbox = [
+				'recipient' => [$notif['email']],
+			];
+			$content_replace = [
+				'[[konteks]]' => 'Konteks Risiko',
+				'[[redir]]' => 1,
+				'[[id]]' => $post['id'],
+				'[[notif]]' => $notif['staft'],
+				'[[sender]]' => $this->session->userdata('data_user')['real_name'],
+				'[[link]]' => base_url() . "approval-bk",
+				'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
 
-		$datasOutbox=[
-			'recipient' => $notif['email'] ,
-		];
+			];
 
-		$this->load->library('outbox');
-		$this->outbox->setTemplate('NOTIF01');
-		$this->outbox->setParams($content_replace);
-		$this->outbox->setDatas($datasOutbox);
-		$this->outbox->send();
+			$this->load->library('outbox');
+			$this->outbox->setTemplate('NOTIF01');
+			$this->outbox->setParams($content_replace);
+			$this->outbox->setDatas($datasOutbox);
+			$this->outbox->send();
+		}
 		
 		header('location:'.base_url(_MODULE_NAME_));
 	}

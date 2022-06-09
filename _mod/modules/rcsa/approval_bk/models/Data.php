@@ -8,8 +8,14 @@ class Data extends MX_Model {
 
     function get_email_creator($id)
 	{
-		$risk = $this->db->select('created_by')->from('il_rcsa')->where('id', $id)->get()->row();
-        return  $this->db->select('email')->from('il_users')->where('username', $risk->created_by)->get()->row();
+		$risk = $this->db->select('created_by, updated_by')->from('il_rcsa')->where('id', $id)->get()->row();
+		if ($risk->created_by) {
+			$this->db->where('username', $risk->created_by);
+		}else{
+			$this->db->where('username', $risk->updated_by);
+		}
+		
+		return  $this->db->select('email, real_name')->from('il_users')->get()->row();
 	}
 
 	function get_email_role_admin_mr()

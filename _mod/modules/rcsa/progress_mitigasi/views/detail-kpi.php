@@ -116,7 +116,7 @@ Sasaran Departemen :
             endfor; ?>
         </tr>
         <?php
-                        dumps($row['detail']);
+                        // dumps($row['detail']);
 
             $nod=-1;
             $alphabet = range('A', 'Z');

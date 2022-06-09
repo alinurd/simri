@@ -54,8 +54,8 @@ class Setting extends MY_Controller {
 			$this->addField(['field'=>'warna_mitigasi_belum_on_schedule', 'input'=>'color']);
 			$this->addField(['field'=>'warna_mitigasi_belum_terlambat', 'input'=>'color']);
 			$this->addField(['field'=>'warna_mitigasi_belum_dilaksanakan', 'input'=>'color']);
-			$this->addField(['field'=>'warna_ketepatan_tepat', 'input'=>'color','line'=>true, 'line-text'=>'Appearance - Warna chart Ketepatan', 'line-icon'=>'icon-grid']);
-			$this->addField(['field'=>'warna_ketepatan_terlambat', 'input'=>'color']);
+			$this->addField(['field'=>'warna_ketepatan_tepat', 'input'=>'color','line'=>true, 'line-text'=>'Appearance - Warna chart Ketepatan', 'line-icon'=>'icon-grid', 'show'=>false]);
+			$this->addField(['field'=>'warna_ketepatan_terlambat', 'input'=>'color', 'show'=>false]);
 			$this->addField(['field'=>'warna_komitmen_lengkap', 'input'=>'color','line'=>true, 'line-text'=>'Appearance - Warna chart Komitment', 'line-icon'=>'icon-grid']);
 			$this->addField(['field'=>'warna_komitmen_tidak_lengkap', 'input'=>'color']);
 			$this->addField(['field'=>'warna_komitmen_tidak_dibicarakan', 'input'=>'color']);

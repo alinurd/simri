@@ -13,6 +13,7 @@ Sasaran Departemen :
     <thead>
         <tr>
             <th width="5%" rowspan="2">No.</th>
+            <th rowspan="2">Owner</th>
             <th rowspan="2">Parameter</th>
             <th rowspan="2" width="8%">Satuan</th>
             <?php
@@ -43,6 +44,7 @@ Sasaran Departemen :
         <?php if(!in_array(trim($row['title']), $cek) && count($row['detail'])>0):?>
         <tr>
             <td><?=++$no;?></td>
+            <td><?=$row['name'];?></td>
             <td><?=$row['title'];?></td>
             <td><?=$row['satuan'];?></td>
             <?php
@@ -114,6 +116,7 @@ Sasaran Departemen :
             $huruf=$alphabet[++$nod]; // returns D
             ?>
             <tr>
+                <td></td>
                 <td></td>
                 <td><?=$huruf.'. '.$row_det['title'];?></td>
                 <td><?=$row_det['satuan'];?></td>

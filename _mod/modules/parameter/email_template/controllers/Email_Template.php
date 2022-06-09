@@ -11,6 +11,7 @@ class Email_Template extends MY_Controller {
 	}
 
 	function init($action='list'){
+
 		$this->set_Tbl_Master(_TBL_TEMPLATE_EMAIL);
 
 		$this->addField(['field'=>'id', 'show'=>false]);
