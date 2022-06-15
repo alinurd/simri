@@ -153,13 +153,20 @@ class Data extends MX_Model {
 		foreach($rows as $row){
 			$miti[$row['id']]=$row['jml'];
 		}
-		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)->result_array();
+		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml, avg(aktual) as aktual')->group_by(['rcsa_detail_id'])
+		// ->get_compiled_select(_TBL_VIEW_RCSA_MITIGASI_DETAIL);
+		->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)->result_array();
 		$aktifitas=[];
+		$avgaktifitas = [];
+		// dumps($rows);
+		// die();
 		
 		foreach($rows as $row){
-			$aktifitas[$row['id']]=$row['jml'];
+			$aktifitas[$row['id']] = $row['jml'];
+			$avgaktifitas[$row['id']]=$row['aktual'];
 		}
-		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
+		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])
+		->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
 	
 		$progres=[];
 		
@@ -180,9 +187,13 @@ class Data extends MX_Model {
 				$row['jml']=$miti[$row['id']];
 			}
 			$row['jml2']=0;
+			$row['avg2'] = 0;
+
 			if (array_key_exists($row['id'], $aktifitas)){
-				$row['jml2']=$aktifitas[$row['id']];
+				$row['jml2'] = $aktifitas[$row['id']];
+				$row['avg2'] = number_format($avgaktifitas[$row['id']], 2);
 			}
+
 			$row['jml3']=0;
 			if (array_key_exists($row['id'], $progres)){
 				$row['jml3']=$progres[$row['id']];
@@ -715,6 +726,83 @@ class Data extends MX_Model {
 		$hasil['parent']=$parent;
 		$hasil['mitigasi']=$mit;
 		$hasil['minggu']=$this->crud->combo_select(['id', 'concat(param_string) as minggu'])->combo_where('kelompok', 'minggu')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		return $hasil;
+	}
+
+	function get_data_grap($rcsa, $id)
+	{
+		$histori = $this->db->where('rcsa_id', $rcsa)->where('tipe_log', 2)->where('keterangan like', '%final%')->order_by('tanggal', 'desc')->get(_TBL_VIEW_LOG_APPROVAL)->row_array();
+		if ($histori) {
+			$tgl_final = ($histori)? $histori['tanggal']:0;
+		}else{
+			return [];
+		}
+
+		$this->db->where('rcsa_detail_id', $id);
+		$rows = $this->db->select('rcsa_detail_id as id, aktual, created_at, batas_waktu')
+		->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)->result_array();
+		
+		$tmp = [];
+		$seratussepuluh = 0;
+		$seratus = 0;
+		$semilanpuluh = 0;
+		$tujuhlima = 0;
+		$nol = 0;
+		foreach ($rows as $row) {
+			$deadline = date(
+			'Y-m-d', strtotime($row['batas_waktu']));
+			$tgl_finalx = date('Y-m-d',strtotime($tgl_final));
+			
+			$date1 = date_create($tgl_finalx);
+			$date2 = date_create($deadline);
+			$diffo = date_diff($date1, $date2);
+			$nilai_diff = intval($diffo->format("%R%a"));
+			
+			$diff = $this->kepatuhan($nilai_diff);
+
+			if ($diff == 110) {
+				$seratussepuluh += 1;
+			} elseif ($diff == 100) {
+				$seratus += 1;
+			} elseif ($diff == 90) {
+				$semilanpuluh += 1;
+			} elseif ($diff == 75) {
+				$tujuhlima += 1;
+			}else{
+				$nol += 1;
+			}
+
+			$row['nilai'] = $diff . "%";
+			// $tmp[$row['owner_id']] = $row;
+		}
+
+		$hasil['tepat']['total'] = count($rows);
+		$hasil['tepat']['110'] = $seratussepuluh;
+		$hasil['tepat']['100'] = $seratus;
+		$hasil['tepat']['90'] = $semilanpuluh;
+		$hasil['tepat']['75'] = $tujuhlima;
+		$hasil['tepat']['0'] = $nol;
+		$hasil['tepat']['110%'] = (count($rows)>0)?number_format(($seratussepuluh / count($rows)) * 100, 2):0;
+		$hasil['tepat']['100%'] = (count($rows) > 0) ? number_format(($seratus / count($rows)) * 100, 2):0;
+		$hasil['tepat']['90%'] = (count($rows) > 0) ? number_format(($semilanpuluh / count($rows)) * 100, 2):0;
+		$hasil['tepat']['75%'] = (count($rows)>0)?number_format(($tujuhlima / count($rows)) * 100, 2):0;
+		$hasil['tepat']['0%'] = (count($rows)>0)?number_format(($nol / count($rows)) * 100, 2):0;
+
+		return $hasil;
+	}
+
+	function kepatuhan($nilai)
+	{
+		if ($nilai < 0) {
+			$hasil = "110";
+		} elseif ($nilai == 0) {
+			$hasil = "100";
+		} elseif ($nilai <= 30) {
+			$hasil = "90";
+		} elseif ($nilai > 30) {
+			$hasil = "75";
+		} 
+
 		return $hasil;
 	}
 

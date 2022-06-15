@@ -1025,6 +1025,27 @@ class Profil_Risiko extends MY_Controller {
 
 		echo json_encode($hasil);
 	}
+
+	function get_ketepatan()
+	{
+		$id = $this->input->post('id');
+		$rcsa = $this->input->post('rcsa');
+		$this->pos = $this->input->post();
+		$this->data->pos = $this->pos;
+
+		$x = $this->data->get_data_grap($rcsa,$id);
+		if (!empty($x)) {
+			$dat['data'] = $x['tepat'];
+			$hasil['grap2'] = $this->hasil = $this->load->view('grap3', $dat, true);
+			
+		}else{
+			$hasil['grap2']= '<div class="text-center">Progress mitigasi belum ada data</div>';
+
+		}
+		// $hasil['data_grap2'] = $this->hasil = $this->load->view('grap4', $dat, true);
+
+		echo json_encode($hasil);
+	}
 	function get_detail_map(){
 		$post = $this->input->post();
 		$this->data->pos=$post;
