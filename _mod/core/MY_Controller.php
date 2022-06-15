@@ -2445,7 +2445,7 @@ class MY_Controller extends MX_Controller {
 		foreach($arr_js as $js){
 			if (file_exists(FCPATH . 'assets/js/pages/'.$js.".js"))
 			{
-				$this->_js_[] = 'pages/'.$js.'.js?ver=42';
+				$this->_js_[] = 'pages/'.$js.'.js?ver=45';
 			}
 		}
 	}

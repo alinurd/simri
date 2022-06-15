@@ -83,6 +83,7 @@ class Doi
 					  'smtp_pass' => $p['email_smtp_pass'],
 					  'mailtype' => $p['email_mailtype'],
 					  'charset' => $p['email_charset'],
+					  'newline' => "\r\n",
 					  'wordwrap' => $p['email_wordwrap'],
 					);
 		
