@@ -241,6 +241,20 @@ $(function(){
 		_ajax_("post", parent, data, target_combo, url, 'list_progress');
     })
 
+    $(document).on('click', '.ketepatan', function (e) {
+        e.stopPropagation()
+        var parent = $(this).parent();
+        var id = $(this).parent().parent().data('id');
+        var rcsa = $(this).parent().parent().data('rcsa');
+
+        var data = { 'id': id, 'rcsa': rcsa };
+        var target_combo = '';
+
+        var url = modul_name + "/get-ketepatan";
+
+        _ajax_("post", parent, data, target_combo, url, 'get_chart');
+    })
+
     $(document).on('click','#back_list', function(e) {
        
 		var parent = $(this).parent();
@@ -362,6 +376,77 @@ function readyCheckbox() {
 
 }
 
+function grafik_pie(data, target) {
+    var pie_basic_element = document.getElementById(target);
+    var myChart = echarts.init(pie_basic_element);
+    // specify chart configuration item and data
+    var option = {
+
+        // Colors
+        color: data.warna,
+
+        // Global text styles
+        textStyle: {
+            fontFamily: 'Roboto, Arial, Verdana, sans-serif',
+            fontSize: 13
+        },
+
+        // Add title
+        title: data.title,
+
+        // Add tooltip
+        tooltip: {
+            trigger: 'item',
+            backgroundColor: 'rgba(0,0,0,0.75)',
+            padding: [10, 15],
+            textStyle: {
+                fontSize: 13,
+                fontFamily: 'Roboto, sans-serif'
+            },
+            formatter: function (params) {
+                return params.name;
+            }
+        },
+
+        // Add series
+        series: [{
+            name: '',
+            type: 'pie',
+            radius: '75%',
+            center: ['50%', '57.5%'],
+            itemStyle: {
+                normal: {
+                    borderWidth: 1,
+                    borderColor: '#fff'
+                }
+            },
+            label: {
+                position: 'inside',
+                formatter: '{d}%',
+            },
+            data: data.data
+        }]
+    };
+
+    // use configuration item and data specified to show chart
+    myChart.setOption(option);
+
+    var triggerChartResize = function () {
+        pie_basic_element && myChart.resize();
+    };
+
+    // On window resize
+    var resizeCharts;
+    window.addEventListener('resize', function () {
+        clearTimeout(resizeCharts);
+        resizeCharts = setTimeout(function () {
+            triggerChartResize();
+        }, 200);
+    });
+    
+    myChart.on('click', eConsole);
+}
+
 function updateCheckboxes(checkbox){
     //Get the row id
     var id = checkbox.val();
@@ -404,6 +489,11 @@ function list_mitigasi(hasil){
 
 function list_progress(hasil){
     $("#modal_general").find(".modal-body").html(hasil.combo);
+    $("#modal_general").modal("show");
+}
+
+function get_chart(hasil) {
+    $("#modal_general").find(".modal-body").html(hasil.grap2);
     $("#modal_general").modal("show");
 }
 
