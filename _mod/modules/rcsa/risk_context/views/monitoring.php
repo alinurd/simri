@@ -1,9 +1,17 @@
 <?php
     $show='';
+    $rc='';
+    $ur= 'progress-mitigasi';
     if (isset($export)){
         if (!$export){
             $show=' d-none ';
         }
+    }
+    if (isset($rcsa)) {
+        $rc = '/'.$rcsa;
+    }
+     if (isset($url)) {
+        $ur = $url;
     }
 ?>
 <div class="row">
@@ -15,7 +23,7 @@
             <?php endif;?>   
 
             
-            <a href="<?=base_url('/progress-mitigasi/cetak-lap/' . $id)?>">
+            <a href="<?=base_url('/'.$ur.'/cetak-lap/' . $id.$rc)?>">
                 <h6 class="card-title"><span class="btn bg-primary pointer pull-right <?=$show;?>" id="export_excel"> Export to Ms-Excel </span></h6>
             </a>
 
