@@ -755,7 +755,7 @@ class Data extends MX_Model {
 			
 			$date1 = date_create($tgl_finalx);
 			$date2 = date_create($deadline);
-			$diffo = date_diff($date1, $date2);
+			$diffo = date_diff($date2, $date1);
 			$nilai_diff = intval($diffo->format("%R%a"));
 			
 			$diff = $this->kepatuhan($nilai_diff);
@@ -795,13 +795,15 @@ class Data extends MX_Model {
 	{
 		if ($nilai < 0) {
 			$hasil = "110";
-		} elseif ($nilai == 0) {
-			$hasil = "100";
 		} elseif ($nilai <= 30) {
-			$hasil = "90";
-		} elseif ($nilai > 30) {
+			$hasil = "100";
+		} elseif ($nilai > 90) {
+			$hasil = "0";
+		} elseif ($nilai > 60) {
 			$hasil = "75";
-		} 
+		} elseif ($nilai > 30) {
+			$hasil = "90";
+		}
 
 		return $hasil;
 	}
