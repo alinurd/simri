@@ -1,5 +1,5 @@
 <?php
-    $show=' d-none ';
+    $show=' ';
 
     if (isset($export)){
         if (!$export){
@@ -12,7 +12,7 @@
         <div class="card">
             <div class="card-header header-elements-sm-inline">
          
-            <a target="_blank" href="<?=base_url('/lap-mitigasi/cetak-register/'.$pos['period'].'/'.$pos['owner'].'/'.$pos['type_ass'])?>"><h6 class="card-title"><span class="btn bg-primary pointer pull-right <?=$show;?>" id="export_excel"> Export to Ms-Excel </span></h6></a>
+            <a target="_blank" href="<?=base_url('/profil-risiko/cetak-register/'.$pos['period'].'/'.$pos['owner'].'/0/'. $pos['term_mulai'] . '/' . $pos['term_akhir'])?>"><h6 class="card-title"><span class="btn bg-primary pointer pull-right <?=$show;?>" id="export_excel"> Export to Ms-Excel </span></h6></a>
             </div>
             <div class="card-body" >
                 <table class="table table-borderless">

@@ -207,60 +207,158 @@ class Data extends MX_Model {
 		}
 	}
 
-	function get_data_grap(){
-		$this->filter_data();
-		$rows_progres = $this->db->select('rcsa_mitigasi_id, rcsa_mitigasi_detail_id, created_at, target, aktual')->order_by('rcsa_mitigasi_detail_id, created_at desc')
-		// ->get_compiled_select(_TBL_VIEW_RCSA_MITIGASI_PROGRES);
-		->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
-		// dumps($rows_progres);
-		// die();
-		$progres=[];
-		$id=0;
-		$tgl='2000/01/01';
-		foreach($rows_progres as $row){
-			if ($id!==$row['rcsa_mitigasi_detail_id']){
-				$progres[$row['rcsa_mitigasi_detail_id']]=$row;
-			}elseif($row['created_at']>$tgl){
-				$progres[$row['rcsa_mitigasi_detail_id']]=$row;
-				$tgl=$row['created_at'];
+	function grap_mitigasi()
+	{
+		if ($this->pos['owner']==0) {
+			$this->filter_data();
+		}else {
+			if ($this->pos['type']=='' || $this->pos['type']==0) {
+				$this->pos['type'] = 128;
 			}
-			$id=$row['rcsa_mitigasi_detail_id'];
+			$this->db->where('period_id', $this->pos['period'])->where('owner_id', $this->pos['owner'])->where('type_ass_id', $this->pos['type']);
+		}
+		$rows_progres = $this->db->select('rcsa_detail_id,rcsa_id')->group_by('rcsa_detail_id')
+		->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
+	
+		$jmlmiti = 0;
+		$seratussepuluh = 0;
+		$seratus = 0;
+		$semilanpuluh = 0;
+		$tujuhlima = 0;
+		$nol = 0;
+
+		foreach ($rows_progres as $key => $value) {
+			$histori = $this->db->where('rcsa_id', $value['rcsa_id'])->where('tipe_log', 2)->where('keterangan like', '%final%')->order_by('tanggal', 'desc')->get(_TBL_VIEW_LOG_APPROVAL)->row_array();
+		
+			if (isset($histori['tanggal'])) {
+				$tgl_final = $histori['tanggal'];
+
+				$this->db->where('rcsa_detail_id', $value['rcsa_detail_id']);
+				$rows = $this->db->select('rcsa_detail_id as id, aktual, created_at, batas_waktu')
+				->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)->result_array();
+
+				$jmlmiti += count($rows);
+				foreach ($rows as $row) {
+					$deadline = date(
+						'Y-m-d',
+						strtotime($row['batas_waktu'])
+					);
+					$tgl_finalx = date('Y-m-d', strtotime($tgl_final));
+
+					$date1 = date_create($tgl_finalx);
+					$date2 = date_create($deadline);
+					$diffo = date_diff($date2, $date1);
+					$nilai_diff = intval($diffo->format("%R%a"));
+
+					$diff = $this->kepatuhan_mitigasi($nilai_diff);
+
+					if (intval($row['aktual']) == 0) {
+						$nol += 1;
+					} elseif ($diff == 110) {
+						$seratussepuluh += 1;
+					} elseif ($diff == 100) {
+						$seratus += 1;
+					} elseif ($diff == 90) {
+						$semilanpuluh += 1;
+					} elseif ($diff == 75) {
+						$tujuhlima += 1;
+					}
+				}
+			}
+		}
+		$hasil['total'] = $jmlmiti;
+		$hasil['110'] = $seratussepuluh;
+		$hasil['100'] = $seratus;
+		$hasil['90'] = $semilanpuluh;
+		$hasil['75'] = $tujuhlima;
+		$hasil['0'] = $nol;
+		$hasil['110%'] = ($jmlmiti > 0) ? number_format(($seratussepuluh / $jmlmiti) * 100, 2) : 0;
+		$hasil['100%'] = ($jmlmiti > 0) ? number_format(($seratus / $jmlmiti) * 100, 2) : 0;
+		$hasil['90%'] = ($jmlmiti > 0) ? number_format(($semilanpuluh / $jmlmiti) * 100, 2) : 0;
+		$hasil['75%'] = ($jmlmiti > 0) ? number_format(($tujuhlima / $jmlmiti) * 100, 2) : 0;
+		$hasil['0%'] = ($jmlmiti > 0) ? number_format(($nol / $jmlmiti) * 100, 2) : 0;
+
+		return $hasil;
+	}
+
+	function kepatuhan_mitigasi($nilai)
+	{
+		if ($nilai < 0) {
+			$hasil = "110";
+		} elseif ($nilai == 0) {
+			$hasil = "100";
+		} elseif ($nilai <= 30) {
+			$hasil = "90";
+		} elseif ($nilai > 30) {
+			$hasil = "75";
 		}
 
-		$rows=[];
-		foreach($progres as $key=>$row){
-			if (array_key_exists($row['rcsa_mitigasi_id'], $rows)){
-				$rows[$row['rcsa_mitigasi_id']]['target'] +=floatval($row['target']);
-				$rows[$row['rcsa_mitigasi_id']]['aktual'] +=floatval($row['aktual']);
-				++$rows[$row['rcsa_mitigasi_id']]['jml'];
-			}else{
-				$rows[$row['rcsa_mitigasi_id']]['target'] =floatval($row['target']);
-				$rows[$row['rcsa_mitigasi_id']]['aktual'] =floatval($row['aktual']);
-				$rows[$row['rcsa_mitigasi_id']]['jml'] =1;
+		return $hasil;
+	}
+
+	function grap_mitigasi_old()
+	{
+			$this->filter_data();
+			$rows_progres = $this->db->select('rcsa_mitigasi_id, rcsa_mitigasi_detail_id, created_at, target, aktual')->order_by('rcsa_mitigasi_detail_id, created_at desc')
+			// ->get_compiled_select(_TBL_VIEW_RCSA_MITIGASI_PROGRES);
+			->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
+			// dumps($rows_progres);
+			// die();
+			$progres = [];
+			$id = 0;
+			$tgl = '2000/01/01';
+			foreach ($rows_progres as $row) {
+				if ($id !== $row['rcsa_mitigasi_detail_id']) {
+					$progres[$row['rcsa_mitigasi_detail_id']] = $row;
+				} elseif ($row['created_at'] > $tgl) {
+					$progres[$row['rcsa_mitigasi_detail_id']] = $row;
+					$tgl = $row['created_at'];
+				}
+				$id = $row['rcsa_mitigasi_detail_id'];
 			}
-		}
-		foreach($rows as $key=>&$row){
-			$row['target']=floatval($row['target'])/$row['jml'];
-			$row['aktual']=floatval($row['aktual'])/$row['jml'];
-		}
-		unset($row);
+
+			$rows = [];
+			foreach ($progres as $key => $row) {
+				if (array_key_exists($row['rcsa_mitigasi_id'], $rows)) {
+					$rows[$row['rcsa_mitigasi_id']]['target'] += floatval($row['target']);
+					$rows[$row['rcsa_mitigasi_id']]['aktual'] += floatval($row['aktual']);
+					++$rows[$row['rcsa_mitigasi_id']]['jml'];
+				} else {
+					$rows[$row['rcsa_mitigasi_id']]['target'] = floatval($row['target']);
+					$rows[$row['rcsa_mitigasi_id']]['aktual'] = floatval($row['aktual']);
+					$rows[$row['rcsa_mitigasi_id']]['jml'] = 1;
+				}
+			}
+			foreach ($rows as $key => &$row) {
+				$row['target'] = floatval($row['target']) / $row['jml'];
+				$row['aktual'] = floatval($row['aktual']) / $row['jml'];
+			}
+			unset($row);
+
+			$mitigasi = [];
+			$mitigasi[1] = ['category' => 'Selesai', 'nilai' => 0];
+			$mitigasi[2] = ['category' => 'Belum Selesai, On Schdule', 'nilai' => 0];
+			$mitigasi[3] = ['category' => 'Belum Selesai, Terlambat', 'nilai' => 0];
+			$mitigasi[4] = ['category' => 'Belum Dilaksanakan', 'nilai' => 0];
+			foreach ($rows as $key => $row) {
+				if ($row['target'] >= 100 && $row['aktual'] >= 100) {
+					++$mitigasi[1]['nilai'];
+				} elseif ($row['target'] == $row['aktual'] && floatval($row['target']) != 100) {
+					++$mitigasi[2]['nilai'];
+				} elseif ($row['target'] > 0 && floatval($row['aktual']) == 0) {
+					++$mitigasi[3]['nilai'];
+				} else {
+					++$mitigasi[4]['nilai'];
+				}
+			}
+			
+			return $mitigasi;
+	}
+
+	function get_data_grap(){
 		
-		$mitigasi=[];
-		$mitigasi[1]=['category'=>'Selesai','nilai'=>0];
-		$mitigasi[2]=['category'=>'Belum Selesai, On Schdule','nilai'=>0];
-		$mitigasi[3]=['category'=>'Belum Selesai, Terlambat','nilai'=>0];
-		$mitigasi[4]=['category'=>'Belum Dilaksanakan','nilai'=>0];
-		foreach($rows as $key=>$row){
-			if ($row['target']>=100 && $row['aktual']>=100){
-				++$mitigasi[1]['nilai'];
-			}elseif ($row['target']==$row['aktual'] && floatval($row['target'])!=100){
-				++$mitigasi[2]['nilai'];
-			}elseif ($row['target']>0 && floatval($row['aktual'])==0){
-				++$mitigasi[3]['nilai'];
-			}else{
-				++$mitigasi[4]['nilai'];
-			}
-		}
+		$mitigasi = $this->grap_mitigasi();
+		// $mitigasi = $this->grap_mitigasi_old();
 		
 		$hasil['mitigasi']=$mitigasi;
 		return $hasil;

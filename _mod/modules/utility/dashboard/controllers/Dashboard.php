@@ -69,8 +69,10 @@ class Dashboard extends MY_Controller {
 
 		$x=$this->data->get_data_grap();
 		$dat['data']=$x['mitigasi'];
+	
 		$data['grap1'] = $this->hasil=$this->load->view('grap',$dat, true);
-		$data['data_grap1']= $this->hasil=$this->load->view('grap2',$dat, true);
+		$data['data_grap1']= '';
+		// $data['data_grap1']= $this->hasil=$this->load->view('grap2',$dat, true);
 
 		$dat['data']=$x['tepat'];
 		$data['grap2'] = $this->hasil=$this->load->view('grap3',$dat, true);

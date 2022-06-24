@@ -861,7 +861,6 @@ class Profil_Risiko extends MY_Controller {
 
 	function dashboard()
 	{
-		
 		$x = $this->session->userdata('periode');
 		$tgl1=date('Y-m-d');
 		$tgl2=date('Y-m-d');
@@ -1004,10 +1003,11 @@ class Profil_Risiko extends MY_Controller {
 
 		$hasil['kpi'] = $this->load->view('detail', $det, true);
 
-		$y=$this->data->get_data_kompilasi($this->pos['period'],$this->pos['owner'],$this->pos['type_ass'], $this->_data_user_);
+		// $y=$this->data->get_data_kompilasi($this->pos['period'],$this->pos['owner'],$this->pos['type_ass'], $this->_data_user_);
+		$y=$this->data->get_data_kompilasi($this->_data_user_);
 		$y['pos'] = $this->pos;
 	
-		$hasil['progress']=$this->hasil=$this->load->view('monitoring',$y, true);
+		$hasil['progress']=$this->load->view('monitoring',$y, true);
 
 
 		echo json_encode($hasil);
@@ -1059,9 +1059,60 @@ class Profil_Risiko extends MY_Controller {
 		$rcsa = $this->input->post('rcsa');
 		$data=$this->data->get_data_monitoring_profil($id, $rcsa);
 		$data['id']=$id;
-		$data['export']=false;
+		$data['rcsa'] = $rcsa;
+		$data['url'] = 'profil-risiko';
+		// $data['export']=false;
 		$data['back']=true;
 		$x['combo']=$this->load->view('risk_context/monitoring', $data, true);
 		echo json_encode($x);
+	}
+
+	function cetak_lap($id, $rcsa)
+	{
+		$data = $this->data->get_data_monitoring_profil($id, $rcsa);
+		$data['id'] = $id;
+		$data['rcsa'] = $rcsa;
+		$data['export'] = false;
+		$hasil = $this->load->view('risk_context/monitoring', $data, true);
+		$n = $data['parent']['kode_dept'] . '-' . $data['parent']['term'] . '-' . $data['parent']['period_name'];
+
+		$cetak = 'register_excel';
+		$nm_file = 'Laporan-Progress-Mitigasi-' . $n;
+		$this->$cetak($hasil, $nm_file);
+	}
+
+	function cetak_register($period, $owner, $type_ass = 128, $term_mulai, $term_akhir)
+	{
+		$data['pos'] = [
+			'owner' => $owner,
+			'period' => $period,
+			'type_ass' => $type_ass,
+			'term_mulai' => $term_mulai,
+			'term_akhir' => $term_akhir
+		];
+		$this->pos = $data['pos'];
+		$this->data->pos = $this->pos;
+		$data = $this->data->get_data_kompilasi($this->_data_user_);
+	
+		// $data['id']=$id;
+		$data['export'] = false;
+
+
+		$hasil = $this->load->view('monitoring', $data, true);
+
+
+		$cetak = 'register_excel';
+		$nm_file = 'Laporan-Mitigasi-Kompilasi';
+		$this->$cetak($hasil, $nm_file);
+	}
+
+	function register_excel($data, $nm_file)
+	{
+		header("Content-type:appalication/vnd.ms-excel");
+		header("content-disposition:attachment;filename=" . $nm_file . ".xls");
+
+		$html = $data;
+		echo $html;
+		exit;
 	}
 }
