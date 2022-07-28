@@ -62,7 +62,7 @@ class Profil_Risiko extends MY_Controller {
 		$this->addField(['field'=>'owner_id', 'title'=>'Owner', 'type'=>'int', 'required'=>false,'input'=>'combo', 'search'=>true, 'values'=>$this->cbo_owner, 'show'=>false]);
 		$this->addField(['field'=>'period_id', 'title'=>'Period', 'type'=>'int', 'required'=>false,'input'=>'combo', 'search'=>true, 'values'=>$this->period, 'show'=>false]);
 		$this->addField(['field'=>'term_id', 'title'=>'Term', 'type'=>'int', 'required'=>false,'input'=>'combo', 'search'=>true, 'values'=>$this->term, 'show'=>false]);
-		$this->addField(['field'=>'minggu_id', 'title'=>'Minggu', 'type'=>'int', 'required'=>false,'input'=>'combo', 'search'=>true, 'values'=>[], 'show'=>false]);
+		$this->addField(['field'=>'minggu_id', 'title'=>'Bulan', 'type'=>'int', 'required'=>false,'input'=>'combo', 'search'=>true, 'values'=>[], 'show'=>false]);
 
 		$this->set_Field_Primary($this->tbl_master, 'id');
 
