@@ -181,9 +181,9 @@ class Setting extends MY_Controller {
 		$p = $this->input->post();
 		
 		$dat['email']=[$p['email_to']];
-		$dat['subject']='Test Email Simontana0';
-		$dat['content']='Ini adalah konten test dari aplikasi Simontana';
-		$dat['content_text']='Ini adalah konten test dari aplikasi Simontana';
+		$dat['subject']='Test Email Simri Inalum';
+		$dat['content']='Ini adalah konten test dari aplikasi Simri Inalum';
+		$dat['content_text']='Ini adalah konten test dari aplikasi Simri Inalum';
 		$dat['config'] = [
 			'protocol' => $p['email_protocol'],
 			'smtp_host' => $p['email_smtp_host'],

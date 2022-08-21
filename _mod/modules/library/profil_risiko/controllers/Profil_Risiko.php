@@ -1001,7 +1001,8 @@ class Profil_Risiko extends MY_Controller {
 		$det = $this->data->get_detail_data($this->_data_user_);
 		$det['mode']=0;
 
-		$hasil['kpi'] = $this->load->view('detail', $det, true);
+		$hasil['kpi'] = '';
+		// $hasil['kpi'] = $this->load->view('detail', $det, true);
 
 		// $y=$this->data->get_data_kompilasi($this->pos['period'],$this->pos['owner'],$this->pos['type_ass'], $this->_data_user_);
 		$y=$this->data->get_data_kompilasi($this->_data_user_);
@@ -1010,6 +1011,22 @@ class Profil_Risiko extends MY_Controller {
 		$hasil['progress']=$this->load->view('monitoring',$y, true);
 
 
+		echo json_encode($hasil);
+	}
+
+	function review_kpi()
+	{
+		$pos = $this->input->post();
+		
+		$this->data->pos = $pos;
+		$data = $this->data->get_data_kpi_by_id($this->_data_user_, $pos['rcsa_id'], $pos['id']);
+		$data['mode'] = 0;
+		$data['id'] = $pos['rcsa_id'];
+
+		$x = $this->load->view('detail-kpi', $data, true);
+		$y = $this->load->view('detail-kpi2', $data, true);
+		// $this->session->set_userdata(['cetak_grap'=>$data]);
+		$hasil['combo'] = $x.$y;
 		echo json_encode($hasil);
 	}
 

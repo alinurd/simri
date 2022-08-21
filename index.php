@@ -59,7 +59,7 @@ $mode = 'development';
 if ($ip=='10.200.0.26'){
    $mode = 'development';
 }
-$mode = 'production';
+$mode = 'development';
 // var_dump($ip);
 
 ini_set('date.timezone', 'Asia/Jakarta');

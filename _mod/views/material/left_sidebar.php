@@ -45,7 +45,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="<?=base_url('change-password');?>" class="nav-link">
+						<a href="<?=base_url('change-password/edit/'. $params['user']['staft_id']);?>" class="nav-link">
 							<i class="icon-coins"></i>
 							<span>Change Pasword</span>
 						</a>

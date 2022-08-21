@@ -70,8 +70,8 @@
                 <td class="text-left"><?=$row[0]['owner_name'];?> (<?=$row[0]['kode_dept'];?>)</td>
 
                 <?php foreach($minggu as $x => $m):?>
-
-                <td class="text-center p-0"><?= (isset($created[$x]))?number_format($created[$x],2):"0"?>%</td>
+                <td class="text-center p-0"><?= (isset($created[$x])>0)?number_format(floatval($created[$x]),2):"0"?>%</td>
+   
                 
                 <?php endforeach;?>
 

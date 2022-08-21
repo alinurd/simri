@@ -107,7 +107,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row d-none">
     <div class="col-xl-12">
         <div class="card">
             <div class="card-header header-elements-sm-inline">
@@ -119,7 +119,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body" id="kpi">
+            <div class="card-body" id="kpix">
                 
             </div>
         </div>

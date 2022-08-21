@@ -1,5 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
 class Doi
 {
 	private $_ci;
@@ -8,7 +10,9 @@ class Doi
 	function __construct()
 	{
 		$this->_ci =& get_instance();
-
+		require APPPATH . 'libraries/phpmailer/src/Exception.php';
+		require APPPATH . 'libraries/phpmailer/src/PHPMailer.php';
+		require APPPATH . 'libraries/phpmailer/src/SMTP.php';
 		if ($x=$this->_ci->session->userdata('preference')){
 			$this->preference=$this->_ci->session->userdata('preference');
 		}
@@ -62,7 +66,7 @@ class Doi
         }
     }
 
-	public static function kirim_email($data){
+	public static function kirim_emailx($data){
 		$_ci =& get_instance();
 		$preference = $_ci->db->select('*');
 		$preference = $_ci->db->get('preference');
@@ -125,6 +129,73 @@ class Doi
 		// die($hasil);
 		return $hasil;
 
+	}
+
+	public static function kirim_email($data)
+	{
+		$_ci = &get_instance();
+		$preference = $_ci->db->select('*');
+		$preference = $_ci->db->get('preference');
+
+		$prefs = $preference->result_array();
+		foreach ($prefs as $key => $pref) {
+			$p[$pref['uri_title']] = $pref['value'];
+		}
+
+		ini_set('MAX_EXECUTION_TIME', -1);
+		$mail = new PHPMailer();
+		
+		$subject = $data['subject'];
+		// SMTP configuration
+		$mail->isSMTP();
+		$mail->Host     = $p['email_smtp_host']; //sesuaikan sesuai nama domain hosting/server yang digunakan
+		
+		$mail->SMTPAuth = true;
+		$mail->Username = $p['email_smtp_user']; // user email
+		$mail->Password = $p['email_smtp_pass']; // password email
+		$mail->SMTPSecure = 'tls';
+		$mail->Port     = $p['email_smtp_port'];
+		
+		$mail->Timeout = 60; // timeout pengiriman (dalam detik)
+		$mail->SMTPKeepAlive = true;
+
+		$mail->setFrom($p['email_smtp_user'], $p['email_title']); // user email
+		
+		$mail->addReplyTo('noreply@inalum.id', ''); //user email
+		
+		// Add a recipient
+		foreach ($data['email'] as $key => $value) {
+			$mail->addAddress($value); //email tujuan pengiriman email
+		}
+		if (array_key_exists('cc', $data)) {
+			foreach ($data['cc'] as $key => $value) {
+				$mail->addCC($value); // change it to yours
+			}
+		}
+		if (array_key_exists('bcc', $data)) {
+			foreach ($data['bcc'] as $key => $value) {
+				$mail->addBCC($value); // change it to yours
+			} // change it to yours
+		}
+	
+		// Email subject
+		$mail->Subject = $subject; //subject email
+
+		// Set email format to HTML
+		$mail->isHTML(true);
+		$message = $data['content'];
+		// Email body content
+		$mailContent = $message; // isi email
+		$mail->Body = $mailContent;
+
+		// Send email
+		if (!$mail->send()) {
+			$hasil = $mail->ErrorInfo;
+		} else {
+			$hasil = 'success';
+		}
+
+		return $hasil;
 	}
 }
 
