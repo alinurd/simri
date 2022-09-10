@@ -205,7 +205,7 @@ class Map
             
             if ($this->_param['tipe'] == 'angka') {
                 $nilaiket = (!empty($nilai)) ? '<span class="badge bg-primary badge-pill badge-sm"> '.$nilai.'</span>':$nilai;
-                $nilaiketakhir = (!empty($nilaiakhir)) ? '<span class="badge bg-info badge-pill badge-sm"> '.$nilaiakhir.'</span>':$nilaiakhir;
+                $nilaiketakhir = (!empty($nilaiakhir)) ? '<span style="background-color:#1d445b !important;color: white !important" class="badge badge-pill badge-sm"> '.$nilaiakhir.'</span>':$nilaiakhir;
             } else {
                 $nilaiket = (!empty($row['mulai']['nilai'])) ? '<i class="icon-checkmark-circle" style="color:' . $row['warna_txt'] . '"></i>' : "";
                 $nilaiketakhir = (!empty($row['akhir']['nilai'])) ? '<i class="icon-checkmark-circle" style="color:' . $row['warna_txt'] . '"></i>' : "";
