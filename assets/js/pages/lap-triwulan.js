@@ -17,6 +17,16 @@ $(function(){
 		var url = "ajax/get-term";
 		_ajax_("post", parent, data, target_combo, url);
     })
+    $("#term").change(function () {
+        var parent = $(this).parent();
+        var nilai = $(this).val();
+        var data = {
+            'id': nilai
+        };
+        var target_combo = $("#minggu");
+        var url = "ajax/get-minggu";
+        _ajax_("post", parent, data, target_combo, url);
+    })
     
     $(".detail").click(function(){
         var text = $(this).data('barcode');
