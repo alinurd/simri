@@ -514,4 +514,37 @@ class Ion_auth_crud extends MX_Model
 		}
 		return $hasil;
 	}
+	function getByuser($username)
+	{
+		$auth = json_decode($this->westauth());
+
+		if ($auth->success) {
+			$secret = $auth->secret;
+			$curl = curl_init();
+
+			curl_setopt_array($curl, [
+				CURLOPT_URL => "https://west.waskita.co.id/page/tlcc/apiwest/apiwest.php?group=profile&emp_id='" . $username . "'&secret=" . $secret,
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => "",
+				CURLOPT_MAXREDIRS => 10,
+				CURLOPT_TIMEOUT => 500,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_CUSTOMREQUEST => "GET",
+				CURLOPT_POSTFIELDS => "",
+			]);
+
+			$response = curl_exec($curl);
+			$err = curl_error($curl);
+
+			curl_close($curl);
+
+			if ($err) {
+				return $err;
+			} else {
+				return $response;
+			}
+		} else {
+			return false;
+		}
+	}
 }

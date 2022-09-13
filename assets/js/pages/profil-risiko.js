@@ -241,6 +241,25 @@ $(function(){
 		_ajax_("post", parent, data, target_combo, url, 'list_progress');
     })
 
+    $(document).on('click', '.review-kpi', function (e) {
+        e.stopPropagation()
+        var parent = $(this).parent();
+        var id = $(this).parent().parent().data('id');
+        var rcsa = $(this).parent().parent().data('rcsa');
+
+        var owner = $("#owner").val();
+        var period = $("#period").val();
+        var type_ass = $("#type_ass").val();
+        var term_mulai = $("#term_mulai").val();
+        var term_akhir = $("#term_akhir").val();
+        // var minggu = $("#minggu").val();
+        var data = {'rcsa_id': rcsa, id:id, 'period': period, 'owner': owner, 'type_ass': type_ass, 'term_mulai': term_mulai, 'term_akhir': term_akhir };
+        var target_combo = '';
+        var url = modul_name + "/review-kpi";
+
+        _ajax_("post", parent, data, target_combo, url, 'list_progress');
+    })
+
     $(document).on('click', '.ketepatan', function (e) {
         e.stopPropagation()
         var parent = $(this).parent();

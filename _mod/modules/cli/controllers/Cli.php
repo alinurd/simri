@@ -31,9 +31,9 @@ class Cli extends MX_Controller {
 
 	function cron()
 	{
-		if (date('m') == 25) {
+		// if (date('m') == 25) {
 			$this->update_minggu_aktif();
-		}
+		// }
 	}
 
 	function update_minggu_aktif(){

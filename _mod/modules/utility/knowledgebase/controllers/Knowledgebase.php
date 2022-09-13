@@ -77,7 +77,6 @@ class Knowledgebase extends MY_Controller
 		$response = false;
 		$mail = new PHPMailer();
 
-
 		// SMTP configuration
 		$mail->isSMTP();
 		$mail->Host     = 'smtp.office365.com'; //sesuaikan sesuai nama domain hosting/server yang digunakan
@@ -97,7 +96,9 @@ class Knowledgebase extends MY_Controller
 		$mail->addAddress('jabbar@inalum.id'); //email tujuan pengiriman email
 
 		// Email subject
+
 		$mail->Subject = 'SMTP Codeigniter'; //subject email
+
 
 		// Set email format to HTML
 		$mail->isHTML(true);
