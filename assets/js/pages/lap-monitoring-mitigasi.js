@@ -41,9 +41,9 @@ function list_map(hasil){
 }
 
 function result_map(hasil){
-    console.log(hasil);
-    $("#result_grap1").html(hasil.grap1);
-    $("#result_grap2").html(hasil.data_grap1);
+    // console.log(hasil);
+    // $("#result_grap1").html(hasil.grap1);
+    // $("#result_grap2").html(hasil.data_grap1);
     $("#kompi").html(hasil.kompi);
 }
 

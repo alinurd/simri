@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Kepatuhan_monitoring extends MY_Controller {
+class Kepatuhan_Monitoring extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
