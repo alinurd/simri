@@ -26,7 +26,7 @@ class Kri extends MY_Controller {
 
 		$this->addField(['field'=>'param_int', 'title'=>'Kelompok', 'input'=>'combo', 'values'=>$this->kel, 'size'=>100, 'search'=>true]);
 		$this->addField(['field'=>'pid', 'title'=>'Tipe', 'input'=>'combo', 'values'=>$this->tipe, 'size'=>100, 'search'=>true]);
-		$this->addField(['field'=>'param_other_int', 'title'=>'KPI', 'input'=>'combo', 'values'=>$this->kpi, 'size'=>100, 'search'=>true]);
+		// $this->addField(['field'=>'param_other_int', 'title'=>'KPI', 'input'=>'combo', 'values'=>$this->kpi, 'size'=>100, 'search'=>true]);
 		
 		$this->addField(['field'=>'data', 'title'=>'KRI', 'required'=>true,'input'=>'multitext', 'search'=>true, 'size'=>500]);
 		$this->addField(['field'=>'kelompok', 'show'=>false, 'save'=>true, 'default'=>$this->kelompok_id]);
@@ -51,7 +51,7 @@ class Kri extends MY_Controller {
 
 		$this->set_Table_List($this->tbl_master,'param_int');
 		$this->set_Table_List($this->tbl_master,'pid');
-		$this->set_Table_List($this->tbl_master,'param_other_int');
+		// $this->set_Table_List($this->tbl_master,'param_other_int');
 		$this->set_Table_List($this->tbl_master,'data');
 		$this->set_Table_List($this->tbl_master,'id', 'Total Terpakai');
 		$this->set_Table_List($this->tbly,'param_text', 'Total Dept');
