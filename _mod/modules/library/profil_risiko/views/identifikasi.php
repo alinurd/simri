@@ -11,16 +11,18 @@ foreach ($detail as $row) {
     <?php foreach ($bulan as $b) : ?>
         <?php
         $bg = '';
+        $bgc = '';
         $active = '';
         if ($b == reset($bulan)) {
             $bg = 'bg-primary';
             $active = 'active show';
         } elseif ($b == end($bulan)) {
-            $bg = 'bg-info';
+            $bg = '';
+            $bgc = 'style="background-color:#1d445b !important;color: white !important"';
         }
         ?>
         <li class="nav-item">
-            <a href="#content-det-<?= $b ?>" class="nav-link <?= $bg ?> <?= $active ?>" data-toggle="tab"><?= (isset($minggu[$b])) ? $minggu[$b] : ''; ?> </a>
+            <a <?= $bgc ?> href="#content-det-<?= $b ?>" class="nav-link <?= $bg ?> <?= $active ?>" data-toggle="tab"><?= (isset($minggu[$b])) ? $minggu[$b] : ''; ?> </a>
         </li>
     <?php endforeach; ?>
 </ul>
@@ -69,9 +71,10 @@ foreach ($detail as $row) {
                                 <td class="text-center" style="background-color:<?= $row['color_target']; ?>;color:<?= $row['color_text_target']; ?>;"><?= $row['level_color_target']; ?><br /><small><?= $row['like_code_target'] . 'x' . $row['impact_code_target'] . ' : ' . $row['risiko_target_text']; ?></small></td>
                                 <td class="text-center"><span class="badge bg-orange-400 badge-pill align-self-center ml-auto"><?= $row['jml']; ?></span></td>
                                 <td class="text-center"><span class="badge bg-teal-400 badge-pill align-self-center ml-auto"><?= $row['jml2']; ?></span></td>
-
-                                <td class="text-center col-prog" style="cursor: default;"><?php  //$row['jml3']; ?><br><span class="badge bg-warning-400 badge-pill align-self-center ml-auto pointer progress">Lihat Detail</span>
-                                <br><span class="badge bg-primary-400 badge-pill align-self-center ml-auto pointer review-kpi">Review KPI</span></td>
+                                <td class="text-center col-prog" style="cursor: default;"><?php  //$row['jml3']; 
+                                                                                            ?><br><span class="badge bg-warning-400 badge-pill align-self-center ml-auto pointer progress">Lihat Detail</span>
+                                    <br><span class="badge bg-primary-400 badge-pill align-self-center ml-auto pointer review-kpi">Review KPI</span>
+                                </td>
 
                                 <td class="text-center col-prog" style="cursor: default;"><?= $row['avg2'] ?>% <br><span class="badge bg-info-400 badge-pill align-self-center ml-auto pointer ketepatan">Lihat Chart</span></td>
                             </tr>

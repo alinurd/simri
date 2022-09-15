@@ -11,39 +11,43 @@
             </div>
             <div class="card-body">
                 <div class="form-group row d-none">
-                    <label class="col-form-label col-lg-2 text-right"><?=_l('fld_owner_id');?></label>
+                    <label class="col-form-label col-lg-2 text-right"><?= _l('fld_owner_id'); ?></label>
                     <div class="col-lg-10">
-                        <?php echo form_dropdown('owner', $owner, $dtowner, 'class="form-control select" style="width:100%;" id="owner"');?>
+                        <?php echo form_dropdown('owner', $owner, $dtowner, 'class="form-control select" style="width:100%;" id="owner"'); ?>
                     </div>
                 </div>
                 <div class="form-group row d-none">
-                    <label class="col-form-label col-lg-2 text-right"><?=_l('fld_type_ass_id');?></label>
+                    <label class="col-form-label col-lg-2 text-right"><?= _l('fld_type_ass_id'); ?></label>
                     <div class="col-lg-10">
-                        <?php echo form_dropdown('type_ass', $type_ass,'', 'class="form-control select" style="width:100%;" id="type_ass"');?>
+                        <?php echo form_dropdown('type_ass', $type_ass, '', 'class="form-control select" style="width:100%;" id="type_ass"'); ?>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-form-label col-lg-2 text-right"><?=_l('fld_period_id');?></label>
+                    <label class="col-form-label col-lg-2 text-right"><?= _l('fld_period_id'); ?></label>
                     <div class="col-lg-10">
-                        <?php echo form_dropdown('period', $period, _TAHUN_ID_, 'class="form-control select" style="width:100%;"  id="period"');?>
+                        <?php echo form_dropdown('period', $period, _TAHUN_ID_, 'class="form-control select" style="width:100%;"  id="period"'); ?>
                     </div>
                 </div>
                 <!-- <div class="form-group row"> -->
-                    <!-- <label class="col-form-label col-lg-2 text-right"><?php //_l('fld_term_id');?></label> -->
-                    <!-- <div class="col-lg-10"> -->
-                        <?php // echo form_dropdown('term', $term, _TERM_ID_, 'class="form-control select" style="width:100%;"  id="term"');?>
-                    <!-- </div> -->
+                <!-- <label class="col-form-label col-lg-2 text-right"><?php //_l('fld_term_id');
+                                                                        ?></label> -->
+                <!-- <div class="col-lg-10"> -->
+                <?php // echo form_dropdown('term', $term, _TERM_ID_, 'class="form-control select" style="width:100%;"  id="term"');
+                ?>
+                <!-- </div> -->
                 <!-- </div> -->
                 <div class="form-group row">
-                    <label class="col-form-label col-lg-2 text-right"><?=_l('fld_minggu_id');?></label>
+                    <label class="col-form-label col-lg-2 text-right"><?= _l('fld_minggu_id'); ?></label>
                     <div class="col-lg-5">
-                        <?php echo form_dropdown('term_mulai', $minggu, _TERM_ID_, 'class="form-control select minggu" style="width:100%;"  id="term_mulai"');?>
+                        <label class="col-form-label">Awal</label>
+                        <?php echo form_dropdown('term_mulai', $minggu, _TERM_ID_, 'class="form-control select minggu" style="width:100%;"  id="term_mulai"'); ?>
                     </div>
-                    <div class="col-lg-5">
-                        <?php echo form_dropdown('term_akhir', $minggu, _TERM_ID_, 'class="form-control select minggu" style="width:100%;"  id="term_akhir"');?>
+                    <div class=" col-lg-5">
+                        <label class="col-form-label">Akhir</label>
+                        <?php echo form_dropdown('term_akhir', $minggu, _TERM_ID_, 'class="form-control select minggu" style="width:100%;"  id="term_akhir"'); ?>
                     </div>
                 </div>
-                
+
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <span class="btn btn-primary pointer pull-right" id="proses"> Proses </span>
@@ -69,19 +73,19 @@
             <div class="card-body" id="maps">
                 <ul class="nav nav-tabs nav-tabs-top">
                     <li class="nav-item">
-                        <a href="#content-tab-00" class="nav-link active show" data-toggle="tab">Inheren <?=$jml_inherent;?> </a>
+                        <a href="#content-tab-00" class="nav-link active show" data-toggle="tab">Inheren <?= $jml_inherent; ?> </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#content-tab-01" class="nav-link " data-toggle="tab">Residual <?=$jml_residual;?> </a>
+                        <a href="#content-tab-01" class="nav-link " data-toggle="tab">Residual <?= $jml_residual; ?> </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#content-tab-02" class="nav-link " data-toggle="tab">Target <?=$jml_target;?> </a>
+                        <a href="#content-tab-02" class="nav-link " data-toggle="tab">Target <?= $jml_target; ?> </a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade active show" id="content-tab-00"><?=$map_inherent;?></div>
-                    <div class="tab-pane fade" id="content-tab-01"><?=$map_residual;?></div>
-                    <div class="tab-pane fade" id="content-tab-02"><?=$map_target;?></div>
+                    <div class="tab-pane fade active show" id="content-tab-00"><?= $map_inherent; ?></div>
+                    <div class="tab-pane fade" id="content-tab-01"><?= $map_residual; ?></div>
+                    <div class="tab-pane fade" id="content-tab-02"><?= $map_target; ?></div>
                 </div>
             </div>
         </div>
@@ -101,7 +105,7 @@
                 </div>
             </div>
             <div class="card-body" id="detail_list">
-                
+
             </div>
         </div>
     </div>
@@ -119,8 +123,8 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body" id="kpix">
-                
+            <div class="card-body" id="kpi">
+
             </div>
         </div>
     </div>
@@ -139,7 +143,7 @@
                 </div>
             </div>
             <div class="card-body" id="progress">
-                
+
             </div>
         </div>
     </div>

@@ -55,12 +55,15 @@ class Lap_Triwulan extends MY_Controller {
 		$data['owner']=$this->get_combo_parent_dept();
 		$data['period']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'period')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		$data['term']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'term')->combo_where('pid', _TAHUN_ID_)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		$data['minggu'] = $this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		// die($this->db->last_query());
 
 		$this->data->pos['owner']=0;
 		$this->data->pos['type_ass']=0;
 		$this->data->pos['period']=_TAHUN_ID_;
 		$this->data->pos['term']=_TERM_ID_;
+		$this->data->pos['minggu'] = _MINGGU_ID_;
+
 		$data['map']=$this->load->view('map',$data, true);
 		$this->hasil=$this->load->view('dashboard',$data, true);
 		return $this->hasil;

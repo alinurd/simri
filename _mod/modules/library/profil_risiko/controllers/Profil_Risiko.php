@@ -1001,8 +1001,8 @@ class Profil_Risiko extends MY_Controller {
 		$det = $this->data->get_detail_data($this->_data_user_);
 		$det['mode']=0;
 
-		$hasil['kpi'] = '';
-		// $hasil['kpi'] = $this->load->view('detail', $det, true);
+		// $hasil['kpi'] = '';
+		$hasil['kpi'] = $this->load->view('detail', $det, true);
 
 		// $y=$this->data->get_data_kompilasi($this->pos['period'],$this->pos['owner'],$this->pos['type_ass'], $this->_data_user_);
 		$y=$this->data->get_data_kompilasi($this->_data_user_);

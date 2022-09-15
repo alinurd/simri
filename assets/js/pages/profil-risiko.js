@@ -351,13 +351,14 @@ $(function(){
         } );
 
     });
-
+    
     $(document).ready(function(){
         $("#period").trigger('change');
         // $("#period_id").trigger('change');
         // $("#term_id").trigger('change');
         // $("#proses_check").trigger('click');
     })
+
 });
 
 var checkboxes = [];
