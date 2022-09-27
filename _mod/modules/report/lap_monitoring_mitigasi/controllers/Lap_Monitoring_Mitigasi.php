@@ -154,11 +154,11 @@ class Lap_Monitoring_Mitigasi extends MY_Controller {
 		$data['export']=false;
 
 		
-		$hasil= $this->load->view('monitoring',$data, true);
+		$hasil= $this->load->view('monitoring_detail',$data, true);
 
 
         $cetak = 'register_excel';
-        $nm_file = 'Laporan-Mitigasi-Kompilasi';
+		$nm_file = 'Laporan-Monitoring-Mitigasi';
         $this->$cetak($hasil, $nm_file);
     }
 
