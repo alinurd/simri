@@ -66,6 +66,7 @@ class Profil_Risiko extends MY_Controller {
 
 		$this->set_Field_Primary($this->tbl_master, 'id');
 
+		$this->set_Sort_Table($this->tbl_master,'profil_id', 'desc');
 		$this->set_Sort_Table($this->tbl_master,'created_at', 'desc');
 		$this->set_Group_Table($this->tbl_master,'kode_risk');
 		$this->set_Group_Table($this->tbl_master,'period_id');

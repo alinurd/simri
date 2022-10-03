@@ -1,4 +1,5 @@
 $(function(){
+    
     $('<input>').attr({
         type: 'hidden',
         id: 'idOfHiddenInput',
@@ -43,11 +44,12 @@ $(function(){
                 $(this).prop('checked', false);
             });
             // $('#btn_save_modul').addClass('disabled');
-            setTimeout(function () {
+            // setTimeout(function () {
                                 
-                readyCheckbox();
+            //     readyCheckbox();
               
-            }, 200)
+            // }, 200)
+            
             $("#idOfHiddenInput").val("");
         }
     });
@@ -384,8 +386,8 @@ function readyCheckbox() {
                     }
                 }
             });
-            $("#idOfHiddenInput").val(checkboxes);
-            $("#idOri").val(checkboxes);
+            // $("#idOfHiddenInput").val(checkboxes);
+            // $("#idOri").val(checkboxes);
         }, 200)
     // }
     // let checkboxesX = checkboxes.filter((c, index) => {
@@ -393,6 +395,8 @@ function readyCheckbox() {
     // });
     $("#idOfHiddenInput").val(checkboxes);
     $("#idOri").val(checkboxes);
+
+    console.log($("#idOfHiddenInput").val())
 
 }
 

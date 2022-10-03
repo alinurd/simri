@@ -357,7 +357,6 @@ class Data extends MX_Model
 			foreach ($del as $key => $value) {
 				if ($value != "") {
 					$kodeX = explode('-', $value);
-
 					$this->db->where('kode_dept', $kodeX[0]);
 					$this->db->where('kode_aktifitas', $kodeX[1]);
 					$this->db->where('kode_risiko_dept', $kodeX[2]);
@@ -369,25 +368,29 @@ class Data extends MX_Model
 		}
 
 		$newdata = [];
-		foreach ($data as $key => $value) {
-			$kodeX = explode('-', $value);
-			// $old = $this->checklist($owner, $kodeX[3]);
-
-			$this->db->where('kode_dept', $kodeX[0]);
-			$this->db->where('kode_aktifitas', $kodeX[1]);
-			$this->db->where('kode_risiko_dept', $kodeX[2]);
-			$this->db->where('period_id', $kodeX[3]);
-			$this->db->where('owner_id', $owner);
-			$cek = $this->db->get($this->nm_tbl)->row_array();
-
-			if ($cek == null) {
-				$newdata[] = [
-					'kode_dept' => $kodeX[0],
-					'kode_aktifitas' => $kodeX[1],
-					'kode_risiko_dept' => $kodeX[2],
-					'period_id' => $kodeX[3],
-					'owner_id' => $owner,
-				];
+		if (count($data)) {
+			foreach ($data as $key => $value) {
+				if ($value) {
+					$kodeX = explode('-', $value);
+					// $old = $this->checklist($owner, $kodeX[3]);
+		
+					$this->db->where('kode_dept', $kodeX[0]);
+					$this->db->where('kode_aktifitas', $kodeX[1]);
+					$this->db->where('kode_risiko_dept', $kodeX[2]);
+					$this->db->where('period_id', $kodeX[3]);
+					$this->db->where('owner_id', $owner);
+					$cek = $this->db->get($this->nm_tbl)->row_array();
+		
+					if ($cek == null) {
+						$newdata[] = [
+							'kode_dept' => $kodeX[0],
+							'kode_aktifitas' => $kodeX[1],
+							'kode_risiko_dept' => $kodeX[2],
+							'period_id' => $kodeX[3],
+							'owner_id' => $owner,
+						];
+					}
+				}
 			}
 		}
 
