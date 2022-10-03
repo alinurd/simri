@@ -1488,10 +1488,10 @@ class Risk_Context extends MY_Controller {
 			$data['title']=' Inheren';
 			$result['combo'] = $this->load->view('indikator-like', $data, true);
 		}elseif ($post['bk_tipe']==2){
-			$data['sub_title']=' Residual';
+			$data['sub_title']=' Current';
 			$result['combo'] = $this->load->view('indikator-like-residual', $data, true);
 		}elseif ($post['bk_tipe']==3){
-			$data['sub_title']=' Target';
+			$data['sub_title']=' Residual';
 			$result['combo'] = $this->load->view('indikator-like-target', $data, true);
 		}
 		echo json_encode($result);

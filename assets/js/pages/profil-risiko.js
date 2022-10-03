@@ -20,13 +20,13 @@ $(function(){
             // Iterate each checkbox
             var len = $('input[name="chk_list[]"]:checked').length;
             if (len>0){
-                $(':checkbox').each(function() {
-                    $(this).is(":checked") = true;
+                $('input[name="chk_list[]').each(function() {
+                    $(this).prop('checked', true);
                 });
                 $('#btn_save_modul').removeClass('disabled');
             }else{
-                $(':checkbox').each(function() {
-                    $(this).is(":checked") = false;
+                $('input[name="chk_list[]').each(function() {
+                    $(this).prop('checked', false);
                 });
                 setTimeout(function () {
                                 
@@ -39,8 +39,8 @@ $(function(){
             }
             
         } else {
-            $(':checkbox').each(function() {
-                $(this).is(":checked") = false;
+            $('input[name="chk_list[]').each(function() {
+                $(this).prop('checked', false);
             });
             // $('#btn_save_modul').addClass('disabled');
             setTimeout(function () {

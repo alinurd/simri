@@ -35,9 +35,9 @@
                                 <th>Klasifikasi</th>
                                 <th>Risiko Inheren</th>
                                 <th>Efek Kontrol</th>
-                                <th>Risiko Residual</th>
+                                <th>Risiko Current</th>
                                 <th>Respon</th>
-                                <th>Risiko Target</th>
+                                <th>Risiko Residual</th>
                                 <th width="6%">Mitigasi</th>
                                 <th class="text-center" width="10%">Aksi</th>
                             </tr>

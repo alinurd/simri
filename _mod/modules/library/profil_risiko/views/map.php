@@ -4,10 +4,10 @@
         <a href="#content-tab-00" class="nav-link active show" data-toggle="tab">Inheren <?=$jml_inherent;?> </a>
     </li>
     <li class="nav-item">
-        <a href="#content-tab-01" class="nav-link " data-toggle="tab">Residual <?=$jml_residual;?> </a>
+        <a href="#content-tab-01" class="nav-link " data-toggle="tab">Current <?=$jml_residual;?> </a>
     </li>
     <li class="nav-item">
-        <a href="#content-tab-02" class="nav-link " data-toggle="tab">Target <?=$jml_target;?> </a>
+        <a href="#content-tab-02" class="nav-link " data-toggle="tab">Residual <?=$jml_target;?> </a>
     </li>
 </ul>
 <div class="tab-content">

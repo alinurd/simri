@@ -23,7 +23,7 @@ if (isset($url)) {
                 <?php endif; ?>
 
 
-                <a target="_blank" href="<?= base_url('/lap-mitigasi/cetak-register/' . $pos['period'] . '/' . $pos['owner'] . '/' . $pos['type_ass']) ?>">
+                <a target="_blank" href="<?= base_url('/lap-monitoring-mitigasi/cetak-register/' . $pos['period'] . '/' . $pos['owner'] . '/' . $pos['type_ass']) ?>">
                     <h6 class="card-title"><span class="btn bg-primary pointer pull-right <?= $show; ?>" id="export_excel"> Export to Ms-Excel </span></h6>
                 </a>
 

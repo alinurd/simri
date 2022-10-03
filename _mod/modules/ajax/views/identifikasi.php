@@ -7,8 +7,8 @@
             <th>Risiko Dept.</th>
             <th>Klasifikasi</th>
             <th>Risiko Inheren</th>
+            <th>Risiko Current</th>
             <th>Risiko Residual</th>
-            <th>Risiko Target</th>
             <th width="6%">Mitigasi</th>
             <th width="6%">Aktifitas Mitigasi</th>
             <th width="6%">Proges Mitigasi</th>

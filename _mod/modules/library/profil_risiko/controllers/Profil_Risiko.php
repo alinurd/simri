@@ -80,9 +80,9 @@ class Profil_Risiko extends MY_Controller {
 		$this->set_Table_List($this->tbl_master,'klasifikasi_risiko', 'Klasifikasi');
 		$this->set_Table_List($this->tbl_master,'like_code', 'Risiko Inheren');
 		$this->set_Table_List($this->tbl_master,'efek_kontrol_text', 'Efek Kontrol');
-		$this->set_Table_List($this->tbl_master,'like_code_residual', 'Risiko Residual');
+		$this->set_Table_List($this->tbl_master,'like_code_residual', 'Risiko Current');
 		$this->set_Table_List($this->tbl_master,'treatment', 'Respon');
-		$this->set_Table_List($this->tbl_master,'like_code_target', 'Risiko Target');
+		$this->set_Table_List($this->tbl_master,'like_code_target', 'Risiko Residual');
 		$this->set_Table_List($this->tbl_master,'jml', 'Mitigasi');
 
 		$this->_set_Where_Owner();

@@ -40,9 +40,9 @@
 <th colspan="6" style="text-align:center;">Risiko Inheren </th> 
 <th rowspan="2" style="text-align:center;">Jenis / Nama Kontrol</th>
 <th rowspan="2" style="text-align:center;">Efek L/D Kontrol</th>
-<th colspan="6" style="text-align:center;">Risiko Residual </th> 
+<th colspan="6" style="text-align:center;">Risiko Current </th> 
 <th rowspan="2" style="text-align:center;">Respon Risiko</th>
-<th colspan="6" style="text-align:center;">Risiko Target </th> 
+<th colspan="6" style="text-align:center;">Risiko Residual </th> 
 <th rowspan="2" style="text-align:center;">Mitigasi</th>
 <th rowspan="2" style="text-align:center;">Koordinator</th>
 <th rowspan="2" style="text-align:center;">PIC</th>
@@ -53,23 +53,23 @@
 <th style="text-align:center;">Risk Indikator Likelihood </th> 
 <th style="text-align:center;">Risk Indikator Dampak </th> 
 <th style="text-align:center;">Likelihood Inheren</th> 
-<th style="text-align:center;">Dampak Inheren </th> 
-<th style="text-align:center;">Nilai Risiko Inheren </th>
-<th style="text-align:center;">Level Risiko Inheren </th> 
+<th style="text-align:center;">Inheren Impact </th> 
+<th style="text-align:center;">Inheren Risk </th>
+<th style="text-align:center;">Inheren Risk Level </th> 
+
+<th style="text-align:center;">Risk Indikator Likelihood </th> 
+<th style="text-align:center;">Risk Indikator Dampak </th> 
+<th style="text-align:center;">Likelihood Current</th> 
+<th style="text-align:center;">Current Impact </th> 
+<th style="text-align:center;">Current Risk </th>
+<th style="text-align:center;">Current Risk Level </th> 
 
 <th style="text-align:center;">Risk Indikator Likelihood </th> 
 <th style="text-align:center;">Risk Indikator Dampak </th> 
 <th style="text-align:center;">Likelihood Residual</th> 
-<th style="text-align:center;">Dampak Residual </th> 
-<th style="text-align:center;">Nilai Risiko Residual </th>
-<th style="text-align:center;">Level Risiko Residual </th> 
-
-<th style="text-align:center;">Risk Indikator Likelihood </th> 
-<th style="text-align:center;">Risk Indikator Dampak </th> 
-<th style="text-align:center;">Likelihood Target</th> 
-<th style="text-align:center;">Dampak Target </th> 
-<th style="text-align:center;">Nilai Risiko Target </th>
-<th style="text-align:center;">Level Risiko Target </th>
+<th style="text-align:center;">Residual Impact </th> 
+<th style="text-align:center;">Residual Risk </th>
+<th style="text-align:center;">Residual Risk Level </th>
 </tr>
 
     </thead>

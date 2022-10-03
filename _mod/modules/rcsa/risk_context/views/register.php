@@ -52,10 +52,10 @@
                                 <th colspan="6" class="text-center" style="background:<?=$this->_preference_['warna_inherent'];?> !important;color:#ffffff;">Risiko Inheren</th>
                                 <th rowspan="2" style="background:<?=$this->_preference_['warna_inherent'];?> !important;color:#ffffff;">Jenis/Nama Kontrol</th>
                                 <th rowspan="2" style="background:<?=$this->_preference_['warna_inherent'];?> !important;color:#ffffff;">Efek L/D Kontrol</th>
-                                <th colspan="4" class="text-center" style="background:<?=$this->_preference_['warna_residual'];?> !important;;color:#ffffff;">Risiko Residual</th>
+                                <th colspan="4" class="text-center" style="background:<?=$this->_preference_['warna_residual'];?> !important;;color:#ffffff;">Risiko Current</th>
                                 <th rowspan="2" style="background:<?=$this->_preference_['warna_target'];?> !important;;color:#ffffff;">Respon Risiko</th>
                                 <th rowspan="2" style="background:<?=$this->_preference_['warna_target'];?> !important;color:#ffffff;">Efek L/D Mitigasi</th>
-                                <th colspan="4" class="text-center" style="background:<?=$this->_preference_['warna_target'];?> !important;;color:#ffffff;">Risiko Target</th>
+                                <th colspan="4" class="text-center" style="background:<?=$this->_preference_['warna_target'];?> !important;;color:#ffffff;">Risiko Residual</th>
                                 <th rowspan="2" style="background:<?=$this->_preference_['warna_target'];?> !important;;color:#ffffff;">Mitigasi</th>
                                 <th rowspan="2" style="background:<?=$this->_preference_['warna_target'];?> !important;;color:#ffffff;">Kordinator</th>
                                 <th rowspan="2" style="background:<?=$this->_preference_['warna_target'];?> !important;;color:#ffffff;">PIC</th>
@@ -66,19 +66,19 @@
                                 <th style="background:<?=$this->_preference_['warna_inherent'];?> !important;color:#ffffff;">Risk Indikator Likelihood</th>
                                 <th style="background:<?=$this->_preference_['warna_inherent'];?> !important;color:#ffffff;">Risk Indikator Dampak</th>
                                 <th style="background:<?=$this->_preference_['warna_inherent'];?> !important;color:#ffffff;">Likelihood Inheren</th>
-                                <th style="background:<?=$this->_preference_['warna_inherent'];?> !important;color:#ffffff;">Dampak Inheren</th>
-                                <th style="background:<?=$this->_preference_['warna_inherent'];?> !important;color:#ffffff;">Nilai Risiko Inheren</th>
-                                <th style="background:<?=$this->_preference_['warna_inherent'];?> !important;color:#ffffff;">Level Risiko Inheren</th>
+                                <th style="background:<?=$this->_preference_['warna_inherent'];?> !important;color:#ffffff;">Inheren Impact</th>
+                                <th style="background:<?=$this->_preference_['warna_inherent'];?> !important;color:#ffffff;">Inheren Risk</th>
+                                <th style="background:<?=$this->_preference_['warna_inherent'];?> !important;color:#ffffff;">Risk Level Inheren</th>
 
-                                <th style="background:<?=$this->_preference_['warna_residual'];?> !important;;color:#ffffff;">Likelihood Residual</th>
-                                <th style="background:<?=$this->_preference_['warna_residual'];?> !important;;color:#ffffff;">Dampak Residual</th>
-                                <th style="background:<?=$this->_preference_['warna_residual'];?> !important;;color:#ffffff;">Nilai Risiko Residual</th>
-                                <th style="background:<?=$this->_preference_['warna_residual'];?> !important;;color:#ffffff;">Level Risiko Residual</th>
+                                <th style="background:<?=$this->_preference_['warna_residual'];?> !important;;color:#ffffff;">Likelihood Current</th>
+                                <th style="background:<?=$this->_preference_['warna_residual'];?> !important;;color:#ffffff;">Current Impact</th>
+                                <th style="background:<?=$this->_preference_['warna_residual'];?> !important;;color:#ffffff;">Current Risk</th>
+                                <th style="background:<?=$this->_preference_['warna_residual'];?> !important;;color:#ffffff;">Current Risk Level</th>
 
-                                <th style="background:<?=$this->_preference_['warna_target'];?> !important;;color:#ffffff;">Likelihood Target</th>
-                                <th style="background:<?=$this->_preference_['warna_target'];?> !important;;color:#ffffff;">Dampak Target</th>
-                                <th style="background:<?=$this->_preference_['warna_target'];?> !important;;color:#ffffff;">Nilai Risiko Target</th>
-                                <th style="background:<?=$this->_preference_['warna_target'];?> !important;;color:#ffffff;">Level Risiko Target</th>
+                                <th style="background:<?=$this->_preference_['warna_target'];?> !important;;color:#ffffff;">Likelihood Residual</th>
+                                <th style="background:<?=$this->_preference_['warna_target'];?> !important;;color:#ffffff;">Residual Impact</th>
+                                <th style="background:<?=$this->_preference_['warna_target'];?> !important;;color:#ffffff;">Residual Risk</th>
+                                <th style="background:<?=$this->_preference_['warna_target'];?> !important;;color:#ffffff;">Residual Risk Level</th>
                             </tr>
                         </thead>
                         <tbody>

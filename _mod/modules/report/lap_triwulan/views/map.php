@@ -1,10 +1,10 @@
 <div class="row">
     <div class="col-lg-6">
-        <strong>Risiko Risidual</strong><br/>
+        <strong>Risiko Current</strong><br/>
         <?=$map_residual;?>
     </div>
     <div class="col-lg-6">
-        <strong>Risiko Target</strong><br/>
+        <strong>Risiko Residual</strong><br/>
         <?=$map_target;?>
     </div>
 </div>
@@ -36,7 +36,7 @@ $ttar=$t_target[1]['jml']+$t_target[2]['jml']+$t_target[3]['jml'];
             </thead>
             <tbody>
                 <tr>
-                    <td>Risiko Risidual</td>
+                    <td>Risiko Current</td>
                     <td class="text-center"><?=$t_residual[3]['jml'];?></td>
                     <td width="5"><?=($tresi>0)?number_format(($t_residual[3]['jml']/$tresi)*100,2):0;?></td>
                     <td class="text-center"><?=$t_residual[2]['jml'];?></td>
@@ -46,7 +46,7 @@ $ttar=$t_target[1]['jml']+$t_target[2]['jml']+$t_target[3]['jml'];
                     <td class="text-center"><?=$t_residual[1]['jml']+$t_residual[2]['jml']+$t_residual[3]['jml'];?></td>
                 </tr>
                 <tr>
-                    <td>Target Risiko</td>
+                    <td>Risiko Residual</td>
                     <td class="text-center"><?=$t_target[3]['jml'];?></td>
                     <td width="5"><?=($ttar>0)?number_format(($t_target[3]['jml']/$ttar)*100,2):0;?></td>
                     <td class="text-center"><?=$t_target[2]['jml'];?></td>
