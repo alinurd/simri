@@ -128,13 +128,13 @@ class Lap_Triwulan extends MY_Controller {
 			$x[]=$row['id'];
 		}
 
-		$this->db->select('rcsa_detail_id, mitigasi, penanggung_jawab_id, penanggung_jawab_detail, koordinator_id, batas_waktu, 0 as target, 0 as aktual');
+		$this->db->select('rcsa_detail_id, mitigasi, penanggung_jawab_id, penanggung_jawab_detail, koordinator_id, batas_waktu, target, aktual');
 		if (!empty($x)) {
 			$this->db->where_in('rcsa_detail_id', $x);
 		}else{
 			$this->db->where_in('rcsa_detail_id', [0]);
 		}
-		$detail=$this->db->order_by('rcsa_detail_id')->get(_TBL_VIEW_RCSA_MITIGASI)->result_array();
+		$detail=$this->db->order_by('rcsa_detail_id')->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)->result_array();
 		$x=[];
 		if (!empty($detail)) {
 			foreach($detail as $row){

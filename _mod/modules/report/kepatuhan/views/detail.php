@@ -27,6 +27,8 @@
 
         return $hasil;
    }
+
+//    Doi::dump($minggu);
 ?>
 
 <strong>Kepatuhan Pelaporan Assesment Manajement Risiko Korporasi</strong><br>
@@ -93,12 +95,12 @@
                     if (isset($row[0][$x])) {
                         if ($row[0][$x]['bk1'] == '1') {
                             $bk1[0]='<i class="fa fa-check-circle text-primary"></i>';
-                            $tgl_approved[$x] = $row[0][$x]['tgl_propose'];
+                            $tgl_approved[$x] = $row[0][$x]['tgl_propose'] == '0000-00-00 00:00:00' ? '' : $row[0][$x]['tgl_propose'];
                             $date1=date_create($tgl_approved[$x]);
                             $date2=date_create($row[0][$x]['deadline']);
                             $diffo[$x]=date_diff($date2,$date1);
                             $nilai_diff[$x]=intval($diffo[$x]->format("%R%a"));
-                            $diff[$x] = kepatuhan($nilai_diff[$x])."%";
+                            $diff[$x] = $tgl_approved[$x] ? kepatuhan($nilai_diff[$x])."%" : '';
                             // $kepatuhan += kepatuhan($nilai_diff); 
                             // $total2 += 1;
     
@@ -125,7 +127,8 @@
             ?>
             <tr>
                 <td class="text-center"><?=++$no;?></td>
-                <td class="text-left"><?=$row[0]['owner_name'];?> (<?=$row[0]['kode_dept'];?>)</td>
+                <td class="text-left">
+                <?=$row[0]['owner_name'];?> (<?=$row[0]['kode_dept'];?>)</td>
 
                 <?php foreach($minggu as $x => $m):?>
 
