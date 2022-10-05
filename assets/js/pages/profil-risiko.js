@@ -1,5 +1,5 @@
 $(function(){
-    
+
     $('<input>').attr({
         type: 'hidden',
         id: 'idOfHiddenInput',
@@ -396,7 +396,7 @@ function readyCheckbox() {
     $("#idOfHiddenInput").val(checkboxes);
     $("#idOri").val(checkboxes);
 
-    console.log($("#idOfHiddenInput").val())
+    // console.log($("#idOfHiddenInput").val())
 
 }
 
