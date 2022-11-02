@@ -262,24 +262,27 @@ class Progress_Mitigasi extends MY_Controller {
 			
 			
 			// $curMing = $this->_data_user_['term']['period_id'];
+			
 			if ($dp) {
 				$cekbul = $this->db->where('id', $dp['minggu_id'])->get(_TBL_COMBO)->row_array();
 
-				$minggupil=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('active', 1)->combo_where('pid',$cekbul['pid'])->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+				// $minggupil=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('active', 1)->combo_where('pid',$cekbul['pid'])->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 
 			} else {
 				$cekbul['pid'] = _TAHUN_ID_;
-				$minggupil=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('active', 1)->combo_where('pid',_TAHUN_ID_)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+				// $minggupil=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('active', 1)->combo_where('pid',_TAHUN_ID_)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 			}
 			
 			$minggupil[""] = '--select Bulan--';
-
-
+			$minggupil = $this->data->get_data_minggu($data['parent']['term_id']);
+			// Dumps($minggupil);
+			// die();
 			$periodpil = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'period')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 			$periodpil[""] = '--select Periode--';
 	
 			
-			$minggu = form_dropdown('tahun', $periodpil, $cekbul['pid'], 'class="form-control select" style="width:100%;"  id="tahun"');
+			$minggu = form_dropdown('tahun_pil', $periodpil, $cekbul['pid'], 'class="form-control select" style="width:100%;"  id="tahun" disabled');
+			$minggu .= form_hidden('tahun', $cekbul['pid']);
 			$minggu .= form_dropdown('minggu', $minggupil, ($dp)?$dp['minggu_id']:_MINGGU_ID_, 'class="form-control select" style="width:100%;"  id="minggu"');
 			$minggu .= '<script>
 				$(".select").select2({

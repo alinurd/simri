@@ -37,6 +37,9 @@ class Laporan_Loss_Event extends MY_Controller {
 		$data['owner']=$this->get_combo_parent_dept();
 		$data['period']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'period')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		$data['data']=$this->data->get_data();
+		$data['period_id']= _TAHUN_ID_;
+		$data['owner_no'] = 0;
+		
 		$data['tbl']=$this->hasil=$this->load->view('lap',$data, true);
 		$this->hasil=$this->load->view('view',$data, true);
 
@@ -85,8 +88,38 @@ class Laporan_Loss_Event extends MY_Controller {
 	function proses_search(){
 		$post=$this->input->post();
 		$this->data->post=$post;
+		$data['period_id'] = $post['period_id'];
+		$data['owner_no'] = $post['owner_no'];
 		$data['data'] = $this->data->get_data($post);
 		$hasil['combo'] = $this->load->view('lap', $data, true);
 		echo json_encode($hasil);
+	}
+
+	function cetak_register($period, $owner)
+	{
+		// $data['id']=$id;
+		$post = [
+			'owner_no' => $owner,
+			'period_id' => $period,
+		];
+		$data['period_id'] = $period;
+		$data['owner_no'] = $owner;
+		$data['export'] = false;
+		$data['data'] = ($owner==0)? $this->data->get_data():$this->data->get_data($post);
+
+		$hasil = $this->load->view('lap', $data, true);
+		$cetak = 'register_excel';
+		$nm_file = 'Laporan-Loss-Event';
+		$this->$cetak($hasil, $nm_file);
+	}
+
+	function register_excel($data, $nm_file)
+	{
+		header("Content-type:appalication/vnd.ms-excel");
+		header("content-disposition:attachment;filename=" . $nm_file . ".xls");
+
+		$html = $data;
+		echo $html;
+		exit;
 	}
 }

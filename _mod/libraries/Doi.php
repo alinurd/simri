@@ -165,18 +165,25 @@ class Doi
 		$mail->addReplyTo('noreply@inalum.id', ''); //user email
 		
 		// Add a recipient
-		foreach ($data['email'] as $key => $value) {
-			$mail->addAddress($value); //email tujuan pengiriman email
-		}
-		if (array_key_exists('cc', $data)) {
-			foreach ($data['cc'] as $key => $value) {
-				$mail->addCC($value); // change it to yours
+		if (is_array($data['email'])) {
+			foreach ($data['email'] as $key => $value) {
+				$mail->addAddress($value); //email tujuan pengiriman email
 			}
 		}
+		if (array_key_exists('cc', $data)) {
+			if (is_array($data['cc'])) {
+				foreach ($data['cc'] as $key => $value) {
+					$mail->addCC($value); // change it to yours
+				}
+			}
+
+		}
 		if (array_key_exists('bcc', $data)) {
-			foreach ($data['bcc'] as $key => $value) {
-				$mail->addBCC($value); // change it to yours
-			} // change it to yours
+			if(is_array($data['bcc'])){
+				foreach ($data['bcc'] as $key => $value) {
+					$mail->addBCC($value); // change it to yours
+				} // change it to yours
+			}
 		}
 	
 		// Email subject

@@ -1,14 +1,14 @@
 <?php
+    
     $no_edit='';
     $events='auto';
     $no_edit_hide='';
    
-    if(intval($parent['status_id_mitigasi'])>1 && intval($parent['status_final_mitigasi'])>=0){
+    if(intval($parent['status_id_mitigasi'])>=1 && intval($parent['status_final_mitigasi'])>=0){
         $no_edit_hide=' d-none ';
         $no_edit=' disabled="disabled" ';
         $events='none';
     }
-  
 ?>
 
 <div class='table-responsive'>
@@ -44,7 +44,7 @@
                 <td><?=$row['kendala'];?></td>
                 <?php if (empty($no_edit)):?>
                 <td class="pointer text-center">
-                    <i class="icon-database-edit2  text-primary-400 update-progres" data-mitigasi="<?=$aktifitas_mitigas['id'];?>" data-id="<?=$row['id'];?>" data-popup="tooltip" data-html="true" title=" Update Progres Mitigasi "></i> | 
+                    <i class="icon-database-edit2  text-primary-400 update-progres <?= $no_edit_hide ?>" data-mitigasi="<?=$aktifitas_mitigas['id'];?>" data-id="<?=$row['id'];?>" data-popup="tooltip" data-html="true" title=" Update Progres Mitigasi "></i> | 
                     <i class="icon-database-remove  text-danger-400 delete-progres" data-mitigasi="<?=$aktifitas_mitigas['id'];?>" data-id="<?=$row['id'];?>" data-popup="tooltip" data-html="true" title=" Hapus data Progres Mitigasi "></i> </td>
                 <?php endif;?>
             </tr>
