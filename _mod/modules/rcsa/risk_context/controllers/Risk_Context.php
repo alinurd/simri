@@ -373,6 +373,7 @@ class Risk_Context extends MY_Controller {
 		$data['picku'] = $this->get_data_dept();
 		
 		$data['mitigasi']=$rows;
+
 		$data['d_evaluasi']=$this->evaluasi_content($rcsa_detail);
 		$data['d_target']=$this->target_content($rcsa_detail);
 		$data['list_mitigasi']=$this->load->view('list-mitigasi',$data, true);
@@ -1657,7 +1658,7 @@ class Risk_Context extends MY_Controller {
         $post = $this->input->post();
 
 		$fields['rcsa'] = ['type_ass_id', 'owner_id','sasaran_dept','ruang_lingkup','stakeholder_id','alat_metode_id'];
-		$fields['detail'] = ['aktifitas_id', 'sasaran_id','tahapan','klasifikasi_risiko_id','tipe_risiko_id','penyebab_id', 'peristiwa_id', 'dampak_id', 'risiko_dept', 'kode_risiko_dept', 'tipe_analisa_no', 'like_id', 'like_text', 'impact_id', 'impact_text','risiko_inherent', 'level_inherent', 'nama_kontrol', 'nama_kontrol_note', 'efek_kontrol', 'lampiran', 'aspek_risiko_id', 'like_residual_id', 'impact_residual_id', 'risiko_residual', 'level_residual', 'like_target_id', 'impact_target_id', 'risiko_target', 'level_target', 'treatment_id', 'note_approval', 'sts_save_evaluasi'];
+		$fields['detail'] = ['id_kpi','aktifitas_id', 'sasaran_id','tahapan','klasifikasi_risiko_id','tipe_risiko_id','penyebab_id', 'peristiwa_id', 'dampak_id', 'risiko_dept', 'kode_risiko_dept', 'tipe_analisa_no', 'like_id', 'like_text', 'impact_id', 'impact_text','risiko_inherent', 'level_inherent', 'nama_kontrol', 'nama_kontrol_note', 'efek_kontrol', 'lampiran', 'aspek_risiko_id', 'like_residual_id', 'impact_residual_id', 'risiko_residual', 'level_residual', 'like_target_id', 'impact_target_id', 'risiko_target', 'level_target', 'treatment_id', 'note_approval', 'sts_save_evaluasi'];
 		$fields['mitigasi'] = ['mitigasi', 'batas_waktu', 'biaya', 'penanggung_jawab_id', 'koordinator_id', 'status_jangka'];
 		$fields['mitigasi_detail'] =['aktifitas_mitigasi', 'batas_waktu_detail', 'penanggung_jawab_detail_id', 'koordinator_detail_id', 'target', 'aktual'];
 		$fields['dampak_indi'] =['bk_tipe', 'kri_id'];

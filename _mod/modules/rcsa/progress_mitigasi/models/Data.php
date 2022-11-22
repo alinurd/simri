@@ -66,20 +66,20 @@ class Data extends MX_Model {
 
 	function simpan_kpi(){
 
-		if (floatval($this->post['score'])>=floatval($this->post['s_3_min'])){
-			$indi=5;
-		}elseif (floatval($this->post['score'])>=floatval($this->post['s_5_min'])){
-			$indi=4;
-		}elseif (floatval($this->post['score'])>=floatval($this->post['s_2_min'])){
-			$indi=3;
-		}elseif (floatval($this->post['score'])>=floatval($this->post['s_4_min'])){
-			$indi=2;
-		}elseif (floatval($this->post['score'])>=floatval($this->post['s_1_min'])){
-			$indi=1;
-		}else{
-			$indi=0;
+		if ((floatval($this->post['score']) >= floatval($this->post['s_1_min'])) && (floatval($this->post['score']) < floatval($this->post['s_1_max']))) {
+			$indi = 1;
+		} elseif ((floatval($this->post['score']) >= floatval($this->post['s_4_min'])) && (floatval($this->post['score']) < floatval($this->post['s_4_max']))) {
+			$indi = 2;
+		} elseif ((floatval($this->post['score']) >= floatval($this->post['s_2_min'])) && (floatval($this->post['score']) < floatval($this->post['s_2_max']))) {
+			$indi = 3;
+		} elseif ((floatval($this->post['score']) >= floatval($this->post['s_5_min'])) && (floatval($this->post['score']) < floatval($this->post['s_5_max']))) {
+			$indi = 4;
+		} elseif ((floatval($this->post['score']) >= floatval($this->post['s_3_min'])) && (floatval($this->post['score']) < floatval($this->post['s_3_max']))) {
+			$indi = 5;
+		} else {
+			$indi = 0;
 		}
-	
+		
 		$this->crud->crud_table(_TBL_RCSA_KPI);
 		$this->crud->crud_field('rcsa_id', $this->post['rcsa_id'], 'int');
 		$this->crud->crud_field('minggu_id', $this->post['minggu'], 'int');
@@ -117,18 +117,18 @@ class Data extends MX_Model {
 	
 
 	function simpan_kri(){
-		if (floatval($this->post['score'])>=floatval($this->post['s_3_min'])){
-			$indi=5;
-		}elseif (floatval($this->post['score'])>=floatval($this->post['s_5_min'])){
-			$indi=4;
-		}elseif (floatval($this->post['score'])>=floatval($this->post['s_2_min'])){
-			$indi=3;
-		}elseif (floatval($this->post['score'])>=floatval($this->post['s_4_min'])){
-			$indi=2;
-		}elseif (floatval($this->post['score'])>=floatval($this->post['s_1_min'])){
-			$indi=1;
-		}else{
-			$indi=0;
+		if ((floatval($this->post['score']) >= floatval($this->post['s_1_min'])) && (floatval($this->post['score']) < floatval($this->post['s_1_max']))) {
+			$indi = 1;
+		} elseif ((floatval($this->post['score']) >= floatval($this->post['s_4_min'])) && (floatval($this->post['score']) < floatval($this->post['s_4_max']))) {
+			$indi = 2;
+		} elseif ((floatval($this->post['score']) >= floatval($this->post['s_2_min'])) && (floatval($this->post['score']) < floatval($this->post['s_2_max']))) {
+			$indi = 3;
+		} elseif ((floatval($this->post['score']) >= floatval($this->post['s_5_min'])) && (floatval($this->post['score']) < floatval($this->post['s_5_max']))) {
+			$indi = 4;
+		} elseif ((floatval($this->post['score']) >= floatval($this->post['s_3_min'])) && (floatval($this->post['score']) < floatval($this->post['s_3_max']))) {
+			$indi = 5;
+		} else {
+			$indi = 0;
 		}
 
 		$this->crud->crud_table(_TBL_RCSA_KPI);

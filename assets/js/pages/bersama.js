@@ -93,7 +93,7 @@ function _ajax_(
     url: url,
     data: data,
     dataType: "json",
-    contentType: "application/json",
+    // contentType: "application/json",
     success: function (result) {
       if (sts_loading) stopLooding(parent);
 
