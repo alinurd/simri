@@ -29,6 +29,7 @@ class Ajax extends MY_Frontend {
 		$data['kel'] = $kel;
 		$data['field'] = $this->db->where('product_id', $id)->order_by($m_input)->get(_TBL_VIEW_PRODUCTPRICE)->result_array();
 		$hasil['combo']=$this->load->view('price', $data, true);
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -101,6 +102,7 @@ class Ajax extends MY_Frontend {
 		$hasil['pic']=$pic;
 		$hasil['nama']=$nama;
 		// dumps($hasil);die();
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 }

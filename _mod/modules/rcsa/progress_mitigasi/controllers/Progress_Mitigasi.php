@@ -360,6 +360,7 @@ class Progress_Mitigasi extends MY_Controller {
 		$id=intval($this->input->post('id'));
 		$mitigasi_id=intval($this->input->post('mitigasi_id'));
 		$hasil = $this->update_progres($id, $mitigasi_id);
+		header('Content-type: application/json');
 		echo json_encode(['combo'=>$hasil['update']]);
 	}
 
@@ -371,6 +372,7 @@ class Progress_Mitigasi extends MY_Controller {
 		$hasil=$this->update_progres(0, $id);
 		$result['update'] = $hasil['update'];
 		$result['list_progres'] = $hasil['list_progres'];
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -384,6 +386,7 @@ class Progress_Mitigasi extends MY_Controller {
 		$hasil=$this->update_progres(0, $mitigasi_id);
 		$result['list_progres'] = $hasil['list_progres'];
 		$result['combo'] = 'Sukses';
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -537,12 +540,13 @@ class Progress_Mitigasi extends MY_Controller {
 		}
 
 		$x = $this->session->userdata('periode');
+		
 		$tgl1=date('Y-m-d');
 		$tgl2=date('Y-m-d');
-		if ($x){
-			$tgl1=$x['tgl_awal'];
-			$tgl2=$x['tgl_akhir'];
-		}
+		// if ($x){
+		// 	$tgl1=$x['tgl_awal'];
+		// 	$tgl2=$x['tgl_akhir'];
+		// }
 
 		$data['lanjut']=$data_notif;
 		$data['poin_start']=$data_notif_asli;
@@ -553,10 +557,14 @@ class Progress_Mitigasi extends MY_Controller {
         $x['alur'] = json_encode($alur);
 		$data['hidden']=$x;
 		$data['period']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'period')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		// Doi::dump($data['parent']['period_id']);
+		// Doi::dump($data['period']);
+		// die();
 		$data['term']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'term')->combo_where('pid', $data['parent']['period_id'])->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-		$data['minggu']=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date',null)
-		// $data['minggu']=$this->crud->combo_select(['id', 'concat(param_string,\' minggu ke - \',data, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)
-		->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		// $data['minggu']=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date',null)
+		// ->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		$data['minggu'] = $this->data->get_data_minggu($data['parent']['term_id']);
+		// $data['minggu']=$this->crud->combo_select(['id', 'concat(param_string,\' minggu ke - \',data, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1);
 		
 		
 		$hasil=$this->load->view('propose', $data, true);
@@ -715,7 +723,7 @@ class Progress_Mitigasi extends MY_Controller {
 		$data['parent']=$post['kpi_id'];
 		$data['entri'] = $this->entri_kri(['edit_id'=>$post['id'], 'kpi_id'=>$post['kpi_id'], 'rcsa_id'=>$post['rcsa_id'], 'minggu'=>$post['minggu']], false);
 		$result['combo'] = $this->load->view('kri', $data, true);
-		
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -725,7 +733,7 @@ class Progress_Mitigasi extends MY_Controller {
 		$data['parent']=$post['kpi_id'];
 		$data['entri'] = $this->entri_kri(['edit_id'=>$id, 'kpi_id'=>$post['kpi_id'], 'rcsa_id'=>$post['rcsa_id'], 'minggu'=>$post['minggu']]);
 		$result['combo'] = $this->load->view('input-kri', $data, true);
-		
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -964,7 +972,7 @@ class Progress_Mitigasi extends MY_Controller {
 		$data['parent']=$post['id'];
 		$data['minggu']=$post['minggu'];
 		$result['combo'] = $this->load->view('kpi', $data, true);
-		
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -987,6 +995,7 @@ class Progress_Mitigasi extends MY_Controller {
 		$y=$this->load->view('detail-kpi2', $data, true);
 		// $this->session->set_userdata(['cetak_grap'=>$data]);
 		$hasil['combo']=$x.$y;
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -1021,6 +1030,7 @@ class Progress_Mitigasi extends MY_Controller {
 		$data['like'][] = ['title'=>_l('fld_score'),'help'=>_h('help_score'),'isi'=>'<div class="input-group" style="width:15%;text-align:center;">'.form_input('score', ($mit)?$mit['score']:'', 'class="form-control" id="score" placeholder="'._l('fld_score').'"').'</div>'];
 
 		$result['combo'] = $this->load->view('input-kpi', $data, true);
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1163,7 +1173,7 @@ class Progress_Mitigasi extends MY_Controller {
 		foreach ($post as $key => $value) {
 			$result[] = base_url('/progress-mitigasi/cetak-lap/' . $value);
 		}
-	
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1173,7 +1183,7 @@ class Progress_Mitigasi extends MY_Controller {
 		foreach ($post as $key => $value) {
 			$result[] = base_url('/progress-mitigasi/cetak-kri/' . $value);
 		}
-	
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1254,7 +1264,7 @@ class Progress_Mitigasi extends MY_Controller {
 		$this->crud->crud_field('user_id', $this->ion_auth->get_user_id());
 		$this->crud->crud_field('penerima_id', 0);
 		$this->crud->process_crud();
-
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 

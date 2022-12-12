@@ -1775,7 +1775,7 @@ class MY_Controller extends MX_Controller {
 	function __delete_all(){
 		$id=$this->input->post('id');
 		$this->proses_delete($id);
-
+		header('Content-type: application/json');
 		echo json_encode(['status'=>true]);
 	}
 
@@ -1806,7 +1806,7 @@ class MY_Controller extends MX_Controller {
 		$this->session->set_flashdata('message_crud', $this->logdata->messages());
 		$this->logdata->clear_log();
 		$this->logdata->clear_messages();
-		
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 	
@@ -2014,7 +2014,7 @@ class MY_Controller extends MX_Controller {
 			"recordsFiltered"=> $countRowNoLimit,
 			"data"=> $datas
 		];
-
+		header('Content-type: application/json');
 		echo json_encode ($data);
 	}
 

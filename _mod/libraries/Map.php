@@ -174,7 +174,9 @@ class Map
         // dumps($this->_data);
         // die();
         $this->total_nilai=0;
+        $this->total_nilaiakhir = 0;
         $this->jmlstatus=[];
+        $this->jmlstatusakhir = [];
         $content = '<table style="text-align:center;" border="1" width="100%">';
         $content .= '<tr><td colspan="2" rowspan="3" width="25%"><strong>PERINGKAT<br/>KEMUNGKINAN<br/>RISIKO</strong></td>';
         $content .= '<td colspan="5"><strong>PERINGKAT DAMPAK RISIKO</strong></td></tr>';
@@ -212,7 +214,9 @@ class Map
             }
 
             $this->jmlstatus[] = ['nilai'=>intval($nilai), 'tingkat'=>$row['tingkat']];
+            $this->jmlstatusakhir[] = ['nilai'=>intval($nilaiakhir), 'tingkat'=>$row['tingkat']];
             $this->total_nilai+=intval($nilai);
+            $this->total_nilaiakhir += intval($nilaiakhir);
             if ($key == 0) {
                 $content .= '<tr><td class="text-center" width="15%" style="padding:5px;">' . $this->like[$nourut]['level'] . '</td><td style="padding:5px;" width="5%">' . $this->like[$nourut]['urut'] . '</td>';
                 ++$nourut;
@@ -268,7 +272,55 @@ class Map
         return $content;
     }
 
-	
+    function get_jumlah_status_profil()
+    {
+        $content = "";
+        $status = [];
+        $statusakhir = [];
+        $total = 0;
+        $totalakhir = 0;
+        $totpersentase = 0;
+        $totpersentaseakhir = 0;
+      
+        foreach ($this->jmlstatus as $keys => $row) {
+            $status[$row['tingkat']] = 0;
+        }
+        foreach ($this->jmlstatus as $keys => $row) {
+            // $status[$row['tingkat']] += $row['nilai'];
+            if ($row['nilai'] > 0) {
+                $status[$row['tingkat']] += 1;
+            }
+        }
+
+        foreach ($this->jmlstatusakhir as $keys => $row) {
+            $statusakhir[$row['tingkat']] = 0;
+        }
+        foreach ($this->jmlstatusakhir as $keys => $row) {
+            // $status[$row['tingkat']] += $row['nilai'];
+            if ($row['nilai']>0) {
+                $statusakhir[$row['tingkat']] += 1;
+            }
+        }
+ 
+        foreach ($this->level as $keys => $row) {
+            $total += $status[$row['level_color']];
+        }
+        foreach ($this->level as $keys => $row) {
+            $totalakhir += $statusakhir[$row['level_color']];
+        }
+        $content .= '<table style="text-align:center;" border="1" width="40%">';
+        $content .= '<tr><td>Status Risiko</td><td>Jumlah Awal</td><td>Persentase Awal</td><td>Jumlah Akhir</td><td>Persentase Akhir</td></tr>';
+        foreach ($this->level as $keys => $row) {
+            $persentase = ($total > 0) ? round(($status[$row['level_color']] / $total) * 100, 1) : 0;
+            $persentaseakhir = ($totalakhir > 0) ? round(($statusakhir[$row['level_color']] / $totalakhir) * 100, 1) : 0;
+            $content .= '<tr><td style="background-color:' . $row['color'] . ';color:' . $row['color_text'] . '">' . $row['level_color'] . '</td><td>' . $status[$row['level_color']] . '</td><td>' . $persentase . '%</td><td>' . $statusakhir[$row['level_color']] . '</td><td>' . $persentaseakhir . '%</td></tr>';
+            $totpersentase += $persentase;
+            $totpersentaseakhir += $persentaseakhir;
+        }
+        $content .= '<tr><td>Total Risiko</td><td>' . $total . '</td><td>' . round($totpersentase) . '%</td><td>' . $totalakhir . '</td><td>' . round($totpersentaseakhir) . '%</td></tr>';
+        $content .= '</table><br/>&nbsp;';
+        return $content;
+    }
 }
 
 // END Template class

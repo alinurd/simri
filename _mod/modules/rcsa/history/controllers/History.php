@@ -264,6 +264,7 @@ class History extends MY_Controller {
 		];
 
 		if ($this->input->is_ajax_request()){
+			header('Content-type: application/json');
 			echo json_encode(['combo'=>$hasil]);
 		}else{
 			$this->default_display(['content'=>$hasil, 'configuration'=>$configuration]);
@@ -287,6 +288,7 @@ class History extends MY_Controller {
 		$data['analisa']=$this->load->view('analisa-risiko',$data, true);
 		$data['hidden']=['rcsa_id'=>$id,'rcsa_detail_id'=>0];
 		$hasil['combo']=$this->load->view('update-identifikasi',$data, true);
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -339,6 +341,7 @@ class History extends MY_Controller {
 		if ($mode=='save'){
 			return $hasil;
 		}else{
+			header('Content-type: application/json');
 			echo json_encode($hasil);
 		}
 	}
@@ -768,6 +771,7 @@ class History extends MY_Controller {
 		if ($mode=='add'){
 			return $result;
 		}else{
+			header('Content-type: application/json');
 			echo json_encode(['combo'=>$result]);
 		}
 	}
@@ -778,6 +782,7 @@ class History extends MY_Controller {
 		$this->crud->crud_type('delete');
 		$this->crud->crud_where(['field' => 'id', 'value' => $id]);
 		$this->crud->process_crud();
+		header('Content-type: application/json');
 		echo json_encode(['combo'=>'berhasil']);
 	}
 
@@ -797,6 +802,7 @@ class History extends MY_Controller {
 		$this->crud->crud_type('delete');
 		$this->crud->crud_where(['field' => 'rcsa_detail_id', 'value' => $id]);
 		$this->crud->process_crud();
+		header('Content-type: application/json');
 		echo json_encode(['combo'=>'berhasil']);
 	}
 
@@ -829,8 +835,10 @@ class History extends MY_Controller {
 			return $result;
 		}else{
 			if ($entry){
+				header('Content-type: application/json');
 				echo json_encode(['combo'=>$data['aktifitas']]);
 			}else{
+				header('Content-type: application/json');
 				echo json_encode(['combo'=>$result]);
 			}
 		}
@@ -865,7 +873,7 @@ class History extends MY_Controller {
 		$data['rcsa_detail']=$this->db->where('id', $id_detail)->get(_TBL_VIEW_RCSA_DETAIL)->row_array();
 		
 		$result['list_mitigasi']=$this->load->view('list-mitigasi',$data, true);
-
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -899,6 +907,7 @@ class History extends MY_Controller {
 		$data['mitigasi']=$rows;
 		$data['picku'] = $this->get_data_dept();
 		$result['list_mitigasi']=$this->load->view('list-mitigasi-part',$data, true);
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -908,6 +917,7 @@ class History extends MY_Controller {
 
 		$id=intval($post['rcsa_id']);
 		$hasil = $this->edit_identifikasi($id, $id_detail);
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 
 	}
@@ -918,6 +928,7 @@ class History extends MY_Controller {
 
 		$id=intval($post['rcsa_id']);
 		$hasil = $this->edit_identifikasi($id, $id_detail);
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 
 	}
@@ -928,6 +939,7 @@ class History extends MY_Controller {
 
 		$id=intval($post['rcsa_id']);
 		$hasil = $this->edit_identifikasi($id, $id_detail);
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 
 	}
@@ -1250,6 +1262,7 @@ class History extends MY_Controller {
 			$data['sub_title']=' Target';
 			$result['combo'] = $this->load->view('indikator-like-target', $data, true);
 		}
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1304,6 +1317,7 @@ class History extends MY_Controller {
 		$data['like'][] = ['title'=>_l('fld_score'),'help'=>_h('help_score'),'isi'=>'<div class="input-group" style="width:15%;text-align:center;">'.form_input('score', ($mit)?$mit['score']:'', 'class="form-control" id="score" placeholder="'._l('fld_score').'"').'</div>'];
 
 		$result['combo'] = $this->load->view('input-indikator-like', $data, true);
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1353,13 +1367,14 @@ class History extends MY_Controller {
 		$data['list_dampak_indi']=$rows;
 	
 		$result['combo'] = $this->load->view('input-indikator-dampak', $data, true);
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
 	function simpan_dampak_indi(){
 		$post = $this->input->post();
 		$hasil = $this->data->simpan_dampak_indi($post);
-
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -1380,7 +1395,7 @@ class History extends MY_Controller {
         $data['rcsa_detail'] = $this->db->where('rcsa_id', $id)->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
         $field = $this->load->view('copi', $data, true);
         $hasil['combo'] = $field;
-
+		header('Content-type: application/json');
         echo json_encode($hasil);
 	}
 
@@ -1498,7 +1513,7 @@ class History extends MY_Controller {
         		$data['sts'] = true;
             }
         }
-
+		header('Content-type: application/json');
         echo json_encode($data);
 	}
 	
@@ -1527,7 +1542,7 @@ class History extends MY_Controller {
 		$this->crud->crud_field('user_id', $this->ion_auth->get_user_id());
 		$this->crud->crud_field('penerima_id', 0);
 		$this->crud->process_crud();
-
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 

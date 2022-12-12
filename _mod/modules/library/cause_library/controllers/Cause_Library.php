@@ -198,6 +198,7 @@ class Cause_Library extends MY_Controller {
         $data['cboTypeLibrary'] = $arrayX;
         $hasil['library'] = $this->load->view('list-library', $data, true);
         $hasil['title'] = "List " . $data['kel'];
+		header('Content-type: application/json');
         echo json_encode($hasil);
 	}
 
@@ -217,7 +218,7 @@ class Cause_Library extends MY_Controller {
         $data['id'] = $id;
         $data['kel'] = $post['kel'];
         $data['event'] = $post['library'];
-
+		header('Content-type: application/json');
         echo json_encode($data);
 	}
 

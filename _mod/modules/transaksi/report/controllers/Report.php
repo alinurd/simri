@@ -75,7 +75,7 @@ class Report extends MY_Controller {
 		foreach($rows as $row){
 			$arr .='<option value="'.$row['bulan'].'">'.$row['cbulan'].'</option>';
 		}
-
+		header('Content-type: application/json');
 		echo json_encode(['combo'=>$arr]);
 	}
 
@@ -91,7 +91,7 @@ class Report extends MY_Controller {
 			$rows=$this->datacombo->upperGroup()->set_data()->isGroup()->set_noblank(false)->build('product');
 		}
 		$combo = form_dropdown('product', $rows, '', 'class="form-control select" style="width:100% !important;" multiple="multiple" id="product"');
-
+		header('Content-type: application/json');
 		echo json_encode(['combo'=>$combo]);
 	}
 	
@@ -100,6 +100,7 @@ class Report extends MY_Controller {
 		$this->data->post=$post;
 		$data['rows'] = $this->data->get_data();
 		$hasil['combo'] = $this->load->view('lap', $data, true);
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 }

@@ -125,7 +125,7 @@ class Lost_Event_Database extends MY_Controller {
 	function upload_form()
 	{
 		$data['combo'] = $this->load->view('upload', [], true);
-
+		header('Content-type: application/json');
 		echo json_encode($data);
 	}
 

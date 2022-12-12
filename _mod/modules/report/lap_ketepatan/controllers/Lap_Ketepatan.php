@@ -92,7 +92,7 @@ class Lap_Ketepatan extends MY_Controller {
 		$hasil['grap2'] = $this->hasil=$this->load->view('grap3',$dat, true);
 		// $hasil['data_grap2']= '';
 		$hasil['data_grap2']= $this->hasil=$this->load->view('grap4',$dat, true);
-
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -105,7 +105,7 @@ class Lap_Ketepatan extends MY_Controller {
 		$hasil['combo']=$x;
 		$this->session->set_userdata(['cetak_grap'=>$data]);
 		$this->session->set_userdata(['type_chat'=>$pos['data']['type_chat']]);
-
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 

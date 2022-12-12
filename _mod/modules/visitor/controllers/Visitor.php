@@ -174,6 +174,7 @@ class Visitor extends MY_Controller {
 		$this->data->mode=$post['mode'];
 		$dat['statistik']=$this->data->get_data_statistik();
 		$hasil['combo']=$this->load->view('statistik',$dat, true);
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 

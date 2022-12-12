@@ -164,6 +164,7 @@ class Monitoring_Mitigasi extends MY_Controller {
 		$id=intval($this->input->post('id'));
 		$mitigasi_id=intval($this->input->post('mitigasi_id'));
 		$hasil = $this->progress_mitigasi($id, $mitigasi_id);
+		header('Content-type: application/json');
 		echo json_encode(['combo'=>$hasil['update']]);
 	}
 
@@ -175,6 +176,7 @@ class Monitoring_Mitigasi extends MY_Controller {
 		$hasil=$this->progress_mitigasi(0, $id);
 		$result['update'] = $hasil['update'];
 		$result['list_progres'] = $hasil['list_progres'];
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -188,6 +190,7 @@ class Monitoring_Mitigasi extends MY_Controller {
 		$hasil=$this->progress_mitigasi(0, $mitigasi_id);
 		$result['list_progres'] = $hasil['list_progres'];
 		$result['combo'] = 'Sukses';
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 

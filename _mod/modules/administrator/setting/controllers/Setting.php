@@ -195,6 +195,7 @@ class Setting extends MY_Controller {
 			'wordwrap' => $p['email_wordwrap'],
 		];
 		$x['combo']=Doi::kirim_email($dat);
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 }

@@ -74,6 +74,7 @@ class Lap_Kpi extends MY_Controller {
 		$y=$this->load->view('detail2', $data, true);
 		$this->session->set_userdata(['cetak_grap'=>$data]);
 		$hasil['combo']=$x.$y;
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 

@@ -166,7 +166,7 @@ class Lap_Triwulan extends MY_Controller {
 
 		$data=$this->map();
 		$hasil['combo']=$this->load->view('map',$data, true);
-
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 

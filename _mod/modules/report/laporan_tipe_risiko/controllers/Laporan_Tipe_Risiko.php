@@ -65,6 +65,7 @@ class Laporan_Tipe_Risiko extends MY_Controller {
 		$data['post']=$post;
 		$hasil['combo'] = $this->load->view('lap', $data, true);
 		$this->session->set_userdata(['cetak_grap'=>$data]);
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -86,6 +87,7 @@ class Laporan_Tipe_Risiko extends MY_Controller {
 		$this->data->post=$post;
 		$x=$this->data->get_data_map();
 		$hasil['combo']=$this->load->view('identifikasi', $x, true);
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 

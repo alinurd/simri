@@ -314,6 +314,7 @@ class Profil_Risiko extends MY_Controller {
 		];
 
 		if ($this->input->is_ajax_request()){
+			header('Content-type: application/json');
 			echo json_encode(['combo'=>$hasil]);
 		}else{
 			$this->default_display(['content'=>$hasil, 'configuration'=>$configuration]);
@@ -856,7 +857,7 @@ class Profil_Risiko extends MY_Controller {
 		$is_admin=$this->input->post('is_admin');
 		$owner=$this->input->post('owner');
 		$result = $this->data->simpan_data($post, $owner, $ori);
-	
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -920,6 +921,7 @@ class Profil_Risiko extends MY_Controller {
 		];
 
 		if ($this->input->is_ajax_request()){
+			header('Content-type: application/json');
 			echo json_encode(['combo'=>$hasil]);
 		}else{
 			$this->default_display(['content'=>$hasil, 'configuration'=>$configuration]);
@@ -939,7 +941,8 @@ class Profil_Risiko extends MY_Controller {
 
 		
 		$jml=$this->map->get_total_nilai();
-		$jmlstatus=$this->map->get_jumlah_status();
+		$jmlstatus=$this->map->get_jumlah_status_profil();
+
 		$data['jml_inherent_status']=$jmlstatus;
 		$data['jml_inherent']='';
 		if ($jml>0){
@@ -953,7 +956,7 @@ class Profil_Risiko extends MY_Controller {
 		$data['map_residual']=$this->map->set_data_profile($rows, $this->pos)->set_param(['tipe'=>'angka', 'level'=>2])->draw_profile();
 
 		$jml=$this->map->get_total_nilai();
-		$jmlstatus=$this->map->get_jumlah_status();
+		$jmlstatus=$this->map->get_jumlah_status_profil();
 		$data['jml_residual_status']=$jmlstatus;
 		$data['jml_residual']='';
 		if ($jml>0){
@@ -967,7 +970,7 @@ class Profil_Risiko extends MY_Controller {
 		$data['map_target']=$this->map->set_data_profile($rows, $this->pos)->set_param(['tipe'=>'angka', 'level'=>3])->draw_profile();
 
 		$jml=$this->map->get_total_nilai();
-		$jmlstatus=$this->map->get_jumlah_status();
+		$jmlstatus=$this->map->get_jumlah_status_profil();
 		$data['jml_target_status']=$jmlstatus;
 		$data['jml_target']='';
 		if ($jml>0){
@@ -1011,7 +1014,7 @@ class Profil_Risiko extends MY_Controller {
 	
 		$hasil['progress']=$this->load->view('monitoring',$y, true);
 
-
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -1028,6 +1031,7 @@ class Profil_Risiko extends MY_Controller {
 		$y = $this->load->view('detail-kpi2', $data, true);
 		// $this->session->set_userdata(['cetak_grap'=>$data]);
 		$hasil['combo'] = $x.$y;
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -1040,7 +1044,7 @@ class Profil_Risiko extends MY_Controller {
 		$y['pos'] = $this->pos;
 	
 		$hasil['combo']=$this->hasil=$this->load->view('monitoring',$y, true);
-
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -1061,7 +1065,7 @@ class Profil_Risiko extends MY_Controller {
 
 		}
 		// $hasil['data_grap2'] = $this->hasil = $this->load->view('grap4', $dat, true);
-
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 	function get_detail_map(){
@@ -1069,6 +1073,7 @@ class Profil_Risiko extends MY_Controller {
 		$this->data->pos=$post;
 		$x=$this->data->get_data_map();
 		$hasil['combo']=$this->load->view('ajax/identifikasi', $x, true);
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -1082,6 +1087,7 @@ class Profil_Risiko extends MY_Controller {
 		// $data['export']=false;
 		$data['back']=true;
 		$x['combo']=$this->load->view('risk_context/monitoring', $data, true);
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 

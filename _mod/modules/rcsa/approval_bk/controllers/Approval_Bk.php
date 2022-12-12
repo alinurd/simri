@@ -291,7 +291,7 @@ class Approval_Bk extends MY_Controller {
 			$this->outbox->send();
 		}
 
-
+		header('Content-type: application/json');
 		echo json_encode(['combo'=>true]);
 	}
 	

@@ -293,6 +293,7 @@ class Approval_Mitigasi extends MY_Controller {
 		$id=intval($this->input->post('id'));
 		$mitigasi_id=intval($this->input->post('mitigasi_id'));
 		$hasil = $this->update_progres($id, $mitigasi_id);
+		header('Content-type: application/json');
 		echo json_encode(['combo'=>$hasil['update']]);
 	}
 
@@ -304,6 +305,7 @@ class Approval_Mitigasi extends MY_Controller {
 		$hasil=$this->update_progres(0, $id);
 		$result['update'] = $hasil['update'];
 		$result['list_progres'] = $hasil['list_progres'];
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -317,6 +319,7 @@ class Approval_Mitigasi extends MY_Controller {
 		$hasil=$this->update_progres(0, $mitigasi_id);
 		$result['list_progres'] = $hasil['list_progres'];
 		$result['combo'] = 'Sukses';
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -490,7 +493,7 @@ class Approval_Mitigasi extends MY_Controller {
         $x['alur'] = json_encode($alur);
 		$data['hidden']=$x;
 		$propose['combo']=$this->load->view('propose', $data, true);
-
+		header('Content-type: application/json');
 		echo json_encode($propose);
 	}
 
@@ -560,8 +563,8 @@ class Approval_Mitigasi extends MY_Controller {
 			$this->outbox->setDatas($datasOutbox);
 			$this->outbox->send();
 		}
-		
 
+		header('Content-type: application/json');
 		echo json_encode(['data'=>true]);
 		// header('location:'.base_url(_MODULE_NAME_));
 	}
@@ -579,6 +582,7 @@ class Approval_Mitigasi extends MY_Controller {
 		$y=$this->load->view('detail-kpi2', $data, true);
 		// $this->session->set_userdata(['cetak_grap'=>$data]);
 		$hasil['combo']=$x.$y;
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 

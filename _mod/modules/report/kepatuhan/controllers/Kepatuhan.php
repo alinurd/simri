@@ -111,7 +111,7 @@ class Kepatuhan extends MY_Controller
 		$dat['data'] = $x['tepat'];
 		$hasil['grap2'] = $this->hasil = $this->load->view('grap3', $dat, true);
 		$hasil['data_grap2'] = $this->hasil = $this->load->view('grap4', $dat, true);
-
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -125,7 +125,7 @@ class Kepatuhan extends MY_Controller
 		$hasil['combo'] = $x;
 		$this->session->set_userdata(['cetak_grap' => $data]);
 		$this->session->set_userdata(['type_chat' => $pos['data']['type_chat']]);
-
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -207,7 +207,7 @@ class Kepatuhan extends MY_Controller
 			$hasil['detail'] = $this->load->view('detail', $data, true);
 			$hasil['detail2'] = $this->load->view('detail2', $data, true);
 		}
-
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 }

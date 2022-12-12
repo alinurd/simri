@@ -117,7 +117,7 @@ class Lap_Komitmen extends MY_Controller {
 		$dat=$x['komitment'];
 		$hasil['grap3'] = $this->hasil=$this->load->view('grap4',$dat, true);
 		$hasil['data_grap3']= $this->hasil=$this->load->view('grap5',$dat, true);
-
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -130,7 +130,7 @@ class Lap_Komitmen extends MY_Controller {
 		$hasil['combo']=$x;
 		$this->session->set_userdata(['cetak_grap'=>$data]);
 		$this->session->set_userdata(['type_chat'=>$pos['data']['type_chat']]);
-
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 

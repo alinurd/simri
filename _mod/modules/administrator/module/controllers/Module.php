@@ -155,6 +155,7 @@ class Module extends MY_Controller {
 	function save_modul(){
 		$post=$this->input->post();
 		$result = $this->data->simpan_data($post);
+		header('Content-type: application/json');
 		echo json_encode([]);
 	}
 	
@@ -173,6 +174,7 @@ class Module extends MY_Controller {
 	function get_icon(){
 		$icon = $this->load->view('icomoon',[], true);
 		$hasil['combo']=$icon;
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 }

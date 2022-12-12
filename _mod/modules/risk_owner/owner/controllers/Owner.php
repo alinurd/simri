@@ -127,6 +127,7 @@ class Owner extends MY_Controller {
 	function save_modul(){
 		$post=$this->input->post();
 		$result = $this->data->simpan_data($post);
+		header('Content-type: application/json');
 		echo json_encode([]);
 	}
 

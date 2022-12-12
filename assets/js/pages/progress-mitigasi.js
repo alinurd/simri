@@ -6,7 +6,7 @@ $(function(){
         id: 'idOfHiddenInput',
         name: 'idOfHiddenInput'
     }).appendTo('#datatable-list');
-    
+
     $('#datatable-list').on( 'init.dt', function () {
         readyCheckbox();
     } ).DataTable().column(0).visible(false);

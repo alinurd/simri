@@ -84,6 +84,7 @@ class Slider extends MY_Controller {
 		$url .='<span class="text-muted" id="info_url">&nbsp;</span>';
 
 		$hasil['combo'] = $url;
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 }
