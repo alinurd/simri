@@ -681,7 +681,7 @@ class Data extends MX_Model
 	function get_data_kompilasi($dtuser)
 	{
 
-		$rcsa = [];
+		$rcsa = [0];
 		$rcsa_detail = [0];
 		$this->filter_data_all(_TBL_VIEW_RCSA_DETAIL, $dtuser, true);
 		$rows = $this->db->order_by('tgl_mulai_minggu')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
