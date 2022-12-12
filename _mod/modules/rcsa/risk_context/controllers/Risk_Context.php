@@ -308,6 +308,7 @@ class Risk_Context extends MY_Controller {
 		];
 
 		if ($this->input->is_ajax_request()){
+			// header('Content-type: application/json');
 			echo json_encode(['combo'=>$hasil]);
 		}else{
 			$this->default_display(['content'=>$hasil, 'configuration'=>$configuration]);
@@ -331,6 +332,7 @@ class Risk_Context extends MY_Controller {
 		$data['analisa']=$this->load->view('analisa-risiko',$data, true);
 		$data['hidden']=['rcsa_id'=>$id,'rcsa_detail_id'=>0];
 		$hasil['combo']=$this->load->view('update-identifikasi',$data, true);
+		// header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -384,6 +386,7 @@ class Risk_Context extends MY_Controller {
 		if ($mode=='save'){
 			return $hasil;
 		}else{
+			// header('Content-type: application/json');
 			echo json_encode($hasil);
 		}
 	}
@@ -936,6 +939,7 @@ class Risk_Context extends MY_Controller {
 		if ($mode=='add'){
 			return $result;
 		}else{
+			// header('Content-type: application/json');
 			echo json_encode(['combo'=>$result]);
 		}
 	}
@@ -946,6 +950,7 @@ class Risk_Context extends MY_Controller {
 		$this->crud->crud_type('delete');
 		$this->crud->crud_where(['field' => 'id', 'value' => $id]);
 		$this->crud->process_crud();
+		// header('Content-type: application/json');
 		echo json_encode(['combo'=>'berhasil']);
 	}
 
@@ -965,6 +970,7 @@ class Risk_Context extends MY_Controller {
 		$this->crud->crud_type('delete');
 		$this->crud->crud_where(['field' => 'rcsa_detail_id', 'value' => $id]);
 		$this->crud->process_crud();
+		// header('Content-type: application/json');
 		echo json_encode(['combo'=>'berhasil']);
 	}
 
@@ -997,8 +1003,10 @@ class Risk_Context extends MY_Controller {
 			return $result;
 		}else{
 			if ($entry){
+				// header('Content-type: application/json');
 				echo json_encode(['combo'=>$data['aktifitas']]);
 			}else{
+				// header('Content-type: application/json');
 				echo json_encode(['combo'=>$result]);
 			}
 		}
@@ -1034,6 +1042,7 @@ class Risk_Context extends MY_Controller {
 		
 		$result['list_mitigasi']=$this->load->view('list-mitigasi',$data, true);
 
+		// header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1043,6 +1052,7 @@ class Risk_Context extends MY_Controller {
 		$this->crud->crud_type('delete');
 		$this->crud->crud_where(['field' => 'id', 'value' => $id]);
 		$this->crud->process_crud();
+		// header('Content-type: application/json');
 		echo json_encode(['combo'=>'berhasil']);
 	}
 
@@ -1076,6 +1086,7 @@ class Risk_Context extends MY_Controller {
 		$data['mitigasi']=$rows;
 		$data['picku'] = $this->get_data_dept();
 		$result['list_mitigasi']=$this->load->view('list-mitigasi-part',$data, true);
+		// header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1087,6 +1098,7 @@ class Risk_Context extends MY_Controller {
 
 		$id=intval($post['rcsa_id']);
 		$hasil = $this->edit_identifikasi($id, $id_detail);
+		// header('Content-type: application/json');
 		echo json_encode($hasil);
 
 	}
@@ -1098,6 +1110,7 @@ class Risk_Context extends MY_Controller {
 
 		$id=intval($post['rcsa_id']);
 		$hasil = $this->edit_identifikasi($id, $id_detail);
+		// header('Content-type: application/json');
 		echo json_encode($hasil);
 
 	}
@@ -1108,6 +1121,7 @@ class Risk_Context extends MY_Controller {
 
 		$id=intval($post['rcsa_id']);
 		$hasil = $this->edit_identifikasi($id, $id_detail);
+		// header('Content-type: application/json');
 		echo json_encode($hasil);
 
 	}
@@ -1118,6 +1132,7 @@ class Risk_Context extends MY_Controller {
 
 		$id=intval($post['rcsa_id']);
 		$hasil = $this->edit_identifikasi($id, $id_detail);
+		// header('Content-type: application/json');
 		echo json_encode($hasil);
 
 	}
@@ -1495,6 +1510,7 @@ class Risk_Context extends MY_Controller {
 			$data['sub_title']=' Residual';
 			$result['combo'] = $this->load->view('indikator-like-target', $data, true);
 		}
+		// header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1550,6 +1566,7 @@ class Risk_Context extends MY_Controller {
 		$data['like'][] = ['title'=>_l('fld_score'),'help'=>_h('help_score'),'isi'=>'<div class="input-group" style="width:15%;text-align:center;">'.form_input('score', ($mit)?$mit['score']:'', 'class="form-control" id="score" placeholder="'._l('fld_score').'"').'</div>'];
 
 		$result['combo'] = $this->load->view('input-indikator-like', $data, true);
+		// header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1609,6 +1626,7 @@ class Risk_Context extends MY_Controller {
 		$data['list_dampak_indi']=$rows;
 	
 		$result['combo'] = $this->load->view('input-indikator-dampak', $data, true);
+		// header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1616,12 +1634,14 @@ class Risk_Context extends MY_Controller {
 		$post = $this->input->post();
 		$hasil = $this->data->simpan_dampak_indi($post);
 
+		// header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
 	function delete_indikator_dampak(){
 		$post = $this->input->post();
 		$this->db->delete(_TBL_RCSA_DET_DAMPAK_INDI, ['id'=>intval($post['id'])]);
+		// header('Content-type: application/json');
 		echo json_encode(1);
 	}
 
@@ -1648,7 +1668,8 @@ class Risk_Context extends MY_Controller {
         $field = $this->load->view('copi', $data, true);
         $hasil['combo'] = $field;
 
-        echo json_encode($hasil);
+        // header('Content-type: application/json');
+				echo json_encode($hasil);
 	}
 
 	function proses_copy()
@@ -1766,7 +1787,8 @@ class Risk_Context extends MY_Controller {
             }
         }
 
-        echo json_encode($data);
+        // header('Content-type: application/json');
+				echo json_encode($data);
 	}
 	
 	function reset_approval(){
@@ -1795,6 +1817,7 @@ class Risk_Context extends MY_Controller {
 		$this->crud->crud_field('penerima_id', 0);
 		$this->crud->process_crud();
 
+		// header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -1926,6 +1949,7 @@ class Risk_Context extends MY_Controller {
 			$result[] = base_url('/risk-context/cetak-register/' . $value);
 		}
 	
+		// header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1945,7 +1969,8 @@ class Risk_Context extends MY_Controller {
         $html = $result;
         echo $html;
         exit;
-		// echo json_encode($result);
+		// header('Content-type: application/json');// 
+		echo json_encode($result);
 	}
 
 	function cetak_register_sum($id)

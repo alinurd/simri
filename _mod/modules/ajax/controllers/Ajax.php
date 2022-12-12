@@ -76,6 +76,7 @@ class Ajax extends MY_Controller {
 		$data=$this->data->get_data_register($id);
 		$data['id']=$id;
 		$x['combo']=$this->load->view('risk_context/register', $data, true);
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 
@@ -84,30 +85,35 @@ class Ajax extends MY_Controller {
 		$data=$this->data->get_data_monitoring($id);
 		$data['id']=$id;
 		$x['combo']=$this->load->view('risk_context/monitoring', $data, true);
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 
 	function get_rist_type(){
 		$id = $this->input->post('id');
 		$x=$this->data->get_data_type_risk($id);
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 
 	function get_term(){
 		$id = $this->input->post('id');
 		$x=$this->data->get_data_term($id);
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 
 	function get_minggu(){
 		$id = $this->input->post('id');
 		$x=$this->data->get_data_minggu($id);
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 
 	function get_minggu_by_tahun(){
 		$id = $this->input->post('id');
 		$x=$this->data->get_data_minggu_by_tahun($id);
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 	
@@ -122,24 +128,28 @@ class Ajax extends MY_Controller {
 		}else{
 			$x=$this->data->get_data_inherent($post);
 		}
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 
 	function get_risiko_inherent_semi(){
 		$post = $this->input->post();
 		$x=$this->data->get_data_inherent_semi($post);
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 
 	function get_risiko_dampak(){
 		$post = $this->input->post();
 		$x=$this->data->get_data_dampak($post);
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 
 	function get_library(){
 		$post = $this->input->post();
 		$x=$this->data->get_data_library($post);
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 
@@ -147,12 +157,14 @@ class Ajax extends MY_Controller {
 		$id = $this->input->post();
 		$x=$this->data->get_data_used_library($id);
 		$x['library']=$this->load->view('used-library', $x, true);
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 
 	function get_kri(){
 		$post = $this->input->post();
 		$x=$this->data->get_data_kri($post['id']);
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 	function get_detail_map(){
@@ -160,6 +172,7 @@ class Ajax extends MY_Controller {
 		$this->data->pos=$post;
 		$x=$this->data->get_data_map();
 		$hasil['combo']=$this->load->view('identifikasi', $x, true);
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -190,6 +203,7 @@ class Ajax extends MY_Controller {
 		$x['kpi'] = $this->indikator_like($post);
 
 		$hasil['combo']=$this->load->view('mitigasi', $x, true);
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 	function get_detail_mitigasi(){
@@ -197,6 +211,7 @@ class Ajax extends MY_Controller {
 		$this->data->pos=$post;
 		$x=$this->data->get_data_detail_mitigasi();
 		$hasil['combo']=$this->load->view('aktifitas-mitigasi', $x, true);
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 	function get_detail_progres_mitigasi(){
@@ -204,6 +219,7 @@ class Ajax extends MY_Controller {
 		$this->data->pos=$post;
 		$x=$this->data->get_detail_progres_mitigasi();
 		$hasil['combo']=$this->load->view('progres-aktifitas-mitigasi', $x, true);
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -211,6 +227,7 @@ class Ajax extends MY_Controller {
 		$post = $this->input->post();
 		$this->data->pos=$post;
 		$x=$this->data->get_data_like_aspek_risiko();
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 
@@ -218,6 +235,7 @@ class Ajax extends MY_Controller {
 		$post = $this->input->post();
 		$data = $this->db->get_where(_TBL_OWNER, array('id'=> $post['id']), 1);
 		$x['combo'] = $data->row()->owner_code;
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 
@@ -233,6 +251,7 @@ class Ajax extends MY_Controller {
 		
 		$x['combo'] = $option;
 		
+		header('Content-type: application/json');
 		echo json_encode($x);
 	}
 

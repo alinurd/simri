@@ -978,6 +978,8 @@ class Progress_Mitigasi extends MY_Controller {
 
 		$this->data->pos=$pos;
 		$data = $this->data->get_detail_data();
+		// dumps($data);
+		// die($data);
 		$data['mode']=0;
 		$data['id']=$pos['rcsa_id'];
 

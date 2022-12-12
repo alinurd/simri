@@ -37,7 +37,7 @@ Sasaran Departemen :
         $no=0;
         $cek=[];
         // $cekminggu = array_column($data, 'minggu_id_rcsa');
-        // dumps($cekminggu);
+        // dumps($data);
         // dumps(count(array_unique($cekminggu)));
         foreach($data as $key=>$row):?>
         <?php
