@@ -66,7 +66,7 @@ class Map
                 if (array_key_exists($row['id'],$this->_data)){
                     if($post['term_mulai']>0){
                         if($post['term_mulai']==$row['minggu_id']){
-                            $this->_data[$row['id']]['mulai']['nilai'] = ++$no;
+                            $this->_data[$row['id']]['mulai'][]['nilai'] = ++$no;
                             if (array_key_exists('level_color', $data)) {
                                 $this->_data[$row['id']]['mulai']['level_color'] = $row['level_color'];
                                 $this->_data[$row['id']]['mulai']['level_color_residual'] = $row['level_color_residual'];
@@ -83,7 +83,7 @@ class Map
                 if (array_key_exists($row['id'],$this->_data)){
                     if($post['term_akhir']>0){
                         if($post['term_akhir']==$row['minggu_id']){
-                            $this->_data[$row['id']]['akhir']['nilai'] = ++$no;
+                            $this->_data[$row['id']]['akhir'][]['nilai'] = ++$no;
                             if (array_key_exists('level_color', $data)) {
                                 $this->_data[$row['id']]['akhir']['level_color'] = $row['level_color'];
                                 $this->_data[$row['id']]['akhir']['level_color_residual'] = $row['level_color_residual'];
@@ -202,12 +202,28 @@ class Map
 
             $icon='&nbsp;&nbsp;';
             ++$no;
-            $nilai = (!empty($row['mulai']['nilai'])) ? $row['mulai']['nilai'] : "";
-            $nilaiakhir = (!empty($row['akhir']['nilai'])) ? $row['akhir']['nilai'] : "";
-            
+            // $nilai = (!empty($row['mulai']['nilai'])) ? $row['mulai']['nilai'] : "";
+            $nilai = (isset($row['mulai'])) ? $row['mulai'][0]['nilai'] : "";
+            $nilaiakhir = (isset($row['akhir'])) ? $row['akhir'][0]['nilai'] : "";
+            $nilaiket = '';
+            $nilaiketakhir = '';
             if ($this->_param['tipe'] == 'angka') {
-                $nilaiket = (!empty($nilai)) ? '<span class="badge bg-primary badge-pill badge-sm"> '.$nilai.'</span>':$nilai;
-                $nilaiketakhir = (!empty($nilaiakhir)) ? '<span style="background-color:#1d445b !important;color: white !important" class="badge badge-pill badge-sm"> '.$nilaiakhir.'</span>':$nilaiakhir;
+                if (isset($row['mulai'])) {
+                    foreach ($row['mulai'] as $n => $i) {
+                        $nilaiket .= '<span class="badge bg-primary badge-pill badge-sm"> ' . $i['nilai'] . '</span>';
+                    }
+                }else{
+                    $nilaiket = $nilai;
+                }
+                // $nilaiket = (!empty($nilai)) ? '<span class="badge bg-primary badge-pill badge-sm"> '.$nilai.'</span>':$nilai;
+                // $nilaiketakhir = (!empty($nilaiakhir)) ? '<span style="background-color:#1d445b !important;color: white !important" class="badge badge-pill badge-sm"> '.$nilaiakhir.'</span>':$nilaiakhir;
+                if (isset($row['akhir'])) {
+                    foreach ($row['akhir'] as $a => $b) {
+                        $nilaiketakhir .= '<span style="background-color:#1d445b !important;color: white !important" class="badge badge-pill badge-sm"> ' . $b['nilai'] . '</span>';
+                    }
+                } else {
+                    $nilaiketakhir = $nilaiakhir;
+                }
             } else {
                 $nilaiket = (!empty($row['mulai']['nilai'])) ? '<i class="icon-checkmark-circle" style="color:' . $row['warna_txt'] . '"></i>' : "";
                 $nilaiketakhir = (!empty($row['akhir']['nilai'])) ? '<i class="icon-checkmark-circle" style="color:' . $row['warna_txt'] . '"></i>' : "";
@@ -215,8 +231,10 @@ class Map
 
             $this->jmlstatus[] = ['nilai'=>intval($nilai), 'tingkat'=>$row['tingkat']];
             $this->jmlstatusakhir[] = ['nilai'=>intval($nilaiakhir), 'tingkat'=>$row['tingkat']];
-            $this->total_nilai+=intval($nilai);
-            $this->total_nilaiakhir += intval($nilaiakhir);
+            // $this->total_nilai+=intval($nilai);
+            $this->total_nilai+=1;
+            // $this->total_nilaiakhir += intval($nilaiakhir);
+            $this->total_nilaiakhir += 1;
             if ($key == 0) {
                 $content .= '<tr><td class="text-center" width="15%" style="padding:5px;">' . $this->like[$nourut]['level'] . '</td><td style="padding:5px;" width="5%">' . $this->like[$nourut]['urut'] . '</td>';
                 ++$nourut;
@@ -241,6 +259,11 @@ class Map
     }
 
     function get_total_nilai(){
+        return $this->total_nilai;
+    }
+
+    function get_total_nilai_profil()
+    {
         return $this->total_nilai;
     }
 
@@ -309,15 +332,16 @@ class Map
             $totalakhir += $statusakhir[$row['level_color']];
         }
         $content .= '<table style="text-align:center;" border="1" width="40%">';
-        $content .= '<tr><td>Status Risiko</td><td>Jumlah Awal</td><td>Persentase Awal</td><td>Jumlah Akhir</td><td>Persentase Akhir</td></tr>';
+        // $content .= '<tr><td>Status Risiko</td><td>Jumlah Awal</td><td>Persentase Awal</td><td>Jumlah Akhir</td><td>Persentase Akhir</td></tr>';
+        $content .= '<tr><td>Status Risiko</td><td>Jumlah</td><td>Persentase</td><td class="d-none">Jumlah Akhir</td><td class="d-none">Persentase Akhir</td></tr>';
         foreach ($this->level as $keys => $row) {
             $persentase = ($total > 0) ? round(($status[$row['level_color']] / $total) * 100, 1) : 0;
             $persentaseakhir = ($totalakhir > 0) ? round(($statusakhir[$row['level_color']] / $totalakhir) * 100, 1) : 0;
-            $content .= '<tr><td style="background-color:' . $row['color'] . ';color:' . $row['color_text'] . '">' . $row['level_color'] . '</td><td>' . $status[$row['level_color']] . '</td><td>' . $persentase . '%</td><td>' . $statusakhir[$row['level_color']] . '</td><td>' . $persentaseakhir . '%</td></tr>';
+            $content .= '<tr><td style="background-color:' . $row['color'] . ';color:' . $row['color_text'] . '">' . $row['level_color'] . '</td><td>' . $status[$row['level_color']] . '</td><td>' . $persentase . '%</td><td class="d-none">' . $statusakhir[$row['level_color']] . '</td><td class="d-none">' . $persentaseakhir . '%</td></tr>';
             $totpersentase += $persentase;
             $totpersentaseakhir += $persentaseakhir;
         }
-        $content .= '<tr><td>Total Risiko</td><td>' . $total . '</td><td>' . round($totpersentase) . '%</td><td>' . $totalakhir . '</td><td>' . round($totpersentaseakhir) . '%</td></tr>';
+        $content .= '<tr><td>Total Risiko</td><td>' . $total . '</td><td>' . round($totpersentase) . '%</td><td class="d-none">' . $totalakhir . '</td><td class="d-none">' . round($totpersentaseakhir) . '%</td></tr>';
         $content .= '</table><br/>&nbsp;';
         return $content;
     }

@@ -987,9 +987,9 @@ class Profil_Risiko extends MY_Controller {
 		$this->data->owner_child[]=intval($this->pos['owner']);
 		$this->data->get_owner_child(intval($this->pos['owner']));
 		$this->owner_child=$this->data->owner_child;
-		// dumps($this->data->get_data_map($this->_data_user_));
-		// die();
 		$data=$this->map();
+		// dumps($data);
+		// die();
 		$hasil['combo']=$this->load->view('map',$data, true);
 		$x=$this->data->get_data_map($this->_data_user_);
 		$x['post']=$this->pos;

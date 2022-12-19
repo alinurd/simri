@@ -171,9 +171,11 @@ if (isset($export)) {
                                             if ($mitigasi[$row['penyebab_id']]) : ?>
                                                 <?php foreach ($mitigasi[$row['penyebab_id']] as $key => $mit) : ?>
                                                     <?php
-                                                    if (!in_array($minggu[$mit['minggu_id']], $bl)) {
-                                                        $bl[$row['penyebab_id']][] = $minggu[$mit['minggu_id']];
-                                                        $blx[$row['penyebab_id']][$minggu[$mit['minggu_id']]][] = $mit;
+                                                    if (isset($minggu[$mit['minggu_id']])) {
+                                                        if (!in_array($minggu[$mit['minggu_id']], $bl)) {
+                                                            $bl[$row['penyebab_id']][] = $minggu[$mit['minggu_id']];
+                                                            $blx[$row['penyebab_id']][$minggu[$mit['minggu_id']]][] = $mit;
+                                                        }
                                                     }
                                                     ?>
                                                 <?php endforeach;; ?>
