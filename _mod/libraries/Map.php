@@ -203,8 +203,8 @@ class Map
             $icon='&nbsp;&nbsp;';
             ++$no;
             // $nilai = (!empty($row['mulai']['nilai'])) ? $row['mulai']['nilai'] : "";
-            $nilai = (isset($row['mulai'])) ? $row['mulai'][0]['nilai'] : "";
-            $nilaiakhir = (isset($row['akhir'])) ? $row['akhir'][0]['nilai'] : "";
+            $nilai = (isset($row['mulai'])) ? count($row['mulai']) : "";
+            $nilaiakhir = (isset($row['akhir'])) ? count($row['akhir']) : "";
             $nilaiket = '';
             $nilaiketakhir = '';
             if ($this->_param['tipe'] == 'angka') {
@@ -232,6 +232,7 @@ class Map
             $this->jmlstatus[] = ['nilai'=>intval($nilai), 'tingkat'=>$row['tingkat']];
             $this->jmlstatusakhir[] = ['nilai'=>intval($nilaiakhir), 'tingkat'=>$row['tingkat']];
             // $this->total_nilai+=intval($nilai);
+            
             $this->total_nilai+=1;
             // $this->total_nilaiakhir += intval($nilaiakhir);
             $this->total_nilaiakhir += 1;
@@ -304,14 +305,14 @@ class Map
         $totalakhir = 0;
         $totpersentase = 0;
         $totpersentaseakhir = 0;
-      
+        
         foreach ($this->jmlstatus as $keys => $row) {
             $status[$row['tingkat']] = 0;
         }
         foreach ($this->jmlstatus as $keys => $row) {
             // $status[$row['tingkat']] += $row['nilai'];
             if ($row['nilai'] > 0) {
-                $status[$row['tingkat']] += 1;
+                $status[$row['tingkat']] += $row['nilai'] ;
             }
         }
 
@@ -321,7 +322,7 @@ class Map
         foreach ($this->jmlstatusakhir as $keys => $row) {
             // $status[$row['tingkat']] += $row['nilai'];
             if ($row['nilai']>0) {
-                $statusakhir[$row['tingkat']] += 1;
+                $statusakhir[$row['tingkat']] += $row['nilai'] ;
             }
         }
  
