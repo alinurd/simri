@@ -77,17 +77,6 @@ Sasaran Departemen :
             </tr>
         </thead>
         <tbody>
-            <td scope="row" class="satux">1</td>
-            <td scope="row" class="duax">dua</td>
-            <td scope="row" class="tigax">tiga</td>
-            <td scope="row" class="empatx">empat</td>
-            <td scope="row" class="limax">lima</td>
-            <?php for ($x = $bulan[0]; $x <= $bulan[1]; ++$x) : ?>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            <?php endfor; ?>
             <?php
             $no = 0;
             $cek = [];
@@ -175,11 +164,11 @@ Sasaran Departemen :
                         $huruf = $alphabet[++$nod]; // returns D
                     ?>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td><?= $huruf . '. ' . $row_det['title']; ?></td>
-                            <td><?= $row_det['satuan']; ?></td>
-                            <td></td>
+                            <td scope="row" class="satux"></td>
+                            <td scope="row" class="duax"></td>
+                            <td scope="row" class="tigas"><?= $huruf . '. ' . $row_det['title']; ?></td>
+                            <td scope="row" class="empatx"><?= $row_det['satuan']; ?></td>
+                            <td scope="row" class="limax"></td>
                             <?php
                             for ($x = $bulan[0]; $x <= $bulan[1]; ++$x) :
                                 $warna = 'bg-default';
