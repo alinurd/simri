@@ -2,21 +2,62 @@
 if (!$mode) : ?>
     <a class="btn btn-primary d-none" href="<?= base_url(_MODULE_NAME_ . '/cetak'); ?>" target="_blank"><i class="icon-file-excel"> Ms-Excel </i></a>
 <?php endif; ?>
+<style>
+    .table-responsivex th {
+        position: sticky;
+        top: 0;
+    }
+
+    .table-responsivex .satux {
+        position: sticky;
+        left: 0;
+    }
+
+    .table-responsivex .duax {
+        position: sticky;
+        left: 45px;
+    }
+
+    .table-responsivex .tigax {
+        position: sticky;
+        left: 100px;
+    }
+
+    .table-responsivex .empatx {
+        position: sticky;
+        left: 160px;
+    }
+
+    .table-responsivex .limax {
+        position: sticky;
+        left: 220px;
+    }
+
+    .table-responsivex th[scope="row"] {
+        background-color: white;
+        z-index: 10;
+    }
+
+    .table-responsivex td[scope="row"] {
+        background-color: white;
+        z-index: 10;
+    }
+</style>
 <center>
     PELAPORAN KEY RISK INDICATOR<br />
     DEPARTEMEN <strong><?= strtoupper($owner_name); ?></strong>
 </center>
 <br />&nbsp;
 Sasaran Departemen :
-<div class="table-responsive">
+<div class="table-responsive table-responsivex">
     <table class="table table-bordered table-striped table-hover" border="1">
         <thead>
             <tr>
-                <th width="5%" rowspan="2">No.</th>
-                <th rowspan="2">Owner</th>
-                <th rowspan="2">Parameter</th>
-                <th rowspan="2" width="8%">Satuan</th>
-                <th rowspan="2" width="8%">Target</th>
+                <th width="5%" scope="row" rowspan="2" class="satux">No.</th>
+                <th rowspan="2" scope="row" class="duax">Owner</th>
+                <th rowspan="2" scope="row" class="tigax">Parameter</th>
+                <th rowspan="2" scope="row" width="8%" class="empatx">Satuan</th>
+                <th rowspan="2" scope="row" width="8%" class="limax">Target</th>
                 <?php
                 for ($x = $bulan[0]; $x <= $bulan[1]; ++$x) :
                     $monthNum = $x;
@@ -36,6 +77,17 @@ Sasaran Departemen :
             </tr>
         </thead>
         <tbody>
+            <td scope="row" class="satux">1</td>
+            <td scope="row" class="duax">dua</td>
+            <td scope="row" class="tigax">tiga</td>
+            <td scope="row" class="empatx">empat</td>
+            <td scope="row" class="limax">lima</td>
+            <?php for ($x = $bulan[0]; $x <= $bulan[1]; ++$x) : ?>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            <?php endfor; ?>
             <?php
             $no = 0;
             $cek = [];
@@ -45,11 +97,11 @@ Sasaran Departemen :
                 <!-- !in_array(trim($row['title']), $cek) &&  -->
                 <?php if (!in_array(trim($row['title']), $cek) && count($row['detail']) > 0) : ?>
                     <tr>
-                        <td><?= ++$no; ?></td>
-                        <td><?= $row['name']; ?></td>
-                        <td><?= $row['title']; ?></td>
-                        <td><?= $row['satuan']; ?></td>
-                        <td><?= $row['satuan']; ?></td>
+                        <td scope="row" class="satux"><?= ++$no; ?></td>
+                        <td scope="row" class="duax"><?= $row['name']; ?></td>
+                        <td scope="row" class="tigax"><?= $row['title']; ?></td>
+                        <td scope="row" class="empatx"><?= $row['satuan']; ?></td>
+                        <td scope="row" class="limax"><?= $row['satuan']; ?></td>
                         <?php
 
                         for ($x = $bulan[0]; $x <= $bulan[1]; ++$x) :

@@ -8,51 +8,52 @@ if (isset($export)) {
 }
 ?>
 <style>
-    .table-responsive th {
+    .table-responsivey th {
         position: sticky;
         top: 0;
     }
 
-    .table-responsive .satu {
+    .table-responsivey .satu {
         position: sticky;
         left: 0;
     }
 
-    .table-responsive .dua {
+    .table-responsivey .dua {
         position: sticky;
-        left: 50px;
+        left: 45px;
     }
 
-    .table-responsive .tiga {
+    .table-responsivey .tiga {
         position: sticky;
-        left: 100px;
+        left: 85px;
     }
 
-    .table-responsive .empat {
+    .table-responsivey .empat {
         position: sticky;
         left: 200px;
     }
 
-    .table-responsive .lima {
+    .table-responsivey .lima {
         position: sticky;
-        left: 270px;
+        left: 280px;
     }
 
-    .table-responsive .enam {
+    .table-responsivey .enam {
+        position: sticky;
+        left: 320px;
+    }
+
+    .table-responsivey .tujuh {
         position: sticky;
         left: 400px;
     }
 
-    .table-responsive .tujuh {
-        position: sticky;
-        left: 470px;
-    }
-
-    .table-responsive td[scope="row"] {
+    .table-responsivey td[scope="row"] {
         background-color: white;
+        z-index: 10;
     }
 
-    .table-responsive th[scope="row"] {
+    .table-responsivey th[scope="row"] {
         background-color: #2196f3 !important;
         z-index: 10;
     }
@@ -81,7 +82,7 @@ if (isset($export)) {
                         <td><strong><?= $parent['period_name']; ?></strong></td>
                     </tr>
                 </table>
-                <div class="table-responsive">
+                <div class="table-responsive table-responsivey">
                     <table class="table table-hover table-striped table-bordered" border="1">
                         <thead class="bg-primary">
                             <tr>

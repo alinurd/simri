@@ -935,6 +935,8 @@ class Profil_Risiko extends MY_Controller {
 		$rows = $this->db->SELECT('risiko_inherent as id, level_color, level_color_residual, level_color_target, minggu_id')
 		// ->group_by('risiko_inherent')
 		// ->get_compiled_select(_TBL_VIEW_RCSA_DETAIL);
+		// dumps($rows);
+		// die();
 		->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 	
 		$data['map_inherent']=$this->map->set_data_profile($rows, $this->pos)->set_param(['tipe'=>'angka', 'level'=>1])->draw_profile();
