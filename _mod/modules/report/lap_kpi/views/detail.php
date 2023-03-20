@@ -82,12 +82,12 @@ Sasaran Departemen :
                             $bg="background-color: #edfd17";
 
                             $int = 3;
-                        }elseif ($row_det['bulan'][$x]['score'] >= $row_det['bulan'][$x]['s_5_min'] && $row_det['bulan'][$x]['score'] <= $row_det['bulan'][$x]['s_5_max']){
+                        }elseif ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_5_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_5_max']){
                             $warna='bg-danger-400';
                             $bg="background-color: #f0ca0f";
 
                             $int = 4;
-                        }elseif ($row_det['bulan'][$x]['score'] >= $row_det['bulan'][$x]['s_3_min'] && $row_det['bulan'][$x]['score'] <= $row_det['bulan'][$x]['s_3_max']){
+                        }elseif ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_3_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_3_max']){
                             $warna='bg-danger-400';
                             $bg="background-color: #e70808";
 

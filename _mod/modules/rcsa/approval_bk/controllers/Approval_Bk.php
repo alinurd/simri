@@ -166,6 +166,10 @@ class Approval_Bk extends MY_Controller {
 		$id=intval($this->uri->segment(3));
 		$data['parent']=$this->db->where('id', $id)->get(_TBL_VIEW_RCSA)->row_array();
 		$data['detail']=$this->db->where('rcsa_id', $id)->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		$cbominggu = $this->data->get_data_minggu($data['parent']['term_id']);
+		$minggu = ($data['parent']['minggu_id']) ? $cbominggu[$data['parent']['minggu_id']] : '';
+
+		$data['parent']['bulan'] = $this->term[$data['parent']['term_id']] . ' - ' . $minggu;
 		$data['info_parent']=$this->load->view('info-parent',$data, true);
 		$rows = $this->db->where('rcsa_id', $id)->SELECT('risiko_inherent as id, COUNT(risiko_inherent) as nilai')->group_by('risiko_inherent')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 		$data['map_inherent']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>1])->draw();

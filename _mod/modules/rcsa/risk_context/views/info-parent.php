@@ -15,7 +15,7 @@
                 <table class="table table-borderless">
                     <tr><td width="20%"><em><?=_l('fld_owner_id');?></em></td><td><strong><?=$parent['owner_name'];?></strong></td></tr>
                     <tr><td><em><?=_l('fld_sasaran_dept');?></em></td><td><strong><?=$parent['sasaran_dept'];?></strong></td></tr>
-                    <tr><td><em><?=_l('fld_term_id');?></em></td><td><strong><?=$parent['period_name']. ' - '.$parent['term'];?></strong></td></tr>
+                    <tr><td><em><?=_l('fld_term_id');?></em></td><td><strong><?=$parent['period_name']. ' - '.$parent['term'] . ' - ' . $parent['bulan'];?> </strong></td></tr>
                 </table>
             </div>
         </div>

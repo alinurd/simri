@@ -232,6 +232,7 @@ class Data extends MX_Model {
 	}
 
 	function filter_data($custom = false){
+		
 		$minggu = [];
 		if ($this->cek_tgl){
 			if (isset($this->pos['minggu'])){
@@ -286,12 +287,12 @@ class Data extends MX_Model {
 			}
 
 			if (isset($this->pos['tgl1']) && $custom==false){
-				$this->db->where('created_at>=', $this->pos['tgl1']);
-				$this->db->where('created_at<=', $this->pos['tgl2']);
+				$this->db->where('tgl_mulai_minggu>=', $this->pos['tgl1']);
+				$this->db->where('tgl_akhir_minggu<=', $this->pos['tgl2']);
 			}elseif (isset($this->pos['minggu'])){
 				// $this->db->where('minggu_id', $this->pos['minggu']);
-			// dumps($minggu);
-
+				// dumps($minggu);
+			
 				if (count($minggu)>0) {
 					$this->db->where_in('minggu_id', $minggu);
 				}elseif(intval($this->pos['minggu']) > 0){

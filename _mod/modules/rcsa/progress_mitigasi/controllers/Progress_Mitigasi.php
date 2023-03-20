@@ -220,6 +220,10 @@ class Progress_Mitigasi extends MY_Controller {
 			$id=intval($this->uri->segment(3));
 		}
 		$data['parent']=$this->db->where('id', $id)->get(_TBL_VIEW_RCSA)->row_array();
+		$cbominggu = $this->data->get_data_minggu($data['parent']['term_id']);
+		$minggu = ($data['parent']['minggu_id']) ? $cbominggu[$data['parent']['minggu_id']] : '';
+
+		$data['parent']['bulan'] = $this->term[$data['parent']['term_id']] . ' - ' . $minggu;
 		$data['info_parent']=$this->load->view('info-parent',$data, true);
 		
 		$rows=$this->db->where('rcsa_id', $id)->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)->result_array();
@@ -516,6 +520,11 @@ class Progress_Mitigasi extends MY_Controller {
 		$data['note_propose']='Catatan :<br/>'.form_textarea('note_propose', ''," id='note_propose' placeholder = 'silahkan masukkan catatan anda disini' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 200px;' onblur='_maxLength(this , \"id_sisa_1\")' onkeyup='_maxLength(this , \"id_sisa_1\")' data-role='tagsinput'", true, ['size'=>500, 'isi'=>0,'no'=>1]);
 
 		$data['parent']=$this->db->where('id', $id)->get(_TBL_VIEW_RCSA)->row_array();
+
+		$cbominggu = $this->data->get_data_minggu($data['parent']['term_id']);
+		$minggu = ($data['parent']['minggu_id']) ? $cbominggu[$data['parent']['minggu_id']] : '';
+
+		$data['parent']['bulan'] = $this->term[$data['parent']['term_id']] . ' - ' . $minggu;
 		$data['info_parent']=$this->load->view('info-parent',$data, true);
 
 		$alur=$this->data_alur(['owner_no'=>$data['parent']['owner_id']]);

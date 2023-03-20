@@ -286,6 +286,11 @@ class Risk_Context extends MY_Controller {
 			$id=intval($this->uri->segment(3));
 		}
 		$data['parent']=$this->db->where('id', $id)->get(_TBL_VIEW_RCSA)->row_array();
+
+		$cbominggu = $this->data->get_data_minggu($data['parent']['term_id']);
+		$minggu = ($data['parent']['minggu_id']) ? $cbominggu[$data['parent']['minggu_id']] : '';
+
+		$data['parent']['bulan'] = $this->term[$data['parent']['term_id']] . ' - ' . $minggu;
 		$data['info_parent']=$this->load->view('info-parent',$data, true);
 		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->where('rcsa_id', $id)->get(_TBL_VIEW_RCSA_MITIGASI)->result_array();
 		$miti=[];
@@ -308,7 +313,7 @@ class Risk_Context extends MY_Controller {
 		];
 
 		if ($this->input->is_ajax_request()){
-			// header('Content-type: application/json');
+			header('Content-type: application/json');
 			echo json_encode(['combo'=>$hasil]);
 		}else{
 			$this->default_display(['content'=>$hasil, 'configuration'=>$configuration]);
@@ -323,7 +328,11 @@ class Risk_Context extends MY_Controller {
 		$data['parent']=$this->db->where('id', $id)->get(_TBL_VIEW_RCSA)->row_array();
 		$data['rcsa_detail']=['sts_save_evaluasi'=>0];
 		$data['mode']=0;//'Mode : Insert data';
-		$data['mode_text']=_l('fld_mode_add');//'Mode : Insert data';
+		$data['mode_text']=_l('fld_mode_add'); //'Mode : Insert data';
+		$cbominggu = $this->data->get_data_minggu($data['parent']['term_id']);
+		$minggu = ($data['parent']['minggu_id']) ? $cbominggu[$data['parent']['minggu_id']] : '';
+
+		$data['parent']['bulan'] = $this->term[$data['parent']['term_id']] . ' - ' . $minggu;
 		$data['info_parent']=$this->load->view('info-parent',$data, true);
 		$data['detail']=$this->identifikasi_content([],$data['parent']);
 		// $data['peristiwa_cbo']=$data['detail']['peristiwa_cbo'];
@@ -332,7 +341,7 @@ class Risk_Context extends MY_Controller {
 		$data['analisa']=$this->load->view('analisa-risiko',$data, true);
 		$data['hidden']=['rcsa_id'=>$id,'rcsa_detail_id'=>0];
 		$hasil['combo']=$this->load->view('update-identifikasi',$data, true);
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -351,7 +360,11 @@ class Risk_Context extends MY_Controller {
 		$data['parent']=$this->db->where('id', $id)->get(_TBL_VIEW_RCSA)->row_array();
 		$rcsa_detail=$this->db->where('id', $edit)->get(_TBL_VIEW_RCSA_DETAIL)->row_array();
 		$data['mode']=1;//'Mode : Update data';
-		$data['mode_text']=_l('fld_mode_edit');//'Mode : Update data';
+		$data['mode_text']=_l('fld_mode_edit'); //'Mode : Update data';
+		$cbominggu = $this->data->get_data_minggu($data['parent']['term_id']);
+		$minggu = ($data['parent']['minggu_id']) ? $cbominggu[$data['parent']['minggu_id']] : '';
+
+		$data['parent']['bulan'] = $this->term[$data['parent']['term_id']] . ' - ' . $minggu;
 		$data['info_parent']=$this->load->view('info-parent',$data, true);
 		$data['detail']=$this->identifikasi_content($rcsa_detail, $data['parent']);
 		$data['identifikasi']=$this->load->view('identifikasi-risiko',$data, true);
@@ -386,7 +399,7 @@ class Risk_Context extends MY_Controller {
 		if ($mode=='save'){
 			return $hasil;
 		}else{
-			// header('Content-type: application/json');
+			header('Content-type: application/json');
 			echo json_encode($hasil);
 		}
 	}
@@ -939,7 +952,7 @@ class Risk_Context extends MY_Controller {
 		if ($mode=='add'){
 			return $result;
 		}else{
-			// header('Content-type: application/json');
+			header('Content-type: application/json');
 			echo json_encode(['combo'=>$result]);
 		}
 	}
@@ -950,7 +963,7 @@ class Risk_Context extends MY_Controller {
 		$this->crud->crud_type('delete');
 		$this->crud->crud_where(['field' => 'id', 'value' => $id]);
 		$this->crud->process_crud();
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode(['combo'=>'berhasil']);
 	}
 
@@ -970,7 +983,7 @@ class Risk_Context extends MY_Controller {
 		$this->crud->crud_type('delete');
 		$this->crud->crud_where(['field' => 'rcsa_detail_id', 'value' => $id]);
 		$this->crud->process_crud();
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode(['combo'=>'berhasil']);
 	}
 
@@ -1003,10 +1016,10 @@ class Risk_Context extends MY_Controller {
 			return $result;
 		}else{
 			if ($entry){
-				// header('Content-type: application/json');
+				header('Content-type: application/json');
 				echo json_encode(['combo'=>$data['aktifitas']]);
 			}else{
-				// header('Content-type: application/json');
+				header('Content-type: application/json');
 				echo json_encode(['combo'=>$result]);
 			}
 		}
@@ -1042,7 +1055,7 @@ class Risk_Context extends MY_Controller {
 		
 		$result['list_mitigasi']=$this->load->view('list-mitigasi',$data, true);
 
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1052,7 +1065,7 @@ class Risk_Context extends MY_Controller {
 		$this->crud->crud_type('delete');
 		$this->crud->crud_where(['field' => 'id', 'value' => $id]);
 		$this->crud->process_crud();
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode(['combo'=>'berhasil']);
 	}
 
@@ -1086,7 +1099,7 @@ class Risk_Context extends MY_Controller {
 		$data['mitigasi']=$rows;
 		$data['picku'] = $this->get_data_dept();
 		$result['list_mitigasi']=$this->load->view('list-mitigasi-part',$data, true);
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1098,7 +1111,7 @@ class Risk_Context extends MY_Controller {
 
 		$id=intval($post['rcsa_id']);
 		$hasil = $this->edit_identifikasi($id, $id_detail);
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 
 	}
@@ -1110,7 +1123,7 @@ class Risk_Context extends MY_Controller {
 
 		$id=intval($post['rcsa_id']);
 		$hasil = $this->edit_identifikasi($id, $id_detail);
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 
 	}
@@ -1121,7 +1134,7 @@ class Risk_Context extends MY_Controller {
 
 		$id=intval($post['rcsa_id']);
 		$hasil = $this->edit_identifikasi($id, $id_detail);
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 
 	}
@@ -1132,7 +1145,7 @@ class Risk_Context extends MY_Controller {
 
 		$id=intval($post['rcsa_id']);
 		$hasil = $this->edit_identifikasi($id, $id_detail);
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 
 	}
@@ -1153,6 +1166,12 @@ class Risk_Context extends MY_Controller {
 		$id=intval($this->uri->segment(3));
 		$data['parent']=$this->db->where('id', $id)->get(_TBL_VIEW_RCSA)->row_array();
 		$data['detail']=$this->db->where('rcsa_id', $id)->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+
+		$cbominggu = $this->data->get_data_minggu($data['parent']['term_id']);
+		$minggu = ($data['parent']['minggu_id']) ? $cbominggu[$data['parent']['minggu_id']] : '';
+
+		$data['parent']['bulan'] = $this->term[$data['parent']['term_id']] . ' - ' . $minggu;
+		
 		$data['info_parent']=$this->load->view('info-parent',$data, true);
 		$rows = $this->db->where('rcsa_id', $id)->SELECT('risiko_inherent as id, COUNT(risiko_inherent) as nilai')->group_by('risiko_inherent')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 		$data['map_inherent']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>1])->draw();
@@ -1421,10 +1440,10 @@ class Risk_Context extends MY_Controller {
 			$post=$this->input->post();
 
 			if (!empty($post['id_kpi'])) {
-				$kri =$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'kri')->combo_where('param_int', 1)->combo_where('param_other_int', $post['id_kpi'])->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+				// $kri =$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'kri')->combo_where('param_int', 0)->combo_where('param_other_int', $post['id_kpi'])->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 				$this->db->select('id');
 				$this->db->where('kelompok', 'kri');
-				$this->db->where('param_int', 1);
+				// $this->db->where('param_int', 1);
 				$this->db->where('param_other_int', $post['id_kpi']);
 				$this->db->where('active', 1);
 				$kri = $this->db->get(_TBL_COMBO)->result_array();
@@ -1510,7 +1529,7 @@ class Risk_Context extends MY_Controller {
 			$data['sub_title']=' Residual';
 			$result['combo'] = $this->load->view('indikator-like-target', $data, true);
 		}
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1519,7 +1538,7 @@ class Risk_Context extends MY_Controller {
 		$post=$this->input->post();
 		$data['param']=$post;
 		// $kpi = ($post['id_kpi'])?$post['id_kpi']:'1=1';
-		$this->cboKri=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'kri')->combo_where('param_int', 1)->combo_where('param_other_int', $post['id_kpi'])->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		$this->cboKri=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'kri')->combo_where('param_int', 0)->combo_where('param_other_int', $post['id_kpi'])->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 
 	
 		$this->cboSatuan=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'satuan')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
@@ -1566,7 +1585,7 @@ class Risk_Context extends MY_Controller {
 		$data['like'][] = ['title'=>_l('fld_score'),'help'=>_h('help_score'),'isi'=>'<div class="input-group" style="width:15%;text-align:center;">'.form_input('score', ($mit)?$mit['score']:'', 'class="form-control" id="score" placeholder="'._l('fld_score').'"').'</div>'];
 
 		$result['combo'] = $this->load->view('input-indikator-like', $data, true);
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1615,7 +1634,7 @@ class Risk_Context extends MY_Controller {
 		// var_dump($rows);
 		foreach($rows as &$row){
 			$tipe_kri=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'tipe-kri')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-			$kri=$this->crud->combo_select(['id', 'concat(urut,\' - \',data) as data'])->combo_where('pid', $row['jenis_kri_id'])->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+			$kri=$this->crud->combo_select(['id', 'concat(urut,\' - \',data) as data'])->combo_where('pid', $row['jenis_kri_id'])->combo_where('param_int', 2)->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 			$detail_input = '';
 			$row['cbo_kri'] = form_dropdown('kri[]', $kri, $row['kri_id'], 'class="form-control kri select" id="kri"');
 			$row['cbo_tipe_kri'] = form_dropdown('tipe_kri[]', $tipe_kri, $row['jenis_kri_id'], 'class="form-control tipe_kri select" '.$disabeld.' id="tipe_kri"');
@@ -1626,7 +1645,7 @@ class Risk_Context extends MY_Controller {
 		$data['list_dampak_indi']=$rows;
 	
 		$result['combo'] = $this->load->view('input-indikator-dampak', $data, true);
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1634,14 +1653,14 @@ class Risk_Context extends MY_Controller {
 		$post = $this->input->post();
 		$hasil = $this->data->simpan_dampak_indi($post);
 
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
 	function delete_indikator_dampak(){
 		$post = $this->input->post();
 		$this->db->delete(_TBL_RCSA_DET_DAMPAK_INDI, ['id'=>intval($post['id'])]);
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode(1);
 	}
 
@@ -1668,7 +1687,7 @@ class Risk_Context extends MY_Controller {
         $field = $this->load->view('copi', $data, true);
         $hasil['combo'] = $field;
 
-        // header('Content-type: application/json');
+        header('Content-type: application/json');
 				echo json_encode($hasil);
 	}
 
@@ -1787,7 +1806,7 @@ class Risk_Context extends MY_Controller {
             }
         }
 
-        // header('Content-type: application/json');
+        header('Content-type: application/json');
 				echo json_encode($data);
 	}
 	
@@ -1817,7 +1836,7 @@ class Risk_Context extends MY_Controller {
 		$this->crud->crud_field('penerima_id', 0);
 		$this->crud->process_crud();
 
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode($hasil);
 	}
 
@@ -1949,7 +1968,7 @@ class Risk_Context extends MY_Controller {
 			$result[] = base_url('/risk-context/cetak-register/' . $value);
 		}
 	
-		// header('Content-type: application/json');
+		header('Content-type: application/json');
 		echo json_encode($result);
 	}
 
@@ -1969,7 +1988,7 @@ class Risk_Context extends MY_Controller {
         $html = $result;
         echo $html;
         exit;
-		// header('Content-type: application/json');// 
+		header('Content-type: application/json');// 
 		echo json_encode($result);
 	}
 
