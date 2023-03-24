@@ -16,13 +16,13 @@ class Kri extends MY_Controller {
 		$this->kel=$this->crud->combo_value([1=>'Likelihood', 2=>'Dampak'])->result_combo();
 		$this->kelompok_id='kri';
 		$this->set_Tbl_Master(_TBL_COMBO);
-		$this->tbly = _TBL_COMBO .' as x';
+		$this->tbly = 'x';
 	
 		$this->cboDept=$this->get_combo_parent_dept();
 
 		
 		$this->addField(['field'=>'id', 'type'=>'int', 'show'=>false, 'size'=>4]);
-		$this->addField(['tbl'=>'x','field'=>'param_text', 'title'=>'Department', 'type'=>'text', 'required'=>true,'input'=>'combo', 'search'=>true, 'values'=>$this->cboDept, 'save'=>false, 'show'=>false]);
+		$this->addField(['tbl'=>'x','field'=>'param_text', 'title'=>'Department', 'type'=>'text', 'required'=>true,'input'=>'combo', 'search'=>false, 'values'=>$this->cboDept, 'save'=>false, 'show'=>false]);
 
 		$this->addField(['field'=>'param_int', 'title'=>'Kelompok', 'input'=>'combo', 'values'=>$this->kel, 'size'=>100, 'search'=>true]);
 		$this->addField(['field'=>'pid', 'title'=>'Tipe', 'input'=>'combo', 'values'=>$this->tipe, 'size'=>100, 'search'=>true]);
@@ -38,7 +38,7 @@ class Kri extends MY_Controller {
 		$this->set_Join_Table(array(
 			'pk'=>$this->tbl_master,
 			'id_pk' => 'param_other_int',
-			'sp' => $this->tbly ,
+			'sp' => _TBL_COMBO . ' as x' ,
 			'id_sp' => 'id',
 			'type'=>'left'
 		));

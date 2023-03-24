@@ -75,7 +75,7 @@ class Profil_Risiko extends MY_Controller {
 		$this->set_Table_List($this->tbl_master,'id', '<input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;">','0%','left','no-sort');
 		$this->set_Table_List($this->tbl_master,'kode_risk', 'Kode Risiko');
 		$this->set_Table_List($this->tbl_master,'owner_name', 'Owner');
-		// $this->set_Table_List($this->tbl_master,'period_id', 'Periode');
+		$this->set_Table_List($this->tbl_master,'period_id', 'Tahun');
 		$this->set_Table_List($this->tbl_master,'term_id', 'Periode');
 		$this->set_Table_List($this->tbl_master,'risiko_dept', 'Risiko Dept.');
 		$this->set_Table_List($this->tbl_master,'klasifikasi_risiko', 'Klasifikasi');

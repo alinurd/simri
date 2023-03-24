@@ -37,19 +37,25 @@ class Data extends MX_Model
     {
         $rows              = $this->db->select('id, category_id, kelompok as category, title, uri_title, cover_image, news as content')->where('id', $this->content_id['tentang'])->get(_TBL_VIEW_NEWS)->row_array();
         $result['tentang'] = null;
-        if ($rows) {$result['tentang'] = $rows;}
+        if ($rows) {
+            $result['tentang'] = $rows;
+        }
 
         $rows            = $this->db->select('id, category_id, kelompok as category, title, uri_title, cover_image, news as content')->where('category_id', $this->content_id['beranda_fitur'])->get(_TBL_VIEW_NEWS)->result_array();
         $result['fitur'] = null;
-        if ($rows) {$result['fitur'] = $rows;}
+        if ($rows) {
+            $result['fitur'] = $rows;
+        }
         $result['desc_fitur'] = $this->preference['desc_fitur'];
-        
+
         $result['mobile'] = ['play_store' => $this->preference['sos_play_store'], 'app_store' => $this->preference['sos_app_store'], 'mobile_web' => $this->preference['sos_mobile_web'], 'cover' => $this->preference['image_download_app']];
         $result['desc_mobile'] = $this->preference['desc_download'];
-        
+
         $rows                = $this->db->select('id, title, cover_image, news as content, uri_title, param_meta')->where('sticky', 1)->order_by('created_at', 'desc')->get(_TBL_VIEW_NEWS)->result_array();
         $result['aktifitas'] = null;
-        if ($rows) {$result['aktifitas'] = $rows;}
+        if ($rows) {
+            $result['aktifitas'] = $rows;
+        }
         $result['desc_aktifitas'] = $this->preference['desc_aktifitas'];
 
         return $result;
@@ -61,7 +67,7 @@ class Data extends MX_Model
         $this->db->select('id, title, cover_image, news as content, uri_title, tanggal, param_meta');
         $this->db->where('uri_title', $this->get['uri_title']);
         $rows = $this->db->get(_TBL_VIEW_NEWS)->row_array();
-        if ($rows){
+        if ($rows) {
             $rows['cover_image'] = file_url($rows['cover_image']);
         }
         $result['rows'] = $rows;
@@ -75,7 +81,7 @@ class Data extends MX_Model
         $this->db->select('id, title, cover_image as file, news as content, uri_title, hit, param_meta');
         $this->db->where('uri_title', $this->get['uri_title']);
         $rows = $this->db->get(_TBL_VIEW_NEWS)->row_array();
-        if ($rows){
+        if ($rows) {
             $rows['file'] = file_url($rows['file']);
         }
         $result['rows'] = $rows;
@@ -88,7 +94,9 @@ class Data extends MX_Model
         // cari pagging 
         $page        = (isset($this->get['page'])) ? intval($this->get['page']) : 1;
         $this->limit_search = (isset($this->get['limit'])) ? intval($this->get['limit']) : $this->limit_search;
-        if ($page < 1) {$page = 1;}
+        if ($page < 1) {
+            $page = 1;
+        }
 
         $this->db->where('active', 1);
         if ($this->kel_id > 0) {
@@ -102,7 +110,6 @@ class Data extends MX_Model
             $this->db->like('LOWER(title)', strtolower($this->get['search']));
             $this->db->or_like('LOWER(news)', strtolower($this->get['search']));
             $this->db->group_end();
-
         }
         $rows = $this->db->get(_TBL_VIEW_NEWS)->num_rows();
 
@@ -129,9 +136,8 @@ class Data extends MX_Model
             $this->db->like('LOWER(title)', strtolower($this->get['search']));
             $this->db->or_like('LOWER(news)', strtolower($this->get['search']));
             $this->db->group_end();
-
         }
-        $this->db->limit($this->limit_search, ($page*$this->limit_search));
+        $this->db->limit($this->limit_search, ($page * $this->limit_search));
         $this->db->order_by('created_at', 'desc');
         $rows = $this->db->get(_TBL_VIEW_NEWS)->result_array();
         $result['rows'] = $rows;
@@ -139,127 +145,129 @@ class Data extends MX_Model
         return $result;
     }
 
-    function get_param(){
-		if (!isset($this->get['kel'])){
-			$kels =['institusi','wilayah','tutupan','preference', 'about'];
-		}elseif (empty($this->get['kel'])){
-			$kels =['institusi','wilayah','tutupan','preference', 'about'];
-		}else{
-			$kels = [$this->get['kel']];
-		}
+    function get_param()
+    {
+        if (!isset($this->get['kel'])) {
+            $kels = ['institusi', 'wilayah', 'tutupan', 'preference', 'about'];
+        } elseif (empty($this->get['kel'])) {
+            $kels = ['institusi', 'wilayah', 'tutupan', 'preference', 'about'];
+        } else {
+            $kels = [$this->get['kel']];
+        }
 
-		foreach($kels as $kel){
-			switch ($kel){
-				case 'institusi':
-					$level_id = intval((isset($this->get['level_id']))?intval($this->get['level_id']):'');
-					$sts_all = intval((isset($this->get['sts_all']))?intval($this->get['sts_all']):0);
-					if ($sts_all){
-						if ($level_id){
-							$this->datacombo->where(['level'=>($level_id-1)]);
-						}else{
-							$this->datacombo->where(['level'=>0]);
-						}
-					}
-					$result[$kel]=$this->datacombo->isGroup(true)->build('dept');
-					break;
-				case 'wilayah':
-					$propinsi_id = (isset($this->get['propinsi_id']))?intval($this->get['propinsi_id']):'';
-					$kota_id = (isset($this->get['kota_id']))?intval($this->get['kota_id']):'';
-					if ($propinsi_id){
-						$this->db->where('id',$propinsi_id);
-						$this->db->where('parent_id',0);
-						$this->db->select('id, name, lat, lng');
-					}elseif ($kota_id){
-						$this->db->where('id',$kota_id);
-						$this->db->select('parent_id as id, name, lat, lng');
-					}else{
-						$this->db->where('parent_id',0);
-						$this->db->select('id, name, lat, lng');
-					}
-					$rows=$this->db->get(_TBL_WILAYAH)->result_array();
-					$propinsi=[];
-					foreach($rows as $row){
-						$propinsi[]=$row;
-					}
-					
-					if ($kota_id){
-						$this->db->where('id',$kota_id);
-					}
-					$rows=$this->db->where('parent_id>',0)->get(_TBL_VIEW_WILAYAH)->result_array();
-					$wilayah=[];
-					foreach($rows as $row){
-						$wilayah[$row['parent_id']][]=['id'=>$row['id'], 'name'=>$row['name'], 'lat'=>$row['lat'], 'lng'=>$row['lng']];
-					}
-					foreach($propinsi as $key=>&$row){
-						$kab_kota=[];
-						if (array_key_exists($row['id'], $wilayah)){
-							$kab_kota=$wilayah[$row['id']];
-						}
-						$row['qty']=count($kab_kota);
-						$row['kab_kota']=$kab_kota;
+        foreach ($kels as $kel) {
+            switch ($kel) {
+                case 'institusi':
+                    $level_id = intval((isset($this->get['level_id'])) ? intval($this->get['level_id']) : '');
+                    $sts_all = intval((isset($this->get['sts_all'])) ? intval($this->get['sts_all']) : 0);
+                    if ($sts_all) {
+                        if ($level_id) {
+                            $this->datacombo->where(['level' => ($level_id - 1)]);
+                        } else {
+                            $this->datacombo->where(['level' => 0]);
+                        }
+                    }
+                    $result[$kel] = $this->datacombo->isGroup(true)->build('dept');
+                    break;
+                case 'wilayah':
+                    $propinsi_id = (isset($this->get['propinsi_id'])) ? intval($this->get['propinsi_id']) : '';
+                    $kota_id = (isset($this->get['kota_id'])) ? intval($this->get['kota_id']) : '';
+                    if ($propinsi_id) {
+                        $this->db->where('id', $propinsi_id);
+                        $this->db->where('parent_id', 0);
+                        $this->db->select('id, name, lat, lng');
+                    } elseif ($kota_id) {
+                        $this->db->where('id', $kota_id);
+                        $this->db->select('parent_id as id, name, lat, lng');
+                    } else {
+                        $this->db->where('parent_id', 0);
+                        $this->db->select('id, name, lat, lng');
+                    }
+                    $rows = $this->db->get(_TBL_WILAYAH)->result_array();
+                    $propinsi = [];
+                    foreach ($rows as $row) {
+                        $propinsi[] = $row;
+                    }
 
-					}
-					unset($row);
-					$result[$kel]=$propinsi;
-					break;
-				case 'propinsi':
-					$result[$kel]=$this->db->select('id, name, lat,lng')->where('level',1)->where('active',1)->get(_TBL_WILAYAH)->result_array();
-					break;
-				case 'kota':
-					$result[$kel]=$this->db->select('id, name, lat,lng')->where('parent_id',intval($this->get['propinsi_id']))->where('active',1)->get(_TBL_WILAYAH)->result_array();
-					break;
-				case 'tutupan':
-					$result[$kel]=$this->db->select('id, code, toponimi, note as name')->where('active',1)->get(_TBL_TUTUPAN_LAHAN)->result_array();
-					break;
-				case 'about':
-					$result[$kel]=$this->db->where('id',1)->select('id, title, uri_title, cover_image, news as content, param_meta')->get(_TBL_VIEW_NEWS)->row_array();
-					break;
-				case 'preference':
-					$x = $this->preference;
-                    $resultx=[];
-                    $resultx['id']=1;
-					foreach($this->fields['pref'] as $row){
-                        if(is_numeric($x[$row]))
-                            $resultx[$row]=intval($x[$row]);
+                    if ($kota_id) {
+                        $this->db->where('id', $kota_id);
+                    }
+                    $rows = $this->db->where('parent_id>', 0)->get(_TBL_VIEW_WILAYAH)->result_array();
+                    $wilayah = [];
+                    foreach ($rows as $row) {
+                        $wilayah[$row['parent_id']][] = ['id' => $row['id'], 'name' => $row['name'], 'lat' => $row['lat'], 'lng' => $row['lng']];
+                    }
+                    foreach ($propinsi as $key => &$row) {
+                        $kab_kota = [];
+                        if (array_key_exists($row['id'], $wilayah)) {
+                            $kab_kota = $wilayah[$row['id']];
+                        }
+                        $row['qty'] = count($kab_kota);
+                        $row['kab_kota'] = $kab_kota;
+                    }
+                    unset($row);
+                    $result[$kel] = $propinsi;
+                    break;
+                case 'propinsi':
+                    $result[$kel] = $this->db->select('id, name, lat,lng')->where('level', 1)->where('active', 1)->get(_TBL_WILAYAH)->result_array();
+                    break;
+                case 'kota':
+                    $result[$kel] = $this->db->select('id, name, lat,lng')->where('parent_id', intval($this->get['propinsi_id']))->where('active', 1)->get(_TBL_WILAYAH)->result_array();
+                    break;
+                case 'tutupan':
+                    $result[$kel] = $this->db->select('id, code, toponimi, note as name')->where('active', 1)->get(_TBL_TUTUPAN_LAHAN)->result_array();
+                    break;
+                case 'about':
+                    $result[$kel] = $this->db->where('id', 1)->select('id, title, uri_title, cover_image, news as content, param_meta')->get(_TBL_VIEW_NEWS)->row_array();
+                    break;
+                case 'preference':
+                    $x = $this->preference;
+                    $resultx = [];
+                    $resultx['id'] = 1;
+                    foreach ($this->fields['pref'] as $row) {
+                        if (is_numeric($x[$row]))
+                            $resultx[$row] = intval($x[$row]);
                         else
-						    $resultx[$row]=$x[$row];
-					}
-					$result[$kel]=$resultx;
-					break;
-				default:
-					$result=['institusi','wilayah','propinsi','kota','tutupan','preference', 'about'];
-					break;
-			}
-		}
+                            $resultx[$row] = $x[$row];
+                    }
+                    $result[$kel] = $resultx;
+                    break;
+                default:
+                    $result = ['institusi', 'wilayah', 'propinsi', 'kota', 'tutupan', 'preference', 'about'];
+                    break;
+            }
+        }
 
-		$data=$result;
-		if (count($kels)==1){
-			$data=$result[$this->get['kel']];
-		}
-		return $data;
+        $data = $result;
+        if (count($kels) == 1) {
+            $data = $result[$this->get['kel']];
+        }
+        return $data;
     }
-    
+
     public function get_data()
     {
 
-        $this->limit_word=intval($this->preference['download_desc_word_limit']);
-        if($this->limit_word<5){
-            $this->limit_word=50;
+        $this->limit_word = intval($this->preference['download_desc_word_limit']);
+        if ($this->limit_word < 5) {
+            $this->limit_word = 50;
         }
 
-        $this->limit_word_actifity=intval($this->preference['actifity_desc_word_limit']);
-        if($this->limit_word_actifity<5){
-            $this->limit_word_actifity=50;
+        $this->limit_word_actifity = intval($this->preference['actifity_desc_word_limit']);
+        if ($this->limit_word_actifity < 5) {
+            $this->limit_word_actifity = 50;
         }
 
 
         $page        = (isset($this->get['page'])) ? intval($this->get['page']) : 1;
-        if (isset($this->get['limit'])){
-            if (intval($this->get['limit']>0)){
-			    $this->limit=$this->get['limit'];
-		    }
-		}
-        if ($page < 1) {$page = 1;}
+        if (isset($this->get['limit'])) {
+            if (intval($this->get['limit'] > 0)) {
+                $this->limit = $this->get['limit'];
+            }
+        }
+        if ($page < 1) {
+            $page = 1;
+        }
 
         $this->db->where('active', 1);
         if ($this->kel_id > 0) {
@@ -290,7 +298,7 @@ class Data extends MX_Model
                 $this->db->where('category_id', $this->get['category_id']);
             }
 
-            $this->db->limit($this->limit, ($page*$this->limit));
+            $this->db->limit($this->limit, ($page * $this->limit));
 
             $sts_newest = false;
             if (isset($this->get['newest'])) {
@@ -390,8 +398,8 @@ class Data extends MX_Model
                 }
             }
         }
-        $result=[];
-        if ($id){
+        $result = [];
+        if ($id) {
             $this->db->select('*');
             $this->db->from(_TBL_COMBO);
             $this->db->where_in('id', $id);
@@ -419,7 +427,7 @@ class Data extends MX_Model
         $branch = array();
         foreach ($elements as &$element) {
             if ($element['parent_id'] == $parentId) {
-                $cover_image=null;
+                $cover_image = null;
                 if (!empty($this->page_news[$element['id']]['cover_image'])) {
                     $cover_image = $this->page_news[$element['id']]['cover_image'];
                 }
@@ -439,7 +447,7 @@ class Data extends MX_Model
             }
         }
 
-unset($element);
+        unset($element);
         return $branch;
     }
 
@@ -695,79 +703,81 @@ unset($element);
         return $hasil;
     }
 
-    function save_hit_download(){
+    function save_hit_download()
+    {
 
         $id = (isset($this->post['id'])) ? intval($this->post['id']) : 0;
-        if ($id>0){
+        if ($id > 0) {
             $rows           = $this->db->where('id', $id)->get(_TBL_VIEW_NEWS)->row_array();
-            if ($rows>0){
-                $jml=intval($rows['hit'])+1;
+            if ($rows > 0) {
+                $jml = intval($rows['hit']) + 1;
                 $this->crud->crud_table(_TBL_NEWS);
                 $this->crud->crud_type('edit');
                 $this->crud->crud_field('hit', $jml);
                 $this->crud->crud_where(['field' => 'id', 'value' => $id]);
                 $this->crud->process_crud();
-            }else{
-                $id=0;
+            } else {
+                $id = 0;
             }
         }
         return $id;
     }
 
-    function get_data_lapangan_filter(){
-        if(isset($this->get['status_id'])){
-            if(intval($this->get['status_id'])>0){
+    function get_data_lapangan_filter()
+    {
+        if (isset($this->get['status_id'])) {
+            if (intval($this->get['status_id']) > 0) {
                 $this->db->where('status_id', $this->get['status_id']);
             }
         }
 
-        if ($this->data_user['privilege']['validator']){
-            if(isset($this->get['tipe_user'])){
-                if(intval($this->get['tipe_user'])==1){
+        if ($this->data_user['privilege']['validator']) {
+            if (isset($this->get['tipe_user'])) {
+                if (intval($this->get['tipe_user']) == 1) {
                     $this->db->where('staft_id', $this->user_id);
-                }elseif(intval($this->get['tipe_user'])==2){
+                } elseif (intval($this->get['tipe_user']) == 2) {
                     $this->db->where('staft_id <>', $this->user_id);
                 }
             }
-        }else{
+        } else {
             $this->db->where('staft_id', $this->user_id);
         }
-        $Sts_wilayah=false;
-        if(isset($this->get['kota_id'])){
-            if(intval($this->get['kota_id'])>0){
+        $Sts_wilayah = false;
+        if (isset($this->get['kota_id'])) {
+            if (intval($this->get['kota_id']) > 0) {
                 $this->db->where('city_id', $this->get['kota_id']);
-                $Sts_wilayah=true;
-            }else{
-                if(isset($this->get['propinsi_id'])){
-                    if(intval($this->get['propinsi_id'])>0){
+                $Sts_wilayah = true;
+            } else {
+                if (isset($this->get['propinsi_id'])) {
+                    if (intval($this->get['propinsi_id']) > 0) {
                         $this->db->where('parent_id', $this->get['propinsi_id']);
-                        $Sts_wilayah=true;
+                        $Sts_wilayah = true;
                     }
                 }
             }
-        }elseif(isset($this->get['propinsi_id'])){
-            if(intval($this->get['propinsi_id'])>0){
+        } elseif (isset($this->get['propinsi_id'])) {
+            if (intval($this->get['propinsi_id']) > 0) {
                 $this->db->where('parent_id', $this->get['propinsi_id']);
-                $Sts_wilayah=true;
+                $Sts_wilayah = true;
             }
         }
-        
-        if(!$Sts_wilayah && !$this->data_user['privilege']['validator']){
+
+        if (!$Sts_wilayah && !$this->data_user['privilege']['validator']) {
             $this->db->where_in('city_id', $this->data_user['wilayah_id']);
         }
 
-        if(isset($this->get['kelas_tutupan_lahan'])){
-            if (is_numeric($this->get['kelas_tutupan_lahan'])){
-                if(intval($this->get['kelas_tutupan_lahan'])>0){
+        if (isset($this->get['kelas_tutupan_lahan'])) {
+            if (is_numeric($this->get['kelas_tutupan_lahan'])) {
+                if (intval($this->get['kelas_tutupan_lahan']) > 0) {
                     $this->db->where('tutupan_lahan_id', $this->get['kelas_tutupan_lahan']);
                 }
-            }elseif (!empty($this->get['kelas_tutupan_lahan'])){
+            } elseif (!empty($this->get['kelas_tutupan_lahan'])) {
                 $this->db->like('LOWER(class_tutupan)', strtolower($this->get['kelas_tutupan_lahan']));
             }
         }
 
-        if(isset($this->get['search'])){
-            if (!empty($this->get['search'])){
+        if (isset($this->get['search'])) {
+            if (!empty($this->get['search'])) {
                 $this->db->group_start();
                 $this->db->like('LOWER(class_tutupan)', strtolower($this->get['search']));
                 $this->db->or_like('LOWER(city)', strtolower($this->get['search']));
@@ -777,61 +787,62 @@ unset($element);
         }
 
 
-        if(isset($this->get['konviden'])){
-            $sts_konviden=false;
-            if(is_array($this->get['konviden'])){
-                if (count($this->get['konviden']==2)){
-                    $min=$this->get['konviden'][0];
-                    $max=$this->get['konviden'][1];
-                    $sts_konviden=true;
+        if (isset($this->get['konviden'])) {
+            $sts_konviden = false;
+            if (is_array($this->get['konviden'])) {
+                if (count($this->get['konviden'] == 2)) {
+                    $min = $this->get['konviden'][0];
+                    $max = $this->get['konviden'][1];
+                    $sts_konviden = true;
                 }
-            }else{
-                $x=explode(',', $this->get['konviden']);
-                if (count($x)==2){
-                    $min=$x[0];
-                    $max=$x[1];
-                    $sts_konviden=true;
+            } else {
+                $x = explode(',', $this->get['konviden']);
+                if (count($x) == 2) {
+                    $min = $x[0];
+                    $max = $x[1];
+                    $sts_konviden = true;
                 }
             }
-            if ($sts_konviden){
+            if ($sts_konviden) {
                 $this->db->where('konviden>=', intval($min));
                 $this->db->where('konviden<=', intval($max));
             }
         }
 
-        if(isset($this->get['tgl_awal']) && isset($this->get['tgl_akhir'])){
-            if(!empty($this->get['tgl_awal']) && !empty($this->get['tgl_akhir'])){
-                $this->db->where('tanggal>=', date('Y-m-d',strtotime($this->get['tgl_awal'])));
-                $this->db->where('tanggal<=', date('Y-m-d',strtotime($this->get['tgl_akhir'])));
+        if (isset($this->get['tgl_awal']) && isset($this->get['tgl_akhir'])) {
+            if (!empty($this->get['tgl_awal']) && !empty($this->get['tgl_akhir'])) {
+                $this->db->where('tanggal>=', date('Y-m-d', strtotime($this->get['tgl_awal'])));
+                $this->db->where('tanggal<=', date('Y-m-d', strtotime($this->get['tgl_akhir'])));
             }
         }
 
         $this->db->where('deleted_by', null);
     }
 
-    function get_data_validation_detail(){
+    function get_data_validation_detail()
+    {
 
-        if (!$this->data_user['privilege']['validator']){
+        if (!$this->data_user['privilege']['validator']) {
             $this->db->where('staft_id', $this->user_id);
         }
 
-        $rows = $this->db->where('id', intval($this->get['id']))->select(implode(',',$this->fields['tutupan_lahan']))->get(_TBL_VIEW_CEK_LAPANGAN)->result_array();
-        if ($rows){
+        $rows = $this->db->where('id', intval($this->get['id']))->select(implode(',', $this->fields['tutupan_lahan']))->get(_TBL_VIEW_CEK_LAPANGAN)->result_array();
+        if ($rows) {
             $photo = json_decode($rows['photo'], true);
-            foreach($photo as &$x){
-                foreach($x['photos'] as &$y){
-                    if ($y['photo_path']!==null){
-                        $y['photo_path']=file_url($y['photo_path']);
+            foreach ($photo as &$x) {
+                foreach ($x['photos'] as &$y) {
+                    if ($y['photo_path'] !== null) {
+                        $y['photo_path'] = file_url($y['photo_path']);
                     }
                 }
                 unset($y);
             }
             unset($x);
-            $rows['photo']=$photo;
+            $rows['photo'] = $photo;
             $result['rows'] = $rows;
             $result['sts'] = 1;
             $result['pesan'] = 'Success';
-        }else{
+        } else {
             $result['sts'] = 0;
             $result['pesan'] = 'Data tidak ditemukan';
         }
@@ -839,85 +850,89 @@ unset($element);
     }
 
 
-    function get_data_validation(){
-        $rows=[];
+    function get_data_validation()
+    {
+        $rows = [];
 
-        if (isset($this->get['limit'])){
-            $this->limit=$this->get['limit'];
+        if (isset($this->get['limit'])) {
+            $this->limit = $this->get['limit'];
         }
 
-        if ($this->user_id){
+        if ($this->user_id) {
             $this->get_data_lapangan_filter();
-            $page = (isset($this->get['page']))?intval($this->get['page']):1;
-            if($page<1){$page=1;}
+            $page = (isset($this->get['page'])) ? intval($this->get['page']) : 1;
+            if ($page < 1) {
+                $page = 1;
+            }
 
             $rows = $this->db->get(_TBL_VIEW_CEK_LAPANGAN)->num_rows();
-            $result['paging']['total']=$rows;
-            $result['paging']['page']=$page;
-            $result['paging']['limit']=$this->limit;
-            $x=$rows%$this->limit;
-            $tpage=0;
-            if ($x>0){
-                $tpage=1;
+            $result['paging']['total'] = $rows;
+            $result['paging']['page'] = $page;
+            $result['paging']['limit'] = $this->limit;
+            $x = $rows % $this->limit;
+            $tpage = 0;
+            if ($x > 0) {
+                $tpage = 1;
             }
             --$page;
-            $result['paging']['total_page']=intval($rows/$this->limit)+$tpage;
+            $result['paging']['total_page'] = intval($rows / $this->limit) + $tpage;
             $this->get_data_lapangan_filter();
-            if(isset($this->get['urut_id'])){
-                if(intval($this->get['urut_id'])==1){
+            if (isset($this->get['urut_id'])) {
+                if (intval($this->get['urut_id']) == 1) {
                     $this->db->order_by('created_at', 'desc');
                 }
             }
-            $this->db->limit($this->limit, ($page*$this->limit));
-            $rows = $this->db->select(implode(',',$this->fields['tutupan_lahan']))->get(_TBL_VIEW_CEK_LAPANGAN)->result_array();
+            $this->db->limit($this->limit, ($page * $this->limit));
+            $rows = $this->db->select(implode(',', $this->fields['tutupan_lahan']))->get(_TBL_VIEW_CEK_LAPANGAN)->result_array();
 
             // dumps($this->db->last_query());
-            $result['paging']['rows']=count($rows);
-            $result['rows'] = $this->convert_data($rows,'tutupan');
+            $result['paging']['rows'] = count($rows);
+            $result['rows'] = $this->convert_data($rows, 'tutupan');
 
             $this->get_data_lapangan_filter();
             $rows = $this->db->select('status_id, status, count(status_id) as jumlah')->group_by(['status', 'status_id'])->order_by('status_id')->get(_TBL_VIEW_CEK_LAPANGAN)->result_array();
-            $arr_statis=[1=>'Proses', 3=>'Tidak Valid', 2=>'Valid'];
-            $statis=[];
-            foreach($arr_statis as $key=>$st){
-                $jumlah=0;
-                foreach($rows as $row){
-                    if ($row['status_id'] == $key){
-                        $jumlah=$row['jumlah'];
+            $arr_statis = [1 => 'Proses', 3 => 'Tidak Valid', 2 => 'Valid'];
+            $statis = [];
+            foreach ($arr_statis as $key => $st) {
+                $jumlah = 0;
+                foreach ($rows as $row) {
+                    if ($row['status_id'] == $key) {
+                        $jumlah = $row['jumlah'];
                         break;
                     }
                 }
-                $statis[]=['id'=>$key,'status'=>$st, 'jumlah'=>$jumlah];
+                $statis[] = ['id' => $key, 'status' => $st, 'jumlah' => $jumlah];
             }
-            $result['statistik']=$statis;
+            $result['statistik'] = $statis;
         }
 
         return $result;
     }
-    function convert_data($rows, $kel){
-        $photo_id=10;
-        $id=100;
-        if ($kel=='tutupan'){
-            foreach($rows as &$row){
+    function convert_data($rows, $kel)
+    {
+        $photo_id = 10;
+        $id = 100;
+        if ($kel == 'tutupan') {
+            foreach ($rows as &$row) {
                 $row['photo'] = json_decode($row['photo'], true);
-                foreach($row['photo'] as &$x){
-                    foreach($x['photos'] as &$y){
-                        if ($y['photo_path']!==null){
-                            $y['photo_path']=file_url($y['photo_path']);
+                foreach ($row['photo'] as &$x) {
+                    foreach ($x['photos'] as &$y) {
+                        if ($y['photo_path'] !== null) {
+                            $y['photo_path'] = file_url($y['photo_path']);
                         }
                     }
                     unset($y);
                 }
                 unset($x);
-                $row['photo']=[];
-                if ($this->data_user['privilege']['validator']){
-                    if ($this->user_id==$row['staft_id']){
-                        $row['tipe_user']='Validator';
-                    }else{
-                        $row['tipe_user']='Member';
+                $row['photo'] = [];
+                if ($this->data_user['privilege']['validator']) {
+                    if ($this->user_id == $row['staft_id']) {
+                        $row['tipe_user'] = 'Validator';
+                    } else {
+                        $row['tipe_user'] = 'Member';
                     }
-                }else{
-                    $row['tipe_user']='Validator';
+                } else {
+                    $row['tipe_user'] = 'Validator';
                 }
             }
             unset($row);
@@ -925,57 +940,59 @@ unset($element);
         return $rows;
     }
 
-    function validasi_data(){
-        $this->cboSts=$this->crud->combo_value(['1'=>'Proses', '2'=>'Valid', '3'=>'Tidak Valid'])->result_combo();
-		$result['sts']=0;
-		$result['pesan']='Data cek lapangan tidak dapat divalidasi';
-		if ($this->data_user['privilege']['validator']){
-			if(isset($this->post['id'])){
-				if(intval($this->post['id'])>0){
-					$this->crud->crud_table(_TBL_CEK_LAPANGAN);
-					$this->crud->crud_type('edit');
-					$this->crud->crud_field('note', $this->post['note']);
-					$this->crud->crud_field('status_id', $this->post['status_id']);
-					$this->crud->crud_field('approval_by', intval($this->user_id));
-					$this->crud->crud_field('updated_by', intval($this->user_id));
-					$this->crud->crud_field('updated_at', date('d-m-Y H:i:s'));
-					$this->crud->crud_field('approval_date', date('d-m-Y H:i:s'));
-					$this->crud->crud_where(['field'=>'id', 'value'=>$this->post['id']]);
-					$this->crud->process_crud();
+    function validasi_data()
+    {
+        $this->cboSts = $this->crud->combo_value(['1' => 'Proses', '2' => 'Valid', '3' => 'Tidak Valid'])->result_combo();
+        $result['sts'] = 0;
+        $result['pesan'] = 'Data cek lapangan tidak dapat divalidasi';
+        if ($this->data_user['privilege']['validator']) {
+            if (isset($this->post['id'])) {
+                if (intval($this->post['id']) > 0) {
+                    $this->crud->crud_table(_TBL_CEK_LAPANGAN);
+                    $this->crud->crud_type('edit');
+                    $this->crud->crud_field('note', $this->post['note']);
+                    $this->crud->crud_field('status_id', $this->post['status_id']);
+                    $this->crud->crud_field('approval_by', intval($this->user_id));
+                    $this->crud->crud_field('updated_by', intval($this->user_id));
+                    $this->crud->crud_field('updated_at', date('d-m-Y H:i:s'));
+                    $this->crud->crud_field('approval_date', date('d-m-Y H:i:s'));
+                    $this->crud->crud_where(['field' => 'id', 'value' => $this->post['id']]);
+                    $this->crud->process_crud();
 
-					$sql= $this->db->query("INSERT INTO lhk_cek_lapangan_log(parent_id, staft_id, tutupan_lahan_id, lat, lng, photo, description, status_id, approval_date, approval_by, created_at, created_by, updated_at, updated_by, deleted_at, deleted_by, lap_no, konviden, city_id, note, type_edit) select {$this->post['id']}, staft_id, tutupan_lahan_id, lat, lng, photo, description, status_id, approval_date, approval_by, created_at, created_by, updated_at, updated_by, deleted_at, deleted_by, lap_no, konviden, city_id, '{$this->post['note']}', 3 from public.lhk_cek_lapangan where id={$this->post['id']}");
-                    
-                    $data = $this->db->where('id',$this->post['id'])->get(_TBL_VIEW_CEK_LAPANGAN)->row_array();
+                    $sql = $this->db->query("INSERT INTO lhk_cek_lapangan_log(parent_id, staft_id, tutupan_lahan_id, lat, lng, photo, description, status_id, approval_date, approval_by, created_at, created_by, updated_at, updated_by, deleted_at, deleted_by, lap_no, konviden, city_id, note, type_edit) select {$this->post['id']}, staft_id, tutupan_lahan_id, lat, lng, photo, description, status_id, approval_date, approval_by, created_at, created_by, updated_at, updated_by, deleted_at, deleted_by, lap_no, konviden, city_id, '{$this->post['note']}', 3 from public.lhk_cek_lapangan where id={$this->post['id']}");
+
+                    $data = $this->db->where('id', $this->post['id'])->get(_TBL_VIEW_CEK_LAPANGAN)->row_array();
 
                     $rows = $this->db->where('id', intval($this->user_id))->get(_TBL_USERS)->row_array();
-                    $link = '<a href="'.base_front_url('cek-laporan/'.$this->post['id']).'">disini</a>';
-                    $content_replace = ['[[nama]]'=>$rows['real_name'],'[[nolap]]'=>$data['lap_no'],'[[status]]'=>$this->cboSts[$data['status_id']],'[[disini]]'=>$link, '[[footer]]'=>$this->preference['footer_email']];
+                    $link = '<a href="' . base_front_url('cek-laporan/' . $this->post['id']) . '">disini</a>';
+                    $content_replace = ['[[nama]]' => $rows['real_name'], '[[nolap]]' => $data['lap_no'], '[[status]]' => $this->cboSts[$data['status_id']], '[[disini]]' => $link, '[[footer]]' => $this->preference['footer_email']];
 
-                    $datasOutbox=[
+                    $datasOutbox = [
                         'recipient' => [$rows['email']],
                         'kel_id' => 4,
                     ];
+                    if ($this->preference['send_notif'] == 1) {
+                        $this->load->library('outbox');
+                        $this->outbox->setTemplate('EML-LAP-02');
+                        $this->outbox->setParams($content_replace);
+                        $this->outbox->setDatas($datasOutbox);
+                        $this->outbox->send();
+                    }
 
-                    $this->load->library('outbox');
-                    $this->outbox->setTemplate('EML-LAP-02');
-                    $this->outbox->setParams($content_replace);
-                    $this->outbox->setDatas($datasOutbox);
-                    $this->outbox->send();
+                    $result['sts'] = 1;
+                    $result['pesan'] = 'Data cek lapangan berhasil divalidasi';
+                }
+            } else {
+                $result['sts'] = 0;
+                $result['pesan'] = 'Data cek lapangan tidak ada';
+            }
+        } else {
+            $result['sts'] = 0;
+            $result['pesan'] = 'Anda tidak memiliki autoritas untuk memvalidasi data cek lapangan';
+        }
 
-					$result['sts']=1;
-					$result['pesan']='Data cek lapangan berhasil divalidasi';
-				}
-			}else{
-				$result['sts']=0;
-				$result['pesan']='Data cek lapangan tidak ada';
-			}
-		}else{
-			$result['sts']=0;
-			$result['pesan']='Anda tidak memiliki autoritas untuk memvalidasi data cek lapangan';
-		}
-
-		return $result;
-	}
+        return $result;
+    }
 }
 /* End of file app_login_model.php */
 /* Location: ./application/models/app_login_model.php */
