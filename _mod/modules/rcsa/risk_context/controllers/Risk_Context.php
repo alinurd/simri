@@ -143,7 +143,7 @@ class Risk_Context extends MY_Controller
 	{
 		$cbominggu = $this->data->get_data_minggu($value);
 		$minggu = ($rows['minggu_id']) ? $cbominggu[$rows['minggu_id']] : '';
-		$a = $this->term[$value] . ' - ' . $minggu;
+		$a = (isset($this->term[$value]))?$this->term[$value] . ' - ' . $minggu:'-';
 		return $a;
 	}
 	function listBox_id($field, $rows, $value)

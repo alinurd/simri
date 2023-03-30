@@ -789,6 +789,23 @@ class Data extends MX_Model
 		return $hasil;
 	}
 
+	function kepatuhan2($nilai)
+	{
+		if ($nilai <= 0) {
+			$hasil = "0";
+		} elseif ($nilai < 75) {
+			$hasil = "75";
+		} elseif ($nilai >= 75 && $nilai < 100) {
+			$hasil = "90";
+		} elseif ($nilai == 100) {
+			$hasil = "100";
+		} elseif ($nilai > 100) {
+			$hasil = "110";
+		}
+
+		return $hasil;
+	}
+
 	function kepatuhan($nilai)
 	{
 		if ($nilai < 0) {
