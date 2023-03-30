@@ -1,20 +1,5 @@
 <?php
-function kepatuhan2($nilai)
-{
-    if ($nilai <= 0) {
-        $hasil = "0";
-    } elseif ($nilai < 75) {
-        $hasil = "75";
-    } elseif ($nilai >= 75 && $nilai < 100) {
-        $hasil = "90";
-    } elseif ($nilai == 100) {
-        $hasil = "100";
-    } elseif ($nilai > 100) {
-        $hasil = "110";
-    }
 
-    return $hasil;
-}
 if (!$mode) : ?>
     <a class="btn btn-primary" href="<?= base_url(_MODULE_NAME_ . '/cetak-kri/' . $id); ?>" target="_blank">
         <i class="icon-file-excel"> Ms-Excel </i></a>
@@ -135,7 +120,7 @@ Sasaran Departemen :
                                     $nilai = (floatval($row['bulan'][$x]['score']) / $ttl) * 100;
                                 }
                                 ?>
-                                <td><?= kepatuhan2($nilai) . "%" ?></td>
+                                <td><?= $this->data->kepatuhan2($nilai) . "%" ?></td>
 
                             <?php else : ?>
                                 <td></td>
@@ -214,7 +199,7 @@ Sasaran Departemen :
                                         $nilaix = (floatval($row_det['bulan'][$x]['score']) / $ttl) * 100;
                                     }
                                     ?>
-                                    <td><?= kepatuhan2($nilaix) . "%" ?></td>
+                                    <td><?= $this->data->kepatuhan2($nilaix) . "%" ?></td>
 
                                 <?php else : ?>
                                     <td></td>

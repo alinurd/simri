@@ -491,44 +491,13 @@ class Data extends MX_Model
 
 	function get_detail_data($dtuser)
 	{
-
 		$bulan = [1, 12];
-
-
-		// if (isset($this->pos['term_mulai'])){
-		// 	if (intval($this->pos['term_mulai'])){
-		// 		$rows= $this->db->select('*')->where('id', intval($this->pos['term_mulai']))->get(_TBL_COMBO)->row_array();
-
-		// 		$bulan[0]=date('n',strtotime($rows['param_date']));
-		// 	}
-		// }
-
-		// if (isset($this->pos['term_akhir'])){
-		// 	if (intval($this->pos['term_akhir'])){
-		// 		$rows= $this->db->select('*')->where('id', intval($this->pos['term_akhir']))->get(_TBL_COMBO)->row_array();
-		// 		$bulan[1]=date('n',strtotime($rows['param_date_after']));
-		// 	}
-		// }
-
-		// $period=date('Y');
-		// if (intval($this->pos['period'])>0){
-		// 	$period = $this->pos['period'];
-		// }
-
-
 		$owner = 0;
 		$parent = [];
 		$owner_name = ' All Departement ';
-		// if (intval($this->pos['owner'])>0){
-		// 	$owner = $this->pos['owner'];
-		// 	$parent = $this->db->where('id', $owner)->get(_TBL_OWNER)->row_array();
-		// 	$owner_name = $parent['owner_name'];
-		// }
+
 		$minggu = 0;
-		// $minggu = $this->pos['minggu'];
-		// if ($minggu>0) {
-		// 	$this->db->where('minggu_id', $minggu);
-		// }
+
 		$this->filter_data_all(_TBL_VIEW_RCSA_DETAIL, $dtuser, true);
 		$rcsa = $this->db->select('rcsa_id')->group_by('rcsa_id')
 			->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
@@ -611,8 +580,6 @@ class Data extends MX_Model
 				// } else {
 				// 	$xx[$k]['bulan'][$d['bulan_int']]=$d;
 				// }
-
-
 			}
 			$x[$key] = $xx;
 		}
@@ -656,7 +623,7 @@ class Data extends MX_Model
 		}
 
 		unset($row);
-		// dumps($x);
+		
 		foreach ($y as $key => &$row) {
 			if (array_key_exists($key, $x)) {
 				// dumps('xxx');
@@ -666,8 +633,6 @@ class Data extends MX_Model
 			}
 		}
 
-		// dumps($x);
-		// die();
 		unset($row);
 
 		$hasil['bulan'] = $bulan;
@@ -676,6 +641,33 @@ class Data extends MX_Model
 		$hasil['parent'] = $parent;
 		$hasil['owner_name'] = $owner_name;
 		return $hasil;
+	}
+
+	public static function slugify($text, string $divider = '-')
+	{
+		// replace non letter or digits by divider
+		$text = preg_replace('~[^\pL\d]+~u', $divider, $text);
+
+		// transliterate
+		$text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+		// remove unwanted characters
+		$text = preg_replace('~[^-\w]+~', '', $text);
+
+		// trim
+		$text = trim($text, $divider);
+
+		// remove duplicate divider
+		$text = preg_replace('~-+~', $divider, $text);
+
+		// lowercase
+		$text = strtolower($text);
+
+		if (empty($text)) {
+			return 'n-a';
+		}
+
+		return $text;
 	}
 
 	function get_data_kompilasi($dtuser)
