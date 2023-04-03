@@ -1745,6 +1745,7 @@ class Risk_Context extends MY_Controller
 		$fields['like_indi'] = ['bk_tipe', 'kri_id', 'satuan_id', 'pembobotan', 'p_1', 's_1_min', 's_1_max', 'p_4', 's_4_min', 's_4_max', 'p_2', 's_2_min', 's_2_max', 'p_5', 's_5_min', 's_5_max', 'p_3', 's_3_min', 's_3_max', 'score', 'param'];
 
 		$rows = $this->db->where('parent_id', $post['id'])->where('period_id', $post['periode'])->where('term_id', $post['term'])->where('minggu_id', $post['minggu'])->get(_TBL_RCSA)->row_array();
+
 		if ($rows) {
 			$data['pesan'] = "Data Periode : " . $row['period_name'] . ' kwartal : ' . $row['term'] . ' sudah ada dalam database';
 			$data['sts'] = false;
