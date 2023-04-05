@@ -310,6 +310,43 @@ class Approval_Mitigasi extends MY_Controller
 		header('Content-type: application/json');
 		echo json_encode(['combo' => $hasil['update']]);
 	}
+	function cetak_kri($id)
+	{
+		$data['export'] = false;
+
+		$pos = $this->input->post();
+		$rows = $this->db->where('id', $id)->get(_TBL_RCSA)->row_array();
+		$pos['owner'] = $rows['owner_id'];
+		$pos['period'] = $rows['period_id'];
+		$pos['term'] = $rows['term_id'];
+		$this->data->pos = $pos;
+		$data = $this->data->get_detail_data();
+		$firstKey = reset($data['data']);
+		$bulKey = reset($firstKey['bulan']);
+		$n = $data['parent']['owner_code'] . '-' . $bulKey['period'];
+
+		$data['mode'] = 0;
+		$data['id'] = $id;
+
+		$x = $this->load->view('detail-kpi', $data, true);
+		$y = $this->load->view('detail-kpi2', $data, true);
+		$hasil = $x . $y;
+
+
+		$cetak = 'register_excel';
+		$nm_file = 'Review-KRI-' . $n;
+		$this->$cetak($hasil, $nm_file);
+	}
+
+	function register_excel($data, $nm_file)
+	{
+		header("Content-type:appalication/vnd.ms-excel");
+		header("content-disposition:attachment;filename=" . $nm_file . ".xls");
+
+		$html = $data;
+		echo $html;
+		exit;
+	}
 
 	function simpan_progres()
 	{
@@ -607,6 +644,7 @@ class Approval_Mitigasi extends MY_Controller
 		$this->data->pos = $pos;
 		$data = $this->data->get_detail_data();
 		$data['mode'] = 0;
+		$data['id'] = $pos['rcsa_id'];
 		$x = $this->load->view('detail-kpi', $data, true);
 		$y = $this->load->view('detail-kpi2', $data, true);
 		// $this->session->set_userdata(['cetak_grap'=>$data]);

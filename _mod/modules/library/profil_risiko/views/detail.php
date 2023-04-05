@@ -1,5 +1,5 @@
 <?php if (!$mode) : ?>
-    <a class="btn btn-primary d-none" href="<?= base_url(_MODULE_NAME_ . '/cetak'); ?>" target="_blank"><i class="icon-file-excel"> Ms-Excel </i></a>
+    <a class="btn btn-primary d-nonex" href="<?= base_url('/profil-risiko/cetak-kri/' . $pos['period'] . '/' . $pos['owner'] . '/0/' . $pos['term_mulai'] . '/' . $pos['term_akhir']) ?>" target=" _blank"><i class="icon-file-excel"> Ms-Excel </i></a>
 <?php endif; ?>
 <style>
     .table-responsivex th {
