@@ -115,7 +115,7 @@ class Lap_Komitmen extends MY_Controller {
 
 		$x=$this->data->get_data_grap();
 		$dat=$x['komitment'];
-		$hasil['grap3'] = $this->hasil=$this->load->view('grap4',$dat, true);
+		// $hasil['grap3'] = $this->hasil=$this->load->view('grap4',$dat, true);
 		$hasil['data_grap3']= $this->hasil=$this->load->view('grap5',$dat, true);
 		header('Content-type: application/json');
 		echo json_encode($hasil);

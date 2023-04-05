@@ -252,7 +252,6 @@ class Data extends MX_Model {
 				->where('bulan_int<=',$bulan[1])
 				->where('period_id',$period)
 				->where('title',$d['title'])
-
 				->get(_TBL_VIEW_RCSA_KPI_DETAIL)->result_array();
 
 				foreach ($dd as $ke => $va) {
@@ -277,16 +276,18 @@ class Data extends MX_Model {
 			$dd = $this->db->where('minggu_type',1)
 				->where('bulan_int>=',$bulan[0])
 				->where('bulan_int<=',$bulan[1])
-				->where('period_id',$period)
+				->where('period_id', $period)
+				->where("`minggu_id`",'minggu_id_rcsa', false)
 				
 				->where('title',$row['title'])
 				->get(_TBL_VIEW_RCSA_KPI)->result_array();
-
+			// 	->get_compiled_select(_TBL_VIEW_RCSA_KPI);
+			// dumps($dd);
 			foreach ($dd as $key => $value) {
 				$y[$row['id']]['bulan'][$value['bulan_int']]=$value;
 			}
 		}
-		
+		// die();
 		unset($row);
 		foreach($y as $key=>&$row){
 			if (array_key_exists($key, $x)){
@@ -395,7 +396,6 @@ class Data extends MX_Model {
 					->where('bulan_int<=', $bulan[1])
 					->where('period_id', $period)
 					->where('title', $d['title'])
-
 					->get(_TBL_VIEW_RCSA_KPI_DETAIL)->result_array();
 
 				foreach ($dd as $ke => $va) {
@@ -421,7 +421,7 @@ class Data extends MX_Model {
 			->where('bulan_int>=', $bulan[0])
 				->where('bulan_int<=', $bulan[1])
 				->where('period_id', $period)
-
+				->where("`minggu_id`", 'minggu_id_rcsa', false)
 				->where('title', $row['title'])
 				->get(_TBL_VIEW_RCSA_KPI)->result_array();
 

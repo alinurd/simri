@@ -507,6 +507,7 @@ class Data extends MX_Model
 			$rcsa_id[] = $value['rcsa_id'];
 		}
 		if (count($rcsa_id) > 0) {
+			$this->db->where("`minggu_id`", "`minggu_id_rcsa`", false);
 			$this->db->where_in('rcsa_id', $rcsa_id);
 		} else {
 			$this->db->where('rcsa_id', '-1');
@@ -566,7 +567,6 @@ class Data extends MX_Model
 					// ->where('period_id',$period)
 					->where('title like ', "%" . $d['title'])
 
-
 					// ->get_compiled_select(_TBL_VIEW_RCSA_KPI_DETAIL);
 					->get(_TBL_VIEW_RCSA_KPI_DETAIL)->result_array();
 				// dumps($idi);
@@ -608,7 +608,7 @@ class Data extends MX_Model
 				// ->where('bulan_int>=',$bulan[0])
 				// ->where('bulan_int<=',$bulan[1])
 				// ->where('period_id',$period)
-
+				->where("`minggu_id`", "`minggu_id_rcsa`", false)
 				->where('title like ', "%" . $row['title'])
 				->get(_TBL_VIEW_RCSA_KPI)->result_array();
 
@@ -838,7 +838,7 @@ class Data extends MX_Model
 			$owner_name = $parent['owner_name'];
 			$owner_kode = $parent['owner_code'];
 		}
-		
+		$this->db->where("`minggu_id`", "`minggu_id_rcsa`", false);
 		$this->db->where('rcsa_id', $rcsa_id);
 
 		$rows = $this->db
@@ -895,7 +895,6 @@ class Data extends MX_Model
 					// ->where('period_id',$period)
 					->where('title like ', "%" . $d['title'])
 
-
 					// ->get_compiled_select(_TBL_VIEW_RCSA_KPI_DETAIL);
 					->get(_TBL_VIEW_RCSA_KPI_DETAIL)->result_array();
 				// dumps($idi);
@@ -939,7 +938,7 @@ class Data extends MX_Model
 				// ->where('bulan_int>=',$bulan[0])
 				// ->where('bulan_int<=',$bulan[1])
 				// ->where('period_id',$period)
-
+				->where("`minggu_id`", "`minggu_id_rcsa`", false)
 				->where('title like ', "%" . $row['title'])
 				->get(_TBL_VIEW_RCSA_KPI)->result_array();
 

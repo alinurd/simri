@@ -1006,7 +1006,7 @@ class Profil_Risiko extends MY_Controller {
 
 		$det = $this->data->get_detail_data($this->_data_user_);
 		$det['mode']=0;
-
+		$det['pos'] = $this->pos;
 		// $hasil['kpi'] = '';
 		$hasil['kpi'] = $this->load->view('detail', $det, true);
 
@@ -1129,6 +1129,28 @@ class Profil_Risiko extends MY_Controller {
 
 		$cetak = 'register_excel';
 		$nm_file = 'Laporan-Mitigasi-Kompilasi';
+		$this->$cetak($hasil, $nm_file);
+	}
+
+	function cetak_kri($period, $owner, $type_ass = 128, $term_mulai, $term_akhir)
+	{
+		$data['pos'] = [
+			'owner' => $owner,
+			'period' => $period,
+			'type_ass' => $type_ass,
+			'term_mulai' => $term_mulai,
+			'term_akhir' => $term_akhir
+		];
+		$this->pos = $data['pos'];
+		$this->data->pos = $this->pos;
+		$data = $this->data->get_detail_data($this->_data_user_);
+		$data['mode'] = 1;
+
+		$hasil = $this->load->view('detail', $data, true);
+
+
+		$cetak = 'register_excel';
+		$nm_file = 'Laporan-KPI-KRI';
 		$this->$cetak($hasil, $nm_file);
 	}
 
