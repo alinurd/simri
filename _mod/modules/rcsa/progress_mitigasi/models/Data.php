@@ -190,8 +190,10 @@ class Data extends MX_Model {
 			$owner_kode = $parent['owner_code'];
 		}
 	
-		if (intval($this->pos['minggu'])>0) {
-			$this->db->where('minggu_id_rcsa',$this->pos['minggu']);
+		if (isset($this->pos['minggu'])) {
+			if (intval($this->pos['minggu'])>0) {
+				$this->db->where('minggu_id_rcsa',$this->pos['minggu']);
+			}
 		}
 
 		$rows = $this->db->where('minggu_type',1)
@@ -204,9 +206,8 @@ class Data extends MX_Model {
 			// ->group_by('satuan')
 			// ->get_compiled_select(_TBL_VIEW_RCSA_KPI);
 			->get(_TBL_VIEW_RCSA_KPI)->result_array();
-
-// 		dumps($rows);
-// die();		
+			
+	
 		$lap2=[];
 		foreach ($rows as $row){
 			$tmp=[];

@@ -1318,6 +1318,7 @@ class Progress_Mitigasi extends MY_Controller
 		$pos['period'] = $rows['period_id'];
 		$pos['term'] = $rows['term_id'];
 		$this->data->pos = $pos;
+		
 		$data = $this->data->get_detail_data();
 		$firstKey = reset($data['data']);
 		$bulKey = reset($firstKey['bulan']);
