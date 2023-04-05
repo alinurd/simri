@@ -93,6 +93,193 @@ class Data extends MX_Model
 
 		if (isset($this->pos['minggu'])) {
 			if (intval($this->pos['minggu']) > 0) {
+				// $this->db->where('minggu_id_rcsa', $this->pos['minggu']);
+			}
+		}
+		$this->db->where("`minggu_id`", "`minggu_id_rcsa`", false);
+
+		$rows = $this->db->where('minggu_type', 1)
+			->where('bulan_int>=', $bulan[0])
+			->where('bulan_int<=', $bulan[1])
+			->where('period_id', $period)
+
+			// ->where('kode_dept',$owner_kode)
+			->where('owner_id', $owner)
+			// ->group_by('satuan')
+			// ->get_compiled_select(_TBL_VIEW_RCSA_KPI);
+			->get(_TBL_VIEW_RCSA_KPI)->result_array();
+
+
+
+		$lap2 = [];
+		foreach ($rows as $row) {
+			$tmp = [];
+			$d = $this->db->where('kpi_id', $row['id'])->get(_TBL_VIEW_RCSA_KPI_DETAIL)->result_array();
+
+			$detail = [];
+			foreach ($d as $dd) {
+				$detail[] = $dd;
+			}
+			$tmp = $row;
+			$tmp['detail'] = $detail;
+			$lap2[$row['id']] = $tmp;
+		}
+
+
+		$detail = [];
+		foreach ($rows as $row) {
+			$d = $this->db->where('kpi_id', $row['id'])->get(_TBL_VIEW_RCSA_KPI_DETAIL)->result_array();
+			foreach ($d as $dd) {
+				$detail[$row['id']]['detail'][$dd['id']] = $dd;
+			}
+		}
+
+		$x = [];
+		$idi = [];
+		foreach ($detail as $key => $row) {
+			$xx = [];
+			$owner_id = 0;
+			foreach ($row['detail'] as $k => $d) {
+
+				if ($owner_id !== $key) {
+					// dumps($d);
+					$xx[$k]['name'] = $d['owner_name'];
+					$xx[$k]['satuan'] = $d['satuan'];
+					$xx[$k]['title'] = $d['title'];
+					$xx[$k]['indikator'] = $d['indikator'];
+					$xx[$k]['id'] = $d['id'];
+					$owner_id = $d['kpi_id'];
+					if (!in_array($key, $idi)) {
+						$idi[] = $key;
+					}
+				}
+			}
+			$x[$key] = $xx;
+		}
+		$this->db->where_in("kpi_id", $idi);
+
+		$dd = $this->db->where('minggu_type', 1)
+
+			->get(_TBL_VIEW_RCSA_KPI_DETAIL)->result_array();
+
+		foreach ($x as $key => $value) {
+			foreach ($value as $k => $v) {
+				$c = [];
+				foreach ($dd as $ke => $va) {
+					if (in_array($this->slugify($va['title']), $c)) {
+						$x[$key][$k]['bulan'][$va['bulan_int']] = $va;
+					} else {
+						$x[$key][$k]['bulan'][$va['bulan_int']] = $va;
+						$c[] = $this->slugify($va['title']);
+					}
+				}
+			}
+		}
+
+		unset($row);
+		$y = [];
+		$owner_id = 0;
+		foreach ($rows as $key => $row) {
+			if ($owner_id !== $row['id']) {
+				$y[$row['id']]['name'] = $row['owner_name'];
+				$y[$row['id']]['satuan'] = $row['satuan'];
+				$y[$row['id']]['title'] = $row['title'];
+				$y[$row['id']]['indikator'] = $row['indikator'];
+				// $y[$row['id']]['rcsa_id']=$row['rcsa_id'];
+				// $y[$row['id']]['minggu_id_rcsa']=$row['minggu_id_rcsa'];
+				$owner_id = $row['id'];
+			}
+			$dd = $this->db->where('minggu_type', 1)
+				->where('bulan_int>=', $bulan[0])
+				->where('bulan_int<=', $bulan[1])
+				->where('period_id', $period)
+				->where("`minggu_id`", 'minggu_id_rcsa', false)
+
+				->where('title', $row['title'])
+				->get(_TBL_VIEW_RCSA_KPI)->result_array();
+			// 	->get_compiled_select(_TBL_VIEW_RCSA_KPI);
+			// dumps($dd);
+			foreach ($dd as $key => $value) {
+				$y[$row['id']]['bulan'][$value['bulan_int']] = $value;
+			}
+		}
+		// die();
+		unset($row);
+		foreach ($y as $key => &$row) {
+			if (array_key_exists($key, $x)) {
+				// dumps('xxx');
+				$row['detail'] = $x[$key];
+			} else {
+				$row['detail'] = [];
+			}
+		}
+
+		// dumps($y);die();
+
+		unset($row);
+
+		$hasil['bulan'] = $bulan;
+		$hasil['data'] = $y;
+		$hasil['lap2'] = $lap2;
+		$hasil['parent'] = $parent;
+		$hasil['owner_name'] = $owner_name;
+		return $hasil;
+	}
+
+	public static function slugify($text, string $divider = '-')
+	{
+		// replace non letter or digits by divider
+		$text = preg_replace('~[^\pL\d]+~u', $divider, $text);
+
+		// transliterate
+		$text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+		// remove unwanted characters
+		$text = preg_replace('~[^-\w]+~', '', $text);
+
+		// trim
+		$text = trim($text, $divider);
+
+		// remove duplicate divider
+		$text = preg_replace('~-+~', $divider, $text);
+
+		// lowercase
+		$text = strtolower($text);
+
+		if (empty($text)) {
+			return 'n-a';
+		}
+
+		return $text;
+	}
+
+	function get_detail_data_o()
+	{
+		$bulan = [1, 12];
+		// dumps($this->pos);die();
+
+		if (intval($this->pos['term']) > 0) {
+			$rows = $this->db->select('*')->where('id', intval($this->pos['term']))->get(_TBL_COMBO)->row_array();
+			$bulan[0] = date('n', strtotime($rows['param_date']));
+			$bulan[1] = date('n', strtotime($rows['param_date_after']));
+		}
+		$period = date('Y');
+		if (intval($this->pos['period']) > 0) {
+			$period = $this->pos['period'];
+		}
+
+		$owner = 0;
+		$parent = [];
+		$owner_name = ' All Departement ';
+		if (intval($this->pos['owner']) > 0) {
+			$owner = $this->pos['owner'];
+			$parent = $this->db->where('id', $owner)->get(_TBL_OWNER)->row_array();
+			$owner_name = $parent['owner_name'];
+			$owner_kode = $parent['owner_code'];
+		}
+
+		if (isset($this->pos['minggu'])) {
+			if (intval($this->pos['minggu']) > 0) {
 				$this->db->where('minggu_id_rcsa', $this->pos['minggu']);
 			}
 		}
