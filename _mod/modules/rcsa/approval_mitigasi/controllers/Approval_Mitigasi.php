@@ -607,25 +607,27 @@ class Approval_Mitigasi extends MY_Controller
 
 		$creatorEmail = $this->data->get_email_creator($post['id']);
 		if ($creatorEmail) {
-			$datasOutbox = [
-				'recipient' => [$creatorEmail->email],
-			];
-			$content_replace = [
-				'[[konteks]]' => 'Progress Mitigasi',
-				'[[redir]]' => 2,
-				'[[id]]' => $post['id'],
-				'[[notif]]' => $creatorEmail->real_name,
-				'[[sender]]' => $this->session->userdata('data_user')['real_name'],
-				'[[link]]' => base_url() . "progress-mitigasi",
-				'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
-
-			];
-			if ($this->session->userdata('preference-0')['send_notif'] == 1) {
-				$this->load->library('outbox');
-				$this->outbox->setTemplate('NOTIF02');
-				$this->outbox->setParams($content_replace);
-				$this->outbox->setDatas($datasOutbox);
-				$this->outbox->send();
+			if (!is_null($creatorEmail->email) && $creatorEmail->email !== '') {
+				$datasOutbox = [
+					'recipient' => [$creatorEmail->email],
+				];
+				$content_replace = [
+					'[[konteks]]' => 'Progress Mitigasi',
+					'[[redir]]' => 2,
+					'[[id]]' => $post['id'],
+					'[[notif]]' => $creatorEmail->real_name,
+					'[[sender]]' => $this->session->userdata('data_user')['real_name'],
+					'[[link]]' => base_url() . "progress-mitigasi",
+					'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
+	
+				];
+				if ($this->session->userdata('preference-0')['send_notif'] == 1) {
+					$this->load->library('outbox');
+					$this->outbox->setTemplate('NOTIF02');
+					$this->outbox->setParams($content_replace);
+					$this->outbox->setDatas($datasOutbox);
+					$this->outbox->send();
+				}
 			}
 		}
 

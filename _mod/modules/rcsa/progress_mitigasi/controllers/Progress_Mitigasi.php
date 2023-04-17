@@ -715,9 +715,14 @@ class Progress_Mitigasi extends MY_Controller
 		$this->crud->crud_where(['field' => 'sts_add', 'value' => 0]);
 		$this->crud->process_crud();
 
-		if ($notif['email']) {
+		$email = explode(',', preg_replace('/\s+/', '', $notif['email']));
+		$emailFilter = array_values(array_filter($email, function ($value) {
+			return !is_null($value) && $value !== '';
+		}));
+
+		if (count($emailFilter) > 0) {
 			$datasOutbox = [
-				'recipient' => [$notif['email']],
+				'recipient' => $emailFilter,
 			];
 			$content_replace = [
 				'[[konteks]]' => 'Progress Mitigasi',
@@ -910,76 +915,88 @@ class Progress_Mitigasi extends MY_Controller
 
 					if (count($kpi) > 0) {
 						if ($kpi[0]['parent_id'] > 0) {
-							$this->db->where('rcsa_id', $kpi[0]['parent_id']);
-							$this->db->where('minggu_id', '(select min(minggu_id) from ' . _TBL_RCSA_KPI . ' where rcsa_id =' . $kpi[0]['parent_id'] . ')', false);
-							// $cekKpi = $this->db->get_compiled_select(_TBL_RCSA_KPI);
-							$cekKpix = $this->db->get(_TBL_RCSA_KPI);
-
-							foreach ($cekKpix->result_array() as $key => $value) {
-								$dataKpi = [
-									'minggu' => $post['minggu'],
-									'rcsa_id' => $post['id'],
-									'edit_id' => 0,
-									'title' => $value['title'],
-									'satuan_id' => $value['satuan_id'],
-									'p_1' => $value['p_1'],
-									's_1_min' => $value['s_1_min'],
-									's_1_max' => $value['s_1_max'],
-									'p_4' => $value['p_4'],
-									's_4_min' => $value['s_4_min'],
-									's_4_max' => $value['s_4_max'],
-									'p_2' => $value['p_2'],
-									's_2_min' => $value['s_2_min'],
-									's_2_max' => $value['s_2_max'],
-									'p_5' => $value['p_5'],
-									's_5_min' => $value['s_5_min'],
-									's_5_max' => $value['s_5_max'],
-									'p_3' => $value['p_3'],
-									's_3_min' => $value['s_3_min'],
-									's_3_max' => $value['s_3_max'],
-									'score' => $value['score'],
-								];
-								$this->data->post = $dataKpi;
-								$this->data->simpan_kpi();
-								$idKpi = $this->crud->last_id();
-
-								$this->db->where('kpi_id', $value['id']);
-								$cekKri = $this->db->get(_TBL_RCSA_KPI);
-								foreach ($cekKri->result_array() as $k => $v) {
-									$dataKri = [
-										'minggu' => 0,
-										'rcsa_id' => 0,
+							foreach ($kpi as $keyx => $kpix) {
+								$this->db->where('rcsa_id', $kpix['parent_id']);
+								$this->db->where('minggu_id', '(select min(minggu_id) from ' . _TBL_RCSA_KPI . ' where rcsa_id =' . $kpix['parent_id'] . ')', false);
+								// $cekKpi = $this->db->get_compiled_select(_TBL_RCSA_KPI);
+								$cekKpix = $this->db->get(_TBL_RCSA_KPI);
+	
+								foreach ($cekKpix->result_array() as $key => $value) {
+									$idkri = $kpix['id'];
+									$dataKpi = [
+										'minggu' => $post['minggu'],
+										'rcsa_id' => $post['id'],
 										'edit_id' => 0,
-										'kpi_id' => $idKpi,
-										'title' => $v['title'],
-										'satuan_id' => $v['satuan_id'],
-										'p_1' => $v['p_1'],
-										's_1_min' => $v['s_1_min'],
-										's_1_max' => $v['s_1_max'],
-										'p_4' => $v['p_4'],
-										's_4_min' => $v['s_4_min'],
-										's_4_max' => $v['s_4_max'],
-										'p_2' => $v['p_2'],
-										's_2_min' => $v['s_2_min'],
-										's_2_max' => $v['s_2_max'],
-										'p_5' => $v['p_5'],
-										's_5_min' => $v['s_5_min'],
-										's_5_max' => $v['s_5_max'],
-										'p_3' => $v['p_3'],
-										's_3_min' => $v['s_3_min'],
-										's_3_max' => $v['s_3_max'],
-										'score' => $v['score'],
+										'title' => $value['title'],
+										'satuan_id' => $value['satuan_id'],
+										'p_1' => $value['p_1'],
+										's_1_min' => $value['s_1_min'],
+										's_1_max' => $value['s_1_max'],
+										'p_4' => $value['p_4'],
+										's_4_min' => $value['s_4_min'],
+										's_4_max' => $value['s_4_max'],
+										'p_2' => $value['p_2'],
+										's_2_min' => $value['s_2_min'],
+										's_2_max' => $value['s_2_max'],
+										'p_5' => $value['p_5'],
+										's_5_min' => $value['s_5_min'],
+										's_5_max' => $value['s_5_max'],
+										'p_3' => $value['p_3'],
+										's_3_min' => $value['s_3_min'],
+										's_3_max' => $value['s_3_max'],
+										'score' => $value['score'],
 									];
-									$this->data->post = $dataKri;
-									$id = $this->data->simpan_kri();
+									$this->data->post = $dataKpi;
+									$this->data->simpan_kpi();
+									$idKpi = $this->crud->last_id();
+	
+									// $this->db->where('kpi_id', $value['id']);
+									// $cekKri = $this->db->get(_TBL_RCSA_KPI);
+									$cekKri = $this->db->where('bk_tipe', 2)->where('rcsa_id', $post['id'])->where('rcsa_detail_id', $idkri)
+										->group_by('kri_id')
+										// ->get_compiled_select(_TBL_VIEW_RCSA_DET_LIKE_INDI);
+	
+										->get(_TBL_VIEW_RCSA_DET_LIKE_INDI)->result_array();
+	
+	
+									if (count($cekKri) > 0) {
+										foreach ($cekKri as $k => $v) {
+											$dataKri = [
+												'minggu' => 0,
+												'rcsa_id' => 0,
+												'edit_id' => 0,
+												'kpi_id' => $idKpi,
+												'title' => $v['kri'],
+												'satuan_id' => $v['satuan_id'],
+												'p_1' => $v['p_1'],
+												's_1_min' => $v['s_1_min'],
+												's_1_max' => $v['s_1_max'],
+												'p_4' => $v['p_4'],
+												's_4_min' => $v['s_4_min'],
+												's_4_max' => $v['s_4_max'],
+												'p_2' => $v['p_2'],
+												's_2_min' => $v['s_2_min'],
+												's_2_max' => $v['s_2_max'],
+												'p_5' => $v['p_5'],
+												's_5_min' => $v['s_5_min'],
+												's_5_max' => $v['s_5_max'],
+												'p_3' => $v['p_3'],
+												's_3_min' => $v['s_3_min'],
+												's_3_max' => $v['s_3_max'],
+												'score' => $v['score'],
+											];
+											$this->data->post = $dataKri;
+											$id = $this->data->simpan_kri();
+										}
+									}
 								}
 							}
-						}else{
+						} else {
 							foreach ($kpi as $key => $value) {
 								if ($value['id_kpi'] != '') {
 									// $idkri = explode(',', $value['id']);
 									$idkri = $value['id'];
-	
+
 									$dataKpi = [
 										'minggu' => $post['minggu'],
 										'rcsa_id' => $post['id'],
@@ -1007,13 +1024,13 @@ class Progress_Mitigasi extends MY_Controller
 									$this->data->simpan_kpi();
 									$idKpi = $this->crud->last_id();
 									// // $value['kpi_detail']
-									$kri = $this->db->where('bk_tipe', 1)->where('rcsa_id', $post['id'])->where('rcsa_detail_id', $idkri)
+									$kri = $this->db->where('bk_tipe', 2)->where('rcsa_id', $post['id'])->where('rcsa_detail_id', $idkri)
 										->group_by('kri_id')
 										// ->get_compiled_select(_TBL_VIEW_RCSA_DET_LIKE_INDI);
-	
+
 										->get(_TBL_VIEW_RCSA_DET_LIKE_INDI)->result_array();
-	
-	
+
+
 									if (count($kri) > 0) {
 										foreach ($kri as $k => $v) {
 											$dataKri = [
@@ -1318,7 +1335,7 @@ class Progress_Mitigasi extends MY_Controller
 		$pos['period'] = $rows['period_id'];
 		$pos['term'] = $rows['term_id'];
 		$this->data->pos = $pos;
-		
+
 		$data = $this->data->get_detail_data();
 		$firstKey = reset($data['data']);
 		$bulKey = reset($firstKey['bulan']);

@@ -101,24 +101,26 @@ class Cli extends MX_Controller
 		// die();
 		foreach ($users as $key => $value) {
 			if ($value['email']) {
-				$datasOutbox = [
-					'recipient' => [$value['email']],
-				];
-				$content_replace = [
-					'[[konteks]]' => 'Konteks Risiko',
-					'[[redir]]' => 2,
-					'[[id]]' => 0,
-					'[[notif]]' => $value['real_name'],
-					'[[sender]]' => 'Administrator',
-					'[[link]]' => base_url() . "progress-mitigasi",
-					'[[footer]]' => 'PT Indonesia Asahan Aluminium (INALUM)'
-
-				];
-				$this->load->library('outbox');
-				$this->outbox->setTemplate('NOTIF05');
-				$this->outbox->setParams($content_replace);
-				$this->outbox->setDatas($datasOutbox);
-				$this->outbox->send();
+				if (!is_null($value['email']) && $value['email'] !== '') {
+					$datasOutbox = [
+						'recipient' => [$value['email']],
+					];
+					$content_replace = [
+						'[[konteks]]' => 'Konteks Risiko',
+						'[[redir]]' => 2,
+						'[[id]]' => 0,
+						'[[notif]]' => $value['real_name'],
+						'[[sender]]' => 'Administrator',
+						'[[link]]' => base_url() . "progress-mitigasi",
+						'[[footer]]' => 'PT Indonesia Asahan Aluminium (INALUM)'
+	
+					];
+					$this->load->library('outbox');
+					$this->outbox->setTemplate('NOTIF05');
+					$this->outbox->setParams($content_replace);
+					$this->outbox->setDatas($datasOutbox);
+					$this->outbox->send();
+				}
 			}
 		}
 	}

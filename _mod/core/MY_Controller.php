@@ -2397,7 +2397,7 @@ class MY_Controller extends MX_Controller {
 		// $this->_css_[] = 'datatable/responsive.bootstrap4.min.css';
 		$this->_css_[] = 'summernote.css';
 		$this->_css_[] = 'plugins/editors/trumbowyg/ui/trumbowyg.min.css';
-		$this->_css_[] = 'style.css';
+		$this->_css_[] = 'style.css?v=2';
 	}
 
 	function js($mode=[]){
