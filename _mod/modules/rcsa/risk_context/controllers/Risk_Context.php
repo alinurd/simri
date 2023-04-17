@@ -143,7 +143,7 @@ class Risk_Context extends MY_Controller
 	{
 		$cbominggu = $this->data->get_data_minggu($value);
 		$minggu = ($rows['minggu_id']) ? $cbominggu[$rows['minggu_id']] : '';
-		$a = (isset($this->term[$value]))?$this->term[$value] . ' - ' . $minggu:'-';
+		$a = (isset($this->term[$value])) ? $this->term[$value] . ' - ' . $minggu : '-';
 		return $a;
 	}
 	function listBox_id($field, $rows, $value)
@@ -1304,11 +1304,16 @@ class Risk_Context extends MY_Controller
 				$this->crud->process_crud();
 			}
 		}
+		$email = explode(',', preg_replace('/\s+/', '', $notif['email']));
+		$emailFilter = array_values(array_filter($email, function ($value) {
+			return !is_null($value) && $value !== '';
+		}));
 
-		if ($notif['email']) {
+		if (count($emailFilter) > 0) {
 			$datasOutbox = [
-				'recipient' => [$notif['email']],
+				'recipient' => $emailFilter,
 			];
+
 			$content_replace = [
 				'[[konteks]]' => 'Konteks Risiko',
 				'[[redir]]' => 1,

@@ -128,7 +128,6 @@ class Outbox
 	function proses_outbox(){
 		try {
 			$rows = $this->_ci->db->where('is_sent', 0)->where('tried<=5')->where('scheduled_at<=',date('Y-m-d H:i:s'))->order_by('id', 'desc')->limit(2)->get(_TBL_OUTBOX)->result_array();
-			
 			foreach($rows as $row){
 				$dat['email']=json_decode($row['recipient']);
 				$dat['cc']=json_decode($row['cc']);
