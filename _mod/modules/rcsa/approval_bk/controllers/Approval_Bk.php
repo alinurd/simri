@@ -293,25 +293,27 @@ class Approval_Bk extends MY_Controller
 		$creatorEmail = $this->data->get_email_creator($post['id']);
 
 		if ($creatorEmail) {
-			$datasOutbox = [
-				'recipient' => [$creatorEmail->email],
-			];
-			$content_replace = [
-				'[[konteks]]' => 'Konteks Risiko',
-				'[[redir]]' => 3,
-				'[[id]]' => $post['id'],
-				'[[notif]]' => $creatorEmail->real_name,
-				'[[sender]]' => $this->session->userdata('data_user')['real_name'],
-				'[[link]]' => base_url() . "risk-context",
-				'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
-
-			];
-			if ($this->session->userdata('preference-0')['send_notif'] == 1) {
-				$this->load->library('outbox');
-				$this->outbox->setTemplate('NOTIF03');
-				$this->outbox->setParams($content_replace);
-				$this->outbox->setDatas($datasOutbox);
-				$this->outbox->send();
+			if(!is_null($creatorEmail->email) && $creatorEmail->email !== ''){
+				$datasOutbox = [
+					'recipient' => [$creatorEmail->email],
+				];
+				$content_replace = [
+					'[[konteks]]' => 'Konteks Risiko',
+					'[[redir]]' => 3,
+					'[[id]]' => $post['id'],
+					'[[notif]]' => $creatorEmail->real_name,
+					'[[sender]]' => $this->session->userdata('data_user')['real_name'],
+					'[[link]]' => base_url() . "risk-context",
+					'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
+	
+				];
+				if ($this->session->userdata('preference-0')['send_notif'] == 1) {
+					$this->load->library('outbox');
+					$this->outbox->setTemplate('NOTIF03');
+					$this->outbox->setParams($content_replace);
+					$this->outbox->setDatas($datasOutbox);
+					$this->outbox->send();
+				}
 			}
 		}
 
@@ -429,10 +431,13 @@ class Approval_Bk extends MY_Controller
 
 					$content_replace = ['[[dept]]' => $parent['owner_name'], '[[owner]]' => $this->ion_auth->get_user_name(), '[[mitigasi]]' => $mitigasi, '[[officer]]' => implode(', ', $officer_name)];
 
-					if ($email) {
+					$emailFilter = array_values(array_filter($email, function ($value) {
+						return !is_null($value) && $value !== '';
+					}));
+
+					if (count($emailFilter) > 0) {
 						$datasOutbox = [
-							'recipient' => $email,
-							'cc' => ['debug.aplikasi@gmail.com'],
+							'recipient' => $emailFilter,
 						];
 						if ($this->session->userdata('preference-0')['send_notif'] == 1) {
 							$this->load->library('outbox');
@@ -469,18 +474,45 @@ class Approval_Bk extends MY_Controller
 
 			if ($staft_email) {
 				foreach ($staft_email as $key => $value) {
+					if (!is_null($value) && $value !== '') {
+						$datasOutbox = [
+							'recipient' => [$value],
+						];
+						$content_replace = [
+							'[[konteks]]' => 'Konteks Risiko',
+							'[[redir]]' => 1,
+							'[[id]]' => $post['id'],
+							'[[notif]]' => $staft_name[$key],
+							'[[sender]]' => $this->session->userdata('data_user')['real_name'],
+							'[[link]]' => base_url() . "approval-bk",
+							'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
+	
+						];
+						if ($this->session->userdata('preference-0')['send_notif'] == 1) {
+							$this->load->library('outbox');
+							$this->outbox->setTemplate('NOTIF01');
+							$this->outbox->setParams($content_replace);
+							$this->outbox->setDatas($datasOutbox);
+							$this->outbox->send();
+						}
+					}
+				}
+			}
+		} else {
+			if ($staft['staft']) {
+				if (!is_null($staft['staft']) && $staft['staft'] !== '') {
 					$datasOutbox = [
-						'recipient' => [$value],
+						'recipient' => [$staft['email']],
 					];
 					$content_replace = [
 						'[[konteks]]' => 'Konteks Risiko',
 						'[[redir]]' => 1,
 						'[[id]]' => $post['id'],
-						'[[notif]]' => $staft_name[$key],
+						'[[notif]]' => $staft['staft'],
 						'[[sender]]' => $this->session->userdata('data_user')['real_name'],
 						'[[link]]' => base_url() . "approval-bk",
 						'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
-
+	
 					];
 					if ($this->session->userdata('preference-0')['send_notif'] == 1) {
 						$this->load->library('outbox');
@@ -491,55 +523,33 @@ class Approval_Bk extends MY_Controller
 					}
 				}
 			}
-		} else {
-			if ($staft['staft']) {
-
-				$datasOutbox = [
-					'recipient' => [$staft['email']],
-				];
-				$content_replace = [
-					'[[konteks]]' => 'Konteks Risiko',
-					'[[redir]]' => 1,
-					'[[id]]' => $post['id'],
-					'[[notif]]' => $staft['staft'],
-					'[[sender]]' => $this->session->userdata('data_user')['real_name'],
-					'[[link]]' => base_url() . "approval-bk",
-					'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
-
-				];
-				if ($this->session->userdata('preference-0')['send_notif'] == 1) {
-					$this->load->library('outbox');
-					$this->outbox->setTemplate('NOTIF01');
-					$this->outbox->setParams($content_replace);
-					$this->outbox->setDatas($datasOutbox);
-					$this->outbox->send();
-				}
-			}
 		}
 
 		if ($post['sts_final'] == 1) {
 			$creatorEmail = $this->data->get_email_creator($post['id']);
 
 			if ($creatorEmail) {
-				$datasOutbox = [
-					'recipient' => [$creatorEmail->email],
-				];
-				$content_replace = [
-					'[[konteks]]' => 'Konteks Risiko',
-					'[[redir]]' => 2,
-					'[[id]]' => $post['id'],
-					'[[notif]]' => $creatorEmail->real_name,
-					'[[sender]]' => $this->session->userdata('data_user')['real_name'],
-					'[[link]]' => base_url() . "risk-context",
-					'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
-
-				];
-				if ($this->session->userdata('preference-0')['send_notif'] == 1) {
-					$this->load->library('outbox');
-					$this->outbox->setTemplate('NOTIF02');
-					$this->outbox->setParams($content_replace);
-					$this->outbox->setDatas($datasOutbox);
-					$this->outbox->send();
+				if (!is_null($creatorEmail->email) && $creatorEmail->email !== '') {
+					$datasOutbox = [
+						'recipient' => [$creatorEmail->email],
+					];
+					$content_replace = [
+						'[[konteks]]' => 'Konteks Risiko',
+						'[[redir]]' => 2,
+						'[[id]]' => $post['id'],
+						'[[notif]]' => $creatorEmail->real_name,
+						'[[sender]]' => $this->session->userdata('data_user')['real_name'],
+						'[[link]]' => base_url() . "risk-context",
+						'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
+	
+					];
+					if ($this->session->userdata('preference-0')['send_notif'] == 1) {
+						$this->load->library('outbox');
+						$this->outbox->setTemplate('NOTIF02');
+						$this->outbox->setParams($content_replace);
+						$this->outbox->setDatas($datasOutbox);
+						$this->outbox->send();
+					}
 				}
 			}
 		}

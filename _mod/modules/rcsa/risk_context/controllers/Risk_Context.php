@@ -1305,9 +1305,14 @@ class Risk_Context extends MY_Controller
 			}
 		}
 
-		if ($notif['email']) {
+		$email = explode(',', preg_replace('/\s+/', '', $notif['email']));
+		$emailFilter = array_values(array_filter($email, function ($value) {
+			return !is_null($value) && $value !== '';
+		}));
+
+		if (count($emailFilter) > 0) {
 			$datasOutbox = [
-				'recipient' => [$notif['email']],
+				'recipient' => $emailFilter,
 			];
 			$content_replace = [
 				'[[konteks]]' => 'Konteks Risiko',
