@@ -199,7 +199,7 @@ class Lost_Event_Database extends MY_Controller {
 
 			$button['print']=[
 				'label'=> 'Export & Import',
-				'color'=>'bg-green-300',
+				'color'=>'bg-green',
 				'round'=>($this->configuration['round_button'])?'rounded-round':'',
 				'icon' =>'icon-file-excel ',
 				'align'=>'left'
@@ -207,7 +207,7 @@ class Lost_Event_Database extends MY_Controller {
 
 			$button['print']['detail']['excel']=[
 				'label'=>$this->lang->line('btn_export_excel'),
-				'color'=>'bg-green-300',
+				'color'=>'bg-green',
 				'id'=>'btn_export_excel',
 				'tag'=>'a',
 				'round'=>($this->configuration['round_button'])?'rounded-round':'',
@@ -218,7 +218,7 @@ class Lost_Event_Database extends MY_Controller {
 
 			$button['print']['detail']['pdf']=[
 				'label'=>$this->lang->line('btn_export_pdf'),
-				'color'=>'bg-green-300',
+				'color'=>'bg-green',
 				'id'=>'btn_export_pdf',
 				'tag'=>'a',
 				'round'=>($this->configuration['round_button'])?'rounded-round':'',
@@ -228,7 +228,7 @@ class Lost_Event_Database extends MY_Controller {
 			];
 			$button['print']['detail']['import']=[
 				'label'=>'Import',
-				'color'=>'bg-green-300',
+				'color'=>'bg-green',
 				'id'=>'btn_import',
 				'tag'=>'a',
 				'round'=>($this->configuration['round_button'])?'rounded-round':'',
@@ -240,7 +240,7 @@ class Lost_Event_Database extends MY_Controller {
 
 			$button['print']['detail']['import_template']=[
 				'label'=>'Download Template Import',
-				'color'=>'bg-green-300',
+				'color'=>'bg-green',
 				'id'=>'btn_import_template',
 				'tag'=>'a',
 				'round'=>($this->configuration['round_button'])?'rounded-round':'',

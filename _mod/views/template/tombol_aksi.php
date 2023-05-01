@@ -65,7 +65,7 @@ if ($params['_mode_']=='add' || $params['_mode_']=='edit'){
 					
 					if ($key=='print' && is_array($row)):?>
 						<div class="btn-group">
-							<button type="button" class="btn bg-green-300 btn-labeled btn-labeled-left <?=$float.' '.$row['round'];?> dropdown-toggle" data-toggle="dropdown"><b><i class="icon-database-export"></b></i> Export</button>
+							<button type="button" class="btn bg-green btn-labeled btn-labeled-left <?=$float.' '.$row['round'];?> dropdown-toggle" data-toggle="dropdown"><b><i class="icon-database-export"></b></i> Export</button>
 							<div class="dropdown-menu dropdown-menu-right">
 							<?php 
 							foreach($row['detail'] as $prt):

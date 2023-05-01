@@ -46,7 +46,7 @@
                     <span class="btn bg-orange-300 btn-labeled left rounded-round" style="width:100%;padding:15px;">Progress</span>
                 </li>
                 <li class="nav-item" style="margin:10px 15px;">
-                    <span class="btn bg-green-300 btn-labeled left rounded-round" style="width:100%;padding:15px;">Chat</span>
+                    <span class="btn bg-green btn-labeled left rounded-round" style="width:100%;padding:15px;">Chat</span>
                 </li>
             </ul>
         </div>

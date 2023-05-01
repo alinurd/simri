@@ -299,7 +299,7 @@ class Risk_Context extends MY_Controller
 		$cbominggu = $this->data->get_data_minggu($data['parent']['term_id']);
 		$minggu = ($data['parent']['minggu_id']) ? $cbominggu[$data['parent']['minggu_id']] : '';
 
-		$data['parent']['bulan'] = $this->term[$data['parent']['term_id']] . ' - ' . $minggu;
+		$data['parent']['bulan'] = (isset($this->term[$data['parent']['term_id']]))?$this->term[$data['parent']['term_id']] . ' - ' . $minggu:'-';
 		$data['info_parent'] = $this->load->view('info-parent', $data, true);
 		$rows = $this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->where('rcsa_id', $id)->get(_TBL_VIEW_RCSA_MITIGASI)->result_array();
 		$miti = [];
@@ -375,7 +375,7 @@ class Risk_Context extends MY_Controller
 		$cbominggu = $this->data->get_data_minggu($data['parent']['term_id']);
 		$minggu = ($data['parent']['minggu_id']) ? $cbominggu[$data['parent']['minggu_id']] : '';
 
-		$data['parent']['bulan'] = $this->term[$data['parent']['term_id']] . ' - ' . $minggu;
+		$data['parent']['bulan'] = (isset($this->term[$data['parent']['term_id']]))?$this->term[$data['parent']['term_id']] . ' - ' . $minggu:'-';
 		$data['info_parent'] = $this->load->view('info-parent', $data, true);
 		$data['detail'] = $this->identifikasi_content($rcsa_detail, $data['parent']);
 		$data['identifikasi'] = $this->load->view('identifikasi-risiko', $data, true);
@@ -1192,7 +1192,7 @@ class Risk_Context extends MY_Controller
 		$cbominggu = $this->data->get_data_minggu($data['parent']['term_id']);
 		$minggu = ($data['parent']['minggu_id']) ? $cbominggu[$data['parent']['minggu_id']] : '';
 
-		$data['parent']['bulan'] = $this->term[$data['parent']['term_id']] . ' - ' . $minggu;
+		$data['parent']['bulan'] = (isset($this->term[$data['parent']['term_id']]))?$this->term[$data['parent']['term_id']] . ' - ' . $minggu:'-';
 
 		$data['info_parent'] = $this->load->view('info-parent', $data, true);
 		$rows = $this->db->where('rcsa_id', $id)->SELECT('risiko_inherent as id, COUNT(risiko_inherent) as nilai')->group_by('risiko_inherent')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
@@ -1243,7 +1243,7 @@ class Risk_Context extends MY_Controller
 		$cbominggu = $this->data->get_data_minggu($regis['parent']['term_id']);
 		$minggu = ($regis['parent']['minggu_id']) ? $cbominggu[$regis['parent']['minggu_id']] : '';
 
-		$regis['parent']['bulan'] = $this->term[$regis['parent']['term_id']] . ' - ' . $minggu;
+		$regis['parent']['bulan'] = (isset($this->term[$regis['parent']['term_id']]))?$this->term[$regis['parent']['term_id']] . ' - ' . $minggu:'-';
 		$data['regis'] = $this->load->view('risk_context/register', $regis, true);
 
 		$hasil = $this->load->view('propose', $data, true);
@@ -1481,7 +1481,8 @@ class Risk_Context extends MY_Controller
 	{
 		if (!$post) {
 			$post = $this->input->post();
-
+			$rcsa_detail_no = $post['rcsa_detail_no'];
+			$bk_tipe = $post['bk_tipe'];
 			if (!empty($post['id_kpi'])) {
 				// $kri =$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'kri')->combo_where('param_int', 0)->combo_where('param_other_int', $post['id_kpi'])->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 				$this->db->select('id');
@@ -1491,6 +1492,7 @@ class Risk_Context extends MY_Controller
 				$this->db->where('active', 1);
 				$kri = $this->db->get(_TBL_COMBO)->result_array();
 				$cek = $this->db->where('bk_tipe', $post['bk_tipe'])->where('rcsa_detail_id', $post['rcsa_detail_no'])->get(_TBL_VIEW_RCSA_DET_LIKE_INDI)->result_array();
+
 				if (count($cek) == 0) {
 					foreach ($kri as $key => $value) {
 						$data['id'] = 0;
@@ -1518,9 +1520,51 @@ class Risk_Context extends MY_Controller
 						$data['dampak_id'] = $post['dampak_id'];
 						$this->data->simpan_like_indi($data);
 					}
+				}else{
+					$value = $cek[0];
+					if($value) {
+						$this->db->select('param_other_int');
+						$this->db->where('kelompok', 'kri');
+						// $this->db->where('param_int', 1);
+						$this->db->where('id', $value['kri_id']);
+						$this->db->where('active', 1);
+						$kriCek = $this->db->get(_TBL_COMBO)->row_array();
+						if ($kriCek) {
+							if ($kriCek['param_other_int'] != $post['id_kpi']) {
+								$this->db->delete(_TBL_RCSA_DET_LIKE_INDI, array('rcsa_detail_id' => $post['rcsa_detail_no'],'bk_tipe'=>$post['bk_tipe']));
+								foreach ($kri as $key => $valuex) {
+									$data['id'] = 0;
+									$data['rcsa_detail_no'] = $rcsa_detail_no;
+									$data['bk_tipe'] = $bk_tipe;
+									$data['kri_id'] = $valuex['id'];
+									$data['satuan_id'] = 0;
+									$data['pembobotan'] = 0;
+									$data['p_1'] = 0;
+									$data['s_1_min'] = 0;
+									$data['s_1_max'] = 0;
+									$data['p_4'] = 0;
+									$data['s_4_min'] = 0;
+									$data['s_4_max'] = 0;
+									$data['p_2'] = 0;
+									$data['s_2_min'] = 0;
+									$data['s_2_max'] = 0;
+									$data['p_5'] = 0;
+									$data['s_5_min'] = 0;
+									$data['s_5_max'] = 0;
+									$data['p_3'] = 0;
+									$data['s_3_min'] = 0;
+									$data['s_3_max'] = 0;
+									$data['score'] = 0;
+									$data['dampak_id'] = $post['dampak_id'];
+									$this->data->simpan_like_indi($data);
+								}
+							}
+						}
+						
+					}
 				}
 			}
-
+		
 			$post['hasil'] = $this->data->update_list_indi_like(['rcsa_detail_no' => $post['rcsa_detail_no'], 'bk_tipe' => $post['bk_tipe'], 'dampak_id' => $post['dampak_id']]);
 			// $rows=$this->db->where('category', 'likelihood')->order_by('code')->get(_TBL_LEVEL)->result_array();
 			// $x=[];

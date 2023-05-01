@@ -158,7 +158,7 @@ class MY_Controller extends MX_Controller {
 			if ($this->can['insert']){
 				$this->_button['list']['insert']=[
 					'label'=>lang('btn_insert'),
-					'color'=>'bg-primary-300',
+					'color'=>'bg-primary',
 					'id'=>'btn_new',
 					'tag'=>'a',
 					'round'=>($this->configuration['round_button'])?'rounded-round':'',
@@ -181,7 +181,7 @@ class MY_Controller extends MX_Controller {
 			if ($this->can['delete']){
 				$this->_button['list']['delete']=[
 					'label'=>$this->lang->line('btn_delete'),
-					'color'=>'bg-danger-300',
+					'color'=>'bg-danger',
 					'id'=>'btn_delete',
 					'round'=>($this->configuration['round_button'])?'rounded-round':'',
 					'icon' =>'icon-database-remove',
@@ -201,7 +201,7 @@ class MY_Controller extends MX_Controller {
 			if ($this->can['print']){
 				$this->_button['list']['print']=[
 					'label'=>$this->lang->line('btn_export'),
-					'color'=>'bg-green-300',
+					'color'=>'bg-green',
 					'round'=>($this->configuration['round_button'])?'rounded-round':'',
 					'icon' =>'icon-file-excel ',
 					'align'=>'left'
@@ -209,7 +209,7 @@ class MY_Controller extends MX_Controller {
 
 				$this->_button['list']['print']['detail']['excel']=[
 					'label'=>$this->lang->line('btn_export_excel'),
-					'color'=>'bg-green-300',
+					'color'=>'bg-green',
 					'id'=>'btn_export_excel',
 					'tag'=>'a',
 					'round'=>($this->configuration['round_button'])?'rounded-round':'',
@@ -220,7 +220,7 @@ class MY_Controller extends MX_Controller {
 
 				$this->_button['list']['print']['detail']['pdf']=[
 					'label'=>$this->lang->line('btn_export_pdf'),
-					'color'=>'bg-green-300',
+					'color'=>'bg-green',
 					'id'=>'btn_export_pdf',
 					'tag'=>'a',
 					'round'=>($this->configuration['round_button'])?'rounded-round':'',
@@ -241,7 +241,7 @@ class MY_Controller extends MX_Controller {
 			if ($this->configuration['modal_box_search']){
 				$this->_button['list']['search']=[
 					'label'=>$this->lang->line('btn_search'),
-					'color'=>'bg-info-300',
+					'color'=>'bg-info',
 					'id'=>'btn_search',
 					'round'=>($this->configuration['round_button'])?'rounded-round':'',
 					'icon' =>'icon-search4',
@@ -252,7 +252,7 @@ class MY_Controller extends MX_Controller {
 			}else{
 				$this->_button['list']['search']=[
 					'label'=>$this->lang->line('btn_search'),
-					'color'=>'bg-info-300',
+					'color'=>'bg-info',
 					'id'=>'btn_search_card',
 					'round'=>($this->configuration['round_button'])?'rounded-round':'',
 					'icon' =>'icon-search4',
@@ -276,7 +276,7 @@ class MY_Controller extends MX_Controller {
 			if ($this->can['insert'] || $this->can['update']){
 				$this->_button['input']['save']=[
 					'label'=>$this->lang->line('btn_save'),
-					'color'=>'bg-info-300',
+					'color'=>'bg-info',
 					'id'=>'btn_save',
 					'name'=>'Save',
 					'value'=>'Simpan',
@@ -290,7 +290,7 @@ class MY_Controller extends MX_Controller {
 			if ($this->can['insert'] || $this->can['update']){
 				$this->_button['input']['save_quit']=[
 					'label'=>$this->lang->line('btn_save_quit'),
-					'color'=>'bg-success-300',
+					'color'=>'bg-success',
 					'id'=>'btn_save_quit',
 					'name'=>'Save_Quit',
 					'value'=>'Simpan_Quit',
@@ -304,7 +304,7 @@ class MY_Controller extends MX_Controller {
 			if ($this->can['insert']){
 				$this->_button['input']['insert']=[
 					'label'=>$this->lang->line('btn_insert'),
-					'color'=>'bg-primary-300',
+					'color'=>'bg-primary',
 					'id'=>'btn_new',
 					'align'=>'right',
 					'tag'=>'a',
@@ -317,7 +317,7 @@ class MY_Controller extends MX_Controller {
 			if ($this->can['delete'] && $mode=='edit'){
 				$this->_button['input']['delete']=[
 					'label'=>$this->lang->line('btn_delete'),
-					'color'=>'bg-danger-300',
+					'color'=>'bg-danger',
 					'id'=>'btn_delete',
 					'tag'=>'a',
 					'round'=>($this->configuration['round_button'])?'rounded-round':'',
@@ -330,7 +330,7 @@ class MY_Controller extends MX_Controller {
 
 			$this->_button['input']['back']=[
 				'label'=>$this->lang->line('btn_back'),
-				'color'=>'bg-slate-300',
+				'color'=>'bg-slate',
 				'id'=>'btn_back',
 				'tag'=>'a',
 				'round'=>($this->configuration['round_button'])?'rounded-round':'',

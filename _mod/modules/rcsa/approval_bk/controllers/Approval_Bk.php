@@ -112,7 +112,7 @@ class Approval_Bk extends MY_Controller
 	{
 		$cbominggu = $this->data->get_data_minggu($value);
 		$minggu = ($rows['minggu_id']) ? $cbominggu[$rows['minggu_id']] : '';
-		$a = $this->term[$value] . ' - ' . $minggu;
+		$a = (isset($this->term[$value])) ? $this->term[$value] . ' - ' . $minggu : '-';
 		return $a;
 	}
 	function listBox_STATUS_ID($field, $rows, $value)
@@ -182,7 +182,7 @@ class Approval_Bk extends MY_Controller
 		$cbominggu = $this->data->get_data_minggu($data['parent']['term_id']);
 		$minggu = ($data['parent']['minggu_id']) ? $cbominggu[$data['parent']['minggu_id']] : '';
 		$term = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'term')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-		$data['parent']['bulan'] = $term[$data['parent']['term_id']] . ' - ' . $minggu;
+		$data['parent']['bulan'] = isset($term[$data['parent']['term_id']]) ? $term[$data['parent']['term_id']] . ' - ' . $minggu : '-';
 		$data['info_parent'] = $this->load->view('info-parent', $data, true);
 		$rows = $this->db->where('rcsa_id', $id)->SELECT('risiko_inherent as id, COUNT(risiko_inherent) as nilai')->group_by('risiko_inherent')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 		$data['map_inherent'] = $this->map->set_data($rows)->set_param(['tipe' => 'angka', 'level' => 1])->draw();
@@ -239,7 +239,7 @@ class Approval_Bk extends MY_Controller
 		$cbominggu = $this->data->get_data_minggu($regis['parent']['term_id']);
 		$minggu = ($regis['parent']['minggu_id']) ? $cbominggu[$regis['parent']['minggu_id']] : '';
 		$term = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'term')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-		$regis['parent']['bulan'] = $term[$regis['parent']['term_id']] . ' - ' . $minggu;
+		$regis['parent']['bulan'] = isset($term[$regis['parent']['term_id']]) ? $term[$regis['parent']['term_id']] . ' - ' . $minggu : '-';
 
 		$data['regis'] = $this->load->view('risk_context/register', $regis, true);
 
@@ -292,28 +292,35 @@ class Approval_Bk extends MY_Controller
 
 		$creatorEmail = $this->data->get_email_creator($post['id']);
 
-		if ($creatorEmail) {
-			if(!is_null($creatorEmail->email) && $creatorEmail->email !== ''){
-				$datasOutbox = [
-					'recipient' => [$creatorEmail->email],
-				];
-				$content_replace = [
-					'[[konteks]]' => 'Konteks Risiko',
-					'[[redir]]' => 3,
-					'[[id]]' => $post['id'],
-					'[[notif]]' => $creatorEmail->real_name,
-					'[[sender]]' => $this->session->userdata('data_user')['real_name'],
-					'[[link]]' => base_url() . "risk-context",
-					'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
-	
-				];
-				if ($this->session->userdata('preference-0')['send_notif'] == 1) {
-					$this->load->library('outbox');
-					$this->outbox->setTemplate('NOTIF03');
-					$this->outbox->setParams($content_replace);
-					$this->outbox->setDatas($datasOutbox);
-					$this->outbox->send();
+		if (!empty($creatorEmail)) {
+			// if(!is_null($creatorEmail->email) && $creatorEmail->email !== ''){
+			foreach ($creatorEmail as $key => $value) {
+				if (!is_null($value->email) && $value->email !== '') {
+
+
+					$datasOutbox = [
+						'recipient' => [$value->email],
+					];
+					$content_replace = [
+						'[[konteks]]' => 'Konteks Risiko',
+						'[[note]]' => $post['note_propose'],
+						'[[redir]]' => 3,
+						'[[id]]' => $post['id'],
+						'[[notif]]' => $value->officer_name,
+						'[[sender]]' => $this->session->userdata('data_user')['real_name'],
+						'[[link]]' => base_url() . "risk-context",
+						'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
+
+					];
+					if ($this->session->userdata('preference-0')['send_notif'] == 1) {
+						$this->load->library('outbox');
+						$this->outbox->setTemplate('NOTIF03');
+						$this->outbox->setParams($content_replace);
+						$this->outbox->setDatas($datasOutbox);
+						$this->outbox->send();
+					}
 				}
+				// }
 			}
 		}
 
@@ -486,7 +493,7 @@ class Approval_Bk extends MY_Controller
 							'[[sender]]' => $this->session->userdata('data_user')['real_name'],
 							'[[link]]' => base_url() . "approval-bk",
 							'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
-	
+
 						];
 						if ($this->session->userdata('preference-0')['send_notif'] == 1) {
 							$this->load->library('outbox');
@@ -512,7 +519,7 @@ class Approval_Bk extends MY_Controller
 						'[[sender]]' => $this->session->userdata('data_user')['real_name'],
 						'[[link]]' => base_url() . "approval-bk",
 						'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
-	
+
 					];
 					if ($this->session->userdata('preference-0')['send_notif'] == 1) {
 						$this->load->library('outbox');
@@ -541,7 +548,7 @@ class Approval_Bk extends MY_Controller
 						'[[sender]]' => $this->session->userdata('data_user')['real_name'],
 						'[[link]]' => base_url() . "risk-context",
 						'[[footer]]' => $this->session->userdata('preference-0')['nama_kantor']
-	
+
 					];
 					if ($this->session->userdata('preference-0')['send_notif'] == 1) {
 						$this->load->library('outbox');
