@@ -62,10 +62,11 @@ if (isset($export)) {
     <div class="col-xl-12">
         <div class="card">
             <div class="card-header header-elements-sm-inline">
-
+                <?php if(isset($pos)):?>
                 <a target="_blank" href="<?= base_url('/profil-risiko/cetak-register/' . $pos['period'] . '/' . $pos['owner'] . '/0/' . $pos['term_mulai'] . '/' . $pos['term_akhir']) ?>">
                     <h6 class="card-title"><span class="btn bg-primary pointer pull-right <?= $show; ?>" id="export_excel"> Export to Ms-Excel </span></h6>
                 </a>
+                <?php endif;?>
             </div>
             <div class="card-body">
                 <table class="table table-borderless">

@@ -25,7 +25,18 @@
                         <?php
                         foreach($alur as $key=>$row):
                             if ($key>0):?>
-                            <tr><td><?=$row['level'];?></td><td><?=$row['owner'];?></td><td><?=$row['staft'];?></td></tr>
+                            <?php
+                                $level = $row['level'];
+                                if ($row['level'] == 'Manager') {
+                                    $level = 'VP';
+                                }elseif($row['level'] == 'Kepala Departemen'){
+                                    $level = 'SVP';
+                                }
+                            ?>
+                            <tr>
+                                <td><?=$level;?></td>
+                                <td><?=$row['owner'];?></td>
+                                <td><?=$row['staft'];?></td></tr>
                             <?php endif;endforeach;?>
                         </tbody>
                     </table>

@@ -32,9 +32,9 @@ class Officer extends MY_Controller {
 			$this->addField(['field'=>'email',  'search'=>true]);
 			$this->addField(['field'=>'sts_owner', 'input'=>'boolean', 'search'=>true]);
 			// $this->addField(['field'=>'sts_approval', 'input'=>'boolean', 'search'=>true]);
-			$this->addField(['field'=>'sts_mengetahui', 'input'=>'boolean', 'search'=>true, 'default'=>0]);
-			$this->addField(['field'=>'sts_menyetujui', 'input'=>'boolean', 'search'=>true, 'default'=>0]);
-			$this->addField(['field'=>'sts_menvalidasi', 'input'=>'boolean', 'search'=>true, 'default'=>0]);
+			$this->addField(['field'=>'sts_mengetahui', 'title'=>'Status VP' , 'input'=>'boolean', 'search'=>true, 'default'=>0]);
+			$this->addField(['field'=>'sts_menyetujui', 'title' => 'Status SVP', 'input'=>'boolean', 'search'=>true, 'default'=>0]);
+			$this->addField(['field'=>'sts_menvalidasi','title' => 'Status Admin RM', 'input'=>'boolean', 'search'=>true, 'default'=>0]);
 			$this->addField(['field'=>'active', 'input'=>'boolean', 'search'=>true]);
 			$this->addField(['field'=>'user_no', 'show'=>false, 'save'=>false]);
 			$this->set_Close_Coloums();

@@ -79,7 +79,10 @@ if (file_exists(file_path($params['user']['photo'])))
 
         <ul class="navbar-nav">
             <li class="nav-item">
-                <span class="badge bg-primary badge-pill ml-md-3 mr-md-auto"> Periode <?= _TAHUN_; ?> - <?= _TERM_; ?> - Bulan <?= date('F'); ?> <!--- Minggu ke <?= _MINGGU_; ?> --> </span>
+                <span class="badge bg-primary badge-pill ml-md-3 mr-md-auto mt-1"> Periode <?= _TAHUN_; ?> - <?= _TERM_; ?> - Bulan <?= date('F'); ?> <!--- Minggu ke <?= _MINGGU_; ?> --> </span>
+            </li>
+            <li class="nav-item">
+                <a target="_blank" href="<?= file_path_relative('Pentunjuk_Penggunaan_Aplikasi_SIMRI.pdf')?>" class="dropdown-item bg-primary ml-2" id="modul-manual"><i class="icon-book"></i> Manual </a>
             </li>
             <?php
             if ($params['show_right_sidebar']) : ?>

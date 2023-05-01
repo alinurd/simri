@@ -20,7 +20,7 @@
         </div>
 
         <div class="header-elements d-none">
-            <div class="breadcrumb justify-content-center">
+            <div class="breadcrumb justify-content-center ">
                 <div class="breadcrumb-elements-item dropdown p-0">
                     <a href="#" class="breadcrumb-elements-item dropdown-toggle" data-toggle="dropdown">
                         <i class="icon-gear mr-2"></i>
