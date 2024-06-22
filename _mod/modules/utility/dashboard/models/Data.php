@@ -172,11 +172,14 @@ class Data extends MX_Model {
 		if (intval($this->pos['data']['param_id'])==0){
 			$rows = $owner;
 		}else{
-			$this->filter_data();
+			$this->filter_data(false, 'il_view_rcsa_approval_mitigasi');
 	
-			$this->db->where_in('owner_id',$id);
-			$rows=$this->db->select('owner_id, kode_dept as owner_code, owner_name, tgl_propose, 0 as status, 0 as target, 0 as aktual,  file_att as file  ')
-			->group_by(['owner_id', 'kode_dept','owner_name'])
+			if (count($id)) {
+				$this->db->where_in('il_view_rcsa_approval_mitigasi.owner_id',$id);
+			}
+			$this->db->join('il_view_rcsa_mitigasi_detail', 'il_view_rcsa_mitigasi_detail.rcsa_id = il_view_rcsa_approval_mitigasi.rcsa_id');
+			$rows=$this->db->select('il_view_rcsa_approval_mitigasi.owner_id, il_view_rcsa_approval_mitigasi.kode_dept as owner_code, il_view_rcsa_approval_mitigasi.owner_name, il_view_rcsa_approval_mitigasi.tgl_propose, 0 as status, avg(target) as target, avg(aktual) as aktual,  file_att as file  ')
+			->group_by(['il_view_rcsa_approval_mitigasi.owner_id', 'il_view_rcsa_approval_mitigasi.kode_dept','il_view_rcsa_approval_mitigasi.owner_name'])
 			// ->get_compiled_select(_TBL_VIEW_RCSA_APPROVAL_MITIGASI);
 			->get(_TBL_VIEW_RCSA_APPROVAL_MITIGASI)->result_array();
 
@@ -221,7 +224,9 @@ class Data extends MX_Model {
 		}
 		if (intval($this->pos['data']['param_id'])>0){
 			$this->filter_data();
-			$this->db->where_in('owner_id',$id);
+			if (count($id)) {
+				$this->db->where_in('owner_id',$id);
+			}
 			$rows=$this->db->select('owner_id, kode_dept as owner_code, owner_name, tgl_propose, 0 as status, 0 as target, 0 as aktual, file_att as file  ')->get(_TBL_VIEW_RCSA_APPROVAL_MITIGASI)->result_array();
 		}else{
 			$rows=$owner;
@@ -231,7 +236,7 @@ class Data extends MX_Model {
 		return $hasil;
 	}
 
-	function filter_data($custom = false){
+	function filter_data($custom = false, $field = ''){
 		
 		$minggu = [];
 		if ($this->cek_tgl){
@@ -271,20 +276,36 @@ class Data extends MX_Model {
 		}
 		if ($this->pos){
 			if ($this->pos['owner']){
-				if($this->owner_child){
-					$this->db->where_in('owner_id', $this->owner_child);
+				if(count($this->owner_child)){
+					if ($field) {
+						$this->db->where_in($field.'.owner_id', $this->owner_child);
+					} else {
+						$this->db->where_in('owner_id', $this->owner_child);
+					}
 				}
 			}
 			if ($this->pos['type_ass']){
-				$this->db->where('type_ass_id', $this->pos['type_ass']);
+				if ($field) {
+					$this->db->where_in($field.'.type_ass_id', $this->pos['type_ass']);
+				} else {
+					$this->db->where_in('type_ass_id', $this->pos['type_ass']);
+				}
 			}
 			if ($this->pos['period']){
-				$this->db->where('period_id', $this->pos['period']);
+				if ($field) {
+					$this->db->where_in($field.'.period_id', $this->pos['period']);
+				} else {
+					$this->db->where_in('period_id', $this->pos['period']);
+				}
 			}
 
 			if ($this->pos['term']){
-				$this->db->where('term_id', $this->pos['term']);
-			}
+				if ($field) {
+					$this->db->where_in($field.'.term_id', $this->pos['term']);
+				} else {
+					$this->db->where_in('term_id', $this->pos['term']);
+				}
+				}
 
 			if (isset($this->pos['tgl1']) && $custom==false){
 				$this->db->where('tgl_mulai_minggu>=', $this->pos['tgl1']);

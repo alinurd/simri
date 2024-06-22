@@ -88,6 +88,9 @@ class Dashboard extends MY_Controller {
 
 	function map(){
 		$this->data->filter_data();
+		
+		$this->db->where('status_final', 1);
+
 		$rows = $this->db->SELECT('risiko_inherent as id, COUNT(risiko_inherent) as nilai, level_color, level_color_residual, level_color_target')->group_by('risiko_inherent')
 		
 		->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
@@ -103,7 +106,11 @@ class Dashboard extends MY_Controller {
 		if ($jml>0){
 			$data['jml_inherent']='<span class="badge bg-primary badge-pill"> '.$jml.' </span>';
 		}
+		
 		$this->data->filter_data();
+		
+		$this->db->where('status_final', 1);
+
 		$rows = $this->db->SELECT('risiko_residual as id, COUNT(risiko_residual) as nilai, level_color, level_color_residual, level_color_target')->group_by('risiko_residual')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 		$data['map_residual']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>2])->draw();
 		$jml=$this->map->get_total_nilai();
@@ -113,7 +120,11 @@ class Dashboard extends MY_Controller {
 		if ($jml>0){
 			$data['jml_residual']='<span class="badge bg-success badge-pill"> '.$jml.' </span>';
 		}
+
 		$this->data->filter_data();
+		
+		$this->db->where('status_final', 1);
+
 		$rows = $this->db->SELECT('risiko_target as id, COUNT(risiko_target) as nilai, level_color, level_color_residual, level_color_target')->group_by('risiko_target')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 		$data['map_target']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>3])->draw();
 		$jml=$this->map->get_total_nilai();

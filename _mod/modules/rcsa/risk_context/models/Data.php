@@ -161,6 +161,11 @@ class Data extends MX_Model
 		$this->crud->crud_field('rcsa_id', $data['rcsa_id']);
 		$this->crud->crud_field('id_kpi', $data['id_kpi']);
 		$this->crud->crud_field('aktifitas_id', $data['aktifitas_id']);
+
+		$this->crud->crud_field('fraud_risk', $data['fraud_risk']);
+		$this->crud->crud_field('esg_risk', $data['esg_risk']);
+		$this->crud->crud_field('smap', $data['smap']);
+
 		$this->crud->crud_field('sasaran_id', $data['sasaran_id']);
 		$this->crud->crud_field('tahapan', $data['tahapan']);
 		$this->crud->crud_field('klasifikasi_risiko_id', $data['klasifikasi_risiko_id']);
@@ -610,6 +615,11 @@ class Data extends MX_Model
 		$this->crud->crud_field('rcsa_id', $data['rcsa_id']);
 		$this->crud->crud_field('id_kpi', $data['id_kpi']);
 		$this->crud->crud_field('aktifitas_id', $data['aktifitas_id']);
+		
+		$this->crud->crud_field('fraud_risk', $data['fraud_risk']);
+		$this->crud->crud_field('esg_risk', $data['esg_risk']);
+		$this->crud->crud_field('smap', $data['smap']);
+
 		$this->crud->crud_field('sasaran_id', $data['sasaran_id']);
 		$this->crud->crud_field('tahapan', $data['tahapan']);
 		$this->crud->crud_field('klasifikasi_risiko_id', $data['klasifikasi_risiko_id']);

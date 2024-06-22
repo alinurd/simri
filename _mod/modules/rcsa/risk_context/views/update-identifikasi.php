@@ -71,7 +71,7 @@ echo form_open_multipart($this->uri->uri_string, array('id'=>'form_identifikasi'
                             </div>
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <span class="btn btn-primary pointer btnNext pull-right"><?=_l("fld_next_tab");?></span>
+                                <span class="btn btn-primary pointer btnNext pull-right"  <?=$no_edit;?> style="pointer-events:<?=$events;?>"><?=_l("fld_next_tab");?></span>
                                 <span class="btn btn-warning pointer btnPrevious pull-right mr-2"><?=_l("fld_back_tab");?></span>
                                
                             </div>

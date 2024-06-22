@@ -1,122 +1,126 @@
-$(function(){
-    $(document).on("keypress","#search_text", function(event){
+$(function () {
+    $(document).on("keypress", "#search_text", function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         console.log(keycode);
-        if(keycode == '13'){
+        if (keycode == '13') {
             $("#btnSearch").trigger("click");
         }
     })
 
     $("#period").change(function () {
-		var parent = $(this).parent();
-		var nilai = $(this).val();
-		var data = {
-			'id': nilai
-		};
-		var target_combo = $("#term");
-		var url = "ajax/get-term";
-		_ajax_("post", parent, data, target_combo, url);
+        var parent = $(this).parent();
+        var nilai = $(this).val();
+        var data = {
+            'id': nilai
+        };
+        var target_combo = $("#term");
+        var url = "ajax/get-term";
+        _ajax_("post", parent, data, target_combo, url);
+        $("#term").trigger('change')
     })
 
     $("#term").change(function () {
-		var parent = $(this).parent();
-		var nilai = $(this).val();
-		var data = {
-			'id': nilai
-		};
-		var target_combo = $("#minggu");
-		var url = "ajax/get-minggu";
-		_ajax_("post", parent, data, target_combo, url);
+        var parent = $(this).parent();
+        var nilai = $(this).val();
+        var data = {
+            'id': nilai
+        };
+        var target_combo = $("#minggu");
+        var url = "ajax/get-minggu";
+        _ajax_("post", parent, data, target_combo, url);
     })
-    
-	$("#btnSearch").click(function(){
+
+    $("#btnSearch").click(function () {
         var text = $("#search_text").val();
 
         var parent = $(this).parent();
-        var data={'text':text,'kel':1};
+        var data = { 'text': text, 'kel': 1 };
         var url = modul_name + "/get-search";
         _ajax_("post", parent, data, '', url, 'show_result');
     })
 
-    $(".detail").click(function(){
+    $(".detail").click(function () {
         var text = $(this).data('barcode');
 
         var parent = $(this).parent();
-        var data={'text':text,'kel':2};
+        var data = { 'text': text, 'kel': 2 };
         var url = modul_name + "/get-search";
         _ajax_("post", parent, data, '', url, 'show_result');
     })
 
-    $(document).on("keyup","#nama", function(){
+    $(document).on("keyup", "#nama", function () {
         $('#detail_visitor').val($(this).val());
     })
 
-    $(document).on('click','.detail-peta', function() {
+    $(document).on('click', '.detail-peta', function () {
         var parent = $(this).parent().parent().parent();
         var owner = $("#owner").val();
-		var period = $("#period").val();
-		var type_ass = $("#type_ass").val();
-		var term = $("#term").val();
-		var minggu = $("#minggu").val();
-		var id = $(this).data('id');
-		var level = $(this).data('level');
-		var data={'id':id, 'level':level, 'period':period,'owner':owner,'type_ass':type_ass, 'term':term,'minggu':minggu};
-		var target_combo = '';
-		var url = "ajax/get-detail-map";
-		_ajax_("post", parent, data, target_combo, url, 'list_map');
+        var period = $("#period").val();
+        var type_ass = $("#type_ass").val();
+        var term = $("#term").val();
+        var minggu = $("#minggu").val();
+        var id = $(this).data('id');
+        var level = $(this).data('level');
+        var data = { 'id': id, 'level': level, 'period': period, 'owner': owner, 'type_ass': type_ass, 'term': term, 'minggu': minggu };
+        var target_combo = '';
+        var url = "ajax/get-detail-map";
+        _ajax_("post", parent, data, target_combo, url, 'list_map');
     })
 
-    $(document).on('click','.detail-rcsa', function() {
-		var parent = $(this).parent().parent().parent();
-		var id = $(this).data('id');
-		var dampak = $(this).data('dampak');
-
-		var data={'id':id, 'dampak_id':dampak};
-		var target_combo = '';
-		var url = "ajax/get-detail-rcsa";
-		_ajax_("post", parent, data, target_combo, url, 'list_mitigasi');
-    })
-
-    $(document).on('click','.detail-mitigasi', function() {
-		var parent = $(this).parent().parent().parent();
-		var id = $(this).data('id');
-		var data={'id':id};
-		var target_combo = '';
-		var url = "ajax/get-detail-mitigasi";
-		_ajax_("post", parent, data, target_combo, url, 'list_aktifitas_mitigasi');
-    })
-    $(document).on('click','.detail-progres-mitigasi', function() {
+    $(document).on('click', '.detail-rcsa', function () {
         var parent = $(this).parent().parent().parent();
-		var id = $(this).data('id');
-		var owner = $("#owner").val();
-		var period = $("#period").val();
-		var type_ass = $("#type_ass").val();
-		var data={'id':id,'period':period,'owner':owner,'type_ass':type_ass};
-		var target_combo = '';
-		var url = "ajax/get-detail-progres-mitigasi";
-		_ajax_("post", parent, data, target_combo, url, 'list_progres_aktifitas_mitigasi');
+        var id = $(this).data('id');
+        var dampak = $(this).data('dampak');
+
+        var data = { 'id': id, 'dampak_id': dampak };
+        var target_combo = $("#result_mitigasi_" + id + " td");
+        var url = "ajax/get-detail-rcsa";
+        $(".result_mitigasi").addClass('d-none');
+        $(".result_mitigasi td").html('');
+        $("#result_mitigasi_" + id).removeClass('d-none');
+        _ajax_("post", parent, data, target_combo, url);
     })
-    
-    $(document).on('click','#proses', function() {
+
+    $(document).on('click', '.detail-mitigasi', function () {
         var parent = $(this).parent().parent().parent();
-		var owner = $("#owner").val();
-		var period = $("#period").val();
-		var type_ass = $("#type_ass").val();
-		var term = $("#term").val();
-		var minggu = $("#minggu").val();
-		var data={'period':period,'owner':owner,'type_ass':type_ass, 'term':term,'minggu':minggu};
-		var url = modul_name+"/get-map";
-		_ajax_("post", parent, data, '', url,'result_map');
+        var id = $(this).data('id');
+        var data = { 'id': id };
+        var target_combo = '';
+        var url = "ajax/get-detail-mitigasi";
+        _ajax_("post", parent, data, target_combo, url, 'list_aktifitas_mitigasi');
+    })
+    $(document).on('click', '.detail-progres-mitigasi', function () {
+        var parent = $(this).parent().parent().parent();
+        var id = $(this).data('id');
+        var owner = $("#owner").val();
+        var period = $("#period").val();
+        var type_ass = $("#type_ass").val();
+        var data = { 'id': id, 'period': period, 'owner': owner, 'type_ass': type_ass };
+        var target_combo = '';
+        var url = "ajax/get-detail-progres-mitigasi";
+        _ajax_("post", parent, data, target_combo, url, 'list_progres_aktifitas_mitigasi');
+    })
+
+    $(document).on('click', '#proses', function () {
+        var parent = $(this).parent().parent().parent();
+        var owner = $("#owner").val();
+        var period = $("#period").val();
+        var type_ass = $("#type_ass").val();
+        var term = $("#term").val();
+        var minggu = $("#minggu").val();
+        var data = { 'period': period, 'owner': owner, 'type_ass': type_ass, 'term': term, 'minggu': minggu };
+        var url = modul_name + "/get-map";
+        _ajax_("post", parent, data, '', url, 'result_map');
     });
 });
 
-function list_map(hasil){
+function list_map(hasil) {
     // $('#result').html(hasil.combo);
     $("#modal_general").find(".modal-body").html(hasil.combo);
     $("#modal_general").modal("show");
 }
 
-function result_map(hasil){
+function result_map(hasil) {
     $("#maps").html(hasil.combo);
     $("#result_grap1").html(hasil.grap1);
     $("#result_grap2").html(hasil.data_grap1);
@@ -124,27 +128,27 @@ function result_map(hasil){
     $("#result_grap4").html(hasil.data_grap2);
 }
 
-function list_mitigasi(hasil){
+function list_mitigasi(hasil) {
     $('#result_mitigasi').html(hasil.combo);
 }
 
-function list_aktifitas_mitigasi(hasil){
+function list_aktifitas_mitigasi(hasil) {
     $('#result_aktifitas_mitigasi').html(hasil.combo);
 }
-function list_progres_aktifitas_mitigasi(hasil){
+function list_progres_aktifitas_mitigasi(hasil) {
     $('#result_progres_aktifitas_mitigasi').html(hasil.combo);
 }
 
-function show_result(hasil){
+function show_result(hasil) {
     $("#modal_general_title").find(".modal-body").html(hasil.combo);
     $("#modal_general_title").modal("show");
     var elems = Array.prototype.slice.call(document.querySelectorAll('.form-switchery-primary'));
-    elems.forEach(function(html) {
-    var switchery = new Switchery(html, { color: '#2196F3' });
+    elems.forEach(function (html) {
+        var switchery = new Switchery(html, { color: '#2196F3' });
     });
 }
 
-function jumlah_change(){
+function jumlah_change() {
     $('#jml').trigger('change');
 }
 
@@ -157,29 +161,29 @@ function eConsole(param) {
         var parent = $(this).parent().parent().parent();
 
         var owner = $("#owner").val();
-		var period = $("#period").val();
-		var type_ass = $("#type_ass").val();
-		var term = $("#term").val();
-		var minggu = $("#minggu").val();
-        var data={'period':period,'owner':owner,'type_ass':type_ass, 'term':term,'minggu':minggu, 'data':param.data};
-        
-        // var data={'id':id, 'data':param.data};
-        
-        var target_combo = '';
-        var url = modul_name+"/get-detail-char";
-        _ajax_("post", parent, data, target_combo, url, 'show_detail_char');
-     }
- }
+        var period = $("#period").val();
+        var type_ass = $("#type_ass").val();
+        var term = $("#term").val();
+        var minggu = $("#minggu").val();
+        var data = { 'period': period, 'owner': owner, 'type_ass': type_ass, 'term': term, 'minggu': minggu, 'data': param.data };
 
- function show_detail_char(hasil){
+        // var data={'id':id, 'data':param.data};
+
+        var target_combo = '';
+        var url = modul_name + "/get-detail-char";
+        _ajax_("post", parent, data, target_combo, url, 'show_detail_char');
+    }
+}
+
+function show_detail_char(hasil) {
     $("#modal_general").find(".modal-body").html(hasil.combo);
     $("#modal_general").modal("show");
- }
+}
 
-function grafik_pie(data, target){
+function grafik_pie(data, target) {
     var pie_basic_element = document.getElementById(target);
     var myChart = echarts.init(pie_basic_element);
-    
+
     // specify chart configuration item and data
     var option = {
 
@@ -243,13 +247,13 @@ function grafik_pie(data, target){
     // use configuration item and data specified to show chart
     myChart.setOption(option);
 
-    var triggerChartResize = function() {
+    var triggerChartResize = function () {
         pie_basic_element && myChart.resize();
     };
 
     // On window resize
     var resizeCharts;
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         clearTimeout(resizeCharts);
         resizeCharts = setTimeout(function () {
             triggerChartResize();

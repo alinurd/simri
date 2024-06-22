@@ -994,6 +994,7 @@ $(function() {
 function cek_isian_identifikasi(awal = false) {
     var hasil = true;
     pesan = 'data dibawah ini wajib diisi:\n';
+
     if (isNaN(parseFloat($('#aktifitas_id').val()))) {
         hasil = false;
         pesan += '- Aktifitas\n';
@@ -1001,25 +1002,45 @@ function cek_isian_identifikasi(awal = false) {
 
     if (isNaN(parseFloat($('#sasaran_id').val()))) {
         hasil = false;
-        pesan += '- Sasaran\n';
+        pesan += '- Sasaran Aktifitas\n';
     }
     if (isNaN(parseFloat($('#klasifikasi_risiko_id').val()))) {
         hasil = false;
-        pesan += '- Klasifikasi\n';
+        pesan += '- Klasifikasi Risiko\n';
     }
+
+    if ($('#tahapan').val() == '') {
+        hasil = false;
+        pesan += '- Tahapan Proses\n';
+    }
+
     if (isNaN(parseFloat($('#tipe_risiko_id').val()))) {
         hasil = false;
         pesan += '- Tipe Risiko\n';
     }
-    if (isNaN(parseFloat($('#penyebab_id').val()))) {
+
+    if ((($('#esg_risk').val())) == 0) {
+        hasil = false;
+        pesan += '- ESG Risk\n';
+    }
+    if ((($('#fraud_risk').val())) == 0) {
+        hasil = false;
+        pesan += '- Fraud Risk\n';
+    }
+    if ((($('#smap').val())) == 0) {
+        hasil = false;
+        pesan += '- SMAP\n';
+    }
+
+    if ($('#penyebab_id').val() == 0) {
         hasil = false;
         pesan += '- Penyebab Risiko\n';
     }
-    if (isNaN(parseFloat($('#peristiwa_id').val()))) {
+    if ($('#peristiwa_id').val() == 0) {
         pesan += '- Peristiwa Risiko\n';
         hasil = false;
     }
-    if (isNaN(parseFloat($('#dampak_id').val()))) {
+    if ($('#dampak_id').val() == 0) {
         hasil = false;
         pesan += '- Dampak Risiko\n';
     }

@@ -53,13 +53,13 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-$ip=(isset($_SERVER['REMOTE_ADDR']))?$_SERVER['REMOTE_ADDR']:'10.200.0.26';
+$ip=$_SERVER['REMOTE_ADDR'];
 define('IP', $ip);
 $mode = 'development';
 if ($ip=='10.200.0.26'){
    $mode = 'development';
 }
-$mode = 'development';
+// $mode = 'development';
 // var_dump($ip);
 
 ini_set('date.timezone', 'Asia/Jakarta');

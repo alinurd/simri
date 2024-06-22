@@ -4,9 +4,12 @@
         <table class="table table-borderless">
             <tr><td width="30%"><em><?=_l('fld_aktifitas');?></em></td><td><strong><?=$parent['aktifitas'];?></strong></td></tr>
             <tr><td><em><?=_l('fld_sasaran_aktifitas');?></em></td><td><strong><?=$parent['sasaran'];?></strong></td></tr>
-            <tr><td><em><?=_l('fld_tahapan_proses');?></em></td><td><strong><?=$parent['tahapan'];?></strong></td></tr>
+            <tr><td><em><?=_l('fld_tahapan_proses');?></em></td><td><strong><?=$parent['tahapan'];?></strong></td></tr> 
             <tr><td><em><?=_l('fld_klasifikasi_risiko');?></em></td><td><strong><?=$parent['klasifikasi_risiko'];?></strong></td></tr>
             <tr><td><em><?=_l('fld_tipe_risiko');?></em></td><td><strong><?=$parent['tipe_risiko'];?></strong></td></tr>
+            <tr><td><em><?=_l('Fraud Risk');?></em></td><td><strong><?=$parent['fraud_risk'] == 1 ? 'Ya' : 'Tidak';?></strong></td></tr>
+            <tr><td><em><?=_l('SMAP');?></em></td><td><strong><?=$parent['smap'] == 1 ? 'Ya' : 'Tidak';?></strong></td></tr>
+            <tr><td><em><?=_l('ESG Risk');?></em></td><td><strong><?=$parent['esg_risk'] == 1 ? 'Ya' : 'Tidak';?></strong></td></tr>
             <tr><td><em><?=_l('fld_penyebab_risiko');?></em></td><td><strong><?=$parent['penyebab_risiko'];?></strong></td>
             </tr>
             <tr><td><em><?=_l('fld_analisa_risiko');?></em></td><td><strong>

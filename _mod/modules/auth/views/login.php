@@ -4,7 +4,7 @@
   if (empty($message)){$hide='d-none';}
 ?>
 
-<?php echo form_open("auth/login", ['class' => 'login-form', 'id' => 'form_login']);?>
+<?php echo form_open("auth/login", ['class' => 'login-form', 'id' => 'form_login', 'autocomplete' => 'off']);?>
   <div class="card mb-0">
     <div class="card-body">
       <div class="text-center mb-3">
@@ -25,7 +25,7 @@
       </div>
 
       <div class="form-group form-group-feedback form-group-feedback-left">
-        <?php echo form_input($password);?>
+        <?php echo form_input($password, '', ['autocomplete'=>'off']);?>
         <div class="form-control-feedback">
           <i class="icon-lock2 text-muted"></i>
         </div>

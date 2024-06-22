@@ -516,7 +516,7 @@ class MY_Controller extends MX_Controller {
     function set_Tbl_Master($tbl, $db="", $prefix=true){
 		if (empty($db)){$db=$this->db->database;}
 
-		$tbl=str_replace($this->db->dbprefix,'', $tbl);
+		$tbl=str_replace($this->db->dbprefix ?? '','', $tbl);
 
 		if ($prefix){
 			$this->tbl_master=$this->db->dbprefix($tbl);
@@ -533,17 +533,17 @@ class MY_Controller extends MX_Controller {
     }
 
     function set_Tbl_Master_Child($tbl, $id){
-		$tbl=str_replace($this->db->dbprefix,'', $tbl);
+		$tbl=str_replace($this->db->dbprefix ?? '','', $tbl);
 		$this->tbl_master_child[]=['id'=>$id, 'tbl'=>$this->db->dbprefix($tbl)];
 	}
 
 	function set_Table($tbl){
-		$tblx=str_replace($this->db->dbprefix,'', $tbl);
+		$tblx=str_replace($this->db->dbprefix ?? '','', $tbl);
 		$tbl_x = 'tbl_' . $tblx;
 		$this->$tbl_x=$this->db->dbprefix($tblx);
 	}
 
-	function set_Field_Primary($tbl='', $field, $info=true){
+	function set_Field_Primary(string $tbl, $field, $info=true){
 		$this->tmp_data['primary']=array('tbl'=>$tbl, 'id'=>$field,'info'=>$info);
 	}
 
@@ -1916,8 +1916,8 @@ class MY_Controller extends MX_Controller {
 							$x=function ($fields, $tit, $isi){
 								if (array_key_exists($isi, $fields['values'])){
 									$isi = str_replace('&nbsp;','',$fields['values'][$isi]);
-									$isi = str_replace($this->lang->line('cbo_select_parent'),'',$isi);
-									$isi = str_replace($this->lang->line('cbo_select'),'',$isi);
+									$isi = str_replace($this->lang->line('cbo_select_parent') ?? '','',$isi);
+									$isi = str_replace($this->lang->line('cbo_select') ?? '','',$isi);
 								}
 								return $isi;
 							};
@@ -2074,8 +2074,8 @@ class MY_Controller extends MX_Controller {
 								$x=function ($fields, $tit, $isi){
 									if (array_key_exists($isi, $fields['values'])){
 										$isi = str_replace('&nbsp;','',$fields['values'][$isi]);
-										$isi = str_replace($this->lang->line('cbo_select_parent'),'',$isi);
-										$isi = str_replace($this->lang->line('cbo_select'),'',$isi);
+										$isi = str_replace($this->lang->line('cbo_select_parent') ?? '','',$isi);
+										$isi = str_replace($this->lang->line('cbo_select') ?? '','',$isi);
 									}
 									return $isi;
 									};
@@ -2137,8 +2137,8 @@ class MY_Controller extends MX_Controller {
 								$x=function ($fields, $tit, $isi){
 									if (array_key_exists($isi, $fields['values'])){
 										$isi = str_replace('&nbsp;','',$fields['values'][$isi]);
-										$isi = str_replace($this->lang->line('cbo_select_parent'),'',$isi);
-										$isi = str_replace($this->lang->line('cbo_select'),'',$isi);
+										$isi = str_replace($this->lang->line('cbo_select_parent') ?? '','',$isi);
+										$isi = str_replace($this->lang->line('cbo_select') ?? '','',$isi);
 									}
 									return $isi;
 									};
@@ -2236,7 +2236,7 @@ class MY_Controller extends MX_Controller {
 
 	function get_combo_parent_dept($filter=true){
 		$data=$this->get_parent_data_dept($filter);
-		$this->output_parent = array(0=>$this->lang->line('cbo_select_parent'));
+		$this->output_parent = array(''=>$this->lang->line('cbo_select_parent'));
 		foreach($data as $row){
 			$this->buildItem_parent_dept($row);
 		}

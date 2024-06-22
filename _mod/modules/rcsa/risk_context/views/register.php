@@ -55,6 +55,9 @@ if (isset($export)) {
                                 <th rowspan="2">Tahapan Proses</th>
                                 <th rowspan="2">Klasifikasi Risiko</th>
                                 <th rowspan="2">Tipe Risiko</th>
+                                <th rowspan="2">Fraud Risk</th>
+                                <th rowspan="2">SMAP</th>
+                                <th rowspan="2">ESG Risk</th>
                                 <th rowspan="2">Kode Risiko Departemen</th>
                                 <th rowspan="2">Risiko Departemen</th>
                                 <th rowspan="2">Penyebab Risiko</th>
@@ -185,7 +188,7 @@ if (isset($export)) {
                                             <td rowspan="<?= $jml; ?>" class="text-center pointer notes note-<?= $row['id']; ?>" data-id="<?= $row['id']; ?>" data-owner="<?= $poin_start['level_approval_id']; ?>" data-popup="popover" title="" data-html="true" data-trigger="hover" data-content="<?= $cat; ?>" data-original-title="Catatan :" data-placement="left"><i class="icon-notebook"></i></td>
                                         <?php endif ?>
                                     <?php endif ?>
-                                    <td rowspan="<?= $jml; ?>"><?= $row['lv_1_name']?></td>
+                                    <td rowspan="<?= $jml; ?>"><?= $row['lv_1_name'] ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['owner_name']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['sasaran_dept']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['kode_dept'] . '-' . $row['kode_aktifitas']; ?></td>
@@ -194,6 +197,9 @@ if (isset($export)) {
                                     <td rowspan="<?= $jml; ?>"><?= $row['tahapan']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['klasifikasi_risiko']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['tipe_risiko']; ?></td>
+                                    <td rowspan="<?= $jml; ?>"><?= $row['fraud_risk'] == 1 ? 'Ya' : 'Tidak'; ?></td>
+                                    <td rowspan="<?= $jml; ?>"><?= $row['smap'] == 1 ? 'Ya' : 'Tidak'; ?></td>
+                                    <td rowspan="<?= $jml; ?>"><?= $row['esg_risk'] == 1 ? 'Ya' : 'Tidak'; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['kode_dept'] . '-' . $row['kode_aktifitas'] . '-' . $urut; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['risiko_dept']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['penyebab_risiko']; ?></td>

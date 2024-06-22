@@ -24,6 +24,9 @@
                                 <th rowspan="2">Tahapan Proses</th>
                                 <th rowspan="2">Klasifikasi Risiko</th>
                                 <th rowspan="2">Tipe Risiko</th>
+                                <th rowspan="2">Fraud Risk</th>
+                                <th rowspan="2">SMAP</th>
+                                <th rowspan="2">ESG Risk</th>
                                 <th rowspan="2">Kode Risiko Departemen</th>
                                 <th rowspan="2">Risiko Departemen</th>
                                 <th rowspan="2">Penyebab Risiko</th>
@@ -125,6 +128,9 @@
                                 <td rowspan="<?=$jml;?>"><?=$row['tahapan'];?></td>
                                 <td rowspan="<?=$jml;?>"><?=$row['klasifikasi_risiko'];?></td>
                                 <td rowspan="<?=$jml;?>"><?=$row['tipe_risiko'];?></td>
+                                <td rowspan="<?=$jml;?>"><?=$row['fraud_risk'] == 1 ? 'Ya' : 'Tidak';?></td>
+                                <td rowspan="<?=$jml;?>"><?=$row['smap'] == 1 ? 'Ya' : 'Tidak';?></td>
+                                <td rowspan="<?=$jml;?>"><?=$row['esg_risk'] == 1 ? 'Ya' : 'Tidak';?></td>
                                 <td rowspan="<?=$jml;?>"><?=$row['kode_risiko_dept'].'-'.$urut.'-'.$urut;?></td>
                                 <td rowspan="<?=$jml;?>"><?=$row['risiko_dept'];?></td>
                                 <td rowspan="<?=$jml;?>"><?=$row['penyebab_risiko'];?></td>

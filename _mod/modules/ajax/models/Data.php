@@ -9,16 +9,19 @@ class Data extends MX_Model {
 	}
 	function get_data_map(){
 		// $data['rcsa'] = $this->db->where('id', $this->pos['id'])->get(_TBL_VIEW_RCSA)->row_array();
+		// $this->db->where('status_final', 1);
 		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_MITIGASI)->result_array();
 		$miti=[];
 		foreach($rows as $row){
 			$miti[$row['id']]=$row['jml'];
 		}
+		// $this->db->where('status_final', 1);
 		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)->result_array();
 		$aktifitas=[];
 		foreach($rows as $row){
 			$aktifitas[$row['id']]=$row['jml'];
 		}
+		// $this->db->where('status_final', 1);
 		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
 		$progres=[];
 		foreach($rows as $row){
@@ -37,6 +40,7 @@ class Data extends MX_Model {
 			$this->db->where('owner_id',$this->pos['id']);
 		}
 
+		$this->db->where('status_final', 1);
 		$rows=$this->db->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 		foreach($rows as &$row){
 			if (array_key_exists($row['id'], $miti)){
