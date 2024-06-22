@@ -1375,6 +1375,11 @@ function copy_data(hasil) {
 }
 
 
+function proses_copy(hasil) {
+    $("#modal_general").modal("hide");
+    location.reload();
+}
+
 function indikator_like(hasil) {
     $("#modal_general").find(".modal-title").html('Daftar Risk Indicator Likelihood');
     $("#modal_general").find(".modal-body").html(hasil.combo);
