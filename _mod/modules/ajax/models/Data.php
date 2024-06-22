@@ -410,7 +410,7 @@ class Data extends MX_Model {
 			$tgl2=$rows->param_date_after;
 		}
 		$rows= $this->db->select('*')->where('kelompok', 'minggu')->where('param_date>=', $tgl1)->where('param_date_after<=', $tgl2)->get(_TBL_COMBO)->result();
-		$option = '<option value="0">'._l('cbo_select').'</option>';
+		$option = '<option value="">'._l('cbo_select').'</option>';
 		foreach($rows as $row){
 			// $option .= '<option value="'.$row->id.'">'.$row->param_string.' Minggu ke - '.$row->data. '  ('.date('d-m-Y',strtotime($row->param_date)).' s.d '.date('d-m-Y',strtotime($row->param_date_after)).')</option>';
 			$option .= '<option value="'.$row->id.'">'.$row->param_string.' ('.date('d-m-Y',strtotime($row->param_date)).' s.d '.date('d-m-Y',strtotime($row->param_date_after)).')</option>';
