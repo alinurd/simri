@@ -1048,6 +1048,14 @@ function cek_isian_identifikasi(awal = false) {
         hasil = false;
         pesan += '- Risiko Departement\n';
     }
+    if ($('#like_text').val().length == 0) {
+        hasil = false;
+        pesan += '- Risk Indikator Likelihood\n';
+    }
+    if ($('#impact_text').val().length == 0) {
+        hasil = false;
+        pesan += '- Risk Indikator Dampak\n';
+    }
 
     if (!awal) {
 
@@ -1211,8 +1219,8 @@ function cek_isian_mitigasi() {
 function cek_isian_aktifitas_mitigasi() {
     var hasil = true;
     pesan = 'data dibawah ini wajib diisi:\n';
-    console.log($('#aktifitas_mitigasi').val());
-    console.log($('#aktifitas_mitigasi').val().length);
+    // console.log($('#aktifitas_mitigasi').val());
+    // console.log($('#aktifitas_mitigasi').val().length);
     if ($('#aktifitas_mitigasi').val().length == 0) {
         hasil = false;
         pesan += '- Mitigasi\n';
