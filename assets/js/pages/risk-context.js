@@ -779,6 +779,24 @@ $(function() {
     $(document).on('click', '#simpan_evaluasi', function() {
         var parent = $(this).parent().parent().parent();
         var data = $("#form_identifikasi").serialize();
+        var treatment = $("#treatment_id").val();
+        var efek_mitigasi = $("#efek_mitigasi").val();
+        var hasil = true;
+        pesan = 'data dibawah ini wajib diisi:\n';
+    
+        if(!treatment){
+            hasil = false;
+            pesan += '- Treatment\n';
+        }
+        if(efek_mitigasi==0){
+            hasil = false;
+            pesan += '- Efek Mitigasi\n';
+        }
+        
+        if(!hasil){
+            alert(pesan);
+            return hasil
+        }
         var target_combo = $("#parent_risk");
         var url = modul_name + "/simpan-evaluasi";
         _ajax_("post", parent, data, target_combo, url);
