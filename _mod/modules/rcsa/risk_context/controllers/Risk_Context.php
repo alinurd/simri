@@ -40,7 +40,7 @@ class Risk_Context extends MY_Controller
 		$this->addField(['field' => 'judul_ass', 'title' => 'Judul Assement',  'input' => 'text']);
 		$this->addField(['field' => 'sasaran_dept', 'input' => 'multitext', 'search' => true, 'size' => 500]);
 		$this->addField(['field' => 'ruang_lingkup', 'input' => 'multitext', 'search' => true, 'size' => 500]);
-		$this->addField(['field' => 'stakeholder_id', 'title' => 'Stakeholder', 'type' => 'string', 'input' => 'combo', 'search' => true, 'values' => $this->cboStack, 'multiselect' => true]);
+		$this->addField(['field' => 'stakeholder_id', 'title' => 'Stakeholder', 'type' => 'string', 'input' => 'combo', 'search' => false, 'values' => $this->cboStack, 'multiselect' => true]);
 		$this->addField(['field' => 'alat_metode_id', 'title' => 'Alat & Metode', 'type' => 'string', 'input' => 'combo', 'multiselect' => true, 'search' => false, 'values' => $this->alat]);
 		$this->addField(['field' => 'period_id', 'title' => 'Period', 'type' => 'int', 'required' => true, 'input' => 'combo', 'search' => true, 'values' => $this->period]);
 		$this->addField(['field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => true, 'input' => 'combo', 'search' => true, 'values' => []]);

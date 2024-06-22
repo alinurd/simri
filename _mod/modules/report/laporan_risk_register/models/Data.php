@@ -10,11 +10,12 @@ class Data extends MX_Model {
 	function get_data()
 	{
 
-        $rows = $this->db->get(_TBL_LOSS_EVENT)->result_array();
-		
-		// dumps($this->db->last_query());
-        $result['rows']=$rows;
-	return $result;
+		$rows=$this->db->get(_TBL_VIEW_RCSA)->result_array();
+		$result['parent']=$rows;
+
+
+
+ 	return $result;
 	}
 }
 /* End of file app_login_model.php */

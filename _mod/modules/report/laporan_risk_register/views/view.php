@@ -20,6 +20,11 @@
                          <?php echo form_dropdown('period', $period, _TAHUN_ID_, 'class="form-control select" style="width:100%;"  id="period"');?>
                     </div>
                 </div>
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <span class="btn btn-primary pointer pull-right" id="proses"> Proses </span>
+                    </div>
+                </div>
              <?=form_close();?>
             </div>
         </div>
