@@ -72,15 +72,19 @@ if (isset($export)) {
                 <table class="table table-borderless">
                     <tr>
                         <td width="20%">Nama Departemen</td>
-                        <td><strong><?= $parent['owner_name']; ?></strong></td>
-                    </tr>
+                        <td>: <strong><?php echo isset($parent['owner_name']) ? $parent['owner_name'] : "-"; ?></strong></td>
+                        <!-- <td><strong><?= $parent['owner_name']; ?></strong></td> -->
+
+                        </tr>
                     <tr>
                         <td><em>Sasaran Departmen</em></td>
-                        <td><strong><?= $parent['sasaran_dept']; ?></strong></td>
+                        <td>: <strong><?php echo isset($parent['sasaran_dept']) ? $parent['sasaran_dept'] : "-"; ?></strong></td>
+                        <!-- <td><strong><?= $parent['sasaran_dept']; ?></strong></td> -->
                     </tr>
                     <tr>
                         <td><em>Periode</em></td>
-                        <td><strong><?= $parent['period_name']; ?></strong></td>
+                        <td>: <strong><?php echo isset($parent['period_name']) ? $parent['period_name'] : "-"; ?></strong></td>
+                        <!-- <td><strong><?= $parent['period_name']; ?></strong></td> -->
                     </tr>
                 </table>
                 <div class="table-responsive table-responsivey">
