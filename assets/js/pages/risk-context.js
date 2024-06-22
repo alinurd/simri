@@ -1263,6 +1263,10 @@ function cek_isian_aktifitas_mitigasi() {
         hasil = false;
         pesan += '- Batas Waktu\n';
     }
+    if(!hasil){
+        alert(pesan);
+        return hasil
+    }
     return hasil;
 }
 
