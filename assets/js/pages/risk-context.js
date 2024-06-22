@@ -1048,28 +1048,43 @@ function cek_isian_identifikasi(awal = false) {
         hasil = false;
         pesan += '- Risiko Departement\n';
     }
-    if ($('#like_text').val().length == 0) {
-        hasil = false;
-        pesan += '- Risk Indikator Likelihood\n';
-    }
-    if ($('#impact_text').val().length == 0) {
-        hasil = false;
-        pesan += '- Risk Indikator Dampak\n';
-    }
+    
 
     if (!awal) {
-
+       
         var tipe = $('input[name=\"tipe_analisa_no\"]:checked').val();
         if (tipe == 1) {
+            if ($('#like_text').val().length == 0 || $('#like_text').val() == 0) {
+                hasil = false;
+                pesan += '- Risk Indikator Likelihood\n';
+            }
+            if ($('#impact_text').val().length == 0||$('#impact_text').val() == 0) {
+                hasil = false;
+                pesan += '- Risk Indikator Dampak\n';
+            }
+            
             if (isNaN(parseFloat($('#like_id').val()))) {
                 hasil = false;
                 pesan += '- Likelihood Inheren\n';
             }
+           
             if (isNaN(parseFloat($('#impact_id').val()))) {
                 hasil = false;
                 pesan += '- Dampak Inheren\n';
             }
-        } else if (tipe == 2) {
+        } else if (tipe == 2) { 
+
+if (isNaN(parseFloat($('input[name=\"indikator_like_cek\"]').val()))) {
+    hasil = false;
+    pesan += '- Input Risk Indikator Likelihood\n';
+}
+if (isNaN(parseFloat($('input[name=\"indikator_dampak_cek\"]').val()))) {
+    hasil = false;
+    pesan += '- Input Risk Indikator Dampak\n';
+}
+
+           
+            
             if (isNaN(parseFloat($('input[name=\"like_id_2\"]').val()))) {
                 hasil = false;
                 pesan += '- Likelihood Inheren\n';
@@ -1359,11 +1374,6 @@ function copy_data(hasil) {
     $("#modal_general").modal("show");
 }
 
-
-function proses_copy(hasil) {
-    $("#modal_general").modal("hide");
-    location.reload();
-}
 
 function indikator_like(hasil) {
     $("#modal_general").find(".modal-title").html('Daftar Risk Indicator Likelihood');
