@@ -740,29 +740,40 @@ class Risk_Context extends MY_Controller
 
 		$l_events = 'auto';
 		$i_events = 'auto';
-		// doi::dump($data['efek_kontrol']);
+		// doi::dump("efek_kontrol: ".$data['efek_kontrol']);
+		// doi::dump("impact_residual: ". $data['impact_residual']);
+		// doi::dump("like_id: ". $data['like_id']);
+		// doi::dump("efek_kontrol: ". $data['efek_kontrol']);
 		if ($data['efek_kontrol'] == 1) {
-			$l = form_dropdown('like_residual_id', $like, ($data) ? $data['like_residual_id'] : $data['like_id'], 'id="like_residual_id" class="form-control select" style="width:100%;"');
-			$i = form_input('impact_residual', ($data) ? $data['impact_residual'] : $data['impact_id'], 'id="impact_residual" class="form-control" readonly="readonly" style="width:100%;"') . form_input(['type' => 'hidden', 'name' => 'impact_residual_id', 'id' => 'impact_residual_id', 'value' => ($data) ? $data['impact_residual_id'] : 0]);
-			// $l3=form_dropdown('like_residual_id_3', $like, ($data)?$data['like_residual_id']:'', 'id="like_residual_id_3" class="form-control select" style="width:100%;"');
-			// $i3=form_input('impact_residual_3', ($data)?$data['impact_residual']:'', 'id="impact_residual_3" class="form-control" readonly="readonly" style="width:100%;"').form_input(['type'=>'hidden','name'=>'impact_residual_id_3','id'=>'impact_residual_id_3','value'=>($data)?$data['impact_residual_id']:0]);
-			$l_events = 'none';
+			$l = form_dropdown('like_residual_id', $like, ($data['like_residual_id']>0) ? $data['like_residual_id'] : $data['like_id'], 'id="like_residual_id" class="form-control select" style="width:100%;"');
+			$i = form_dropdown('impact_residual_id', $impact, ($data['impact_residual_id']>0) ? $data['impact_residual_id'] : $data['impact_id'], 'id="impact_residual_id" disabled readonly="readonly" class="form-control select"  style="width:100%;"').
+
+			// $i = form_input('impact_residual', ($data['impact_residual']>0) ? $data['impact_residual'] : $data['impact_id'], 'id="impact_residual" class="form-control" readonly="readonly" style="width:100%;"') .
+			 form_input(['type' => 'hidden', 'name' => 'impact_residual_id', 'id' => 'impact_residual_id', 'value' => ($data['impact_residual_id'] !=0) ? $data['impact_residual_id']  : $data['impact_id']]);
+ 
+			 $l_events = 'none';
 		} elseif ($data['efek_kontrol'] == 2) {
-			$l = form_input('like_residual', ($data) ? $data['like_residual'] : '', 'id="like_residual" class="form-control" readonly="readonly" style="width:100%;"') . form_input(['type' => 'hidden', 'name' => 'like_residual_id', 'id' => 'like_residual_id', 'value' => ($data) ? $data['like_residual_id'] : 0]);
-			$i = form_dropdown('impact_residual_id', $impact, ($data) ? $data['impact_residual_id'] : '', 'id="impact_residual_id" class="form-control select" style="width:100%;"');
+			$l = form_dropdown('like_residual_id', $like, ($data['like_residual_id']>0) ? $data['like_residual_id'] : $data['like_id'], 'id="like_residual_id" readonly="readonly" disabled class="form-control select" style="width:100%;"').
+
+			// $l = form_input('like_residual', ($data['like_residual']>0) ? $data['like_residual'] : $data['like_id'], 'id="like_residual" class="form-control" readonly="readonly" style="width:100%;"') . 
+			form_input(['type' => 'hidden', 'name' => 'like_residual_id', 'id' => 'like_residual_id', 'value' => ($data) ? $data['like_residual_id'] : $data['like_id']]);
+			$i = form_dropdown('impact_residual_id', $impact, ($data['impact_residual_id']>0) ? $data['impact_residual_id'] : $data['impact_id'], 'id="impact_residual_id" class="form-control select" style="width:100%;"');
 			// $l3=form_input('like_residual_3', ($data)?$data['like_residual']:'', 'id="like_residual_3" class="form-control" readonly="readonly" style="width:100%;"').form_input(['type'=>'hidden','name'=>'like_residual_id_3','id'=>'like_residual_id_3','value'=>($data)?$data['like_residual_id']:0]);
 			// $i3=form_dropdown('impact_residual_id_3', $impact, ($data)?$data['impact_residual_id']:'', 'id="impact_residual_id_3" class="form-control select" style="width:100%;"');
 			$i_events = 'none';
 		} elseif ($data['efek_kontrol'] == 4) {
-			$l = form_input('like_residual', ($data) ? $data['like_residual'] :  $data['like_id'], 'id="like_residual" class="form-control" readonly="readonly" style="width:100%;"') . form_input(['type' => 'hidden', 'name' => 'like_residual_id', 'id' => 'like_residual_id', 'value' => ($data) ? $data['like_residual_id'] : 0]);
-			$i = form_input('impact_residual', ($data) ? $data['impact_residual'] :  $data['impact_id'], 'id="impact_residual" class="form-control" readonly="readonly" style="width:100%;"') . form_input(['type' => 'hidden', 'name' => 'impact_residual_id', 'id' => 'impact_residual_id', 'value' => ($data) ? $data['impact_residual_id'] : 0]);
+			$l = form_input('like_residual', ($data['like_residual']!=0) ? $data['like_residual'] :  $data['like_id'], 'id="like_residual" class="form-control" readonly="readonly" style="width:100%;"') .
+			 form_input(['type' => 'hidden', 'name' => 'like_residual_id', 'id' => 'like_residual_id', 'value' => ($data) ? $data['like_residual_id'] : $data['like_id']]);
+			$i = form_input('impact_residual', ($data['impact_residual'] !=0) ? $data['impact_residual'] :  $data['impact_id'], 'id="impact_residual" class="form-control" readonly="readonly" style="width:100%;"') .
+			 form_input(['type' => 'hidden', 'name' => 'impact_residual_id', 'id' => 'impact_residual_id', 'value' => ($data) ? $data['impact_residual_id'] : $data['impact_id']]);
 			// $l3=form_dropdown('like_residual_id_3', $like, ($data)?$data['like_residual_id']:'', 'id="like_residual_id_3" class="form-control select" style="width:100%;"');
 			// $i3=form_dropdown('impact_residual_id_3', $impact, ($data)?$data['impact_residual_id']:'', 'id="impact_residual_id_3" class="form-control select" style="width:100%;"');
 			$l_events = 'none';
 		} else {
-			$l = form_dropdown('like_residual_id', $like, ($data) ? $data['like_residual_id'] : '', 'id="like_residual_id" class="form-control select" style="width:100%;"');
-			$i = form_dropdown('impact_residual_id', $impact, ($data) ? $data['impact_residual_id'] : '', 'id="impact_residual_id" class="form-control select" style="width:100%;"');
-			// $l3=form_dropdown('like_residual_id_3', $like, ($data)?$data['like_residual_id']:'', 'id="like_residual_id_3" class="form-control select" style="width:100%;"');
+			$l = form_dropdown('like_residual_id', $like, ($data['like_residual_id']>0) ? $data['like_residual_id'] : $data['like_id'], 'id="like_residual_id" class="form-control select" style="width:100%;"');
+
+			$i = form_input('impact_residual', ($$data['impact_residual']>0) ? $data['impact_residual'] : $data['impact_id'], 'id="impact_residual" class="form-control" readonly="readonly" style="width:100%;"') ;
+						// $l3=form_dropdown('like_residual_id_3', $like, ($data)?$data['like_residual_id']:'', 'id="like_residual_id_3" class="form-control select" style="width:100%;"');
 			// $i3=form_dropdown('impact_residual_id_3', $impact, ($data)?$data['impact_residual_id']:'', 'id="impact_residual_id_3" class="form-control select" style="width:100%;"');
 		}
 
