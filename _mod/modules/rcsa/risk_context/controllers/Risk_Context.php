@@ -618,20 +618,22 @@ class Risk_Context extends MY_Controller
 		$param['analisa_kualitatif'][] = ['title' => _l('fld_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => true, 'isi' => form_dropdown('like_id', $like, ($data) ? $data['like_id'] : '', 'id="like_id" class="form-control select" style="width:100%;"')];
 		$param['analisa_kualitatif'][] = ['title' => _l('fld_indi_dampak'), 'help' => _h('help_impact'), 'mandatori' => true, 'isi' => form_input('impact_text', ($data) ? $data['impact_text'] : '', 'id="impact_text" class="form-control" style="width:100%;"')];
 		$param['analisa_kualitatif'][] = ['title' => _l('fld_impact'), 'help' => _h('help_impact'), 'mandatori' => true, 'isi' => form_dropdown('impact_id', $impact, ($data) ? $data['impact_id'] : '', 'id="impact_id" class="form-control select" style="width:100%;"')];
-
+		
 
 		// dumps($parent);
-		$param['analisa_kuantitatif'][] = ['title' => '', 'help' => '', 'isi' => '<span class="btn btn-primary legitRipple pointer" data-rcsa="' . $parent['id'] . '" data-id="' . $id_edit . '" id="indikator_like" data-jml_like_indi"'.$jml_like_indi.'" style="width:100%;"> Input Risk Indikator Likelihood [ ' . $jml_like_indi . ' ] </span>'.
+		$param['analisa_kuantitatif'][] = ['title' => '', 'help' => '', 'isi' => '<div style="display: flex; justify-content: space-between;">
+		<span class="btn btn-primary legitRipple pointer" data-rcsa="' . $parent['id'] . '" data-id="' . $id_edit . '" id="indikator_like" data-jml_like_indi"'.$jml_like_indi.'" style="width:100%;"> Input Risk Indikator Likelihood [ ' . $jml_like_indi . ' ] </span>
+		 <span class="icon-database-refresh pointer" id="refreshRisk" title="Click untuk refresh data" style="width: 5%;"></span></div> '.
 		form_hidden(['indikator_like_cek' => ($jml_like_indi) ? $jml_like_indi : ''], 'id="indikator_like_cek"')];
 
-		$param['analisa_kuantitatif'][] = ['title' => '', 'help' => '', 'isi' => '<span class="btn btn-primary legitRipple pointer"  data-rcsa="' . $parent['id'] . '" data-id="' . $id_edit . '" id="indikator_dampak" style="width:100%;"> Input Risk Indikator Dampak  [ ' . $jml_dampak_indi . ' ] </span>'];
+		$param['analisa_kuantitatif'][] = ['title' => '', 'help' => '', 'isi' => '<div style="display: flex; justify-content: space-between;">
+		<span class="btn btn-primary legitRipple pointer"  data-rcsa="' . $parent['id'] . '" data-id="' . $id_edit . '" id="indikator_dampak" style="width:100%;"> Input Risk Indikator Dampak  [ ' . $jml_dampak_indi . ' ] </span>		 
+		<span class="icon-database-refresh pointer" id="refreshRisk" title="Click untuk refresh data" style="width: 5%;">
+		</span></div> '];
 
 		$param['analisa_kuantitatif'][] = ['title' => _l('fld_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => true, 'isi' => form_input('like_text_kuantitatif', ($data) ? $data['like_inherent'] : '', 'id="like_text_kuantitatif" class="form-control" style="width:100%;" readonly="readonly"') . form_hidden(['like_id_2' => ($data) ? $data['like_id'] : ''])];
 
 		$param['analisa_kuantitatif'][] = ['title' => _l('fld_impact'), 'help' => _h('help_impact'), 'mandatori' => true, 'isi' => form_input('impact_text_kuantitatif', ($data) ? $data['impact_inherent'] : '', 'id="impact_text_kuantitatif" class="form-control" style="width:100%;" readonly="readonly"') . form_hidden(['impact_id_2' => ($data) ? $data['impact_id'] : ''])];
-
-
-
 
 
 
