@@ -77,57 +77,103 @@
                         <tbody>
                             <?php
                             $no = 1;
-                             foreach ($data['parent'] as $p) :
+                             foreach ($data['parent'] as $row) :
+                                $id = $row['id'];
+                                $jml = 1;
+                                $mitigasi[$id]=$this->db->where('rcsa_id', $id)->get(_TBL_VIEW_RCSA_MITIGASI)->result_array();
                                 
+                                $rows=$this->db->where('rcsa_id', $id)->order_by('kode_dept')->order_by('kode_aktifitas')->get(_TBL_VIEW_REGISTER)->result_array();
+                                $rows=$this->db->where('rcsa_id', $id)->get(_TBL_VIEW_RCSA_DET_LIKE_INDI)->result_array();
+		$like=[];
+		foreach($rows as $row){
+			$like[$row['rcsa_detail_id']][$row['bk_tipe']][]=$row;
+		}
+		$hasil['like_indi']=$like;
+		$rows=$this->db->where('rcsa_id', $id)->get(_TBL_VIEW_RCSA_DET_DAMPAK_INDI)->result_array();
+		$dampak=[];
+		foreach($rows as $row){
+			$dampak[$row['rcsa_detail_id']][$row['bk_tipe']][]=$row;
+		}
+		$hasil['dampak_indi']=$dampak;
+        $rows=$this->db->where('rcsa_id', $id)->order_by('kode_dept')->order_by('kode_aktifitas')->get(_TBL_VIEW_REGISTER)->result_array();
+		foreach($rows as &$row){
+			$idx=explode(',', $row['peristiwa_id']);
+			$libs=$this->db->where_in('id', $idx)->get(_TBL_LIBRARY)->result_array();
+			$x=[];
+			foreach($libs as $lib){
+				$x[]=$lib['library'];
+			}
+			$row['peristiwa']=implode('###',$x);
+
+			$idx=explode(',', $row['dampak_id']);
+			$libs=$this->db->where_in('id', $idx)->get(_TBL_LIBRARY)->result_array();
+			$x=[];
+			foreach($libs as $lib){
+				$x[]=$lib['library'];
+			}
+			$row['dampak']=implode('###',$x);
+			if(!empty($row['nama_kontrol_note']) && !empty($row['nama_kontrol'])){
+				$row['nama_kontrol'].='###'.$row['nama_kontrol_note'];
+			}else{
+				$row['nama_kontrol'].=$row['nama_kontrol_note'];
+			}
+		}
+		unset($row);
+		$hasil['rows']=$rows;
+
+        
+                                if (array_key_exists($id, $mitigasi)) {
+                                    $jml = count($mitigasi[$id]);
+                                }
+                                $like1 = [];
+                                $like2 = [];
+                                $like3 = [];
                                 ?>
                                 <tr> 
-                                   <td rowspan="2"><?=$no++?></td>
-                                <td rowspan="2">Direktorat</td>
-                                <td rowspan="2"><?=$p['owner_name']?></td>
-                                <td rowspan="2"><?=$p['sasaran_dept']?></td>
-                                 <td rowspan="2">Kode Aktivitas</td>
-                                <td rowspan="2">Aktivitas</td>
-                                <td rowspan="2">Sasaran Aktivitas</td>
-                                <td rowspan="2">Tahapan Proses</td>
-                                <td rowspan="2">Klasifikasi Risiko</td>
-                                <td rowspan="2">Tipe Risiko</td>
-                                <td rowspan="2">Fraud Risk</td>
-                                <td rowspan="2">SMAP</td>
-                                <td rowspan="2">ESG Risk</td>
-                                <td rowspan="2">Kode Risiko Departemen</td>
-                                <td rowspan="2">Risiko Departemen</td>
-                                <td rowspan="2">Penyebab Risiko</td>
-                                <td rowspan="2">Peristiwa Risiko</td>
-                                <td rowspan="2">Dampak Risiko</td>
-                                <td colspan="6" class="text-center" style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Risiko Inheren</td>
-                                <td rowspan="2" style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Jenis/Nama Kontrol</td>
-                                <td rowspan="2" style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Efek L/D Kontrol</td>
-                                <td colspan="4" class="text-center" style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Risiko Current</td>
-                                <td rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Respon Risiko</td>
-                                <td rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;color:#ffffff;">Efek L/D Mitigasi</td>
-                                <td colspan="4" class="text-center" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Risiko Residual</td>
-                                <td rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Mitigasi</td>
-                                <td rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Kordinator</td>
-                                <td rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">PIC</td>
-                                <td rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Due Date</td>
-                                <td rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Aktifitas & Progres Mitigasi</td>
+                                   <td  rowspan="<?= $jml; ?>" ><?=$no++?></td>
+                                <td  rowspan="<?= $jml; ?>" >Direktorat</td>
+                                <td  rowspan="<?= $jml; ?>" ><?=$row['owner_name']?></td>
+                                <td  rowspan="<?= $jml; ?>" ><?=$row['sasaran_dept']?></td>
+                                 <td  rowspan="<?= $jml; ?>" >Kode Aktivitas</td>
+                                <td  rowspan="<?= $jml; ?>" >Aktivitas</td>
+                                <td  rowspan="<?= $jml; ?>" >Sasaran Aktivitas</td>
+                                <td  rowspan="<?= $jml; ?>" >Tahapan Proses</td>
+                                <td  rowspan="<?= $jml; ?>" >Klasifikasi Risiko</td>
+                                <td  rowspan="<?= $jml; ?>" >Tipe Risiko</td>
+                                <td  rowspan="<?= $jml; ?>" >Fraud Risk</td>
+                                <td  rowspan="<?= $jml; ?>" >SMAP</td>
+                                <td  rowspan="<?= $jml; ?>" >ESG Risk</td>
+                                <td  rowspan="<?= $jml; ?>" >Kode Risiko Departemen</td>
+                                <td  rowspan="<?= $jml; ?>" >Risiko Departemen</td>
+                                <td  rowspan="<?= $jml; ?>" >Penyebab Risiko</td>
+                                <td  rowspan="<?= $jml; ?>" >Peristiwa Risiko</td>
+                                <td  rowspan="<?= $jml; ?>" >Dampak Risiko</td>
+                                 <td  rowspan="<?= $jml; ?>"  style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Jenis/Nama Kontrol</td>
+                                <td  rowspan="<?= $jml; ?>"  style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Efek L/D Kontrol</td>
+                                 <td  rowspan="<?= $jml; ?>"  style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Respon Risiko</td>
+                                <td  rowspan="<?= $jml; ?>"  style="background:<?= $this->_preference_['warna_target']; ?> !important;color:#ffffff;">Efek L/D Mitigasi</td>
+                                 <td  rowspan="<?= $jml; ?>"  style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Mitigasi</td>
+                                <td  rowspan="<?= $jml; ?>"  style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Kordinator</td>
+                                <td  rowspan="<?= $jml; ?>"  style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">PIC</td>
+                                <td  rowspan="<?= $jml; ?>"  style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Due Date</td>
+                                <td  rowspan="<?= $jml; ?>"  style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Aktifitas & Progres Mitigasi</td>
                             
-                                <td style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Risk Indikator Likelihood</td>
-                                <td style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Risk Indikator Dampak</td>
-                                <td style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Likelihood Inheren</td>
-                                <td style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Inheren Impact</td>
-                                <td style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Inheren Risk</td>
-                                <td style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Risk Level Inheren</td>
+                                <td  rowspan="<?= $jml; ?>" style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Risk Indikator Likelihood</td>
+                                <td  rowspan="<?= $jml; ?>" style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Risk Indikator Dampak</td>
+                                <td  rowspan="<?= $jml; ?>" style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Likelihood Inheren</td>
+                                <td  rowspan="<?= $jml; ?>" style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Inheren Impact</td>
+                                <td  rowspan="<?= $jml; ?>" style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Inheren Risk</td>
+                                <td  rowspan="<?= $jml; ?>" style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Risk Level Inheren</td>
 
-                                <td style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Likelihood Current</td>
-                                <td style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Current Impact</td>
-                                <td style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Current Risk</td>
-                                <td style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Current Risk Level</td>
+                                <td  rowspan="<?= $jml; ?>" style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Likelihood Current</td>
+                                <td  rowspan="<?= $jml; ?>" style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Current Impact</td>
+                                <td  rowspan="<?= $jml; ?>" style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Current Risk</td>
+                                <td  rowspan="<?= $jml; ?>" style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Current Risk Level</td>
 
-                                <td style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Likelihood Residual</td>
-                                <td style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Residual Impact</td>
-                                <td style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Residual Risk</td>
-                                <td style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Residual Risk Level</td>
+                                <td  rowspan="<?= $jml; ?>" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Likelihood Residual</td>
+                                <td  rowspan="<?= $jml; ?>" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Residual Impact</td>
+                                <td  rowspan="<?= $jml; ?>" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Residual Risk</td>
+                                <td  rowspan="<?= $jml; ?>" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Residual Risk Level</td>
                             </tr>
                             <?php endforeach;
                             ?>
