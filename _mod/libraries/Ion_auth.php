@@ -146,27 +146,27 @@ class Ion_auth
 					 ->users()->row();
 		if ($user)
 		{ 
-			// Generate code
-			
 			$code = $this->ion_auth_model->forgotten_password($identity);
-			if ($code)
+ 			if ($code)
 			{
 				$data = [
 					'identity' => $identity,
 					'forgotten_password_code' => $code
 				];
-				// Send email
+ 				// Send email
+				$parts = explode('.', $code);
 
+ 				$url = base_url('auth/reset-password/'.$parts[0]);
 				$dat['email'] = [$user->email];
 				$dat['subject'] = 'Forgot password';
-				$dat['content'] = $data;
+				$dat['content'] = $url;
 			
 				$sen=Doi::kirim_email($dat);
 				// doi::dump($sen);die;
 				if($sen=="success"){
 					$this->set_message('forgot_password_successful');
 				}
-				return $data;
+				return true;
 			}
 		}
 
@@ -185,8 +185,7 @@ class Ion_auth
 	public function forgotten_password_check($code)
 	{
 		$user = $this->ion_auth_model->get_user_by_forgotten_password_code($code);
-
-		if (!is_object($user))
+ 		if (!is_object($user))
 		{
 			$this->set_error('password_change_unsuccessful');
 			return FALSE;

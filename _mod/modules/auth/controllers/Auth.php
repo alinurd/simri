@@ -23,7 +23,8 @@ class Auth extends MY_Controller
 	 */
 	public function index()
 	{
-
+		$idx = intval($this->uri->segment(3));
+doi::dump($idx);die;
 		if (!$this->ion_auth->logged_in()) {
 			// redirect them to the login page
 			redirect('login', 'refresh');
@@ -276,17 +277,27 @@ class Auth extends MY_Controller
 	 *
 	 * @param string|null $code The reset code
 	 */
+	public function reset_passwordx($code = NULL)
+	{
+		if (!$code) {
+			show_404();
+		}else{
+			redirect("reset_password", 'refresh'); //we should display a confirmation page here instead of the login page
+
+		}
+	}
+	
 	public function reset_password($code = NULL)
 	{
+ 
 		if (!$code) {
 			show_404();
 		}
 
 		$this->datas['title'] = $this->lang->line('reset_password_heading');
-
-		$user = $this->ion_auth->forgotten_password_check($code);
-
-		if ($user) {
+		$user = $this->ion_auth_model->get_user_by_forgotten_password_code($code);
+ 		// $user = $this->ion_auth->forgotten_password_check($code);
+ 		if ($user) {
 			// if the code is valid then display the password reset form
 
 			$this->form_validation->set_rules('new', $this->lang->line('reset_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[new_confirm]');
@@ -315,7 +326,89 @@ class Auth extends MY_Controller
 					'name' => 'user_id',
 					'id' => 'user_id',
 					'type' => 'hidden',
-					'value' => $user->id,
+					'value' => $user['id'],
+					'real_name' => $user['real_name'],
+				];
+				$this->datas['csrf'] = $this->_get_csrf_nonce();
+				$this->datas['code'] = $code;
+
+				// render
+				$this->_render_page('reset_password', $this->datas);
+			} else {
+				$identity = $user->{$this->config->item('identity', 'ion_auth')};
+
+				// do we have a valid request?
+				if ($this->_valid_csrf_nonce() === FALSE || $user->id != $this->input->post('user_id')) {
+
+					// something fishy might be up
+					$this->ion_auth->clear_forgotten_password_code($identity);
+
+					show_error($this->lang->line('error_csrf'));
+				} else {
+					
+					// finally change the password
+					$change = $this->ion_auth->reset_password($identity, $this->input->post('new'));
+					
+					if ($change) {
+						die("masuk");
+						// if the password was successfully changed
+						$this->session->set_flashdata('message', $this->ion_auth->messages());
+						redirect("login", 'refresh');
+					} else {
+						$this->session->set_flashdata('message', $this->ion_auth->errors());
+						redirect('reset_password/' . $code, 'refresh');
+					}
+				}
+			}
+		} else {
+			// if the code is invalid then send them back to the forgot password page
+			$this->session->set_flashdata('message', $this->ion_auth->errors());
+			redirect("forgot-password", 'refresh');
+		}
+	}
+
+	public function reset_password_prosess($code = NULL)
+	{
+		die("masuk");
+ 
+		if (!$code) {
+			show_404();
+		}
+
+		$this->datas['title'] = $this->lang->line('reset_password_heading');
+		$user = $this->ion_auth_model->get_user_by_forgotten_password_code($code);
+ 		// $user = $this->ion_auth->forgotten_password_check($code);
+ 		if ($user) {
+			// if the code is valid then display the password reset form
+
+			$this->form_validation->set_rules('new', $this->lang->line('reset_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[new_confirm]');
+			$this->form_validation->set_rules('new_confirm', $this->lang->line('reset_password_validation_new_password_confirm_label'), 'required');
+
+			if ($this->form_validation->run() === FALSE) {
+				// display the form
+
+				// set the flash data error message if there is one
+				$this->datas['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
+				$this->datas['min_password_length'] = $this->config->item('min_password_length', 'ion_auth');
+				$this->datas['new_password'] = [
+					'name' => 'new',
+					'id' => 'new',
+					'type' => 'password',
+					'pattern' => '^.{' . $this->datas['min_password_length'] . '}.*$',
+				];
+				$this->datas['new_password_confirm'] = [
+					'name' => 'new_confirm',
+					'id' => 'new_confirm',
+					'type' => 'password',
+					'pattern' => '^.{' . $this->datas['min_password_length'] . '}.*$',
+				];
+				$this->datas['user_id'] = [
+					'name' => 'user_id',
+					'id' => 'user_id',
+					'type' => 'hidden',
+					'value' => $user['id'],
+					'real_name' => $user['real_name'],
 				];
 				$this->datas['csrf'] = $this->_get_csrf_nonce();
 				$this->datas['code'] = $code;

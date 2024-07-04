@@ -149,8 +149,7 @@ class Doi
 		$subject = $data['subject'];
 		// SMTP configuration
 		$mail->isSMTP();
-		doi::dump($p);
-		$mail->Host     = $p['email_smtp_host']; //sesuaikan sesuai nama domain hosting/server yang digunakan
+ 		$mail->Host     = $p['email_smtp_host']; //sesuaikan sesuai nama domain hosting/server yang digunakan
 		
 		$mail->SMTPAuth = true;
 		$mail->Username = $p['email_smtp_user']; // user email
@@ -193,6 +192,7 @@ class Doi
 		// Set email format to HTML
 		$mail->isHTML(true);
 		$message = $data['content'];
+		doi::dump($message);
 		// Email body content
 		$mailContent = $message; // isi email
 		$mail->Body = $mailContent;
