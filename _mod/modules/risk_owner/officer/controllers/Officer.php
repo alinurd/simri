@@ -130,11 +130,21 @@ class Officer extends MY_Controller {
 			$this->logdata->set_error("Email - ".$data['email'].' - sudah digunakan');
 			++$no;
 		}
-
+		$errors = [];
 		if($data['password'] !== $data['passwordc']){
 			$this->logdata->set_error("Password tidak sama");
 			++$no;
+		}else{
+			checkPassword($data['password'], $errors);
 		}
+		if (count($errors) > 0) {
+            foreach ($errors as $err) {
+                 $this->logdata->set_error($err);
+                ++$no;
+            }
+        }
+
+
 		
 		if ($mode=='add'){
 			if(empty($data['password']) || empty($data['username'])){
