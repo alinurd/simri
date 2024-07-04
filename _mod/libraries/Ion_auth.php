@@ -166,7 +166,7 @@ class Ion_auth
 				if($sen=="success"){
 					$this->set_message('forgot_password_successful');
 				}
-				return true;
+				return $parts[0];
 			}
 		}
 

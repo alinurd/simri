@@ -245,12 +245,11 @@ class Auth extends MY_Controller
 
 			// run the forgotten password method to email an activation code to the user
 			$forgotten = $this->ion_auth->forgotten_password($identity->{$this->config->item('identity_email', 'ion_auth')});
-
-			if ($forgotten) {
+ 			if ($forgotten) {
 				$params = [
 					'[[RealName]]' => $identity->real_name,
 					'[[UserName]]' => $identity->username,
-					'[[Link]]' => '<a href="' . base_url('new-password/' . $forgotten['forgotten_password_code']) . '">' . base_url('new-password/' . $forgotten['forgotten_password_code']) . '</a>'
+					'[[Link]]' => '<a href="' . base_url('auth/reset-password/' . $forgotten) . '">' . base_url('auth/reset-password/' . $forgotten) . '</a>'
 				];
 				$datas = [
 					'recipient' => $this->input->post('identity'),
