@@ -149,6 +149,7 @@ class Doi
 		$subject = $data['subject'];
 		// SMTP configuration
 		$mail->isSMTP();
+		doi::dump($p);
 		$mail->Host     = $p['email_smtp_host']; //sesuaikan sesuai nama domain hosting/server yang digunakan
 		
 		$mail->SMTPAuth = true;

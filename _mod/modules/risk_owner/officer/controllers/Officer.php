@@ -23,13 +23,13 @@ class Officer extends MY_Controller {
 		$this->set_Open_Coloums();
 			$this->addField(['field'=>'id', 'show'=>false]);
 			$this->addField(['field'=>'photo', 'input'=>'upload', 'path'=>'file/staft', 'file_thumb'=>true, 'file_size'=>'5120', 'size_pic'=>132]);
-			$this->addField(['field'=>'nip', 'required'=>true, 'search'=>true, 'title'=>'NIP [Username]']);
+			$this->addField(['field'=>'nip', 'type'=>'int', 'required'=>true, 'search'=>true, 'title'=>'NIP [Username]']);
 			$this->addField(['field'=>'officer_name', 'required'=>true, 'search'=>true]);
 			$this->addField(['field'=>'owner_no', 'title'=>'Department', 'required'=>true, 'type'=>'int','input'=>'combo', 'search'=>true, 'values'=>$this->cboDept]);
 			$this->addField(['field'=>'position_no', 'required'=>true,'title'=>'Title', 'type'=>'int','input'=>'combo', 'search'=>true, 'values'=>$this->cboTitle]);
 			$this->addField(['field'=>'gender_no', 'type'=>'int', 'input'=>'combo', 'values'=>$this->cboGender, 'size'=>100, 'search'=>true]);
 			$this->addField(['field'=>'phone',  'search'=>true]);
-			$this->addField(['field'=>'email', 'required'=>true, 'search'=>true]);
+			$this->addField(['field'=>'email','type'=>'email', 'required'=>true, 'search'=>true]);
 			$this->addField(['field'=>'sts_owner', 'input'=>'boolean', 'search'=>true]);
 			// $this->addField(['field'=>'sts_approval', 'input'=>'boolean', 'search'=>true]);
 			$this->addField(['field'=>'sts_mengetahui', 'title'=>'Status VP' , 'input'=>'boolean', 'search'=>true, 'default'=>0]);
@@ -108,6 +108,25 @@ class Officer extends MY_Controller {
 		$pesan="";
 		$no=0;
 		$result=false;
+		$result = false;
+		$email_valid = filter_var($data['email'], FILTER_VALIDATE_EMAIL);
+		
+		if (!$email_valid) {
+			$this->logdata->set_error("Email - " . $data['email'] . " - tidak valid");
+			++$no;
+		} else {
+			if ($mode == 'edit' && $data['email'] !== $old_data['email']) {
+				$result = $this->ion_auth->email_check($data['email'], $old_data['email']);
+			} elseif ($mode == 'add') {
+				$result = $this->ion_auth->email_check($data['email'], '');
+			}
+		
+			if ($result) {
+				$this->logdata->set_error("Email - " . $data['email'] . " - sudah digunakan");
+				++$no;
+			}
+		}
+		
 		if ($data['sts_login']==1){
 		if ($mode=='edit' && $data['username'] !== $old_data['username']){
 			$result = $this->ion_auth->username_check($data['username'], $old_data['username']);
@@ -120,16 +139,9 @@ class Officer extends MY_Controller {
 			++$no;
 		}
 		
-		$result=false;
-		if ($mode=='edit' && $data['email'] !== $old_data['email']){
-			$result = $this->ion_auth->email_check($data['email'], $old_data['email']);
-		}elseif ($mode=='add'){
-			$result = $this->ion_auth->email_check($data['email'], '');
-		}
-		if ($result){
-			$this->logdata->set_error("Email - ".$data['email'].' - sudah digunakan');
-			++$no;
-		}
+
+		
+		
 		$errors = [];
 		if($data['password'] !== $data['passwordc']){
 			$this->logdata->set_error("Password tidak sama");

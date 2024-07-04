@@ -152,7 +152,7 @@ class Owner extends MY_Controller {
 
 	function checkBeforeSave($data, $old_data, $mode = 'add')
 	{
-		$rows = $this->db->where('pid', $data['owner_code'])->get(_TBL_OWNER)->row();
+		$rows = $this->db->where('owner_code', $data['owner_code'])->get(_TBL_OWNER)->row();
 
 		if ($rows) {
 			$this->logdata->set_error("Kode owner sudah ada!");

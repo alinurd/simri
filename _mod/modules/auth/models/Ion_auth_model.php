@@ -786,10 +786,11 @@ class Ion_auth_model extends MX_Model
 	{
 		// Retrieve the token object from the code
 		$token = $this->_retrieve_selector_validator_couple($user_code);
-
+		doi::dump($user_code);
+		doi::dump($token);
 		// Retrieve the user according to this selector
-		$user = $this->where('forgotten_password_selector', $token->selector)->users()->row();
-
+		$user = $this->where('forgotten_password_selector', $user_code)->users()->row();
+doi::dump($user);die;
 		if ($user)
 		{
 			// Check the hash against the validator

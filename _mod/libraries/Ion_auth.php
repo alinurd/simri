@@ -145,7 +145,7 @@ class Ion_auth
 					 ->where('active', 1)
 					 ->users()->row();
 		if ($user)
-		{
+		{ 
 			// Generate code
 			
 			$code = $this->ion_auth_model->forgotten_password($identity);
@@ -155,7 +155,17 @@ class Ion_auth
 					'identity' => $identity,
 					'forgotten_password_code' => $code
 				];
-				$this->set_message('forgot_password_successful');
+				// Send email
+
+				$dat['email'] = [$user->email];
+				$dat['subject'] = 'Forgot password';
+				$dat['content'] = $data;
+			
+				$sen=Doi::kirim_email($dat);
+				// doi::dump($sen);die;
+				if($sen=="success"){
+					$this->set_message('forgot_password_successful');
+				}
 				return $data;
 			}
 		}
