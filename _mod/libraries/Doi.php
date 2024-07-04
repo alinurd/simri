@@ -192,7 +192,7 @@ class Doi
 		// Set email format to HTML
 		$mail->isHTML(true);
 		$message = $data['content'];
-		doi::dump($message);
+		// doi::dump($message);
 		// Email body content
 		$mailContent = $message; // isi email
 		$mail->Body = $mailContent;
