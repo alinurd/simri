@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
+	<title><?php echo lang('reset_password_heading'); ?></title>
 
 	<!-- Global stylesheets -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -85,14 +85,15 @@
 			<div class="content d-flex justify-content-center align-items-center">
 
 
-				<?php echo form_open("auth/proses_reset_password", ['class' => 'login-form', 'id' => 'forma_login']); ?>
+				<?php echo form_open("auth/proses_reset_password", ['class' => 'login-form', 'id' => 'form_login','autocomplete' => 'off']); ?>
 				<div class="card mb-0">
-					<div class="card-body">
-						<div class="text-center mb-3">
+					<div class="card-body"> 
+							<center>
 							<img src="<?= img_url('logo.png'); ?>" alt="" width="150">
 							<h5><?php echo lang('reset_password_heading'); ?></h5>
 							<span class="d-block text-muted">Hallo <?php echo $maskedName; ?> <br> Please enter your new password</span>
 
+							</center>
 							<div class="alert alert-danger border-0 alert-dismissible <?= $hide; ?>">
 								<button type="button" class="close" data-dismiss="alert"><span>×</span></button>
 								<span class="font-weight-semibold"><?php 
