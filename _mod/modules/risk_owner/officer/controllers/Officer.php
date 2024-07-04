@@ -25,11 +25,11 @@ class Officer extends MY_Controller {
 			$this->addField(['field'=>'photo', 'input'=>'upload', 'path'=>'file/staft', 'file_thumb'=>true, 'file_size'=>'5120', 'size_pic'=>132]);
 			$this->addField(['field'=>'nip', 'required'=>true, 'search'=>true, 'title'=>'NIP [Username]']);
 			$this->addField(['field'=>'officer_name', 'required'=>true, 'search'=>true]);
-			$this->addField(['field'=>'owner_no', 'title'=>'Department', 'type'=>'int','input'=>'combo', 'search'=>true, 'values'=>$this->cboDept]);
-			$this->addField(['field'=>'position_no', 'title'=>'Title', 'type'=>'int','input'=>'combo', 'search'=>true, 'values'=>$this->cboTitle]);
+			$this->addField(['field'=>'owner_no', 'title'=>'Department', 'required'=>true, 'type'=>'int','input'=>'combo', 'search'=>true, 'values'=>$this->cboDept]);
+			$this->addField(['field'=>'position_no', 'required'=>true,'title'=>'Title', 'type'=>'int','input'=>'combo', 'search'=>true, 'values'=>$this->cboTitle]);
 			$this->addField(['field'=>'gender_no', 'type'=>'int', 'input'=>'combo', 'values'=>$this->cboGender, 'size'=>100, 'search'=>true]);
 			$this->addField(['field'=>'phone',  'search'=>true]);
-			$this->addField(['field'=>'email',  'search'=>true]);
+			$this->addField(['field'=>'email', 'required'=>true, 'search'=>true]);
 			$this->addField(['field'=>'sts_owner', 'input'=>'boolean', 'search'=>true]);
 			// $this->addField(['field'=>'sts_approval', 'input'=>'boolean', 'search'=>true]);
 			$this->addField(['field'=>'sts_mengetahui', 'title'=>'Status VP' , 'input'=>'boolean', 'search'=>true, 'default'=>0]);
@@ -42,7 +42,7 @@ class Officer extends MY_Controller {
 			$this->addField(['field'=>'sts_login', 'input'=>'boolean', 'search'=>true, 'line'=>true, 'line-text'=>'Authentication', 'line-icon'=>'icon-users']);
 			$this->addField(['field'=>'username', 'save'=>false]);
 			$this->addField(['field'=>'password', 'type'=>'free', 'input'=>'pass']);
-			$this->addField(['field'=>'passwordc', 'type'=>'free', 'input'=>'pass']);
+			$this->addField(['field'=>'passwordc', 'type'=>'free' , 'required'=>false, 'input'=>'pass']);
 			$this->addField(['field'=>'group', 'title'=>'Group', 'type'=>'free','input'=>'combo', 'values'=>$this->cboGroup, 'multiselect'=>true]);
 		$this->set_Close_Coloums();
 
@@ -104,10 +104,11 @@ class Officer extends MY_Controller {
 		return $content;
 	}
 
-	function checkBeforeSavex($data, $old_data, $mode='add'){
+	function checkBeforeSave($data, $old_data, $mode='add'){
 		$pesan="";
 		$no=0;
 		$result=false;
+		if ($data['sts_login']==1){
 		if ($mode=='edit' && $data['username'] !== $old_data['username']){
 			$result = $this->ion_auth->username_check($data['username'], $old_data['username']);
 		}elseif ($mode=='add'){
@@ -141,17 +142,22 @@ class Officer extends MY_Controller {
 				++$no;
 			}
 		}
+		$data['group'] = array_filter($data['group'], function($value) {
+			return $value !== "";
+		});
 		
-		if (!isset($data['group'])){
+		if (!isset($data['group']) || empty($data['group'])){
 			$this->logdata->set_error("User minimal harus memiliki 1 group yang aktif ");
 			++$no;
 		}
 		
+		}
 		if ($no>0){
 			return FALSE;
 		}else{
 			return TRUE;
 		}
+
 	}
 
 	function afterSave($id , $new_data, $old_data, $mode){
