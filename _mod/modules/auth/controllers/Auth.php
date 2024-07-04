@@ -21,10 +21,9 @@ class Auth extends MY_Controller
 	/**
 	 * Redirect if needed, otherwise display the user list
 	 */
+
 	public function index()
 	{
-		$idx = intval($this->uri->segment(3));
-doi::dump($idx);die;
 		if (!$this->ion_auth->logged_in()) {
 			// redirect them to the login page
 			redirect('login', 'refresh');
@@ -281,23 +280,23 @@ doi::dump($idx);die;
 	{
 		if (!$code) {
 			show_404();
-		}else{
+		} else {
 			redirect("reset_password", 'refresh'); //we should display a confirmation page here instead of the login page
 
 		}
 	}
-	
+
 	public function reset_password($code = NULL)
 	{
- 
+
 		if (!$code) {
 			show_404();
 		}
 
 		$this->datas['title'] = $this->lang->line('reset_password_heading');
 		$user = $this->ion_auth_model->get_user_by_forgotten_password_code($code);
- 		// $user = $this->ion_auth->forgotten_password_check($code);
- 		if ($user) {
+		// $user = $this->ion_auth->forgotten_password_check($code);
+		if ($user) {
 			// if the code is valid then display the password reset form
 
 			$this->form_validation->set_rules('new', $this->lang->line('reset_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[new_confirm]');
@@ -345,10 +344,10 @@ doi::dump($idx);die;
 
 					show_error($this->lang->line('error_csrf'));
 				} else {
-					
+
 					// finally change the password
 					$change = $this->ion_auth->reset_password($identity, $this->input->post('new'));
-					
+
 					if ($change) {
 						die("masuk");
 						// if the password was successfully changed
@@ -367,18 +366,75 @@ doi::dump($idx);die;
 		}
 	}
 
+	public function proses_reset_password()
+	{
+		$user_id = $this->input->post('user_id');
+		$new = $this->input->post('new');
+		$new_confirm = $this->input->post('new_confirm');
+		$code = $this->input->post('code');
+		$errors = [];
+		$no = 0;
+		if ($new !== $new_confirm) {
+			$this->logdata->set_error("Password tidak sama");
+			++$no;
+		} else {
+			checkPassword($new, $errors);
+		}
+		if (count($errors) > 0) {
+			$user = $this->ion_auth_model->get_user_by_forgotten_password_code($code);
+
+			$this->datas['message'] = $errors;
+ 			$this->datas['min_password_length'] = $this->config->item('min_password_length', 'ion_auth');
+			$this->datas['new_password'] = [
+				'name' => 'new',
+				'id' => 'new',
+				'type' => 'password',
+				'pattern' => '^.{' . $this->datas['min_password_length'] . '}.*$',
+			];
+			$this->datas['new_password_confirm'] = [
+				'name' => 'new_confirm',
+				'id' => 'new_confirm',
+				'type' => 'password',
+				'pattern' => '^.{' . $this->datas['min_password_length'] . '}.*$',
+			];
+			$this->datas['user_id'] = [
+				'name' => 'user_id',
+				'id' => 'user_id',
+				'type' => 'hidden',
+				'value' => $user['id'],
+				'real_name' => $user['real_name'],
+			];
+			$this->datas['csrf'] = $this->_get_csrf_nonce();
+			$this->datas['code'] = $code;
+
+ 			$this->_render_page('reset_password', $this->datas);
+		} else { 
+
+			$this->crud->crud_table(_TBL_USERS);
+			$this->crud->crud_type('edit');
+			$this->crud->crud_where(['field' => 'id', 'value' => $user_id]);
+			$this->crud->crud_where(['field' => 'forgotten_password_selector', 'value' => $code]);
+ 			$this->crud->crud_field('password', $this->ion_auth_model->hash_password($new));
+			$this->crud->process_crud();
+
+				redirect("login", 'refresh');
+			 
+
+		}
+	}
+
 	public function reset_password_prosess($code = NULL)
 	{
 		die("masuk");
- 
+
 		if (!$code) {
 			show_404();
 		}
 
 		$this->datas['title'] = $this->lang->line('reset_password_heading');
 		$user = $this->ion_auth_model->get_user_by_forgotten_password_code($code);
- 		// $user = $this->ion_auth->forgotten_password_check($code);
- 		if ($user) {
+		// $user = $this->ion_auth->forgotten_password_check($code);
+		if ($user) {
 			// if the code is valid then display the password reset form
 
 			$this->form_validation->set_rules('new', $this->lang->line('reset_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[new_confirm]');
