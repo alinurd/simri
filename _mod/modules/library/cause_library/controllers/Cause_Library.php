@@ -43,7 +43,7 @@ class Cause_Library extends MY_Controller {
 
 		$this->set_Sort_Table($this->tbl_master,'id');
 		$this->set_Where_Table(['tbl'=>$this->tbl_master, 'field'=>'type', 'op'=>'=', 'value'=>$this->type_risk]);
-		// list tabel
+		// list tabel 
 		$this->set_Table_List($this->tbl_master,'nama_kelompok', 'Klasifikasi Risiko');
 		$this->set_Table_List($this->tbl_master,'risk_type', 'Tipe Risiko');
 		$this->set_Table_List($this->tbl_master,'library');

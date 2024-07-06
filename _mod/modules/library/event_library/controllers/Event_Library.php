@@ -43,8 +43,12 @@ class Event_Library extends MY_Controller {
 		// $this->set_Table_List($this->tbl_master,'nama_kelompok');
 		// $this->set_Table_List($this->tbl_master,'risk_type');
 		// $this->set_Table_List($this->tbl_master,'code', '', 10, 'center');
+		
+		$this->set_Table_List($this->tbl_master,'nama_kelompok', 'Klasifikasi Risiko');
+		$this->set_Table_List($this->tbl_master,'risk_type', 'Tipe Risiko');
+
 		$this->set_Table_List($this->tbl_master,'library');
-		// $this->set_Table_List($this->tbl_master,'jml_couse', '', 10, 'center');
+		$this->set_Table_List($this->tbl_master,'jml_couse', '', 10, 'center');
 		$this->set_Table_List($this->tbl_master,'used', '', 10, 'center');
 		$this->set_Table_List($this->tbl_master,'created_by');
 		$this->set_Table_List($this->tbl_master,'active');
