@@ -126,7 +126,25 @@ class Event_Library extends MY_Controller {
 		header('Content-type: application/json');
         echo json_encode($hasil);
 	}
-	
+	function simpan_library()
+    {
+        $post = $this->input->post();
+        $upd['library'] = $post['library'];
+        $upd['risk_type_no'] = $post['jenis_resiko'];
+        $upd['type'] = $post['kel'];
+        $upd['active'] = 1;
+		$upd['created_by'] = $this->ion_auth->get_user_name();
+		
+		$this->db->insert(_TBL_LIBRARY,$upd);
+        // $this->crud->crud_data(['table' => _TBL_LIBRARY, 'field' => $upd, 'type' => 'add']);
+        $id = $this->crud->last_id();
+
+        $data['id'] = $id;
+        $data['kel'] = $post['kel'];
+        $data['event'] = $post['library'];
+		header('Content-type: application/json');
+        echo json_encode($data);
+	}
 	function MASTER_DATA_LIST($id, $field){
 		if ($id)
 			$this->data->cari_total_dipakai($id);
@@ -177,6 +195,12 @@ class Event_Library extends MY_Controller {
 		}
 		return $button;
 	}
+
+	function afterSave($id , $new_data, $old_data, $mode){
+		$result = $this->data->save_library($id , $new_data);
+		return $result;
+	}
+	
 	// function inputBox_CODEx($mode, $field, $rows, $value){
 	// 	$content = form_input($field['label'],$value," size='{$field['size']}' class='form-control'  id='{$field['label']}' readonly='readonly' ");
 	// 	return $content;
