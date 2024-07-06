@@ -52,6 +52,7 @@ class Event_Library extends MY_Controller {
 
 		$this->set_Table_List($this->tbl_master,'library');
 		$this->set_Table_List($this->tbl_master,'jml_couse', '', 10, 'center');
+		$this->set_Table_List($this->tbl_master,'jml_impact', '', 10, 'center');
 		$this->set_Table_List($this->tbl_master,'used', '', 10, 'center');
 		$this->set_Table_List($this->tbl_master,'created_by');
 		$this->set_Table_List($this->tbl_master,'active');
@@ -176,6 +177,15 @@ class Event_Library extends MY_Controller {
 		}
 		$content = $this->set_box_input($field, $value);
 		return $content;
+	}
+	
+	function listBox_JML_COUSE($field, $row, $value){
+ 		$rows = $this->db->where('library_no', $row['id'])->where('type', 1)->get("il_view_library_detail")->result_array();
+		return count($rows);
+	}
+	function listBox_JML_IMPACT($field, $row, $value){
+ 		$rows = $this->db->where('library_no', $row['id'])->where('type', 3)->get("il_view_library_detail")->result_array();
+		return count($rows);
 	}
 	
 	function listBox_USED($field, $row, $value){
