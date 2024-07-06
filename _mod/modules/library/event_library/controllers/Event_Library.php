@@ -20,8 +20,8 @@ class Event_Library extends MY_Controller {
 
 		$this->set_Open_Tab('Data Risk Event Library');
 			$this->addField(['field'=>'id', 'type'=>'int', 'show'=>false, 'size'=>4]);
-			// $this->addField(['field'=>'kel', 'save'=>false, 'input'=>'combo', 'search'=>true, 'values'=>$this->kel, 'size'=>50]);
-			// $this->addField(['field'=>'risk_type_no', 'type'=>'int', 'input'=>'combo', 'search'=>true, 'values'=>[' - Pilih - '], 'size'=>50]);
+			$this->addField(['field'=>'kel', 'save'=>false, 'input'=>'combo', 'search'=>true, 'values'=>$this->kel, 'size'=>50]);
+			$this->addField(['field'=>'risk_type_no', 'type'=>'int', 'input'=>'combo', 'search'=>true, 'values'=>[' - Pilih - '], 'size'=>50]);
 			// $this->addField(['field'=>'code',  'search'=>true, 'size'=>25]);
 			$this->addField(['field'=>'library', 'title'=>'Risk Event', 'input'=>'multitext', 'search'=>true, 'size'=>500]);
 			$this->addField(['field'=>'jml_couse', 'title'=>'Jml Cause', 'type'=>'free', 'show'=>false, 'search'=>false]);
@@ -32,6 +32,9 @@ class Event_Library extends MY_Controller {
 			$this->addField(['field'=>'created_by', 'show'=>false]);
 			$this->addField(['field'=>'type', 'type'=>'int', 'default'=>$this->type_risk, 'show'=>false, 'save'=>true]);
 			$this->addField(['field'=>'active', 'type'=>'int', 'input'=>'combo', 'values'=>$this->cbo_status, 'default'=>1, 'size'=>40]);
+			
+			$this->addField(['field'=>'cause', 'title'=>'Peristiwa', 'type'=>'free', 'search'=>false, 'mode'=>'o']);
+			$this->addField(['field'=>'impact',  'title'=>'Dampak','type'=>'free', 'search'=>false, 'mode'=>'o']);
 		$this->set_Close_Tab();
 			
 		$this->set_Field_Primary($this->tbl_master, 'id');
@@ -62,6 +65,37 @@ class Event_Library extends MY_Controller {
 			'configuration'	=> $configuration
 		];
 	}
+	function inputBox_CAUSE($mode, $field, $rows, $value){
+		$content = $this->get_cause();
+		return $content;
+	}
+
+	function get_cause()
+	{
+		$id=intval($this->uri->segment(3));
+		$data=$this->data->get_library($id, 2);
+		$data['angka']="10";
+		$data['cbogroup']=$this->crud->combo_select(['id', 'library'])->combo_where('type', 2)->combo_where('active', 1)->combo_tbl(_TBL_LIBRARY)->get_combo()->result_combo();
+
+		$result=$this->load->view('cause',$data,true);
+		return $result;
+	}
+
+	function inputBox_IMPACT($mode, $field, $rows, $value){
+		$content = $this->get_impact();
+		return $content;
+	}
+
+	function get_impact()
+	{
+		$id=intval($this->uri->segment(3));
+		$data=$this->data->get_library($id, 3);
+		$data['angka']="10";
+		$data['cbogroup']=$this->crud->combo_select(['id', 'library'])->combo_where('type', 3)->combo_where('active', 1)->combo_tbl(_TBL_LIBRARY)->get_combo()->result_combo();
+		$result=$this->load->view('impact',$data,true);
+		return $result;
+	}
+
 	
 	function MASTER_DATA_LIST($id, $field){
 		if ($id)

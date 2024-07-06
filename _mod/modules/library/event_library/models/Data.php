@@ -22,7 +22,18 @@ class Data extends MX_Model {
 	// 	$this->db->update("library",$upd,$updf);
 	// 	return true;
 	// }
-	
+	function get_library($id=0, $key=2){
+		$this->db->select(_TBL_LIBRARY.'.*, '._TBL_LIBRARY_DETAIL.'.child_no, '._TBL_LIBRARY_DETAIL.'.id as edit_no');
+		$this->db->from(_TBL_LIBRARY_DETAIL);
+		$this->db->join(_TBL_LIBRARY, _TBL_LIBRARY_DETAIL . '.child_no='. _TBL_LIBRARY . '.id');
+		$this->db->where(_TBL_LIBRARY_DETAIL . '.library_no', $id);
+		$this->db->where(_TBL_LIBRARY . '.type',$key);
+		
+		$query=$this->db->get();
+		$result['field']=$query->result_array();
+		// Doi::dump($this->db->last_query());die();
+		return $result;
+	}
 	function cari_total_dipakai($id=[]){
 		$this->used=[];
 		foreach($id as $i){
