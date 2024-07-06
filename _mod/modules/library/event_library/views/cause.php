@@ -2,7 +2,7 @@
 	<thead>
 		<tr>
 			<th width="10%" style="text-align:center;">No.</th>
-			<th>Event</th>
+			<th>Cause</th>
 			<th width="10%" style="text-align:center;">Aksi</th>
 		</tr>
 	</thead>
