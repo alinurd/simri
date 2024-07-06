@@ -64,7 +64,7 @@ $(document).on("click", ".pilih-Cause, .pilih-Impact", function () {
 
 
 $(document).on('click', '#add_cause', function(){
-	kel = 2;
+	kel = 1;
 	var data = {
 		'kel': kel
 	};

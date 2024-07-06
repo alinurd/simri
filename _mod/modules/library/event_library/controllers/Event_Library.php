@@ -103,7 +103,7 @@ class Event_Library extends MY_Controller {
 
         $data['field'] = $this->db->get($nmTbl)->result_array();
         $kl = '-';
-        if ($nilKel == 2) {
+        if ($nilKel == 1) {
             $kl = 'Cause';
         } elseif ($nilKel == 3) {
             $kl = 'Impact';
