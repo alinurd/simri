@@ -785,21 +785,16 @@ class Ion_auth_model extends MX_Model
 	public function get_user_by_forgotten_password_code($user_code)
 	{
 		// Retrieve the token object from the code
-		$token = $this->_retrieve_selector_validator_couple($user_code);
-
+		// $token = $this->_retrieve_selector_validator_couple($user_code);
+		 
 		// Retrieve the user according to this selector
-		$user = $this->where('forgotten_password_selector', $token->selector)->users()->row();
-
-		if ($user)
-		{
-			// Check the hash against the validator
-			if ($this->verify_password($token->validator, $user->forgotten_password_code))
-			{
-				return $user;
-			}
+		$user = $this->where('forgotten_password_selector', $user_code)->users()->row_array();
+  		$resul=false;
+		if ($user){
+			$resul=$user;
 		}
 
-		return FALSE;
+		return $resul;
 	}
 
 	/**

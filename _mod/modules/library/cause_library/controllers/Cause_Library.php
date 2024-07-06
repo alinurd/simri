@@ -21,15 +21,15 @@ class Cause_Library extends MY_Controller {
 		// menu tambah
 		$this->set_Open_Tab('Data Risk Event Library');
 			$this->addField(['field'=>'id', 'type'=>'int', 'show'=>false, 'size'=>4]);
-			$this->addField(['field'=>'kel', 'save'=>false, 'input'=>'combo', 'search'=>true, 'values'=>$this->kel, 'size'=>50]);
-			$this->addField(['field'=>'risk_type_no','title'=>'Tipe Risiko', 'type'=>'int', 'input'=>'combo', 'search'=>true, 'values'=>[' - Pilih - '], 'size'=>50]);
+			// $this->addField(['field'=>'kel', 'save'=>false, 'input'=>'combo', 'search'=>true, 'values'=>$this->kel, 'size'=>50]);
+			// $this->addField(['field'=>'risk_type_no','title'=>'Tipe Risiko', 'type'=>'int', 'input'=>'combo', 'search'=>true, 'values'=>[' - Pilih - '], 'size'=>50]);
 			$this->addField(['field'=>'library', 'title'=>'Penyebab Risiko', 'input'=>'multitext', 'search'=>true, 'size'=>500]);
 			$this->addField(['field'=>'jml_couse', 'title'=>'Jml Event', 'type'=>'free', 'show'=>false, 'search'=>false]);
 			// custom tampilan
 			$this->addField(['field'=>'jml_impact', 'type'=>'free', 'show'=>false, 'search'=>false]);
 			$this->addField(['field'=>'used', 'type'=>'free', 'show'=>false, 'search'=>false]);
-			$this->addField(['field'=>'cause', 'title'=>'Peristiwa', 'type'=>'free', 'search'=>false, 'mode'=>'o']);
-			$this->addField(['field'=>'impact',  'title'=>'Dampak','type'=>'free', 'search'=>false, 'mode'=>'o']);
+			// $this->addField(['field'=>'cause', 'title'=>'Peristiwa', 'type'=>'free', 'search'=>false, 'mode'=>'o']);
+			// $this->addField(['field'=>'impact',  'title'=>'Dampak','type'=>'free', 'search'=>false, 'mode'=>'o']);
 			$this->addField(['field'=>'nama_kelompok', 'show'=>false]);
 			$this->addField(['field'=>'risk_type', 'show'=>false]);
 			$this->addField(['field'=>'created_by', 'show'=>false]);
@@ -43,12 +43,12 @@ class Cause_Library extends MY_Controller {
 
 		$this->set_Sort_Table($this->tbl_master,'id');
 		$this->set_Where_Table(['tbl'=>$this->tbl_master, 'field'=>'type', 'op'=>'=', 'value'=>$this->type_risk]);
-		// list tabel
-		$this->set_Table_List($this->tbl_master,'nama_kelompok', 'Klasifikasi Risiko');
-		$this->set_Table_List($this->tbl_master,'risk_type', 'Tipe Risiko');
+		// list tabel 
+		// $this->set_Table_List($this->tbl_master,'nama_kelompok', 'Klasifikasi Risiko');
+		// $this->set_Table_List($this->tbl_master,'risk_type', 'Tipe Risiko');
 		$this->set_Table_List($this->tbl_master,'library');
-		$this->set_Table_List($this->tbl_master,'jml_couse', 'Jml Peristiwa', 10, 'center');
-		$this->set_Table_List($this->tbl_master,'jml_impact', 'Jml Dampak', 10, 'center');
+		// $this->set_Table_List($this->tbl_master,'jml_couse', 'Jml Peristiwa', 10, 'center');
+		// $this->set_Table_List($this->tbl_master,'jml_impact', 'Jml Dampak', 10, 'center');
 		$this->set_Table_List($this->tbl_master,'used', ' Digunakan', 10, 'center');
 		$this->set_Table_List($this->tbl_master,'created_by', 'Disusun oleh');
 		$this->set_Table_List($this->tbl_master,'active', 'Status');
@@ -222,10 +222,10 @@ class Cause_Library extends MY_Controller {
         echo json_encode($data);
 	}
 
-	function afterSave($id , $new_data, $old_data, $mode){
-		$result = $this->data->save_library($id , $new_data);
-		return $result;
-	}
+	// function afterSave($id , $new_data, $old_data, $mode){
+	// 	$result = $this->data->save_library($id , $new_data);
+	// 	return $result;
+	// }
 	// buten per list / action 
 	function optionalPersonalButton($button, $row){
 		

@@ -12,7 +12,7 @@
 	foreach($field as $key=>$row)
 	{ 
 		$edit=form_hidden(['id_edit[]'=>$row['edit_no'], 'library_no[]'=>$row['child_no']]);
-		$cbo = form_input('library_text_no[]', $row['library'],'class="form-control" style="width:100%;"');
+		$cbo = form_input('library_text_no[]', $row['library'],'class="form-control readonly" readonly style="width:100%;"');
 		++$i;
 		?>
 		<tr>
@@ -21,7 +21,7 @@
 			<td style="text-align:center;width:10%;"><a nilai="<?php echo $row['edit_no'];?>" style="cursor:pointer;" onclick="remove_install(this,<?php echo $row['edit_no'];?>, '<?=_TBL_LIBRARY_DETAIL?>')"><i class="fa fa-cut" title="menghapus data"></i></a></td>
 		</tr>
 	<?php }
-	$cbo = form_input('library_text_no[]', '','class="form-control" style="width:100%;"');
+	$cbo = form_input('library_text_no[]', '','class="form-control" readonly style="width:100%;"');
 	$edit=form_hidden(['id_edit[]'=>0, 'library_no[]'=>0]);
 	?>
 	</tbody>

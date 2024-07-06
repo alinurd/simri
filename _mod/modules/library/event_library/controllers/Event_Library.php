@@ -20,8 +20,8 @@ class Event_Library extends MY_Controller {
 
 		$this->set_Open_Tab('Data Risk Event Library');
 			$this->addField(['field'=>'id', 'type'=>'int', 'show'=>false, 'size'=>4]);
-			// $this->addField(['field'=>'kel', 'save'=>false, 'input'=>'combo', 'search'=>true, 'values'=>$this->kel, 'size'=>50]);
-			// $this->addField(['field'=>'risk_type_no', 'type'=>'int', 'input'=>'combo', 'search'=>true, 'values'=>[' - Pilih - '], 'size'=>50]);
+			$this->addField(['field'=>'kel', 'save'=>false, 'input'=>'combo', 'search'=>true, 'values'=>$this->kel, 'size'=>50]);
+			$this->addField(['field'=>'risk_type_no', 'type'=>'int', 'input'=>'combo', 'search'=>true, 'values'=>[' - Pilih - '], 'size'=>50]);
 			// $this->addField(['field'=>'code',  'search'=>true, 'size'=>25]);
 			$this->addField(['field'=>'library', 'title'=>'Risk Event', 'input'=>'multitext', 'search'=>true, 'size'=>500]);
 			$this->addField(['field'=>'jml_couse', 'title'=>'Jml Cause', 'type'=>'free', 'show'=>false, 'search'=>false]);
@@ -32,6 +32,9 @@ class Event_Library extends MY_Controller {
 			$this->addField(['field'=>'created_by', 'show'=>false]);
 			$this->addField(['field'=>'type', 'type'=>'int', 'default'=>$this->type_risk, 'show'=>false, 'save'=>true]);
 			$this->addField(['field'=>'active', 'type'=>'int', 'input'=>'combo', 'values'=>$this->cbo_status, 'default'=>1, 'size'=>40]);
+			
+			$this->addField(['field'=>'cause', 'title'=>'Penyebab', 'type'=>'free', 'search'=>false, 'mode'=>'o']);
+			$this->addField(['field'=>'impact',  'title'=>'Dampak','type'=>'free', 'search'=>false, 'mode'=>'o']);
 		$this->set_Close_Tab();
 			
 		$this->set_Field_Primary($this->tbl_master, 'id');
@@ -43,8 +46,13 @@ class Event_Library extends MY_Controller {
 		// $this->set_Table_List($this->tbl_master,'nama_kelompok');
 		// $this->set_Table_List($this->tbl_master,'risk_type');
 		// $this->set_Table_List($this->tbl_master,'code', '', 10, 'center');
+		
+		$this->set_Table_List($this->tbl_master,'nama_kelompok', 'Klasifikasi Risiko');
+		$this->set_Table_List($this->tbl_master,'risk_type', 'Tipe Risiko');
+
 		$this->set_Table_List($this->tbl_master,'library');
-		// $this->set_Table_List($this->tbl_master,'jml_couse', '', 10, 'center');
+		$this->set_Table_List($this->tbl_master,'jml_couse', '', 10, 'center');
+		$this->set_Table_List($this->tbl_master,'jml_impact', '', 10, 'center');
 		$this->set_Table_List($this->tbl_master,'used', '', 10, 'center');
 		$this->set_Table_List($this->tbl_master,'created_by');
 		$this->set_Table_List($this->tbl_master,'active');
@@ -58,7 +66,86 @@ class Event_Library extends MY_Controller {
 			'configuration'	=> $configuration
 		];
 	}
-	
+	function inputBox_CAUSE($mode, $field, $rows, $value){
+		$content = $this->get_cause();
+		return $content;
+	}
+
+	function get_cause()
+	{
+		$id=intval($this->uri->segment(3));
+		$data=$this->data->get_library($id, 1);
+		$data['angka']="10";
+		$data['cbogroup']=$this->crud->combo_select(['id', 'library'])->combo_where('type', 1)->combo_where('active', 1)->combo_tbl(_TBL_LIBRARY)->get_combo()->result_combo();
+
+		$result=$this->load->view('cause',$data,true);
+		return $result;
+	}
+
+	function inputBox_IMPACT($mode, $field, $rows, $value){
+		$content = $this->get_impact();
+		return $content;
+	}
+
+	function get_impact()
+	{
+		$id=intval($this->uri->segment(3));
+		$data=$this->data->get_library($id, 3);
+		$data['angka']="10";
+		$data['cbogroup']=$this->crud->combo_select(['id', 'library'])->combo_where('type', 3)->combo_where('active', 1)->combo_tbl(_TBL_LIBRARY)->get_combo()->result_combo();
+		$result=$this->load->view('impact',$data,true);
+		return $result;
+	}
+	function get_library()
+    {
+        $nilKel = $this->input->post('kel');
+       	$nmTbl = _TBL_VIEW_LIBRARY;
+        $this->db->where('type', $nilKel);
+
+        $data['field'] = $this->db->get($nmTbl)->result_array();
+        $kl = '-';
+        if ($nilKel == 1) {
+            $kl = 'Cause';
+        } elseif ($nilKel == 3) {
+            $kl = 'Impact';
+        }
+        $data['kel'] = $kl;
+        $data['event_no'] = 0;
+        $rok = $this->db->where('active', 1)->order_by('kelompok, type_name')->get(_TBL_VIEW_RISK_TYPE)->result_array();
+        $arrayX = ['- Pilih-'];
+        foreach ($rok as $x) {
+            $kel = "EXTERNAL";
+            if ($x['kelompok'] == 77) {
+                $kel = "INTERNAL";
+            }
+            $arrayX[$kel][$x['id']] = $x['type_name'];
+        }
+        $data['nilKel'] = $nilKel;
+        $data['cboTypeLibrary'] = $arrayX;
+        $hasil['library'] = $this->load->view('list-library', $data, true);
+        $hasil['title'] = "List " . $data['kel'];
+		header('Content-type: application/json');
+        echo json_encode($hasil);
+	}
+	function simpan_library()
+    {
+        $post = $this->input->post();
+        $upd['library'] = $post['library'];
+        $upd['risk_type_no'] = $post['jenis_resiko'];
+        $upd['type'] = $post['kel'];
+        $upd['active'] = 1;
+		$upd['created_by'] = $this->ion_auth->get_user_name();
+		
+		$this->db->insert(_TBL_LIBRARY,$upd);
+        // $this->crud->crud_data(['table' => _TBL_LIBRARY, 'field' => $upd, 'type' => 'add']);
+        $id = $this->crud->last_id();
+
+        $data['id'] = $id;
+        $data['kel'] = $post['kel'];
+        $data['event'] = $post['library'];
+		header('Content-type: application/json');
+        echo json_encode($data);
+	}
 	function MASTER_DATA_LIST($id, $field){
 		if ($id)
 			$this->data->cari_total_dipakai($id);
@@ -92,6 +179,15 @@ class Event_Library extends MY_Controller {
 		return $content;
 	}
 	
+	function listBox_JML_COUSE($field, $row, $value){
+ 		$rows = $this->db->where('library_no', $row['id'])->where('type', 1)->get("il_view_library_detail")->result_array();
+		return count($rows);
+	}
+	function listBox_JML_IMPACT($field, $row, $value){
+ 		$rows = $this->db->where('library_no', $row['id'])->where('type', 3)->get("il_view_library_detail")->result_array();
+		return count($rows);
+	}
+	
 	function listBox_USED($field, $row, $value){
 		$result='';
 		$value=$this->data->get_used($row['id']);
@@ -109,6 +205,12 @@ class Event_Library extends MY_Controller {
 		}
 		return $button;
 	}
+
+	function afterSave($id , $new_data, $old_data, $mode){
+		$result = $this->data->save_library($id , $new_data);
+		return $result;
+	}
+
 	// function inputBox_CODEx($mode, $field, $rows, $value){
 	// 	$content = form_input($field['label'],$value," size='{$field['size']}' class='form-control'  id='{$field['label']}' readonly='readonly' ");
 	// 	return $content;

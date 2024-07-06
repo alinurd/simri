@@ -211,6 +211,7 @@ class Auth extends MY_Controller
 	 */
 	public function forgot_password()
 	{
+		die("forgot password");
 		$this->data['title'] = $this->lang->line('forgot_password_heading');
 		
 		// setting validation rules by checking whether identity is username or email
@@ -290,7 +291,8 @@ class Auth extends MY_Controller
 	 * @param string|null $code The reset code
 	 */
 	public function reset_password($code = NULL)
-	{
+	{		die("forgot password");
+
 		if (!$code)
 		{
 			show_404();
