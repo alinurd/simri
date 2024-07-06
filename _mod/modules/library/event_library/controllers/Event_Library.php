@@ -33,7 +33,7 @@ class Event_Library extends MY_Controller {
 			$this->addField(['field'=>'type', 'type'=>'int', 'default'=>$this->type_risk, 'show'=>false, 'save'=>true]);
 			$this->addField(['field'=>'active', 'type'=>'int', 'input'=>'combo', 'values'=>$this->cbo_status, 'default'=>1, 'size'=>40]);
 			
-			$this->addField(['field'=>'cause', 'title'=>'Peristiwa', 'type'=>'free', 'search'=>false, 'mode'=>'o']);
+			$this->addField(['field'=>'cause', 'title'=>'Penyebab', 'type'=>'free', 'search'=>false, 'mode'=>'o']);
 			$this->addField(['field'=>'impact',  'title'=>'Dampak','type'=>'free', 'search'=>false, 'mode'=>'o']);
 		$this->set_Close_Tab();
 			
@@ -95,7 +95,37 @@ class Event_Library extends MY_Controller {
 		$result=$this->load->view('impact',$data,true);
 		return $result;
 	}
+	function get_library()
+    {
+        $nilKel = $this->input->post('kel');
+       	$nmTbl = _TBL_VIEW_LIBRARY;
+        $this->db->where('type', $nilKel);
 
+        $data['field'] = $this->db->get($nmTbl)->result_array();
+        $kl = '-';
+        if ($nilKel == 2) {
+            $kl = 'Cause';
+        } elseif ($nilKel == 3) {
+            $kl = 'Impact';
+        }
+        $data['kel'] = $kl;
+        $data['event_no'] = 0;
+        $rok = $this->db->where('active', 1)->order_by('kelompok, type_name')->get(_TBL_VIEW_RISK_TYPE)->result_array();
+        $arrayX = ['- Pilih-'];
+        foreach ($rok as $x) {
+            $kel = "EXTERNAL";
+            if ($x['kelompok'] == 77) {
+                $kel = "INTERNAL";
+            }
+            $arrayX[$kel][$x['id']] = $x['type_name'];
+        }
+        $data['nilKel'] = $nilKel;
+        $data['cboTypeLibrary'] = $arrayX;
+        $hasil['library'] = $this->load->view('list-library', $data, true);
+        $hasil['title'] = "List " . $data['kel'];
+		header('Content-type: application/json');
+        echo json_encode($hasil);
+	}
 	
 	function MASTER_DATA_LIST($id, $field){
 		if ($id)
