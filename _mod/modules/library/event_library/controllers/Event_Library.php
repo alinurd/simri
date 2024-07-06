@@ -73,9 +73,9 @@ class Event_Library extends MY_Controller {
 	function get_cause()
 	{
 		$id=intval($this->uri->segment(3));
-		$data=$this->data->get_library($id, 2);
+		$data=$this->data->get_library($id, 1);
 		$data['angka']="10";
-		$data['cbogroup']=$this->crud->combo_select(['id', 'library'])->combo_where('type', 2)->combo_where('active', 1)->combo_tbl(_TBL_LIBRARY)->get_combo()->result_combo();
+		$data['cbogroup']=$this->crud->combo_select(['id', 'library'])->combo_where('type', 1)->combo_where('active', 1)->combo_tbl(_TBL_LIBRARY)->get_combo()->result_combo();
 
 		$result=$this->load->view('cause',$data,true);
 		return $result;
@@ -200,7 +200,7 @@ class Event_Library extends MY_Controller {
 		$result = $this->data->save_library($id , $new_data);
 		return $result;
 	}
-	
+
 	// function inputBox_CODEx($mode, $field, $rows, $value){
 	// 	$content = form_input($field['label'],$value," size='{$field['size']}' class='form-control'  id='{$field['label']}' readonly='readonly' ");
 	// 	return $content;
