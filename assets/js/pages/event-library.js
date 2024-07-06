@@ -55,10 +55,10 @@ $(document).on("click", ".pilih-Cause, .pilih-Impact", function () {
 	var data = pilih.split("#");
 	if ($(this).hasClass("pilih-Cause")) {
 		var row = $("#instlmt_cause tbody");
-		row.append('<tr><td>&nbsp;</td><td style="padding-left:0px;"><input type="text" name="library_text_no[]" value="'+data[1]+'" class="form-control" style="width:100%;"><input type="hidden" name="library_no[]" value="'+data[0]+'"><input type="hidden" name="id_edit[]" value="0"></td></td><td class="text-center"><i class="fa fa-cut text-warning pointer" title="menghapus data" id="sip" onclick="remove_install(this,0)"></i></td></tr>');
+		row.append('<tr><td>&nbsp;</td><td style="padding-left:0px;"><input type="text" name="library_text_no[]" value="'+data[1]+'" class="form-control" readonly style="width:100%;"><input type="hidden" name="library_no[]" value="'+data[0]+'"><input type="hidden" name="id_edit[]" value="0"></td></td><td class="text-center"><i class="fa fa-cut text-warning pointer" title="menghapus data" id="sip" onclick="remove_install(this,0)"></i></td></tr>');
 	} else if ($(this).hasClass("pilih-Impact")) {
 		var row = $("#instlmt_impact tbody");
-		row.append('<tr><td>&nbsp;</td><td style="padding-left:0px;"><input type="text" name="library_text_no[]" value="'+data[1]+'" class="form-control" style="width:100%;"><input type="hidden" name="library_no[]" value="'+data[0]+'"><input type="hidden" name="id_edit[]" value="0"></td><td class="text-center"><i class="fa fa-cut text-warning pointer" title="menghapus data" id="sip" onclick="remove_install(this,0)"></i></td></tr>');
+		row.append('<tr><td>&nbsp;</td><td style="padding-left:0px;"><input type="text" name="library_text_no[]" value="'+data[1]+'" class="form-control" readonly style="width:100%;"><input type="hidden" name="library_no[]" value="'+data[0]+'"><input type="hidden" name="id_edit[]" value="0"></td><td class="text-center"><i class="fa fa-cut text-warning pointer" title="menghapus data" id="sip" onclick="remove_install(this,0)"></i></td></tr>');
 	}
 })
 

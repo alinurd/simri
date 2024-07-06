@@ -13,7 +13,7 @@
 	foreach($field as $key=>$row)
 	{ 
 		$edit=form_hidden(['id_edit[]'=>$row['edit_no'], 'library_no[]'=>$row['child_no']]);
-		$cbo = form_input('library_text_no[]',  $row['library'],'class="form-control" style="width:100%;"');
+		$cbo = form_input('library_text_no[]',  $row['library'],'class="form-control" readonly style="width:100%;"');
 		++$i;
 		?>
 		<tr>
