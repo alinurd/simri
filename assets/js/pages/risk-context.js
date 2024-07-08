@@ -3,26 +3,26 @@ var tr;
 var target;
 var pesan = '';
 var sts_penyebab_risiko = 0;
-$(function() {
+$(function () {
     $('<input>').attr({
         type: 'hidden',
         id: 'idOfHiddenInput',
         name: 'idOfHiddenInput'
     }).appendTo('#datatable-list');
 
-    $('#datatable-list').on('init.dt', function() {
+    $('#datatable-list').on('init.dt', function () {
         readyCheckbox();
     }).DataTable().column(0).visible(false);
-    $('#chk_list_parent').click(function(event) {
+    $('#chk_list_parent').click(function (event) {
         if (this.checked) {
             // Iterate each checkbox
-            $(':checkbox').each(function() {
+            $(':checkbox').each(function () {
 
                 this.checked = true;
             });
             $('#btn_save_modul').removeClass('disabled');
         } else {
-            $(':checkbox').each(function() {
+            $(':checkbox').each(function () {
                 this.checked = false;
 
             });
@@ -31,7 +31,7 @@ $(function() {
         }
     });
 
-    $('#btn_lap').click(function(event) {
+    $('#btn_lap').click(function (event) {
         event.preventDefault();
         var x = $(this);
         var jml = 0;
@@ -46,21 +46,21 @@ $(function() {
                 url: x.data('url'),
                 data: { id: data },
                 dataType: "json",
-                success: function(result) {
+                success: function (result) {
                     stopLooding(x.parent().parent());
-                    $.each(result, function(index, val) {
+                    $.each(result, function (index, val) {
                         _createIFrame(val, index * triggerDelay, removeDelay);
                     })
                 },
-                error: function(msg) {
+                error: function (msg) {
                     stopLooding(x.parent().parent());
                 },
-                complate: function() {}
+                complate: function () { }
             })
         }
     });
 
-    $('#btn_lap_sum').click(function(event) {
+    $('#btn_lap_sum').click(function (event) {
         event.preventDefault();
         var x = $(this);
         var jml = 0;
@@ -78,7 +78,7 @@ $(function() {
                 xhrFields: {
                     responseType: 'blob'
                 },
-                success: function(result) {
+                success: function (result) {
                     stopLooding(x.parent().parent());
 
                     var blob = new Blob([result], { type: 'appalication/vnd.ms-excel' });
@@ -92,15 +92,15 @@ $(function() {
 
                     document.body.removeChild(link);
                 },
-                error: function(msg) {
+                error: function (msg) {
                     stopLooding(x.parent().parent());
                 },
-                complate: function() {}
+                complate: function () { }
             })
         }
     });
 
-    $(document).on('click', 'input[name="chk_list[]"]', function(event) {
+    $(document).on('click', 'input[name="chk_list[]"]', function (event) {
 
 
         var len = $('input[name="chk_list[]"]:checked').length;
@@ -114,7 +114,7 @@ $(function() {
         updateCheckboxes($(this));
     });
 
-    $(document).on("click", "#btn_reset_one", function() {
+    $(document).on("click", "#btn_reset_one", function () {
         if (confirm("Anda akan membatalkan approval untuk risk context ini, \nYakin akan melanjutkan ?")) {
             var parent = $(this).parent();
             var nilai = $(this).attr('data-id');
@@ -124,7 +124,7 @@ $(function() {
         }
     })
 
-    $("#period_id").change(function() {
+    $("#period_id").change(function () {
         var parent = $(this).parent();
         var nilai = $(this).val();
         var data = {
@@ -136,19 +136,19 @@ $(function() {
     })
 
     $("#term_id").change(function () {
-		var parent = $(this).parent();
-		var nilai = $(this).val();
-		var data = {
-			'id': nilai
-		};
-		var target_combo = $("#minggu_id");
-		var url = "ajax/get-minggu";
-		_ajax_("post", parent, data, target_combo, url);
+        var parent = $(this).parent();
+        var nilai = $(this).val();
+        var data = {
+            'id': nilai
+        };
+        var target_combo = $("#minggu_id");
+        var url = "ajax/get-minggu";
+        _ajax_("post", parent, data, target_combo, url);
     })
 
 
 
-    $(document).on("change", "#penyebab_id", function() {
+    $(document).on("change", "#penyebab_id", function () {
         var parent = $(this).parent();
         var nilai = $(this).val();
         var data = { 'id': nilai, 'kel': 23 };
@@ -157,7 +157,7 @@ $(function() {
         $(".tmpdel").remove();
     })
 
-    $(document).on("click", "#indikator_dampak", function() {
+    $(document).on("click", "#indikator_dampak", function () {
         var parent = $(this).parent();
         // var rcsa = $(this).data('rcsa');
         var id = $(this).data('id');
@@ -166,7 +166,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'indikator_dampak');
     })
 
-    $(document).on("click", "#indikator_dampak_residual", function() {
+    $(document).on("click", "#indikator_dampak_residual", function () {
         var parent = $(this).parent();
         var id = $(this).data('id');
         var data = { 'id': 0, 'rcsa_detail_no': id, 'bk_tipe': 2 };
@@ -174,7 +174,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'indikator_dampak');
     })
 
-    $(document).on("click", "#indikator_dampak_target", function() {
+    $(document).on("click", "#indikator_dampak_target", function () {
         var parent = $(this).parent();
         var id = $(this).data('id');
         var data = { 'id': 0, 'rcsa_detail_no': id, 'bk_tipe': 3 };
@@ -182,7 +182,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'indikator_dampak');
     })
 
-    $(document).on("click", "#indikator_like", function() {
+    $(document).on("click", "#indikator_like", function () {
         var parent = $(this).parent();
         // var rcsa = $(this).data('rcsa');
         var id = $(this).data('id');
@@ -193,7 +193,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'indikator_like');
     })
 
-    $(document).on("click", "#indikator_like_residual", function() {
+    $(document).on("click", "#indikator_like_residual", function () {
         var parent = $(this).parent();
         var id = $(this).data('id');
         var dampak = $('input[name="impact_residual_id"]').val();
@@ -204,7 +204,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'indikator_like');
     })
 
-    $(document).on("click", "#indikator_like_target", function() {
+    $(document).on("click", "#indikator_like_target", function () {
         var parent = $(this).parent();
         var id = $(this).data('id');
         var dampak = $('input[name="impact_target_id"]').val();
@@ -214,7 +214,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'indikator_like');
     })
 
-    $(document).on("click", ".delete-like-indi", function() {
+    $(document).on("click", ".delete-like-indi", function () {
         var parent = $(this).parent();
         var id = $(this).data('id');
         var rcsa = $(this).data('parent');
@@ -227,7 +227,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'indikator_like');
     })
 
-    $(document).on("click", "#back_like_indi", function() {
+    $(document).on("click", "#back_like_indi", function () {
         var parent = $(this).parent();
         var id = $(this).data('id');
         var bk = $(this).data('bk');
@@ -245,7 +245,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'indikator_like');
     })
 
-    $(document).on("click", "#add_like_indi", function() {
+    $(document).on("click", "#add_like_indi", function () {
         var parent = $(this).parent();
         var id = $(this).data('id');
         var rcsa = $(this).data('parent');
@@ -256,7 +256,7 @@ $(function() {
     })
 
     // function edit 
-    $(document).on("click", ".update-like-indi", function() {
+    $(document).on("click", ".update-like-indi", function () {
         var parent = $(this).parent();
         var id = $(this).data('id');
         var rcsa = $(this).data('parent');
@@ -267,7 +267,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'indikator_like');
     })
 
-    $(document).on("click", ".update-like-indi-residual", function() {
+    $(document).on("click", ".update-like-indi-residual", function () {
         var parent = $(this).parent();
         var id = $(this).data('id');
         var rcsa = $(this).data('parent');
@@ -277,7 +277,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'indikator_like');
     })
 
-    $(document).on("click", ".update-like-indi-target", function() {
+    $(document).on("click", ".update-like-indi-target", function () {
         var parent = $(this).parent();
         var id = $(this).data('id');
         var rcsa = $(this).data('parent');
@@ -287,7 +287,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'indikator_like');
     })
 
-    $(document).on('change', '#aspek_risiko_id', function() {
+    $(document).on('change', '#aspek_risiko_id', function () {
         var parent = $(this).parent().parent().parent();
         var id = $(this).val();
         var text = $(this).find("option:selected").text();
@@ -304,7 +304,7 @@ $(function() {
 
 
     // simpan like indi 
-    $(document).on('click', '#simpan_like_indi', function() {
+    $(document).on('click', '#simpan_like_indi', function () {
         var parent = $(this).parent().parent().parent();
 
         var bk = $('input[name="bk_tipe"]').val();
@@ -323,7 +323,7 @@ $(function() {
         _ajax_("post", parent, data, target_combo, url, 'indikator_like');
     })
 
-    $(document).on("change", 'input[name=\"tipe_analisa_no\"]', function() {
+    $(document).on("change", 'input[name=\"tipe_analisa_no\"]', function () {
         var nilai = $(this).val();
         $("#div_analisa_kualitatif").removeClass("d-none").addClass("d-none");
         $("#div_analisa_kuantitatif").removeClass("d-none").addClass("d-none");
@@ -338,7 +338,7 @@ $(function() {
 
     })
 
-    $(document).on("change", "#tipe_risiko_id", function() {
+    $(document).on("change", "#tipe_risiko_id", function () {
         var parent = $(this).parent();
         var nilai = $(this).val();
         var data = { 'id': nilai, 'kel': 1 };
@@ -347,7 +347,7 @@ $(function() {
         _ajax_("post", parent, data, target_combo, url);
     })
 
-    $(document).on("change", "#klasifikasi_risiko_id", function() {
+    $(document).on("change", "#klasifikasi_risiko_id", function () {
         var parent = $(this).parent();
         var nilai = $(this).val();
         var data = { 'id': nilai };
@@ -356,11 +356,11 @@ $(function() {
         _ajax_("post", parent, data, target_combo, url);
     })
 
-    $(document).on("click", ".btnNext", function() {
+    $(document).on("click", ".btnNext", function () {
         $('.nav-tabs').find('.active').closest('li').next('li').find('a').trigger('click');
     });
 
-    $(document).on("change", "#like_id, #impact_id", function() {
+    $(document).on("change", "#like_id, #impact_id", function () {
         var parent = $(this).parent();
         var like = $("#like_id").val();
         var impact = $("#impact_id").val();
@@ -369,7 +369,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'result_inherent');
     });
 
-    $(document).on("change", "#like_id_3, #impact_id_3", function() {
+    $(document).on("change", "#like_id_3, #impact_id_3", function () {
         var parent = $(this).parent();
         var like = $("#like_id_3").val();
 
@@ -379,7 +379,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'result_inherent');
     });
 
-    $(document).on("change", "#like_residual_id, #impact_residual_id", function() {
+    $(document).on("change", "#like_residual_id, #impact_residual_id", function () {
         var parent = $(this).parent();
         var like = $("#like_residual_id").val();
         var impact = $("#impact_residual_id").val();
@@ -391,7 +391,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'result_residual');
     });
 
-    $(document).on("change", "#like_target_id, #impact_target_id", function() {
+    $(document).on("change", "#like_target_id, #impact_target_id", function () {
         var parent = $(this).parent();
         var like = $("#like_target_id").val();
         var impact = $("#impact_target_id").val();
@@ -401,7 +401,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'result_target');
     });
 
-    $(document).on("change", "#like_residual_id_3, #impact_residual_id_3", function() {
+    $(document).on("change", "#like_residual_id_3, #impact_residual_id_3", function () {
         var parent = $(this).parent();
         var like = $("#like_residual_id_3").val();
         var impact = $('input[name="impact_residual_id"]').val();
@@ -411,7 +411,7 @@ $(function() {
         _ajax_("post", parent, data, '', url, 'result_residual');
     });
 
-    $(document).on("change", "#like_target_id_3, #impact_target_id_3", function() {
+    $(document).on("change", "#like_target_id_3, #impact_target_id_3", function () {
         var parent = $(this).parent();
         var like = $("#like_target_id_3").val();
         var impact = $('input[name="impact_target_id"]').val();
@@ -422,11 +422,11 @@ $(function() {
     });
 
 
-    $(document).on("click", ".btnPrevious", function() {
+    $(document).on("click", ".btnPrevious", function () {
         $('.nav-tabs').find('.active').closest('li').prev('li').find('a').trigger('click');
     });
 
-    $(document).on("click", "#back_identifikasi", function() {
+    $(document).on("click", "#back_identifikasi", function () {
         var parent = $(this).parent().parent().parent();
         var nilai = $(this).data('id');
         var data = {
@@ -438,7 +438,7 @@ $(function() {
         $('.card-footer').html('');
     })
 
-    $(document).on("click", "#add_identifikasi", function() {
+    $(document).on("click", "#add_identifikasi", function () {
         var parent = $(this).parent().parent().parent();
         var nilai = $(this).data('id');
         var data = {
@@ -450,7 +450,7 @@ $(function() {
         $('.card-footer').html('<span style="color:red;">*) Wajib diisi </span>');
     })
 
-    $(document).on("click", ".update-identifikasi", function() {
+    $(document).on("click", ".update-identifikasi", function () {
         var parent = $(this).parent().parent().parent();
         var nilai = $(this).data('rcsa');
         var edit = $(this).data('id');
@@ -462,7 +462,7 @@ $(function() {
         var url = modul_name + "/edit-identifikasi";
         _ajax_("post", parent, data, target_combo, url);
         $('.card-footer').html('<span style="color:red;">*) Wajib diisi </span>');
-        setTimeout(function() {
+        setTimeout(function () {
             var text = $("#aspek_risiko_id").find("option:selected").text();
             if (text == "dll") {
                 $("#aspek_det").parent().parent().parent().show()
@@ -473,7 +473,7 @@ $(function() {
 
     })
 
-    $(document).on("click", ".add-text-peristiwa", function() {
+    $(document).on("click", ".add-text-peristiwa", function () {
         var id = $(this).attr('data-id');
 
         if (id == 0) {
@@ -493,7 +493,7 @@ $(function() {
         }
     })
 
-    $(document).on("click", ".add-text-dampak", function() {
+    $(document).on("click", ".add-text-dampak", function () {
         var id = $(this).attr('data-id');
 
         if (id == 0) {
@@ -513,7 +513,7 @@ $(function() {
         }
     })
 
-    $(document).on("click", ".manual_combo", function() {
+    $(document).on("click", ".manual_combo", function () {
         var id = $(this).attr('data-id');
         var key = $(this).data('key');
 
@@ -559,7 +559,7 @@ $(function() {
         }
 
     })
-    $(document).on("click", "#add_text_like", function() {
+    $(document).on("click", "#add_text_like", function () {
         var id = $(this).attr('data-id');
         console.log(id);
         if (id == 0) {
@@ -579,7 +579,7 @@ $(function() {
         }
     })
 
-    $(document).on("change", ".tipe_kri", function() {
+    $(document).on("change", ".tipe_kri", function () {
         var parent = $(this).parent().parent().parent();
         var nilai = $(this).val();
         var data = {
@@ -610,10 +610,10 @@ $(function() {
     // 	_ajax_("post", parent, data, target_combo, url, 'result_dampak');
     // })
 
-    $(document).on('click', '#simpan_dampak_indi', function() {
+    $(document).on('click', '#simpan_dampak_indi', function () {
         var mak = 0;
         var cek = 0;
-        $(".kri").each(function() {
+        $(".kri").each(function () {
             cek = ($('option:selected', this).index());
             if (cek > mak) {
                 mak = cek;
@@ -654,7 +654,7 @@ $(function() {
         _ajax_("post", parent, data, target_combo, url, 'result_dampak');
     })
 
-    $(document).on("click", "#add_dampak_indi", function() {
+    $(document).on("click", "#add_dampak_indi", function () {
         var cbo = '<select name="peristiwa_id[]" id="peristiwa_id" class="form-control select" style="width:100%;">' + cboperistiwa + '</select>';
         var row = $("#tbl_list_dampak_indi > tbody");
 
@@ -665,7 +665,7 @@ $(function() {
         });
     });
 
-    $(document).on('click', '.del-dampak-indi', function() {
+    $(document).on('click', '.del-dampak-indi', function () {
         if (confirm(Globals.hapus)) {
             var parent = $(this).parent().parent().parent();
             var nilai = $(this).data('id');
@@ -679,7 +679,7 @@ $(function() {
         }
     });
 
-    $(document).on("click", ".add-peristiwa", function() {
+    $(document).on("click", ".add-peristiwa", function () {
         if (sts_penyebab_risiko == 0) {
             var cbo = '<select name="peristiwa_id[]" id="peristiwa_id" class="form-control select" style="width:100%;">' + cboperistiwa + '</select>';
             cbo += '<input type="text" name="peristiwa_id_text[]" value="" class="form-control d-none" id="peristiwa_id_text" placeholder="Peristiwa Risiko">';
@@ -697,7 +697,7 @@ $(function() {
         }
     });
 
-    $(document).on("click", ".add-dampak", function() {
+    $(document).on("click", ".add-dampak", function () {
         if (sts_penyebab_risiko == 0) {
             var cbo = '<select name="dampak_id[]" id="dampak_id" class="form-control select" style="width:100%;">' + cbodampak + '</select>';
             cbo += '<input type="text" name="dampak_id_text[]" value="" class="form-control d-none" id="dampak_id_text" placeholder="Dampak Risiko">';
@@ -715,31 +715,31 @@ $(function() {
         }
     });
 
-    $(document).on('click', '.del-peristiwa', function() {
+    $(document).on('click', '.del-peristiwa', function () {
         if (confirm(Globals.hapus)) {
             $(this).closest('td').closest('tr').remove();
         }
     });
 
-    $(document).on('click', '.del-dampak', function() {
+    $(document).on('click', '.del-dampak', function () {
         if (confirm(Globals.hapus)) {
             $(this).closest('td').closest('tr').remove();
         }
     });
-    $(document).on('change', '#treatment_id', function() {
+    $(document).on('change', '#treatment_id', function () {
         var nilai = $(this).val();
         if (nilai == 1) {
             $('#efek_mitigasi').val('4');
             $('#efek_mitigasi').trigger('change');
         }
     });
-    $(document).on('change', 'select[name=\"peristiwa_id[]\"], select[name=\"penyebab_id\"]', function() {
+    $(document).on('change', 'select[name=\"peristiwa_id[]\"], select[name=\"penyebab_id\"]', function () {
         var text = '';
-        $("select[name=\"peristiwa_id[]\"] :selected").each(function(i, sel) {
+        $("select[name=\"peristiwa_id[]\"] :selected").each(function (i, sel) {
             text += $(sel).text() + ' karena ';
         });
 
-        $("select[name=\"penyebab_id\"] :selected").each(function(i, sel) {
+        $("select[name=\"penyebab_id\"] :selected").each(function (i, sel) {
             text += $(sel).text() + ' karena ';
         });
         text = text.substr(0, (text.length - 8));
@@ -747,7 +747,7 @@ $(function() {
         $("#risiko_dept").val(text);
     });
 
-    $(document).on('click', '#simpan_identifikasi', function() {
+    $(document).on('click', '#simpan_identifikasi', function () {
         var cek = cek_isian_identifikasi();
         if (cek) {
             var parent = $(this).parent().parent().parent();
@@ -762,7 +762,7 @@ $(function() {
         }
     })
 
-    $(document).on('click', '#simpan_identifikasi_awal', function() {
+    $(document).on('click', '#simpan_identifikasi_awal', function () {
         var cek = cek_isian_identifikasi(true);
         if (cek) {
             var parent = $(this).parent().parent().parent();
@@ -776,24 +776,24 @@ $(function() {
         }
     })
 
-    $(document).on('click', '#simpan_evaluasi', function() {
+    $(document).on('click', '#simpan_evaluasi', function () {
         var parent = $(this).parent().parent().parent();
         var data = $("#form_identifikasi").serialize();
         var treatment = $("#treatment_id").val();
         var efek_mitigasi = $("#efek_mitigasi").val();
         var hasil = true;
         pesan = 'data dibawah ini wajib diisi:\n';
-    
-        if(!treatment){
+
+        if (!treatment) {
             hasil = false;
             pesan += '- Treatment\n';
         }
-        if(efek_mitigasi==0){
+        if (efek_mitigasi == 0) {
             hasil = false;
             pesan += '- Efek Mitigasi\n';
         }
-        
-        if(!hasil){
+
+        if (!hasil) {
             alert(pesan);
             return hasil
         }
@@ -802,7 +802,7 @@ $(function() {
         _ajax_("post", parent, data, target_combo, url);
     })
 
-    $(document).on('click', '#simpan_target', function() {
+    $(document).on('click', '#simpan_target', function () {
         var parent = $(this).parent().parent().parent();
         var data = $("#form_identifikasi").serialize();
         var target_combo = $("#parent_risk");
@@ -810,7 +810,7 @@ $(function() {
         _ajax_("post", parent, data, target_combo, url);
     })
 
-    $(document).on('click', '#add_mitigasi', function() {
+    $(document).on('click', '#add_mitigasi', function () {
         var parent = $(this).parent().parent().parent();
         var rcsa_detail = $(this).data('id');
         var data = {
@@ -822,7 +822,7 @@ $(function() {
         _ajax_("post", parent, data, target_combo, url, 'mitigasi');
     })
 
-    $(document).on('click', '.update-mitigasi', function() {
+    $(document).on('click', '.update-mitigasi', function () {
         var parent = $(this).parent().parent().parent();
         var nilai = $(this).data('id');
         var rcsa_detail = $(this).data('rcsa');
@@ -835,7 +835,7 @@ $(function() {
         _ajax_("post", parent, data, target_combo, url, 'mitigasi');
     })
 
-    $(document).on('click', '.delete-mitigasi', function() {
+    $(document).on('click', '.delete-mitigasi', function () {
         if (confirm(Globals.hapus)) {
             var parent = $(this).parent().parent().parent();
             var nilai = $(this).data('id');
@@ -849,7 +849,7 @@ $(function() {
         }
     })
 
-    $(document).on('click', '.delete-aktifitas-mitigasi', function() {
+    $(document).on('click', '.delete-aktifitas-mitigasi', function () {
         if (confirm(Globals.hapus)) {
             var parent = $(this).parent().parent().parent();
             var nilai = $(this).data('id');
@@ -863,7 +863,7 @@ $(function() {
         }
     })
 
-    $(document).on('click', '.delete-identifikasi', function() {
+    $(document).on('click', '.delete-identifikasi', function () {
         if (confirm(Globals.hapus)) {
             var parent = $(this).parent().parent().parent();
             var nilai = $(this).data('id');
@@ -877,7 +877,7 @@ $(function() {
         }
     })
 
-    $("#type_ass_id").change(function() {
+    $("#type_ass_id").change(function () {
         var id = $(this).val();
         if (id == 129) {
             $("#judul_ass").parent().parent().removeClass("d-none");
@@ -886,7 +886,7 @@ $(function() {
         }
     });
 
-    $(document).on('click', '.add_aktifitas_mitigasi', function() {
+    $(document).on('click', '.add_aktifitas_mitigasi', function () {
         var parent = $(this).parent().parent().parent();
         var nilai = $(this).data('id');
         var data = {
@@ -899,7 +899,7 @@ $(function() {
         _ajax_("post", parent, data, target_combo, url, 'aktifitas_mitigasi');
     })
 
-    $(document).on('click', '#add_aktifitas_mitigasi', function() {
+    $(document).on('click', '#add_aktifitas_mitigasi', function () {
         var parent = $(this).parent().parent().parent();
         var nilai = $(this).data('id');
         var data = {
@@ -912,7 +912,7 @@ $(function() {
         _ajax_("post", parent, data, target_combo, url);
     })
 
-    $(document).on('click', '.update-aktifitas-mitigasi', function() {
+    $(document).on('click', '.update-aktifitas-mitigasi', function () {
         var parent = $(this).parent().parent().parent();
         var nilai = $(this).data('rcsa');
         var id = $(this).data('id');
@@ -925,7 +925,7 @@ $(function() {
         _ajax_("post", parent, data, target_combo, url);
     })
 
-    $(document).on('click', '#simpan_mitigasi', function() {
+    $(document).on('click', '#simpan_mitigasi', function () {
         var cek = cek_isian_mitigasi();
         if (cek) {
             var parent = $(this).parent().parent().parent();
@@ -938,11 +938,15 @@ $(function() {
         }
     })
 
-    $(document).ready(function() {
+    $(document).ready(function () {
+        $('#division').select2({
+            placeholder: "-- Select a division --",
+            allowClear: false,
+        });
         $("#type_ass_id").trigger("change");
     })
 
-    $(document).on('click', '#simpan_aktifitas_mitigasi', function() {
+    $(document).on('click', '#simpan_aktifitas_mitigasi', function () {
         var cek = cek_isian_aktifitas_mitigasi();
         if (cek) {
             var parent = $(this).parent().parent().parent();
@@ -955,7 +959,7 @@ $(function() {
         }
     })
 
-    $(document).on('click', '.copy-data', function() {
+    $(document).on('click', '.copy-data', function () {
         var parent = $(this).parent().parent().parent();
         var target_combo = $("#modal_general").find(".modal-body");
         var id = $(this).data('id');
@@ -964,7 +968,7 @@ $(function() {
         _ajax_("post", parent, data, target_combo, url, 'copy_data');
     })
 
-    $(document).on("click", "#proses_copy", function() {
+    $(document).on("click", "#proses_copy", function () {
         var parent = $(this).parent();
         var periode = $("#periode_copy").val();
         var term = $("#term_copy").val();
@@ -983,7 +987,7 @@ $(function() {
     })
 
 
-    $(document).on('click', '.notes', function() {
+    $(document).on('click', '.notes', function () {
         var id = $(this).data("id");
         var owner = $(this).data("owner");
         target = $('input[name="' + id + '_' + owner + '"]');
@@ -992,7 +996,7 @@ $(function() {
         edit_note(value);
     });
 
-    $(document).on('keyup', "textarea[name=\"note_propose_detail\"]", function() {
+    $(document).on('keyup', "textarea[name=\"note_propose_detail\"]", function () {
         var isi = $(this).val();
         target.val(isi);
         if (isi.length > 0) {
@@ -1002,7 +1006,7 @@ $(function() {
         }
     });
 
-    $('#modal_general').on('hidden.bs.modal', function() {
+    $('#modal_general').on('hidden.bs.modal', function () {
         $('.select').select2({
             allowClear: false,
         });
@@ -1066,43 +1070,43 @@ function cek_isian_identifikasi(awal = false) {
         hasil = false;
         pesan += '- Risiko Departement\n';
     }
-    
+
 
     if (!awal) {
-       
+
         var tipe = $('input[name=\"tipe_analisa_no\"]:checked').val();
         if (tipe == 1) {
             if ($('#like_text').val().length == 0 || $('#like_text').val() == 0) {
                 hasil = false;
                 pesan += '- Risk Indikator Likelihood\n';
             }
-            if ($('#impact_text').val().length == 0||$('#impact_text').val() == 0) {
+            if ($('#impact_text').val().length == 0 || $('#impact_text').val() == 0) {
                 hasil = false;
                 pesan += '- Risk Indikator Dampak\n';
             }
-            
+
             if (isNaN(parseFloat($('#like_id').val()))) {
                 hasil = false;
                 pesan += '- Likelihood Inheren\n';
             }
-           
+
             if (isNaN(parseFloat($('#impact_id').val()))) {
                 hasil = false;
                 pesan += '- Dampak Inheren\n';
             }
-        } else if (tipe == 2) { 
+        } else if (tipe == 2) {
 
-if (isNaN(parseFloat($('input[name=\"indikator_like_cek\"]').val()))) {
-    hasil = false;
-    pesan += '- Input Risk Indikator Likelihood\n';
-}
-if (isNaN(parseFloat($('input[name=\"indikator_dampak_cek\"]').val()))) {
-    hasil = false;
-    pesan += '- Input Risk Indikator Dampak\n';
-}
+            if (isNaN(parseFloat($('input[name=\"indikator_like_cek\"]').val()))) {
+                hasil = false;
+                pesan += '- Input Risk Indikator Likelihood\n';
+            }
+            if (isNaN(parseFloat($('input[name=\"indikator_dampak_cek\"]').val()))) {
+                hasil = false;
+                pesan += '- Input Risk Indikator Dampak\n';
+            }
 
-           
-            
+
+
             if (isNaN(parseFloat($('input[name=\"like_id_2\"]').val()))) {
                 hasil = false;
                 pesan += '- Likelihood Inheren\n';
@@ -1146,21 +1150,21 @@ if (isNaN(parseFloat($('input[name=\"indikator_dampak_cek\"]').val()))) {
 var checkboxes = [];
 
 function readyCheckbox() {
-    $('input[name="chk_list[]"]:checked').each(function(){
+    $('input[name="chk_list[]"]:checked').each(function () {
         id = $(this).val();
         var arrPos = checkboxes.indexOf(id);
-        if(arrPos == -1){
+        if (arrPos == -1) {
             checkboxes.push(id);
         }
     });
 
     setTimeout(function () {
-        $('input[name="chk_list[]"]').each(function(index){
+        $('input[name="chk_list[]"]').each(function (index) {
             idx = $(this).val();
             var arrPosx = checkboxes.indexOf(idx);
-            if(!$(this).is(":checked")){
-                if(arrPosx > -1){
-                    checkboxes.splice(arrPosx,1);
+            if (!$(this).is(":checked")) {
+                if (arrPosx > -1) {
+                    checkboxes.splice(arrPosx, 1);
                 }
             }
         });
@@ -1173,11 +1177,11 @@ function readyCheckbox() {
 
 function _createIFrame(url, triggerDelay, removeDelay) {
     //Add iframe dynamically, set SRC, and delete
-    setTimeout(function() {
+    setTimeout(function () {
         var frame = $('<iframe style="display: none;" class="multi-download"></iframe>');
         frame.attr('src', url);
         $(document.body).after(frame);
-        setTimeout(function() {
+        setTimeout(function () {
             frame.remove();
         }, removeDelay);
     }, triggerDelay);
@@ -1200,16 +1204,16 @@ function updateCheckboxes(checkbox) {
     }
 
     setTimeout(function () {
-        $('input[name="chk_list[]"]').each(function(index){
+        $('input[name="chk_list[]"]').each(function (index) {
             idx = $(this).val();
             var arrPosx = checkboxes.indexOf(idx);
-            if(!$(this).is(":checked")){
-                if(arrPosx > -1){
-                    checkboxes.splice(arrPosx,1);
+            if (!$(this).is(":checked")) {
+                if (arrPosx > -1) {
+                    checkboxes.splice(arrPosx, 1);
                 }
             }
         });
-      
+
         $("#idOfHiddenInput").val(checkboxes);
     }, 200)
 }
@@ -1263,7 +1267,7 @@ function cek_isian_aktifitas_mitigasi() {
         hasil = false;
         pesan += '- Batas Waktu\n';
     }
-    if(!hasil){
+    if (!hasil) {
         alert(pesan);
         return hasil
     }
@@ -1417,3 +1421,21 @@ function indikator_dampak(hasil) {
 function reset_approval(hasil) {
     location.reload();
 }
+
+$(document).on("change", "#owner_id", function () {
+    var url = $("#btn_new").attr("href").replace("add", "getDataDivisionDropdown");
+    var getSelectedData = $(this).val();
+    $('#division').select2({
+        placeholder: "-- Select a division --",
+        allowClear: false,
+        ajax: {
+            url: url + getSelectedData,
+            dataType: 'json',
+            processResults: function (data) {
+                return {
+                    results: data.items
+                };
+            }
+        }
+    });
+});
