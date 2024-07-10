@@ -118,7 +118,7 @@ function _ajax_(
         alert("Error Load Database");
       }
     },
-    complate: function () {},
+    complate: function () { },
   });
 }
 
@@ -166,7 +166,7 @@ function _ajax_file_(
       if (sts_loading) stopLooding(parent);
       //pesan_toastr('Error', 'err', 'Error', 'toast-top-center');
     },
-    complete: function () {},
+    complete: function () { },
   });
 }
 

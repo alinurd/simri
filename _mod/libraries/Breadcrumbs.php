@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if( ! defined( 'BASEPATH' ) ) exit( 'No direct script access allowed' );
 /**
  * Breadcrumbs Class
  *
@@ -10,37 +10,39 @@
  * @copyright 	Copyright (c) 2012, Buti
  * @link		https://github.com/nobuti/codeigniter-breadcrumb
  */
-class Breadcrumbs {
-	
+#[\AllowDynamicProperties]
+class Breadcrumbs
+{
+
 	/**
 	 * Breadcrumbs stack
 	 *
-     */
+	 */
 	private $breadcrumbs = array();
-	 	
-	 /**
-	  * Constructor
-	  *
-	  * @access	public
-	  *
-	  */
+
+	/**
+	 * Constructor
+	 *
+	 * @access	public
+	 *
+	 */
 	public function __construct()
-	{	
+	{
 		$this->ci =& get_instance();
 		// Load config file
-		$this->ci->load->config('breadcrumbs');
+		$this->ci->load->config( 'breadcrumbs' );
 		// Get breadcrumbs display options
-		$this->tag_open = $this->ci->config->item('tag_open');
-		$this->tag_close = $this->ci->config->item('tag_close');
-		$this->divider = $this->ci->config->item('divider');
-		$this->crumb_open = $this->ci->config->item('crumb_open');
-		$this->crumb_close = $this->ci->config->item('crumb_close');
-		$this->crumb_last_open = $this->ci->config->item('crumb_last_open');
-		$this->crumb_divider = $this->ci->config->item('crumb_divider');
-		
-		log_message('debug', "Breadcrumbs Class Initialized");
+		$this->tag_open        = $this->ci->config->item( 'tag_open' );
+		$this->tag_close       = $this->ci->config->item( 'tag_close' );
+		$this->divider         = $this->ci->config->item( 'divider' );
+		$this->crumb_open      = $this->ci->config->item( 'crumb_open' );
+		$this->crumb_close     = $this->ci->config->item( 'crumb_close' );
+		$this->crumb_last_open = $this->ci->config->item( 'crumb_last_open' );
+		$this->crumb_divider   = $this->ci->config->item( 'crumb_divider' );
+
+		log_message( 'debug', "Breadcrumbs Class Initialized" );
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -50,19 +52,19 @@ class Breadcrumbs {
 	 * @param	string $page
 	 * @param	string $href
 	 * @return	void
-	 */		
-	function push($page, $href)
+	 */
+	function push( $page, $href )
 	{
 		// no page or href provided
-		if (!$page OR !$href) return;
-		
+		if( ! $page or ! $href ) return;
+
 		// Prepend site url
-		$href = site_url($href);
-		
+		$href = site_url( $href );
+
 		// push breadcrumb
-		$this->breadcrumbs[$href] = array('page' => $page, 'href' => $href);
+		$this->breadcrumbs[$href] = array( 'page' => $page, 'href' => $href );
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -72,19 +74,19 @@ class Breadcrumbs {
 	 * @param	string $page
 	 * @param	string $href
 	 * @return	void
-	 */		
-	function unshift($page, $href)
+	 */
+	function unshift( $page, $href )
 	{
 		// no crumb provided
-		if (!$page OR !$href) return;
-		
+		if( ! $page or ! $href ) return;
+
 		// Prepend site url
-		$href = site_url($href);
-		
+		$href = site_url( $href );
+
 		// add at firts
-		array_unshift($this->breadcrumbs, array('page' => $page, 'href' => $href));
+		array_unshift( $this->breadcrumbs, array( 'page' => $page, 'href' => $href ) );
 	}
-	
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -92,29 +94,34 @@ class Breadcrumbs {
 	 *
 	 * @access	public
 	 * @return	string
-	 */		
+	 */
 	function show()
 	{
-		if ($this->breadcrumbs) {
-		
+		if( $this->breadcrumbs )
+		{
+
 			// set output variable
 			$output = $this->tag_open;
-			$output .= '<a href="'.base_url().'" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>';
-			
+			$output .= '<a href="' . base_url() . '" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>';
+
 			// construct output
-			foreach ($this->breadcrumbs as $key => $crumb) {
-				$keys = array_keys($this->breadcrumbs);
-				if (end($keys) == $key) {
+			foreach( $this->breadcrumbs as $key => $crumb )
+			{
+				$keys = array_keys( $this->breadcrumbs );
+				if( end( $keys ) == $key )
+				{
 					$output .= '<span class="breadcrumb-item active">' . $crumb['page'] . '</span>';
-				} else {
+				}
+				else
+				{
 					$output .= '<a class="breadcrumb-item" href="' . $crumb['href'] . '">' . $crumb['page'] . '</a> ';
 				}
 			}
-			
+
 			// return output
 			return $output . $this->tag_close . PHP_EOL;
 		}
-		
+
 		// no crumbs
 		return '';
 	}

@@ -35,7 +35,7 @@
  * @since	Version 3.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined( 'BASEPATH' ) or exit( 'No direct script access allowed' );
 
 /**
  * CodeIgniter Session Driver Class
@@ -46,7 +46,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author	Andrey Andreev
  * @link	https://codeigniter.com/user_guide/libraries/sessions.html
  */
-abstract class CI_Session_driver implements SessionHandlerInterface {
+abstract class CI_Session_driver implements SessionHandlerInterface
+{
 
 	protected $_config;
 
@@ -94,11 +95,11 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	 * @param	array	$params	Configuration parameters
 	 * @return	void
 	 */
-	public function __construct(&$params)
+	public function __construct( &$params )
 	{
 		$this->_config =& $params;
 
-		if (is_php('7'))
+		if( is_php( '7' ) )
 		{
 			$this->_success = TRUE;
 			$this->_failure = FALSE;
@@ -121,9 +122,9 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	 */
 	public function php5_validate_id()
 	{
-		if (isset($_COOKIE[$this->_config['cookie_name']]) && ! $this->validateSessionId($_COOKIE[$this->_config['cookie_name']]))
+		if( isset( $_COOKIE[$this->_config['cookie_name']] ) && ! $this->validateSessionId( $_COOKIE[$this->_config['cookie_name']] ) )
 		{
-			unset($_COOKIE[$this->_config['cookie_name']]);
+			unset( $_COOKIE[$this->_config['cookie_name']] );
 		}
 	}
 
@@ -140,13 +141,13 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	protected function _cookie_destroy()
 	{
 		return setcookie(
-			$this->_config['cookie_name'],
-			NULL,
-			1,
-			$this->_config['cookie_path'],
-			$this->_config['cookie_domain'],
-			$this->_config['cookie_secure'],
-			TRUE
+		 $this->_config['cookie_name'],
+		 "",
+		 1,
+		 $this->_config['cookie_path'],
+		 $this->_config['cookie_domain'],
+		 $this->_config['cookie_secure'],
+		 TRUE,
 		);
 	}
 
@@ -162,7 +163,7 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	 * @param	string	$session_id
 	 * @return	bool
 	 */
-	protected function _get_lock($session_id)
+	protected function _get_lock( $session_id )
 	{
 		$this->_lock = TRUE;
 		return TRUE;
@@ -177,7 +178,7 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	 */
 	protected function _release_lock()
 	{
-		if ($this->_lock)
+		if( $this->_lock )
 		{
 			$this->_lock = FALSE;
 		}
