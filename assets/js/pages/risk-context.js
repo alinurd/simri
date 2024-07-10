@@ -939,10 +939,11 @@ $(function () {
     })
 
     $(document).ready(function () {
-        $('#division').select2({
-            placeholder: "-- Select a division --",
-            allowClear: false,
-        });
+
+        // $('#division').select2({
+        //     placeholder: "-- Select a division --",
+        //     allowClear: false,
+        // });
         $("#type_ass_id").trigger("change");
     })
 
@@ -1422,20 +1423,46 @@ function reset_approval(hasil) {
     location.reload();
 }
 
-$(document).on("change", "#owner_id", function () {
-    var url = $("#btn_new").attr("href").replace("add", "getDataDivisionDropdown");
-    var getSelectedData = $(this).val();
-    $('#division').select2({
-        placeholder: "-- Select a division --",
-        allowClear: false,
-        ajax: {
-            url: url + getSelectedData,
-            dataType: 'json',
-            processResults: function (data) {
-                return {
-                    results: data.items
-                };
-            }
-        }
+// $(document).on("change", "#owner_id", function () {
+//     var url = $("#btn_new").attr("href").replace("add", "getDataDivisionDropdown");
+//     var getSelectedData = $(this).val();
+//     $('#division').select2({
+//         placeholder: "-- Select a division --",
+//         allowClear: false,
+//         ajax: {
+//             url: url + getSelectedData,
+//             dataType: 'json',
+//             processResults: function (data) {
+//                 return {
+//                     results: data.items
+//                 };
+//             }
+//         }
+//     });
+// });
+$(document).ajaxComplete(function () {
+    $(".summernote-risk-evaluate").summernote({
+        height: 400,
+        placeholder: "Deskripsikan kontrol yang sudah berjalan sebelumnya",
     });
+
+    if ($("#treatment_id").val() == 1) {
+        $("li.nav-item > a[href='#content-tab-03']").parent().addClass("d-none");
+        $("li.nav-item > a[href='#content-tab-03']").hide();
+    } else {
+        $("li.nav-item > a[href='#content-tab-03']").parent().removeClass("d-none");
+        $("li.nav-item > a[href='#content-tab-03']").show();
+    }
+});
+
+$(document).on("change", "#treatment_id", function () {
+    if ($(this).val() == 1) {
+        $("li.nav-item > a[href='#content-tab-03']").parent().addClass("d-none");
+        $("li.nav-item > a[href='#content-tab-03']").hide();
+        $("#list_mitigasi").hide();
+    } else {
+        $("li.nav-item > a[href='#content-tab-03']").parent().removeClass("d-none");
+        $("li.nav-item > a[href='#content-tab-03']").show();
+        $("#list_mitigasi").show();
+    }
 });

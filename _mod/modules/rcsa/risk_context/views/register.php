@@ -51,7 +51,7 @@ if( isset( $export ) )
                                 <?php endif ?>
                                 <th rowspan="2">Direktorat</th>
                                 <th rowspan="2">Departemen</th>
-                                <th rowspan="2">Division</th>
+                                <th rowspan="2">Seksi</th>
                                 <th rowspan="2">Sasaran Departemen</th>
                                 <th rowspan="2">Kode Aktivitas</th>
                                 <th rowspan="2">Aktivitas</th>
@@ -280,7 +280,7 @@ if( isset( $export ) )
                                     <?php endif ?>
                                     <td rowspan="<?= $jml; ?>"><?= $row['lv_1_name'] ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['owner_name']; ?></td>
-                                    <td rowspan="<?= $jml; ?>"><?= $row['division']; ?></td>
+                                    <td rowspan="<?= $jml; ?>"><?= $row['seksi']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['sasaran_dept']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['kode_dept'] . '-' . $row['kode_aktifitas']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['aktifitas']; ?></td>

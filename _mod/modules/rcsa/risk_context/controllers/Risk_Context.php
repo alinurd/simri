@@ -28,10 +28,10 @@ class Risk_Context extends MY_Controller
 		$this->alat        = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'metode-alat' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		$this->term        = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'term' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 
-		$this->stakeholder      = $this->crud->combo_select( [ 'id', 'officer_name' ] )->combo_where( 'active', 1 )->combo_tbl( _TBL_VIEW_OFFICER )->get_combo()->result_combo();
-		$this->cboDept          = $this->get_combo_parent_dept();
-		$this->cboStack         = $this->get_combo_parent_dept( FALSE );
-		$resultDivisionDropdown = $this->data->getDataDropdownDivision( $this->uri->segment( 3 ) );
+		$this->stakeholder = $this->crud->combo_select( [ 'id', 'officer_name' ] )->combo_where( 'active', 1 )->combo_tbl( _TBL_VIEW_OFFICER )->get_combo()->result_combo();
+		$this->cboDept     = $this->get_combo_parent_dept();
+		$this->cboStack    = $this->get_combo_parent_dept( FALSE );
+		// $resultDivisionDropdown = $this->data->getDataDropdownDivision( $this->uri->segment( 3 ) );
 
 		$this->set_Tbl_Master( _TBL_VIEW_RCSA );
 		$this->set_Open_Tab( 'Data RCSA' );
@@ -39,7 +39,7 @@ class Risk_Context extends MY_Controller
 		$this->addField( [ 'field' => 'type_ass_id', 'input' => 'combo', 'required' => TRUE, 'search' => TRUE, 'values' => $this->type_ass_no, 'size' => 50 ] );
 		$this->addField( [ 'field' => 'owner_id', 'title' => 'Department', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->cboDept ] );
 		// $this->addField( [ 'field' => 'division', 'input' => 'text', 'title' => 'Division' ] );
-		$this->addField( [ 'field' => 'division', 'type' => 'int', 'input' => 'combo', 'required' => TRUE, 'title' => 'Division', 'search' => FALSE, 'values' => $resultDivisionDropdown ] );
+		$this->addField( [ 'field' => 'seksi', 'type' => 'int', 'input' => 'combo', 'required' => TRUE, 'title' => 'Seksi', 'search' => FALSE, 'values' => $this->cboDept ] );
 		$this->addField( [ 'field' => 'judul_ass', 'title' => 'Judul Assement', 'input' => 'text' ] );
 		$this->addField( [ 'field' => 'sasaran_dept', 'input' => 'multitext', 'search' => TRUE, 'size' => 500 ] );
 		$this->addField( [ 'field' => 'ruang_lingkup', 'input' => 'multitext', 'search' => TRUE, 'size' => 500 ] );
@@ -422,7 +422,8 @@ class Risk_Context extends MY_Controller
 		$data['detail']          = $this->identifikasi_content( $rcsa_detail, $data['parent'] );
 		$data['identifikasi']    = $this->load->view( 'identifikasi-risiko', $data, TRUE );
 		$data['analisa']         = $this->load->view( 'analisa-risiko', $data, TRUE );
-		$data['rcsa_detail']     = $rcsa_detail;
+
+		$data['rcsa_detail'] = $rcsa_detail;
 
 		$rows = $this->db->select( 'rcsa_mitigasi_id as id, count(rcsa_mitigasi_id) as jml' )->group_by( [ 'rcsa_mitigasi_id' ] )->where( 'rcsa_detail_id', $edit )->get( _TBL_VIEW_RCSA_MITIGASI_DETAIL )->result_array();
 		$miti = [];
@@ -550,22 +551,25 @@ class Risk_Context extends MY_Controller
 		$cboControl   = $this->crud->combo_select( [ 'id', 'data' ] )->noSelect()->combo_where( 'active', 1 )->combo_where( 'kelompok', 'existing-control' )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		$aspek_risiko = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'active', 1 )->combo_where( 'kelompok', 'aspek-risiko' )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		// $aspek_risiko['-1'] = "dll";
-		$arrControl = [];
-		$jml        = intval( count( $cboControl ) / 2 );
-		$kontrol    = '';
-		$i          = 1;
-		$control    = [];
+		$arrControl      = [];
+		$jml             = intval( count( $cboControl ) / 2 );
+		$kontrol         = '';
+		$kontrolCheckbox = '';
+		$i               = 1;
+		$control         = [];
 		if( $data )
 		{
 			$control = explode( '###', $data['nama_kontrol'] );
 		}
 		$kontrol .= '<div class="well p100">';
+		$kontrol .= '</div>' . form_textarea( "note_control", ( $data ) ? $data['nama_kontrol_note'] : '', ' class="summernote-risk-evaluate" style="width:100%;"' ) . '<br/>';
+
 		foreach( $cboControl as $row )
 		{
 			if( $i == 1 )
-				$kontrol .= '<div class="col-md-6">';
+				// $kontrolCheckbox .= '<div class="col-md-6">';
 
-			$sts = FALSE;
+				$sts = FALSE;
 			foreach( $control as $ctrl )
 			{
 				if( $row == $ctrl )
@@ -575,14 +579,14 @@ class Risk_Context extends MY_Controller
 				}
 			}
 
-			$kontrol .= '<label class="pointer">' . form_checkbox( 'check_item[]', $row, $sts );
-			$kontrol .= '&nbsp;' . $row . '</label><br/>';
+			$kontrolCheckbox .= '<label class="pointer">' . form_checkbox( 'check_item[]', $row, $sts );
+			$kontrolCheckbox .= '&nbsp;' . $row . '</label><br/>';
 			if( $i == $jml )
-				$kontrol .= '</div><div class="col-md-6">';
+				// $kontrolCheckbox .= '</div><div class="col-md-6">';
+				// $kontrolCheckbox .= '</div>';
 
-			++$i;
+				++$i;
 		}
-		$kontrol .= '</div>' . form_textarea( "note_control", ( $data ) ? $data['nama_kontrol_note'] : '', ' class="summernote" style="width:100%;"' ) . '</div><br/>';
 
 		$efek_control = [ 0 => _l( 'cbo_select' ), 1 => 'L', 2 => 'D', 3 => 'L & D', 4 => 'Tidak ada kontrol' ];
 		$fraud        = [ 0 => _l( 'cbo_select' ), 1 => 'Ya', 2 => 'Tidak' ];
@@ -655,10 +659,10 @@ class Risk_Context extends MY_Controller
 		$param['identifikasi']['risiko_dept']  = [ 'title' => _l( 'fld_risiko_dept' ), 'help' => _h( 'help_risiko_dept' ), 'mandatori' => TRUE, 'isi' => form_textarea( 'risiko_dept', ( $data ) ? $data['risiko_dept'] : '', " id='risiko_dept' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 200px;' onblur='_maxLength(this , \"id_sisa_1\")' onkeyup='_maxLength(this , \"id_sisa_1\")' data-role='tagsinput'", TRUE, [ 'size' => 500, 'isi' => 0, 'no' => 1 ] ) ];
 
 		$tipe_analisa    = "<br/>&nbsp;";
-		$check1          = TRUE;
-		$check2          = FALSE;
+		$check1          = FALSE;
+		$check2          = TRUE;
 		$check3          = FALSE;
-		$tipe_analisa_no = 1;
+		$tipe_analisa_no = 2;
 		if( $data )
 		{
 			if( $data['tipe_analisa_no'] == 2 )
@@ -676,8 +680,8 @@ class Risk_Context extends MY_Controller
 			$tipe_analisa_no = $data['tipe_analisa_no'];
 		}
 		$tipe_analisa .= '<div class="form-check form-check-inline"><label class="form-check-label">';
-		$tipe_analisa .= form_radio( 'tipe_analisa_no', 1, $check1, 'id="tipe_analisa_no_1"  class="form-check-primary" ' );
-		$tipe_analisa .= form_label( '&nbsp;&nbsp;&nbsp; Kualitatif &nbsp;&nbsp;', 'tipe_analisa_no_1', [ 'class' => 'pointer' ] );
+		$tipe_analisa .= form_radio( 'tipe_analisa_no', 1, $check1, 'id="tipe_analisa_no_1"  class="form-check-primary d-none" ' );
+		$tipe_analisa .= form_label( '&nbsp;&nbsp;&nbsp; Kualitatif &nbsp;&nbsp;', 'tipe_analisa_no_1', [ 'class' => 'pointer d-none' ] );
 		$tipe_analisa .= '</label></div>';
 		$tipe_analisa .= '<div class="form-check form-check-inline"><label class="form-check-label">';
 		$tipe_analisa .= form_radio( 'tipe_analisa_no', 2, $check2, 'id="tipe_analisa_no_2"  class="form-check-primary" ' );
@@ -685,7 +689,7 @@ class Risk_Context extends MY_Controller
 		$tipe_analisa .= '</label></div>';
 		$tipe_analisa .= '<div class="form-check form-check-inline"><label class="form-check-label">';
 		$tipe_analisa .= form_radio( 'tipe_analisa_no', 3, $check3, 'id="tipe_analisa_no_3"  class="form-check-primary" ' );
-		$tipe_analisa .= form_label( '&nbsp;&nbsp;&nbsp; Semi Kuantitatif &nbsp;&nbsp;', 'tipe_analisa_no_3', [ 'class' => 'pointer' ] );
+		$tipe_analisa .= form_label( '&nbsp;&nbsp;&nbsp; Kualitatif &nbsp;&nbsp;', 'tipe_analisa_no_3', [ 'class' => 'pointer' ] );
 		$tipe_analisa .= '</label></div><br/>&nbsp<br/>&nbsp;';
 
 		$param['tipe_analisa_no'] = $tipe_analisa_no;
@@ -760,6 +764,7 @@ class Risk_Context extends MY_Controller
 		$param['analisa2'][] = [ 'title' => _l( 'fld_risiko_inherent' ), 'help' => _h( 'help_risiko_inherent' ), 'mandatori' => TRUE, 'isi' => form_input( 'risiko_inherent_text', ( $data ) ? $data['risiko_inherent_text'] : '', 'class="form-control text-center" id="risiko_inherent_text" readonly="readonly" style="width:15%;"' ) . form_hidden( [ 'risiko_inherent' => ( $data ) ? $data['risiko_inherent'] : 0 ] ) ];
 		$param['analisa2'][] = [ 'title' => _l( 'fld_level_risiko' ), 'help' => _h( 'help_level_risiko' ), 'mandatori' => TRUE, 'isi' => form_input( 'level_inherent_text', ( $data ) ? $data['level_color'] : '', 'class="form-control text-center" id="level_inherent_text" readonly="readonly" style="width:30%;' . $csslevel . '"' ) . form_hidden( [ 'level_inherent' => ( $data ) ? $data['level_inherent'] : 0 ] ) ];
 		$param['analisa2'][] = [ 'title' => _l( 'fld_nama_control' ), 'help' => _h( 'help_nama_control' ), 'mandatori' => FALSE, 'isi' => $kontrol ];
+		$param['analisa2'][] = [ 'title' => _l( 'fld_nama_control_checkbox' ), 'help' => _h( 'help_nama_control_checkbox' ), 'mandatori' => FALSE, 'isi' => $kontrolCheckbox ];
 		$param['analisa2'][] = [ 'title' => _l( 'fld_efek_kontrol' ), 'help' => _h( 'help_efek_kontrol' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'efek_kontrol', $efek_control, ( $data ) ? $data['efek_kontrol'] : '', 'id="efek_kontrol" class="form-control select" style="width:100%;"' ) ];
 		if( $data )
 		{
@@ -781,7 +786,6 @@ class Risk_Context extends MY_Controller
 		}
 		$param['analisa2'][] = [ 'title' => _l( 'fld_upload' ), 'help' => _h( 'help_upload' ), 'isi' => '<a href="' . $url . '" target="_blank">' . $nmfile . '</a><br><br><b>Max size file 10MB, file yang dibolehkan xlsx | csv | docx | pdf | zip | rar </b><br>' ];
 		$param['analisa2'][] = [ 'title' => _l( 'fld_lampiran' ), 'help' => _h( 'help_lampiran' ), 'isi' => form_upload( 'lampiran' ) ];
-
 		return $param;
 	}
 

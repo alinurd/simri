@@ -1732,7 +1732,16 @@ class MY_Controller extends MX_Controller
 					}
 					else
 					{
-						$url = base_url( $this->modul_name );
+						switch( $this->modul_name )
+						{
+							case 'risk-context':
+								$url = base_url( $this->modul_name . "/identifikasi-risiko/" . $id_new );
+								break;
+
+							default:
+								$url = base_url( $this->modul_name );
+								break;
+						}
 					}
 					header( 'location:' . $url );
 				}
@@ -2763,10 +2772,6 @@ class MY_Controller extends MX_Controller
 			++$level;
 			foreach( $ad['children'] as $row )
 			{
-				if( $level == 4 && $this->modul_name == "risk-context" )
-				{
-					continue;
-				}
 				$this->buildItem_parent_dept( $row, $level );
 			}
 		}
@@ -2805,8 +2810,6 @@ class MY_Controller extends MX_Controller
 
 	function get_data_dept()
 	{
-
-
 		$this->db->select( '*' );
 		$this->db->from( _TBL_OWNER );
 		$this->db->order_by( 'urut' );
