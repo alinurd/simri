@@ -379,7 +379,7 @@ class Risk_Context extends MY_Controller
 		$data['mode']            = 0; //'Mode : Insert data';
 		$data['mode_text']       = _l( 'fld_mode_add' ); //'Mode : Insert data';
 		$cbominggu               = $this->data->get_data_minggu( $data['parent']['term_id'] );
-		$minggu                  = ( $cbominggu[$data['parent']['minggu_id']] ) ? $cbominggu[$data['parent']['minggu_id']] : '';
+		$minggu                  = ( ! empty( $cbominggu[$data['parent']['minggu_id']] ) ) ? $cbominggu[$data['parent']['minggu_id']] : '';
 		$data['parent']['bulan'] = ! empty( $this->term[$data['parent']['term_id']] ) ? $this->term[$data['parent']['term_id']] . ' - ' . $minggu : "";
 		$data['info_parent']     = $this->load->view( 'info-parent', $data, TRUE );
 		$data['detail']          = $this->identifikasi_content( [], $data['parent'] );
