@@ -2451,7 +2451,13 @@ class Risk_Context extends MY_Controller
 		$data['libs'] = $this->data->get_library("2");
 		$result = $this->load->view('get-peristiwa', $data, TRUE);
 		header('Content-Type: application/json');
-		echo json_encode(['combo' => $result, 'title' => "List Peristiwa"]);
+		echo json_encode(['combo' => $result	]);
+	}
+	function add_peristiwa() {
+		$data['libs'] = $this->data->get_library("2");
+		$result = $this->load->view('add-peristiwa', $data, TRUE);
+		header('Content-Type: application/json');
+		echo json_encode(['combo' => $result	]);
 	}
 	
 

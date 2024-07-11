@@ -1467,21 +1467,40 @@ $(document).on("change", "#treatment_id", function () {
     }
 });
 
-
- 
 $(document).on("click", "#getPeristiwa .getPeristiwa", function () {
     var parent = $(this).parent();
     var id = 1;
     var data = { 'id': 0, 'rcsa_detail_no': id, 'bk_tipe': 1 };
      var url = modul_name + "/get-peristiwa";
-     _ajax_("post", parent, data, '', url, 'addPeritiwa');
+     _ajax_("post", parent, data, '', url, 'peristiwa');
+ })
+$(document).on("click", "#backListPeritwa", function () {
+    var parent = $(this).parent();
+    var id = 1;
+    var data = { 'id': 0, 'rcsa_detail_no': id, 'bk_tipe': 1 };
+     var url = modul_name + "/get-peristiwa";
+     _ajax_("post", parent, data, '', url, 'peristiwa');
  })
 
-function addPeritiwa(hasil) {
-     $("#modal_general").find(".modal-title").html(hasil.title);
+$(document).on("click", "#addPeristiwa", function () {
+    var parent = $(this).parent();
+    var id = 1;
+    var data = { 'id': 0, 'rcsa_detail_no': id, 'bk_tipe': 1 };
+     var url = modul_name + "/add-peristiwa";
+     _ajax_("post", parent, data, '', url, 'peristiwa');
+ })
+
+
+function peristiwa(hasil) {
+     $("#modal_general").find(".modal-title").html("Peristiwa Risiko");
     $("#modal_general").find(".modal-body").html(hasil.combo);
     $("#modal_general").modal("show");
 }
+
+
+
+
+
 
 
 

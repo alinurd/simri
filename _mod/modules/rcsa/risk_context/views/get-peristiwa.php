@@ -1,5 +1,5 @@
-<div class='table-responsive'>
-    <span class="btn bg-primary-400 btn-labeled btn-labeled-right legitRipple pull-right" id="addPeristiwa">
+<div class='table-responsive listPeristiwa'>
+    <span class="btn bg-primary-400 btn-labeled btn-labeled-right legitRipple pull-right" id="addPeristiwa" data-mode="0">
         <b><i class="icon-file-plus "></i></b> <?=_l('fld_peristiwa_risiko_add');?>
     </span>
     <br/>&nbsp;<br/>&nbsp;
@@ -32,7 +32,10 @@
     </table>
 </div>
 
+
 <script>
+
+
     $(document).ready(function() {
         $('#tbl_list_aktifitas_mitigasi').DataTable({
             pageLength: 10,
@@ -61,7 +64,7 @@
                     "sortDescending": '<?=lang('sortDescending');?>',
                 }
             },
-            dom: "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
+            dom: "<'row'<'col-sm-12'l>>" +
                  "<'row'<'col-sm-12'tr>>" +
                  "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         });
