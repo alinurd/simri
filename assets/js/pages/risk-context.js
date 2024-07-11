@@ -1450,7 +1450,7 @@ $(document).ajaxComplete(function () {
         $("li.nav-item > a[href='#content-tab-03']").parent().addClass("d-none");
         $("li.nav-item > a[href='#content-tab-03']").hide();
     } else {
-        $("li.nav-item > a[href='#content-tab-03']").parent().removeClass("d-none");
+        // $("li.nav-item > a[href='#content-tab-03']").parent().removeClass("d-none");
         $("li.nav-item > a[href='#content-tab-03']").show();
     }
 });
