@@ -28,10 +28,10 @@ class Risk_Context extends MY_Controller
 		$this->alat        = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'metode-alat' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		$this->term        = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'term' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 
-		$this->stakeholder = $this->crud->combo_select( [ 'id', 'officer_name' ] )->combo_where( 'active', 1 )->combo_tbl( _TBL_VIEW_OFFICER )->get_combo()->result_combo();
-		$this->cboDept     = $this->get_combo_parent_dept();
-		$this->cboStack    = $this->get_combo_parent_dept( FALSE );
-		// $resultDivisionDropdown = $this->data->getDataDropdownDivision( $this->uri->segment( 3 ) );
+		$this->stakeholder      = $this->crud->combo_select( [ 'id', 'officer_name' ] )->combo_where( 'active', 1 )->combo_tbl( _TBL_VIEW_OFFICER )->get_combo()->result_combo();
+		$this->cboDept          = $this->get_combo_parent_dept();
+		$this->cboStack         = $this->get_combo_parent_dept( FALSE );
+		$resultDivisionDropdown = $this->data->getDataDropdownDivision( $this->uri->segment( 3 ) );
 
 		$this->set_Tbl_Master( _TBL_VIEW_RCSA );
 		$this->set_Open_Tab( 'Data RCSA' );
@@ -39,7 +39,7 @@ class Risk_Context extends MY_Controller
 		$this->addField( [ 'field' => 'type_ass_id', 'input' => 'combo', 'required' => TRUE, 'search' => TRUE, 'values' => $this->type_ass_no, 'size' => 50 ] );
 		$this->addField( [ 'field' => 'owner_id', 'title' => 'Department', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->cboDept ] );
 		// $this->addField( [ 'field' => 'division', 'input' => 'text', 'title' => 'Division' ] );
-		$this->addField( [ 'field' => 'seksi', 'type' => 'int', 'input' => 'combo', 'required' => TRUE, 'title' => 'Seksi', 'search' => FALSE, 'values' => $this->cboDept ] );
+		$this->addField( [ 'field' => 'seksi', 'type' => 'int', 'input' => 'combo', 'title' => 'Seksi', 'search' => FALSE, 'values' => $resultDivisionDropdown ] );
 		$this->addField( [ 'field' => 'judul_ass', 'title' => 'Judul Assement', 'input' => 'text' ] );
 		$this->addField( [ 'field' => 'sasaran_dept', 'input' => 'multitext', 'search' => TRUE, 'size' => 500 ] );
 		$this->addField( [ 'field' => 'ruang_lingkup', 'input' => 'multitext', 'search' => TRUE, 'size' => 500 ] );

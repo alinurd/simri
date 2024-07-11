@@ -146,14 +146,12 @@ $(function () {
         _ajax_("post", parent, data, target_combo, url);
     })
 
-
-
     $(document).on("change", "#penyebab_id", function () {
         var parent = $(this).parent();
         var nilai = $(this).val();
         var data = { 'id': nilai, 'kel': 23 };
         var url = "ajax/get-library";
-        _ajax_("post", parent, data, '', url, 'update_list_library');
+        // _ajax_("post", parent, data, '', url, 'update_list_library');
         $(".tmpdel").remove();
     })
 
@@ -939,11 +937,11 @@ $(function () {
     })
 
     $(document).ready(function () {
-
-        // $('#division').select2({
-        //     placeholder: "-- Select a division --",
-        //     allowClear: false,
-        // });
+        $('#seksi').select2({
+            placeholder: "-- Select --",
+            allowClear: false,
+            escapeMarkup: function (m) { return m; }
+        });
         $("#type_ass_id").trigger("change");
     })
 
@@ -1423,23 +1421,24 @@ function reset_approval(hasil) {
     location.reload();
 }
 
-// $(document).on("change", "#owner_id", function () {
-//     var url = $("#btn_new").attr("href").replace("add", "getDataDivisionDropdown");
-//     var getSelectedData = $(this).val();
-//     $('#division').select2({
-//         placeholder: "-- Select a division --",
-//         allowClear: false,
-//         ajax: {
-//             url: url + getSelectedData,
-//             dataType: 'json',
-//             processResults: function (data) {
-//                 return {
-//                     results: data.items
-//                 };
-//             }
-//         }
-//     });
-// });
+$(document).on("change", "#owner_id", function () {
+    var url = $("#btn_new").attr("href").replace("add", "getDataDivisionDropdown");
+    var getSelectedData = $(this).val();
+    $('#seksi').select2({
+        placeholder: "-- Select --",
+        allowClear: false,
+        ajax: {
+            url: url + getSelectedData,
+            dataType: 'json',
+            processResults: function (data) {
+                return {
+                    results: data.items
+                };
+            }
+        },
+        escapeMarkup: function (m) { return m; }
+    });
+});
 $(document).ajaxComplete(function () {
     $(".summernote-risk-evaluate").summernote({
         height: 400,

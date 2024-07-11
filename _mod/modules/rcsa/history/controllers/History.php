@@ -1649,7 +1649,7 @@ class History extends MY_Controller
 		$rows = $this->db->where( 'parent_id', $post['id'] )->where( 'period_id', $post['periode'] )->where( 'term_id', $post['term'] )->where( 'minggu_id', $post['minggu'] )->get( _TBL_RCSA )->row_array();
 		if( $rows )
 		{
-			$data['pesan'] = "Data Periode : " . $row['period_name'] . ' kwartal : ' . $row['term'] . ' sudah ada dalam database';
+			$data['pesan'] = "Data Periode : " . $rows['period_name'] . ' kwartal : ' . $rows['term'] . ' sudah ada dalam database';
 			$data['sts']   = FALSE;
 		}
 		else

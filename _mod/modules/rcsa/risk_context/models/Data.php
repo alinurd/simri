@@ -1437,28 +1437,81 @@ class Data extends MX_Model
 
 	function getDataDropdownDivision( $id, $isAjax = FALSE ) : array
 	{
-		$data = [];
+		$queryGet["formAtSelect"] = [ "id", "owner_code", "CONCAT(owner_name,' - ',owner_code) as text", "level" ];
+		$queryGet["orderBy"]      = "urut ASC";
+		$data                     = [];
 		if( empty( $id ) )
 		{
 			return [];
 		}
 		if( $isAjax )
 		{
-			$data = $this->db->select( [ "id", "owner_code", "CONCAT(owner_name,' - ',owner_code) as text", "level" ] )->get_where( _TBL_OWNER, [ "pid" => $id, "level" => 4 ] )->result_array();
+
+			$getChild1 = $this->db->select( $queryGet["formAtSelect"] )->order_by( $queryGet["orderBy"] )->get_where( _TBL_OWNER, [ "pid" => $id, "active" => 1 ] )->result_array();
+
+			$data = $this->getDataSeksiByParent( $getChild1, $queryGet );
+
 		}
 		else
 		{
-			$result = $this->db->query( "select io.id, CONCAT(io.owner_name,' - ',io.owner_code) as text from il_rcsa ir join il_owner io on ir.owner_id = io.pid where ir.id ={$id} and level = 4" )->result_array();
-			if( ! empty( $result ) )
+			$result              = $this->db->query( "select io.id, CONCAT(io.owner_name,' - ',io.owner_code) as text from il_rcsa ir join il_owner io on ir.owner_id = io.id where ir.id ={$id}" )->result_array();
+			$getFormatedDataDept = $this->getDataSeksiByParent( $result, $queryGet );
+			if( ! empty( $getFormatedDataDept ) )
 			{
-				foreach( $result as $key => $value )
+				foreach( $getFormatedDataDept as $key => $value )
 				{
 					$data[$value["id"]] = $value["text"];
 				}
 			}
+
 		}
 
 		return $data;
+	}
+	private function getDataSeksiByParent( $getChild1, $formAtSelect ) : array
+	{
+		$resultData = [];
+		if( ! empty( $getChild1 ) )
+		{
+			foreach( $getChild1 as $keyChild1 => $valueChild1 )
+			{
+				$resultData[] = [ "id" => $valueChild1["id"], "text" => "&nbsp;&nbsp;" . $valueChild1["text"] ];
+				$getChild2    = $this->db->select( $formAtSelect["formAtSelect"] )->order_by( $formAtSelect["orderBy"] )->get_where( _TBL_OWNER, [ "pid" => $valueChild1["id"], "active" => 1 ] )->result_array();
+				if( ! empty( $getChild2 ) )
+				{
+					foreach( $getChild2 as $keyChild2 => $valueChild2 )
+					{
+						$resultData[] = [ "id" => $valueChild2["id"], "text" => "&nbsp;&nbsp;&nbsp;&nbsp;" . $valueChild2["text"] ];
+						$getChild3    = $this->db->select( $formAtSelect["formAtSelect"] )->order_by( $formAtSelect["orderBy"] )->get_where( _TBL_OWNER, [ "pid" => $valueChild2["id"], "active" => 1 ] )->result_array();
+						if( ! empty( $getChild3 ) )
+						{
+							foreach( $getChild3 as $keyChild3 => $valueChild3 )
+							{
+								$resultData[] = [ "id" => $valueChild3["id"], "text" => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $valueChild3["text"] ];
+								$getChild4    = $this->db->select( $formAtSelect["formAtSelect"] )->order_by( $formAtSelect["orderBy"] )->get_where( _TBL_OWNER, [ "pid" => $valueChild3["id"], "active" => 1 ] )->result_array();
+								if( ! empty( $getChild4 ) )
+								{
+									foreach( $getChild4 as $keyChild4 => $valueChild4 )
+									{
+										$resultData[] = [ "id" => $valueChild4["id"], "text" => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $valueChild4["text"] ];
+										$getChild5    = $this->db->select( $formAtSelect["formAtSelect"] )->order_by( $formAtSelect["orderBy"] )->get_where( _TBL_OWNER, [ "pid" => $valueChild4["id"], "active" => 1 ] )->result_array();
+										if( ! empty( $getChild5 ) )
+										{
+											foreach( $getChild5 as $keyChild5 => $valueChild5 )
+											{
+												$resultData[] = [ "id" => $valueChild5["id"], "text" => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $valueChild5["text"] ];
+											}
+										}
+									}
+								}
+							}
+						}
+
+					}
+				}
+			}
+		}
+		return $resultData;
 	}
 }
 /* End of file app_login_model.php */
