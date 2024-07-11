@@ -6,11 +6,11 @@
     <table class="table table-hover datatables" id="tbl_list_aktifitas_mitigasi">
         <thead>
             <tr>
-                <th width="5%">No</th>
-                <th width="10%"><?=_l('fld_klasifikasi_risiko');?></th>
-                <th width="10%"><?=_l('fld_tipe_risiko');?></th>
+                <th width="5%" class="text-center">No</th>
+                <th width="15%"><?=_l('fld_klasifikasi_risiko');?></th>
+                <th width="15%"><?=_l('fld_tipe_risiko');?></th>
                 <th><?=_l('fld_peristiwa_risiko');?></th>
-                <th width="5%">Aksi</th>
+                <th width="5%" class="text-center">Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -19,11 +19,11 @@
             foreach($libs as $q):
             ?>
                 <tr>
-                    <td width="5%"><?=$n++?></td>
-                    <td width="10%"><?=$q['nama_kelompok']?></td>
-                    <td width="10%"><?=$q['risk_type']?></td>
+                    <td width="5%" class="text-center"><?=$n++?></td>
+                    <td width="15%"><?=$q['nama_kelompok']?></td>
+                    <td width="15%"><?=$q['risk_type']?></td>
                     <td><?=$q['library']?></td>
-                    <td width="5%">
+                    <td width="5%" class="text-center">
                         <i class="icon-database-add text-primary-400 pilih-peristiwa"></i>
                     </td>
                 </tr>
