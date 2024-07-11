@@ -17,11 +17,11 @@ class Taksonomi_Risiko extends MY_Controller
 		$this->set_Tbl_Master( _TBL_COMBO );
 
 		$this->addField( [ 'field' => 'id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ] );
-		$this->addField( [ 'field' => 'data', 'title' => 'Taksonomi Risiko', 'required' => TRUE, 'search' => TRUE, 'size' => 100 ] );
+		$this->addField( [ 'field' => 'data', 'title' => 'Taksonomi & Tipe Risiko', 'required' => TRUE, 'search' => TRUE, 'size' => 100 ] );
 		$this->addField( [ 'field' => 'kelompok', 'show' => FALSE, 'save' => TRUE, 'default' => $this->kelompok_id ] );
 		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1 ] );
 		$this->addField( [ 'field' => 'active', 'input' => 'boolean', 'size' => 20 ] );
-		$this->addField( [ 'field' => 'risk_type', 'type' => 'free', 'mode' => 'a' ] );
+		$this->addField( [ 'field' => 'risk_type', 'type' => 'free', 'mode' => 'a', "title" => "Tipe Risiko" ] );
 		$this->addField( [ 'field' => 'uri_title', 'show' => FALSE, 'save' => TRUE ] );
 
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
@@ -37,15 +37,15 @@ class Taksonomi_Risiko extends MY_Controller
 
 		if( _MODE_ == 'add' )
 		{
-			$content_title = 'Penambahan Taksonomi Risiko';
+			$content_title = 'Penambahan Taksonomi & Tipe Risiko';
 		}
 		elseif( _MODE_ == 'edit' )
 		{
-			$content_title = 'Perubahan Taksonomi Risiko';
+			$content_title = 'Perubahan Taksonomi & Tipe Risiko';
 		}
 		else
 		{
-			$content_title = 'Daftar Taksonomi Risiko';
+			$content_title = 'Daftar Taksonomi & Tipe Risiko';
 		}
 
 		$configuration = [
