@@ -374,16 +374,16 @@ class Risk_Context extends MY_Controller
 		$this->db->delete( _TBL_RCSA_DET_LIKE_INDI, [ 'rcsa_detail_id' => 0, 'created_by' => $this->ion_auth->get_user_name() ] );
 		$this->db->delete( _TBL_RCSA_DET_DAMPAK_INDI, [ 'rcsa_detail_id' => 0, 'created_by' => $this->ion_auth->get_user_name() ] );
 
-		$data['parent']      = $this->db->where( 'id', $id )->get( _TBL_VIEW_RCSA )->row_array();
-		$data['rcsa_detail'] = [ 'sts_save_evaluasi' => 0 ];
-		$data['mode']        = 0; //'Mode : Insert data';
-		$data['mode_text']   = _l( 'fld_mode_add' ); //'Mode : Insert data';
-		$cbominggu           = $this->data->get_data_minggu( $data['parent']['term_id'] );
-		$minggu              = ( $data['parent']['minggu_id'] ) ? $cbominggu[$data['parent']['minggu_id']] : '';
-
-		$data['parent']['bulan'] = $this->term[$data['parent']['term_id']] . ' - ' . $minggu;
+		$data['parent']          = $this->db->where( 'id', $id )->get( _TBL_VIEW_RCSA )->row_array();
+		$data['rcsa_detail']     = [ 'sts_save_evaluasi' => 0 ];
+		$data['mode']            = 0; //'Mode : Insert data';
+		$data['mode_text']       = _l( 'fld_mode_add' ); //'Mode : Insert data';
+		$cbominggu               = $this->data->get_data_minggu( $data['parent']['term_id'] );
+		$minggu                  = ( $cbominggu[$data['parent']['minggu_id']] ) ? $cbominggu[$data['parent']['minggu_id']] : '';
+		$data['parent']['bulan'] = ! empty( $this->term[$data['parent']['term_id']] ) ? $this->term[$data['parent']['term_id']] . ' - ' . $minggu : "";
 		$data['info_parent']     = $this->load->view( 'info-parent', $data, TRUE );
 		$data['detail']          = $this->identifikasi_content( [], $data['parent'] );
+
 		// $data['peristiwa_cbo']=$data['detail']['peristiwa_cbo'];
 		// $data['dampak_cbo']=$data['detail']['dampak_cbo'];
 		$data['identifikasi'] = $this->load->view( 'identifikasi-risiko', $data, TRUE );
