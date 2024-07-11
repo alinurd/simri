@@ -351,8 +351,9 @@ class Risk_Context extends MY_Controller
 		}
 		unset( $row );
 		$data['detail'] = $rows;
-		$hasil          = $this->load->view( 'identifikasi', $data, TRUE );
-		$configuration  = [
+
+		$hasil         = $this->load->view( 'identifikasi', $data, TRUE );
+		$configuration = [
 		 'show_title_header'  => FALSE,
 		 'show_action_button' => FALSE,
 		];
@@ -370,6 +371,7 @@ class Risk_Context extends MY_Controller
 
 	function add_identifikasi()
 	{
+
 		$id = intval( $this->input->post( 'id' ) );
 		$this->db->delete( _TBL_RCSA_DET_LIKE_INDI, [ 'rcsa_detail_id' => 0, 'created_by' => $this->ion_auth->get_user_name() ] );
 		$this->db->delete( _TBL_RCSA_DET_DAMPAK_INDI, [ 'rcsa_detail_id' => 0, 'created_by' => $this->ion_auth->get_user_name() ] );
@@ -493,9 +495,29 @@ class Risk_Context extends MY_Controller
 		{
 			$risk_type = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'pid', $data['klasifikasi_risiko_id'] )->combo_where( 'kelompok', 'risk-type' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		}
-		$penyebab_id  = [ _l( 'cbo_select' ) ];
-		$peristiwa_id = [ _l( 'cbo_select' ) ];
-		$dampak_id    = [ _l( 'cbo_select' ) ];
+		$getdataCauseRisk = $this->db->get_where( _TBL_VIEW_LIBRARY, [ "type" => 1, "active" => 1 ], 10 )->result_array();
+		foreach( $getdataCauseRisk as $keyCause => $valueCause )
+		{
+			$getdataCauseRisk[$keyCause] = $valueCause["library"];
+		}
+		$getdataPeristiwaRisk = $this->db->get_where( _TBL_VIEW_LIBRARY, [ "type" => 2, "active" => 1 ], 10 )->result_array();
+		foreach( $getdataPeristiwaRisk as $keyPeristiwa => $valuePeristiwa )
+		{
+			$getdataPeristiwaRisk[$keyPeristiwa] = $valuePeristiwa["library"];
+		}
+		$getdataImpactRisk = $this->db->get_where( _TBL_VIEW_LIBRARY, [ "type" => 3, "active" => 1 ], 10 )->result_array();
+		foreach( $getdataImpactRisk as $keyImpact => $valueImpact )
+		{
+			$getdataImpactRisk[$keyImpact] = $valueImpact["library"];
+		}
+
+		$penyebab_id  = ! empty( $getdataCauseRisk ) ? $getdataCauseRisk : [ _l( 'cbo_select' ) ];
+		$dampak_id    = ! empty( $getdataImpactRisk ) ? $getdataImpactRisk : [ _l( 'cbo_select' ) ];
+		$peristiwa_id = ! empty( $getdataPeristiwaRisk ) ? $getdataPeristiwaRisk : [ _l( 'cbo_select' ) ];
+
+		// $penyebab_id  = [ _l( 'cbo_select' ) ];
+		// $peristiwa_id = [ _l( 'cbo_select' ) ];
+		// $dampak_id    = [ _l( 'cbo_select' ) ];
 		if( isset( $data['tipe_risiko_id'] ) )
 		{
 			$penyebab_id  = $this->crud->combo_select( [ 'id', 'library' ] )->combo_where( 'type', 1 )->combo_where( 'risk_type_no', $data['tipe_risiko_id'] )->combo_where( 'active', 1 )->combo_tbl( _TBL_LIBRARY )->get_combo()->result_combo();
@@ -591,26 +613,26 @@ class Risk_Context extends MY_Controller
 		$efek_control = [ 0 => _l( 'cbo_select' ), 1 => 'L', 2 => 'D', 3 => 'L & D', 4 => 'Tidak ada kontrol' ];
 		$fraud        = [ 0 => _l( 'cbo_select' ), 1 => 'Ya', 2 => 'Tidak' ];
 
-		$peristiwa = '<table class="table table-borderless" id="tblperistiwa"><tbody>';
+		$penyebab = '<table class="table table-borderless" id="tblpenyebab"><tbody>';
 		if( $data )
 		{
-			$pi = explode( ',', $data['peristiwa_id'] );
+			$pi = explode( ',', $data['penyebab_id'] );
 
 			foreach( $pi as $key => $x )
 			{
-				$icon = '<i class="icon-plus-circle2 text-primary-400 add-peristiwa"></i>&nbsp;&nbsp;<i class="icon-file-empty text-success-400 add-text-peristiwa" data-id="0"></i>';
+				$icon = '<i class="icon-plus-circle2 text-primary-400 add-penyebab"></i>&nbsp;&nbsp;<i class="icon-file-empty text-success-400 add-text-penyebab" data-id="0"></i>';
 				if( $key > 0 )
 				{
-					$icon = '<i class="icon-database-remove text-danger-400 del-peristiwa"></i>';
+					$icon = '<i class="icon-database-remove text-danger-400 del-penyebab"></i>';
 				}
-				$peristiwa .= '<tr><td style="padding-left:0px;">' . form_dropdown( 'peristiwa_id[]', $peristiwa_id, $x, 'id="peristiwa_id" class="form-control select" style="width:100%;"' ) . form_input( 'peristiwa_id_text[]', '', 'class="form-control d-none" id="peristiwa_id_text" placeholder="' . _l( 'fld_peristiwa_risiko' ) . '" ' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;">' . $icon . '</td></tr>';
+				$penyebab .= '<tr><td style="padding-left:0px;">' . form_dropdown( 'penyebab_id[]', $penyebab_id, $x, 'id="penyebab_id" class="form-control select" style="width:100%;"' ) . form_input( 'penyebab_id_text[]', '', 'class="form-control d-none" id="penyebab_id" placeholder="' . _l( 'fld_penyebab_risiko' ) . '" ' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;">' . $icon . '</td></tr>';
 			}
 		}
 		else
 		{
-			$peristiwa .= '<tr><td style="padding-left:0px;">' . form_dropdown( 'peristiwa_id[]', $peristiwa_id, '', 'id="peristiwa_id" class="form-control select" style="width:100%;"' ) . form_input( 'peristiwa_id_text[]', '', 'class="form-control d-none" id="peristiwa_id_text" placeholder="' . _l( 'fld_peristiwa_risiko' ) . '"' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;"><i class="icon-plus-circle2 text-primary-400 add-peristiwa"></i></td></tr>';
+			$penyebab .= '<tr><td style="padding-left:0px;">' . form_dropdown( 'penyebab_id[]', $penyebab_id, '', 'id="penyebab_id" class="form-control select" style="width:100%;"' ) . form_input( 'penyebab_id_text[]', '', 'class="form-control d-none" id="penyebab_id_text" placeholder="' . _l( 'fld_penyebab_risiko' ) . '"' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;"><i class="icon-plus-circle2 text-primary-400 add-penyebab"></i></td></tr>';
 		}
-		$peristiwa .= '</tbody></table>';
+		$penyebab .= '</tbody></table>';
 
 		$dampak = '<table class="table table-borderless" id="tbldampak"><tbody>';
 
@@ -643,7 +665,9 @@ class Risk_Context extends MY_Controller
 		$param['identifikasi']['sasaran_id']   = [ 'title' => _l( 'fld_sasaran_aktifitas' ), 'help' => _h( 'help_sasaran_aktifitas' ), 'mandatori' => TRUE, 'add' => FALSE, 'isi' => form_dropdown( 'sasaran_id', $sasaran, ( $data ) ? $data['sasaran_id'] : '', 'id="sasaran_id" class="form-control select" style="width:100%;"' ) ];
 		// $param['identifikasi']['tahapan_id'] = ['title'=>_l('fld_tahapan_proses'),'help'=>_h('help_tahapan_proses'), 'add'=>true,'isi'=>form_dropdown('tahapan_id', $tahapan, ($data)?$data['tahapan_id']:'', 'id="tahapan_id" class="form-control select" style="width:100%;"')];
 		// $param['identifikasi']['tahapan'] = ['title'=>_l('fld_tahapan_proses'),'help'=>_h('help_tahapan_proses'), 'add'=>true,'isi'=>form_dropdown('tahapan_id', $tahapan, ($data)?$data['tahapan_id']:'', 'id="tahapan_id" class="form-control select" style="width:100%;"')];
-		$param['identifikasi']['tahapan']               = [ 'title' => _l( 'fld_tahapan_proses' ), 'help' => _h( 'help_tahapan_proses' ), 'mandatori' => TRUE, 'isi' => form_textarea( 'tahapan', ( $data ) ? $data['tahapan'] : '', " id='tahapan' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 200px;' onblur='_maxLength(this , \"id_sisa_2\")' onkeyup='_maxLength(this , \"id_sisa_2\")' data-role='tagsinput'", TRUE, [ 'size' => 500, 'isi' => 0, 'no' => 2 ] ) ];
+		$param['identifikasi']['tahapan'] = [ 'title' => _l( 'fld_tahapan_proses' ), 'help' => _h( 'help_tahapan_proses' ), 'mandatori' => TRUE, 'isi' => form_textarea( 'tahapan', ( $data ) ? $data['tahapan'] : '', " id='tahapan' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 200px;' onblur='_maxLength(this , \"id_sisa_2\")' onkeyup='_maxLength(this , \"id_sisa_2\")' data-role='tagsinput'", TRUE, [ 'size' => 500, 'isi' => 0, 'no' => 2 ] ) ];
+
+		$param['identifikasi']['peristiwa_id']          = [ 'title' => _l( 'fld_peristiwa_risiko' ), 'help' => _h( 'help_peristiwa_risiko' ), 'mandatori' => TRUE, 'add' => FALSE, 'isi' => form_dropdown( 'peristiwa_id', $peristiwa_id, ( $data ) ? $data['peristiwa_id'] : '', 'id="peristiwa_id" class="form-control select" style="width:100%;"' ) ];
 		$param['identifikasi']['klasifikasi_risiko_id'] = [ 'title' => _l( 'fld_klasifikasi_risiko' ), 'help' => _h( 'help_klasifikasi_risiko' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'klasifikasi_risiko_id', $kel, ( $data ) ? $data['klasifikasi_risiko_id'] : '', 'id="klasifikasi_risiko_id" class="form-control select" style="width:100%;"' ) ];
 		$param['identifikasi']['tipe_risiko_id']        = [ 'title' => _l( 'fld_tipe_risiko' ), 'help' => _h( 'help_tipe_risiko' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'tipe_risiko_id', $risk_type, ( $data ) ? $data['tipe_risiko_id'] : '', 'id="tipe_risiko_id" class="form-control select" style="width:100%;"' ) ];
 
@@ -652,11 +676,10 @@ class Risk_Context extends MY_Controller
 		$param['identifikasi']['smap']       = [ 'title' => _l( 'SMAP' ), 'help' => _h( 'help_smap' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'smap', $fraud, ( $data ) ? $data['smap'] : '', 'id="smap" class="form-control select" style="width:100%;"' ) ];
 		$param['identifikasi']['esg_risk']   = [ 'title' => _l( 'ESG Risk' ), 'help' => _h( 'help_esg_risk' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'esg_risk', $fraud, ( $data ) ? $data['esg_risk'] : '', 'id="esg_risk" class="form-control select" style="width:100%;"' ) ];
 
+		$param['identifikasi']['penyebab_id'] = [ 'title' => _l( 'fld_penyebab_risiko' ), 'help' => _h( 'help_penyebab_risiko' ), 'mandatori' => TRUE, 'isi' => $penyebab ];
+		$param['identifikasi']['dampak_id']   = [ 'title' => _l( 'fld_dampak_risiko' ), 'help' => _h( 'help_dampak_risiko' ), 'mandatori' => TRUE, 'isi' => $dampak ];
 
-		$param['identifikasi']['penyebab_id']  = [ 'title' => _l( 'fld_penyebab_risiko' ), 'help' => _h( 'help_penyebab_risiko' ), 'mandatori' => TRUE, 'add' => FALSE, 'isi' => form_dropdown( 'penyebab_id', $penyebab_id, ( $data ) ? $data['penyebab_id'] : '', 'id="penyebab_id" class="form-control select" style="width:100%;"' ) ];
-		$param['identifikasi']['peristiwa_id'] = [ 'title' => _l( 'fld_peristiwa_risiko' ), 'help' => _h( 'help_peristiwa_risiko' ), 'mandatori' => TRUE, 'isi' => $peristiwa ];
-		$param['identifikasi']['dampak_id']    = [ 'title' => _l( 'fld_dampak_risiko' ), 'help' => _h( 'help_dampak_risiko' ), 'mandatori' => TRUE, 'isi' => $dampak ];
-		$param['identifikasi']['risiko_dept']  = [ 'title' => _l( 'fld_risiko_dept' ), 'help' => _h( 'help_risiko_dept' ), 'mandatori' => TRUE, 'isi' => form_textarea( 'risiko_dept', ( $data ) ? $data['risiko_dept'] : '', " id='risiko_dept' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 200px;' onblur='_maxLength(this , \"id_sisa_1\")' onkeyup='_maxLength(this , \"id_sisa_1\")' data-role='tagsinput'", TRUE, [ 'size' => 500, 'isi' => 0, 'no' => 1 ] ) ];
+		$param['identifikasi']['risiko_dept'] = [ 'title' => _l( 'fld_risiko_dept' ), 'help' => _h( 'help_risiko_dept' ), 'mandatori' => TRUE, 'isi' => form_textarea( 'risiko_dept', ( $data ) ? $data['risiko_dept'] : '', " id='risiko_dept' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 200px;' onblur='_maxLength(this , \"id_sisa_1\")' onkeyup='_maxLength(this , \"id_sisa_1\")' data-role='tagsinput'", TRUE, [ 'size' => 500, 'isi' => 0, 'no' => 1 ] ) ];
 
 		$tipe_analisa    = "<br/>&nbsp;";
 		$check1          = FALSE;
