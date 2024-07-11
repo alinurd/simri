@@ -473,21 +473,21 @@ $(function () {
 
     })
 
-    $(document).on("click", ".add-text-peristiwa", function () {
+    $(document).on("click", ".add-text-penyebab", function () {
         var id = $(this).attr('data-id');
 
         if (id == 0) {
-            $(this).closest("td").closest("tr").find("input[name=\"peristiwa_id[]\"]").hide();
+            $(this).closest("td").closest("tr").find("input[name=\"penyebab_id[]\"]").hide();
             $(this).closest("td").closest("tr").find(".select2-container").hide();
-            $(this).closest("td").closest("tr").find("#peristiwa_id_text").removeClass("d-none");
-            $(this).closest("td").closest("tr").find("#peristiwa_id_text").val("").focus();
+            $(this).closest("td").closest("tr").find("#penyebab_id_text").removeClass("d-none");
+            $(this).closest("td").closest("tr").find("#penyebab_id_text").val("").focus();
             $(this).removeClass("icon-file-empty").addClass('icon-dash');
             $(this).attr("data-id", 1);
         } else {
-            $(this).closest("td").closest("tr").find("input[name=\"peristiwa_id[]\"]").show();
+            $(this).closest("td").closest("tr").find("input[name=\"penyebab_id[]\"]").show();
             $(this).closest("td").closest("tr").find(".select2-container").show();
-            $(this).closest("td").closest("tr").find("#peristiwa_id_text").addClass("d-none");
-            $(this).closest("td").closest("tr").find("#peristiwa_id_text").val("").focus();
+            $(this).closest("td").closest("tr").find("#penyebab_id_text").addClass("d-none");
+            $(this).closest("td").closest("tr").find("#penyebab_id_text").val("").focus();
             $(this).removeClass("icon-dash").addClass('icon-file-empty');
             $(this).attr("data-id", 0);
         }
@@ -679,16 +679,16 @@ $(function () {
         }
     });
 
-    $(document).on("click", ".add-peristiwa", function () {
+    $(document).on("click", ".add-penyebab", function () {
         if (sts_penyebab_risiko == 0) {
-            var cbo = '<select name="peristiwa_id[]" id="peristiwa_id" class="form-control select" style="width:100%;">' + cboperistiwa + '</select>';
-            cbo += '<input type="text" name="peristiwa_id_text[]" value="" class="form-control d-none" id="peristiwa_id_text" placeholder="Peristiwa Risiko">';
+            var cbo = '<select name="penyebab_id[]" id="penyebab_id" class="form-control select" style="width:100%;">' + cboperistiwa + '</select>';
+            cbo += '<input type="text" name="penyebab_id_text[]" value="" class="form-control d-none" id="penyebab_id_text" placeholder="Penyebab Risiko">';
         } else {
-            var cbo = '<input type="text" name="peristiwa_id_text[]" value="" class="form-control" id="peristiwa_id_text" placeholder="Peristiwa Risiko">';
+            var cbo = '<input type="text" name="penyebab_id_text[]" value="" class="form-control" id="penyebab_id_text" placeholder="Penyebab Risiko">';
         }
-        var row = $("#tblperistiwa > tbody");
+        var row = $("#tblpenyebab > tbody");
 
-        row.append('<tr class="tmpdel"><td style="padding-left:0px;">' + cbo + '</td><td class="text-right pointer" width="10%" style="padding-right:0px;"><i class="icon-database-remove text-danger-400 del-peristiwa"></i></i>&nbsp;&nbsp;<i class="icon-file-empty text-success-400 add-text-peristiwa" data-id="0"></i></td></tr>');
+        row.append('<tr class="tmpdel"><td style="padding-left:0px;">' + cbo + '</td><td class="text-right pointer" width="10%" style="padding-right:0px;"><i class="icon-database-remove text-danger-400 del-penyebab"></i></i>&nbsp;&nbsp;<i class="icon-file-empty text-success-400 add-text-penyebab" data-id="0"></i></td></tr>');
 
         if (sts_penyebab_risiko == 0) {
             $('.select').select2({
@@ -715,7 +715,7 @@ $(function () {
         }
     });
 
-    $(document).on('click', '.del-peristiwa', function () {
+    $(document).on('click', '.del-penyebab', function () {
         if (confirm(Globals.hapus)) {
             $(this).closest('td').closest('tr').remove();
         }
@@ -1450,7 +1450,7 @@ $(document).ajaxComplete(function () {
         $("li.nav-item > a[href='#content-tab-03']").parent().addClass("d-none");
         $("li.nav-item > a[href='#content-tab-03']").hide();
     } else {
-        $("li.nav-item > a[href='#content-tab-03']").parent().removeClass("d-none");
+        // $("li.nav-item > a[href='#content-tab-03']").parent().removeClass("d-none");
         $("li.nav-item > a[href='#content-tab-03']").show();
     }
 });
