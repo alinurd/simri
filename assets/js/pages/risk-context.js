@@ -1443,6 +1443,14 @@ $(document).ajaxComplete(function () {
     $(".summernote-risk-evaluate").summernote({
         height: 400,
         placeholder: "Deskripsikan kontrol yang sudah berjalan sebelumnya",
+        callbacks: {
+            onKeyup: function (e) {
+                _maxLength(this, 'id_sisa_0');
+            },
+            onblur: function (b) {
+                _maxLength(this, 'id_sisa_0');
+            }
+        }
     });
 
     if ($("#treatment_id").val() == 1) {

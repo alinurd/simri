@@ -584,7 +584,7 @@ class Risk_Context extends MY_Controller
 			$control = explode( '###', $data['nama_kontrol'] );
 		}
 		$kontrol .= '<div class="well p100">';
-		$kontrol .= '</div>' . form_textarea( "note_control", ( $data ) ? $data['nama_kontrol_note'] : '', ' class="summernote-risk-evaluate" style="width:100%;"' ) . '<br/>';
+		$kontrol .= '</div>' . form_textarea( "note_control", ( $data ) ? $data['nama_kontrol_note'] : '', ' class="summernote-risk-evaluate" style="width:100%;" maxlength="999"' ) . '<br/>';
 
 		foreach( $cboControl as $row )
 		{
