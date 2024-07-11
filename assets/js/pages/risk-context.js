@@ -1466,3 +1466,26 @@ $(document).on("change", "#treatment_id", function () {
         $("#list_mitigasi").show();
     }
 });
+
+
+ 
+$(document).on("click", "#getPeristiwa .getPeristiwa", function () {
+    var parent = $(this).parent();
+   
+     var id = 1;
+    var data = { 'id': 0, 'rcsa_detail_no': id, 'bk_tipe': 1 };
+    alert("jalan")
+    var url = modul_name + "/get-peristiwa";
+     _ajax_("post", parent, data, '', url, 'addPeritiwa');
+ })
+
+function addPeritiwa(hasil) {
+    console.log(hasil)
+    $("#modal_general").find(".modal-title").html(hasil.title);
+    $("#modal_general").find(".modal-body").html(hasil.combo);
+    $("#modal_general").modal("show");
+}
+
+
+
+
