@@ -1447,7 +1447,7 @@ class Data extends MX_Model
 		if( $isAjax )
 		{
 
-			$getChild1 = $this->db->select( $queryGet["formAtSelect"] )->order_by( $queryGet["orderBy"] )->get_where( _TBL_OWNER, [ "pid" => $id, "active" => 1 ] )->result_array();
+			$getChild1 = $this->db->select( $queryGet["formAtSelect"] )->order_by( $queryGet["orderBy"] )->get_where( _TBL_OWNER, [ "id" => $id, "active" => 1 ] )->result_array();
 
 			$data = $this->getDataSeksiByParent( $getChild1, $queryGet );
 
