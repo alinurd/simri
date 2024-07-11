@@ -1057,7 +1057,7 @@ class CI_Form_validation
 	{
 		return is_array( $str )
 		 ? ( empty( $str ) === FALSE )
-		 : ( trim( $str ) ?? '' );
+		 : ( ! is_null( $str ) ? trim( $str ) !== '' : "" );
 	}
 
 	// --------------------------------------------------------------------
