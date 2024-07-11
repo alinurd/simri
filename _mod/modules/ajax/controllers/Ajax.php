@@ -90,7 +90,7 @@ class Ajax extends MY_Controller
 
 		$minggu                  = ( $data['parent']['minggu_id'] ) ? $cbominggu[$data['parent']['minggu_id']] : '';
 		$term                    = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'term' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
-		$data['parent']['bulan'] = $term[$data['parent']['term_id']] . ' - ' . $minggu;
+		$data['parent']['bulan'] = ( ! empty( $term[$data['parent']['term_id']] ) ) ? $term[$data['parent']['term_id']] . ' - ' . $minggu : "";
 		$x['combo']              = $this->load->view( 'risk_context/register', $data, TRUE );
 		header( 'Content-type: application/json' );
 		echo json_encode( $x );
