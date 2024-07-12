@@ -1570,7 +1570,7 @@ $(document).on("click", "#addPeristiwa", function () {
 });
 
 function peristiwa(hasil) {
-    _similarity_lib(1,70)
+    _similarity_lib(2,70)
      $("#modal_general").find(".modal-title").html("Peristiwa Risiko");
     $("#modal_general").find(".modal-body").html(hasil.combo);
     $("#modal_general").modal("show");
