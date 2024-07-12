@@ -2214,6 +2214,7 @@ class Risk_Context extends MY_Controller
 		header('Content-Type: application/json');
 		echo json_encode(['combo' => $result]);
 	}
+
 	function add_peristiwa()
 	{
 		$data['libs'] = $this->data->get_library("2");
@@ -2221,7 +2222,7 @@ class Risk_Context extends MY_Controller
 		$cboKel= $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'lib-cat' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		$cboTipe= $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'risk-type' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		
- 		$data['form'][] = ['title' => _l('fld_peristiwa_risiko'),'required' => true, 'help' => _h('help_add_peristiwa'), 'isi' => form_input('peristiwa_id_text', '', 'class="form-control" id="peristiwa_id_text"  placeholder="Tambah ' . _l('fld_peristiwa_risiko') . '"')	];
+ 		$data['form'][] = ['title' => _l('fld_peristiwa_risiko'),'required' => true, 'help' => _h('help_add_peristiwa'), 'isi' => form_input('peristiwaBaru', '', 'class="form-control" id="peristiwaBaru"  placeholder="Tambah ' . _l('fld_peristiwa_risiko') . '"')	];
  		$data['form'][] = ['title' => _l('fld_klasifikasi_risiko'),'required' => true, 'help' => _h('fld_klasifikasi_risiko'), 'isi' => form_dropdown('kelBaru', $cboKel, '', 'class="form-control select" id="kelBaru"')];
 		$data['form'][] = ['title' => _l('fld_tipe_risiko'),'required' => true, 'help' => _h('fld_tipe_risiko'), 'isi' => form_dropdown('tipeBaru', $cboTipe, '', 'class="form-control select" id="tipeBaru"')];
 		
@@ -2229,5 +2230,31 @@ class Risk_Context extends MY_Controller
 		$result = $this->load->view('add-peristiwa', $data, TRUE);
 		header('Content-Type: application/json');
 		echo json_encode(['combo' => $result]);
+	}
+
+	
+	function simpan_peristiwa()
+	{		
+		$post = $this->input->post();
+
+		$post                = $this->input->post();
+		$upd['library']      = $post['peristiwaBaru'];
+		$upd['risk_type_no'] = $post['tipeBaru'];
+		$upd['type']         = $post['kelBaru'];
+		$upd['active']       = 1;
+		$upd['created_by']   = $this->ion_auth->get_user_name();
+
+		$this->db->insert( _TBL_LIBRARY, $upd );
+        $id = $this->db->insert_id();
+ 		$lib=$this->db->where('id', $id)->get(_TBL_VIEW_LIBRARY)->row_array();
+		$data['idPeristiwa']    = $lib['id'];
+		$data['peristiwaName']    = $lib['library'];
+		$data['tipeId']    = $lib['risk_type_no'];
+		$data['tipeName']    = $lib['risk_type'];
+		$data['tasktonomiId']    = $lib['kel'];
+		$data['tasktonomiName']    = $lib['nama_kelompok'];
+		header( 'Content-type: application/json' );
+		echo json_encode( $data );
+		 
 	}
 }

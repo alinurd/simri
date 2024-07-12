@@ -29,7 +29,7 @@ foreach ($form as $key => $row) :
     <b><i class="icon-arrow-left5"></i></b> <?= _l('fld_back_like_indi'); ?>
 </span>
 <span class="btn bg-success-400 btn-labeled btn-labeled-right legitRipple pull-right" id="savePeristiwa">
-    <b><i class="icon-floppy-disk"></i></b> <?= _l('fld_save_like_indi'); ?>
+    <b><i class="icon-floppy-disk"></i></b> Simpan
 </span>
 <br />
 <hr />

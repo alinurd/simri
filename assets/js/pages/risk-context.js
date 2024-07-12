@@ -1494,6 +1494,29 @@ $(document).on("click", "#getPeristiwa, #backListPeritwa", function () {
      _ajax_("post", parent, data, '', url, 'peristiwa');
  })
 
+$(document).on("click", "#savePeristiwa", function () {
+
+    var parent = $(this).parent();
+    var data = $("#form_peristiwa_baru").serializeArray();
+        var url = modul_name + "/simpan-peristiwa";
+      _ajax_("post", parent, data, '', url, 'resSavePeristiwa');
+ })
+
+ function resSavePeristiwa(lib) {
+    console.log(lib)
+    $('input[name="peristiwa_id"]').val(lib.idPeristiwa).trigger('change');
+    $('#peristiwa_id_text').val(lib.peristiwaName).trigger('change');
+
+    $('input[name="tipe_risiko_id"]').val(lib.tipeId).trigger('change');
+    $('#tipeName').val(lib.tipeName).trigger('change');
+
+    $('input[name="klasifikasi_risiko_id"]').val(lib.tasktonomiId).trigger('change');
+    $('#tasktonomiName').val(lib.tasktonomiName).trigger('change');
+    $("#modal_general").modal("hide");
+
+}
+
+ 
 $(document).on("click", "#addPeristiwa", function () {
     var parent = $(this).parent();
     var id = 1;
