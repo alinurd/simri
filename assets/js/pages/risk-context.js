@@ -1028,16 +1028,21 @@ function cek_isian_identifikasi(awal = false) {
         pesan += '- Sasaran Aktifitas\n';
     }
 
-    if ($('input[name="klasifikasi_risiko_id"]').val() == 0) {
-        hasil = false;
-        pesan += '- Klasifikasi Risiko\n';
-    }
-
     if ($('#tahapan').val() == '') {
         hasil = false;
         pesan += '- Tahapan Proses\n';
     }
 
+    if ($('input[name="peristiwa_id"]').val() == 0) {
+        pesan += '- Peristiwa Risiko\n';
+        hasil = false;
+    }
+    
+    if ($('input[name="klasifikasi_risiko_id"]').val() == 0) {
+        hasil = false;
+        pesan += '- Klasifikasi Risiko\n';
+    }
+    
     if ($('input[name="tipe_risiko_id"]').val() == 0) {
         hasil = false;
         pesan += '- Tipe Risiko\n';
@@ -1056,19 +1061,31 @@ function cek_isian_identifikasi(awal = false) {
         pesan += '- SMAP\n';
     }
 
-    if ($('#penyebab_id').val() == 0) {
-        hasil = false;
-        pesan += '- Penyebab Risiko\n';
-    }
+    $('select[name="penyebab_id[]"]').each(function() {
+        if ($(this).val() == 0) {
+            hasil = false;
+            pesan += '- Penyebab Risiko\n';
+        }
+    });
+
+    $('select[name="dampak_id[]"]').each(function() {
+        if ($(this).val() == 0) {
+            hasil = false;
+            pesan += '- Penyebab Risiko\n';
+        }
+    });
+
+    // if ($('#dampak_id').val() == 0) {
+    //     hasil = false;
+    //     pesan += '- Dampak Risiko\n';
+    // }
+    // if ($('#penyebab_id').val() == 0) {
+    //     hasil = false;
+    //     pesan += '- Penyebab Risiko\n';
+    // }
  
-    if ($('input[name="peristiwa_id"]').val() == 0) {
-        pesan += '- Peristiwa Risiko\n';
-        hasil = false;
-    }
-    if ($('#dampak_id').val() == 0) {
-        hasil = false;
-        pesan += '- Dampak Risiko\n';
-    }
+    
+    
     if ($('#risiko_dept').val().length == 0) {
         hasil = false;
         pesan += '- Risiko Departement\n';

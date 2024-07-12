@@ -729,8 +729,8 @@ class Data extends MX_Model
 		$this->crud->crud_field( 'klasifikasi_risiko_id', $data['klasifikasi_risiko_id'] );
 		$this->crud->crud_field( 'peristiwa_id', $data['peristiwa_id'] );
 		$this->crud->crud_field( 'tipe_risiko_id', $data['tipe_risiko_id'] );
-		$this->crud->crud_field( 'penyebab_id', $data['penyebab_id'] );
-// doi::dump($data['peristiwa_id']);
+		// $this->crud->crud_field( 'penyebab_id', $data['penyebab_id'] );
+// doi::dump($data['penyebab_id']);
 		// if( $peristiwa_id_tmp )
 		// {
 		// 	$peristiwa_id = $peristiwa_id_tmp;

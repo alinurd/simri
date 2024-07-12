@@ -448,33 +448,33 @@ class Risk_Context extends MY_Controller
 		if (isset($data['klasifikasi_risiko_id'])) {
 			$risk_type = $this->crud->combo_select(['id', 'data'])->combo_where('pid', $data['klasifikasi_risiko_id'])->combo_where('kelompok', 'risk-type')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		}
-		$getdataCauseRisk = $this->db->get_where(_TBL_VIEW_LIBRARY, ["type" => 1, "active" => 1], 10)->result_array();
-		foreach ($getdataCauseRisk as $keyCause => $valueCause) {
-			$getdataCauseRisk[$keyCause] = $valueCause["library"];
-		}
-		$getdataPeristiwaRisk = $this->db->get_where(_TBL_VIEW_LIBRARY, ["type" => 2, "active" => 1], 10)->result_array();
-		foreach ($getdataPeristiwaRisk as $keyPeristiwa => $valuePeristiwa) {
-			$getdataPeristiwaRisk[$keyPeristiwa] = $valuePeristiwa["library"];
-		}
-		$getdataImpactRisk = $this->db->get_where(_TBL_VIEW_LIBRARY, ["type" => 3, "active" => 1], 10)->result_array();
-		foreach ($getdataImpactRisk as $keyImpact => $valueImpact) {
-			$getdataImpactRisk[$keyImpact] = $valueImpact["library"];
-		}
+		// $getdataCauseRisk = $this->db->get_where(_TBL_VIEW_LIBRARY, ["type" => 1, "active" => 1], 10)->result_array();
+		// foreach ($getdataCauseRisk as $keyCause => $valueCause) {
+		// 	$getdataCauseRisk[$keyCause] = $valueCause["library"];
+		// }
+		// $getdataPeristiwaRisk = $this->db->get_where(_TBL_VIEW_LIBRARY, ["type" => 2, "active" => 1], 10)->result_array();
+		// foreach ($getdataPeristiwaRisk as $keyPeristiwa => $valuePeristiwa) {
+		// 	$getdataPeristiwaRisk[$keyPeristiwa] = $valuePeristiwa["library"];
+		// }
+		// $getdataImpactRisk = $this->db->get_where(_TBL_VIEW_LIBRARY, ["type" => 3, "active" => 1], 10)->result_array();
+		// foreach ($getdataImpactRisk as $keyImpact => $valueImpact) {
+		// 	$getdataImpactRisk[$keyImpact] = $valueImpact["library"];
+		// }
 
-		$penyebab_id  = !empty($getdataCauseRisk) ? $getdataCauseRisk : [_l('cbo_select')];
-		$dampak_id    = !empty($getdataImpactRisk) ? $getdataImpactRisk : [_l('cbo_select')];
-		$peristiwa_id = !empty($getdataPeristiwaRisk) ? $getdataPeristiwaRisk : [_l('cbo_select')];
+		// $penyebab_id  = !empty($getdataCauseRisk) ? $getdataCauseRisk : [_l('cbo_select')];
+		// $dampak_id    = !empty($getdataImpactRisk) ? $getdataImpactRisk : [_l('cbo_select')];
+		// $peristiwa_id = !empty($getdataPeristiwaRisk) ? $getdataPeristiwaRisk : [_l('cbo_select')];
 
 		// $penyebab_id  = [ _l( 'cbo_select' ) ];
 		// $peristiwa_id = [ _l( 'cbo_select' ) ];
 		// $dampak_id    = [ _l( 'cbo_select' ) ];
-		if (isset($data['tipe_risiko_id'])) {
+		// if (isset($data['tipe_risiko_id'])) {
 			// $penyebab_id  = $this->crud->combo_select(['id', 'library'])->combo_where('type', 1)->combo_where('risk_type_no', $data['tipe_risiko_id'])->combo_where('active', 1)->combo_tbl(_TBL_LIBRARY)->get_combo()->result_combo();
 			$penyebab_id  = $this->crud->combo_select(['id', 'library'])->combo_where('type', 1)->combo_where('active', 1)->combo_tbl(_TBL_LIBRARY)->get_combo()->result_combo();
 			$peristiwa_id  = $this->crud->combo_select(['id', 'library'])->combo_where('type', 2)->combo_where('active', 1)->combo_tbl(_TBL_VIEW_LIBRARY_DETAIL)->get_combo()->result_combo();
 			// $peristiwa_id = $this->crud->combo_select( [ 'id', 'library' ] )->combo_where( 'type', 2 )->combo_where( 'library_no', $data['penyebab_id'] )->combo_where( 'active', 1 )->combo_tbl( _TBL_VIEW_LIBRARY_DETAIL )->get_combo()->result_combo();
-			$dampak_id    = $this->crud->combo_select(['id', 'library'])->combo_where('type', 3)->combo_where('active', 1)->combo_tbl(_TBL_VIEW_LIBRARY_DETAIL)->get_combo()->result_combo();
-		}
+			$dampak_id    = $this->crud->combo_select(['id', 'library'])->combo_where('type', 3)->combo_where('active', 1)->combo_tbl(_TBL_LIBRARY)->get_combo()->result_combo();
+		// }
 
 		$option = '';
 		foreach ($peristiwa_id as $key => $row) {
@@ -554,7 +554,8 @@ class Risk_Context extends MY_Controller
 		$penyebab = '<table class="table table-borderless" id="tblpenyebab"><tbody>';
 		if ($data) {
 			$pi = explode(',', $data['penyebab_id']);
-
+			
+// doi::dump($penyebab_id);
 			foreach ($pi as $key => $x) {
 				$icon = '<i class="icon-plus-circle2 text-primary-400 add-penyebab"></i>&nbsp;&nbsp;<i class="icon-file-empty text-success-400 add-text-penyebab" data-id="0"></i>';
 				if ($key > 0) {
