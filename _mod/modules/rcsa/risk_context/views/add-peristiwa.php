@@ -11,7 +11,7 @@
 echo form_open_multipart($this->uri->uri_string, ['id' => 'form_peristiwa_baru', 'class' => 'form-horizontal']);
 
 foreach ($form as $key => $row) :
-    $mandatori = $row['mandatori'] ?? false;
+    $mandatori = $row['required'] ?? false;
     $required = $mandatori ? '<sup class="text-danger">*)</sup>&nbsp;&nbsp;' : '';
 
     $help = $row['help'] ?? '';

@@ -1495,12 +1495,37 @@ $(document).on("click", "#getPeristiwa, #backListPeritwa", function () {
  })
 
 $(document).on("click", ".savePeristiwa", function () {
+  var parent = $(this).parent();
+  var data = $("#form_peristiwa_baru").serializeArray();
+  var hasil = true;
+  pesan = "data dibawah ini wajib diisi:\n";
 
-    var parent = $(this).parent();
-    var data = $("#form_peristiwa_baru").serializeArray();
-        var url = modul_name + "/simpan-peristiwa";
-      _ajax_("post", parent, data, '', url, 'resSavePeristiwa');
- })
+  if ($('input[name="peristiwaBaru"]').val() == 0) {
+      hasil = false;
+    pesan += "- Peristiwa Risiko\n";
+  }
+
+  $('select[name="kelBaru"]').each(function () {
+    if ($(this).val() == 0) {
+      hasil = false;
+      pesan += "- Tasksonomi\n";
+    }
+  });
+  $('select[name="tipeBaru"]').each(function () {
+    if ($(this).val() == 0) {
+      hasil = false;
+      pesan += "- Tipe Risiko\n";
+    }
+  });
+
+  if (!hasil) {
+    alert(pesan);
+    return false;
+  }
+
+  var url = modul_name + "/simpan-peristiwa";
+  _ajax_("post", parent, data, "", url, "resSavePeristiwa");
+});
 
  function resSavePeristiwa(lib) {
     console.log(lib)

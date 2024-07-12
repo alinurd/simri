@@ -2241,7 +2241,7 @@ class Risk_Context extends MY_Controller
 		$upd['library']      = $post['peristiwaBaru'];
 		$upd['risk_type_no'] = $post['tipeBaru'];
 		$upd['type']         = $post['kelBaru'];
-		$upd['active']       = 1;
+		$upd['active']       = 0;
 		$upd['created_by']   = $this->ion_auth->get_user_name();
 
 		$this->db->insert( _TBL_LIBRARY, $upd );
