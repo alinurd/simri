@@ -74,9 +74,13 @@
                     "sortDescending": '<?= lang('sortDescending'); ?>',
                 }
             },
-            dom: "<'row'<'col-sm-12'l>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            dom: "<'row'<'col-sm-5'i><'col-sm-7'p><'col-sm-6'l><'col-sm-6'f>>" +
+         "<'row'<'col-sm-12'tr>>" +
+         "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+            // dom: "<'row'<'col-sm-12'l>>" +
+            //     "<'row'<'col-sm-12'tr>>" +
+            //     "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         });
     });
 </script>

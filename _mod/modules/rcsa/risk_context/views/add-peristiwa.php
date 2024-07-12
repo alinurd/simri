@@ -1,7 +1,14 @@
+<span class="btn bg-warning-400 btn-labeled btn-labeled-left legitRipple" id="backListPeritwa">
+    <b><i class="icon-arrow-left5"></i></b> <?= _l('fld_back_like_indi'); ?>
+</span>
+<span class="btn bg-success-400 btn-labeled btn-labeled-right legitRipple pull-right" id="savePeristiwa">
+    <b><i class="icon-floppy-disk"></i></b> Simpan
+</span>
+<br />
+<hr />
+
 <?php
 echo form_open_multipart($this->uri->uri_string, ['id' => 'form_peristiwa_baru', 'class' => 'form-horizontal']);
-
-
 
 foreach ($form as $key => $row) :
     $mandatori = $row['mandatori'] ?? false;
@@ -25,14 +32,10 @@ foreach ($form as $key => $row) :
 <?php endforeach; ?>
 <br />
 <hr />
-<span class="btn bg-warning-400 btn-labeled btn-labeled-left legitRipple" id="backListPeritwa">
-    <b><i class="icon-arrow-left5"></i></b> <?= _l('fld_back_like_indi'); ?>
-</span>
-<span class="btn bg-success-400 btn-labeled btn-labeled-right legitRipple pull-right" id="savePeristiwa">
-    <b><i class="icon-floppy-disk"></i></b> Simpan
-</span>
-<br />
-<hr />
+<span class="btn btn-primary" id="similarityLib">cek kemiripan </span>
+<div id="similarityResults"></div>
+
+
 <?php echo form_close(); ?>
 
 <script>
@@ -42,17 +45,28 @@ foreach ($form as $key => $row) :
             dropdownParent: $("#modal_general")
         });
         $('[data-popup="tooltip"]').tooltip();
-        $('.pickadate').pickadate({
-            selectMonths: true,
-            selectYears: true,
-            formatSubmit: 'yyyy/mm/dd'
-        });
         $('#form_like_indi input').keydown(function(e) {
             if (e.keyCode === 13) {
                 e.preventDefault();
                 return false;
             }
         });
+
+// _find_library
+        $("#kelBaru").change(function(){
+		var parent = $(this).parent();
+		var id = $(this).attr('id');
+		var nilai = $(this).val();
+		var data={'id':nilai};
+		var target_combo = $("#tipeBaru");
+		var url = "ajax/get-rist-type";
+		_ajax_("post", parent, data, target_combo, url);
+	})
+      
+
+
+
+
     });
 </script>
 </div>
