@@ -15,7 +15,7 @@ class Data extends MX_Model {
 		$query=$this->db->get();
 		$rows=$query->result_array();
 		$user=[];
-		dumps($rows);
+		// dumps($rows);
 		foreach($rows as $row){
 			$user[]=$row['group_id'];
 		}
