@@ -1,4 +1,5 @@
 $(function(){
+    _similarity_lib(2,70)
 	$("#kel").change(function(){
 		var parent = $(this).parent();
 		var id = $(this).attr('id');

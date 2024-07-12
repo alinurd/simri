@@ -638,8 +638,8 @@ class Risk_Context extends MY_Controller
 
 		// $param['identifikasi']['peristiwa_id']          = [ 'title' => _l( 'fld_peristiwa_risiko' ), 'help' => _h( 'help_peristiwa_risiko' ), 'mandatori' => TRUE, 'add' => FALSE, 'isi' => form_dropdown( 'peristiwa_id', $peristiwa_id, ( $data ) ? $data['peristiwa_id'] : '', 'id="peristiwa_id" class="form-control select" style="width:100%;"' ) ];
 		$param['identifikasi']['peristiwa_id'] = ['title' => _l('fld_peristiwa_risiko'), 'help' => _h('help_peristiwa_risiko'), 'mandatori' => TRUE, 'isi' => $peristiwa];
-		$param['identifikasi']['klasifikasi_risiko_id'] = ['title' => _l('fld_klasifikasi_risiko'), 'help' => _h('help_klasifikasi_risiko'), 'mandatori' => TRUE, 'isi' => $tasktonomi];
-		$param['identifikasi']['tipe_risiko_id'] = ['title' => _l('fld_tipe_risiko'), 'help' => _h('help_tipe_risiko'), 'mandatori' => TRUE, 'isi' => $tipeRisiko];
+		$param['identifikasi']['klasifikasi_risiko_id'] = ['title' => _l('fld_klasifikasi_risiko'), 'help' => _h('help_klasifikasi_risiko'), 'mandatori' => FALSE, 'isi' => $tasktonomi];
+		$param['identifikasi']['tipe_risiko_id'] = ['title' => _l('fld_tipe_risiko'), 'help' => _h('help_tipe_risiko'), 'mandatori' => FALSE, 'isi' => $tipeRisiko];
 
 		// $param['identifikasi']['klasifikasi_risiko_id'] = ['title' => _l('fld_klasifikasi_risiko'), 'help' => _h('help_klasifikasi_risiko'), 'mandatori' => TRUE, 'isi' => form_dropdown('klasifikasi_risiko_id', $kel, ($data) ? $data['klasifikasi_risiko_id'] : '', 'id="klasifikasi_risiko_id" class="form-control select" style="width:100%;"')];
 		// $param['identifikasi']['tipe_risiko_id']        = ['title' => _l('fld_tipe_risiko'), 'help' => _h('help_tipe_risiko'), 'mandatori' => TRUE, 'isi' => form_dropdown('tipe_risiko_id', $risk_type, ($data) ? $data['tipe_risiko_id'] : '', 'id="tipe_risiko_id" class="form-control select" style="width:100%;"')];

@@ -1,7 +1,7 @@
 <style>
     .high-similarity {
     background-color: #FF0000;
-    color: #fff;
+    color: #000000;
 }
 .medium-similarity {
     background-color: #fff3cd;
@@ -15,6 +15,7 @@
 
 
 </style>
+<input type="hidden" name="<?=count($rows)?>" id="similarityCount">
 <?php if($rows){?>
 <legend class="text-uppercase font-size-lg text-dark font-weight-bold"><i class="fa fa-database" aria-hidden="true"></i> 
 <?=$entry;?> <br> 
@@ -61,7 +62,12 @@
         <?php endforeach; ?>
     </tboy>
 </table>
-<?php }?>
+<?php }else{?>
+    <!-- <div id="similarityNUll"  class="d-none"><br><i>tidak ada data, silahkan input library</i></div> -->
+
+    <div id="similarityNUll"  class="d-none"><br><i>tidak ada data, silahkan input library <?=$lib?></i></div>
+
+ <?php }?>
 <script>
  
 

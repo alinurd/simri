@@ -1041,15 +1041,15 @@ function cek_isian_identifikasi(awal = false) {
         hasil = false;
     }
     
-    if ($('input[name="klasifikasi_risiko_id"]').val() == 0) {
-        hasil = false;
-        pesan += '- Klasifikasi Risiko\n';
-    }
+    // if ($('input[name="klasifikasi_risiko_id"]').val() == 0) {
+    //     hasil = false;
+    //     pesan += '- Klasifikasi Risiko\n';
+    // }
     
-    if ($('input[name="tipe_risiko_id"]').val() == 0) {
-        hasil = false;
-        pesan += '- Tipe Risiko\n';
-    }
+    // if ($('input[name="tipe_risiko_id"]').val() == 0) {
+    //     hasil = false;
+    //     pesan += '- Tipe Risiko\n';
+    // }
 
     if ((($('#esg_risk').val())) == 0) {
         hasil = false;
@@ -1542,7 +1542,6 @@ $(document).on("click", ".savePeristiwa", function () {
 });
 
  function resSavePeristiwa(lib) {
-    console.log(lib)
     $('input[name="peristiwa_id"]').val(lib.idPeristiwa).trigger('change');
     $('#peristiwa_id_text').val(lib.peristiwaName).trigger('change');
 
