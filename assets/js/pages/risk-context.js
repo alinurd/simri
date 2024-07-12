@@ -1027,7 +1027,8 @@ function cek_isian_identifikasi(awal = false) {
         hasil = false;
         pesan += '- Sasaran Aktifitas\n';
     }
-    if (isNaN(parseFloat($('#klasifikasi_risiko_id').val()))) {
+
+    if ($('input[name="klasifikasi_risiko_id"]').val() == 0) {
         hasil = false;
         pesan += '- Klasifikasi Risiko\n';
     }
@@ -1037,7 +1038,7 @@ function cek_isian_identifikasi(awal = false) {
         pesan += '- Tahapan Proses\n';
     }
 
-    if (isNaN(parseFloat($('#tipe_risiko_id').val()))) {
+    if ($('input[name="tipe_risiko_id"]').val() == 0) {
         hasil = false;
         pesan += '- Tipe Risiko\n';
     }
@@ -1059,7 +1060,8 @@ function cek_isian_identifikasi(awal = false) {
         hasil = false;
         pesan += '- Penyebab Risiko\n';
     }
-    if ($('#peristiwa_id').val() == 0) {
+ 
+    if ($('input[name="peristiwa_id"]').val() == 0) {
         pesan += '- Peristiwa Risiko\n';
         hasil = false;
     }
@@ -1485,26 +1487,19 @@ $(document).on("click", "#addPeristiwa", function () {
  $(document).on("click", "#pilihPeristiwa", function () {
     var idPeristiwa = $(this).data('id');
  
-    $('#peristiwa_id').val(idPeristiwa).trigger('change');
-    var peristiwaName = $("#peristiwaName" + idPeristiwa).val();
+     var peristiwaName = $("#peristiwaName" + idPeristiwa).val();
+    $('input[name="peristiwa_id"]').val(idPeristiwa).trigger('change');
     $('#peristiwa_id_text').val(peristiwaName).trigger('change');
 
      var tipeName = $("#tipeName" + idPeristiwa).val();
-    var tipeId = $("#tipeId" + idPeristiwa).val();
-    $('#tipe_risiko_id').val(tipeId).trigger('change');
+     var tipeId = $("#tipeId" + idPeristiwa).val();
+     $('input[name="tipe_risiko_id"]').val(tipeId).trigger('change');
     $('#tipeName').val(tipeName).trigger('change');
-
+    
     var tasktonomiName = $("#tasktonomiName" + idPeristiwa).val();
     var tasktonomiId = $("#tasktonomiId" + idPeristiwa).val();
-    $('#klasifikasi_risiko_id').val(tasktonomiId).trigger('change');
-    $('#tasktonomiName').val(tasktonomiName).trigger('change');
-
-    console.log(idPeristiwa);
-    console.log(peristiwaName);
-    console.log(tipeId);
-    console.log(tipeName);
-    console.log(tasktonomiId);
-    console.log(tasktonomiName);
+    $('input[name="klasifikasi_risiko_id"]').val(tasktonomiId).trigger('change');
+     $('#tasktonomiName').val(tasktonomiName).trigger('change');
 
     $("#modal_general").modal("hide");
 });
