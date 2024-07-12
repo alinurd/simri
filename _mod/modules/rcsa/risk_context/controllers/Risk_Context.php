@@ -495,17 +495,17 @@ class Risk_Context extends MY_Controller
 		{
 			$risk_type = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'pid', $data['klasifikasi_risiko_id'] )->combo_where( 'kelompok', 'risk-type' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		}
-		$getdataCauseRisk = $this->db->get_where( _TBL_VIEW_LIBRARY, [ "type" => 1, "active" => 1 ], 10 )->result_array();
+		$getdataCauseRisk = $this->db->get_where( _TBL_VIEW_LIBRARY, [ "type" => 1, "active" => 1 ] )->result_array();
 		foreach( $getdataCauseRisk as $keyCause => $valueCause )
 		{
 			$getdataCauseRisk[$keyCause] = $valueCause["library"];
 		}
-		$getdataPeristiwaRisk = $this->db->get_where( _TBL_VIEW_LIBRARY, [ "type" => 2, "active" => 1 ], 10 )->result_array();
+		$getdataPeristiwaRisk = $this->db->get_where( _TBL_VIEW_LIBRARY, [ "type" => 2, "active" => 1 ] )->result_array();
 		foreach( $getdataPeristiwaRisk as $keyPeristiwa => $valuePeristiwa )
 		{
 			$getdataPeristiwaRisk[$keyPeristiwa] = $valuePeristiwa["library"];
 		}
-		$getdataImpactRisk = $this->db->get_where( _TBL_VIEW_LIBRARY, [ "type" => 3, "active" => 1 ], 10 )->result_array();
+		$getdataImpactRisk = $this->db->get_where( _TBL_VIEW_LIBRARY, [ "type" => 3, "active" => 1 ] )->result_array();
 		foreach( $getdataImpactRisk as $keyImpact => $valueImpact )
 		{
 			$getdataImpactRisk[$keyImpact] = $valueImpact["library"];

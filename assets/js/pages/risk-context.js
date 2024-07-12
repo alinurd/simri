@@ -342,7 +342,7 @@ $(function () {
         var data = { 'id': nilai, 'kel': 1 };
         var target_combo = $("#penyebab_id");
         var url = "ajax/get-library";
-        _ajax_("post", parent, data, target_combo, url);
+        // _ajax_("post", parent, data, target_combo, url);
     })
 
     $(document).on("change", "#klasifikasi_risiko_id", function () {
