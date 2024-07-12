@@ -602,9 +602,10 @@ class Risk_Context extends MY_Controller
 				. form_input('peristiwa_id', '', 'class="form-control getPeristiwa " id="peristiwa_id" readonly="readonly"  placeholder="' . _l('fld_peristiwa_risiko') . '"') .
 				'</td>
 		 
-		</tr>';
+			</tr>';
 		}
 		$peristiwa .= '</tbody></table>';
+
 		$tasktonomi = '<table class="table table-borderless" id="tblperistiwa"><tbody>';
 		if ($data) {
 			$pi = explode(',', $data['peristiwa_id']);
@@ -616,13 +617,13 @@ class Risk_Context extends MY_Controller
 			</tr>';
 			}
 		} else {
-			$tasktonomi .= '<tr id="getPeristiwa">
+			$tasktonomi .= '<tr >
 			<td style="padding-left:0px;">'
-				. form_input('tasktonomiName', '', 'class="form-control getPeristiwa " id="tasktonomiName" readonly="readonly"  placeholder="' . _l('fld_klasifikasi_risiko') . '"')
-				. form_input('klasifikasi_risiko_id', '', 'class="form-control getPeristiwa " id="klasifikasi_risiko_id" readonly="readonly"  placeholder="' . _l('fld_klasifikasi_risiko') . '"') .
+				. form_input('tasktonomiName', '', 'class="form-control  " id="tasktonomiName" readonly="readonly"  placeholder="' . _l('fld_klasifikasi_risiko') . '"')
+				. form_input('klasifikasi_risiko_id', '', 'class="form-control  " id="klasifikasi_risiko_id" readonly="readonly"  placeholder="' . _l('fld_klasifikasi_risiko') . '"') .
 				'</td>
 		 
-		</tr>';
+			</tr>';
 		}
 		$tasktonomi .= '</tbody></table>';
 
@@ -637,12 +638,12 @@ class Risk_Context extends MY_Controller
 			</tr>';
 			}
 		} else {
-			$tipeRisiko .= '<tr id="getPeristiwa">
+			$tipeRisiko .= '<tr >
 			<td style="padding-left:0px;">'
-				. form_input('tipeName', '', 'class="form-control getPeristiwa " id="tipeName" readonly="readonly"  placeholder="' . _l('fld_tipe_risiko') . '"')
-				. form_input('tipe_risiko_id', '', 'class="form-control getPeristiwa " id="tipe_risiko_id" readonly="readonly"  placeholder="' . _l('fld_tipe_risiko') . '"') .
+				. form_input('tipeName', '', 'class="form-control  " id="tipeName" readonly="readonly"  placeholder="' . _l('fld_tipe_risiko') . '"')
+				. form_input('tipe_risiko_id', '', 'class="form-control  " id="tipe_risiko_id" readonly="readonly"  placeholder="' . _l('fld_tipe_risiko') . '"') .
 				'</td>
-		</tr>';
+			</tr>';
 		}
 		$tipeRisiko .= '</tbody></table>';
 
