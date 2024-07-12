@@ -14,7 +14,7 @@ class Cause_Library extends MY_Controller
 
 	function init( $action = 'list' )
 	{
-		$this->type_risk     = 1;
+		$this->type_risk     = 2;
 		$this->kel           = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'lib-cat' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		$this->cbo_risk_type = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'risk-type' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		$this->cbo_status    = $this->crud->combo_value( [ 1 => 'aktif', 2 => 'tidak aktif' ] )->result_combo();
