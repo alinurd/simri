@@ -603,7 +603,7 @@ class Risk_Context extends MY_Controller
 		$tasktonomi = '<table class="table table-borderless" id="tblperistiwa"><tbody>
     <tr>
         <td style="padding-left:0px;">'
-			. form_input('tasktonomiName', ($lib) ? $lib['nama_kelompok'] : '', 'class="form-control getPeristiwa" id="tasktonomiName" readonly="readonly" placeholder="' . _l('fld_peristiwa_risiko') . '"')
+			. form_input('tasktonomiName', ($lib) ? $lib['nama_kelompok'] : '', 'class="form-control getPeristiwa" id="tasktonomiName" readonly="readonly" placeholder="' . _l('help_ket_peristiwa') . '"')
 			. form_hidden('klasifikasi_risiko_id', ($lib) ? $data['klasifikasi_risiko_id'] : '', 'id="klasifikasi_risiko_id"') .
 			'</td>
     </tr>
@@ -612,7 +612,7 @@ class Risk_Context extends MY_Controller
 		$tipeRisiko = '<table class="table table-borderless" id="tblperistiwa"><tbody>
     <tr>
         <td style="padding-left:0px;">'
-			. form_input('tipeName', ($lib) ? $lib['risk_type'] : '', 'class="form-control getPeristiwa" id="tipeName" readonly="readonly" placeholder="' . _l('fld_peristiwa_risiko') . '"')
+			. form_input('tipeName', ($lib) ? $lib['risk_type'] : '', 'class="form-control getPeristiwa" id="tipeName" readonly="readonly" placeholder="' . _l('help_ket_peristiwa') . '"')
 			. form_hidden('tipe_risiko_id', ($lib) ? $data['tipe_risiko_id'] : '', 'id="tipe_risiko_id"') .
 			'</td>
     </tr>
@@ -2217,6 +2217,15 @@ class Risk_Context extends MY_Controller
 	function add_peristiwa()
 	{
 		$data['libs'] = $this->data->get_library("2");
+
+		$cboKel= $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'lib-cat' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+		$cboTipe= $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'risk-type' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+		
+ 		$data['form'][] = ['title' => _l('fld_peristiwa_risiko'),'required' => true, 'help' => _h('help_add_peristiwa'), 'isi' => form_input('peristiwa_id_text', '', 'class="form-control" id="peristiwa_id_text"  placeholder="Tambah ' . _l('fld_peristiwa_risiko') . '"')	];
+ 		$data['form'][] = ['title' => _l('fld_klasifikasi_risiko'),'required' => true, 'help' => _h('fld_klasifikasi_risiko'), 'isi' => form_dropdown('kelBaru', $cboKel, '', 'class="form-control select" id="kelBaru"')];
+		$data['form'][] = ['title' => _l('fld_tipe_risiko'),'required' => true, 'help' => _h('fld_tipe_risiko'), 'isi' => form_dropdown('tipeBaru', $cboTipe, '', 'class="form-control select" id="tipeBaru"')];
+		
+
 		$result = $this->load->view('add-peristiwa', $data, TRUE);
 		header('Content-Type: application/json');
 		echo json_encode(['combo' => $result]);

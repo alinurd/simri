@@ -158,5 +158,7 @@ $lang['ph_title']                    = 'Title';
 $lang['ph_url']                      = 'URL - kosongkan jika tidak melink kemana mana';
 $lang['slider_title']                = 'Risk Context';
 $lang['fld_upload']                  = 'File Upload';
+$lang['help_ket_peristiwa']          = 'Pilih peristiwa risiko terlebih dahulu';
+$lang['help_add_peristiwa']          = 'Input peristiwa baru. selanjutnya data akan menjadi nonaktif';
 
 /* End of file risk_context_lang.php */
