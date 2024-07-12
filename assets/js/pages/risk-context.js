@@ -1490,6 +1490,29 @@ $(document).on("click", "#addPeristiwa", function () {
      _ajax_("post", parent, data, '', url, 'peristiwa');
  })
 
+$(document).on("click", "#pilihPeristiwa", function () {
+    var parent = $(this).parent();
+    var idPeristiwa = $(this).data('id');
+    var peristiwaName = $("#peristiwaName"+idPeristiwa).val();
+    $('#peristiwa_id').val(idPeristiwa);
+    $('#peristiwa_id_text').val(peristiwaName);
+
+    
+    var tipeName = $("#tipeName"+idPeristiwa).val();
+    var tipeId = $("#tipeId"+idPeristiwa).val();
+    $('#tipe_risiko_id').val(tipeId);
+    $('#tipeName').val(tipeName);
+
+    var tasktonomiName = $("#taksonomiName"+idPeristiwa).val();
+    var tasktonomiId = $("#taksonomiId"+idPeristiwa).val();
+    $('#klasifikasi_risiko_id').val(tasktonomiId);
+    $('#tasktonomiName').val(tasktonomiName);
+
+// console.log(idPeristiwa)
+// console.log(peristiwaName)
+
+    $("#modal_general").modal("hide");
+ })
 
 function peristiwa(hasil) {
      $("#modal_general").find(".modal-title").html("Peristiwa Risiko");

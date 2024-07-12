@@ -12,7 +12,7 @@ class MX_Model extends CI_Model
 	function get_library( $type )
 	{
 		if($type){
-			$libs = $this->db->where_in( 'type', $type )->get( _TBL_VIEW_LIBRARY )->result_array();
+			$libs = $this->db->where_in('type', $type)->where("active", 1)->get( _TBL_VIEW_LIBRARY )->result_array();
 		}else{
 			$libs=[];
 		}
