@@ -187,17 +187,18 @@ class Data extends MX_Model
 		$this->crud->crud_field( 'tahapan', $data['tahapan'] );
 		$this->crud->crud_field( 'klasifikasi_risiko_id', $data['klasifikasi_risiko_id'] );
 		$this->crud->crud_field( 'tipe_risiko_id', $data['tipe_risiko_id'] );
-		$this->crud->crud_field( 'penyebab_id', $data['penyebab_id'] );
+		$this->crud->crud_field( 'peristiwa_id', $data['peristiwa_id'] );
+		// $this->crud->crud_field( 'penyebab_id', $data['penyebab_id'] );
 
-		if( $peristiwa_id_tmp )
-		{
-			$peristiwa_id = implode( ',', $peristiwa_id_tmp );
-		}
-		else
-		{
-			$peristiwa_id = implode( ',', $data['peristiwa_id'] );
-		}
-		$this->crud->crud_field( 'peristiwa_id', $peristiwa_id );
+		// if( $peristiwa_id_tmp )
+		// {
+		// 	$peristiwa_id =$peristiwa_id_tmp ;
+		// }
+		// else
+		// {
+		// 	$peristiwa_id =$data['peristiwa_id'];
+		// }
+		// $this->crud->crud_field( 'peristiwa_id', $peristiwa_id );
 
 		if( $dampak_id_tmp )
 		{
@@ -600,118 +601,119 @@ class Data extends MX_Model
 		// 	$this->crud->process_crud();
 		// 	$data['tahapan_id'] = $this->crud->last_id();
 		// }
-		$peristiwa_id_tmp = [];
+		// $peristiwa_id_tmp = [];
 		$dampak_id_tmp    = [];
+		$penyebab_id_tmp    = [];
 
-		if( isset( $data['txt_penyebab_id'] ) )
-		{
-			if( ! empty( trim( $data['txt_penyebab_id'] ) ) )
-			{
-				$this->crud->crud_type( 'add' );
-				$this->crud->crud_table( _TBL_LIBRARY );
-				$this->crud->crud_field( 'type', 1 );
-				$this->crud->crud_field( 'risk_type_no', $data['tipe_risiko_id'] );
-				$this->crud->crud_field( 'library', $data['txt_penyebab_id'] );
-				$this->crud->crud_field( 'active', 1 );
-				$this->crud->process_crud();
-				$data['penyebab_id'] = $this->crud->last_id();
+		// if( isset( $data['txt_penyebab_id'] ) )
+		// {
+		// 	if( ! empty( trim( $data['txt_penyebab_id'] ) ) )
+		// 	{
+		// 		$this->crud->crud_type( 'add' );
+		// 		$this->crud->crud_table( _TBL_LIBRARY );
+		// 		$this->crud->crud_field( 'type', 1 );
+		// 		$this->crud->crud_field( 'risk_type_no', $data['tipe_risiko_id'] );
+		// 		$this->crud->crud_field( 'library', $data['txt_penyebab_id'] );
+		// 		$this->crud->crud_field( 'active', 1 );
+		// 		$this->crud->process_crud();
+		// 		$data['penyebab_id'] = $this->crud->last_id();
 
-				foreach( $data['peristiwa_id_text'] as $pt )
-				{
-					if( ! empty( trim( $pt ) ) )
-					{
-						$this->crud->crud_type( 'add' );
-						$this->crud->crud_table( _TBL_LIBRARY );
-						$this->crud->crud_field( 'type', 2 );
-						$this->crud->crud_field( 'risk_type_no', $data['tipe_risiko_id'] );
-						$this->crud->crud_field( 'library', $pt );
-						$this->crud->crud_field( 'active', 1 );
-						$this->crud->process_crud();
-						$idsx               = $this->crud->last_id();
-						$peristiwa_id_tmp[] = $idsx;
+		// 		foreach( $data['peristiwa_id_text'] as $pt )
+		// 		{
+		// 			if( ! empty( trim( $pt ) ) )
+		// 			{
+		// 				$this->crud->crud_type( 'add' );
+		// 				$this->crud->crud_table( _TBL_LIBRARY );
+		// 				$this->crud->crud_field( 'type', 2 );
+		// 				$this->crud->crud_field( 'risk_type_no', $data['tipe_risiko_id'] );
+		// 				$this->crud->crud_field( 'library', $pt );
+		// 				$this->crud->crud_field( 'active', 1 );
+		// 				$this->crud->process_crud();
+		// 				$idsx               = $this->crud->last_id();
+		// 				$peristiwa_id_tmp[] = $idsx;
 
-						$this->crud->crud_type( 'add' );
-						$this->crud->crud_table( _TBL_LIBRARY_DETAIL );
-						$this->crud->crud_field( 'library_no', $data['penyebab_id'] );
-						$this->crud->crud_field( 'child_no', $idsx );
-						$this->crud->crud_field( 'active', 1 );
-						$this->crud->process_crud();
-					}
-				}
+		// 				$this->crud->crud_type( 'add' );
+		// 				$this->crud->crud_table( _TBL_LIBRARY_DETAIL );
+		// 				$this->crud->crud_field( 'library_no', $data['penyebab_id'] );
+		// 				$this->crud->crud_field( 'child_no', $idsx );
+		// 				$this->crud->crud_field( 'active', 1 );
+		// 				$this->crud->process_crud();
+		// 			}
+		// 		}
 
-				foreach( $data['dampak_id_text'] as $pt )
-				{
-					if( ! empty( trim( $pt ) ) )
-					{
-						$this->crud->crud_type( 'add' );
-						$this->crud->crud_table( _TBL_LIBRARY );
-						$this->crud->crud_field( 'type', 3 );
-						$this->crud->crud_field( 'risk_type_no', $data['tipe_risiko_id'] );
-						$this->crud->crud_field( 'library', $pt );
-						$this->crud->crud_field( 'active', 1 );
-						$this->crud->process_crud();
-						$idsx            = $this->crud->last_id();
-						$dampak_id_tmp[] = $idsx;
+		// 		foreach( $data['dampak_id_text'] as $pt )
+		// 		{
+		// 			if( ! empty( trim( $pt ) ) )
+		// 			{
+		// 				$this->crud->crud_type( 'add' );
+		// 				$this->crud->crud_table( _TBL_LIBRARY );
+		// 				$this->crud->crud_field( 'type', 3 );
+		// 				$this->crud->crud_field( 'risk_type_no', $data['tipe_risiko_id'] );
+		// 				$this->crud->crud_field( 'library', $pt );
+		// 				$this->crud->crud_field( 'active', 1 );
+		// 				$this->crud->process_crud();
+		// 				$idsx            = $this->crud->last_id();
+		// 				$dampak_id_tmp[] = $idsx;
 
-						$this->crud->crud_type( 'add' );
-						$this->crud->crud_table( _TBL_LIBRARY_DETAIL );
-						$this->crud->crud_field( 'library_no', $data['penyebab_id'] );
-						$this->crud->crud_field( 'child_no', $idsx );
-						$this->crud->crud_field( 'active', 1 );
-						$this->crud->process_crud();
-					}
-				}
-			}
-			else
-			{
-				foreach( $data['peristiwa_id_text'] as $pt )
-				{
-					if( ! empty( trim( $pt ) ) )
-					{
-						$this->crud->crud_type( 'add' );
-						$this->crud->crud_table( _TBL_LIBRARY );
-						$this->crud->crud_field( 'type', 2 );
-						$this->crud->crud_field( 'risk_type_no', $data['tipe_risiko_id'] );
-						$this->crud->crud_field( 'library', $pt );
-						$this->crud->crud_field( 'active', 1 );
-						$this->crud->process_crud();
-						$idsx                   = $this->crud->last_id();
-						$peristiwa_id_tmp[]     = $idsx;
-						$data['peristiwa_id'][] = $idsx;
+		// 				$this->crud->crud_type( 'add' );
+		// 				$this->crud->crud_table( _TBL_LIBRARY_DETAIL );
+		// 				$this->crud->crud_field( 'library_no', $data['penyebab_id'] );
+		// 				$this->crud->crud_field( 'child_no', $idsx );
+		// 				$this->crud->crud_field( 'active', 1 );
+		// 				$this->crud->process_crud();
+		// 			}
+		// 		}
+		// 	}
+		// 	else
+		// 	{
+		// 		foreach( $data['peristiwa_id_text'] as $pt )
+		// 		{
+		// 			if( ! empty( trim( $pt ) ) )
+		// 			{
+		// 				$this->crud->crud_type( 'add' );
+		// 				$this->crud->crud_table( _TBL_LIBRARY );
+		// 				$this->crud->crud_field( 'type', 2 );
+		// 				$this->crud->crud_field( 'risk_type_no', $data['tipe_risiko_id'] );
+		// 				$this->crud->crud_field( 'library', $pt );
+		// 				$this->crud->crud_field( 'active', 1 );
+		// 				$this->crud->process_crud();
+		// 				$idsx                   = $this->crud->last_id();
+		// 				$peristiwa_id_tmp[]     = $idsx;
+		// 				$data['peristiwa_id'][] = $idsx;
 
-						$this->crud->crud_type( 'add' );
-						$this->crud->crud_table( _TBL_LIBRARY_DETAIL );
-						$this->crud->crud_field( 'library_no', $data['penyebab_id'] );
-						$this->crud->crud_field( 'child_no', $idsx );
-						$this->crud->crud_field( 'active', 1 );
-						$this->crud->process_crud();
-					}
-				}
+		// 				$this->crud->crud_type( 'add' );
+		// 				$this->crud->crud_table( _TBL_LIBRARY_DETAIL );
+		// 				$this->crud->crud_field( 'library_no', $data['penyebab_id'] );
+		// 				$this->crud->crud_field( 'child_no', $idsx );
+		// 				$this->crud->crud_field( 'active', 1 );
+		// 				$this->crud->process_crud();
+		// 			}
+		// 		}
 
-				foreach( $data['dampak_id_text'] as $pt )
-				{
-					if( ! empty( trim( $pt ) ) )
-					{
-						$this->crud->crud_type( 'add' );
-						$this->crud->crud_table( _TBL_LIBRARY );
-						$this->crud->crud_field( 'type', 3 );
-						$this->crud->crud_field( 'risk_type_no', $data['tipe_risiko_id'] );
-						$this->crud->crud_field( 'library', $pt );
-						$this->crud->crud_field( 'active', 1 );
-						$this->crud->process_crud();
-						$idsx                = $this->crud->last_id();
-						$data['dampak_id'][] = $idsx;
+		// 		foreach( $data['dampak_id_text'] as $pt )
+		// 		{
+		// 			if( ! empty( trim( $pt ) ) )
+		// 			{
+		// 				$this->crud->crud_type( 'add' );
+		// 				$this->crud->crud_table( _TBL_LIBRARY );
+		// 				$this->crud->crud_field( 'type', 3 );
+		// 				$this->crud->crud_field( 'risk_type_no', $data['tipe_risiko_id'] );
+		// 				$this->crud->crud_field( 'library', $pt );
+		// 				$this->crud->crud_field( 'active', 1 );
+		// 				$this->crud->process_crud();
+		// 				$idsx                = $this->crud->last_id();
+		// 				$data['dampak_id'][] = $idsx;
 
-						$this->crud->crud_type( 'add' );
-						$this->crud->crud_table( _TBL_LIBRARY_DETAIL );
-						$this->crud->crud_field( 'library_no', $data['penyebab_id'] );
-						$this->crud->crud_field( 'child_no', $idsx );
-						$this->crud->crud_field( 'active', 1 );
-						$this->crud->process_crud();
-					}
-				}
-			}
-		}
+		// 				$this->crud->crud_type( 'add' );
+		// 				$this->crud->crud_table( _TBL_LIBRARY_DETAIL );
+		// 				$this->crud->crud_field( 'library_no', $data['penyebab_id'] );
+		// 				$this->crud->crud_field( 'child_no', $idsx );
+		// 				$this->crud->crud_field( 'active', 1 );
+		// 				$this->crud->process_crud();
+		// 			}
+		// 		}
+		// 	}
+		// }
 
 		$this->crud->crud_table( _TBL_RCSA_DETAIL );
 		$this->crud->crud_field( 'rcsa_id', $data['rcsa_id'] );
@@ -725,18 +727,32 @@ class Data extends MX_Model
 		$this->crud->crud_field( 'sasaran_id', $data['sasaran_id'] );
 		$this->crud->crud_field( 'tahapan', $data['tahapan'] );
 		$this->crud->crud_field( 'klasifikasi_risiko_id', $data['klasifikasi_risiko_id'] );
+		$this->crud->crud_field( 'peristiwa_id', $data['peristiwa_id'] );
 		$this->crud->crud_field( 'tipe_risiko_id', $data['tipe_risiko_id'] );
 		$this->crud->crud_field( 'penyebab_id', $data['penyebab_id'] );
+// doi::dump($data['peristiwa_id']);
+		// if( $peristiwa_id_tmp )
+		// {
+		// 	$peristiwa_id = $peristiwa_id_tmp;
+		// 	// $peristiwa_id = implode( ',', $peristiwa_id_tmp );//peristiwa lebih dari 1
+		// }
+		// else
+		// {
+		// 	$peristiwa_id = $data['peristiwa_id'];
+		// 	// $peristiwa_id = implode( ',', $data['peristiwa_id'] );//peristiwa lebih dari 1
+		// }
+		// $this->crud->crud_field( 'peristiwa_id', $peristiwa_id );
 
-		if( $peristiwa_id_tmp )
+		if( $penyebab_id_tmp )
 		{
-			$peristiwa_id = implode( ',', $peristiwa_id_tmp );
+			$penyebab_id = implode( ',', $penyebab_id_tmp );
 		}
 		else
 		{
-			$peristiwa_id = implode( ',', $data['peristiwa_id'] );
+			$penyebab_id = implode( ',', $data['penyebab_id'] );
 		}
-		$this->crud->crud_field( 'peristiwa_id', $peristiwa_id );
+		$this->crud->crud_field( 'penyebab_id', $penyebab_id );
+
 
 		if( $dampak_id_tmp )
 		{

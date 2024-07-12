@@ -681,7 +681,7 @@ $(function () {
 
     $(document).on("click", ".add-penyebab", function () {
         if (sts_penyebab_risiko == 0) {
-            var cbo = '<select name="penyebab_id[]" id="penyebab_id" class="form-control select" style="width:100%;">' + cboperistiwa + '</select>';
+            var cbo = '<select name="penyebab_id[]" id="penyebab_id_" class="form-control select" style="width:100%;">' + cboperistiwa + '</select>';
             cbo += '<input type="text" name="penyebab_id_text[]" value="" class="form-control d-none" id="penyebab_id_text" placeholder="Penyebab Risiko">';
         } else {
             var cbo = '<input type="text" name="penyebab_id_text[]" value="" class="form-control" id="penyebab_id_text" placeholder="Penyebab Risiko">';
@@ -699,7 +699,7 @@ $(function () {
 
     $(document).on("click", ".add-dampak", function () {
         if (sts_penyebab_risiko == 0) {
-            var cbo = '<select name="dampak_id[]" id="dampak_id" class="form-control select" style="width:100%;">' + cbodampak + '</select>';
+            var cbo = '<select name="dampak_id[]" id="dampak_id_" class="form-control select" style="width:100%;">' + cbodampak + '</select>';
             cbo += '<input type="text" name="dampak_id_text[]" value="" class="form-control d-none" id="dampak_id_text" placeholder="Dampak Risiko">';
         } else {
             var cbo = '<input type="text" name="dampak_id_text[]" value="" class="form-control" id="dampak_id_text" placeholder="Dampak Risiko">';
@@ -1467,14 +1467,7 @@ $(document).on("change", "#treatment_id", function () {
     }
 });
 
-$(document).on("click", "#getPeristiwa .getPeristiwa", function () {
-    var parent = $(this).parent();
-    var id = 1;
-    var data = { 'id': 0, 'rcsa_detail_no': id, 'bk_tipe': 1 };
-     var url = modul_name + "/get-peristiwa";
-     _ajax_("post", parent, data, '', url, 'peristiwa');
- })
-$(document).on("click", "#backListPeritwa", function () {
+$(document).on("click", "#getPeristiwa, #backListPeritwa", function () {
     var parent = $(this).parent();
     var id = 1;
     var data = { 'id': 0, 'rcsa_detail_no': id, 'bk_tipe': 1 };

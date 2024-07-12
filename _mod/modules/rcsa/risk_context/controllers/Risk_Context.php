@@ -469,10 +469,11 @@ class Risk_Context extends MY_Controller
 		// $peristiwa_id = [ _l( 'cbo_select' ) ];
 		// $dampak_id    = [ _l( 'cbo_select' ) ];
 		if (isset($data['tipe_risiko_id'])) {
-			$penyebab_id  = $this->crud->combo_select(['id', 'library'])->combo_where('type', 1)->combo_where('risk_type_no', $data['tipe_risiko_id'])->combo_where('active', 1)->combo_tbl(_TBL_LIBRARY)->get_combo()->result_combo();
+			// $penyebab_id  = $this->crud->combo_select(['id', 'library'])->combo_where('type', 1)->combo_where('risk_type_no', $data['tipe_risiko_id'])->combo_where('active', 1)->combo_tbl(_TBL_LIBRARY)->get_combo()->result_combo();
+			$penyebab_id  = $this->crud->combo_select(['id', 'library'])->combo_where('type', 1)->combo_where('active', 1)->combo_tbl(_TBL_LIBRARY)->get_combo()->result_combo();
 			$peristiwa_id  = $this->crud->combo_select(['id', 'library'])->combo_where('type', 2)->combo_where('active', 1)->combo_tbl(_TBL_VIEW_LIBRARY_DETAIL)->get_combo()->result_combo();
 			// $peristiwa_id = $this->crud->combo_select( [ 'id', 'library' ] )->combo_where( 'type', 2 )->combo_where( 'library_no', $data['penyebab_id'] )->combo_where( 'active', 1 )->combo_tbl( _TBL_VIEW_LIBRARY_DETAIL )->get_combo()->result_combo();
-			$dampak_id    = $this->crud->combo_select(['id', 'library'])->combo_where('type', 3)->combo_where('library_no', $data['penyebab_id'])->combo_where('active', 1)->combo_tbl(_TBL_VIEW_LIBRARY_DETAIL)->get_combo()->result_combo();
+			$dampak_id    = $this->crud->combo_select(['id', 'library'])->combo_where('type', 3)->combo_where('active', 1)->combo_tbl(_TBL_VIEW_LIBRARY_DETAIL)->get_combo()->result_combo();
 		}
 
 		$option = '';
@@ -559,10 +560,10 @@ class Risk_Context extends MY_Controller
 				if ($key > 0) {
 					$icon = '<i class="icon-database-remove text-danger-400 del-penyebab"></i>';
 				}
-				$penyebab .= '<tr><td style="padding-left:0px;">' . form_dropdown('penyebab_id[]', $penyebab_id, $x, 'id="penyebab_id" class="form-control select" style="width:100%;"') . form_input('penyebab_id_text[]', '', 'class="form-control d-none" id="penyebab_id" placeholder="' . _l('fld_penyebab_risiko') . '" ') . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;">' . $icon . '</td></tr>';
+				$penyebab .= '<tr><td style="padding-left:0px;">' . form_dropdown('penyebab_id[]', $penyebab_id, $x, 'id="penyebab_id_"  class="form-control select" style="width:100%;"') . form_input('penyebab_id_text[]', '', 'class="form-control d-none" id="penyebab_id" placeholder="' . _l('fld_penyebab_risiko') . '" ') . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;">' . $icon . '</td></tr>';
 			}
 		} else {
-			$penyebab .= '<tr><td style="padding-left:0px;">' . form_dropdown('penyebab_id[]', $penyebab_id, '', 'id="penyebab_id" class="form-control select" style="width:100%;"') . form_input('penyebab_id_text[]', '', 'class="form-control d-none" id="penyebab_id_text" placeholder="' . _l('fld_penyebab_risiko') . '"') . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;"><i class="icon-plus-circle2 text-primary-400 add-penyebab"></i></td></tr>';
+			$penyebab .= '<tr><td style="padding-left:0px;">' . form_dropdown('penyebab_id[]', $penyebab_id, '', 'id="penyebab_id_"  class="form-control select" style="width:100%;"') . form_input('penyebab_id_text[]', '', 'class="form-control d-none" id="penyebab_id_text" placeholder="' . _l('fld_penyebab_risiko') . '"') . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;"><i class="icon-plus-circle2 text-primary-400 add-penyebab"></i></td></tr>';
 		}
 		$penyebab .= '</tbody></table>';
 
@@ -577,77 +578,40 @@ class Risk_Context extends MY_Controller
 				if ($key > 0) {
 					$icon = '<i class="icon-database-remove text-danger-400 del-dampak"></i>';
 				}
-				$dampak .= '<tr><td style="padding-left:0px;">' . form_dropdown('dampak_id[]', $dampak_id, $x, 'id="dampak_id" class="form-control select" style="width:100%;"') . form_input('dampak_id_text[]', '', 'class="form-control d-none" id="dampak_id_text" placeholder="' . _l('fld_dampak_risiko') . '"') . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;">' . $icon . '</td></tr>';
+				$dampak .= '<tr><td style="padding-left:0px;">' . form_dropdown('dampak_id[]', $dampak_id, $x, 'id="dampak_id_" class="form-control select" style="width:100%;"') . form_input('dampak_id_text[]', '', 'class="form-control d-none" id="dampak_id_text" placeholder="' . _l('fld_dampak_risiko') . '"') . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;">' . $icon . '</td></tr>';
 			}
 			$csslevel = 'background-color:' . $data['color'] . ';color:' . $data['color_text'] . ';';
 		} else {
-			$dampak .= '<tr><td style="padding-left:0px;">' . form_dropdown('dampak_id[]', $dampak_id, '', 'id="dampak_id" class="form-control select" style="width:100%;"') . form_input('dampak_id_text[]', '', 'class="form-control d-none" id="dampak_id_text" placeholder="' . _l('fld_dampak_risiko') . '"') . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;"><i class="icon-plus-circle2 text-primary-400 add-dampak"></i></td></tr>';
+			$dampak .= '<tr><td style="padding-left:0px;">' . form_dropdown('dampak_id[]', $dampak_id, '', 'id="dampak_id_" class="form-control select" style="width:100%;"') . form_input('dampak_id_text[]', '', 'class="form-control d-none" id="dampak_id_text" placeholder="' . _l('fld_dampak_risiko') . '"') . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;"><i class="icon-plus-circle2 text-primary-400 add-dampak"></i></td></tr>';
 		}
-
-
-		$peristiwa = '<table class="table table-borderless" id="tblperistiwa"><tbody>';
-		if ($data) {
-			$pi = explode(',', $data['peristiwa_id']);
-			foreach ($pi as $key => $x) {
-				if ($key > 0) {
-				}
-				$peristiwa .= '<tr>
-			<td style="padding-left:0px;">' . form_dropdown('peristiwa_id', $peristiwa_id, $x, 'id="peristiwa_id" class="form-control select" style="width:100%;"') . form_input('peristiwa_id_text', '', 'class="form-control d-none" id="peristiwa_id_text" placeholder="' . _l('fld_peristiwa_risiko') . '" ') . '</td>
-			</tr>';
-			}
-		} else {
-			$peristiwa .= '<tr id="getPeristiwa">
-			<td style="padding-left:0px;">'
-				. form_input('peristiwa_id_text', '', 'class="form-control getPeristiwa " id="peristiwa_id_text" readonly="readonly"  placeholder="' . _l('fld_peristiwa_risiko') . '"')
-				. form_input('peristiwa_id', '', 'class="form-control getPeristiwa " id="peristiwa_id" readonly="readonly"  placeholder="' . _l('fld_peristiwa_risiko') . '"') .
-				'</td>
-		 
-			</tr>';
-		}
-		$peristiwa .= '</tbody></table>';
-
-		$tasktonomi = '<table class="table table-borderless" id="tblperistiwa"><tbody>';
-		if ($data) {
-			$pi = explode(',', $data['peristiwa_id']);
-			foreach ($pi as $key => $x) {
-				if ($key > 0) {
-				}
-				$tasktonomi .= '<tr>
-			<td style="padding-left:0px;">' . form_dropdown('peristiwa_id', $peristiwa_id, $x, 'id="peristiwa_id" class="form-control select" style="width:100%;"') . form_input('peristiwa_id_text', '', 'class="form-control d-none" id="peristiwa_id_text" placeholder="' . _l('fld_peristiwa_risiko') . '" ') . '</td>
-			</tr>';
-			}
-		} else {
-			$tasktonomi .= '<tr >
-			<td style="padding-left:0px;">'
-				. form_input('tasktonomiName', '', 'class="form-control  " id="tasktonomiName" readonly="readonly"  placeholder="' . _l('fld_klasifikasi_risiko') . '"')
-				. form_input('klasifikasi_risiko_id', '', 'class="form-control  " id="klasifikasi_risiko_id" readonly="readonly"  placeholder="' . _l('fld_klasifikasi_risiko') . '"') .
-				'</td>
-		 
-			</tr>';
-		}
-		$tasktonomi .= '</tbody></table>';
-
-		$tipeRisiko = '<table class="table table-borderless" id="tblperistiwa"><tbody>';
-		if ($data) {
-			$pi = explode(',', $data['peristiwa_id']);
-			foreach ($pi as $key => $x) {
-				if ($key > 0) {
-				}
-				$tipeRisiko .= '<tr>
-			<td style="padding-left:0px;">' . form_dropdown('peristiwa_id', $peristiwa_id, $x, 'id="peristiwa_id" class="form-control select" style="width:100%;"') . form_input('peristiwa_id_text', '', 'class="form-control d-none" id="peristiwa_id_text" placeholder="' . _l('fld_peristiwa_risiko') . '" ') . '</td>
-			</tr>';
-			}
-		} else {
-			$tipeRisiko .= '<tr >
-			<td style="padding-left:0px;">'
-				. form_input('tipeName', '', 'class="form-control  " id="tipeName" readonly="readonly"  placeholder="' . _l('fld_tipe_risiko') . '"')
-				. form_input('tipe_risiko_id', '', 'class="form-control  " id="tipe_risiko_id" readonly="readonly"  placeholder="' . _l('fld_tipe_risiko') . '"') .
-				'</td>
-			</tr>';
-		}
-		$tipeRisiko .= '</tbody></table>';
-
 		$dampak .= '</tbody></table>';
+		$lib=false;
+		if ($data) {
+			$lib = $this->db->where('id', $data['peristiwa_id'])->get(_TBL_VIEW_LIBRARY)->row_array();
+		}
+		// doi::dump($data);
+		$peristiwa = '<table class="table table-borderless" id="tblperistiwa"><tbody>
+					<tr id="getPeristiwa"><td style="padding-left:0px;">' 
+					. form_input('peristiwa_id_text', ($lib)?$lib['library']:'', 'class="form-control getPeristiwa "  id="peristiwa_id_text" readonly="readonly"  placeholder="' . _l('fld_peristiwa_risiko') . '"')
+			  		. form_input('peristiwa_id', ($lib)?$data['peristiwa_id']:'', 'class="form-control getPeristiwa" id="peristiwa_id" readonly="readonly"  placeholder="' . _l('fld_peristiwa_risiko') . '"') .
+			   		'</td></tr>
+		</tbody></table>';
+
+		$tasktonomi = '<table class="table table-borderless" id="tblperistiwa"><tbody>
+					<tr><td style="padding-left:0px;">' 
+					. form_input('tasktonomiName', ($lib)?$lib['nama_kelompok']:'', 'class="form-control getPeristiwa "  id="tasktonomiName" readonly="readonly"  placeholder="' . _l('fld_peristiwa_risiko') . '"')
+			  		. form_input('klasifikasi_risiko_id', ($lib)?$data['klasifikasi_risiko_id']:'', 'class="form-control getPeristiwa" id="klasifikasi_risiko_id" readonly="readonly"  placeholder="' . _l('fld_peristiwa_risiko') . '"') .
+			   		'</td></tr>
+		</tbody></table>';
+
+		$tipeRisiko = '<table class="table table-borderless" id="tblperistiwa"><tbody>
+					<tr><td style="padding-left:0px;">' 
+					. form_input('tipeName', ($lib)?$lib['risk_type']:'', 'class="form-control getPeristiwa "  id="tipeName" readonly="readonly"  placeholder="' . _l('fld_peristiwa_risiko') . '"')
+			  		. form_input('tipe_risiko_id', ($lib)?$data['tipe_risiko_id']:'', 'class="form-control getPeristiwa" id="tipe_risiko_id" readonly="readonly"  placeholder="' . _l('fld_peristiwa_risiko') . '"') .
+			   		'</td></tr>
+		</tbody></table>';
+
+		
 		$tAdd                         = '<div class="form-control-feedback form-control-feedback-lg"><i class="icon-make-group"></i></div>';
 		$param['identifikasi']['kpi'] = ['title' => "KPI", 'help' => "", 'add' => FALSE, 'mandatori' => FALSE, 'isi' => form_dropdown('id_kpi', $kpi, ($data) ? $data['id_kpi'] : '', 'id="id_kpi" class="form-control select" style="width:100%;"')];
 
@@ -1260,7 +1224,7 @@ class Risk_Context extends MY_Controller
 	function simpan_identifikasi_awal()
 	{
 		$post = $this->input->post();
-
+		// peristiwa_id
 		$id_detail = $this->data->simpan_identifikasi_awal($post);
 
 		$id    = intval($post['rcsa_id']);
