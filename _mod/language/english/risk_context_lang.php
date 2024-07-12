@@ -72,6 +72,7 @@ $lang['fld_pencapaian']              = 'Pencapaian';
 $lang['fld_penyebab_risiko']         = 'Penyebab Risiko';
 $lang['fld_period_id']               = 'Tahun';
 $lang['fld_peristiwa_risiko']        = 'Peristiwa Risiko';
+$lang['fld_peristiwa_risiko_add']    = 'Tambah Peristiwa';
 $lang['fld_pic']                     = 'PIC';
 $lang['fld_proses_propose']          = 'Proses Propose';
 $lang['fld_register']                = 'Risk Register';
@@ -157,5 +158,7 @@ $lang['ph_title']                    = 'Title';
 $lang['ph_url']                      = 'URL - kosongkan jika tidak melink kemana mana';
 $lang['slider_title']                = 'Risk Context';
 $lang['fld_upload']                  = 'File Upload';
+$lang['help_ket_peristiwa']          = 'Pilih peristiwa risiko terlebih dahulu';
+$lang['help_add_peristiwa']          = 'Input peristiwa baru. selanjutnya data akan menjadi nonaktif';
 
 /* End of file risk_context_lang.php */

@@ -336,23 +336,24 @@ $(function () {
 
     })
 
-    $(document).on("change", "#tipe_risiko_id", function () {
-        var parent = $(this).parent();
-        var nilai = $(this).val();
-        var data = { 'id': nilai, 'kel': 1 };
-        var target_combo = $("#penyebab_id");
-        var url = "ajax/get-library";
-        // _ajax_("post", parent, data, target_combo, url);
-    })
+    // $(document).on("change", "#tipe_risiko_id", function () {
+    //     var parent = $(this).parent();
+    //     var nilai = $(this).val();
+    //     var data = { 'id': nilai, 'kel': 1 };
+    //     var target_combo = $("#penyebab_id");
+    //     var url = "ajax/get-library";
+    //     _ajax_("post", parent, data, target_combo, url);
+    // })
 
-    $(document).on("change", "#klasifikasi_risiko_id", function () {
-        var parent = $(this).parent();
-        var nilai = $(this).val();
-        var data = { 'id': nilai };
-        var target_combo = $("#tipe_risiko_id");
-        var url = "ajax/get-rist-type";
-        _ajax_("post", parent, data, target_combo, url);
-    })
+
+    // $(document).on("change", "#klasifikasi_risiko_id", function () {
+    //     var parent = $(this).parent();
+    //     var nilai = $(this).val();
+    //     var data = { 'id': nilai };
+    //     var target_combo = $("#tipe_risiko_id");
+    //     var url = "ajax/get-rist-type";
+    //     _ajax_("post", parent, data, target_combo, url);
+    // })
 
     $(document).on("click", ".btnNext", function () {
         if ($(".nav-link.active").parent().next().hasClass("d-none")) {
@@ -683,7 +684,7 @@ $(function () {
 
     $(document).on("click", ".add-penyebab", function () {
         if (sts_penyebab_risiko == 0) {
-            var cbo = '<select name="penyebab_id[]" id="penyebab_id" class="form-control select" style="width:100%;">' + cboperistiwa + '</select>';
+            var cbo = '<select name="penyebab_id[]" id="penyebab_id_" class="form-control select" style="width:100%;">' + cboperistiwa + '</select>';
             cbo += '<input type="text" name="penyebab_id_text[]" value="" class="form-control d-none" id="penyebab_id_text" placeholder="Penyebab Risiko">';
         } else {
             var cbo = '<input type="text" name="penyebab_id_text[]" value="" class="form-control" id="penyebab_id_text" placeholder="Penyebab Risiko">';
@@ -701,7 +702,7 @@ $(function () {
 
     $(document).on("click", ".add-dampak", function () {
         if (sts_penyebab_risiko == 0) {
-            var cbo = '<select name="dampak_id[]" id="dampak_id" class="form-control select" style="width:100%;">' + cbodampak + '</select>';
+            var cbo = '<select name="dampak_id[]" id="dampak_id_" class="form-control select" style="width:100%;">' + cbodampak + '</select>';
             cbo += '<input type="text" name="dampak_id_text[]" value="" class="form-control d-none" id="dampak_id_text" placeholder="Dampak Risiko">';
         } else {
             var cbo = '<input type="text" name="dampak_id_text[]" value="" class="form-control" id="dampak_id_text" placeholder="Dampak Risiko">';
@@ -1029,17 +1030,23 @@ function cek_isian_identifikasi(awal = false) {
         hasil = false;
         pesan += '- Sasaran Aktifitas\n';
     }
-    if (isNaN(parseFloat($('#klasifikasi_risiko_id').val()))) {
-        hasil = false;
-        pesan += '- Klasifikasi Risiko\n';
-    }
 
     if ($('#tahapan').val() == '') {
         hasil = false;
         pesan += '- Tahapan Proses\n';
     }
 
-    if (isNaN(parseFloat($('#tipe_risiko_id').val()))) {
+    if ($('input[name="peristiwa_id"]').val() == 0) {
+        pesan += '- Peristiwa Risiko\n';
+        hasil = false;
+    }
+    
+    if ($('input[name="klasifikasi_risiko_id"]').val() == 0) {
+        hasil = false;
+        pesan += '- Klasifikasi Risiko\n';
+    }
+    
+    if ($('input[name="tipe_risiko_id"]').val() == 0) {
         hasil = false;
         pesan += '- Tipe Risiko\n';
     }
@@ -1057,18 +1064,31 @@ function cek_isian_identifikasi(awal = false) {
         pesan += '- SMAP\n';
     }
 
-    if ($('#penyebab_id').val() == 0) {
-        hasil = false;
-        pesan += '- Penyebab Risiko\n';
-    }
-    if ($('#peristiwa_id').val() == 0) {
-        pesan += '- Peristiwa Risiko\n';
-        hasil = false;
-    }
-    if ($('#dampak_id').val() == 0) {
-        hasil = false;
-        pesan += '- Dampak Risiko\n';
-    }
+    $('select[name="penyebab_id[]"]').each(function() {
+        if ($(this).val() == 0) {
+            hasil = false;
+            pesan += '- Penyebab Risiko\n';
+        }
+    });
+
+    $('select[name="dampak_id[]"]').each(function() {
+        if ($(this).val() == 0) {
+            hasil = false;
+            pesan += '- Penyebab Risiko\n';
+        }
+    });
+
+    // if ($('#dampak_id').val() == 0) {
+    //     hasil = false;
+    //     pesan += '- Dampak Risiko\n';
+    // }
+    // if ($('#penyebab_id').val() == 0) {
+    //     hasil = false;
+    //     pesan += '- Penyebab Risiko\n';
+    // }
+ 
+    
+    
     if ($('#risiko_dept').val().length == 0) {
         hasil = false;
         pesan += '- Risiko Departement\n';
@@ -1479,3 +1499,102 @@ $(document).on("change", "#treatment_id", function () {
         $("#list_mitigasi").show();
     }
 });
+
+$(document).on("click", "#getPeristiwa, #backListPeritwa", function () {
+    var parent = $(this).parent();
+    var id = 1;
+    var data = { 'id': 0, 'rcsa_detail_no': id, 'bk_tipe': 1 };
+     var url = modul_name + "/get-peristiwa";
+     _ajax_("post", parent, data, '', url, 'peristiwa');
+ })
+
+$(document).on("click", ".savePeristiwa", function () {
+  var parent = $(this).parent();
+  var data = $("#form_peristiwa_baru").serializeArray();
+  var hasil = true;
+  pesan = "data dibawah ini wajib diisi:\n";
+
+  if ($('input[name="peristiwaBaru"]').val() == 0) {
+      hasil = false;
+    pesan += "- Peristiwa Risiko\n";
+  }
+
+  $('select[name="kelBaru"]').each(function () {
+    if ($(this).val() == 0) {
+      hasil = false;
+      pesan += "- Tasksonomi\n";
+    }
+  });
+  $('select[name="tipeBaru"]').each(function () {
+    if ($(this).val() == 0) {
+      hasil = false;
+      pesan += "- Tipe Risiko\n";
+    }
+  });
+
+  if (!hasil) {
+    alert(pesan);
+    return false;
+  }
+
+  var url = modul_name + "/simpan-peristiwa";
+  _ajax_("post", parent, data, "", url, "resSavePeristiwa");
+});
+
+ function resSavePeristiwa(lib) {
+    console.log(lib)
+    $('input[name="peristiwa_id"]').val(lib.idPeristiwa).trigger('change');
+    $('#peristiwa_id_text').val(lib.peristiwaName).trigger('change');
+
+    $('input[name="tipe_risiko_id"]').val(lib.tipeId).trigger('change');
+    $('#tipeName').val(lib.tipeName).trigger('change');
+
+    $('input[name="klasifikasi_risiko_id"]').val(lib.tasktonomiId).trigger('change');
+    $('#tasktonomiName').val(lib.tasktonomiName).trigger('change');
+    $("#modal_general").modal("hide");
+
+}
+
+ 
+$(document).on("click", "#addPeristiwa", function () {
+    var parent = $(this).parent();
+    var id = 1;
+    var data = { 'id': 0, 'rcsa_detail_no': id, 'bk_tipe': 1 };
+     var url = modul_name + "/add-peristiwa";
+     _ajax_("post", parent, data, '', url, 'peristiwa');
+ })
+ $(document).on("click", "#pilihPeristiwa", function () {
+    var idPeristiwa = $(this).data('id');
+ 
+     var peristiwaName = $("#peristiwaName" + idPeristiwa).val();
+    $('input[name="peristiwa_id"]').val(idPeristiwa).trigger('change');
+    $('#peristiwa_id_text').val(peristiwaName).trigger('change');
+
+     var tipeName = $("#tipeName" + idPeristiwa).val();
+     var tipeId = $("#tipeId" + idPeristiwa).val();
+     $('input[name="tipe_risiko_id"]').val(tipeId).trigger('change');
+    $('#tipeName').val(tipeName).trigger('change');
+    
+    var tasktonomiName = $("#tasktonomiName" + idPeristiwa).val();
+    var tasktonomiId = $("#tasktonomiId" + idPeristiwa).val();
+    $('input[name="klasifikasi_risiko_id"]').val(tasktonomiId).trigger('change');
+     $('#tasktonomiName').val(tasktonomiName).trigger('change');
+
+    $("#modal_general").modal("hide");
+});
+
+function peristiwa(hasil) {
+    _similarity_lib(2,70)
+     $("#modal_general").find(".modal-title").html("Peristiwa Risiko");
+    $("#modal_general").find(".modal-body").html(hasil.combo);
+    $("#modal_general").modal("show");
+}
+
+
+
+
+
+
+
+
+

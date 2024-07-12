@@ -9,6 +9,17 @@ class MX_Model extends CI_Model
 		parent::__construct();
 	}
 
+	function get_library( $type )
+	{
+		if($type){
+			$libs = $this->db->where_in('type', $type)->where("active", 1)->get( _TBL_VIEW_LIBRARY )->result_array();
+		}else{
+			$libs=[];
+		}
+		return $libs;
+	}
+
+	
 	function get_owner_child( $id )
 	{
 		$this->db->select( '*' );

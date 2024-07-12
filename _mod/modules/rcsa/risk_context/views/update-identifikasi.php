@@ -58,7 +58,7 @@ echo form_open_multipart( $this->uri->uri_string, array( 'id' => 'form_identifik
                     <div class="tab-pane fade active show" id="content-tab-00"><?= $identifikasi; ?></div>
                     <div class="tab-pane fade" id="content-tab-01">
                         <?php
-                        $help = '';
+                        $help = ''; 
                         if( isset( $detail['tipe_analisa']['help'] ) )
                             $help = $detail['tipe_analisa']['help'];
                         ?>

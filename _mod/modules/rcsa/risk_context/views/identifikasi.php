@@ -43,7 +43,7 @@
                             </tr>
                         </thead>
                         <tboy>
-                        <?php
+                        <?php 
                             $no=0;
                             foreach($detail as $row):
                                 $del='';
