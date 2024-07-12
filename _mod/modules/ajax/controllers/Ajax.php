@@ -315,7 +315,9 @@ class Ajax extends MY_Controller
 		$library_data= $this->db->get(_TBL_VIEW_LIBRARY)->result();
 		$results = [];
 		foreach ($library_data as $row) {
-			similar_text($entry, $row->library, $percent);
+			$entry = trim(strtolower($entry));
+			$library = trim(strtolower($row->library));
+			similar_text($entry, $library, $percent);			
 			if ($percent > $perc) {
 				$results[] = [
 					'id' => $row->id,

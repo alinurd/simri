@@ -4,22 +4,25 @@
     color: #fff;
 }
 .medium-similarity {
-    background-color: #fff3cd; /* Kuning muda */
+    background-color: #fff3cd;
     color: #000000;
 }
 
 .low-similarity {
-    background-color: #f8d7da; /* Merah muda */
+    background-color: #f8d7da;
     color: #000000;
 }
 
 
 </style>
+<?php if($rows){?>
 <legend class="text-uppercase font-size-lg text-dark font-weight-bold"><i class="fa fa-database" aria-hidden="true"></i> 
-<?=$entry;?> <br> <br>
+<?=$entry;?> <br> 
 <span class="text-info">Library: <?=$lib;?></span> <br>
 <span class="text-info">Threshold: <?=$percent;?>%</span>
 </legend>
+<b id="similarityNote" class="d-none">Catatan: <span class="text-danger">data yang anda inputkan memiliki kemiripan 100% silahkan gunakan library yang berbeda</span></b>
+<br><br>
 <table class="table table-hover table-bordered" id="datatable">
     <thead>
         <tr class="bg-primary-300">
@@ -34,6 +37,7 @@
     <?php
         $no=0;
         foreach($rows as $row):
+            $disableButton = $row['similarity'] == 100 ? true :false;
             $bg="";
             $c="";
             if ($row['similarity']>=90) {
@@ -47,8 +51,7 @@
                 $c = 'low-similarity';
             }
             ?>
-        
-        <tr class="pointer similarity <?= $c; ?>" data-id="<?=$row['id'];?>">
+        <tr class="pointer similarity <?= $c; ?>" id="similarity" data-id="<?=$row['id'];?>" data-lib="<?=$lib;?>" data-percent="<?=$row['similarity'];?>" data-nama="<?=$row['nama'];?>">
             <td width="8%"><?=++$no;?></td>
             <td><?=$row['nama'];?></td>
             <td><?=$row['nama_kelompok'];?></td>
@@ -58,11 +61,15 @@
         <?php endforeach; ?>
     </tboy>
 </table>
-
+<?php }?>
 <script>
+ 
+
+
+
     $(document).ready(function() {
         $('#datatable').DataTable({
-            pageLength:20,
+            pageLength:10,
             language:{
                 "decimal":        '<?=lang('decimal');?>',
                 "emptyTable":     '<?=lang('emptyTable');?>',
@@ -87,9 +94,10 @@
                     "sortDescending": '<?=lang('sortDescending');?>',
                 }
             },
-            dom: "<'row'<'col-sm-5'i><'col-sm-7'p><'col-sm-6'l><'col-sm-6'f>>" +
+            dom: "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
          "<'row'<'col-sm-12'tr>>" +
          "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         });
     })
 </script>
+

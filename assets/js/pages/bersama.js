@@ -499,3 +499,29 @@ function remove_install(t, iddel, tbl) {
   }
   return false;
 }
+
+
+function _similarity_lib(t, th){
+$(document).on('keyup', "input[name=\"peristiwaBaru\"], .libraryCekSimilarity", function () {
+  var parent = $(this).parent();
+  // var input = $("#peristiwaBaru").val();
+  var input = $(this).val();
+  var data = { 'library': input,'type': t,'percent': th };
+  var target_combo = $("#similarityResults");
+  var url = "ajax/check-similarity-lib";
+  _ajax_("post", parent, data, target_combo, url, "similarityResults");
+});
+}
+
+function similarityResults(hasil) {
+  $('#similarityResults').html(hasil.combo);
+ var similarity = $("#similarity");
+var percent = similarity.data("percent"); 
+if (percent >= 100) {
+  $('#similarityNote').removeClass('d-none');
+  $('#btn_save').addClass('disabled').prop('disabled', true);
+} else {
+  $('#similarityNote').addClass('d-none');
+  $('#btn_save').removeClass('disabled').prop('disabled', false);
+}
+}

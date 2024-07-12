@@ -1494,7 +1494,7 @@ $(document).on("click", "#getPeristiwa, #backListPeritwa", function () {
      _ajax_("post", parent, data, '', url, 'peristiwa');
  })
 
-$(document).on("click", "#savePeristiwa", function () {
+$(document).on("click", ".savePeristiwa", function () {
 
     var parent = $(this).parent();
     var data = $("#form_peristiwa_baru").serializeArray();
@@ -1544,19 +1544,8 @@ $(document).on("click", "#addPeristiwa", function () {
     $("#modal_general").modal("hide");
 });
 
-$(document).on("click", "#similarityLib", function () {
-    var parent = $(this).parent();
-    var input = $("#peristiwaBaru").val();
-    var data = { 'library': input,'type': 2,'percent': 40 };
-    var target_combo = $("#similarityResults");
-    var url = "ajax/check-similarity-lib";
-    _ajax_("post", parent, data, target_combo, url, "similarityResults");
-});
-
-function similarityResults(hasil) {
-    $('#similarityResults').html(hasil.combo);
-}
 function peristiwa(hasil) {
+    _similarity_lib(1,70)
      $("#modal_general").find(".modal-title").html("Peristiwa Risiko");
     $("#modal_general").find(".modal-body").html(hasil.combo);
     $("#modal_general").modal("show");

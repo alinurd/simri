@@ -1,7 +1,7 @@
 <span class="btn bg-warning-400 btn-labeled btn-labeled-left legitRipple" id="backListPeritwa">
     <b><i class="icon-arrow-left5"></i></b> <?= _l('fld_back_like_indi'); ?>
 </span>
-<span class="btn bg-success-400 btn-labeled btn-labeled-right legitRipple pull-right" id="savePeristiwa">
+<span class="btn bg-success-400 btn-labeled btn-labeled-right legitRipple pull-right savePeristiwa" id="btn_save">
     <b><i class="icon-floppy-disk"></i></b> Simpan
 </span>
 <br />
@@ -32,7 +32,7 @@ foreach ($form as $key => $row) :
 <?php endforeach; ?>
 <br />
 <hr />
-<span class="btn btn-primary" id="similarityLib">cek kemiripan </span>
+
 <div id="similarityResults"></div>
 
 
