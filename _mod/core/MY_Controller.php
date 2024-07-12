@@ -985,8 +985,9 @@ class MY_Controller extends MX_Controller
 				if( array_key_exists( 'default', $row ) && $mode == 'add' )
 					$isi = $row['default'];
 			}
-			$draw = TRUE;
-			if( $row['type'] !== 'free' && ! array_key_exists( $row['field'], $value ) && $mode == 'edit' )
+			$draw         = TRUE;
+			$getKeyStatus = ( ! empty( $value ) ) ? array_key_exists( $row['field'], $value ) : FALSE;
+			if( $row['type'] !== 'free' && ! $getKeyStatus && $mode == 'edit' )
 			{
 				$draw = FALSE;
 			}

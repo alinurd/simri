@@ -28,10 +28,12 @@ class Risk_Context extends MY_Controller
 		$this->alat        = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'metode-alat')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		$this->term        = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'term')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 
-		$this->stakeholder = $this->crud->combo_select(['id', 'officer_name'])->combo_where('active', 1)->combo_tbl(_TBL_VIEW_OFFICER)->get_combo()->result_combo();
-		$this->cboDept     = $this->get_combo_parent_dept();
-		$this->cboStack    = $this->get_combo_parent_dept(FALSE);
-		// $resultDivisionDropdown = $this->data->getDataDropdownDivision( $this->uri->segment( 3 ) );
+
+		$this->stakeholder      = $this->crud->combo_select( [ 'id', 'officer_name' ] )->combo_where( 'active', 1 )->combo_tbl( _TBL_VIEW_OFFICER )->get_combo()->result_combo();
+		$this->cboDept          = $this->get_combo_parent_dept();
+		$this->cboStack         = $this->get_combo_parent_dept( FALSE );
+		$resultDivisionDropdown = $this->data->getDataDropdownDivision( $this->uri->segment( 3 ) );
+
 
 		$this->set_Tbl_Master(_TBL_VIEW_RCSA);
 		$this->set_Open_Tab('Data RCSA');
@@ -39,15 +41,17 @@ class Risk_Context extends MY_Controller
 		$this->addField(['field' => 'type_ass_id', 'input' => 'combo', 'required' => TRUE, 'search' => TRUE, 'values' => $this->type_ass_no, 'size' => 50]);
 		$this->addField(['field' => 'owner_id', 'title' => 'Department', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->cboDept]);
 		// $this->addField( [ 'field' => 'division', 'input' => 'text', 'title' => 'Division' ] );
-		$this->addField(['field' => 'seksi', 'type' => 'int', 'input' => 'combo', 'required' => TRUE, 'title' => 'Seksi', 'search' => FALSE, 'values' => $this->cboDept]);
-		$this->addField(['field' => 'judul_ass', 'title' => 'Judul Assement', 'input' => 'text']);
-		$this->addField(['field' => 'sasaran_dept', 'input' => 'multitext', 'search' => TRUE, 'size' => 500]);
-		$this->addField(['field' => 'ruang_lingkup', 'input' => 'multitext', 'search' => TRUE, 'size' => 500]);
-		$this->addField(['field' => 'stakeholder_id', 'title' => 'Stakeholder', 'type' => 'string', 'input' => 'combo', 'search' => FALSE, 'values' => $this->cboStack, 'multiselect' => TRUE]);
-		$this->addField(['field' => 'alat_metode_id', 'title' => 'Alat & Metode', 'type' => 'string', 'input' => 'combo', 'multiselect' => TRUE, 'search' => FALSE, 'values' => $this->alat]);
-		$this->addField(['field' => 'period_id', 'title' => 'Period', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->period]);
-		$this->addField(['field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => []]);
-		$this->addField(['field' => 'minggu_id', 'title' => 'Bulan', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => []]);
+
+		$this->addField( [ 'field' => 'seksi', 'type' => 'int', 'input' => 'combo', 'title' => 'Seksi', 'search' => FALSE, 'values' => $resultDivisionDropdown ] );
+		$this->addField( [ 'field' => 'judul_ass', 'title' => 'Judul Assement', 'input' => 'text' ] );
+		$this->addField( [ 'field' => 'sasaran_dept', 'input' => 'multitext', 'search' => TRUE, 'size' => 500 ] );
+		$this->addField( [ 'field' => 'ruang_lingkup', 'input' => 'multitext', 'search' => TRUE, 'size' => 500 ] );
+		$this->addField( [ 'field' => 'stakeholder_id', 'title' => 'Stakeholder', 'type' => 'string', 'input' => 'combo', 'search' => FALSE, 'values' => $this->cboStack, 'multiselect' => TRUE ] );
+		$this->addField( [ 'field' => 'alat_metode_id', 'title' => 'Alat & Metode', 'type' => 'string', 'input' => 'combo', 'multiselect' => TRUE, 'search' => FALSE, 'values' => $this->alat ] );
+		$this->addField( [ 'field' => 'period_id', 'title' => 'Period', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->period ] );
+		$this->addField( [ 'field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => [] ] );
+		$this->addField( [ 'field' => 'minggu_id', 'title' => 'Bulan', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => [] ] );
+
 		// $this->addField(['field'=>'active', 'input'=>'boolean', 'size'=>20]);
 		$this->addField(['field' => 'term', 'show' => FALSE]);
 		$this->addField(['field' => 'kode_dept', 'show' => FALSE]);
@@ -433,9 +437,9 @@ class Risk_Context extends MY_Controller
 		$jml_like_indi   = $this->db->where('bk_tipe', 1)->where('rcsa_detail_id', intval($id_edit))->or_group_start()->where('rcsa_detail_id', 0)->where('created_by', $this->ion_auth->get_user_name())->group_end()->get(_TBL_VIEW_RCSA_DET_LIKE_INDI)->num_rows();
 		$jml_dampak_indi = $this->db->where('bk_tipe', 1)->where('rcsa_detail_id', intval($id_edit))->or_group_start()->where('rcsa_detail_id', 0)->where('created_by', $this->ion_auth->get_user_name())->group_end()->get(_TBL_VIEW_RCSA_DET_DAMPAK_INDI)->num_rows();
 
-		// dumps($jml_like_indi);
-		// dumps($jml_dampak_indi);
-		$kpi = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'kpi')->combo_where('param_text like ', '%' . $parent['owner_id'] . '%')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+
+		$kpi = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'kpi' )->combo_where( 'param_text like ', '%' . $parent['owner_id'] . '%' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+
 
 		$aktivitas = $this->crud->combo_select(['id', 'concat(kode,\' - \',data) as data'])->combo_where('pid', intval($parent['owner_id']))->combo_where('kelompok', 'aktivitas')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		$sasaran   = $this->crud->combo_select(['id', 'data'])->combo_where('pid', intval($parent['owner_id']))->combo_where('kelompok', 'sasaran-aktivitas')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
@@ -447,6 +451,7 @@ class Risk_Context extends MY_Controller
 		$risk_type = [_l('cbo_select')];
 		if (isset($data['klasifikasi_risiko_id'])) {
 			$risk_type = $this->crud->combo_select(['id', 'data'])->combo_where('pid', $data['klasifikasi_risiko_id'])->combo_where('kelompok', 'risk-type')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+
 		}
 		// $getdataCauseRisk = $this->db->get_where(_TBL_VIEW_LIBRARY, ["type" => 1, "active" => 1], 10)->result_array();
 		// foreach ($getdataCauseRisk as $keyCause => $valueCause) {
@@ -525,7 +530,9 @@ class Risk_Context extends MY_Controller
 			$control = explode('###', $data['nama_kontrol']);
 		}
 		$kontrol .= '<div class="well p100">';
-		$kontrol .= '</div>' . form_textarea("note_control", ($data) ? $data['nama_kontrol_note'] : '', ' class="summernote-risk-evaluate" style="width:100%;"') . '<br/>';
+
+		$kontrol .= '</div>' . form_textarea( "note_control", ( $data ) ? $data['nama_kontrol_note'] : '', ' class="summernote-risk-evaluate" style="width:100%;" maxlength="999"' ) . '<br/>';
+
 
 		foreach ($cboControl as $row) {
 			if ($i == 1)

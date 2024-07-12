@@ -146,14 +146,12 @@ $(function () {
         _ajax_("post", parent, data, target_combo, url);
     })
 
-
-
     $(document).on("change", "#penyebab_id", function () {
         var parent = $(this).parent();
         var nilai = $(this).val();
         var data = { 'id': nilai, 'kel': 23 };
         var url = "ajax/get-library";
-        _ajax_("post", parent, data, '', url, 'update_list_library');
+        // _ajax_("post", parent, data, '', url, 'update_list_library');
         $(".tmpdel").remove();
     })
 
@@ -347,6 +345,7 @@ $(function () {
     //     _ajax_("post", parent, data, target_combo, url);
     // })
 
+
     // $(document).on("change", "#klasifikasi_risiko_id", function () {
     //     var parent = $(this).parent();
     //     var nilai = $(this).val();
@@ -357,6 +356,10 @@ $(function () {
     // })
 
     $(document).on("click", ".btnNext", function () {
+        if ($(".nav-link.active").parent().next().hasClass("d-none")) {
+            alert("Harap Submit data Terlebih Dahulu");
+            return;
+        }
         $('.nav-tabs').find('.active').closest('li').next('li').find('a').trigger('click');
     });
 
@@ -939,11 +942,11 @@ $(function () {
     })
 
     $(document).ready(function () {
-
-        // $('#division').select2({
-        //     placeholder: "-- Select a division --",
-        //     allowClear: false,
-        // });
+        $('#seksi').select2({
+            placeholder: "-- Select --",
+            allowClear: false,
+            escapeMarkup: function (m) { return m; }
+        });
         $("#type_ass_id").trigger("change");
     })
 
@@ -1093,9 +1096,9 @@ function cek_isian_identifikasi(awal = false) {
 
 
     if (!awal) {
-
         var tipe = $('input[name=\"tipe_analisa_no\"]:checked').val();
-        if (tipe == 1) {
+        var validate = "False";
+        if (tipe == 1 && validate) {
             if ($('#like_text').val().length == 0 || $('#like_text').val() == 0) {
                 hasil = false;
                 pesan += '- Risk Indikator Likelihood\n';
@@ -1442,35 +1445,46 @@ function reset_approval(hasil) {
     location.reload();
 }
 
-// $(document).on("change", "#owner_id", function () {
-//     var url = $("#btn_new").attr("href").replace("add", "getDataDivisionDropdown");
-//     var getSelectedData = $(this).val();
-//     $('#division').select2({
-//         placeholder: "-- Select a division --",
-//         allowClear: false,
-//         ajax: {
-//             url: url + getSelectedData,
-//             dataType: 'json',
-//             processResults: function (data) {
-//                 return {
-//                     results: data.items
-//                 };
-//             }
-//         }
-//     });
-// });
+$(document).on("change", "#owner_id", function () {
+    var url = $("#btn_new").attr("href").replace("add", "getDataDivisionDropdown");
+    var getSelectedData = $(this).val();
+    $('#seksi').select2({
+        placeholder: "-- Select --",
+        allowClear: false,
+        ajax: {
+            url: url + getSelectedData,
+            dataType: 'json',
+            processResults: function (data) {
+                return {
+                    results: data.items
+                };
+            }
+        },
+        escapeMarkup: function (m) { return m; }
+    });
+});
 $(document).ajaxComplete(function () {
     $(".summernote-risk-evaluate").summernote({
         height: 400,
         placeholder: "Deskripsikan kontrol yang sudah berjalan sebelumnya",
+        callbacks: {
+            onKeyup: function (e) {
+                _maxLength(this, 'id_sisa_0');
+            },
+            onblur: function (b) {
+                _maxLength(this, 'id_sisa_0');
+            }
+        }
     });
 
     if ($("#treatment_id").val() == 1) {
         $("li.nav-item > a[href='#content-tab-03']").parent().addClass("d-none");
         $("li.nav-item > a[href='#content-tab-03']").hide();
+        $("#list_mitigasi").hide();
     } else {
         // $("li.nav-item > a[href='#content-tab-03']").parent().removeClass("d-none");
         $("li.nav-item > a[href='#content-tab-03']").show();
+        $("#list_mitigasi").show();
     }
 });
 
