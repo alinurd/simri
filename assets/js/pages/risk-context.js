@@ -355,6 +355,10 @@ $(function () {
     })
 
     $(document).on("click", ".btnNext", function () {
+        if ($(".nav-link.active").parent().next().hasClass("d-none")) {
+            alert("Harap Submit data Terlebih Dahulu");
+            return;
+        }
         $('.nav-tabs').find('.active').closest('li').next('li').find('a').trigger('click');
     });
 
@@ -1456,9 +1460,11 @@ $(document).ajaxComplete(function () {
     if ($("#treatment_id").val() == 1) {
         $("li.nav-item > a[href='#content-tab-03']").parent().addClass("d-none");
         $("li.nav-item > a[href='#content-tab-03']").hide();
+        $("#list_mitigasi").hide();
     } else {
         // $("li.nav-item > a[href='#content-tab-03']").parent().removeClass("d-none");
         $("li.nav-item > a[href='#content-tab-03']").show();
+        $("#list_mitigasi").show();
     }
 });
 
