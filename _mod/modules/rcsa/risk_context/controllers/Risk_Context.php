@@ -479,8 +479,6 @@ class Risk_Context extends MY_Controller
 		$jml_like_indi   = $this->db->where( 'bk_tipe', 1 )->where( 'rcsa_detail_id', intval( $id_edit ) )->or_group_start()->where( 'rcsa_detail_id', 0 )->where( 'created_by', $this->ion_auth->get_user_name() )->group_end()->get( _TBL_VIEW_RCSA_DET_LIKE_INDI )->num_rows();
 		$jml_dampak_indi = $this->db->where( 'bk_tipe', 1 )->where( 'rcsa_detail_id', intval( $id_edit ) )->or_group_start()->where( 'rcsa_detail_id', 0 )->where( 'created_by', $this->ion_auth->get_user_name() )->group_end()->get( _TBL_VIEW_RCSA_DET_DAMPAK_INDI )->num_rows();
 
-		// dumps($jml_like_indi);
-		// dumps($jml_dampak_indi);
 		$kpi = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'kpi' )->combo_where( 'param_text like ', '%' . $parent['owner_id'] . '%' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 
 		$aktivitas = $this->crud->combo_select( [ 'id', 'concat(kode,\' - \',data) as data' ] )->combo_where( 'pid', intval( $parent['owner_id'] ) )->combo_where( 'kelompok', 'aktivitas' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();

@@ -1072,9 +1072,9 @@ function cek_isian_identifikasi(awal = false) {
 
 
     if (!awal) {
-
         var tipe = $('input[name=\"tipe_analisa_no\"]:checked').val();
-        if (tipe == 1) {
+        var validate = "False";
+        if (tipe == 1 && validate) {
             if ($('#like_text').val().length == 0 || $('#like_text').val() == 0) {
                 hasil = false;
                 pesan += '- Risk Indikator Likelihood\n';
