@@ -23,7 +23,7 @@ class Event_Library extends MY_Controller
 
 		$this->set_Open_Tab( 'Data Risk Event Library' );
 		$this->addField( [ 'field' => 'id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ] );
-		$this->addField( [ 'field' => 'kel', 'save' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->kel, 'size' => 50, "title" => "Taksonomi BUMN" ] );
+		$this->addField( [ 'field' => 'kel', 'save' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->kel, 'size' => 50, "title" => "Taksonomi Risiko" ] );
 		$this->addField( [ 'field' => 'risk_type_no', 'type' => 'int', 'input' => 'combo', 'search' => TRUE, 'values' => [ ' - Pilih - ' ], 'size' => 50, "title" => "Nomor Tipe Risiko" ] );
 		// $this->addField(['field'=>'code',  'search'=>true, 'size'=>25]);
 		$this->addField( [ 'field' => 'library', 'title' => 'Risk Event', 'input' => 'multitext', 'search' => TRUE, 'size' => 500 ] );
@@ -50,7 +50,7 @@ class Event_Library extends MY_Controller
 		// $this->set_Table_List($this->tbl_master,'risk_type');
 		// $this->set_Table_List($this->tbl_master,'code', '', 10, 'center');
 
-		$this->set_Table_List( $this->tbl_master, 'nama_kelompok', 'Taksonomi BUMN' );
+		$this->set_Table_List( $this->tbl_master, 'nama_kelompok', 'Taksonomi Risiko' );
 		$this->set_Table_List( $this->tbl_master, 'risk_type', 'Tipe Risiko' );
 
 		$this->set_Table_List( $this->tbl_master, 'library' );
