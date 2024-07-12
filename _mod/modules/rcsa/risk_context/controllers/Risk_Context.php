@@ -591,25 +591,32 @@ class Risk_Context extends MY_Controller
 		}
 		// doi::dump($data);
 		$peristiwa = '<table class="table table-borderless" id="tblperistiwa"><tbody>
-					<tr id="getPeristiwa"><td style="padding-left:0px;">' 
-					. form_input('peristiwa_id_text', ($lib)?$lib['library']:'', 'class="form-control getPeristiwa "  id="peristiwa_id_text" readonly="readonly"  placeholder="' . _l('fld_peristiwa_risiko') . '"')
-			  		. form_input('peristiwa_id', ($lib)?$data['peristiwa_id']:'', 'class="form-control getPeristiwa" id="peristiwa_id" readonly="readonly"  placeholder="' . _l('fld_peristiwa_risiko') . '"') .
-			   		'</td></tr>
-		</tbody></table>';
+    <tr id="getPeristiwa">
+        <td style="padding-left:0px;">' 
+        . form_input('peristiwa_id_text', ($lib) ? $lib['library'] : '', 'class="form-control getPeristiwa" id="peristiwa_id_text" readonly="readonly" placeholder="' . _l('fld_peristiwa_risiko') . '"')
+        . form_hidden('peristiwa_id', ($lib) ? $data['peristiwa_id'] : '', 'id="peristiwa_id"') .
+        '</td>
+    </tr>
+</tbody></table>';
 
-		$tasktonomi = '<table class="table table-borderless" id="tblperistiwa"><tbody>
-					<tr><td style="padding-left:0px;">' 
-					. form_input('tasktonomiName', ($lib)?$lib['nama_kelompok']:'', 'class="form-control getPeristiwa "  id="tasktonomiName" readonly="readonly"  placeholder="' . _l('fld_peristiwa_risiko') . '"')
-			  		. form_input('klasifikasi_risiko_id', ($lib)?$data['klasifikasi_risiko_id']:'', 'class="form-control getPeristiwa" id="klasifikasi_risiko_id" readonly="readonly"  placeholder="' . _l('fld_peristiwa_risiko') . '"') .
-			   		'</td></tr>
-		</tbody></table>';
+$tasktonomi = '<table class="table table-borderless" id="tblperistiwa"><tbody>
+    <tr>
+        <td style="padding-left:0px;">' 
+        . form_input('tasktonomiName', ($lib) ? $lib['nama_kelompok'] : '', 'class="form-control getPeristiwa" id="tasktonomiName" readonly="readonly" placeholder="' . _l('fld_peristiwa_risiko') . '"')
+        . form_hidden('klasifikasi_risiko_id', ($lib) ? $data['klasifikasi_risiko_id'] : '', 'id="klasifikasi_risiko_id"') .
+        '</td>
+    </tr>
+</tbody></table>';
 
-		$tipeRisiko = '<table class="table table-borderless" id="tblperistiwa"><tbody>
-					<tr><td style="padding-left:0px;">' 
-					. form_input('tipeName', ($lib)?$lib['risk_type']:'', 'class="form-control getPeristiwa "  id="tipeName" readonly="readonly"  placeholder="' . _l('fld_peristiwa_risiko') . '"')
-			  		. form_input('tipe_risiko_id', ($lib)?$data['tipe_risiko_id']:'', 'class="form-control getPeristiwa" id="tipe_risiko_id" readonly="readonly"  placeholder="' . _l('fld_peristiwa_risiko') . '"') .
-			   		'</td></tr>
-		</tbody></table>';
+$tipeRisiko = '<table class="table table-borderless" id="tblperistiwa"><tbody>
+    <tr>
+        <td style="padding-left:0px;">' 
+        . form_input('tipeName', ($lib) ? $lib['risk_type'] : '', 'class="form-control getPeristiwa" id="tipeName" readonly="readonly" placeholder="' . _l('fld_peristiwa_risiko') . '"')
+        . form_hidden('tipe_risiko_id', ($lib) ? $data['tipe_risiko_id'] : '', 'id="tipe_risiko_id"') .
+        '</td>
+    </tr>
+</tbody></table>';
+
 
 		
 		$tAdd                         = '<div class="form-control-feedback form-control-feedback-lg"><i class="icon-make-group"></i></div>';

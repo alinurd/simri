@@ -26,8 +26,8 @@
                     <td width="10%" class="text-center">
                         <input type="hidden"id="peristiwaName<?= $q['id'] ?>" value="<?= $q['library'] ?>">
 
-                        <input type="hidden" id="taksonomiName<?= $q['id'] ?>" value="<?= $q['nama_kelompok'] ?>">
-                        <input type="hidden" id="taksonomiId<?= $q['id'] ?>" value="<?= $q['kel'] ?>">
+                        <input type="hidden" id="tasktonomiName<?= $q['id'] ?>" value="<?= $q['nama_kelompok'] ?>">
+                        <input type="hidden" id="tasktonomiId<?= $q['id'] ?>" value="<?= $q['kel'] ?>">
 
                         <input type="hidden" id="tipeName<?= $q['id'] ?>" value="<?= $q['risk_type'] ?>">
                         <input type="hidden"id="tipeId<?= $q['id'] ?>" value="<?= $q['risk_type_no'] ?>">
