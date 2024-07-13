@@ -55,7 +55,6 @@ if( ! function_exists( 'dumps' ) )
 	function dumps( $expression, $return = FALSE, $die = FALSE )
 	{
 		ob_start();
-		var_dump( $expression );
 		$content = ob_get_contents();
 		ob_end_clean();
 
