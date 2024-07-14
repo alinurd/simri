@@ -23,10 +23,11 @@ class Event_Library extends MY_Controller
 
 		$this->set_Open_Tab( 'Data Risk Event Library' );
 		$this->addField( [ 'field' => 'id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ] );
-		$this->addField( [ 'field' => 'kel', 'save' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->kel, 'size' => 50, "title" => "Taksonomi Risiko" ] );
-		$this->addField( [ 'field' => 'risk_type_no', 'type' => 'int', 'input' => 'combo', 'search' => TRUE, 'values' => [ ' - Pilih - ' ], 'size' => 50, "title" => "Nomor Tipe Risiko" ] );
+		$this->addField( [ 'field' => 'kel','title' => 'Taksonomi Risiko','required' => TRUE, 'save' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->kel, 'size' => 50 ] );
+		$this->addField( [ 'field' => 'risk_type_no', 'title' => 'Tipe Risiko','required' => TRUE, 'type' => 'int', 'input' => 'combo', 'search' => TRUE, 'values' => [ ' - Pilih - ' ], 'size' => 50 ] );
 		// $this->addField(['field'=>'code',  'search'=>true, 'size'=>25]);
-		$this->addField( [ 'field' => 'library', 'title' => 'Risk Event', 'input' => 'multitext', 'search' => TRUE, 'size' => 500 ] );
+		$this->addField( [ 'field' => 'library', 'title' => 'Risk Event', 'required' => TRUE, 'input' =>  'multitext', 'search' => TRUE, 'size' => 500 ] );
+		$this->addField(['field' => 'x', 'title' => '', 'type' => 'free', 'mode' => 'o']);
 		$this->addField( [ 'field' => 'jml_couse', 'title' => 'Jml Cause', 'type' => 'free', 'show' => FALSE, 'search' => FALSE ] );
 		$this->addField( [ 'field' => 'jml_impact', 'type' => 'free', 'show' => FALSE, 'search' => FALSE ] );
 		$this->addField( [ 'field' => 'nama_kelompok', 'show' => FALSE ] );
@@ -35,6 +36,7 @@ class Event_Library extends MY_Controller
 		$this->addField( [ 'field' => 'created_by', 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'type', 'type' => 'int', 'default' => $this->type_risk, 'show' => FALSE, 'save' => TRUE ] );
 		$this->addField( [ 'field' => 'active', 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_status, 'default' => 1, 'size' => 40 ] );
+
 
 		$this->addField( [ 'field' => 'cause', 'title' => 'Penyebab', 'type' => 'free', 'search' => FALSE, 'mode' => 'o' ] );
 		$this->addField( [ 'field' => 'impact', 'title' => 'Dampak', 'type' => 'free', 'search' => FALSE, 'mode' => 'o' ] );
@@ -73,6 +75,13 @@ class Event_Library extends MY_Controller
 	{
 		$content = $this->get_cause();
 		return $content;
+	}
+	
+	function inputBox_X( $mode, $field, $rows, $value )
+	{
+		$data['angka']    = "10";
+		return $this->load->view('similarityLib', $data, TRUE);
+
 	}
 
 	function get_cause()

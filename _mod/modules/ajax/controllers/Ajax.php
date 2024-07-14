@@ -297,6 +297,53 @@ class Ajax extends MY_Controller
 		echo json_encode( $x );
 	}
 
+	function check_similarity_lib() {
+		$entry = $this->input->post('library');
+		$type = $this->input->post('type');
+		$perc = $this->input->post('percent');
+		$tn="Semua Library";
+		if($type>0){
+			if($type=2){
+				$tn="Peristiwa Risiko";
+			}elseif($type=1){
+				$tn="Penyebab Risiko";
+			}elseif($type=4){
+				$tn="Dampak Risiko";
+			}
+			$this->db->where( 'type', $type );
+		}
+		$library_data= $this->db->get(_TBL_VIEW_LIBRARY)->result();
+		$results = [];
+		foreach ($library_data as $row) {
+			$entry = trim(strtolower($entry));
+			$library = trim(strtolower($row->library));
+			similar_text($entry, $library, $percent);			
+			if ($percent > $perc) {
+				$results[] = [
+					'id' => $row->id,
+					'nama' => $row->library,
+					'nama_kelompok' => $row->nama_kelompok,
+					'risk_type' => $row->risk_type,
+					'similarity' => round($percent, 2)
+				];
+			}
+		}
+		usort($results, function($a, $b) {
+			return $b['similarity'] <=> $a['similarity'];
+		});
+	
+		ob_clean();
+		$x['lib']= $tn;
+		$x['percent']= $perc;
+		$x['entry']= $entry;
+		$x['rows'] = $results;
+		$hasil['combo'] = $this->load->view( 'lib-similarity', $x, TRUE );
+		header( 'Content-type: application/json' );
+		echo json_encode( $hasil );
+	}
+	
+	
+
 }
 
 /* End of file welcome.php */
