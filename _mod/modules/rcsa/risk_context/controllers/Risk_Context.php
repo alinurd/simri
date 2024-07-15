@@ -860,38 +860,45 @@ class Risk_Context extends MY_Controller
 		}
 
 		// doi::dump($data['tipe_analisa_no']);
-		if ($data['tipe_analisa_no'] == 2) {
-			$param['evaluasi'][] = ['title' => '', 'help' => '', 'isi' => '<span class="btn btn-primary legitRipple pointer" data-rcsa="' . $parent['id'] . '" data-id="' . $data['id'] . '" data-control="' . $data['efek_kontrol'] . '" id="indikator_like_residual" style="width:100%;pointer-events:' . $i_events . '"> Input Risk Indikassssssstor Likelihood </span>'];
+		if( $data['tipe_analisa_no'] == 2 )
+		{
+			$param['evaluasi'][] = [ 'title' => '', 'help' => '', 'isi' => '<span class="btn btn-primary legitRipple pointer" data-rcsa="' . $parent['id'] . '" data-id="' . $data['id'] . '" data-control="' . $data['efek_kontrol'] . '" id="indikator_like_residual" style="width:100%;pointer-events:' . $i_events . '"> Input Risk Indikator Likelihood </span>' ];
 
-			$param['evaluasi'][] = ['title' => '', 'help' => '', 'isi' => '<span class="btn btn-primary legitRipple pointer"  data-rcsa="' . $parent['id'] . '" data-id="' . $data['id'] . '" data-control="' . $data['efek_kontrol'] . '" id="indikator_dampak_residual" style="width:100%;pointer-events:' . $l_events . '"> Input Risk Indikator Dampak </span>'];
+			$param['evaluasi'][] = [ 'title' => '', 'help' => '', 'isi' => '<span class="btn btn-primary legitRipple pointer"  data-rcsa="' . $parent['id'] . '" data-id="' . $data['id'] . '" data-control="' . $data['efek_kontrol'] . '" id="indikator_dampak_residual" style="width:100%;pointer-events:' . $l_events . '"> Input Risk Indikator Dampak </span>' ];
 
-			$param['evaluasi'][] = ['title' => _l('fld_likelihood_residual'), 'help' => _h('help_likelihood'), 'isi' => form_input('like_text_kuantitatif_residual', ($data) ? $data['like_residual'] : '', 'id="like_text_kuantitatif_residual" class="form-control" style="width:100%;" readonly="readonly"') . form_hidden(['like_residual_id' => ($data) ? $data['like_residual_id'] : ''])];
+			$param['evaluasi'][] = [ 'title' => _l( 'fld_likelihood_residual' ), 'help' => _h( 'help_likelihood' ), 'isi' => form_input( 'like_text_kuantitatif_residual', ( $data ) ? $data['like_residual'] : '', 'id="like_text_kuantitatif_residual" class="form-control" style="width:100%;" readonly="readonly"' ) . form_hidden( [ 'like_residual_id' => ( $data ) ? $data['like_residual_id'] : '' ] ) ];
 
-			$param['evaluasi'][] = ['title' => _l('fld_impact_residual'), 'help' => _h('help_impact_residual'), 'isi' => form_input('impact_text_kuantitatif_residual', ($data) ? $data['impact_residual'] : '', 'id="impact_text_kuantitatif_residual" class="form-control" style="width:100%;" readonly="readonly"') . form_hidden(['impact_residual_id' => ($data) ? $data['impact_residual_id'] : ''])];
+			$param['evaluasi'][] = [ 'title' => _l( 'fld_impact_residual' ), 'help' => _h( 'help_impact_residual' ), 'isi' => form_input( 'impact_text_kuantitatif_residual', ( $data ) ? $data['impact_residual'] : '', 'id="impact_text_kuantitatif_residual" class="form-control" style="width:100%;" readonly="readonly"' ) . form_hidden( [ 'impact_residual_id' => ( $data ) ? $data['impact_residual_id'] : '' ] ) ];
 
-			$param['evaluasi'][] = ['title' => _l('fld_risiko_residual'), 'help' => _h('help_risiko_residual'), 'isi' => form_input('risiko_residual_text', ($data) ? $data['risiko_residual_text'] : '', 'class="form-control text-center" id="risiko_residual_text" readonly="readonly" style="width:15%;"') . form_hidden(['risiko_residual' => ($data) ? $data['risiko_residual'] : 0])];
+			$param['evaluasi'][] = [ 'title' => _l( 'fld_risiko_residual' ), 'help' => _h( 'help_risiko_residual' ), 'isi' => form_input( 'risiko_residual_text', ( $data ) ? $data['risiko_residual_text'] : '', 'class="form-control text-center" id="risiko_residual_text" readonly="readonly" style="width:15%;"' ) . form_hidden( [ 'risiko_residual' => ( $data ) ? $data['risiko_residual'] : 0 ] ) ];
 
-			$param['evaluasi'][] = ['title' => _l('fld_level_risiko_residual'), 'help' => _h('help_level_risiko'), 'isi' => form_input('level_residual_text', ($data) ? $data['level_color_residual'] : '', 'class="form-control text-center" id="level_residual_text" readonly="readonly" style="width:30%;' . $csslevel . '"') . form_hidden(['level_residual' => ($data) ? $data['level_residual'] : 0, 'sts_save_evaluasi' => ($data) ? $data['sts_save_evaluasi'] : 0])];
-		} elseif ($data['tipe_analisa_no'] == 1) {
-			$param['evaluasi'][] = ['title' => _l('fld_likelihood_residual'), 'help' => _h('help_likelihood_residual'), 'isi' => $l];
-			$param['evaluasi'][] = ['title' => _l('fld_impact_residual'), 'help' => _h('help_impact_residual'), 'isi' => $i];
-			$param['evaluasi'][] = ['title' => _l('fld_risiko_residual'), 'help' => _h('help_risiko_residual'), 'isi' => form_input('risiko_residual_text', ($data) ? $data['risiko_residual_text'] : '', 'class="form-control text-center" id="risiko_residual_text" readonly="readonly" style="width:15%;"') . form_hidden(['risiko_residual' => ($data) ? $data['risiko_residual'] : 0])];
-			$param['evaluasi'][] = ['title' => _l('fld_level_risiko_residual'), 'help' => _h('help_level_risiko'), 'isi' => form_input('level_residual_text', ($data) ? $data['level_color_residual'] : '', 'class="form-control text-center" id="level_residual_text" readonly="readonly" style="width:30%;' . $csslevel . '"') . form_hidden(['level_residual' => ($data) ? $data['level_residual'] : 0, 'sts_save_evaluasi' => ($data) ? $data['sts_save_evaluasi'] : 0])];
-		} elseif ($data['tipe_analisa_no'] == 3) {
-			$param['evaluasi'][] = ['title' => _l('fld_aspek_risiko'), 'help' => _h('help_aspek_risiko'), 'isi' => form_dropdown('aspek_risiko_id_3', $aspek_risiko, ($data) ? $data['aspek_risiko_id'] : '', 'id="aspek_risiko_id_3" class="form-control select" style="width:100%;" disabled="disabled"')];
+			$param['evaluasi'][] = [ 'title' => _l( 'fld_level_risiko_residual' ), 'help' => _h( 'help_level_risiko' ), 'isi' => form_input( 'level_residual_text', ( $data ) ? $data['level_color_residual'] : '', 'class="form-control text-center" id="level_residual_text" readonly="readonly" style="width:30%;' . $csslevel . '"' ) . form_hidden( [ 'level_residual' => ( $data ) ? $data['level_residual'] : 0, 'sts_save_evaluasi' => ( $data ) ? $data['sts_save_evaluasi'] : 0 ] ) ];
+		}
+		elseif( $data['tipe_analisa_no'] == 1 )
+		{
+			$param['evaluasi'][] = [ 'title' => _l( 'fld_likelihood_residual' ), 'help' => _h( 'help_likelihood_residual' ), 'isi' => $l ];
+			$param['evaluasi'][] = [ 'title' => _l( 'fld_impact_residual' ), 'help' => _h( 'help_impact_residual' ), 'isi' => $i ];
+			$param['evaluasi'][] = [ 'title' => _l( 'fld_risiko_residual' ), 'help' => _h( 'help_risiko_residual' ), 'isi' => form_input( 'risiko_residual_text', ( $data ) ? $data['risiko_residual_text'] : '', 'class="form-control text-center" id="risiko_residual_text" readonly="readonly" style="width:15%;"' ) . form_hidden( [ 'risiko_residual' => ( $data ) ? $data['risiko_residual'] : 0 ] ) ];
+			$param['evaluasi'][] = [ 'title' => _l( 'fld_level_risiko_residual' ), 'help' => _h( 'help_level_risiko' ), 'isi' => form_input( 'level_residual_text', ( $data ) ? $data['level_color_residual'] : '', 'class="form-control text-center" id="level_residual_text" readonly="readonly" style="width:30%;' . $csslevel . '"' ) . form_hidden( [ 'level_residual' => ( $data ) ? $data['level_residual'] : 0, 'sts_save_evaluasi' => ( $data ) ? $data['sts_save_evaluasi'] : 0 ] ) ];
+		}
+		elseif( $data['tipe_analisa_no'] == 3 )
+		{
+			$param['evaluasi'][] = [ 'title' => _l( 'fld_aspek_risiko' ), 'help' => _h( 'help_aspek_risiko' ), 'isi' => form_dropdown( 'aspek_risiko_id_3', $aspek_risiko, ( $data ) ? $data['aspek_risiko_id'] : '', 'id="aspek_risiko_id_3" class="form-control select" style="width:100%;" disabled="disabled"' ) ];
 
 			// $param['evaluasi'][] = ['title'=>_l('fld_likelihood_residual'),'help'=>_h('help_likelihood_residual'),'isi'=>$l];
 
-			$urutTemp = [1, 7, 8, 9, 10];
+			$urutTemp = [ 1, 7, 8, 9, 10 ];
 
 			$like_semi_form = '<select name="like_residual_id" id="like_residual_id_3" class="form-control select" style="width:100%;">';
-			if (!empty($like)) {
+			if( ! empty( $like ) )
+			{
 
-				foreach ($like as $key => $value) {
-					$sel            = ($data) ? $data['like_residual_id'] : '';
-					$selected       = ($sel == $key) ? 'selected' : '';
-					$k              = intval($key) - 1;
-					$dataTemp       = (isset($urutTemp[$k])) ? $urutTemp[$k] : 0;
+				foreach( $like as $key => $value )
+				{
+					$sel            = ( $data ) ? $data['like_residual_id'] : '';
+					$selected       = ( $sel == $key ) ? 'selected' : '';
+					$k              = intval( $key ) - 1;
+					$dataTemp       = ( isset( $urutTemp[$k] ) ) ? $urutTemp[$k] : 0;
 					$like_semi_form .= '<option data-temp="' . $dataTemp . '" value="' . $key . '"' . $selected . '>' . $value . '</option>';
 				}
 			}
