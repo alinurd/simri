@@ -602,8 +602,8 @@ class Data extends MX_Model
 		// 	$data['tahapan_id'] = $this->crud->last_id();
 		// }
 		// $peristiwa_id_tmp = [];
-		$dampak_id_tmp    = [];
-		$penyebab_id_tmp    = [];
+		$dampak_id_tmp   = [];
+		$penyebab_id_tmp = [];
 
 		// if( isset( $data['txt_penyebab_id'] ) )
 		// {
@@ -1310,9 +1310,6 @@ class Data extends MX_Model
 			$nilai = ( $row['pencapaian'] / 100 ) * ( $row['pembobotan'] * count( $rows ) );
 			$ttl += floatval( $nilai );
 		}
-		// dumps(count($rows));
-		// dumps($row['pembobotan']*count($rows));
-		// die();
 
 		$jml      = round( ( ( count( $rows ) * 5 ) - count( $rows ) ) / 5, 1 );
 		$last     = count( $rows ) + $jml;
@@ -1390,7 +1387,6 @@ class Data extends MX_Model
 		}
 		$hasil['warna']   = $x;
 		$hasil['bk_tipe'] = $data['bk_tipe'];
-
 		return $hasil;
 	}
 
@@ -1528,6 +1524,25 @@ class Data extends MX_Model
 			}
 		}
 		return $resultData;
+	}
+
+	function refreshInputRisk( $type, $id_edit )
+	{
+		$result = 0;
+		switch( $type )
+		{
+			case 'likehood':
+				$result = $this->db->where( 'bk_tipe', 1 )->where( 'rcsa_detail_id', intval( $id_edit ) )->or_group_start()->where( 'rcsa_detail_id', 0 )->where( 'created_by', $this->ion_auth->get_user_name() )->group_end()->get( _TBL_VIEW_RCSA_DET_LIKE_INDI )->num_rows();
+				break;
+
+			case 'dampak':
+				$result = $this->db->where( 'bk_tipe', 1 )->where( 'rcsa_detail_id', intval( $id_edit ) )->or_group_start()->where( 'rcsa_detail_id', 0 )->where( 'created_by', $this->ion_auth->get_user_name() )->group_end()->get( _TBL_VIEW_RCSA_DET_DAMPAK_INDI )->num_rows();
+				break;
+			default:
+				$result = 0;
+				break;
+		}
+		return $result;
 	}
 }
 /* End of file app_login_model.php */

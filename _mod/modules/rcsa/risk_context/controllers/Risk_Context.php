@@ -691,45 +691,46 @@ class Risk_Context extends MY_Controller
 
 		$param['tipe_analisa_no'] = $tipe_analisa_no;
 
-		$param['tipe_analisa']         = ['title' => '', 'help' => '', 'isi' => $tipe_analisa];
-		$param['analisa_kualitatif'][] = ['title' => _l('fld_indi_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => TRUE, 'isi' => form_input('like_text', ($data) ? $data['like_text'] : '', 'id="like_text" class="form-control" style="width:100%;"')];
+		$param['tipe_analisa']         = [ 'title' => '', 'help' => '', 'isi' => $tipe_analisa ];
+		$param['analisa_kualitatif'][] = [ 'title' => _l( 'fld_indi_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_input( 'like_text', ( $data ) ? $data['like_text'] : '', 'id="like_text" class="form-control" style="width:100%;"' ) ];
 
-		$param['analisa_kualitatif'][] = ['title' => _l('fld_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => TRUE, 'isi' => form_dropdown('like_id', $like, ($data) ? $data['like_id'] : '', 'id="like_id" class="form-control select" style="width:100%;"')];
-		$param['analisa_kualitatif'][] = ['title' => _l('fld_indi_dampak'), 'help' => _h('help_impact'), 'mandatori' => TRUE, 'isi' => form_input('impact_text', ($data) ? $data['impact_text'] : '', 'id="impact_text" class="form-control" style="width:100%;"')];
-		$param['analisa_kualitatif'][] = ['title' => _l('fld_impact'), 'help' => _h('help_impact'), 'mandatori' => TRUE, 'isi' => form_dropdown('impact_id', $impact, ($data) ? $data['impact_id'] : '', 'id="impact_id" class="form-control select" style="width:100%;"')];
-
-
-		// dumps($parent);
-		$param['analisa_kuantitatif'][] = ['title' => '', 'help' => '', 'isi' => '<div style="display: flex; justify-content: space-between;">
-		<span class="btn btn-primary legitRipple pointer" data-rcsa="' . $parent['id'] . '" data-id="' . $id_edit . '" id="indikator_like" data-jml_like_indi"' . $jml_like_indi . '" style="width:100%;"> Input Risk Indikator Likelihood [ ' . $jml_like_indi . ' ] </span>
-		 <span class="icon-database-refresh pointer" id="refreshRisk" title="Click untuk refresh data" style="width: 5%;"></span></div> ' .
-			form_hidden(['indikator_like_cek' => ($jml_like_indi) ? $jml_like_indi : ''], 'id="indikator_like_cek"')];
-
-		$param['analisa_kuantitatif'][] = ['title' => '', 'help' => '', 'isi' => '<div style="display: flex; justify-content: space-between;">
-		<span class="btn btn-primary legitRipple pointer"  data-rcsa="' . $parent['id'] . '" data-id="' . $id_edit . '" id="indikator_dampak" style="width:100%;"> Input Risk Indikator Dampak  [ ' . $jml_dampak_indi . ' ] </span>		 
-		<span class="icon-database-refresh pointer" id="refreshRisk" title="Click untuk refresh data" style="width: 5%;">
-		</span></div> '];
-
-		$param['analisa_kuantitatif'][] = ['title' => _l('fld_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => TRUE, 'isi' => form_input('like_text_kuantitatif', ($data) ? $data['like_inherent'] : '', 'id="like_text_kuantitatif" class="form-control" style="width:100%;" readonly="readonly"') . form_hidden(['like_id_2' => ($data) ? $data['like_id'] : ''])];
-
-		$param['analisa_kuantitatif'][] = ['title' => _l('fld_impact'), 'help' => _h('help_impact'), 'mandatori' => TRUE, 'isi' => form_input('impact_text_kuantitatif', ($data) ? $data['impact_inherent'] : '', 'id="impact_text_kuantitatif" class="form-control" style="width:100%;" readonly="readonly"') . form_hidden(['impact_id_2' => ($data) ? $data['impact_id'] : ''])];
+		$param['analisa_kualitatif'][] = [ 'title' => _l( 'fld_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'like_id', $like, ( $data ) ? $data['like_id'] : '', 'id="like_id" class="form-control select" style="width:100%;"' ) ];
+		$param['analisa_kualitatif'][] = [ 'title' => _l( 'fld_indi_dampak' ), 'help' => _h( 'help_impact' ), 'mandatori' => TRUE, 'isi' => form_input( 'impact_text', ( $data ) ? $data['impact_text'] : '', 'id="impact_text" class="form-control" style="width:100%;"' ) ];
+		$param['analisa_kualitatif'][] = [ 'title' => _l( 'fld_impact' ), 'help' => _h( 'help_impact' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'impact_id', $impact, ( $data ) ? $data['impact_id'] : '', 'id="impact_id" class="form-control select" style="width:100%;"' ) ];
 
 
+		$param['analisa_kuantitatif'][] = [ 'title' => '', 'help' => '', 'isi' => '<div style="display: flex; justify-content: space-between;">
+		<span class="btn btn-primary legitRipple pointer" data-rcsa="' . $parent['id'] . '" data-id="' . $id_edit . '" id="indikator_like" data-jml_like_indi="' . $jml_like_indi . '" style="width:100%;"> Input Risk Indikator Likelihood [ ' . $jml_like_indi . ' ] </span>
+		 <span class="icon-database-refresh pointer" id="refreshRiskLikeHood" title="Click untuk refresh data" style="width: 5%;"></span></div> ' .
+		 form_hidden( [ 'indikator_like_cek' => ( $jml_like_indi ) ? $jml_like_indi : '' ], 'id="indikator_like_cek"' ) ];
 
-		$param['analisa_semi'][] = ['title' => _l('fld_indi_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => TRUE, 'isi' => form_dropdown('aspek_risiko_id', $aspek_risiko, $aspek, 'id="aspek_risiko_id" class="form-control select" style="width:100%;"')];
+		$param['analisa_kuantitatif'][] = [ 'title' => '', 'help' => '', 'isi' => '<div style="display: flex; justify-content: space-between;">
+		<span class="btn btn-primary legitRipple pointer"  data-rcsa="' . $parent['id'] . '" data-id="' . $id_edit . '" id="indikator_dampak" data-jml_dampak_indi="' . $jml_dampak_indi . '" style="width:100%;"> Input Risk Indikator Dampak  [ ' . $jml_dampak_indi . ' ] </span>		 
+		<span class="icon-database-refresh pointer" id="refreshRiskDampak" title="Click untuk refresh data" style="width: 5%;">
+		</span></div> ' ];
 
-		$param['analisa_semi'][] = ['title' => "Detail", 'help' => _h("keterangan/Detail lainnya"), 'mandatori' => FALSE, 'isi' => form_input('aspek_det', ($data) ? $data['aspek_det'] : '', 'id="aspek_det" class="form-control" style="width:100%;" ')];
+		$param['analisa_kuantitatif'][] = [ 'title' => _l( 'fld_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_input( 'like_text_kuantitatif', ( $data ) ? $data['like_inherent'] : '', 'id="like_text_kuantitatif" class="form-control" style="width:100%;" readonly="readonly"' ) . form_hidden( [ 'like_id_2' => ( $data ) ? $data['like_id'] : '' ] ) ];
 
-		$urutTemp = [1, 7, 8, 9, 10];
+		$param['analisa_kuantitatif'][] = [ 'title' => _l( 'fld_impact' ), 'help' => _h( 'help_impact' ), 'mandatori' => TRUE, 'isi' => form_input( 'impact_text_kuantitatif', ( $data ) ? $data['impact_inherent'] : '', 'id="impact_text_kuantitatif" class="form-control" style="width:100%;" readonly="readonly"' ) . form_hidden( [ 'impact_id_2' => ( $data ) ? $data['impact_id'] : '' ] ) ];
+
+
+
+		$param['analisa_semi'][] = [ 'title' => _l( 'fld_indi_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'aspek_risiko_id', $aspek_risiko, $aspek, 'id="aspek_risiko_id" class="form-control select" style="width:100%;"' ) ];
+
+		$param['analisa_semi'][] = [ 'title' => "Detail", 'help' => _h( "keterangan/Detail lainnya" ), 'mandatori' => FALSE, 'isi' => form_input( 'aspek_det', ( $data ) ? $data['aspek_det'] : '', 'id="aspek_det" class="form-control" style="width:100%;" ' ) ];
+
+		$urutTemp = [ 1, 7, 8, 9, 10 ];
 
 		$like_semi_form = '<select name="like_id_3" id="like_id_3" class="form-control select" style="width:100%;">';
-		if (!empty($like_semi)) {
+		if( ! empty( $like_semi ) )
+		{
 
-			foreach ($like_semi as $key => $value) {
-				$sel            = ($data) ? $data['like_id'] : '';
-				$selected       = ($sel == $key) ? 'selected' : '';
-				$k              = intval($key) - 1;
-				$dataTemp       = (isset($urutTemp[$k])) ? $urutTemp[$k] : 0;
+			foreach( $like_semi as $key => $value )
+			{
+				$sel            = ( $data ) ? $data['like_id'] : '';
+				$selected       = ( $sel == $key ) ? 'selected' : '';
+				$k              = intval( $key ) - 1;
+				$dataTemp       = ( isset( $urutTemp[$k] ) ) ? $urutTemp[$k] : 0;
 				$like_semi_form .= '<option data-temp="' . $dataTemp . '" value="' . $key . '"' . $selected . '>' . $value . '</option>';
 			}
 		}
@@ -965,52 +966,66 @@ class Risk_Context extends MY_Controller
 
 		$l_events = 'auto';
 		$i_events = 'auto';
-		if ($data['efek_mitigasi'] == 1) {
-			$l        = form_dropdown('like_target_id', $like, ($data['like_target_id']) ? $data['like_target_id'] : $data['like_residual_id'], 'id="like_target_id" class="form-control select" style="width:100%;"');
-			$i        = form_input('impact_target', ($data['impact_target']) ? $data['impact_target'] : $data['impact_residual'], 'id="impact_target" class="form-control" readonly="readonly" style="width:100%;"') . form_input(['type' => 'hidden', 'name' => 'impact_target_id', 'id' => 'impact_target_id', 'value' => ($data['impact_target_id']) ? $data['impact_target_id'] : $data['impact_residual_id']]);
+		if( $data['efek_mitigasi'] == 1 )
+		{
+			$l        = form_dropdown( 'like_target_id', $like, ( $data['like_target_id'] ) ? $data['like_target_id'] : $data['like_residual_id'], 'id="like_target_id" class="form-control select" style="width:100%;"' );
+			$i        = form_input( 'impact_target', ( $data['impact_target'] ) ? $data['impact_target'] : $data['impact_residual'], 'id="impact_target" class="form-control" readonly="readonly" style="width:100%;"' ) . form_input( [ 'type' => 'hidden', 'name' => 'impact_target_id', 'id' => 'impact_target_id', 'value' => ( $data['impact_target_id'] ) ? $data['impact_target_id'] : $data['impact_residual_id'] ] );
 			$l_events = 'none';
-		} elseif ($data['efek_mitigasi'] == 2) {
-			$l        = form_input('like_target', ($data['like_target']) ? $data['like_target'] : $data['like_residual'], 'id="like_target" class="form-control" readonly="readonly" style="width:100%;"') . form_input(['type' => 'hidden', 'name' => 'like_target_id', 'id' => 'like_target_id', 'value' => ($data['like_target_id']) ? $data['like_target_id'] : $data['like_residual_id']]);
-			$i        = form_dropdown('impact_target_id', $impact, ($data['impact_target_id']) ? $data['impact_target_id'] : $data['impact_residual_id'], 'id="impact_target_id" class="form-control select" style="width:100%;"');
+		}
+		elseif( $data['efek_mitigasi'] == 2 )
+		{
+			$l        = form_input( 'like_target', ( $data['like_target'] ) ? $data['like_target'] : $data['like_residual'], 'id="like_target" class="form-control" readonly="readonly" style="width:100%;"' ) . form_input( [ 'type' => 'hidden', 'name' => 'like_target_id', 'id' => 'like_target_id', 'value' => ( $data['like_target_id'] ) ? $data['like_target_id'] : $data['like_residual_id'] ] );
+			$i        = form_dropdown( 'impact_target_id', $impact, ( $data['impact_target_id'] ) ? $data['impact_target_id'] : $data['impact_residual_id'], 'id="impact_target_id" class="form-control select" style="width:100%;"' );
 			$i_events = 'none';
-		} elseif ($data['efek_mitigasi'] == 4) {
-			$l        = form_input('like_target', ($data['like_target']) ? $data['like_target'] : $data['like_residual'], 'id="like_target" class="form-control" readonly="readonly" style="width:100%;"') . form_input(['type' => 'hidden', 'name' => 'like_target_id', 'id' => 'like_target_id', 'value' => ($data['like_target_id']) ? $data['like_target_id'] : $data['like_residual_id']]);
-			$i        = form_input('impact_target', ($data['impact_target']) ? $data['impact_target'] : $data['impact_residual'], 'id="impact_target" class="form-control" readonly="readonly" style="width:100%;"') . form_input(['type' => 'hidden', 'name' => 'impact_target_id', 'id' => 'impact_target_id', 'value' => ($data['impact_target_id']) ? $data['impact_target_id'] : $data['impact_residual_id']]);
+		}
+		elseif( $data['efek_mitigasi'] == 4 )
+		{
+			$l        = form_input( 'like_target', ( $data['like_target'] ) ? $data['like_target'] : $data['like_residual'], 'id="like_target" class="form-control" readonly="readonly" style="width:100%;"' ) . form_input( [ 'type' => 'hidden', 'name' => 'like_target_id', 'id' => 'like_target_id', 'value' => ( $data['like_target_id'] ) ? $data['like_target_id'] : $data['like_residual_id'] ] );
+			$i        = form_input( 'impact_target', ( $data['impact_target'] ) ? $data['impact_target'] : $data['impact_residual'], 'id="impact_target" class="form-control" readonly="readonly" style="width:100%;"' ) . form_input( [ 'type' => 'hidden', 'name' => 'impact_target_id', 'id' => 'impact_target_id', 'value' => ( $data['impact_target_id'] ) ? $data['impact_target_id'] : $data['impact_residual_id'] ] );
 			$i_events = 'none';
-		} else {
-			$l = form_dropdown('like_target_id', $like, ($data['like_target_id']) ? $data['like_target_id'] : $data['like_residual_id'], 'id="like_target_id" class="form-control select" style="width:100%;"');
-			$i = form_dropdown('impact_target_id', $impact, ($data['impact_target_id']) ? $data['impact_target_id'] : $data['impact_residual_id'], 'id="impact_target_id" class="form-control select" style="width:100%;"');
+		}
+		else
+		{
+			$l = form_dropdown( 'like_target_id', $like, ( $data['like_target_id'] ) ? $data['like_target_id'] : $data['like_residual_id'], 'id="like_target_id" class="form-control select" style="width:100%;"' );
+			$i = form_dropdown( 'impact_target_id', $impact, ( $data['impact_target_id'] ) ? $data['impact_target_id'] : $data['impact_residual_id'], 'id="impact_target_id" class="form-control select" style="width:100%;"' );
 		}
 
-		if ($data['tipe_analisa_no'] == 2) {
-			$param['target'][] = ['title' => '', 'help' => '', 'isi' => '<span class="btn btn-primary legitRipple pointer" data-rcsa="' . $parent['id'] . '" data-id="' . $data['id'] . '" data-control="' . $data['efek_kontrol'] . '" id="indikator_like_target" style="width:100%;pointer-events:' . $i_events . '"> Input Risk Indikaxxxxxxxxxxxtor Likelihood </span>'];
+		if( $data['tipe_analisa_no'] == 2 )
+		{
+			$param['target'][] = [ 'title' => '', 'help' => '', 'isi' => '<span class="btn btn-primary legitRipple pointer" data-rcsa="' . $parent['id'] . '" data-id="' . $data['id'] . '" data-control="' . $data['efek_kontrol'] . '" id="indikator_like_target" style="width:100%;pointer-events:' . $i_events . '"> Input Risk Indikator Likelihood </span>' ];
 
-			$param['target'][] = ['title' => '', 'help' => '', 'isi' => '<span class="btn btn-primary legitRipple pointer"  data-rcsa="' . $parent['id'] . '" data-id="' . $data['id'] . '" data-control="' . $data['efek_kontrol'] . '" id="indikator_dampak_target" style="width:100%;pointer-events:' . $l_events . '"> Input Risk Indiccccccccccckator Dampak </span>'];
-			$param['target'][] = ['title' => _l('fld_likelihood_target'), 'help' => _h('help_likelihood'), 'isi' => form_input('like_text_kuantitatif_targetl', ($data) ? $data['like_target'] : '', 'id="like_text_kuantitatif_target" class="form-control" style="width:100%;" readonly="readonly"') . form_hidden(['like_target_id' => ($data) ? $data['like_target_id'] : ''])];
+			$param['target'][] = [ 'title' => '', 'help' => '', 'isi' => '<span class="btn btn-primary legitRipple pointer"  data-rcsa="' . $parent['id'] . '" data-id="' . $data['id'] . '" data-control="' . $data['efek_kontrol'] . '" id="indikator_dampak_target" style="width:100%;pointer-events:' . $l_events . '"> Input Risk Indikator Dampak </span>' ];
+			$param['target'][] = [ 'title' => _l( 'fld_likelihood_target' ), 'help' => _h( 'help_likelihood' ), 'isi' => form_input( 'like_text_kuantitatif_targetl', ( $data ) ? $data['like_target'] : '', 'id="like_text_kuantitatif_target" class="form-control" style="width:100%;" readonly="readonly"' ) . form_hidden( [ 'like_target_id' => ( $data ) ? $data['like_target_id'] : '' ] ) ];
 
-			$param['target'][] = ['title' => _l('fld_impact_target'), 'help' => _h('help_impact_target'), 'isi' => form_input('impact_text_kuantitatif_target', ($data) ? $data['impact_target'] : '', 'id="impact_text_kuantitatif_target" class="form-control" style="width:100%;" readonly="readonly"') . form_hidden(['impact_target_id' => ($data) ? $data['impact_target_id'] : ''])];
+			$param['target'][] = [ 'title' => _l( 'fld_impact_target' ), 'help' => _h( 'help_impact_target' ), 'isi' => form_input( 'impact_text_kuantitatif_target', ( $data ) ? $data['impact_target'] : '', 'id="impact_text_kuantitatif_target" class="form-control" style="width:100%;" readonly="readonly"' ) . form_hidden( [ 'impact_target_id' => ( $data ) ? $data['impact_target_id'] : '' ] ) ];
 
-			$param['target'][] = ['title' => _l('fld_risiko_target'), 'help' => _h('help_risiko_target'), 'isi' => form_input('risiko_target_text', ($data['risiko_target_text']) ? $data['risiko_target_text'] : $data['risiko_residual_text'], 'class="form-control text-center" id="risiko_target_text" readonly="readonly" style="width:15%;"') . form_hidden(['risiko_target' => ($data['risiko_target']) ? $data['risiko_target'] : $data['risiko_residual']])];
-			$param['target'][] = ['title' => _l('fld_level_risiko_target'), 'help' => _h('help_level_risiko'), 'isi' => form_input('level_target_text', ($data['level_color_target']) ? $data['level_color_target'] : $data['level_color_residual'], 'class="form-control text-center" id="level_target_text" readonly="readonly" style="width:30%;' . $csslevel . '"') . form_hidden(['level_target' => ($data['level_target']) ? $data['level_target'] : $data['level_residual']])];
-		} elseif ($data['tipe_analisa_no'] == 1) {
-			$param['target'][] = ['title' => _l('fld_likelihood_target'), 'help' => _h('help_likelihood_target'), 'isi' => $l];
-			$param['target'][] = ['title' => _l('fld_impact_target'), 'help' => _h('help_impact_target'), 'isi' => $i];
-			$param['target'][] = ['title' => _l('fld_risiko_target'), 'help' => _h('help_risiko_target'), 'isi' => form_input('risiko_target_text', ($data['risiko_target_text']) ? $data['risiko_target_text'] : $data['risiko_residual_text'], 'class="form-control text-center" id="risiko_target_text" readonly="readonly" style="width:15%;"') . form_hidden(['risiko_target' => ($data['risiko_target']) ? $data['risiko_target'] : $data['risiko_residual']])];
-			$param['target'][] = ['title' => _l('fld_level_risiko_target'), 'help' => _h('help_level_risiko'), 'isi' => form_input('level_target_text', ($data['level_color_target']) ? $data['level_color_target'] : $data['level_color_residual'], 'class="form-control text-center" id="level_target_text" readonly="readonly" style="width:30%;' . $csslevel . '"') . form_hidden(['level_target' => ($data['level_target']) ? $data['level_target'] : $data['level_residual']])];
-		} elseif ($data['tipe_analisa_no'] == 3) {
-			$param['target'][] = ['title' => _l('fld_aspek_risiko'), 'help' => _h('help_aspek_risiko'), 'isi' => form_dropdown('aspek_risiko_id_3', $aspek_risiko, ($data) ? $data['aspek_risiko_id'] : '', 'id="aspek_risiko_id_3" class="form-control select" style="width:100%;" disabled="disabled"')];
+			$param['target'][] = [ 'title' => _l( 'fld_risiko_target' ), 'help' => _h( 'help_risiko_target' ), 'isi' => form_input( 'risiko_target_text', ( $data['risiko_target_text'] ) ? $data['risiko_target_text'] : $data['risiko_residual_text'], 'class="form-control text-center" id="risiko_target_text" readonly="readonly" style="width:15%;"' ) . form_hidden( [ 'risiko_target' => ( $data['risiko_target'] ) ? $data['risiko_target'] : $data['risiko_residual'] ] ) ];
+			$param['target'][] = [ 'title' => _l( 'fld_level_risiko_target' ), 'help' => _h( 'help_level_risiko' ), 'isi' => form_input( 'level_target_text', ( $data['level_color_target'] ) ? $data['level_color_target'] : $data['level_color_residual'], 'class="form-control text-center" id="level_target_text" readonly="readonly" style="width:30%;' . $csslevel . '"' ) . form_hidden( [ 'level_target' => ( $data['level_target'] ) ? $data['level_target'] : $data['level_residual'] ] ) ];
+		}
+		elseif( $data['tipe_analisa_no'] == 1 )
+		{
+			$param['target'][] = [ 'title' => _l( 'fld_likelihood_target' ), 'help' => _h( 'help_likelihood_target' ), 'isi' => $l ];
+			$param['target'][] = [ 'title' => _l( 'fld_impact_target' ), 'help' => _h( 'help_impact_target' ), 'isi' => $i ];
+			$param['target'][] = [ 'title' => _l( 'fld_risiko_target' ), 'help' => _h( 'help_risiko_target' ), 'isi' => form_input( 'risiko_target_text', ( $data['risiko_target_text'] ) ? $data['risiko_target_text'] : $data['risiko_residual_text'], 'class="form-control text-center" id="risiko_target_text" readonly="readonly" style="width:15%;"' ) . form_hidden( [ 'risiko_target' => ( $data['risiko_target'] ) ? $data['risiko_target'] : $data['risiko_residual'] ] ) ];
+			$param['target'][] = [ 'title' => _l( 'fld_level_risiko_target' ), 'help' => _h( 'help_level_risiko' ), 'isi' => form_input( 'level_target_text', ( $data['level_color_target'] ) ? $data['level_color_target'] : $data['level_color_residual'], 'class="form-control text-center" id="level_target_text" readonly="readonly" style="width:30%;' . $csslevel . '"' ) . form_hidden( [ 'level_target' => ( $data['level_target'] ) ? $data['level_target'] : $data['level_residual'] ] ) ];
+		}
+		elseif( $data['tipe_analisa_no'] == 3 )
+		{
+			$param['target'][] = [ 'title' => _l( 'fld_aspek_risiko' ), 'help' => _h( 'help_aspek_risiko' ), 'isi' => form_dropdown( 'aspek_risiko_id_3', $aspek_risiko, ( $data ) ? $data['aspek_risiko_id'] : '', 'id="aspek_risiko_id_3" class="form-control select" style="width:100%;" disabled="disabled"' ) ];
 
 
-			$urutTemp = [1, 7, 8, 9, 10];
+			$urutTemp = [ 1, 7, 8, 9, 10 ];
 
 			$like_semi_form = '<select name="like_target_id" id="like_target_id_3" class="form-control select" style="width:100%;">';
-			if (!empty($like)) {
+			if( ! empty( $like ) )
+			{
 
-				foreach ($like as $key => $value) {
-					$sel            = ($data) ? $data['like_target_id'] : '';
-					$selected       = ($sel == $key) ? 'selected' : '';
-					$k              = intval($key) - 1;
-					$dataTemp       = (isset($urutTemp[$k])) ? $urutTemp[$k] : 0;
+				foreach( $like as $key => $value )
+				{
+					$sel            = ( $data ) ? $data['like_target_id'] : '';
+					$selected       = ( $sel == $key ) ? 'selected' : '';
+					$k              = intval( $key ) - 1;
+					$dataTemp       = ( isset( $urutTemp[$k] ) ) ? $urutTemp[$k] : 0;
 					$like_semi_form .= '<option data-temp="' . $dataTemp . '" value="' . $key . '"' . $selected . '>' . $value . '</option>';
 				}
 			}
@@ -2257,16 +2272,26 @@ class Risk_Context extends MY_Controller
 		$upd['created_by']   = $this->ion_auth->get_user_name();
 
 		$this->db->insert( _TBL_LIBRARY, $upd );
-        $id = $this->db->insert_id();
- 		$lib=$this->db->where('id', $id)->get(_TBL_VIEW_LIBRARY)->row_array();
+		$id                     = $this->db->insert_id();
+		$lib                    = $this->db->where( 'id', $id )->get( _TBL_VIEW_LIBRARY )->row_array();
 		$data['idPeristiwa']    = $lib['id'];
-		$data['peristiwaName']    = $lib['library'];
-		$data['tipeId']    = $lib['risk_type_no'];
-		$data['tipeName']    = $lib['risk_type'];
-		$data['tasktonomiId']    = $lib['kel'];
-		$data['tasktonomiName']    = $lib['nama_kelompok'];
+		$data['peristiwaName']  = $lib['library'];
+		$data['tipeId']         = $lib['risk_type_no'];
+		$data['tipeName']       = $lib['risk_type'];
+		$data['tasktonomiId']   = $lib['kel'];
+		$data['tasktonomiName'] = $lib['nama_kelompok'];
 		header( 'Content-type: application/json' );
 		echo json_encode( $data );
-		 
+
+	}
+	function refreshAnalisaRisk()
+	{
+		$type    = $this->input->post( "type" );
+		$id_edit = $this->input->post( "id_edit" );
+		$result  = $this->data->refreshInputRisk( $type, $id_edit );
+
+		header( 'Content-type: application/json' );
+		echo json_encode( $result );
+
 	}
 }
