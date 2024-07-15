@@ -1071,10 +1071,10 @@ function cek_isian_identifikasi(awal = false) {
         }
     });
 
-    $('select[name="dampak_id[]"]').each(function() {
+    $('select[name="dampak_id[]"]').each(function () {
         if ($(this).val() == 0) {
             hasil = false;
-            pesan += '- Penyebab Risiko\n';
+            pesan += '- Dampak Risiko\n';
         }
     });
 
