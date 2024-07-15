@@ -659,12 +659,17 @@ class Risk_Context extends MY_Controller
 		$check2          = TRUE;
 		$check3          = FALSE;
 		$tipe_analisa_no = 2;
-		if ($data) {
-			if ($data['tipe_analisa_no'] == 2) {
+		if( $data )
+		{
+			$data['tipe_analisa_no'] = ( $data['tipe_analisa_no'] == 1 ) ? 2 : $data['tipe_analisa_no'];
+			if( $data['tipe_analisa_no'] == 2 )
+			{
 				$check1 = FALSE;
 				$check2 = TRUE;
 				$check3 = FALSE;
-			} elseif ($data['tipe_analisa_no'] == 3) {
+			}
+			elseif( $data['tipe_analisa_no'] == 3 )
+			{
 				$check1 = FALSE;
 				$check2 = FALSE;
 				$check3 = TRUE;
