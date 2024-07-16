@@ -8,60 +8,64 @@ use PhpOffice\PhpSpreadsheet\Reader\Html;
 use PhpOffice\PhpSpreadsheet\Shared\Date as Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-class Lost_Event_Database extends MY_Controller {
-	var $table="";
-	var $post=array();
-	var $sts_cetak=false;
+class Lost_Event_Database extends MY_Controller
+{
+	var $table = "";
+	var $post = array();
+	var $sts_cetak = FALSE;
 	public function __construct()
 	{
+		if( isset( $_POST["anggaran"] ) )
+			$_POST["anggaran"] = str_replace( ",", '', $_POST["anggaran"] );
+
 		parent::__construct();
 	}
 
-	function init($action='list'){
+	function init( $action = 'list' )
+	{
 		$this->cbo_owner = $this->get_combo_parent_dept();
 
-		$this->period=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'period')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-		
-		$this->risiko_dept=$this->crud->combo_select(['id', 'CONCAT(kode_dept,"-",kode_aktifitas,"-",LPAD(kode_risiko_dept,3,0),"  ",risiko_dept) as kode'])->combo_sort('kode')->combo_tbl(_TBL_VIEW_RCSA_DETAIL)->get_combo()->result_combo();
+		$this->period = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'period' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 
-	 	$this->set_Tbl_Master(_TBL_LOSS_EVENT);
-		$this->set_Table(_TBL_OWNER);
+		$this->risiko_dept = $this->crud->combo_select( [ 'id', 'CONCAT(kode_dept,"-",kode_aktifitas,"-",LPAD(kode_risiko_dept,3,0),"  ",risiko_dept) as kode' ] )->combo_sort( 'kode' )->combo_tbl( _TBL_VIEW_RCSA_DETAIL )->get_combo()->result_combo();
 
-		$this->set_Open_Tab('Data Loss Risk Event Library');
-			$this->addField(array('field'=>'id', 'type'=>'int', 'show'=>false, 'size'=>4));
-			$this->addField(['field'=>'owner_code', 'title'=>'Kode Departemen','readonly'=>'readonly', 'input'=>'text']);
+		$this->set_Tbl_Master( _TBL_LOSS_EVENT );
+		$this->set_Table( _TBL_OWNER );
+		$this->set_Open_Tab( 'Data Loss Risk Event Library' );
+		$this->addField( array( 'field' => 'id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ) );
+		$this->addField( [ 'field' => 'owner_code', 'title' => 'Kode Departemen', 'readonly' => 'readonly', 'input' => 'text' ] );
 
-			$this->addField(['field'=>'owner_no', 'title'=>'Departemen', 'type'=>'int', 'required'=>true,'input'=>'combo', 'search'=>true, 'values'=>$this->cbo_owner]);
-			$this->addField(array('field'=>'peristiwa', 'title'=>'Risiko Departemen','required'=>true,'input'=>'combo', 'values'=>$this->risiko_dept));
-			$this->addField(array('field'=>'tempat_kejadian', 'title'=>'Sumber / Tempat Kejadian','input'=>'multitext', 'size'=>500));
-            $this->addField(array('field'=>'tanggal', 'title'=>'Waktu Kejadian','input'=>'date', 'type'=>'date', 'size'=>100));
-			
+		$this->addField( [ 'field' => 'owner_no', 'title' => 'Departemen', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->cbo_owner ] );
+		$this->addField( array( 'field' => 'peristiwa', 'title' => 'Risiko Departemen', 'required' => TRUE, 'input' => 'combo', 'values' => $this->risiko_dept ) );
+		$this->addField( array( 'field' => 'tempat_kejadian', 'title' => 'Sumber / Tempat Kejadian', 'input' => 'multitext', 'size' => 500 ) );
+		$this->addField( array( 'field' => 'tanggal', 'title' => 'Waktu Kejadian', 'input' => 'date', 'type' => 'date', 'size' => 100 ) );
 
-			$this->addField(array('field'=>'penyebab','title'=>'Penyebab Kejadian', 'input'=>'multitext','size'=>500));
 
-			// $this->addField(array('field'=>'dampak', 'title'=>'Dampak Kejadian','input'=>'multitext', 'size'=>500));
-			$this->addField(array('field'=>'durasi', 'title'=>'Durasi Kejadian','input'=>'text'));
+		$this->addField( array( 'field' => 'penyebab', 'title' => 'Penyebab Kejadian', 'input' => 'multitext', 'size' => 500 ) );
 
-			$this->addField(array('field'=>'dampak_kerugian', 'title'=>'Dampak Financial','input'=>'multitext', 'size'=>500));
-			$this->addField(array('field'=>'dampak_non_uang', 'title'=>'Dampak Non Financial','input'=>'multitext', 'size'=>500));
-			$this->addField(array('field'=>'tindakan',  'title'=>'Tindakan Perbaikan','input'=>'multitext', 'size'=>500));
-			$this->addField(array('field'=>'keterangan','title'=>'Jenis Tindakan Perbaikan', 'input'=>'multitext', 'size'=>500));
+		// $this->addField(array('field'=>'dampak', 'title'=>'Dampak Kejadian','input'=>'multitext', 'size'=>500));
+		$this->addField( array( 'field' => 'durasi', 'title' => 'Durasi Kejadian', 'input' => 'text' ) );
 
-			$this->addField(['field'=>'penanggung_jawab_no', 'title'=>'Pelaksana PIC', 'type'=>'string','input'=>'combo', 'search'=>true, 'values'=>$this->cbo_owner,'multiselect'=>TRUE]);
+		$this->addField( array( 'field' => 'dampak_kerugian', 'title' => 'Dampak Financial', 'input' => 'multitext', 'size' => 500 ) );
+		$this->addField( array( 'field' => 'dampak_non_uang', 'title' => 'Dampak Non Financial', 'input' => 'multitext', 'size' => 500 ) );
+		$this->addField( array( 'field' => 'tindakan', 'title' => 'Tindakan Perbaikan', 'input' => 'multitext', 'size' => 500 ) );
+		$this->addField( array( 'field' => 'keterangan', 'title' => 'Jenis Tindakan Perbaikan', 'input' => 'multitext', 'size' => 500 ) );
 
-			$this->addField(['field'=>'koordinator_id', 'title'=>'Koordinator', 'type'=>'string','input'=>'combo', 'search'=>true, 'values'=>$this->cbo_owner,'multiselect'=>TRUE]);
-			$this->addField(array('field'=>'due_date', 'title'=>'Due Date','input'=>'date', 'type'=>'date', 'size'=>100));
-			$this->addField(array('field' => 'anggaran', 'type'=>'float', 'input'=>'float', 'required' => true,'prepend'=>'Rp.','size'=>50));
+		$this->addField( [ 'field' => 'penanggung_jawab_no', 'title' => 'Pelaksana PIC', 'type' => 'string', 'input' => 'combo', 'search' => TRUE, 'values' => $this->cbo_owner, 'multiselect' => TRUE ] );
 
-			$this->addField(['field'=>'period_id', 'title'=>'Periode', 'type'=>'int', 'required'=>true,'input'=>'combo', 'search'=>true, 'values'=>$this->period]);
+		$this->addField( [ 'field' => 'koordinator_id', 'title' => 'Koordinator', 'type' => 'string', 'input' => 'combo', 'search' => TRUE, 'values' => $this->cbo_owner, 'multiselect' => TRUE ] );
+		$this->addField( array( 'field' => 'due_date', 'title' => 'Due Date', 'input' => 'date', 'type' => 'date', 'size' => 100 ) );
+		$this->addField( array( 'field' => 'anggaran', 'type' => 'float', 'input' => 'float', 'required' => TRUE, 'prepend' => 'Rp.', 'size' => 50 ) );
 
-			$this->addField(['field' => 'buktiup', 'title' => 'Lampiran', 'type' => 'free', 'search' => false, 'mode' => 'o']);
-			
-			$this->addField(['field'=>'active', 'input'=>'boolean', 'search'=>true]);
-		$this->addField(['field' => 'bukti', 'show' => false, 'save' => false]);
+		$this->addField( [ 'field' => 'period_id', 'title' => 'Periode', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->period ] );
 
-			// $this->addField(['field'=>'term_id', 'title'=>'Term', 'type'=>'int', 'input'=>'combo', 'search'=>true, 'values'=>[]]);
-			// $this->addField(['field'=>'minggu_id', 'title'=>'Minggu', 'type'=>'int', 'input'=>'combo', 'search'=>true, 'values'=>[]]);
+		$this->addField( [ 'field' => 'buktiup', 'title' => 'Lampiran', 'type' => 'free', 'search' => FALSE, 'mode' => 'o' ] );
+
+		$this->addField( [ 'field' => 'active', 'input' => 'boolean', 'search' => TRUE ] );
+		$this->addField( [ 'field' => 'bukti', 'show' => FALSE, 'save' => FALSE ] );
+
+		// $this->addField(['field'=>'term_id', 'title'=>'Term', 'type'=>'int', 'input'=>'combo', 'search'=>true, 'values'=>[]]);
+		// $this->addField(['field'=>'minggu_id', 'title'=>'Minggu', 'type'=>'int', 'input'=>'combo', 'search'=>true, 'values'=>[]]);
 
 		$this->set_Close_Tab();
 
