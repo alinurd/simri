@@ -1447,8 +1447,9 @@ class Data extends MX_Model
 		return $hasil;
 	}
 
-	function getDataDropdownDivision( $id, $isAjax = FALSE ) : array
+	function getDataDropdownDivision( $id, $seksi = "", $isAjax = FALSE, $validate = "" )
 	{
+
 		$queryGet["formAtSelect"] = [ "id", "owner_code", "CONCAT(owner_name,' - ',owner_code) as text", "level" ];
 		$queryGet["orderBy"]      = "urut ASC";
 		$data                     = [];
@@ -1456,18 +1457,16 @@ class Data extends MX_Model
 		{
 			return [];
 		}
+
 		if( $isAjax )
 		{
-
 			$getChild1 = $this->db->select( $queryGet["formAtSelect"] )->order_by( $queryGet["orderBy"] )->get_where( _TBL_OWNER, [ "id" => $id, "active" => 1 ] )->result_array();
-
-			$data = $this->getDataSeksiByParent( $getChild1, $queryGet );
-
+			$data      = $this->getDataSeksiByParent( $getChild1, $queryGet, $seksi, $validate );
 		}
 		else
 		{
 			$result              = $this->db->query( "select io.id, CONCAT(io.owner_name,' - ',io.owner_code) as text from il_rcsa ir join il_owner io on ir.owner_id = io.id where ir.id ={$id}" )->result_array();
-			$getFormatedDataDept = $this->getDataSeksiByParent( $result, $queryGet );
+			$getFormatedDataDept = $this->getDataSeksiByParent( $result, $queryGet, "", "" );
 			if( ! empty( $getFormatedDataDept ) )
 			{
 				foreach( $getFormatedDataDept as $key => $value )
@@ -1480,37 +1479,60 @@ class Data extends MX_Model
 
 		return $data;
 	}
-	private function getDataSeksiByParent( $getChild1, $formAtSelect ) : array
+	private function getDataSeksiByParent( $getChild1, $formAtSelect, $seksi, $mode )
 	{
+
 		$resultData = [];
+		$checkDept  = FALSE;
 		if( ! empty( $getChild1 ) )
 		{
 			foreach( $getChild1 as $keyChild1 => $valueChild1 )
 			{
+
+				if( ! empty( $mode ) && $valueChild1["id"] == (int) $seksi )
+				{
+					$checkDept = TRUE;
+				}
 				$resultData[] = [ "id" => $valueChild1["id"], "text" => "&nbsp;&nbsp;" . $valueChild1["text"] ];
 				$getChild2    = $this->db->select( $formAtSelect["formAtSelect"] )->order_by( $formAtSelect["orderBy"] )->get_where( _TBL_OWNER, [ "pid" => $valueChild1["id"], "active" => 1 ] )->result_array();
 				if( ! empty( $getChild2 ) )
 				{
 					foreach( $getChild2 as $keyChild2 => $valueChild2 )
 					{
+						if( ! empty( $mode ) && $valueChild2["id"] == (int) $seksi )
+						{
+							$checkDept = TRUE;
+						}
 						$resultData[] = [ "id" => $valueChild2["id"], "text" => "&nbsp;&nbsp;&nbsp;&nbsp;" . $valueChild2["text"] ];
 						$getChild3    = $this->db->select( $formAtSelect["formAtSelect"] )->order_by( $formAtSelect["orderBy"] )->get_where( _TBL_OWNER, [ "pid" => $valueChild2["id"], "active" => 1 ] )->result_array();
 						if( ! empty( $getChild3 ) )
 						{
 							foreach( $getChild3 as $keyChild3 => $valueChild3 )
 							{
+								if( ! empty( $mode ) && $valueChild3["id"] == (int) $seksi )
+								{
+									$checkDept = TRUE;
+								}
 								$resultData[] = [ "id" => $valueChild3["id"], "text" => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $valueChild3["text"] ];
 								$getChild4    = $this->db->select( $formAtSelect["formAtSelect"] )->order_by( $formAtSelect["orderBy"] )->get_where( _TBL_OWNER, [ "pid" => $valueChild3["id"], "active" => 1 ] )->result_array();
 								if( ! empty( $getChild4 ) )
 								{
 									foreach( $getChild4 as $keyChild4 => $valueChild4 )
 									{
+										if( ! empty( $mode ) && $valueChild4["id"] == (int) $seksi )
+										{
+											$checkDept = TRUE;
+										}
 										$resultData[] = [ "id" => $valueChild4["id"], "text" => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $valueChild4["text"] ];
 										$getChild5    = $this->db->select( $formAtSelect["formAtSelect"] )->order_by( $formAtSelect["orderBy"] )->get_where( _TBL_OWNER, [ "pid" => $valueChild4["id"], "active" => 1 ] )->result_array();
 										if( ! empty( $getChild5 ) )
 										{
 											foreach( $getChild5 as $keyChild5 => $valueChild5 )
 											{
+												if( ! empty( $mode ) && $valueChild5["id"] == (int) $seksi )
+												{
+													$checkDept = TRUE;
+												}
 												$resultData[] = [ "id" => $valueChild5["id"], "text" => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $valueChild5["text"] ];
 											}
 										}
@@ -1523,25 +1545,29 @@ class Data extends MX_Model
 				}
 			}
 		}
-		return $resultData;
+		return ( ! empty( $seksi ) ) ? $checkDept : $resultData;
 	}
 
 	function refreshInputRisk( $type, $id_edit )
 	{
 		$result = 0;
+		$tbl    = '';
 		switch( $type )
 		{
 			case 'likehood':
-				$result = $this->db->where( 'bk_tipe', 1 )->where( 'rcsa_detail_id', intval( $id_edit ) )->or_group_start()->where( 'rcsa_detail_id', 0 )->where( 'created_by', $this->ion_auth->get_user_name() )->group_end()->get( _TBL_VIEW_RCSA_DET_LIKE_INDI )->num_rows();
+				$tbl = _TBL_VIEW_RCSA_DET_LIKE_INDI;
 				break;
 
 			case 'dampak':
-				$result = $this->db->where( 'bk_tipe', 1 )->where( 'rcsa_detail_id', intval( $id_edit ) )->or_group_start()->where( 'rcsa_detail_id', 0 )->where( 'created_by', $this->ion_auth->get_user_name() )->group_end()->get( _TBL_VIEW_RCSA_DET_DAMPAK_INDI )->num_rows();
+				$tbl = _TBL_VIEW_RCSA_DET_DAMPAK_INDI;
 				break;
 			default:
-				$result = 0;
+				$tbl = "";
 				break;
 		}
+		if( ! empty( $tbl ) )
+			$result = $this->db->where( 'bk_tipe', 1 )->where( 'rcsa_detail_id', intval( $id_edit ) )->or_group_start()->where( 'rcsa_detail_id', 0 )->where( 'created_by', $this->ion_auth->get_user_name() )->group_end()->get( $tbl )->num_rows();
+
 		return $result;
 	}
 }

@@ -2222,29 +2222,33 @@ class Risk_Context extends MY_Controller
 		$html = $result;
 		echo $html;
 		exit;
-		header('Content-type: application/json'); // 
-		echo json_encode($result);
+		header( 'Content-type: application/json' ); // 
+		echo json_encode( $result );
 	}
 
-	function cetak_register_sum($id)
+	function cetak_register_sum( $id )
 	{
-		$data           = $this->data->get_data_register($id);
+		$data           = $this->data->get_data_register( $id );
 		$data['id']     = $id;
 		$data['export'] = FALSE;
-		$cbominggu      = $this->data->get_data_minggu($data['parent']['term_id']);
-		$minggu         = ($data['parent']['minggu_id']) ? $cbominggu[$data['parent']['minggu_id']] : '';
+		$cbominggu      = $this->data->get_data_minggu( $data['parent']['term_id'] );
+		$minggu         = ( $data['parent']['minggu_id'] ) ? $cbominggu[$data['parent']['minggu_id']] : '';
 
 		$data['parent']['bulan'] = $this->term[$data['parent']['term_id']] . ' - ' . $minggu;
-		$hasil                   = $this->load->view('risk_context/register', $data, TRUE);
+		$hasil                   = $this->load->view( 'risk_context/register', $data, TRUE );
 
 		return $hasil;
 	}
-	public function getDataDivisionDropdown($parent): void
+	public function getDataDivisionDropdown() : void
 	{
-		if (empty($parent)) {
-			echo json_encode(["items" => "- No Options Available -"]);
+		$mode  = (bool) $this->input->post( "validate" ) ?? "";
+		$dept  = $this->input->post( "dept" );
+		$seksi = $this->input->post( "seksi" );
+		if( empty( $dept ) )
+		{
+			echo json_encode( [ "items" => "- No Options Available -" ] );
 		}
-		echo json_encode(["items" => $this->data->getDataDropdownDivision($parent, TRUE)]);
+		echo json_encode( [ "items" => $this->data->getDataDropdownDivision( $dept, $seksi, TRUE, $mode ) ] );
 	}
 
 
@@ -2298,7 +2302,7 @@ class Risk_Context extends MY_Controller
 		echo json_encode( $data );
 
 	}
-	function refreshAnalisaRisk()
+	public function refreshAnalisaRisk()
 	{
 		$type    = $this->input->post( "type" );
 		$id_edit = $this->input->post( "id_edit" );
