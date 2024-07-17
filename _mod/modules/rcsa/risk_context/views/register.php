@@ -57,7 +57,8 @@ if( isset( $export ) )
                                 <th rowspan="2">Aktivitas</th>
                                 <th rowspan="2">Sasaran Aktivitas</th>
                                 <th rowspan="2">Tahapan Proses</th>
-                                <th rowspan="2">Klasifikasi Risiko</th>
+                                <th rowspan="2">Peristiwa Risiko</th>
+                                <th rowspan="2">Taksonomi Risiko</th>
                                 <th rowspan="2">Tipe Risiko</th>
                                 <th rowspan="2">Fraud Risk</th>
                                 <th rowspan="2">SMAP</th>
@@ -65,7 +66,6 @@ if( isset( $export ) )
                                 <th rowspan="2">Kode Risiko Departemen</th>
                                 <th rowspan="2">Risiko Departemen</th>
                                 <th rowspan="2">Penyebab Risiko</th>
-                                <th rowspan="2">Peristiwa Risiko</th>
                                 <th rowspan="2">Dampak Risiko</th>
                                 <th colspan="6" class="text-center"
                                     style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">
@@ -286,6 +286,7 @@ if( isset( $export ) )
                                     <td rowspan="<?= $jml; ?>"><?= $row['aktifitas']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['sasaran']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['tahapan']; ?></td>
+                                    <td rowspan="<?= $jml; ?>"><?= format_list( $row['peristiwa'], '###' ); ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['klasifikasi_risiko']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['tipe_risiko']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['fraud_risk'] == 1 ? 'Ya' : 'Tidak'; ?></td>
@@ -296,7 +297,7 @@ if( isset( $export ) )
                                     </td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['risiko_dept']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['penyebab_risiko']; ?></td>
-                                    <td rowspan="<?= $jml; ?>"><?= format_list( $row['peristiwa'], '###' ); ?></td>
+
                                     <td rowspan="<?= $jml; ?>"><?= format_list( $row['dampak'], '###' ); ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= implode( '<br/><br/> ', $like1 ); ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= implode( '<br/><br/>', $dampak1 ); ?></td>
