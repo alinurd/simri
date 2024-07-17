@@ -648,6 +648,7 @@ $(function () {
 
         var parent = $(this).parent().parent().parent();
         var data = $("#form_dampak_indi").serializeArray();
+
         data.push({ name: 'like_id', value: like_id });
         data.push({ name: 'mak', value: mak });
         var target_combo = '';
@@ -1373,12 +1374,15 @@ function list_mitigasi(hasil) {
 }
 
 function result_inherent(hasil) {
+
     $("#risiko_inherent_text").val(parseFloat(hasil.like_code) * parseFloat(hasil.impact_code));
     $("#level_inherent_text").val(hasil.level_color);
     $("input[name=\"risiko_inherent\"]").val(hasil.id);
     $("input[name=\"level_inherent\"]").val(hasil.level_risk_no);
     $("#level_inherent_text").css("background-color", hasil.color);
     $("#level_inherent_text").css("color", hasil.color_text);
+
+
 }
 
 function result_residual(hasil) {
@@ -1452,12 +1456,18 @@ function reset_approval(hasil) {
 
 $(document).on("change", "#owner_id", function () {
     var url = $("#btn_new").attr("href").replace("add", "getDataDivisionDropdown");
-    var getSelectedData = $(this).val();
+    var getSelectedData = $("#owner_id").val();
+    var seksi = $("#seksi").val();
+    if (seksi) {
+        checkDeptSeksi(getSelectedData, seksi, url);
+    }
     $('#seksi').select2({
         placeholder: "-- Select --",
         allowClear: false,
         ajax: {
-            url: url + getSelectedData,
+            url: url,
+            type: "post",
+            data: { "dept": getSelectedData },
             dataType: 'json',
             processResults: function (data) {
                 return {
@@ -1468,6 +1478,7 @@ $(document).on("change", "#owner_id", function () {
         escapeMarkup: function (m) { return m; }
     });
 });
+
 $(document).ajaxComplete(function () {
     $(".summernote-risk-evaluate").summernote({
         height: 400,
@@ -1491,6 +1502,8 @@ $(document).ajaxComplete(function () {
         $("li.nav-item > a[href='#content-tab-03']").show();
         $("#list_mitigasi").show();
     }
+
+    // loadInherentAnalisaResiko();
 });
 
 $(document).on("change", "#treatment_id", function () {
@@ -1559,7 +1572,6 @@ function resSavePeristiwa(lib) {
 
 }
 
-
 $(document).on("click", "#addPeristiwa", function () {
     var parent = $(this).parent();
     var id = 1;
@@ -1613,12 +1625,49 @@ function refresh_likehood(result) {
     $("#indikator_like").attr("data-jml_like_indi", result)
 }
 
-
 function refresh_dampak(result) {
     $("#indikator_dampak").text(" Input Risk Indikator Dampak [" + result + "]")
     $("#indikator_dampak").attr("data-jml_dampak_indi", result)
 }
 
+function loadInherentAnalisaResiko() {
+    var id = $("#indikator_like").data('id');
+    var dampak = $('input[name="impact_id_2"]').val();
+    var kpi = $('#id_kpi').val();
+    var data = { 'id': 0, 'rcsa_detail_no': id, 'bk_tipe': 1, 'dampak_id': dampak, 'id_kpi': kpi };
+    var url = modul_name + "/indikator-like";
+    _ajax_("post", "", data, '', url);
+}
+
+function checkDeptSeksi(dept, seksi, url) {
+    $.ajax({
+        type: "post",
+        url: url,
+        data: { "validate": true, "dept": dept, "seksi": seksi },
+        dataType: "json",
+        beforeSend: function () {
+            looding('light', $("#owner_id").parent());
+        },
+        success: function (params) {
+            if (!params.items) {
+                $("#info_seksi").html("Seksi Tidak Terdapat di departement Terpilih");
+                $("#info_seksi").attr('style', 'color: red !important');
+            } else {
+                $("#info_seksi").html("");
+            }
+        },
+        error: function () {
+            alert('Error While Validating Department');
+        },
+        complete: function () {
+            stopLooding($("#owner_id").parent());
+        }
+    })
+}
+
+$(document).on("change", "#seksi", function () {
+    $("#info_seksi").html("");
+})
 
 
 
