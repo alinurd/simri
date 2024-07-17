@@ -72,7 +72,7 @@ if( isset( $export ) )
                                     Risiko Inheren</th>
                                 <th rowspan="2"
                                     style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">
-                                    Jenis/Nama Kontrol</th>
+                                    Kontrol Yang Sudah Ada</th>
                                 <th rowspan="2"
                                     style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">
                                     Efek L/D Kontrol</th>
