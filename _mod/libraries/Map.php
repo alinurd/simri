@@ -44,8 +44,10 @@ class Map
 
     function set_data( $data = [] )
     {
+
         if( $data )
         {
+
             foreach( $data as $row )
             {
                 if( array_key_exists( $row['id'], $this->_data ) )
@@ -53,13 +55,17 @@ class Map
                     $this->_data[$row['id']]['nilai'] = $row['nilai'];
                     if( array_key_exists( 'level_color', $data ) )
                     {
+
                         $this->_data[$row['id']]['level_color']          = $row['level_color'];
                         $this->_data[$row['id']]['level_color_residual'] = $row['level_color_residual'];
                         $this->_data[$row['id']]['level_color_target']   = $row['level_color_target'];
+                        $this->_data[$row['id']]['level_color_target']   = $row['level_color_target'];
+
                     }
                 }
             }
         }
+
         return $this;
     }
 
@@ -130,7 +136,6 @@ class Map
     function draw()
     {
 
-        // var_dump($this->_data);
         $this->total_nilai = 0;
         $this->jmlstatus   = [];
         $content           = '<table style="text-align:center;" border="1" width="100%">';
@@ -152,6 +157,7 @@ class Map
         $key       = 0;
         foreach( $this->_data as $keys => $row )
         {
+
             $icon = '&nbsp;&nbsp;';
             if( ! empty( $row['icon'] ) )
             {
@@ -183,7 +189,7 @@ class Map
 
             $notif = '<strong>' . $row['tingkat'] . '</strong><br/>Standar Nilai :<br/>Impact: [ >' . $row['bawah_impact'] . ' s.d <=' . $row['atas_impact'] . ']<br/>Likelihood: [ >' . $row['bawah_like'] . ' s.d <=' . $row['atas_like'] . ']';
 
-            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $row['id'] . '" class="pointer detail-peta" style="background-color:' . $row['warna_bg'] . ';color:' . $row['warna_txt'] . ';padding:5px;border:solid 1px black; font-size:16px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div></td>';
+            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $row['id'] . '" class="pointer detail-peta" style="background-color:' . $row['warna_bg'] . ';color:' . $row['warna_txt'] . ';padding:5px;border:solid 1px black; font-size:16px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sup class="pull-right">' . $row["pgn_inheren"] . '</sup></td>';
             if( $no % 5 == 0 && $key < 24 )
             {
                 --$noTd;

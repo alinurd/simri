@@ -676,28 +676,34 @@ class Risk_Context extends MY_Controller
 			}
 			$tipe_analisa_no = $data['tipe_analisa_no'];
 		}
-		$tipe_analisa .= '<div class="form-check form-check-inline"><label class="form-check-label">';
-		$tipe_analisa .= form_radio('tipe_analisa_no', 1, $check1, 'id="tipe_analisa_no_1"  class="form-check-primary d-none" ');
-		$tipe_analisa .= form_label('&nbsp;&nbsp;&nbsp; Kualitatif &nbsp;&nbsp;', 'tipe_analisa_no_1', ['class' => 'pointer d-none']);
+		$tipe_analisa .= '<div class="form-check form-check-inline d-none"><label class="form-check-label">';
+		$tipe_analisa .= form_radio( 'tipe_analisa_no', 1, $check1, 'id="tipe_analisa_no_1"  class="form-check-primary" ' );
+		$tipe_analisa .= form_label( '&nbsp;&nbsp;&nbsp; Kualitatif &nbsp;&nbsp;', 'tipe_analisa_no_1', [ 'class' => 'pointer ' ] );
 		$tipe_analisa .= '</label></div>';
 		$tipe_analisa .= '<div class="form-check form-check-inline"><label class="form-check-label">';
-		$tipe_analisa .= form_radio('tipe_analisa_no', 2, $check2, 'id="tipe_analisa_no_2"  class="form-check-primary" ');
-		$tipe_analisa .= form_label('&nbsp;&nbsp;&nbsp; Kuantitatif &nbsp;&nbsp;', 'tipe_analisa_no_2', ['class' => 'pointer']);
+		$tipe_analisa .= form_radio( 'tipe_analisa_no', 2, $check2, 'id="tipe_analisa_no_2"  class="form-check-primary" ' );
+		$tipe_analisa .= form_label( '&nbsp;&nbsp;&nbsp; Kuantitatif &nbsp;&nbsp;', 'tipe_analisa_no_2', [ 'class' => 'pointer' ] );
 		$tipe_analisa .= '</label></div>';
 		$tipe_analisa .= '<div class="form-check form-check-inline"><label class="form-check-label">';
-		$tipe_analisa .= form_radio('tipe_analisa_no', 3, $check3, 'id="tipe_analisa_no_3"  class="form-check-primary" ');
-		$tipe_analisa .= form_label('&nbsp;&nbsp;&nbsp; Kualitatif &nbsp;&nbsp;', 'tipe_analisa_no_3', ['class' => 'pointer']);
+		$tipe_analisa .= form_radio( 'tipe_analisa_no', 3, $check3, 'id="tipe_analisa_no_3"  class="form-check-primary" ' );
+		$tipe_analisa .= form_label( '&nbsp;&nbsp;&nbsp; Kualitatif &nbsp;&nbsp;', 'tipe_analisa_no_3', [ 'class' => 'pointer' ] );
 		$tipe_analisa .= '</label></div><br/>&nbsp<br/>&nbsp;';
 
 		$param['tipe_analisa_no'] = $tipe_analisa_no;
+		$param['tipe_analisa']    = [ 'title' => '', 'help' => '', 'isi' => $tipe_analisa ];
 
-		$param['tipe_analisa']         = [ 'title' => '', 'help' => '', 'isi' => $tipe_analisa ];
-		$param['analisa_kualitatif'][] = [ 'title' => _l( 'fld_indi_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_input( 'like_text', ( $data ) ? $data['like_text'] : '', 'id="like_text" class="form-control" style="width:100%;"' ) ];
 
-		$param['analisa_kualitatif'][] = [ 'title' => _l( 'fld_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'like_id', $like, ( $data ) ? $data['like_id'] : '', 'id="like_id" class="form-control select" style="width:100%;"' ) ];
-		$param['analisa_kualitatif'][] = [ 'title' => _l( 'fld_indi_dampak' ), 'help' => _h( 'help_impact' ), 'mandatori' => TRUE, 'isi' => form_input( 'impact_text', ( $data ) ? $data['impact_text'] : '', 'id="impact_text" class="form-control" style="width:100%;"' ) ];
-		$param['analisa_kualitatif'][] = [ 'title' => _l( 'fld_impact' ), 'help' => _h( 'help_impact' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'impact_id', $impact, ( $data ) ? $data['impact_id'] : '', 'id="impact_id" class="form-control select" style="width:100%;"' ) ];
+		//analisa kualitatif
+		// $param['analisa_kualitatif'][] = [ 'title' => _l( 'fld_indi_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_input( 'like_text', ( $data ) ? $data['like_text'] : '', 'id="like_text" class="form-control" style="width:100%;"' ) ];
 
+		// $param['analisa_kualitatif'][] = [ 'title' => _l( 'fld_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'like_id', $like, ( $data ) ? $data['like_id'] : '', 'id="like_id" class="form-control select" style="width:100%;"' ) ];
+
+		// $param['analisa_kualitatif'][] = [ 'title' => _l( 'fld_indi_dampak' ), 'help' => _h( 'help_impact' ), 'mandatori' => TRUE, 'isi' => form_input( 'impact_text', ( $data ) ? $data['impact_text'] : '', 'id="impact_text" class="form-control" style="width:100%;"' ) ];
+
+		// $param['analisa_kualitatif'][] = [ 'title' => _l( 'fld_impact' ), 'help' => _h( 'help_impact' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'impact_id', $impact, ( $data ) ? $data['impact_id'] : '', 'id="impact_id" class="form-control select" style="width:100%;"' ) ];
+
+
+		//analisa kuantitatif **********/
 
 		$param['analisa_kuantitatif'][] = [ 'title' => '', 'help' => '', 'isi' => '<div style="display: flex; justify-content: space-between;">
 		<span class="btn btn-primary legitRipple pointer" data-rcsa="' . $parent['id'] . '" data-id="' . $id_edit . '" id="indikator_like" data-jml_like_indi="' . $jml_like_indi . '" style="width:100%;"> Input Risk Indikator Likelihood [ ' . $jml_like_indi . ' ] </span>
@@ -738,54 +744,62 @@ class Risk_Context extends MY_Controller
 
 		// form_dropdown('like_id_3', $like_semi, ($data)?$data['like_id']:'', 'id="like_id_3" class="form-control select" style="width:100%;"')
 
-		$param['analisa_semi'][] = ['title' => _l('fld_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => TRUE, 'isi' => $like_semi_form];
+		$param['analisa_semi'][] = [ 'title' => _l( 'fld_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => $like_semi_form ];
 
-		$param['analisa_semi'][] = ['title' => '', 'help' => '', 'isi' => '<span class="btn btn-primary legitRipple pointer"  data-rcsa="' . $parent['id'] . '" data-id="' . $id_edit . '" id="indikator_dampak" style="width:100%;"> Input Risk Indikator Dampak  [ ' . $jml_dampak_indi . ' ] </span>' .
-			form_hidden(['indikator_dampak_cek' => ($jml_dampak_indi) ? $jml_dampak_indi : ''], 'id="indikator_dampak_cek"')];
-		// $param['analisa_semi'][] = ['title'=>_l('fld_likelihood'),'help'=>_h('help_likelihood'), 'mandatori'=>true,'isi'=>form_input('like_text_kuantitatif_semi', ($data)?$data['like_inherent']:'', 'id="like_text_kuantitatif" class="form-control" style="width:100%;" readonly="readonly"').form_hidden(['like_id_3'=>($data)?$data['like_id']:''])];
+		$param['analisa_semi'][] = [ 'title' => '', 'help' => '', 'isi' => '<span class="btn btn-primary legitRipple pointer"  data-rcsa="' . $parent['id'] . '" data-id="' . $id_edit . '" id="indikator_dampak" style="width:100%;"> Input Risk Indikator Dampak  [ ' . $jml_dampak_indi . ' ] </span>' .
+		 form_hidden( [ 'indikator_dampak_cek' => ( $jml_dampak_indi ) ? $jml_dampak_indi : '' ], 'id="indikator_dampak_cek"' ) ];
+		$param['analisa_semi'][] = [ 'title' => _l( 'fld_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_input( 'like_text_kuantitatif_semi', ( $data ) ? $data['like_inherent'] : '', 'id="like_text_kuantitatif" class="form-control" style="width:100%;" readonly="readonly"' ) . form_hidden( [ 'like_id_3' => ( $data ) ? $data['like_id'] : '' ] ) ];
 
-		$param['analisa_semi'][] = ['title' => _l('fld_impact'), 'help' => _h('help_impact'), 'mandatori' => TRUE, 'isi' => form_input('impact_text_kuantitatif', ($data) ? $data['impact_inherent'] : '', 'id="impact_text_kuantitatif_semi" class="form-control" style="width:100%;" readonly="readonly"') . form_hidden(['impact_id_3' => ($data) ? $data['impact_id'] : ''], 'id="impact_id_3"')];
+		$param['analisa_semi'][] = [ 'title' => _l( 'fld_impact' ), 'help' => _h( 'help_impact' ), 'mandatori' => TRUE, 'isi' => form_input( 'impact_text_kuantitatif', ( $data ) ? $data['impact_inherent'] : '', 'id="impact_text_kuantitatif_semi" class="form-control" style="width:100%;" readonly="readonly"' ) . form_hidden( [ 'impact_id_3' => ( $data ) ? $data['impact_id'] : '' ], 'id="impact_id_3"' ) ];
 
-
-
-		$param['analisa_semi'][] = ['title' => '', 'help' => '', 'isi' => form_input('like_text_3', ($data) ? $data['like_text'] : '', 'id="like_text_3" class="form-control" style="width:100%;display:none"')];
+		$param['analisa_semi'][] = [ 'title' => '', 'help' => '', 'isi' => form_input( 'like_text_3', ( $data ) ? $data['like_text'] : '', 'id="like_text_3" class="form-control" style="width:100%;display:none"' ) ];
 
 		// $param['analisa_semi'][] = ['title'=>_l('fld_impact'),'help'=>_h('help_impact'), 'mandatori'=>true,'isi'=>form_dropdown('impact_id_3', $impact, ($data)?$data['impact_id']:'', 'id="impact_id_3" class="form-control select" style="width:100%;"')];
 
 
 
-		$param['analisa_semi'][] = ['title' => '', 'help' => '', 'isi' => form_input('impact_text_3', ($data) ? $data['impact_text'] : '', 'id="impact_text_3" class="form-control" style="width:100%;display:none"')];
+		$param['analisa_semi'][] = [ 'title' => '', 'help' => '', 'isi' => form_input( 'impact_text_3', ( $data ) ? $data['impact_text'] : '', 'id="impact_text_3" class="form-control" style="width:100%;display:none"' ) ];
 
 
-		$param['analisa2'][] = ['title' => _l('fld_risiko_inherent'), 'help' => _h('help_risiko_inherent'), 'mandatori' => TRUE, 'isi' => form_input('risiko_inherent_text', ($data) ? $data['risiko_inherent_text'] : '', 'class="form-control text-center" id="risiko_inherent_text" readonly="readonly" style="width:15%;"') . form_hidden(['risiko_inherent' => ($data) ? $data['risiko_inherent'] : 0])];
-		$param['analisa2'][] = ['title' => _l('fld_level_risiko'), 'help' => _h('help_level_risiko'), 'mandatori' => TRUE, 'isi' => form_input('level_inherent_text', ($data) ? $data['level_color'] : '', 'class="form-control text-center" id="level_inherent_text" readonly="readonly" style="width:30%;' . $csslevel . '"') . form_hidden(['level_inherent' => ($data) ? $data['level_inherent'] : 0])];
-		$param['analisa2'][] = ['title' => _l('fld_nama_control'), 'help' => _h('help_nama_control'), 'mandatori' => FALSE, 'isi' => $kontrol];
-		$param['analisa2'][] = ['title' => _l('fld_nama_control_checkbox'), 'help' => _h('help_nama_control_checkbox'), 'mandatori' => FALSE, 'isi' => $kontrolCheckbox];
-		$param['analisa2'][] = ['title' => _l('fld_efek_kontrol'), 'help' => _h('help_efek_kontrol'), 'mandatori' => TRUE, 'isi' => form_dropdown('efek_kontrol', $efek_control, ($data) ? $data['efek_kontrol'] : '', 'id="efek_kontrol" class="form-control select" style="width:100%;"')];
-		if ($data) {
-			if ($data['lampiran'] == '0') {
+		$param['analisa2'][] = [ 'title' => _l( 'fld_risiko_inherent' ), 'help' => _h( 'help_risiko_inherent' ), 'mandatori' => TRUE, 'isi' => form_input( 'risiko_inherent_text', ( $data ) ? $data['risiko_inherent_text'] : '', 'class="form-control text-center" id="risiko_inherent_text" readonly="readonly" style="width:15%;"' ) . form_hidden( [ 'risiko_inherent' => ( $data ) ? $data['risiko_inherent'] : 0 ] ) ];
+		$param['analisa2'][] = [ 'title' => _l( 'fld_level_risiko' ), 'help' => _h( 'help_level_risiko' ), 'mandatori' => TRUE, 'isi' => form_input( 'level_inherent_text', ( $data ) ? $data['level_color'] : '', 'class="form-control text-center" id="level_inherent_text" readonly="readonly" style="width:30%;' . $csslevel . '"' ) . form_hidden( [ 'level_inherent' => ( $data ) ? $data['level_inherent'] : 0 ] ) ];
+		$param['analisa2'][] = [ 'title' => _l( 'fld_nama_control' ), 'help' => _h( 'help_nama_control' ), 'mandatori' => FALSE, 'isi' => $kontrol ];
+		$param['analisa2'][] = [ 'title' => _l( 'fld_nama_control_checkbox' ), 'help' => _h( 'help_nama_control_checkbox' ), 'mandatori' => FALSE, 'isi' => $kontrolCheckbox ];
+		$param['analisa2'][] = [ 'title' => _l( 'fld_efek_kontrol' ), 'help' => _h( 'help_efek_kontrol' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'efek_kontrol', $efek_control, ( $data ) ? $data['efek_kontrol'] : '', 'id="efek_kontrol" class="form-control select" style="width:100%;"' ) ];
+		if( $data )
+		{
+			if( $data['lampiran'] == '0' )
+			{
 				$url    = '#';
 				$nmfile = 'Belum ada File';
-			} else {
-				$url    = base_url() . substr($data['lampiran'], 1);
-				$nmfile = substr($data['lampiran'], 13);
 			}
-		} else {
+			else
+			{
+				$url    = base_url() . substr( $data['lampiran'], 1 );
+				$nmfile = substr( $data['lampiran'], 13 );
+			}
+		}
+		else
+		{
 			$url    = '#';
 			$nmfile = 'Belum ada File';
 		}
-		$param['analisa2'][] = ['title' => _l('fld_upload'), 'help' => _h('help_upload'), 'isi' => '<a href="' . $url . '" target="_blank">' . $nmfile . '</a><br><br><b>Max size file 10MB, file yang dibolehkan xlsx | csv | docx | pdf | zip | rar </b><br>'];
-		$param['analisa2'][] = ['title' => _l('fld_lampiran'), 'help' => _h('help_lampiran'), 'isi' => form_upload('lampiran')];
+		$param['analisa2'][] = [ 'title' => _l( 'fld_upload' ), 'help' => _h( 'help_upload' ), 'isi' => '<a href="' . $url . '" target="_blank">' . $nmfile . '</a><br><br><b>Max size file 10MB, file yang dibolehkan xlsx | csv | docx | pdf | zip | rar </b><br>' ];
+		$param['analisa2'][] = [ 'title' => _l( 'fld_lampiran' ), 'help' => _h( 'help_lampiran' ), 'isi' => form_upload( 'lampiran' ) ];
 		return $param;
 	}
 
-	function evaluasi_content($data = [])
+	function evaluasi_content( $data = [] )
 	{
 		$aspek = 0;
-		if ($data) {
-			if ($data['tipe_analisa_no'] == 2 || $data['tipe_analisa_no'] == 3) {
+		if( $data )
+		{
+			if( $data['tipe_analisa_no'] == 2 || $data['tipe_analisa_no'] == 3 )
+			{
 				$aspek = $data['aspek_risiko_id'];
-			} else {
+			}
+			else
+			{
 
 				$aspek = 0;
 			}
