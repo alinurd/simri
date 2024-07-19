@@ -715,12 +715,26 @@ class Risk_Context extends MY_Controller
 		<span class="icon-database-refresh pointer" id="refreshRiskDampak" title="Click untuk refresh data" style="width: 5%;">
 		</span></div> ' ];
 
-		$param['analisa_kuantitatif'][] = [ 'title' => _l( 'fld_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_input( 'like_text_kuantitatif', ( $data ) ? $data['like_inherent'] : '', 'id="like_text_kuantitatif" class="form-control" style="width:100%;" readonly="readonly"' ) . form_hidden( [ 'like_id_2' => ( $data ) ? $data['like_id'] : '' ] ) ];
 
-		$param['analisa_kuantitatif'][] = [ 'title' => _l( 'fld_impact' ), 'help' => _h( 'help_impact' ), 'mandatori' => TRUE, 'isi' => form_input( 'impact_text_kuantitatif', ( $data ) ? $data['impact_inherent'] : '', 'id="impact_text_kuantitatif" class="form-control" style="width:100%;" readonly="readonly"' ) . form_hidden( [ 'impact_id_2' => ( $data ) ? $data['impact_id'] : '' ] ) ];
+		// dropdown kuantitatif
+		// $param['analisa_kuantitatif'][] = [ 'title' => _l( 'fld_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'like_id', $like, ( $data ) ? $data['like_id'] : '', 'id="like_id" class="form-control select" style="width:100%;"' ) . form_hidden( [ 'like_text_kuantitatif' => ( $data['like_inherent'] ) ? $data['like_inherent'] : '' ] ) . form_hidden( [ 'like_id_2' => ( $data ) ? $data['like_id'] : '' ] ) ];
+
+		// $param['analisa_kuantitatif'][] = [ 'title' => _l( 'fld_impact' ), 'help' => _h( 'help_impact' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'impact_id', $impact, ( $data ) ? $data['impact_id'] : '', 'id="impact_id" class="form-control select" style="width:100%;"' ) . form_hidden( [ 'impact_text_kuantitatif' => ( $data['impact_inherent'] ) ? $data['impact_inherent'] : '' ] ) . form_hidden( [ 'impact_id_2' => ( $data ) ? $data['impact_id'] : '' ] ) ];
+
+
+		//*********** */
 
 
 
+		/**inherent impact */
+		$param['analisa_kuantitatif'][] = [ 'title' => _l( 'fld_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_input( 'like_text_kuantitatif', ( $data ) ? $data['like_inherent'] : '', 'id="like_text_kuantitatif" class="form-control" readonly="readonly" style="width:100%;"' ) . form_hidden( [ 'like_text' => ( $data ) ? $data['like_text'] : '' ] ) . form_hidden( [ 'like_id' => ( $data ) ? $data['like_id'] : '' ] ) . form_hidden( [ 'like_id_2' => ( $data ) ? $data['like_id'] : '' ] ) ];
+
+		$param['analisa_kuantitatif'][] = [ 'title' => _l( 'fld_impact' ), 'help' => _h( 'help_impact' ), 'mandatori' => TRUE, 'isi' => form_input( 'impact_text_kuantitatif', ( $data ) ? $data['impact_inherent'] : '', 'id="impact_text_kuantitatif" class="form-control" readonly="readonly" style="width:100%;"' ) . form_hidden( [ 'impact_text' => ( $data ) ? $data['impact_text'] : '' ] ) . form_hidden( [ 'impact_id' => ( $data ) ? $data['impact_id'] : '' ] ) . form_hidden( [ 'impact_id_2' => ( $data ) ? $data['impact_id'] : '' ] ) ];
+
+
+
+
+		/**========== */
 		$param['analisa_semi'][] = [ 'title' => _l( 'fld_indi_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'aspek_risiko_id', $aspek_risiko, $aspek, 'id="aspek_risiko_id" class="form-control select" style="width:100%;"' ) ];
 
 		$param['analisa_semi'][] = [ 'title' => "Detail", 'help' => _h( "keterangan/Detail lainnya" ), 'mandatori' => FALSE, 'isi' => form_input( 'aspek_det', ( $data ) ? $data['aspek_det'] : '', 'id="aspek_det" class="form-control" style="width:100%;" ' ) ];
