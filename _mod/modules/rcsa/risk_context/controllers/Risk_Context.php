@@ -762,7 +762,7 @@ class Risk_Context extends MY_Controller
 
 		$param['analisa_semi'][] = [ 'title' => '', 'help' => '', 'isi' => '<span class="btn btn-primary legitRipple pointer"  data-rcsa="' . $parent['id'] . '" data-id="' . $id_edit . '" id="indikator_dampak" style="width:100%;"> Input Risk Indikator Dampak  [ ' . $jml_dampak_indi . ' ] </span>' .
 		 form_hidden( [ 'indikator_dampak_cek' => ( $jml_dampak_indi ) ? $jml_dampak_indi : '' ], 'id="indikator_dampak_cek"' ) ];
-		$param['analisa_semi'][] = [ 'title' => _l( 'fld_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_input( 'like_text_kuantitatif_semi', ( $data ) ? $data['like_inherent'] : '', 'id="like_text_kuantitatif" class="form-control" style="width:100%;" readonly="readonly"' ) . form_hidden( [ 'like_id_3' => ( $data ) ? $data['like_id'] : '' ] ) ];
+		// $param['analisa_semi'][] = [ 'title' => _l( 'fld_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_input( 'like_text_kuantitatif_semi', ( $data ) ? $data['like_inherent'] : '', 'id="like_text_kuantitatif" class="form-control" style="width:100%;" readonly="readonly"' ) . form_hidden( [ 'like_id_3' => ( $data ) ? $data['like_id'] : '' ] ) ];
 
 		$param['analisa_semi'][] = [ 'title' => _l( 'fld_impact' ), 'help' => _h( 'help_impact' ), 'mandatori' => TRUE, 'isi' => form_input( 'impact_text_kuantitatif', ( $data ) ? $data['impact_inherent'] : '', 'id="impact_text_kuantitatif_semi" class="form-control" style="width:100%;" readonly="readonly"' ) . form_hidden( [ 'impact_id_3' => ( $data ) ? $data['impact_id'] : '' ], 'id="impact_id_3"' ) ];
 
