@@ -429,9 +429,9 @@ class Ion_auth_model extends MX_Model
 		if( $code === FALSE || ( $user && $user->id === $id ) )
 		{
 			$data = [
-				'activation_selector' => NULL,
-				'activation_code'     => NULL,
-				'active'              => 1,
+			 'activation_selector' => NULL,
+			 'activation_code'     => NULL,
+			 'active'              => 1,
 			];
 
 			$this->trigger_events( 'extra_where' );
@@ -465,9 +465,9 @@ class Ion_auth_model extends MX_Model
 		$this->activation_code = $token->user_code;
 
 		$data = [
-			'activation_selector' => $token->selector,
-			'activation_code'     => $token->validator_hashed,
-			'active'              => 0,
+		 'activation_selector' => $token->selector,
+		 'activation_code'     => $token->validator_hashed,
+		 'active'              => 0,
 		];
 
 		$this->trigger_events( 'extra_where' );
@@ -590,10 +590,10 @@ class Ion_auth_model extends MX_Model
 		$this->trigger_events( 'extra_where' );
 
 		$query = $this->db->select( 'id, password' )
-						  ->where( $this->identity_column, $identity )
-						  ->limit( 1 )
-						  ->order_by( 'id', 'desc' )
-						  ->get( $this->tables['users'] );
+		   ->where( $this->identity_column, $identity )
+		   ->limit( 1 )
+		   ->order_by( 'id', 'desc' )
+		   ->get( $this->tables['users'] );
 
 		if( $query->num_rows() !== 1 )
 		{
@@ -647,15 +647,15 @@ class Ion_auth_model extends MX_Model
 		if( empty( $old ) )
 		{
 			return $this->db->where( 'username', $username )
-				->limit( 1 )
-				->count_all_results( $this->tables['users'] ) > 0;
+			 ->limit( 1 )
+			 ->count_all_results( $this->tables['users'] ) > 0;
 		}
 		else
 		{
 			return $this->db->where( 'username', $username )
-				->where( 'username <>', $old )
-				->limit( 1 )
-				->count_all_results( $this->tables['users'] ) > 0;
+			 ->where( 'username <>', $old )
+			 ->limit( 1 )
+			 ->count_all_results( $this->tables['users'] ) > 0;
 		}
 	}
 
@@ -680,15 +680,15 @@ class Ion_auth_model extends MX_Model
 		if( empty( $old ) )
 		{
 			return $this->db->where( 'email', $email )
-				->limit( 1 )
-				->count_all_results( $this->tables['users'] ) > 0;
+			 ->limit( 1 )
+			 ->count_all_results( $this->tables['users'] ) > 0;
 		}
 		else
 		{
 			return $this->db->where( 'email', $email )
-				->where( 'email <>', $old )
-				->limit( 1 )
-				->count_all_results( $this->tables['users'] ) > 0;
+			 ->where( 'email <>', $old )
+			 ->limit( 1 )
+			 ->count_all_results( $this->tables['users'] ) > 0;
 		}
 	}
 
@@ -730,9 +730,9 @@ class Ion_auth_model extends MX_Model
 		}
 
 		$query = $this->db->select( 'id' )
-			  ->where( $this->identity_column, $identity )
-			  ->limit( 1 )
-			  ->get( $this->tables['users'] );
+		   ->where( $this->identity_column, $identity )
+		   ->limit( 1 )
+		   ->get( $this->tables['users'] );
 
 		if( $query->num_rows() !== 1 )
 		{
@@ -762,7 +762,7 @@ class Ion_auth_model extends MX_Model
 		}
 
 		// Generate random token: smaller size because it will be in the URL
-		$token = $this->_generate_selector_validator_couple( 20, 80 );
+		$token = $this->_generate_selector_validator_couple( 10, 80 );
 
 		$update = [
 		 'forgotten_password_selector' => $token->selector,
@@ -949,10 +949,10 @@ class Ion_auth_model extends MX_Model
 		$this->trigger_events( 'extra_where' );
 
 		$query = $this->db->select()
-			  ->where( $this->identity_column, $identity )
-			  ->limit( 1 )
-			  ->order_by( 'id', 'desc' )
-			  ->get( _TBL_VIEW_USERS );
+		   ->where( $this->identity_column, $identity )
+		   ->limit( 1 )
+		   ->order_by( 'id', 'desc' )
+		   ->get( _TBL_VIEW_USERS );
 		//   ->get($this->tables['users']);
 
 		if( $this->is_max_login_attempts_exceeded( $identity ) )
@@ -1129,13 +1129,13 @@ class Ion_auth_model extends MX_Model
 			if( $last_login + $recheck < time() )
 			{
 				$query = $this->db->select( 'id' )
-					  ->where( [
-					   $this->identity_column => $this->session->userdata( 'identity' ),
-					   'active'        => '1',
-					  ] )
-					  ->limit( 1 )
-					  ->order_by( 'id', 'desc' )
-					  ->get( $this->tables['users'] );
+				   ->where( [
+				 $this->identity_column => $this->session->userdata( 'identity' ),
+				 'active'        => '1',
+				   ] )
+				   ->limit( 1 )
+				   ->order_by( 'id', 'desc' )
+				   ->get( $this->tables['users'] );
 				if( $query->num_rows() === 1 )
 				{
 					$this->session->set_userdata( 'last_check', time() );
@@ -1520,9 +1520,9 @@ class Ion_auth_model extends MX_Model
 		{
 			// default selects
 			$this->db->select( [
-				$this->tables['users'] . '.*',
-				$this->tables['users'] . '.id as id',
-				$this->tables['users'] . '.id as user_id'
+			 $this->tables['users'] . '.*',
+			 $this->tables['users'] . '.id as id',
+			 $this->tables['users'] . '.id as user_id'
 			] );
 		}
 
@@ -1540,9 +1540,9 @@ class Ion_auth_model extends MX_Model
 			{
 				$this->db->distinct();
 				$this->db->join(
-					$this->tables['users_groups'],
-					$this->tables['users_groups'] . '.' . $this->join['users'] . '=' . $this->tables['users'] . '.id',
-					'inner',
+				 $this->tables['users_groups'],
+				 $this->tables['users_groups'] . '.' . $this->join['users'] . '=' . $this->tables['users'] . '.id',
+				 'inner',
 				);
 			}
 
@@ -1658,9 +1658,9 @@ class Ion_auth_model extends MX_Model
 		$id || $id = $this->session->userdata( 'user_id' );
 
 		return $this->db->select( $this->tables['users_groups'] . '.' . $this->join['groups'] . ' as id, ' . $this->tables['groups'] . '.name, ' . $this->tables['groups'] . '.description' )
-						->where( $this->tables['users_groups'] . '.' . $this->join['users'], $id )
-						->join( $this->tables['groups'], $this->tables['users_groups'] . '.' . $this->join['groups'] . '=' . $this->tables['groups'] . '.id' )
-						->get( $this->tables['users_groups'] );
+		 ->where( $this->tables['users_groups'] . '.' . $this->join['users'], $id )
+		 ->join( $this->tables['groups'], $this->tables['users_groups'] . '.' . $this->join['groups'] . '=' . $this->tables['groups'] . '.id' )
+		 ->get( $this->tables['users_groups'] );
 	}
 
 	/**
@@ -1749,8 +1749,8 @@ class Ion_auth_model extends MX_Model
 		{
 			// Cast to float to support bigint data type
 			if( $this->db->insert( $this->tables['users_groups'],
-				[ $this->join['groups'] => (float) $group_id,
-			   $this->join['users'] => (float) $user_id ] ) )
+			[ $this->join['groups'] => (float) $group_id,
+			$this->join['users'] => (float) $user_id ] ) )
 			{
 				if( isset( $this->_cache_groups[$group_id] ) )
 				{
@@ -2081,14 +2081,14 @@ class Ion_auth_model extends MX_Model
 		}
 
 		$session_data = [
-			'identity'       => $user->{$this->identity_column},
-			$this->identity_column => $user->{$this->identity_column},
-			'email'          => $user->email,
-			'user_id'        => $user->id, //everyone likes to overwrite id so we'll use user_id
-			'old_last_login' => $user->last_login,
-			'minggu'         => $user->minggu,
-			'periode'        => $user->term,
-			'last_check'     => time(),
+		 'identity'       => $user->{$this->identity_column},
+		 $this->identity_column => $user->{$this->identity_column},
+		 'email'          => $user->email,
+		 'user_id'        => $user->id, //everyone likes to overwrite id so we'll use user_id
+		 'old_last_login' => $user->last_login,
+		 'minggu'         => $user->minggu,
+		 'periode'        => $user->term,
+		 'last_check'     => time(),
 		];
 
 
@@ -2127,9 +2127,9 @@ class Ion_auth_model extends MX_Model
 		if( $token->validator_hashed )
 		{
 			$this->db->update( $this->tables['users'],
-				 [ 'remember_selector' => $token->selector,
-				   'remember_code'     => $token->validator_hashed ],
-				 [ $this->identity_column => $identity ] );
+			  [ 'remember_selector' => $token->selector,
+			 'remember_code'     => $token->validator_hashed ],
+			  [ $this->identity_column => $identity ] );
 
 			if( $this->db->affected_rows() > -1 )
 			{
@@ -2184,10 +2184,10 @@ class Ion_auth_model extends MX_Model
 		// get the user with the selector
 		$this->trigger_events( 'extra_where' );
 		$query = $this->db->select( $this->identity_column . ', id, email, remember_code, last_login' )
-			  ->where( 'remember_selector', $token->selector )
-			  ->where( 'active', 1 )
-			  ->limit( 1 )
-			  ->get( $this->tables['users'] );
+		   ->where( 'remember_selector', $token->selector )
+		   ->where( 'active', 1 )
+		   ->limit( 1 )
+		   ->get( $this->tables['users'] );
 
 		// Check that we got the user
 		if( $query->num_rows() === 1 )
@@ -2768,13 +2768,13 @@ class Ion_auth_model extends MX_Model
 			case 'bcrypt':
 				$params = [
 				 'cost' => $is_admin ? $this->config->item( 'bcrypt_admin_cost', 'ion_auth' )
-					  : $this->config->item( 'bcrypt_default_cost', 'ion_auth' )
+				   : $this->config->item( 'bcrypt_default_cost', 'ion_auth' )
 				];
 				break;
 
 			case 'argon2':
 				$params = $is_admin ? $this->config->item( 'argon2_admin_params', 'ion_auth' )
-					 : $this->config->item( 'argon2_default_params', 'ion_auth' );
+				  : $this->config->item( 'argon2_default_params', 'ion_auth' );
 				break;
 
 			default:
@@ -2820,13 +2820,16 @@ class Ion_auth_model extends MX_Model
 	 * 			->validator_hashed	token (hashed) to validate the user (to store in DB)
 	 * 			->user_code			code to be used user-side (in cookie or URL)
 	 */
-	protected function _generate_selector_validator_couple( $selector_size = 40, $validator_size = 128 )
+	protected function _generate_selector_validator_couple( $selector_size = 6, $validator_size = 128, $custom = FALSE )
 	{
+
 		// The selector is a simple token to retrieve the user
-		$selector = $this->_random_token( $selector_size );
+		// $selector = $this->_random_token( $selector_size );//deault selector_size 40
+		$selector = $this->random_digits( $selector_size );
 
 		// The validator will strictly validate the user and should be more complex
-		$validator = $this->_random_token( $validator_size );
+		// $validator = $this->_random_token( $validator_size );//default validator size 128
+		$validator = $this->random_digits( $validator_size );
 
 		// The validator is hashed for storing in DB (avoid session stealing in case of DB leaked)
 		$validator_hashed = $this->hash_password( $validator );
@@ -2893,9 +2896,9 @@ class Ion_auth_model extends MX_Model
 		{
 			// Salt is store at the side, retrieve it
 			$query = $this->db->select( 'salt' )
-				  ->where( $this->identity_column, $identity )
-				  ->limit( 1 )
-				  ->get( $this->tables['users'] );
+			   ->where( $this->identity_column, $identity )
+			   ->limit( 1 )
+			   ->get( $this->tables['users'] );
 
 			$salt_db = $query->row();
 
@@ -2955,12 +2958,12 @@ class Ion_auth_model extends MX_Model
 			$user['group'] = [ 0 ];
 		}
 		$query = $this->db->select( _TBL_GROUP_PRIVILEGE . '.privilege' )
-			  ->from( _TBL_GROUP_PRIVILEGE )
-			  ->join( _TBL_MODUL, _TBL_GROUP_PRIVILEGE . '.menu_id=' . _TBL_MODUL . '.id' )
-			  ->where_in( 'group_id', $user['group']['id'] )
-			  ->where_in( 'nm_modul', $modul )
-			  ->order_by( 'menu_id' )
-			  ->get();
+		   ->from( _TBL_GROUP_PRIVILEGE )
+		   ->join( _TBL_MODUL, _TBL_GROUP_PRIVILEGE . '.menu_id=' . _TBL_MODUL . '.id' )
+		   ->where_in( 'group_id', $user['group']['id'] )
+		   ->where_in( 'nm_modul', $modul )
+		   ->order_by( 'menu_id' )
+		   ->get();
 
 		$rows = $query->result();
 		$can  = [ 'read' => FALSE, 'insert' => FALSE, 'update' => FALSE, 'delete' => FALSE, 'print' => FALSE ];
@@ -2974,5 +2977,17 @@ class Ion_auth_model extends MX_Model
 			}
 		}
 		return $can;
+	}
+
+	function random_digits( $length )
+	{
+		$result = '';
+
+		for( $i = 0; $i < $length; $i++ )
+		{
+			$result .= random_int( 0, 9 );
+		}
+
+		return $result;
 	}
 }

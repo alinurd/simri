@@ -729,10 +729,18 @@ $(function () {
         }
     });
     $(document).on('change', '#treatment_id', function () {
-        var nilai = $(this).val();
-        if (nilai == 1) {
-            $('#efek_mitigasi').val('4');
-            $('#efek_mitigasi').trigger('change');
+        if ($(this).val() == 1) {
+            $('#efek_mitigasi').val('4').trigger("change");
+            // $('#efek_mitigasi').trigger('change');
+            $("li.nav-item > a[href='#content-tab-03']").parent().addClass("d-none");
+            $("li.nav-item > a[href='#content-tab-03']").hide();
+            $("#list_mitigasi").hide();
+            $(".btnNextEvaluasi").hide();
+        } else {
+            $("li.nav-item > a[href='#content-tab-03']").parent().removeClass("d-none");
+            $("li.nav-item > a[href='#content-tab-03']").show();
+            $("#list_mitigasi").show();
+            $(".btnNextEvaluasi").show();
         }
     });
     $(document).on('change', 'select[name=\"peristiwa_id[]\"], select[name=\"penyebab_id\"]', function () {
@@ -1497,26 +1505,20 @@ $(document).ajaxComplete(function () {
         $("li.nav-item > a[href='#content-tab-03']").parent().addClass("d-none");
         $("li.nav-item > a[href='#content-tab-03']").hide();
         $("#list_mitigasi").hide();
+        $(".btnNextEvaluasi").hide();
     } else {
         // $("li.nav-item > a[href='#content-tab-03']").parent().removeClass("d-none");
         $("li.nav-item > a[href='#content-tab-03']").show();
         $("#list_mitigasi").show();
+        $(".btnNextEvaluasi").show();
     }
 
     // loadInherentAnalisaResiko();
 });
 
-$(document).on("change", "#treatment_id", function () {
-    if ($(this).val() == 1) {
-        $("li.nav-item > a[href='#content-tab-03']").parent().addClass("d-none");
-        $("li.nav-item > a[href='#content-tab-03']").hide();
-        $("#list_mitigasi").hide();
-    } else {
-        $("li.nav-item > a[href='#content-tab-03']").parent().removeClass("d-none");
-        $("li.nav-item > a[href='#content-tab-03']").show();
-        $("#list_mitigasi").show();
-    }
-});
+// $(document).on("change", "#treatment_id", function () {
+
+// });
 
 $(document).on("click", "#getPeristiwa, #backListPeritwa", function () {
     var parent = $(this).parent();

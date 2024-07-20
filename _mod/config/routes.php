@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined( 'BASEPATH' ) or exit( 'No direct script access allowed' );
 
 /*
 | -------------------------------------------------------------------------
@@ -58,13 +58,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 // var_dump($_SERVER);
 $route['default_controller'] = 'auth/login';
-$route['login'] = 'auth/login';
-$route['forgot-password'] = 'auth/forgot-password';
-$route['lock-screen'] = 'auth/lock-screen';
-$route['api/frontend/(:any)'] = 'api-frontend/$1';
-$route['proses-registration'] = 'cli/proses-registration';
+$route['login']              = 'auth/login';
+// $route['forgot-password']         = 'auth/forgot-password';
+$route['recovery-password']       = 'auth/forgot-password';
+$route['code-confirmation']       = 'auth/code-confirmation';
+$route['lock-screen']             = 'auth/lock-screen';
+$route['api/frontend/(:any)']     = 'api-frontend/$1';
+$route['proses-registration']     = 'cli/proses-registration';
 $route['proses-registration-web'] = 'cli/proses-registration-web';
-$route['proses-forgot-password'] = 'cli/proses-forgot-password';
-$route['404_override'] = 'errorpage/modul';
+$route['proses-forgot-password']  = 'cli/proses-forgot-password';
+$route['404_override']            = 'errorpage/modul';
 // $route['404_override'] = 'api/error';
 $route['translate_uri_dashes'] = TRUE;

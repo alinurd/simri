@@ -501,37 +501,37 @@ function remove_install(t, iddel, tbl) {
 }
 
 
-function _similarity_lib(t, th){
-$(document).on('keyup', "input[name=\"peristiwaBaru\"], .libraryCekSimilarity, #library", function () {
-  var parent = $(this).parent();
-  // var input = $("#peristiwaBaru").val();
-  var input = $(this).val();
-  var data = { 'library': input,'type': t,'percent': th };
-  var target_combo = $("#similarityResults");
-  var url = "ajax/check-similarity-lib";
-  _ajax_("post", parent, data, target_combo, url, "similarityResults");
-});
+function _similarity_lib(t, th) {
+  $(document).on('keyup', "input[name=\"peristiwaBaru\"], .libraryCekSimilarity, #library", function () {
+    var parent = $(this).parent();
+    // var input = $("#peristiwaBaru").val();
+    var input = $(this).val();
+    var data = { 'library': input, 'type': t, 'percent': th };
+    var target_combo = $("#similarityResults");
+    var url = "ajax/check-similarity-lib";
+    _ajax_("post", parent, data, target_combo, url, "similarityResults");
+  });
 }
 
 function similarityResults(hasil) {
   $('#similarityResults').html(hasil.combo);
- var similarityCount = $("#similarityCount").val();
- var similarity = $("#similarity");
-var percent = similarity.data("percent"); 
-if(similarityCount>0){
-  $('#similarityNUll').addClass('d-none');
-  $('#similarityNUllLib').addClass('d-none');
-}else{
-  $('#similarityNUll').removeClass('d-none');
-  $('#similarityNUllLib').addClass('d-none');
-}
-if (percent >= 100) {
-  $('#similarityNote').removeClass('d-none');
-  $('#btn_save').addClass('disabled').prop('disabled', true);
-  $('#btn_save_quit').addClass('disabled').prop('disabled', true);
-} else {
-  $('#similarityNote').addClass('d-none');
-  $('#btn_save').removeClass('disabled').prop('disabled', false);
-  $('#btn_save_quit').removeClass('disabled').prop('disabled', false);
-}
+  var similarityCount = $("#similarityCount").val();
+  var similarity = $("#similarity");
+  var percent = similarity.data("percent");
+  if (similarityCount > 0) {
+    $('#similarityNUll').addClass('d-none');
+    $('#similarityNUllLib').addClass('d-none');
+  } else {
+    $('#similarityNUll').removeClass('d-none');
+    $('#similarityNUllLib').addClass('d-none');
+  }
+  if (percent >= 100) {
+    $('#similarityNote').removeClass('d-none');
+    $('#btn_save').addClass('disabled').prop('disabled', true);
+    $('#btn_save_quit').addClass('disabled').prop('disabled', true);
+  } else {
+    $('#similarityNote').addClass('d-none');
+    $('#btn_save').removeClass('disabled').prop('disabled', false);
+    $('#btn_save_quit').removeClass('disabled').prop('disabled', false);
+  }
 }

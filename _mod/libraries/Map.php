@@ -189,7 +189,7 @@ class Map
 
             $notif = '<strong>' . $row['tingkat'] . '</strong><br/>Standar Nilai :<br/>Impact: [ >' . $row['bawah_impact'] . ' s.d <=' . $row['atas_impact'] . ']<br/>Likelihood: [ >' . $row['bawah_like'] . ' s.d <=' . $row['atas_like'] . ']';
 
-            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $row['id'] . '" class="pointer detail-peta" style="background-color:' . $row['warna_bg'] . ';color:' . $row['warna_txt'] . ';padding:5px;border:solid 1px black; font-size:16px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sup class="pull-right">' . $row["pgn_inheren"] . '</sup></td>';
+            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $row['id'] . '" class="pointer detail-peta" style="background-color:' . $row['warna_bg'] . ';color:' . $row['warna_txt'] . ';padding:5px;border:solid 1px black; font-size:16px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sup class="pull-right" style="font-weight: 400;font-size: x-small;">' . $row["pgn_inheren"] . '</sup></td>';
             if( $no % 5 == 0 && $key < 24 )
             {
                 --$noTd;

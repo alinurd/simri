@@ -92,7 +92,7 @@ endforeach; ?>
     </div>
     <div class="col-lg-4"></div>
     <div class="col-lg-4">
-        <span class="btn btn-primary pointer btnNext pull-right"><?= _l( "fld_next_tab" ); ?></span>
+        <span class="btn btn-primary pointer btnNext btnNextEvaluasi pull-right"><?= _l( "fld_next_tab" ); ?></span>
         <span class="btn btn-warning pointer btnPrevious pull-right mr-2"><?= _l( "fld_back_tab" ); ?></span>
 
     </div>
