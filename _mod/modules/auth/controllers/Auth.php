@@ -1156,7 +1156,7 @@ class Auth extends MY_Controller
 
 		if( $this->ion_auth->in_group( 1, $getUser["id"] ) )
 		{
-			return FALSE;
+			return TRUE;
 		}
 		elseif( ! $this->ion_auth->in_group( 1, $getUser["id"] ) && ! $getUser["sts_update"] || ! $getUser["expired_at"] )
 		{
