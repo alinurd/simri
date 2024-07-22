@@ -1124,6 +1124,7 @@ class Risk_Context extends MY_Controller
 
 		$result = $this->load->view('mitigasi', $data, TRUE);
 		if ($mode == 'add') {
+		$data['mitigasi'][] = [ 'title' => _l( 'fld_due_date' ), 'help' => _h( 'help_due_date' ), 'mandatori' => TRUE, 'isi' => form_input( 'batas_waktu', ( $mit ) ? $mit['batas_waktu'] : '', 'class="form-control pickadateaddmitigasi" id="batas_waktu" style="width:100%;"' ) ];
 			return $result;
 		} else {
 			header('Content-type: application/json');
