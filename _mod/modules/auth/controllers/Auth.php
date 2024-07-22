@@ -79,6 +79,13 @@ class Auth extends MY_Controller
 			// check for "remember me"
 			$remember = (bool) $this->input->post( 'remember' );
 
+			$indetityCheck = $this->ion_auth->identity_check( $this->input->post( 'identity' ) );
+			if( ! $indetityCheck )
+			{
+				$this->session->set_flashdata( 'message', "Incorrect Login" );
+				redirect( 'login', 'refresh' );
+			}
+
 			$cekExpiredPassword = $this->checkExpiredPassword( $this->input->post() );
 			if( ! $cekExpiredPassword )
 			{

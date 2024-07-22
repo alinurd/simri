@@ -270,7 +270,20 @@ class Officer extends MY_Controller
 				$this->db->update( _TBL_USERS, $dataUpdt, [ "id" => $users->id ] );
 			}
 		}
-
+		if( $result )
+		{
+			$this->session->set_flashdata( "message", "" );
+		}
 		return $result;
+	}
+
+	function afterDelete( $id )
+	{
+		if( empty( $id[0] ) || ! is_numeric( (int) $id[0] ) )
+		{
+			return FALSE;
+		}
+		$sql_query = "delete a,ig from il_users a join il_users_groups ig on a.id = ig.user_id where a.staft_id ={$id[0]}";
+		return ( ! empty( $id ) ) ? $this->db->query( $sql_query ) : FALSE;
 	}
 }
