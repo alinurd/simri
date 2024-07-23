@@ -62,6 +62,7 @@ $route['login']              = 'auth/login';
 // $route['forgot-password']         = 'auth/forgot-password';
 $route['recovery-password']       = 'auth/forgot-password';
 $route['code-confirmation']       = 'auth/code-confirmation';
+$route['send-reminder-mitigasi']  = 'Owner/sendnotificationMitigasi';
 $route['lock-screen']             = 'auth/lock-screen';
 $route['api/frontend/(:any)']     = 'api-frontend/$1';
 $route['proses-registration']     = 'cli/proses-registration';
