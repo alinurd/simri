@@ -19,7 +19,7 @@ class Owner extends MY_Controller
 
 		$this->set_Open_Tab( 'Data Risk Owner / Department' );
 		$this->addField( [ 'field' => 'id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ] );
-		$this->addField( [ 'field' => 'pid', 'input' => 'combo', 'values' => $this->get_combo_parent_dept(), 'search' => TRUE, 'size' => 20 ] );
+		$this->addField( [ 'field' => 'pid', 'input' => 'combo', 'values' => $this->get_combo_parent_dept(), 'search' => TRUE, 'size' => 20, "title" => "Risk Owner / Department" ] );
 		$this->addField( [ 'field' => 'owner_code', 'search' => TRUE, 'size' => 50 ] );
 		$this->addField( [ 'field' => 'owner_name', 'required' => TRUE, 'search' => TRUE, 'size' => 50 ] );
 		$this->addField( [ 'field' => 'note', 'input' => 'multitext', 'size' => 500 ] );
