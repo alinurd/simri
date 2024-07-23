@@ -1102,33 +1102,36 @@ class Risk_Context extends MY_Controller
 		return $param;
 	}
 
-	function add_mitigasi($edit_id = 0, $rcsa_detail = 0)
+	function add_mitigasi( $edit_id = 0, $rcsa_detail = 0 )
 	{
 		$mode = 'add';
-		if (!$rcsa_detail && !$edit_id) {
+		if( ! $rcsa_detail && ! $edit_id )
+		{
 			$mode        = 'edit';
-			$edit_id     = intval($this->input->post('id'));
-			$rcsa_detail = $this->input->post('rcsa_detail');
+			$edit_id     = intval( $this->input->post( 'id' ) );
+			$rcsa_detail = $this->input->post( 'rcsa_detail' );
 		}
 
-		$data['parent']     = $this->db->where('id', $rcsa_detail)->get(_TBL_VIEW_RCSA_DETAIL)->row_array();
-		$mit                = $this->db->where('id', $edit_id)->get(_TBL_VIEW_RCSA_MITIGASI)->row_array();
+		$data['parent']     = $this->db->where( 'id', $rcsa_detail )->get( _TBL_VIEW_RCSA_DETAIL )->row_array();
+		$mit                = $this->db->where( 'id', $edit_id )->get( _TBL_VIEW_RCSA_MITIGASI )->row_array();
 		$owner              = [];
-		$data['mitigasi'][] = ['title' => _l('fld_mitigasi'), 'help' => _h('help_mitigasi'), 'mandatori' => TRUE, 'isi' => form_input('mitigasi', ($mit) ? $mit['mitigasi'] : '', 'id="mitigasi" class="form-control" style="width:100%;"')];
-		$data['mitigasi'][] = ['title' => _l('fld_biaya'), 'help' => _h('help_biaya'), 'mandatori' => TRUE, 'isi' => '<span class="input-group-prepend"><span class="input-group-text">Rp. </span></span>' . form_input('biaya', ($mit) ? $mit['biaya'] : '', 'id="biaya" class="form-control rupiah text-right" style="width:30%;"')];
-		$data['mitigasi'][] = ['title' => _l('fld_pic'), 'help' => _h('help_pic'), 'mandatori' => TRUE, 'isi' => form_dropdown('penanggung_jawab_id[]', $this->cboStack, ($mit) ? json_decode($mit['penanggung_jawab_id']) : '', 'class="form-control select" id="penanggung_jawab_id" multiple="multiple" ')];
-		$data['mitigasi'][] = ['title' => _l('fld_koordinator'), 'help' => _h('help_koordinator'), 'mandatori' => TRUE, 'isi' => form_dropdown('koordinator_id', $this->cboStack, ($mit) ? $mit['koordinator_id'] : '', 'class="form-control select" id="koordinator_id"  ')];
-		$data['mitigasi'][] = ['title' => _l('fld_due_date'), 'help' => _h('help_due_date'), 'mandatori' => TRUE, 'isi' => form_input('batas_waktu', ($mit) ? $mit['batas_waktu'] : '', 'class="form-control pickadate" id="batas_waktu" style="width:100%;"')];
-		$data['mitigasi'][] = ['title' => _l('fld_status_jangka'), 'help' => _h('help_status_jangka'), 'mandatori' => TRUE, 'isi' => form_dropdown('status_jangka', [1 => 'Jangka Pendek', 2 => 'Jangka Panjang'], ($mit) ? $mit['status_jangka'] : '', 'class="form-control select" id="status_jangka"')];
-		$data['mitigasi'][] = ['title' => '', 'help' => '', 'isi' => form_hidden(['id' => ($mit) ? $mit['id'] : 0, 'rcsa_detail_id' => intval($rcsa_detail)])];
-
-		$result = $this->load->view('mitigasi', $data, TRUE);
-		if ($mode == 'add') {
+		$data['mitigasi'][] = [ 'title' => _l( 'fld_mitigasi' ), 'help' => _h( 'help_mitigasi' ), 'mandatori' => TRUE, 'isi' => form_input( 'mitigasi', ( $mit ) ? $mit['mitigasi'] : '', 'id="mitigasi" class="form-control" style="width:100%;"' ) ];
+		$data['mitigasi'][] = [ 'title' => _l( 'fld_biaya' ), 'help' => _h( 'help_biaya' ), 'mandatori' => TRUE, 'isi' => '<span class="input-group-prepend"><span class="input-group-text">Rp. </span></span>' . form_input( 'biaya', ( $mit ) ? $mit['biaya'] : '', 'id="biaya" class="form-control rupiah text-right" style="width:30%;"' ) ];
+		$data['mitigasi'][] = [ 'title' => _l( 'fld_pic' ), 'help' => _h( 'help_pic' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'penanggung_jawab_id[]', $this->cboStack, ( $mit ) ? json_decode( $mit['penanggung_jawab_id'] ) : '', 'class="form-control select" id="penanggung_jawab_id" multiple="multiple" ' ) ];
+		$data['mitigasi'][] = [ 'title' => _l( 'fld_koordinator' ), 'help' => _h( 'help_koordinator' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'koordinator_id', $this->cboStack, ( $mit ) ? $mit['koordinator_id'] : '', 'class="form-control select" id="koordinator_id"  ' ) ];
 		$data['mitigasi'][] = [ 'title' => _l( 'fld_due_date' ), 'help' => _h( 'help_due_date' ), 'mandatori' => TRUE, 'isi' => form_input( 'batas_waktu', ( $mit ) ? $mit['batas_waktu'] : '', 'class="form-control pickadateaddmitigasi" id="batas_waktu" style="width:100%;"' ) ];
+		$data['mitigasi'][] = [ 'title' => _l( 'fld_status_jangka' ), 'help' => _h( 'help_status_jangka' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'status_jangka', [ 1 => 'Jangka Pendek', 2 => 'Jangka Panjang' ], ( $mit ) ? $mit['status_jangka'] : '', 'class="form-control select" id="status_jangka"' ) ];
+		$data['mitigasi'][] = [ 'title' => '', 'help' => '', 'isi' => form_hidden( [ 'id' => ( $mit ) ? $mit['id'] : 0, 'rcsa_detail_id' => intval( $rcsa_detail ) ] ) ];
+
+		$result = $this->load->view( 'mitigasi', $data, TRUE );
+		if( $mode == 'add' )
+		{
 			return $result;
-		} else {
-			header('Content-type: application/json');
-			echo json_encode(['combo' => $result]);
+		}
+		else
+		{
+			header( 'Content-type: application/json' );
+			echo json_encode( [ 'combo' => $result ] );
 		}
 	}
 
