@@ -22,6 +22,7 @@ class Data extends MX_Model
 
 	function simpan_identifikasi( $data )
 	{
+
 		$mode = 'add';
 
 		if( isset( $data['txt_aktifitas_id'] ) )
@@ -66,6 +67,7 @@ class Data extends MX_Model
 
 		if( isset( $data['txt_penyebab_id'] ) )
 		{
+
 			if( ! empty( trim( $data['txt_penyebab_id'] ) ) )
 			{
 				$this->crud->crud_type( 'add' );
@@ -173,7 +175,9 @@ class Data extends MX_Model
 				}
 			}
 		}
-
+		// var_dump( $data["rcsa_id"] );
+		// var_dump( _TBL_RCSA_DETAIL );
+		// exit;
 		$this->crud->crud_table( _TBL_RCSA_DETAIL );
 		$this->crud->crud_field( 'rcsa_id', $data['rcsa_id'] );
 		$this->crud->crud_field( 'id_kpi', $data['id_kpi'] );
@@ -311,6 +315,7 @@ class Data extends MX_Model
 			// $this->crud->crud_field('risiko_target', $data['risiko_inherent']);
 			$this->crud->crud_field( 'created_by', $this->ion_auth->get_user_name() );
 		}
+
 		$this->crud->process_crud();
 		if( $id == 0 )
 		{
@@ -714,7 +719,6 @@ class Data extends MX_Model
 		// 		}
 		// 	}
 		// }
-
 		$this->crud->crud_table( _TBL_RCSA_DETAIL );
 		$this->crud->crud_field( 'rcsa_id', $data['rcsa_id'] );
 		$this->crud->crud_field( 'id_kpi', $data['id_kpi'] );
@@ -1296,7 +1300,8 @@ class Data extends MX_Model
 	{
 
 		$rows = $this->db->where( 'category', 'likelihood' )->order_by( 'code' )->get( _TBL_LEVEL )->result_array();
-		$x    = [];
+
+		$x = [];
 		foreach( $rows as $row )
 		{
 			$x[$row['code']] = $row;
@@ -1304,20 +1309,26 @@ class Data extends MX_Model
 		$mLike = $x;
 
 		$rows = $this->db->where( 'bk_tipe', $data['bk_tipe'] )->where( 'rcsa_detail_id', intval( $data['rcsa_detail_no'] ) )->or_group_start()->where( 'rcsa_detail_id', 0 )->where( 'created_by', $this->ion_auth->get_user_name() )->group_end()->get( _TBL_VIEW_RCSA_DET_LIKE_INDI )->result_array();
-		$ttl  = 0;
+
+
+		$ttl = 0;
 		foreach( $rows as $row )
 		{
 			$nilai = ( $row['pencapaian'] / 100 ) * ( $row['pembobotan'] * count( $rows ) );
 			$ttl += floatval( $nilai );
 		}
 
-		$jml      = round( ( ( count( $rows ) * 5 ) - count( $rows ) ) / 5, 1 );
-		$last     = count( $rows ) + $jml;
+		$jml = round( ( ( count( $rows ) * 5 ) - count( $rows ) ) / 5, 1 );
+
+		$last = count( $rows ) + $jml;
+
+
 		$param[1] = [ 'min' => count( $rows ), 'mak' => $last ];
 		$param[2] = [ 'min' => $last, 'mak' => $last += $jml ];
 		$param[3] = [ 'min' => $last, 'mak' => $last += $jml ];
 		$param[4] = [ 'min' => $last, 'mak' => $last += $jml ];
 		$param[5] = [ 'min' => $last, 'mak' => $last += $jml ];
+
 
 		foreach( $param as $key => $row )
 		{
@@ -1356,6 +1367,7 @@ class Data extends MX_Model
 
 		if( array_key_exists( $like, $mLike ) )
 		{
+
 			$like_no = $mLike[$like]['id'];
 			$likes   = $mLike[$like]['code'] . ' - ' . $mLike[$like]['level'];
 		}
@@ -1460,12 +1472,12 @@ class Data extends MX_Model
 
 		if( $isAjax )
 		{
-			$getChild1 = $this->db->select( $queryGet["formAtSelect"] )->order_by( $queryGet["orderBy"] )->get_where( _TBL_OWNER, [ "id" => $id, "active" => 1 ] )->result_array();
+			$getChild1 = $this->db->select( $queryGet["formAtSelect"] )->order_by( $queryGet["orderBy"] )->get_where( _TBL_OWNER, [ "pid" => $id, "active" => 1 ] )->result_array();
 			$data      = $this->getDataSeksiByParent( $getChild1, $queryGet, $seksi, $validate );
 		}
 		else
 		{
-			$result              = $this->db->query( "select io.id, CONCAT(io.owner_name,' - ',io.owner_code) as text from il_rcsa ir join il_owner io on ir.owner_id = io.id where ir.id ={$id}" )->result_array();
+			$result              = $this->db->query( "select io.id, CONCAT(io.owner_name,' - ',io.owner_code) as text from il_rcsa ir join il_owner io on ir.owner_id = io.pid where ir.id ={$id}" )->result_array();
 			$getFormatedDataDept = $this->getDataSeksiByParent( $result, $queryGet, "", "" );
 			if( ! empty( $getFormatedDataDept ) )
 			{

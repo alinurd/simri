@@ -8,10 +8,12 @@ class Officer extends MY_Controller
 		parent::__construct();
 		$this->load->helper( 'file' );
 		$this->groups_id = 4;
+
 	}
 
 	function init( $action = 'list' )
 	{
+
 		$this->cboTitle  = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'jabatan' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		$this->cboDept   = $this->get_combo_parent_dept();
 		$this->cboGroup  = $this->crud->combo_select( [ 'id', 'name' ] )->combo_where( 'active', 1 )->combo_tbl( _TBL_GROUPS )->get_combo()->result_combo();
@@ -110,6 +112,7 @@ class Officer extends MY_Controller
 
 	function checkBeforeSave( $data, $old_data, $mode = 'add' )
 	{
+
 		$pesan       = "";
 		$no          = 0;
 		$result      = FALSE;

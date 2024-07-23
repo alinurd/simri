@@ -56,10 +56,10 @@
         $('.rupiah').number(true);
         $('[data-popup="tooltip"]').tooltip();
         $('.pickadateaddmitigasi').pickadate({
-            selectMonths: true,
+            selectMonths: false,
             selectYears: false,
             formatSubmit: 'yyyy/mm/dd',
-            min: [new Date().getFullYear(), 0, 01]
+            min: 1
         });
     })
 </script>
