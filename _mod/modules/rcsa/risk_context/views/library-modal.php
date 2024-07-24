@@ -1,15 +1,13 @@
 <div class='table-responsive'>
-    <!-- <span class="btn bg-primary-400 btn-labeled btn-labeled-right legitRipple pull-right" id="addPeristiwa"
+    <span class="btn bg-primary-400 btn-labeled btn-labeled-right legitRipple pull-right" id="addLibrary" lib-type="<?=$thead3 ?>"
         data-mode="0">
-        <b><i class="icon-file-plus "></i></b> <?= _l( 'fld_peristiwa_risiko_add' ); ?>
-    </span> -->
+        <b><i class="icon-file-plus "></i></b> Add <?=$thead3 ?>
+    </span>
     <br />&nbsp;<br />&nbsp;
     <table class="table table-hover datatables" id="list_library">
         <thead>
             <tr>
                 <th width="5%" class="text-center">No</th>
-                <th width="15%"><?= $thead1 ?></th>
-                <th width="15%"><?= $thead2 ?></th>
                 <th><?= $thead3 ?></th>
                 <th width="5%" class="text-center">Aksi</th>
             </tr>
@@ -21,22 +19,13 @@
                 ?>
                 <tr>
                     <td width="5%" class="text-center"><?= $n++ ?></td>
-                    <td width="15%"><?= $q['nama_kelompok'] ?></td>
-                    <td width="15%"><?= $q['risk_type'] ?></td>
                     <td><?= $q['library'] ?></td>
                     <td width="10%" class="text-center">
                         <input type="hidden" id="libraryName<?= $q['id'] ?>" value="<?= $q['library'] ?>">
                         <input type="hidden" id="identity<?= $q['id'] ?>" value="<?= $identity ?>">
-
-                        <input type="hidden" id="tasktonomiName<?= $q['id'] ?>" value="<?= $q['nama_kelompok'] ?>">
-                        <input type="hidden" id="tasktonomiId<?= $q['id'] ?>" value="<?= $q['kel'] ?>">
-
-                        <input type="hidden" id="tipeName<?= $q['id'] ?>" value="<?= $q['risk_type'] ?>">
-                        <input type="hidden" id="tipeId<?= $q['id'] ?>" value="<?= $q['risk_type_no'] ?>">
-
                         <span class="btn bg-primary-400 btn-labeled btn-labeled-left legitRipple" data-id="<?= $q['id'] ?>" data-lib="<?=$libtype?>"
                             id="pilihLibrary">
-                            <b><i class="text-light icon-database-add"></i></b>Pilih
+                            <b><i class="text-light icon-database-add"></i></b>Pilih <?= $thead3 ?>
                         </span>
                     </td>
                 </tr>

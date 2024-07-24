@@ -614,7 +614,7 @@ class Risk_Context extends MY_Controller
 
 			foreach( $pi as $key => $x )
 			{
-				$icon = '<i class="icon-plus-circle2 text-primary-400 add-penyebab"></i>&nbsp;&nbsp;<i class="icon-file-empty text-success-400 add-text-penyebab" data-id="0"></i>';
+				$icon = '<i class="icon-plus-circle2 text-primary-400 add-penyebab"></i>&nbsp;&nbsp;<i class="icon-file-empty text-success-400 add-text-penyebab d-none" data-id="0"></i>';
 				if( $key > 0 )
 				{
 					$icon = '<i class="icon-database-remove text-danger-400 del-penyebab"></i>';
@@ -638,7 +638,7 @@ class Risk_Context extends MY_Controller
 
 			foreach( $pi as $key => $x )
 			{
-				$icon = '<i class="icon-plus-circle2 text-primary-400 add-dampak"></i>&nbsp;&nbsp;<i class="icon-file-empty text-success-400 add-text-dampak" data-id="0"></i>';
+				$icon = '<i class="icon-plus-circle2 text-primary-400 add-dampak"></i>&nbsp;&nbsp;<i class="icon-file-empty text-success-400 add-text-dampak d-none" data-id="0"></i>';
 				if( $key > 0 )
 				{
 					$icon = '<i class="icon-database-remove text-danger-400 del-dampak"></i>';
@@ -2510,5 +2510,55 @@ class Risk_Context extends MY_Controller
 		header( 'Content-type: application/json' );
 		echo json_encode( $result );
 
+	}
+
+	function addLibrary()
+	{
+		$lib     = 0;
+		$libtype = $this->input->post( "lib" );
+		switch( strtolower( url_title( $libtype ) ) )
+		{
+			case 'penyebab-risiko':
+				$lib = 1;
+				break;
+			case 'dampak-risiko':
+				$lib = 3;
+				break;
+			default:
+
+				break;
+		}
+		$data['libs'] = $this->data->get_library( $lib );
+
+		$data['form'][] = [ 'title' => $libtype, 'required' => TRUE, 'help' => "", 'isi' => form_input( 'libraryBaru', '', 'class="form-control" id="libraryBaru"  placeholder="Tambah ' . $libtype . '"' ) ];
+
+		$data['form'][] = [ 'title' => "", "show" => FALSE, 'help' => "", 'isi' => form_hidden( 'libtipe', $lib ) ];
+
+		$data["libtype"]   = $libtype;
+		$result["content"] = $this->load->view( 'add-library', $data, TRUE );
+		$result["lib"]     = $libtype;
+		header( 'Content-Type: application/json' );
+		echo json_encode( $result );
+	}
+
+	function simpanLibrary()
+	{
+
+		$post                = $this->input->post();
+		$upd['library']      = $post['libraryBaru'];
+		$upd['risk_type_no'] = $post['risktype'];
+		$upd['type']         = $post["libtipe"];
+		$upd['active']       = 1;
+		$upd['created_by']   = $this->ion_auth->get_user_name();
+
+		$this->db->insert( _TBL_LIBRARY, $upd );
+		$id  = $this->db->insert_id();
+		$lib = $this->db->where( 'id', $id )->get( _TBL_VIEW_LIBRARY )->row_array();
+
+		$data['idLibrary']   = $lib['id'];
+		$data['libraryName'] = $lib['library'];
+		$data['tipeLib']     = $lib['type'];
+		header( 'Content-type: application/json' );
+		echo json_encode( $data );
 	}
 }
