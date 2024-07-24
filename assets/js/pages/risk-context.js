@@ -484,16 +484,18 @@ $(function () {
 
         if (id == 0) {
             $(this).closest("td").closest("tr").find("input[name=\"penyebab_id[]\"]").hide();
-            $(this).closest("td").closest("tr").find(".select2-container").hide();
-            $(this).closest("td").closest("tr").find("#penyebab_id_text").removeClass("d-none");
-            $(this).closest("td").closest("tr").find("#penyebab_id_text").val("").focus();
+            $(this).closest("td").closest("tr").find("#penyebab_id_text").hide();
+            $(this).closest("td").closest("tr").find("#penyebab_id_").removeClass("d-none");
+            $(this).closest("td").closest("tr").find("#penyebab_id_").show();
+            $(this).closest("td").closest("tr").find("#penyebab_id_").val("").focus();
             $(this).removeClass("icon-file-empty").addClass('icon-dash');
             $(this).attr("data-id", 1);
         } else {
             $(this).closest("td").closest("tr").find("input[name=\"penyebab_id[]\"]").show();
-            $(this).closest("td").closest("tr").find(".select2-container").show();
-            $(this).closest("td").closest("tr").find("#penyebab_id_text").addClass("d-none");
-            $(this).closest("td").closest("tr").find("#penyebab_id_text").val("").focus();
+            $(this).closest("td").closest("tr").find("#penyebab_id_text").show();
+            $(this).closest("td").closest("tr").find("#penyebab_id_").addClass("d-none");
+            $(this).closest("td").closest("tr").find("#penyebab_id_").hide();
+            $(this).closest("td").closest("tr").find("#penyebab_id_").val("").focus();
             $(this).removeClass("icon-dash").addClass('icon-file-empty');
             $(this).attr("data-id", 0);
         }
@@ -504,16 +506,18 @@ $(function () {
 
         if (id == 0) {
             $(this).closest("td").closest("tr").find("input[name=\"dampak_id[]\"]").hide();
-            $(this).closest("td").closest("tr").find(".select2-container").hide();
-            $(this).closest("td").closest("tr").find("#dampak_id_text").removeClass("d-none");
-            $(this).closest("td").closest("tr").find("#dampak_id_text").val("").focus();
+            $(this).closest("td").closest("tr").find("#dampak_id_text").hide();
+            $(this).closest("td").closest("tr").find("#dampak_id_").removeClass("d-none");
+            $(this).closest("td").closest("tr").find("#dampak_id_").show();
+            $(this).closest("td").closest("tr").find("#dampak_id_").val("").focus();
             $(this).removeClass("icon-file-empty").addClass('icon-dash');
             $(this).attr("data-id", 1);
         } else {
             $(this).closest("td").closest("tr").find("input[name=\"dampak_id[]\"]").show();
-            $(this).closest("td").closest("tr").find(".select2-container").show();
-            $(this).closest("td").closest("tr").find("#dampak_id_text").addClass("d-none");
-            $(this).closest("td").closest("tr").find("#dampak_id_text").val("").focus();
+            $(this).closest("td").closest("tr").find("#dampak_id_text").show();
+            $(this).closest("td").closest("tr").find("#dampak_id_").addClass("d-none");
+            $(this).closest("td").closest("tr").find("#dampak_id_").hide();
+            $(this).closest("td").closest("tr").find("#dampak_id_").val("").focus();
             $(this).removeClass("icon-dash").addClass('icon-file-empty');
             $(this).attr("data-id", 0);
         }
@@ -682,11 +686,12 @@ $(function () {
     });
 
     $(document).on("click", ".add-penyebab", function () {
+        var getMaxidentity = $("input[name='penyebab_id_text[]']").length;
         if (sts_penyebab_risiko == 0) {
-            var cbo = '<select name="penyebab_id[]" id="penyebab_id_" class="form-control select" style="width:100%;">' + cboperistiwa + '</select>';
-            cbo += '<input type="text" name="penyebab_id_text[]" value="" class="form-control d-none" id="penyebab_id_text" placeholder="Penyebab Risiko">';
+            var cbo = '<input name="penyebab_id[]" id="penyebab_id_" value="" class="form-control d-none" style="width:100%;"></input>';
+            cbo += '<input type="text" name="penyebab_id_text[]" value="" class="form-control getLibrary" identity="' + getMaxidentity + '" id="penyebab_id_text" readonly placeholder="Penyebab Risiko">';
         } else {
-            var cbo = '<input type="text" name="penyebab_id_text[]" value="" class="form-control" id="penyebab_id_text" placeholder="Penyebab Risiko">';
+            var cbo = '<input type="text" name="penyebab_id_text[]" value="" class="form-control getLibrary" identity="' + getMaxidentity + '"  readonly id="penyebab_id_text" placeholder="Penyebab Risiko">';
         }
         var row = $("#tblpenyebab > tbody");
 
@@ -700,11 +705,12 @@ $(function () {
     });
 
     $(document).on("click", ".add-dampak", function () {
+        var getMaxidentity = $("input[name='dampak_id_text[]']").length;
         if (sts_penyebab_risiko == 0) {
-            var cbo = '<select name="dampak_id[]" id="dampak_id_" class="form-control select" style="width:100%;">' + cbodampak + '</select>';
-            cbo += '<input type="text" name="dampak_id_text[]" value="" class="form-control d-none" id="dampak_id_text" placeholder="Dampak Risiko">';
+            var cbo = '<input name="dampak_id[]" id="dampak_id_" class="form-control d-none" style="width:100%;"></input>';
+            cbo += '<input type="text" name="dampak_id_text[]" value="" class="form-control getLibrary" id="dampak_id_text" identity="' + getMaxidentity + '" placeholder="Dampak Risiko">';
         } else {
-            var cbo = '<input type="text" name="dampak_id_text[]" value="" class="form-control" id="dampak_id_text" placeholder="Dampak Risiko">';
+            var cbo = '<input type="text" name="dampak_id_text[]" value="" class="form-control getLibrary" id="dampak_id_text" identity="' + getMaxidentity + '"  placeholder="Dampak Risiko">';
         }
         var row = $("#tbldampak > tbody");
 
@@ -1513,7 +1519,7 @@ $(document).ajaxComplete(function () {
         $(".btnNextEvaluasi").show();
     }
 
-    // loadInherentAnalisaResiko();
+    // changeRisikoDepartmentVal();
 });
 
 // $(document).on("change", "#treatment_id", function () {
@@ -1598,6 +1604,8 @@ $(document).on("click", "#pilihPeristiwa", function () {
     $('input[name="klasifikasi_risiko_id"]').val(tasktonomiId).trigger('change');
     $('#tasktonomiName').val(tasktonomiName).trigger('change');
 
+    changeRisikoDepartmentVal()
+
     $("#modal_general").modal("hide");
 });
 
@@ -1670,6 +1678,53 @@ function checkDeptSeksi(dept, seksi, url) {
 $(document).on("change", "#seksi", function () {
     $("#info_seksi").html("");
 })
+
+$(document).on('click', ".getLibrary", function (e) {
+    var data = { 'lib': $(this).attr("id"), "identity": $(this).attr("identity") };
+    var url = modul_name + "/getLibraryModal";
+    _ajax_("post", $(this).parent(), data, '', url, "library_modal");
+})
+
+function library_modal(result) {
+
+    $("#modal_general").find(".modal-title").html(result.title);
+    $("#modal_general").find(".modal-body").html(result.content);
+    $("#modal_general").modal("show");
+}
+
+$(document).on("click", "#pilihLibrary", function () {
+    var idLib = $(this).data('id');
+    var typeLib = $(this).attr("data-lib");
+    var libName = $("#libraryName" + idLib).val();
+    var identity = $("#identity" + idLib).val();
+
+    switch (parseInt(typeLib)) {
+        case 1:
+            $('input[name="penyebab_id"][identity="' + identity + '"]').val(idLib).trigger('change');
+            $('#penyebab_id_text[identity="' + identity + '"]').val(libName).trigger('change');
+            changeRisikoDepartmentVal();
+            break;
+        case 3:
+            $('input[name="dampak_id"][ identity="' + identity + '"]').val(idLib).trigger('change');
+            $('#dampak_id_text[identity="' + identity + '"]').val(libName).trigger('change');
+
+            break;
+        default:
+            break;
+    }
+    $("#modal_general").modal("hide");
+})
+
+function changeRisikoDepartmentVal() {
+
+    var getValPeristiwa = $("#peristiwa_id_text").val();
+    var penyebab = "";
+    $("input[name='penyebab_id_text[]']").each(function (e) {
+        penyebab += $(this).val() + " , ";
+    });
+    var stringValue = getValPeristiwa + " karena " + penyebab;
+    $("#risiko_dept").val(stringValue).trigger("change");
+}
 
 
 
