@@ -49,8 +49,8 @@
                             <td><?= $pic ?></td>
                             <td><?= $days_overdue_sign . $days_overdue ?></td>
                             <td class="text-center">
-                                <span class="btn btn-light" id="cekLog" data-id="<?=$q['id']?>">cek Log <?=count($log)?>x</span>
-                            <?= $q['id'] ?>
+                                <span class="btn btn-light" id="cekLog" data-id="<?=$q['id']?>">Histori</span>
+                                <span class="btn btn-light" id="sendEmail" data-id="<?=$q['id']?>">Remider</span>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -108,7 +108,8 @@
                             <td><?= $pic ?></td>
                             <td><?= $days_left_sign . $days_left ?></td>
                             <td class="text-center">
-                           <?= $q['id'] ?>
+                            <span class="btn btn-light" id="cekLog" data-id="<?=$q['id']?>">Histori</span>
+                                <span class="btn btn-light" id="sendEmail" data-id="<?=$q['id']?>">Remider</span>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -83,6 +83,14 @@ $(document).on("click", "#cekLog", function () {
      var url = modul_name + "/get-ceklog";
     _ajax_("post", parent, data, '', url, 'resCekLog');
 })
+$(document).on("click", "#sendEmail", function () {
+    return false
+    var parent = $(this).parent();
+    var id = $(this).data('id');
+    var data = { 'id': id };
+     var url = modul_name + "/send-email";
+    _ajax_("post", parent, data, '', url, 'resCekLog');
+})
 
 function resCekLog(hasil) {
     $("#modal_general").find(".modal-title").html("Cek Log");

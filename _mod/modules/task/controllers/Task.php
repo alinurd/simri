@@ -84,5 +84,11 @@ class Task extends MY_Controller
 		header('Content-Type: application/json');
 		echo json_encode(['combo' => $result]);
 	}
+	function sen_email()
+	{
+
+		$post = $this->input->post();
+ 		
+	}
 
 }
