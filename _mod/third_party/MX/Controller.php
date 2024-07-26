@@ -42,7 +42,7 @@ class MX_Controller
 	public $_Snippets_ = array();
 	public $_param_list_ = array();
 	public $modul_name = '';
-	public $_mode_ = 'list';
+	public $_mode_ = '';
 	public $_preference_ = [];
 	public $_is_data_exist = FALSE;
 	protected $mode_action = "";

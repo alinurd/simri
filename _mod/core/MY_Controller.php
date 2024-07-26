@@ -4,9 +4,7 @@
 //require APPPATH."third_party/MX/Controller.php";
 // owner tri untoro (tri.untoro@gmail.com)
 
-use PhpOffice\PhpSpreadsheet\Helper\Sample;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Reader\Html;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class MY_Controller extends MX_Controller
@@ -45,8 +43,7 @@ class MY_Controller extends MX_Controller
 
 		$this->remap_default = array( 'add' => '__insert', 'edit' => '__update', 'delete' => '__delete', 'delete_all' => '__delete_all', 'export' => '__export_all', 'view' => '__update', 'print' => '__print' );
 
-		$this->free_modul = [ 'ajax', 'change_password' ];
-		$lock_screen      = $this->session->userdata( 'lock_screen' );
+		$lock_screen = $this->session->userdata( 'lock_screen' );
 		if( $lock_screen && $this->router->fetch_module() !== 'auth' )
 		{
 			header( 'location:' . base_url( 'auth/lock-screen' ) );
@@ -73,7 +70,7 @@ class MY_Controller extends MX_Controller
 		$this->configuration['content_title'] = ( ! empty( $this->lang->line( _MODULE_NAME_REAL_ . '_title' ) ) ) ? $this->lang->line( _MODULE_NAME_REAL_ . '_title' ) : ucwords( str_replace( '-', ' ', _MODULE_NAME_ ) ) . ' ' . ucwords( _MODE_ );
 		$this->configuration['preference']    = $this->data_config->get_Preference();
 		$this->configuration['user']          = $this->_data_user_;
-		$this->configuration['free_modul']    = $this->config->item( 'free_modul', 'configuration' );
+		$this->configuration['free_module']   = $this->config->item( 'free_module', 'configuration' );
 		$this->configuration['_mode_']        = $this->_mode_;
 		$this->preference                     = $this->configuration['preference'];
 		// if ($this->_is_data_exist){
@@ -156,13 +153,11 @@ class MY_Controller extends MX_Controller
 		$this->tmp_data['coloums']     = array();
 		$this->tmp_data['coloums_all'] = array();
 
-
 		if( method_exists( $this->router->fetch_class(), 'init' ) )
 		{
 			$configuration = (array) $this->init();
 			$this->register_configuration( $configuration['configuration'] );
 		}
-
 
 		return $this;
 	}
@@ -397,15 +392,10 @@ class MY_Controller extends MX_Controller
 		{
 			$this->can = $this->ion_auth->privilege( $method_cek, $this->configuration['user'] );
 		}
-		// dumps($this->can);
-		// dumps($this->canTmp);
+
 		$this->can = array_merge( $this->can, $this->canTmp );
-		// die($this->router->fetch_module());
-		// !$this->can['read'] true
-		// dumps($method_cek);
-		// die();
-		// !$this->configuration['user']['is_admin']
-		if( ! $this->can['read'] && $this->router->fetch_module() !== 'errorpage' && ! in_array( $this->router->fetch_module(), $this->free_modul ) && ( ! $this->ion_auth->is_admin() ) )
+
+		if( ! $this->can['read'] && $this->router->fetch_module() !== 'errorpage' && ! in_array( $this->router->fetch_module(), $this->configuration["free_module"] ) && ( ! $this->ion_auth->is_admin() ) )
 		{
 			header( 'location:' . base_url( 'access-denied' ) );
 			exit();
@@ -743,7 +733,6 @@ class MY_Controller extends MX_Controller
 		$jml = 0;
 		if( $this->tmp_data['tabs'] )
 		{
-			//dump($this->tmp_data['tabs']);
 			if( array_key_exists( 'cols', $this->tmp_data['tabs'][$this->jml_tabs] ) )
 				$jml = count( $this->tmp_data['tabs'][$this->jml_tabs]['cols'] );
 		}
@@ -1026,7 +1015,6 @@ class MY_Controller extends MX_Controller
 
 		}
 		unset( $row );
-		// dump($this->tmp_data['fields']);
 	}
 
 	function set_box_input( $row, $isi = "", $search = FALSE )
@@ -1096,7 +1084,6 @@ class MY_Controller extends MX_Controller
 			$label = $row['field'];
 		}
 
-
 		if( ! empty( $row['prepend'] ) || ! empty( $row['append'] ) )
 		{
 			$size          = $row['size'] . '%';
@@ -1121,7 +1108,7 @@ class MY_Controller extends MX_Controller
 			$feedBack        = '<div class="form-group form-group-feedback form-group-feedback-' . $row['bidFeedBackAlign'] . '">';
 			$feedBackContent = '<div class="form-control-feedback">' . $row['bidFeedBackContent'] . '</div></div>';
 		}
-		//dump($this->configuration);die();
+
 		if( $this->configuration['placeholder_tool'] )
 		{
 			if( ! empty( $row['placeholder'] ) )
@@ -1153,7 +1140,6 @@ class MY_Controller extends MX_Controller
 			}
 			$width = 'width:' . $size . ' !important;';
 		}
-		// echo ' fields : '.$row['field'].' - '.$isi.'<br/>';
 		switch( $type )
 		{
 			case 'plaintext':
@@ -1517,6 +1503,7 @@ class MY_Controller extends MX_Controller
 
 	function __insert()
 	{
+
 		$this->breadcrumbs->push( 'Add', 'add' );
 		$manualSave = FALSE;
 		$data       = $this->input->post();
@@ -1524,8 +1511,6 @@ class MY_Controller extends MX_Controller
 		$save = '';
 		if( $data )
 			$save = $data['l_save'];
-		// dump($this->input->post());
-		// die();
 		$header = '';
 		$footer = '';
 		$this->register_button( 'add' );
@@ -1559,6 +1544,9 @@ class MY_Controller extends MX_Controller
 
 			if( $sts_form_validation == FALSE )
 			{
+				$this->session->set_flashdata( "message", "" );
+				$this->session->set_flashdata( "message_crud", "" );
+				$this->session->set_flashdata( "message_crud_error", "" );
 				$this->session->set_flashdata( 'message_crud_error', $this->logdata->errors_array() );
 				$this->template->_params = $this->configuration;
 				$this->set_template();
@@ -1688,6 +1676,7 @@ class MY_Controller extends MX_Controller
 					if( method_exists( $this->router->fetch_class(), 'afterSave' ) )
 					{
 						$id = $this->afterSave( $id_new, $this->tmp_data['data'], [], 'add' );
+
 						if( ! $id )
 						{
 							$this->db->trans_rollback();
@@ -1815,13 +1804,13 @@ class MY_Controller extends MX_Controller
 		$this->image->set_Param( 'nm_random', $row['file_random'] );
 
 		$this->image->upload();
-		// die($this->image->error());
 		return $pt[1] . '/' . $this->image->result( 'file_name' );
 	}
 
 	function __update( $id = '' )
 	{
-		// DUMP($_FILES);die();
+
+
 		$this->breadcrumbs->push( 'Edit', 'edit' );
 		$manualSave = FALSE;
 		$idEdit     = ( $id == '' ) ? $this->uri->segment( 3 ) : $id;
@@ -1850,7 +1839,6 @@ class MY_Controller extends MX_Controller
 				$this->crud->cParamsModul = $this->tmp_data;
 				$this->crud->cId          = $idEdit;
 				$this->crud->getQuery();
-				// echo $this->crud->last_query;
 				$data = $this->crud->getOneData();
 			}
 
@@ -1867,7 +1855,6 @@ class MY_Controller extends MX_Controller
 				$this->crud->cParamsModul = $this->tmp_data;
 				$this->crud->cId          = $idEdit;
 				$this->crud->getQuery();
-				// echo $this->crud->last_query;
 				$old_data = $this->crud->getOneData();
 			}
 		}
@@ -1879,7 +1866,6 @@ class MY_Controller extends MX_Controller
 		$header = '';
 		$footer = '';
 		$this->register_button( 'edit', $idEdit );
-		// dump($this->_button);
 		$this->configuration['button'] = $this->_button;
 		$this->configuration['fields'] = $this->tmp_data['fields'];
 		$this->template->_params       = $this->configuration;
@@ -1893,7 +1879,6 @@ class MY_Controller extends MX_Controller
 			$footer = $this->setContentFooter( _MODE_ );
 		}
 
-		// dump($post);die();
 		if( ! empty( $save ) )
 		{
 			if( isset( $data['Save'] ) )
@@ -2255,9 +2240,7 @@ class MY_Controller extends MX_Controller
 
 		$this->crud->cPost = $this->post;
 		$this->crud->getQuery();
-		$rows = $this->crud->getAllData();
-		// Doi::dump($rows);
-		// die();
+		$rows                  = $this->crud->getAllData();
 		$this->crud->iStsLimit = FALSE;
 		$this->crud->getQuery();
 		$countRowNoLimit = $this->crud->getCountData();
@@ -2649,7 +2632,6 @@ class MY_Controller extends MX_Controller
 			}
 		}
 		exit;
-		//dump($rows);
 	}
 
 	function __print( $id = 0 )
@@ -2817,13 +2799,10 @@ class MY_Controller extends MX_Controller
 		$query = $this->db->get();
 		$rows  = $query->result_array();
 		$input = [];
-		// dumps($rows);
 		foreach( $rows as $row )
 		{
 			$input[$row['id']] = array( "id" => $row['id'], "title" => $row['owner_name'], "code" => $row['owner_code'], "slug" => $row['pid'], "urut" => $row['urut'], "active" => $row['active'] );
 		}
-
-
 		return $input;
 	}
 
@@ -2986,7 +2965,7 @@ class MY_Controller extends MX_Controller
 		{
 			if( file_exists( FCPATH . 'assets/js/pages/' . $js . ".js" ) )
 			{
-				$this->_js_[] = 'pages/' . $js . '.js?ver=51';
+				$this->_js_[] = 'pages/' . $js . '.js';//?ver=51
 			}
 		}
 	}
@@ -3015,8 +2994,6 @@ class MY_Controller extends MX_Controller
 		{
 			$op = TRUE;
 		}
-		// dumps($this->_data_user_['group']['param']['privilege_owner']);
-		// die();
 		if( $op )
 		{
 			$this->set_Where_Table( [ 'tbl' => $tbl, 'field' => $field, 'op' => 'in', 'value' => $this->_data_user_['owner'] ] );
@@ -3062,9 +3039,6 @@ class MY_Controller extends MX_Controller
 						$nms[] = $nm[$x];
 					}
 					$nm2 = implode( '_', $nms );
-					// dumps($nms);
-					// dumps($nm);
-					// dumps($nm2);
 					if( is_array( $isi ) )
 					{
 						if( array_key_exists( $nm1, $isi ) )

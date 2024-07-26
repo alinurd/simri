@@ -238,7 +238,7 @@ if( ! function_exists( 'img_frontend_path' ) )
 
 if( ! function_exists( 'swf_path' ) )
 {
-    function swf_path( $halu = '' )
+    function swf_path( $value = '' )
     {
         $CI =& get_instance();
         return FCPATH . $CI->config->item( 'swf_path' ) . $value;
