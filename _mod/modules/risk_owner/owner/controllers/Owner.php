@@ -113,7 +113,7 @@ class Owner extends MY_Controller
 
 		if( ! array_key_exists( 'children', $ad ) )
 		{
-			$del = " | <a href='" . base_url( $this->modul_name . '/delete/' . $ad['id'] ) . "' class='delete_modul text-danger'> <i class='fa fa-trash'></i></a>";
+			$del = " | <a href='" . base_url( $this->modul_name . '/delete/' . $ad['id'] ) . "' class='delete_modul delete text-danger'> <i class='fa fa-trash'></i></a>";
 		}
 		$code = '';
 		if( ! empty( $ad['code'] ) )
