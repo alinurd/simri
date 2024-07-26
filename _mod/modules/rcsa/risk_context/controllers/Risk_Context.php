@@ -538,10 +538,8 @@ class Risk_Context extends MY_Controller
 			}
 			else
 			{
-
 				$aspek = 0;
 			}
-
 			$aspek_det = $data['aspek_det'];
 		}
 
@@ -621,7 +619,7 @@ class Risk_Context extends MY_Controller
 				}
 
 				$getPenyebabVal = $this->db->select( "id,library" )->get_where( 'il_library', [ "id" => $x ] )->row_array();
-				$penyebab .= '<tr><td style="padding-left:0px;">' . form_input( 'penyebab_id[]', $x, 'id="penyebab_id_"  class="form-control d-none"  style="width:100%;"' ) . form_input( 'penyebab_id_text[]', $getPenyebabVal["library"], 'class="form-control getLibrary" readonly id="penyebab_id_text" identity="' . $key . '" placeholder="' . _l( 'fld_penyebab_risiko' ) . '" ' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;">' . $icon . '</td></tr>';
+				$penyebab .= '<tr><td style="padding-left:0px;">' . form_input( 'penyebab_id[]', $x, 'id="penyebab_id_"  class="form-control d-none"  style="width:100%;"' ) . form_input( 'penyebab_id_text[]', ( ! empty( $getPenyebabVal["library"] ) ) ? $getPenyebabVal["library"] : "", 'class="form-control getLibrary" readonly id="penyebab_id_text" identity="' . $key . '" placeholder="' . _l( 'fld_penyebab_risiko' ) . '" ' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;">' . $icon . '</td></tr>';
 			}
 		}
 		else
@@ -644,7 +642,7 @@ class Risk_Context extends MY_Controller
 					$icon = '<i class="icon-database-remove text-danger-400 del-dampak"></i>';
 				}
 				$getDampakVal = $this->db->select( "id,library" )->get_where( 'il_library', [ "id" => $x ] )->row_array();
-				$dampak .= '<tr><td style="padding-left:0px;">' . form_input( 'dampak_id[]', $x, 'id="dampak_id_" class="form-control d-none"  style="width:100%;"' ) . form_input( 'dampak_id_text[]', $getDampakVal["library"] ?? "", 'class="form-control getLibrary" readonly id="dampak_id_text" identity="' . $key . '" placeholder="' . _l( 'fld_dampak_risiko' ) . '"' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;">' . $icon . '</td></tr>';
+				$dampak .= '<tr><td style="padding-left:0px;">' . form_input( 'dampak_id[]', $x, 'id="dampak_id_" class="form-control d-none"  style="width:100%;"' ) . form_input( 'dampak_id_text[]', ( ! empty( $getDampakVal["library"] ) ) ? $getDampakVal["library"] : "" ?? "", 'class="form-control getLibrary" readonly id="dampak_id_text" identity="' . $key . '" placeholder="' . _l( 'fld_dampak_risiko' ) . '"' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;">' . $icon . '</td></tr>';
 			}
 			$csslevel = 'background-color:' . $data['color'] . ';color:' . $data['color_text'] . ';';
 		}
