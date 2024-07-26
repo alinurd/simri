@@ -1507,7 +1507,7 @@ $(document).ajaxComplete(function () {
         }
     });
 
-    if ($("#treatment_id").val() == 1) {
+    if ($("#treatment_id").val() == 1 || $("#treatment_id").val() == '') {
         $("li.nav-item > a[href='#content-tab-03']").parent().addClass("d-none");
         $("li.nav-item > a[href='#content-tab-03']").hide();
         $("#list_mitigasi").hide();
@@ -1518,6 +1518,8 @@ $(document).ajaxComplete(function () {
         $("#list_mitigasi").show();
         $(".btnNextEvaluasi").show();
     }
+
+
 
     // changeRisikoDepartmentVal();
 });
