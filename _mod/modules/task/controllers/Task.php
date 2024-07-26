@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined( 'BASEPATH' ) or exit( 'No direct script access allowed' );
 
 class Task extends MY_Controller
 {
@@ -23,49 +23,52 @@ class Task extends MY_Controller
 	private $dataTmp = [];
 	public function __construct()
 	{
-		$this->today = date('Y-m-d');
-		$this->limit_date = date('Y-m-d', strtotime('+7 days'));
+		$this->today      = date( 'Y-m-d' );
+		$this->limit_date = date( 'Y-m-d', strtotime( '+7 days' ) );
 		parent::__construct();
 		$this->dataTmp['notif'] = [];
-		$this->dataTmp['rows'] = [];
+		$this->dataTmp['rows']  = [];
 	}
 
-	function init($aksi = '')
+	function init( $aksi = '' )
 	{
 		$configuration = [
-			'show_second_sidebar' => false,
-			'show_action_button' => FALSE,
-			'show_list_header' => false,
-			'box_list_header' => true,
-			'show_title_header' => false,
-			'content_title' => 'Taks & QA'
+		 'show_second_sidebar' => FALSE,
+		 'show_action_button'  => FALSE,
+		 'show_list_header'    => FALSE,
+		 'box_list_header'     => TRUE,
+		 'show_title_header'   => FALSE,
+		 'content_title'       => 'Taks & QA',
 		];
 		return [
-			'configuration'	=> $configuration
+		 'configuration' => $configuration,
 		];
 	}
 
-	function content($ty = 'detail')
+	function content( $ty = 'detail' )
 	{
+
 		$data['upcoming'] = $this->db
-			->where('batas_waktu >=', $this->today)
-			->where('batas_waktu <=', $this->limit_date)
-			->order_by('batas_waktu', 'ASC')
-			->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)
-			->result_array();
-		$data['overdue'] = $this->db
-		->where('batas_waktu <', $this->today)
-		->order_by('batas_waktu', 'ASC')
-		->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)
+		 ->where( 'batas_waktu >=', $this->today )
+		 ->where( 'batas_waktu <=', $this->limit_date )
+		 ->order_by( 'batas_waktu', 'ASC' )
+		 ->get( _TBL_VIEW_RCSA_MITIGASI_DETAIL )
+		 ->result_array();
+		$data['overdue']  = $this->db
+		->where( 'batas_waktu <', $this->today )
+		->order_by( 'batas_waktu', 'ASC' )
+		->get( _TBL_VIEW_RCSA_MITIGASI_DETAIL )
 		->result_array();
-	$content = $this->load->view('task', $data, true);
+
+		$data["faq"] = $this->db->get_where( _TBL_FAQ, [ "active" => 1 ] )->result_array();
+		$content     = $this->load->view( 'task', $data, TRUE );
 
 		return $content;
 	}
 
-	function setContentHeader($mode = '')
+	function setContentHeader( $mode = '' )
 	{
-		$content =[];
+		$content = [];
 		return $content;
 	}
 
@@ -77,18 +80,19 @@ class Task extends MY_Controller
 
 	function get_ceklog()
 	{
-		$post = $this->input->post();
- 		$data['log'] = $this->db->where('ref_id', $post['id'])->get("il_log_send_email")->result_array();
+		$post        = $this->input->post();
+		$data['log'] = $this->db->where( 'ref_id', $post['id'] )->get( "il_log_send_email" )->result_array();
 
-		$result = $this->load->view('cekLog', $data, TRUE);
-		header('Content-Type: application/json');
-		echo json_encode(['combo' => $result]);
+		$result = $this->load->view( 'cekLog', $data, TRUE );
+		header( 'Content-Type: application/json' );
+		echo json_encode( [ 'combo' => $result ] );
 	}
+
 	function sen_email()
 	{
 
 		$post = $this->input->post();
- 		
+
 	}
 
 }
