@@ -187,7 +187,7 @@ class Owner extends MY_Controller
 
 	function sendnotificationMitigasi()
 	{
-		$querySelect = "select io2.id, io2.email,io2.nip,irm.mitigasi,irm.reminder_email from il_rcsa_mitigasi irm join il_owner io on irm.penanggung_jawab_id = io.id join il_officer io2 on io.id=io2.owner_no where irm.batas_waktu= date_format(Date(now())+irm.reminder_email,'%Y-%m-%d') group by io2.id";
+		$querySelect = "select io2.id, io2.email,io2.nip,irm.mitigasi,irm.reminder_email,irm.id as mitigasi_id from il_rcsa_mitigasi irm join il_owner io on irm.penanggung_jawab_id = io.id join il_officer io2 on io.id=io2.owner_no where irm.batas_waktu= date_format(Date(now())+irm.reminder_email,'%Y-%m-%d') group by io2.id";
 
 		$getTemplate     = $this->db->get_where( "il_template_email", [ "code" => "NOTIF07" ] )->row_array();
 		$getDataMitigasi = $this->db->query( $querySelect )->result_array();
@@ -195,13 +195,26 @@ class Owner extends MY_Controller
 		{
 			foreach( $getDataMitigasi as $keyMit => $valueMit )
 			{
+
 				$getTemplate["content_html"] = str_replace( "[[MITIGASI]]", $valueMit['mitigasi'], $getTemplate["content_html"] );
 				$getTemplate["content_html"] = str_replace( "[[day]]", $valueMit['reminder_email'], $getTemplate["content_html"] );
 				$content                     = $this->load->view( "email-notification", $getTemplate, TRUE );
 				$emailData['email']          = [ $valueMit["email"] ];
 				$emailData['subject']        = $getTemplate["subject"] ?? "Reminder Due Date Mitigasi {$valueMit["mitigasi"]}";
 				$emailData['content']        = $content ?? "";
-				Doi::kirim_email( $emailData );
+				$status                      = Doi::kirim_email( $emailData );
+				if( $status )
+				{
+					$this->crud->crud_table( _TBL_LOG_SEND_EMAIL );
+					$this->crud->crud_type( 'add' );
+					$this->crud->crud_field( 'type', 1, 'int' );
+					$this->crud->crud_field( 'ref_id', $valueMit["mitigasi_id"], 'int' );
+					$this->crud->crud_field( 'subject', $valueMit["mitigasi"], 'string' );
+					$this->crud->crud_field( 'message', $emailData['subject'], 'string' );
+					$this->crud->crud_field( 'ket', '', 'string' );
+					$this->crud->crud_field( 'to', $valueMit["email"], 'string' );
+					$this->crud->process_crud();
+				}
 
 			}
 		}
