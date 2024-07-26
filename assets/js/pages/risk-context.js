@@ -1576,6 +1576,8 @@ function resSavePeristiwa(lib) {
 
     $('input[name="klasifikasi_risiko_id"]').val(lib.tasktonomiId).trigger('change');
     $('#tasktonomiName').val(lib.tasktonomiName).trigger('change');
+
+    changeRisikoDepartmentVal();
     $("#modal_general").modal("hide");
 
 }
@@ -1774,7 +1776,7 @@ function resultaddlibrary(lib) {
         default:
             break;
     }
-
+    changeRisikoDepartmentVal();
     $("#modal_general").modal("hide");
 
 }
