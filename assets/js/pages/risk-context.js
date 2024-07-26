@@ -735,7 +735,7 @@ $(function () {
         }
     });
     $(document).on('change', '#treatment_id', function () {
-        if ($(this).val() == 1) {
+        if ($(this).val() == 1 || $(this).val() == '') {
             $('#efek_mitigasi').val('4').trigger("change");
             // $('#efek_mitigasi').trigger('change');
             $("li.nav-item > a[href='#content-tab-03']").parent().addClass("d-none");
