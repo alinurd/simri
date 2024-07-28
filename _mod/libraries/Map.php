@@ -33,7 +33,7 @@ class Map
 
     function _clear()
     {
-        $rows = $this->_ci->db->order_by( "code_impact DESC,code_likelihood ASC" )->get( _TBL_VIEW_MATRIK_RCSA_DASHBOARD )->result_array();
+        $rows = $this->_ci->db->order_by( "code_impact DESC,code_likelihood ASC" )->get( _TBL_VIEW_MATRIK_RCSA )->result_array();
 
         $this->_data = [];
         foreach( $rows as $key => $row )

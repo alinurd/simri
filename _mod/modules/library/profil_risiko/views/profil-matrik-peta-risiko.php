@@ -13,8 +13,8 @@
 
     tr,
     td {
-        width: 30px !important;
-        height: 50px !important;
+        width: 25px !important;
+        height: 40px !important;
     }
 
 
@@ -46,29 +46,17 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="alert alert-secondary">
                     <table>
-                        <tr>
-                            <td>5</td>
-                            <td>Hampir Pasti Terjadi</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Sangat Mungkin Terjadi</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Mungkin Terjadi</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jarang Terjadi</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Hampir Tidak Terjadi</td>
-                        </tr>
+                        <?php foreach( $legendMatrix as $keyLegend => $vLegend )
+                        { ?>
+                            <tr>
+                                <td><?= $keyLegend ?></td>
+                                <td><?= $vLegend ?></td>
+                            </tr>
+                            <?php
+                        } ?>
                     </table>
                 </div>
 
@@ -84,29 +72,17 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="alert alert-secondary">
                     <table>
-                        <tr>
-                            <td>5</td>
-                            <td>Hampir Pasti Terjadi</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Sangat Mungkin Terjadi</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Mungkin Terjadi</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jarang Terjadi</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Hampir Tidak Terjadi</td>
-                        </tr>
+                        <?php foreach( $legendMatrix as $keyLegend => $vLegend )
+                        { ?>
+                            <tr>
+                                <td><?= $keyLegend ?></td>
+                                <td><?= $vLegend ?></td>
+                            </tr>
+                            <?php
+                        } ?>
                     </table>
                 </div>
 
@@ -123,29 +99,17 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="alert alert-secondary">
                     <table>
-                        <tr>
-                            <td>5</td>
-                            <td>Hampir Pasti Terjadi</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Sangat Mungkin Terjadi</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Mungkin Terjadi</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jarang Terjadi</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Hampir Tidak Terjadi</td>
-                        </tr>
+                        <?php foreach( $legendMatrix as $keyLegend => $vLegend )
+                        { ?>
+                            <tr>
+                                <td><?= $keyLegend ?></td>
+                                <td><?= $vLegend ?></td>
+                            </tr>
+                            <?php
+                        } ?>
                     </table>
                 </div>
 
