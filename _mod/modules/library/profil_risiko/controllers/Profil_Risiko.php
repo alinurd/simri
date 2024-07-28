@@ -1033,8 +1033,8 @@ class Profil_Risiko extends MY_Controller
 		$this->data->pos['period']   = _TAHUN_ID_;
 		$this->data->pos['term']     = _TERM_ID_;
 		$this->data->pos['minggu']   = _MINGGU_ID_;
-
-		$hasil = $this->load->view( 'dashboard', $data, TRUE );
+		$data["matrix_peta_risiko"]  = $this->load->view( "profil-matrik-peta-risiko", $data, TRUE );
+		$hasil                       = $this->load->view( 'dashboard', $data, TRUE );
 
 
 		$configuration = [
@@ -1067,7 +1067,7 @@ class Profil_Risiko extends MY_Controller
 		// die();
 		->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
 
-		$data['map_inherent'] = $this->map->set_data_profile( $rows, $this->pos )->set_param( [ 'tipe' => 'angka', 'level' => 1 ] )->draw_profile();
+		$data['map_inherent'] = $this->map->set_data_profile( $rows, $this->pos )->set_param( [ 'tipe' => 'angka', 'level' => 1 ] )->draw_profile_dashboard();
 
 
 		$jml       = $this->map->get_total_nilai();
@@ -1084,7 +1084,7 @@ class Profil_Risiko extends MY_Controller
 		$rows                 = $this->db->SELECT( 'risiko_residual as id,  level_color, level_color_residual, level_color_target, minggu_id' )
 		// ->group_by('risiko_residual')
 		->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
-		$data['map_residual'] = $this->map->set_data_profile( $rows, $this->pos )->set_param( [ 'tipe' => 'angka', 'level' => 2 ] )->draw_profile();
+		$data['map_residual'] = $this->map->set_data_profile( $rows, $this->pos )->set_param( [ 'tipe' => 'angka', 'level' => 2 ] )->draw_profile_dashboard();
 
 		$jml                         = $this->map->get_total_nilai();
 		$jmlstatus                   = $this->map->get_jumlah_status_profil();
@@ -1099,7 +1099,7 @@ class Profil_Risiko extends MY_Controller
 		$rows               = $this->db->SELECT( 'risiko_target as id,  level_color, level_color_residual, level_color_target, minggu_id' )
 		// ->group_by('risiko_target')
 		->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
-		$data['map_target'] = $this->map->set_data_profile( $rows, $this->pos )->set_param( [ 'tipe' => 'angka', 'level' => 3 ] )->draw_profile();
+		$data['map_target'] = $this->map->set_data_profile( $rows, $this->pos )->set_param( [ 'tipe' => 'angka', 'level' => 3 ] )->draw_profile_dashboard();
 
 		$jml                       = $this->map->get_total_nilai();
 		$jmlstatus                 = $this->map->get_jumlah_status_profil();

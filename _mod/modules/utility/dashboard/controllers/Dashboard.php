@@ -52,7 +52,7 @@ class Dashboard extends MY_Controller
 			$tgl1 = $x['tgl_awal'];
 			$tgl2 = $x['tgl_akhir'];
 		}
-		// dumps($x);
+
 		$data             = $this->map();
 		$data['type_ass'] = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'ass-type' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		$data['owner']    = $this->get_combo_parent_dept();
@@ -81,11 +81,12 @@ class Dashboard extends MY_Controller
 		$data['grap2']      = $this->hasil = $this->load->view( 'grap3', $dat, TRUE );
 		$data['data_grap2'] = $this->hasil = $this->load->view( 'grap4', $dat, TRUE );
 
-		$dat['data']        = $x['komitment'];
-		$data['grap3']      = $this->hasil = $this->load->view( 'grap5', $dat, TRUE );
-		$data['data_grap3'] = $this->hasil = $this->load->view( 'grap6', $dat, TRUE );
+		$dat['data'] = $x['komitment'];
 
-		$this->hasil = $this->load->view( 'dashboard', $data, TRUE );
+		$data['grap3']              = $this->hasil = $this->load->view( 'grap5', $dat, TRUE );
+		$data['data_grap3']         = $this->hasil = $this->load->view( 'grap6', $dat, TRUE );
+		$data["matrix_peta_risiko"] = $this->load->view( "matrik-peta-risiko", $data, TRUE );
+		$this->hasil                = $this->load->view( 'dashboard', $data, TRUE );
 		return $this->hasil;
 	}
 
@@ -100,9 +101,7 @@ class Dashboard extends MY_Controller
 		// dumps($rows);
 		// die();
 
-
-
-		$data['map_inherent']        = $this->map->set_data( $rows )->set_param( [ 'tipe' => 'angka', 'level' => 1 ] )->draw();
+		$data['map_inherent']        = $this->map->set_data( $rows )->set_param( [ 'tipe' => 'angka', 'level' => 1 ] )->draw_dashboard();
 		$jml                         = $this->map->get_total_nilai();
 		$jmlstatus                   = $this->map->get_jumlah_status();
 		$data['jml_inherent_status'] = $jmlstatus;
@@ -117,7 +116,7 @@ class Dashboard extends MY_Controller
 		$this->db->where( 'status_final', 1 );
 
 		$rows                        = $this->db->SELECT( 'risiko_residual as id, COUNT(risiko_residual) as nilai, level_color, level_color_residual, level_color_target' )->group_by( 'risiko_residual' )->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
-		$data['map_residual']        = $this->map->set_data( $rows )->set_param( [ 'tipe' => 'angka', 'level' => 2 ] )->draw();
+		$data['map_residual']        = $this->map->set_data( $rows )->set_param( [ 'tipe' => 'angka', 'level' => 2 ] )->draw_dashboard();
 		$jml                         = $this->map->get_total_nilai();
 		$jmlstatus                   = $this->map->get_jumlah_status();
 		$data['jml_residual_status'] = $jmlstatus;
@@ -132,7 +131,7 @@ class Dashboard extends MY_Controller
 		$this->db->where( 'status_final', 1 );
 
 		$rows                      = $this->db->SELECT( 'risiko_target as id, COUNT(risiko_target) as nilai, level_color, level_color_residual, level_color_target' )->group_by( 'risiko_target' )->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
-		$data['map_target']        = $this->map->set_data( $rows )->set_param( [ 'tipe' => 'angka', 'level' => 3 ] )->draw();
+		$data['map_target']        = $this->map->set_data( $rows )->set_param( [ 'tipe' => 'angka', 'level' => 3 ] )->draw_dashboard();
 		$jml                       = $this->map->get_total_nilai();
 		$jmlstatus                 = $this->map->get_jumlah_status();
 		$data['jml_target_status'] = $jmlstatus;
