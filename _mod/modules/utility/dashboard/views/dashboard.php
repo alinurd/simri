@@ -1,5 +1,5 @@
 <style>
-    .modal.fade.show {
+    #modal-startup.modal.fade.show {
         backdrop-filter: blur(5px) !important;
     }
 </style>
