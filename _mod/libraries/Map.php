@@ -148,7 +148,7 @@ class Map
         $getstatus         = $this->_ci->db->select( "tingkat,sum(nilai)as total_nilai, warna_bg" )->group_by( "tingkat" )->order_by( "level_order ASC" )->get( _TBL_VIEW_MATRIK_RCSA )->result_array();
 
         $lastIndex = count( $getstatus ) - 1;
-        $content   = "<table class=''><tbody>";
+        $content   = "<table class='table-dashboard'><tbody>";
         $content .= "<tr><td rowspan='2' colspan='2' class='remove-border' style='font-weight:400px;font-size:15px;'>Overall Rating</td>";
 
         foreach( $getstatus as $keyStas => $vStats )
@@ -375,7 +375,7 @@ class Map
         $getstatus              = $this->_ci->db->select( "tingkat,sum(nilai)as total_nilai, warna_bg" )->group_by( "tingkat" )->order_by( "level_order ASC" )->get( _TBL_VIEW_MATRIK_RCSA )->result_array();
 
         $lastIndex = count( $getstatus ) - 1;
-        $content   = "<table class=''><tbody>";
+        $content   = "<table class='table-profil-dashboard'><tbody>";
         $content .= "<tr><td rowspan='2' colspan='2' class='remove-border' style='font-weight:400px;font-size:15px;'>Overall Rating</td>";
 
         foreach( $getstatus as $keyStas => $vStats )
@@ -683,7 +683,7 @@ class Map
         {
             $total += $status[$row['level_color']];
         }
-        $content .= '<table style="text-align:center;" border="1" width="40%">';
+        $content .= '<table style="text-align:center; width: 100%;" border="1" class="table-status">';
         $content .= '<tr><td>Status Risiko</td><td>Jumlah</td><td>Persentase</td></tr>';
         foreach( $this->level as $keys => $row )
         {
@@ -741,7 +741,7 @@ class Map
         {
             $totalakhir += $statusakhir[$row['level_color']];
         }
-        $content .= '<table style="text-align:center;" border="1" width="40%">';
+        $content .= '<table style="text-align:center;width: 100%;" border="1" class="table-status">';
         // $content .= '<tr><td>Status Risiko</td><td>Jumlah Awal</td><td>Persentase Awal</td><td>Jumlah Akhir</td><td>Persentase Akhir</td></tr>';
         $content .= '<tr><td>Status Risiko</td><td>Jumlah</td><td>Persentase</td><td class="d-none">Jumlah Akhir</td><td class="d-none">Persentase Akhir</td></tr>';
         foreach( $this->level as $keys => $row )
