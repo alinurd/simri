@@ -1,3 +1,8 @@
+<style>
+    .modal.fade.show {
+        backdrop-filter: blur(5px) !important;
+    }
+</style>
 <div class="row">
     <div class="col-xl-12">
         <div class="card">
@@ -184,3 +189,43 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modal-startup" tabindex="-1" role="dialog" aria-labelledby="modal-startupTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h3 class="modal-title" id="modal-startupTitle">Info Update</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h3><?= $notif_startup["title"] ?></h3>
+                    </div>
+                    <div class="card-body">
+                        <?= $notif_startup["message"] ?>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-outline-secondary text-center" data-dismiss="modal"><i
+                        class="fa fa-close"></i>&nbsp;Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        var status = (parseInt("<?= $notif_startup["status"] ?>") == 1) ? true : false;
+        $("#modal-startup").modal({
+            backdrop: "static",
+            keyboard: false,
+            show: status,
+        });
+    })
+</script>

@@ -44,9 +44,11 @@ class Dashboard extends MY_Controller
 
 	function content( $ty = 'detail' )
 	{
-		$x    = $this->session->userdata( 'periode' );
-		$tgl1 = date( 'Y-m-d' );
-		$tgl2 = date( 'Y-m-d' );
+
+		$getPrevPath = ( ! empty( $_SERVER["HTTP_REFERER"] ) ) ? $_SERVER["HTTP_REFERER"] : "";
+		$x           = $this->session->userdata( 'periode' );
+		$tgl1        = date( 'Y-m-d' );
+		$tgl2        = date( 'Y-m-d' );
 		if( $x )
 		{
 			$tgl1 = $x['tgl_awal'];
@@ -90,7 +92,12 @@ class Dashboard extends MY_Controller
 		$data["legendLikelihoodMatrix"] = [ 5 => "Hampir Pasti Terjadi", 4 => "Sangat Mungkin Terjadi", 3 => "Mungkin Terjadi", 2 => "Jarang Terjadi", 1 => "Hampir Tidak Terjadi" ];
 		$data["legendImpactMatrix"]     = $data["legendImpactMatrix"] = [ 5 => "High", 4 => "Moderate to High", 3 => "Moderate", 2 => "Low to Moderate", 1 => "Low" ];
 		$data["matrix_peta_risiko"] = $this->load->view( "matrik-peta-risiko", $data, TRUE );
-		$this->hasil                = $this->load->view( 'dashboard', $data, TRUE );
+
+
+
+
+		$data["notif_startup"] = $this->startupNotif( $getPrevPath );
+		$this->hasil           = $this->load->view( 'dashboard', $data, TRUE );
 		return $this->hasil;
 	}
 
@@ -215,5 +222,18 @@ class Dashboard extends MY_Controller
 		header( "Content-Disposition: attachment; filename=$file_name" );
 		echo $x;
 
+	}
+
+	function startupNotif( $urlPath )
+	{
+
+		$getMessageContent = str_replace( "[[expired_date]]", $this->configuration['preference']['password_expr'], $this->configuration['preference']['startup_message'] );
+		$data              = array(
+		"title"   => $this->configuration["preference"]['startup_title'],
+		"message" => $getMessageContent,
+		"status"  => ( in_array( "login", explode( "/", $urlPath ) ) ) ? TRUE : FALSE,
+		  );
+
+		return $data;
 	}
 }
