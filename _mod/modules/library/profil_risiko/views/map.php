@@ -103,7 +103,7 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-8">
                 <?= $jml_inherent_status; ?>
             </div>
         </div>
@@ -117,7 +117,7 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-8">
                 <?= $jml_residual_status; ?>
             </div>
         </div>
@@ -131,7 +131,7 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-8">
                 <?= $jml_target_status; ?>
             </div>
         </div>
