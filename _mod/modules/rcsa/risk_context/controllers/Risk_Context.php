@@ -1154,7 +1154,7 @@ class Risk_Context extends MY_Controller
 		$data['mitigasi'][] = [ 'title' => '', 'help' => '', 'isi' => form_hidden( [ 'id' => ( $mit ) ? $mit['id'] : 0, 'rcsa_detail_id' => intval( $rcsa_detail ) ] ) ];
 		$data['mitigasi'][] = [ 'title' => "Reminder Email Notification ", 'help' => "", 'mandatori' => TRUE, 'isi' => "<span class='input-group-prepend'><span class='input-group-text'><</span></span><div class='input-group' style='width:15% !important;'><button type='button' onclick='this.parentNode.querySelector(\'[type=number]\').stepDown();'>
 				-
-			</button>'" . form_input( array( 'type' => 'number', 'name' => 'email_reminder' ), ( $mit ) ? $mit['email_reminder'] : '', " class='form-control touchspin-postfix text-center' placeholder='hari' max='' min='1' step='1' id='email_reminder' " ) . '<button type="button"  onclick="this.parentNode.querySelector(\'[type=number]\').stepUp();">
+			</button>'" . form_input( array( 'type' => 'number', 'name' => 'email_reminder' ), ( ! empty( $mit['email_reminder'] ) ) ? $mit['email_reminder'] : '', " class='form-control touchspin-postfix text-center' placeholder='hari' max='' min='1' step='1' id='email_reminder' " ) . '<button type="button"  onclick="this.parentNode.querySelector(\'[type=number]\').stepUp();">
 				+
 			</button>
 			</div>' ];

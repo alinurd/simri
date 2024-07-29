@@ -1764,7 +1764,6 @@ $(document).on("click", ".saveLibrary", function () {
 });
 
 function resultaddlibrary(lib) {
-
     switch (parseInt(lib.tipeLib)) {
         case 1:
             $('input[name="penyebab_id"]').val(lib.idLibrary).trigger('change');
@@ -1780,8 +1779,12 @@ function resultaddlibrary(lib) {
     }
     changeRisikoDepartmentVal();
     $("#modal_general").modal("hide");
-
 }
+
+$(document).on('hidden.bs.modal', '#modal_general', function () {
+    $("#refreshRiskLikeHood").trigger("click");
+    $("#refreshRiskDampak").trigger("click");
+});
 
 
 
