@@ -87,7 +87,8 @@ class Dashboard extends MY_Controller
 		$data['data_grap3'] = $this->hasil = $this->load->view( 'grap6', $dat, TRUE );
 
 
-		$data["legendMatrix"]       = [ 5 => "Hampir Pasti Terjadi", 4 => "Sangat Mungkin Terjadi", 3 => "Mungkin Terjadi", 2 => "Jarang Terjadi", 1 => "Hampir Tidak Terjadi" ];
+		$data["legendLikelihoodMatrix"] = [ 5 => "Hampir Pasti Terjadi", 4 => "Sangat Mungkin Terjadi", 3 => "Mungkin Terjadi", 2 => "Jarang Terjadi", 1 => "Hampir Tidak Terjadi" ];
+		$data["legendImpactMatrix"]     = $data["legendImpactMatrix"] = [ 5 => "High", 4 => "Moderate to High", 3 => "Moderate", 2 => "Low to Moderate", 1 => "Low" ];
 		$data["matrix_peta_risiko"] = $this->load->view( "matrik-peta-risiko", $data, TRUE );
 		$this->hasil                = $this->load->view( 'dashboard', $data, TRUE );
 		return $this->hasil;
@@ -155,9 +156,10 @@ class Dashboard extends MY_Controller
 		$this->data->get_owner_child( intval( $this->pos['owner'] ) );
 		$this->owner_child = $this->data->owner_child;
 
-		$data                 = $this->map();
-		$data["legendMatrix"] = [ 5 => "Hampir Pasti Terjadi", 4 => "Sangat Mungkin Terjadi", 3 => "Mungkin Terjadi", 2 => "Jarang Terjadi", 1 => "Hampir Tidak Terjadi" ];
-		$hasil['combo']       = $this->load->view( 'map', $data, TRUE );
+		$data                           = $this->map();
+		$data["legendLikelihoodMatrix"] = [ 5 => "Hampir Pasti Terjadi", 4 => "Sangat Mungkin Terjadi", 3 => "Mungkin Terjadi", 2 => "Jarang Terjadi", 1 => "Hampir Tidak Terjadi" ];
+		$data["legendImpactMatrix"]     = [ 5 => "High", 4 => "Moderate to High", 3 => "Moderate", 2 => "Low to Moderate", 1 => "Low" ];
+		$hasil['combo']                 = $this->load->view( 'map', $data, TRUE );
 
 		$x                   = $this->data->get_data_grap();
 		$dat['data']         = $x['mitigasi'];

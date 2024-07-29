@@ -1026,16 +1026,17 @@ class Profil_Risiko extends MY_Controller
 		// die($this->db->last_query());
 
 
-		$this->data->pos['tgl1']     = $tgl1;
-		$this->data->pos['tgl2']     = $tgl2;
-		$this->data->pos['owner']    = $this->ownerx;
-		$this->data->pos['type_ass'] = 0;
-		$this->data->pos['period']   = _TAHUN_ID_;
-		$this->data->pos['term']     = _TERM_ID_;
-		$this->data->pos['minggu']   = _MINGGU_ID_;
-		$data["legendMatrix"]        = [ 5 => "Hampir Pasti Terjadi", 4 => "Sangat Mungkin Terjadi", 3 => "Mungkin Terjadi", 2 => "Jarang Terjadi", 1 => "Hampir Tidak Terjadi" ];
-		$data["matrix_peta_risiko"]  = $this->load->view( "profil-matrik-peta-risiko", $data, TRUE );
-		$hasil                       = $this->load->view( 'dashboard', $data, TRUE );
+		$this->data->pos['tgl1']        = $tgl1;
+		$this->data->pos['tgl2']        = $tgl2;
+		$this->data->pos['owner']       = $this->ownerx;
+		$this->data->pos['type_ass']    = 0;
+		$this->data->pos['period']      = _TAHUN_ID_;
+		$this->data->pos['term']        = _TERM_ID_;
+		$this->data->pos['minggu']      = _MINGGU_ID_;
+		$data["legendLikelihoodMatrix"] = [ 5 => "Hampir Pasti Terjadi", 4 => "Sangat Mungkin Terjadi", 3 => "Mungkin Terjadi", 2 => "Jarang Terjadi", 1 => "Hampir Tidak Terjadi" ];
+		$data["legendImpactMatrix"]     = [ 5 => "High", 4 => "Moderate to High", 3 => "Moderate", 2 => "Low to Moderate", 1 => "Low" ];
+		$data["matrix_peta_risiko"]     = $this->load->view( "profil-matrik-peta-risiko", $data, TRUE );
+		$hasil                          = $this->load->view( 'dashboard', $data, TRUE );
 
 
 		$configuration = [
@@ -1125,11 +1126,12 @@ class Profil_Risiko extends MY_Controller
 		$data              = $this->map();
 		// dumps($data);
 		// die();
-		$data["legendMatrix"] = [ 5 => "Hampir Pasti Terjadi", 4 => "Sangat Mungkin Terjadi", 3 => "Mungkin Terjadi", 2 => "Jarang Terjadi", 1 => "Hampir Tidak Terjadi" ];
-		$hasil['combo']       = $this->load->view( 'map', $data, TRUE );
-		$x                    = $this->data->get_data_map( $this->_data_user_ );
-		$x['post']            = $this->pos;
-		$x['minggu']          = $this->crud->combo_select( [ 'id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu' ] )->combo_where( 'kelompok', 'minggu' )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+		$data["legendLikelihoodMatrix"] = [ 5 => "Hampir Pasti Terjadi", 4 => "Sangat Mungkin Terjadi", 3 => "Mungkin Terjadi", 2 => "Jarang Terjadi", 1 => "Hampir Tidak Terjadi" ];
+		$data["legendImpactMatrix"]     = [ 5 => "High", 4 => "Moderate to High", 3 => "Moderate", 2 => "Low to Moderate", 1 => "Low" ];
+		$hasil['combo']                 = $this->load->view( 'map', $data, TRUE );
+		$x                              = $this->data->get_data_map( $this->_data_user_ );
+		$x['post']                      = $this->pos;
+		$x['minggu']                    = $this->crud->combo_select( [ 'id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu' ] )->combo_where( 'kelompok', 'minggu' )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 
 		// $aw = (isset($x['minggu'][$x['post']['term_mulai']]))?$x['minggu'][$x['post']['term_mulai']]:'';
 		// $ak = (isset($x['minggu'][$x['post']['term_akhir']]))?$x['minggu'][$x['post']['term_akhir']]:'';
