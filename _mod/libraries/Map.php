@@ -159,7 +159,7 @@ class Map
         foreach( $getstatus as $keyStas => $vStats )
         {
 
-            $content .= "<td style='background-color:{$vStats["warna_bg"]};' class='text-center top-border'>" . $levelColor[strtolower( url_title( $vStats["tingkat"] ) )]["value"] . "</td>";
+            $content .= "<td style='background-color:{$vStats["warna_bg"]};' class='text-center top-border font-weight-bold'>" . $levelColor[strtolower( url_title( $vStats["tingkat"] ) )]["value"] . "</td>";
 
             if( $keyStas == $lastIndex )
                 $content .= "</tr>";
@@ -392,7 +392,7 @@ class Map
         foreach( $getstatus as $keyStas => $vStats )
         {
 
-            $content .= "<td style='background-color:{$vStats["warna_bg"]};' class='text-center top-border'>" . $levelColor[strtolower( url_title( $vStats["tingkat"] ) )]["value"] . "</td>";
+            $content .= "<td style='background-color:{$vStats["warna_bg"]};' class='text-center top-border font-weight-bold'>" . $levelColor[strtolower( url_title( $vStats["tingkat"] ) )]["value"] . "</td>";
 
             if( $keyStas == $lastIndex )
                 $content .= "</tr>";
