@@ -109,8 +109,6 @@
                 </table>
             </div>
         </div>
-
-
         <?php if( $parent['tipe_analisa_no'] == 2 || $parent['tipe_analisa_no'] == 3 ) : ?>
             <div class="row mt-3">
                 <div class="col-xl-12">
@@ -152,8 +150,6 @@
                 </div>
             </div>
         <?php endif ?>
-
-
         <div class="row mt-3">
             <div class="col-xl-12">
                 <strong>LIST MITIGASI</strong><br />

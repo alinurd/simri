@@ -150,7 +150,6 @@
                     {
                         foreach( $faq as $kFaq => $vFaq )
                         { ?>
-
                             <tr>
                                 <td><?= $kFaq + 1 ?></td>
                                 <td><?= $vFaq["id"] ?></td>
@@ -247,6 +246,7 @@
 
         $('#tbl_list_qa tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
+
             var row = qaTable.row(tr);
             if (row.child.isShown()) {
                 row.child.hide();
@@ -254,10 +254,11 @@
             } else {
                 row.child(format(row.data())).show();
                 tr.addClass('shown');
+                tr.next().addClass('bg-light');
             }
         });
         function format(d) {
-            return '<div class="alert alert-secondary"><b>' + d.answer + '</b></div>';
+            return '<div class="card collapse-card"><div class="card-body"><b>' + d.answer + '</b></div></div>';
         }
     });
 </script>
