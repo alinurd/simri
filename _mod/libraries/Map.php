@@ -136,13 +136,18 @@ class Map
 
     function draw_dashboard()
     {
-        $levelColor        = [
-            'low'              => "L",
-            'low-to-moderate'  => "LM",
-            'moderate'         => "M",
-            'moderate-to-high' => "MH",
-            'high'             => "H",
+        $levelColor = [
+            'low'              => [ "label" => "L", "value" => 0 ],
+            'low-to-moderate'  => [ "label" => "LM", "value" => 0 ],
+            'moderate'         => [ "label" => "M", "value" => 0 ],
+            'moderate-to-high' => [ "label" => "MH", "value" => 0 ],
+            'high'             => [ "label" => "H", "value" => 0 ],
         ];
+
+        foreach( $this->_data as $keySetNilai => $vNilai )
+        {
+            $levelColor[strtolower( url_title( $vNilai["tingkat"] ) )]["value"] += $vNilai["nilai"];
+        }
         $this->total_nilai = 0;
         $this->jmlstatus   = [];
         $getstatus         = $this->_ci->db->select( "tingkat,sum(nilai)as total_nilai, warna_bg" )->group_by( "tingkat" )->order_by( "level_order ASC" )->get( _TBL_VIEW_MATRIK_RCSA )->result_array();
@@ -154,7 +159,7 @@ class Map
         foreach( $getstatus as $keyStas => $vStats )
         {
 
-            $content .= "<td style='background-color:{$vStats["warna_bg"]};' class='text-center top-border'>{$vStats["total_nilai"]}</td>";
+            $content .= "<td style='background-color:{$vStats["warna_bg"]};' class='text-center top-border'>" . $levelColor[strtolower( url_title( $vStats["tingkat"] ) )]["value"] . "</td>";
 
             if( $keyStas == $lastIndex )
                 $content .= "</tr>";
@@ -165,7 +170,7 @@ class Map
             {
                 $content .= "<tr>";
             }
-            $content .= "<td class='remove-border'>{$levelColor[strtolower( url_title( $value['tingkat'] ) )]}</td>";
+            $content .= "<td class='remove-border'>{$levelColor[strtolower( url_title( $value['tingkat'] ) )]['label']}</td>";
 
             if( $key == $lastIndex )
                 $content .= "</tr>";
@@ -361,18 +366,24 @@ class Map
 
     function draw_profile_dashboard()
     {
-        $levelColor             = [
-            'low'              => "L",
-            'low-to-moderate'  => "LM",
-            'moderate'         => "M",
-            'moderate-to-high' => "MH",
-            'high'             => "H",
+        $levelColor = [
+            'low'              => [ "label" => "L", "value" => 0 ],
+            'low-to-moderate'  => [ "label" => "LM", "value" => 0 ],
+            'moderate'         => [ "label" => "M", "value" => 0 ],
+            'moderate-to-high' => [ "label" => "MH", "value" => 0 ],
+            'high'             => [ "label" => "H", "value" => 0 ],
         ];
+
         $this->total_nilai      = 0;
         $this->total_nilaiakhir = 0;
         $this->jmlstatus        = [];
         $this->jmlstatusakhir   = [];
         $getstatus              = $this->_ci->db->select( "tingkat,sum(nilai)as total_nilai, warna_bg" )->group_by( "tingkat" )->order_by( "level_order ASC" )->get( _TBL_VIEW_MATRIK_RCSA )->result_array();
+
+        foreach( $this->_data as $keySetNilai => $vNilai )
+        {
+            $levelColor[strtolower( url_title( $vNilai["tingkat"] ) )]["value"] += $vNilai["nilai"];
+        }
 
         $lastIndex = count( $getstatus ) - 1;
         $content   = "<table class='table-profil-dashboard'><tbody>";
@@ -381,7 +392,7 @@ class Map
         foreach( $getstatus as $keyStas => $vStats )
         {
 
-            $content .= "<td style='background-color:{$vStats["warna_bg"]};' class='text-center top-border'>{$vStats["total_nilai"]}</td>";
+            $content .= "<td style='background-color:{$vStats["warna_bg"]};' class='text-center top-border'>" . $levelColor[strtolower( url_title( $vStats["tingkat"] ) )]["value"] . "</td>";
 
             if( $keyStas == $lastIndex )
                 $content .= "</tr>";
@@ -392,7 +403,7 @@ class Map
             {
                 $content .= "<tr>";
             }
-            $content .= "<td class='remove-border'>{$levelColor[strtolower( url_title( $value['tingkat'] ) )]}</td>";
+            $content .= "<td class='remove-border'>{$levelColor[strtolower( url_title( $value['tingkat'] ) )]['label']}</td>";
 
             if( $key == $lastIndex )
                 $content .= "</tr>";
