@@ -711,4 +711,6 @@ if( ! function_exists( 'get_owner' ) )
 		return $hasil;
 	}
 }
-?>
+
+
+

@@ -1387,7 +1387,9 @@ class MY_Controller extends MX_Controller
 			case 'upload':
 				$content = '';
 				$o = '<img id="img_' . $label . '" style="margin-top:10px;"  width="' . $row['size_pic'] . '" src="" alt="image"/>';
+				// $o = '<img id="img_' . $label . '" style="margin-top:10px;"  width="' . $row['size_pic'] . '" src="' . setImageDefault( "" ) . '" alt="image"/>';
 				$oo = "";
+
 				if( ! empty( $isi ) )
 				{
 					$kel = 'image';
@@ -1407,6 +1409,12 @@ class MY_Controller extends MX_Controller
 						$info_ci = get_file_info( img_path_relative( $isi ) );
 						$url     = img_url( $isi );
 					}
+					/**
+					 * @change default image if image not exist
+					 */
+
+					$url = setImageDefault( $url );
+					/** end */
 					if( strtolower( $info['extension'] ) == "jpg" || strtolower( $info['extension'] ) == "png" || strtolower( $info['extension'] ) == "jpeg" || strtolower( $info['extension'] ) == "gif" || strtolower( $info['extension'] ) == "bmp" )
 					{
 						$o = '<img id="img_' . $label . '"  src="' . $url . '" alt="image" style="margin-top:10px;" class="detail-img pointer" width="' . $row['size_pic'] . '"  data-file="' . $isi . '" data-path="' . $pt[0] . '" />';
@@ -1424,7 +1432,7 @@ class MY_Controller extends MX_Controller
 					$oo = '<br/><span class="well"><span data-url="' . base_url( 'ajax/download_preview/' ) . '" data-target="' . $kel . '" data-file="' . $isi . '" class="preview_file pointer text-primary">' . $isi . '</span></span><br/><span style="padding-left:19px;">Size : ' . $size . '</span><br/>&nbsp;<br/>';
 				}
 				$content = $o . $oo;
-				$content .= '<small>note :<br/>Image type : [' . $row['file_type'] . ']<br/>Max Image Size : ' . number_format( floatval( $row['file_size'] ) / 1024, 2 ) . ' Mb</small><br/><div class="upload-btn-wrapper">
+				$content .= '<br><small>note :<br/>Image type : [' . $row['file_type'] . ']<br/>Max Image Size : ' . number_format( floatval( $row['file_size'] ) / 1024, 2 ) . ' Mb</small><br/><div class="upload-btn-wrapper">
 				<button class="btn">Upload a file</button>';
 				$content .= form_upload( $label, '', 'class="pointer" onchange="showMyImage(this,\'img_' . $label . '\')"' );
 				$content .= form_hidden( [ $label . '_tmp' => $isi ] );

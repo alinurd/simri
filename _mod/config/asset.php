@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if( ! defined( 'BASEPATH' ) ) exit( 'No direct script access allowed' );
 
 /**
  * Sekati CodeIgniter Asset Helper
@@ -50,15 +50,16 @@
 |
 */
 
-$config['asset_path'] 		= 'assets/';
-$config['css_path'] 		= 'assets/css/';
-$config['js_path'] 			= 'assets/js/';
-$config['img_path'] 		= 'assets/images/';
-$config['less_path'] 		= 'assets/less/';
-$config['swf_path'] 		= 'assets/swf/';
-$config['xml_path'] 		= 'assets/xml/';
-$config['font_path'] 		= 'assets/fonts/';
-$config['plugin_path'] 		= 'assets/vendors/';
-$config['file_path'] 	    = 'files/';
+$config['asset_path']    = 'assets/';
+$config['css_path']      = 'assets/css/';
+$config['js_path']       = 'assets/js/';
+$config['img_path']      = 'assets/images/';
+$config['less_path']     = 'assets/less/';
+$config['swf_path']      = 'assets/swf/';
+$config['xml_path']      = 'assets/xml/';
+$config['font_path']     = 'assets/fonts/';
+$config['plugin_path']   = 'assets/vendors/';
+$config['image_default'] = 'assets/default/';
+$config['file_path']     = 'files/';
 
 /* End of file asset.php */

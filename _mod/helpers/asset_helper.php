@@ -456,4 +456,22 @@ if( ! function_exists( 'google_analytics' ) )
         return $out;
     }
 }
+
+if( ! function_exists( 'setImageDefault' ) )
+{
+    function setImageDefault( $path )
+    {
+        $result = "";
+        $CI     =& get_instance();
+        if( ! empty( $path ) && file_exists( $path ) )
+        {
+            $result = $path;
+        }
+        else
+        {
+            $result = base_url() . $CI->config->item( 'image_default' ) . "image-not-found.jpg";
+        }
+        return $result;
+    }
+}
 /* End of file asset_helper.php */

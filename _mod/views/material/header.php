@@ -87,13 +87,31 @@ if( file_exists( file_path( $params['user']['photo'] ) ) )
         <span class="ml-md-3 mr-md-auto">&nbsp;</span>
 
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <span class="badge bg-primary badge-pill ml-md-3 mr-md-auto mt-1"> Periode <?= _TAHUN_; ?> -
+            <li class="nav-item" style="align-content:center;">
+                <span class="badge bg-primary badge-pill dropdown-item"> Periode
+                    <?= _TAHUN_; ?> -
                     <?= _TERM_; ?> - Bulan <?= date( 'F' ); ?> <!--- Minggu ke <?= _MINGGU_; ?> --> </span>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a target="_blank" href="<?= base_url( 'files/Pentunjuk_Penggunaan_Aplikasi_SIMRI.pdf' ) ?>"
                     class="dropdown-item bg-primary ml-2" id="modul-manual"><i class="icon-book"></i> Manual </a>
+            </li> -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="<?= $photo; ?>" width="38" height="38"
+                        class="rounded-circle border border-secondary shadow-sm" alt="">
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="<?= base_url( 'profile' ); ?>"><i class="icon-user"></i>Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item"
+                        href="<?= base_url( 'files/Pentunjuk_Penggunaan_Aplikasi_SIMRI.pdf' ) ?>"><i
+                            class="icon-book"></i>Manual</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="<?= base_url( 'auth/logout' ); ?>"><i class="icon-enter3"></i>Log
+                        Out</a>
+                </div>
             </li>
             <?php
             if( $params['show_right_sidebar'] ) : ?>
