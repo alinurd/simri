@@ -108,6 +108,7 @@ class Dashboard extends MY_Controller
 		$this->db->where( 'status_final', 1 );
 
 		$rows = $this->db->SELECT( 'risiko_inherent as id, COUNT(risiko_inherent) as nilai, level_color, level_color_residual, level_color_target' )->group_by( 'risiko_inherent' )->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
+
 		// ->get_compiled_select(_TBL_VIEW_RCSA_DETAIL);
 		// dumps($rows);
 		// die();
