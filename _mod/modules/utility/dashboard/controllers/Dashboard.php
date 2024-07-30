@@ -226,13 +226,12 @@ class Dashboard extends MY_Controller
 
 	function startupNotif( $urlPath )
 	{
-
 		$getMessageContent = str_replace( "[[expired_date]]", $this->configuration['preference']['password_expr'], $this->configuration['preference']['startup_message'] );
-		$data              = array(
-		"title"   => $this->configuration["preference"]['startup_title'],
-		"message" => $getMessageContent,
-		"status"  => ( in_array( "login", explode( "/", $urlPath ) ) ) ? TRUE : FALSE,
-		  );
+		$data              = [
+		  "title"   => $this->configuration["preference"]['startup_title'],
+		  "message" => $getMessageContent,
+		  "status"  => ( in_array( "login", explode( "/", $urlPath ) ) || isset( explode( "/", $urlPath )[3] ) && explode( "/", $urlPath )[3] == "" ) ? TRUE : FALSE,
+		  ];
 
 		return $data;
 	}
