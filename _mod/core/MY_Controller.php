@@ -2762,6 +2762,10 @@ class MY_Controller extends MX_Controller
 			++$level;
 			foreach( $ad['children'] as $row )
 			{
+				if( $level > 3 && $this->modul_name == "risk-context" )
+				{
+					continue;
+				}
 				$this->buildItem_parent_dept( $row, $level );
 			}
 		}
