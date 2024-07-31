@@ -33,7 +33,7 @@ class Map
 
     function _clear()
     {
-        $rows = $this->_ci->db->order_by( "code_impact DESC,code_likelihood ASC" )->get( _TBL_VIEW_MATRIK_RCSA )->result_array();
+        $rows = $this->_ci->db->order_by( "code_likelihood DESC,code_impact ASC" )->get( _TBL_VIEW_MATRIK_RCSA )->result_array();
 
         $this->_data = [];
         foreach( $rows as $key => $row )
@@ -193,13 +193,13 @@ class Map
 
             $notif = '<strong>' . $vData['tingkat'] . '</strong><br/>Standar Nilai :<br/>Impact: [ >' . $vData['bawah_impact'] . ' s.d <=' . $vData['atas_impact'] . ']<br/>Likelihood: [ >' . $vData['bawah_like'] . ' s.d <=' . $vData['atas_like'] . ']';
 
-            switch( (int) $vData['code_impact'] )
+            switch( (int) $vData['code_likelihood'] )
             {
                 case 5:
-                    switch( (int) $vData["code_likelihood"] )
+                    switch( (int) $vData["code_impact"] )
                     {
                         case 1:
-                            $content .= "<tr><td rowspan='5' class='rotate remove-border' style='letter-spacing:8px;font: weight 400px;font-size:15px;writing-mode:tb;'>IMPACT</td><td class='remove-border'>{$vData["code_impact"]}</td>";
+                            $content .= "<tr><td rowspan='5' class='rotate remove-border' style='letter-spacing:8px;font: weight 400px;font-size:15px;writing-mode:tb;'>LIKELIHOOD</td><td class='remove-border'>{$vData["code_likelihood"]}</td>";
                             $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta" style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:16px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: x-small;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                         case 5:
@@ -212,10 +212,10 @@ class Map
                     }
                     break;
                 case 4:
-                    switch( (int) $vData["code_likelihood"] )
+                    switch( (int) $vData["code_impact"] )
                     {
                         case 1:
-                            $content .= "<tr><td class='remove-border'>{$vData["code_impact"]}</td>";
+                            $content .= "<tr><td class='remove-border'>{$vData["code_likelihood"]}</td>";
                             $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta" style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:16px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: x-small;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                         case 5:
@@ -228,10 +228,10 @@ class Map
                     }
                     break;
                 case 3:
-                    switch( (int) $vData["code_likelihood"] )
+                    switch( (int) $vData["code_impact"] )
                     {
                         case 1:
-                            $content .= "<tr><td  class='remove-border'>{$vData["code_impact"]}</td>";
+                            $content .= "<tr><td  class='remove-border'>{$vData["code_likelihood"]}</td>";
                             $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta" style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:16px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: x-small;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                         case 5:
@@ -245,10 +245,10 @@ class Map
                     }
                     break;
                 case 2:
-                    switch( (int) $vData["code_likelihood"] )
+                    switch( (int) $vData["code_impact"] )
                     {
                         case 1:
-                            $content .= "<tr><td  class='remove-border'>{$vData["code_impact"]}</td>";
+                            $content .= "<tr><td  class='remove-border'>{$vData["code_likelihood"]}</td>";
                             $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta" style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:16px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: x-small;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                         case 5:
@@ -261,10 +261,10 @@ class Map
                     }
                     break;
                 case 1:
-                    switch( (int) $vData["code_likelihood"] )
+                    switch( (int) $vData["code_impact"] )
                     {
                         case 1:
-                            $content .= "<tr><td  class='remove-border'>{$vData["code_impact"]}</td>";
+                            $content .= "<tr><td  class='remove-border'>{$vData["code_likelihood"]}</td>";
                             $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta" style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:16px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: x-small;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                         case 5:
@@ -282,7 +282,7 @@ class Map
 
         }
         $content .= "<tr><td class='remove-border'></td><td class='remove-border'></td><td class='remove-border'>1</td><td class='remove-border'>2</td><td class='remove-border'>3</td><td class='remove-border'>4</td><td class='remove-border'>5</td></tr>";
-        $content .= "<tr><td class='remove-border'></td><td class='remove-border'></td><td class='remove-border' colspan='5' style='text-align:center;letter-spacing:8px;font-weight:400px;font-size:15px;'>LIKELIHOOD</td></tr>";
+        $content .= "<tr><td class='remove-border'></td><td class='remove-border'></td><td class='remove-border' colspan='5' style='text-align:center;letter-spacing:8px;font-weight:400px;font-size:15px;'>IMPACT</td></tr>";
         $content .= "</tbody></table>";
         // var_dump( $content );
         // exit;
@@ -459,13 +459,13 @@ class Map
 
             $notif = '<strong>' . $vData['tingkat'] . '</strong><br/>Standar Nilai :<br/>Impact: [ >' . $vData['bawah_impact'] . ' s.d <=' . $vData['atas_impact'] . ']<br/>Likelihood: [ >' . $vData['bawah_like'] . ' s.d <=' . $vData['atas_like'] . ']';
 
-            switch( (int) $vData['code_impact'] )
+            switch( (int) $vData['code_likelihood'] )
             {
                 case 5:
-                    switch( (int) $vData["code_likelihood"] )
+                    switch( (int) $vData["code_impact"] )
                     {
                         case 1:
-                            $content .= "<tr><td rowspan='5' class='rotate remove-border' style='letter-spacing:8px;font: weight 400px;font-size:15px;writing-mode:tb;'>IMPACT</td><td class='remove-border'>{$vData["code_impact"]}</td>";
+                            $content .= "<tr><td rowspan='5' class='rotate remove-border' style='letter-spacing:8px;font: weight 400px;font-size:15px;writing-mode:tb;'>LIKELIHOOD</td><td class='remove-border'>{$vData["code_likelihood"]}</td>";
                             $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointerx" style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:16px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: x-small;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                         case 5:
@@ -478,10 +478,10 @@ class Map
                     }
                     break;
                 case 4:
-                    switch( (int) $vData["code_likelihood"] )
+                    switch( (int) $vData["code_impact"] )
                     {
                         case 1:
-                            $content .= "<tr><td class='remove-border'>{$vData["code_impact"]}</td>";
+                            $content .= "<tr><td class='remove-border'>{$vData["code_likelihood"]}</td>";
                             $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointerx" style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:16px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: x-small;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                         case 5:
@@ -494,10 +494,10 @@ class Map
                     }
                     break;
                 case 3:
-                    switch( (int) $vData["code_likelihood"] )
+                    switch( (int) $vData["code_impact"] )
                     {
                         case 1:
-                            $content .= "<tr><td  class='remove-border'>{$vData["code_impact"]}</td>";
+                            $content .= "<tr><td  class='remove-border'>{$vData["code_likelihood"]}</td>";
                             $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointerx" style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:16px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: x-small;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                         case 5:
@@ -511,10 +511,10 @@ class Map
                     }
                     break;
                 case 2:
-                    switch( (int) $vData["code_likelihood"] )
+                    switch( (int) $vData["code_impact"] )
                     {
                         case 1:
-                            $content .= "<tr><td  class='remove-border'>{$vData["code_impact"]}</td>";
+                            $content .= "<tr><td  class='remove-border'>{$vData["code_likelihood"]}</td>";
                             $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointerx" style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:16px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: x-small;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                         case 5:
@@ -527,10 +527,10 @@ class Map
                     }
                     break;
                 case 1:
-                    switch( (int) $vData["code_likelihood"] )
+                    switch( (int) $vData["code_impact"] )
                     {
                         case 1:
-                            $content .= "<tr><td  class='remove-border'>{$vData["code_impact"]}</td>";
+                            $content .= "<tr><td  class='remove-border'>{$vData["code_likelihood"]}</td>";
                             $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointerx" style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:16px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: x-small;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                         case 5:
@@ -548,7 +548,7 @@ class Map
 
         }
         $content .= "<tr><td class='remove-border'></td><td class='remove-border'></td><td class='remove-border'>1</td><td class='remove-border'>2</td><td class='remove-border'>3</td><td class='remove-border'>4</td><td class='remove-border'>5</td></tr>";
-        $content .= "<tr><td class='remove-border'></td><td class='remove-border'></td><td class='remove-border' colspan='5' style='text-align:center;letter-spacing:8px;font-weight:400px;font-size:15px;'>LIKELIHOOD</td></tr>";
+        $content .= "<tr><td class='remove-border'></td><td class='remove-border'></td><td class='remove-border' colspan='5' style='text-align:center;letter-spacing:8px;font-weight:400px;font-size:15px;'>IMPACT</td></tr>";
         $content .= "</tbody></table>";
         // var_dump( $content );
         // exit;
