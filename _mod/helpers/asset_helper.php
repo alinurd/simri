@@ -461,16 +461,14 @@ if( ! function_exists( 'setImageDefault' ) )
 {
     function setImageDefault( $path )
     {
+
         $result = "";
         $CI     =& get_instance();
-        if( ! empty( $path ) && file_exists( $path ) )
-        {
-            $result = $path;
-        }
-        else
+        if( empty( $path ) || ! file_exists( $path ) )
         {
             $result = base_url() . $CI->config->item( 'image_default' ) . "image-not-found.jpg";
         }
+
         return $result;
     }
 }
