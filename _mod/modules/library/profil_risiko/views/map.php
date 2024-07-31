@@ -95,86 +95,114 @@
 </style>
 <div class="row">
     <div class="col-md-4 text-center">
-        <div class="row">
-            <div class="col-md-12">
-                <h6>Inherent <?= ! empty( $jml_inherent ) ? $jml_inherent : 0; ?>
-                </h6>
-                <?= $map_inherent ?>
+        <div class="card">
+            <div class="card-body bg-light">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6>Inherent <?= ! empty( $jml_inherent ) ? $jml_inherent : 0; ?>
+                        </h6>
+                        <?= $map_inherent ?>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <?= $jml_inherent_status; ?>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 text-center">
-        <div class="row">
-            <div class="col-md-12">
-                <h6>Current <?= ! empty( $jml_residual ) ? $jml_residual : 0; ?>
-                </h6>
-                <?= $map_residual ?>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <?= $jml_residual_status; ?>
+            <div class="card-footer">
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <?= $jml_inherent_status; ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="col-md-4 text-center">
-        <div class="row">
-            <div class="col-md-12">
-                <h6>Residual <?= ! empty( $jml_target ) ? $jml_target : 0; ?>
-                </h6>
-                <?= $map_target ?>
+        <div class="card">
+            <div class="card-body bg-light">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6>Current <?= ! empty( $jml_residual ) ? $jml_residual : 0; ?>
+                        </h6>
+                        <?= $map_residual ?>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <?= $jml_residual_status; ?>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <?= $jml_target_status; ?>
+    </div>
+    <div class="col-md-4 text-center">
+        <div class="card">
+            <div class="card-body bg-light">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6>Residual <?= ! empty( $jml_target ) ? $jml_target : 0; ?>
+                        </h6>
+                        <?= $map_target ?>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8">
+                        <?= $jml_target_status; ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row justify-content-center mb-3">
-    <div class="col-md-3">
-        <table class="table-legend">
-            <tbody>
-                <tr>
-                    <td>
-                        <h6 class="text-center font-weight-bold m-0">LIKELIHOOD</h6>
-                    </td>
-                </tr>
-                <?php foreach( $legendLikelihoodMatrix as $keyLegendLikelihood => $vLegendLikelihood )
-                { ?>
-                    <tr class="pr-3">
-                        <td class="">
-                            <?= "&nbsp;&nbsp;&nbsp;" . $keyLegendLikelihood . ".&nbsp;&nbsp;" . $vLegendLikelihood ?>
-                        </td>
-                    </tr>
-                    <?php
-                } ?>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-md-3">
-        <table class="table-legend">
-            <tbody>
-                <tr>
-                    <td>
-                        <h6 class="text-center font-weight-bold m-0">IMPACT</h6>
-                    </td>
-                </tr>
-                <?php foreach( $legendImpactMatrix as $keyLegendimpact => $vLegendImpact )
-                { ?>
-                    <tr class="pr-3">
-                        <td class=""><?= "&nbsp;&nbsp;&nbsp;" . $keyLegendimpact . ".&nbsp;&nbsp;" . $vLegendImpact ?></td>
-                    </tr>
-                    <?php
-                } ?>
-            </tbody>
-        </table>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body bg-light">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <table class="table table-sm table-legend">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h6 class="text-center font-weight-bold m-0">LIKELIHOOD</h6>
+                                    </td>
+                                </tr>
+                                <?php foreach( $legendLikelihoodMatrix as $keyLegendLikelihood => $vLegendLikelihood )
+                                { ?>
+                                    <tr class="pr-3">
+                                        <td class="">
+                                            <?= "&nbsp;&nbsp;&nbsp;" . $keyLegendLikelihood . ".&nbsp;&nbsp;" . $vLegendLikelihood ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-sm table-legend">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h6 class="text-center font-weight-bold m-0">IMPACT</h6>
+                                    </td>
+                                </tr>
+                                <?php foreach( $legendImpactMatrix as $keyLegendimpact => $vLegendImpact )
+                                { ?>
+                                    <tr class="pr-3">
+                                        <td class="">
+                                            <?= "&nbsp;&nbsp;&nbsp;" . $keyLegendimpact . ".&nbsp;&nbsp;" . $vLegendImpact ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
