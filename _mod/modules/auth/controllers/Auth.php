@@ -1180,6 +1180,7 @@ class Auth extends MY_Controller
 		{
 			$setExpiredAt = date( "Y-m-d", strtotime( "+{$getPref["value"]} days", strtotime( $userDate ) ) );
 			$dataUpdt     = [
+			 "updated_at" => date( "Y-m-d H:i:s" ),
 			 "expired_at" => $setExpiredAt,
 			 "sts_update" => 1,
 			];

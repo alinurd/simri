@@ -22,7 +22,7 @@ class Profile extends MY_Controller
 		$this->addField( [ 'field' => 'id', 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'username', 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'photo', 'input' => 'upload', 'path' => 'file/staft', 'file_thumb' => TRUE ] );
-		$this->addField( [ 'field' => 'nip', 'required' => TRUE, "readonly" => "readonly", 'search' => TRUE, 'size' => 50 ] );
+		$this->addField( [ 'field' => 'nip', "readonly" => "readonly", 'search' => TRUE, 'size' => 50 ] );
 		$this->addField( [ 'field' => 'real_name', "readonly" => "readonly", 'required' => TRUE, 'search' => TRUE, 'size' => 50, "title" => "Name", "save" => FALSE ] );
 		$this->addField( [ 'field' => 'email', 'size' => 50, 'required' => TRUE ] );
 
@@ -127,12 +127,24 @@ class Profile extends MY_Controller
 		}
 		$this->crud->crud_field( 'email', $new_data['email'] );
 		$this->crud->crud_field( 'updated_by', $this->ion_auth->get_user_name() );
+		$this->crud->process_crud();
 
+		$users = $this->db->where( 'id', $id )->get( _TBL_USERS )->row();
 		if( ! empty( $new_data['password'] ) )
 			$result = $this->ion_auth->reset_password( $new_data['username'], $new_data['password'] );
 
-		$this->crud->process_crud();
-
+		if( ! empty( $users->updated_at ) && ! empty( $users->password ) )
+		{
+			$getPref      = $this->db->get_where( _TBL_PREFERENCE, [ "uri_title" => "password_expr" ] )->row_array();
+			$userDate     = date( "Y-m-d", strtotime( $users->updated_at ) );
+			$setExpiredAt = date( "Y-m-d", strtotime( "+{$getPref["value"]} days", strtotime( $userDate ) ) );
+			$dataUpdt     = [
+			 "updated_at" => date( "Y-m-d H:i:s" ),
+			 "expired_at" => $setExpiredAt,
+			 "sts_update" => 1,
+			];
+			$this->db->update( _TBL_USERS, $dataUpdt, [ "id" => $users->id ] );
+		}
 		return $result;
 	}
 

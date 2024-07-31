@@ -267,6 +267,7 @@ class Officer extends MY_Controller
 				$userDate     = date( "Y-m-d", strtotime( $users->updated_at ) );
 				$setExpiredAt = date( "Y-m-d", strtotime( "+{$getPref["value"]} days", strtotime( $userDate ) ) );
 				$dataUpdt     = [
+				 "updated_at" => date( "Y-m-d H:i:s" ),
 				 "expired_at" => $setExpiredAt,
 				 "sts_update" => 1,
 				];
