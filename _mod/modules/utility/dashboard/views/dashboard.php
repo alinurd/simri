@@ -208,7 +208,7 @@
                         <h3><?= $notif_startup["title"] ?></h3>
                     </div>
                     <div class="card-body">
-                        <?= $notif_startup["message"] ?>
+                        <?= html_entity_decode( $notif_startup["message"] ) ?>
                     </div>
                 </div>
             </div>
