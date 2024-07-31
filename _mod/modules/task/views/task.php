@@ -132,7 +132,7 @@
                 <a data-toggle="collapse" href="#collapseQa" role="button" aria-expanded="true"
                     aria-controls="collapseQa">
                     <legend class="text-uppercase font-size-lg text-primary font-weight-bold"><i class="icon-grid"></i>
-                        Question & Answer</legend>
+                        Frequently Asked Question</legend>
                 </a>
             </h3>
             <div class="collapse.show" id="collapseQa">
