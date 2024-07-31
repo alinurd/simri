@@ -171,7 +171,7 @@
 
 <script>
     <?php
-    $setLabelDatatable = '<span class="text-warning" style="font-style: italic;"><i class="fa fa-info-circle"></i> Untuk Pertanyaan Lebih Lanjut Silahkan Menghubungi Manajemen Risiko </span>';
+    $setLabelDatatable = '<span class="text-warning" style="font-style: italic;"><i class="fa fa-info-circle"></i> Untuk Pertanyaan Lebih Lanjut Silahkan Menghubungi Manajemen Risiko. </span>';
     ?>
     $(document).ready(function () {
         $('#tbl_list_mitigasi').DataTable({
