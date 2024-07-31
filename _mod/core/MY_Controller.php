@@ -1412,12 +1412,11 @@ class MY_Controller extends MX_Controller
 					/**
 					 * @change default image if image not exist
 					 */
-
 					$url = setImageDefault( $url );
 					/** end */
 					if( strtolower( $info['extension'] ) == "jpg" || strtolower( $info['extension'] ) == "png" || strtolower( $info['extension'] ) == "jpeg" || strtolower( $info['extension'] ) == "gif" || strtolower( $info['extension'] ) == "bmp" )
 					{
-						$o = '<img id="img_' . $label . '"  src="' . $url . '" alt="image" style="margin-top:10px;" class="detail-img pointer" width="' . $row['size_pic'] . '"  data-file="' . $isi . '" data-path="' . $pt[0] . '" />';
+						$o = '<img id="img_' . $label . '"  src="' . $url . '" alt="image" style="margin-top:10px;" class="detail-img pointer" width="' . $row['size_pic'] . '"  data-file="' . $url . '" data-path="' . $pt[0] . '" />';
 					}
 					$nmFunc = $kel . '_path_relative';
 					$size   = 0;

@@ -364,7 +364,8 @@ $(function () {
   });
 
   $(document).on("click", ".detail-img", function () {
-    var url = base_url + "files/" + $(this).data("file");
+    // var url = base_url + "files/" + $(this).data("file");
+    var url = $(this).data("file");
     var img =
       '<div class="row"><div class="col-xl-12 text-center"><img src="' +
       url +
