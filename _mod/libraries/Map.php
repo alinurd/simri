@@ -154,7 +154,7 @@ class Map
 
         $lastIndex = count( $getstatus ) - 1;
         $content   = "<table class='table-dashboard'><tbody>";
-        $content .= "<tr><td rowspan='2' colspan='2' class='remove-border' style='font-weight:400px;font-size:15px;'>Overall Rating</td>";
+        $content .= "<tr><td rowspan='2' colspan='2' class='remove-border' style='font-weight:400px;font-size:15px;'></td>";//Overall Rating
 
         foreach( $getstatus as $keyStas => $vStats )
         {
@@ -387,7 +387,7 @@ class Map
 
         $lastIndex = count( $getstatus ) - 1;
         $content   = "<table class='table-profil-dashboard'><tbody>";
-        $content .= "<tr><td rowspan='2' colspan='2' class='remove-border' style='font-weight:400px;font-size:15px;'>Overall Rating</td>";
+        $content .= "<tr><td rowspan='2' colspan='2' class='remove-border' style='font-weight:400px;font-size:15px;'></td>";//Overall Rating
 
         foreach( $getstatus as $keyStas => $vStats )
         {
