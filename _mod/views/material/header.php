@@ -100,7 +100,7 @@ if( file_exists( file_path( $params['user']['photo'] ) ) )
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="<?= $photo; ?>" width="38" height="38"
-                        class="rounded-circle border border-secondary shadow-sm" alt="">
+                        class="img-fluid rounded-circle border border-secondary shadow-sm" alt="">
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="<?= base_url( 'profile' ); ?>"><i class="icon-user"></i>Profile</a>
