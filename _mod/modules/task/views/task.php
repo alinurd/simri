@@ -167,10 +167,12 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <script>
+    <?php
+    $setLabelDatatable = '<span class="text-warning" style="font-style: italic;"><i class="fa fa-info-circle"></i> Untuk Pertanyaan Lebih Lanjut Silahkan Menghubungi Manajemen Risiko </span>';
+    ?>
     $(document).ready(function () {
         $('#tbl_list_mitigasi').DataTable({
             pageLength: 10,
@@ -222,7 +224,7 @@
             language: {
                 "decimal": '<?= lang( 'decimal' ); ?>',
                 "emptyTable": '<?= lang( 'emptyTable' ); ?>',
-                "info": '<?= lang( 'info' ); ?>',
+                "info": '<?= lang( 'info' ); ?>' + '<br>' + '<br>' + '<?= $setLabelDatatable ?>',
                 "infoEmpty": '<?= lang( 'infoEmpty' ); ?>',
                 "infoFiltered": '<?= lang( 'infoFiltered' ); ?>',
                 "infoPostFix": '<?= lang( 'infoPostFix' ); ?>',
@@ -243,7 +245,7 @@
                     "sortDescending": '<?= lang( 'sortDescending' ); ?>',
                 }
             },
-            dom: "<'row'<'col-sm-5'i><'col-sm-7'p><'col-sm-6'l><'col-sm-6'f>>" +
+            dom: "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         })
