@@ -140,9 +140,9 @@
         </div>
     </div>
 </div>
-<div class="row justify-content-center mb-3">
+<div class="row justify-content-center mt-2 mb-3">
     <div class="col-md-3">
-        <table class="table-legend">
+        <table class="table table-sm table-legend">
             <tbody>
                 <tr>
                     <td>
@@ -153,7 +153,7 @@
                 { ?>
                     <tr class="pr-3">
                         <td class="">
-                            <?= "&nbsp;&nbsp;&nbsp;" . $keyLegendLikelihood . ".&nbsp;&nbsp;" . $vLegendLikelihood ?>
+                            <?= $keyLegendLikelihood . ".&nbsp;&nbsp;" . $vLegendLikelihood ?>
                         </td>
                     </tr>
                     <?php
@@ -162,7 +162,7 @@
         </table>
     </div>
     <div class="col-md-3">
-        <table class="table-legend">
+        <table class="table table-sm table-legend">
             <tbody>
                 <tr>
                     <td>
@@ -172,7 +172,7 @@
                 <?php foreach( $legendImpactMatrix as $keyLegendImpact => $vLegendImpact )
                 { ?>
                     <tr class="pr-3">
-                        <td class=""><?= "&nbsp;&nbsp;&nbsp;" . $keyLegendImpact . ".&nbsp;&nbsp;" . $vLegendImpact ?></td>
+                        <td class=""><?= $keyLegendImpact . ".&nbsp;&nbsp;" . $vLegendImpact ?></td>
                     </tr>
                     <?php
                 } ?>
