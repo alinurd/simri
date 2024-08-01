@@ -38,7 +38,7 @@ class Task extends MY_Controller
 		 'show_list_header'    => FALSE,
 		 'box_list_header'     => TRUE,
 		 'show_title_header'   => FALSE,
-		 'content_title'       => 'Taks & QA',
+		 'content_title'       => 'Taks & FAQ',
 		];
 		return [
 		 'configuration' => $configuration,
