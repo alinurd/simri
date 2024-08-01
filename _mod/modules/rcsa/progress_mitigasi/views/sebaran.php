@@ -58,8 +58,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <?php
+                                                    		$m = $this->db->where('rcsa_detail_id', 15354)->get("il_view_monitoring")->row_array();
+                                                             ?>
                                                     <tr>
-                                                        <td>Content for Januari</td>
+                                                        <td>
+                                                            <span class="btn" style="background-color: <?=$m['color'];?>; color: <?=$m['color_text'];?>;"> <?=$m['level_color'];?></span>
+                                                        </td>
                                                         <td>Content for Februari</td>
                                                         <td>Content for Maret</td>
                                                         <td>Content for April</td>
