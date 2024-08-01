@@ -30,7 +30,7 @@
     .table-dashboard tr,
     td {
         width: 25px !important;
-        height: 40px !important;
+        height: 35px !important;
     }
 
 
@@ -96,19 +96,19 @@
 <div class="row">
     <div class="col-md-4 text-center">
         <div class="card">
-            <div class="card-body bg-light">
+            <div class="card-body bg-light pb-0 pl-0">
                 <div class="row">
                     <div class="col-md-12">
-                        <h6>Inherent
+                        <h6 class="font-weight-bold">Inherent
                             <?= ! empty( $jml_inherent ) ? $jml_inherent : ""; ?>
                         </h6>
                         <?= $map_inherent ?>
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
+            <div class="card-footer pb-0">
                 <div class="row justify-content-center mt-3">
-                    <div class="col-md-8">
+                    <div class="col-md-10">
                         <?= $jml_inherent_status; ?>
                     </div>
                 </div>
@@ -117,19 +117,19 @@
     </div>
     <div class="col-md-4 text-center">
         <div class="card">
-            <div class="card-body bg-light">
+            <div class="card-body bg-light pb-0 pl-0">
                 <div class="row">
                     <div class="col-md-12">
-                        <h6>Current
+                        <h6 class="font-weight-bold">Current
                             <?= ! empty( $jml_residual ) ? $jml_residual : ""; ?>
                         </h6>
                         <?= $map_residual ?>
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
+            <div class="card-footer pb-0">
                 <div class="row justify-content-center mt-3">
-                    <div class="col-md-8">
+                    <div class="col-md-10">
                         <?= $jml_residual_status; ?>
                     </div>
                 </div>
@@ -138,19 +138,19 @@
     </div>
     <div class="col-md-4 text-center">
         <div class="card">
-            <div class="card-body bg-light">
+            <div class="card-body bg-light pb-0 pl-0">
                 <div class="row">
                     <div class="col-md-12">
-                        <h6>Residual
+                        <h6 class="font-weight-bold">Residual
                             <?= ! empty( $jml_target ) ? $jml_target : ""; ?>
                         </h6>
                         <?= $map_target ?>
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
+            <div class="card-footer pb-0">
                 <div class="row justify-content-center mt-3">
-                    <div class="col-md-8">
+                    <div class="col-md-10">
                         <?= $jml_target_status; ?>
                     </div>
                 </div>

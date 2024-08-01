@@ -33,11 +33,12 @@ if( empty( $message ) )
         <i class="icon-lock2 text-muted"></i>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group mt-3">
       <button type="submit" class="btn btn-primary btn-block"><?= lang( 'login_submit_btn' ); ?><i
           class="icon-circle-right2 ml-2"></i></button>
     </div>
-
+  </div>
+  <div class="card-footer">
     <div class="text-center">
       <a href="recovery-password"><?php echo lang( 'login_forgot_password' ); ?></a>
     </div>

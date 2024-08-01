@@ -13,7 +13,7 @@
     .table-profil-dashboard tr,
     td {
         width: 25px !important;
-        height: 40px !important;
+        height: 35px !important;
     }
 
 
@@ -55,10 +55,10 @@
 <div class="row">
     <div class="col-md-4 text-center">
         <div class="card">
-            <div class="card-body bg-light">
+            <div class="card-body bg-light pb-0 pl-0">
                 <div class="row">
                     <div class="col-md-12">
-                        <h6>Inherent <?= ! empty( $jml_inherent ) ? $jml_inherent : 0; ?>
+                        <h6 class="font-weight-bold">Inherent <?= ! empty( $jml_inherent ) ? $jml_inherent : 0; ?>
                         </h6>
                         <?= $map_inherent ?>
                     </div>
@@ -68,10 +68,10 @@
     </div>
     <div class="col-md-4 text-center">
         <div class="card">
-            <div class="card-body bg-light">
+            <div class="card-body bg-light pb-0 pl-0">
                 <div class="row">
                     <div class="col-md-12">
-                        <h6>Current <?= ! empty( $jml_residual ) ? $jml_residual : 0; ?>
+                        <h6 class="font-weight-bold">Current <?= ! empty( $jml_residual ) ? $jml_residual : 0; ?>
                         </h6>
                         <?= $map_residual ?>
                     </div>
@@ -81,10 +81,10 @@
     </div>
     <div class="col-md-4 text-center">
         <div class="card">
-            <div class="card-body bg-light">
+            <div class="card-body bg-light pb-0 pl-0">
                 <div class="row">
                     <div class="col-md-12">
-                        <h6>Residual <?= ! empty( $jml_target ) ? $jml_target : 0; ?>
+                        <h6 class="font-weight-bold">Residual <?= ! empty( $jml_target ) ? $jml_target : 0; ?>
                         </h6>
                         <?= $map_target ?>
                     </div>

@@ -1386,8 +1386,8 @@ class MY_Controller extends MX_Controller
 				break;
 			case 'upload':
 				$content = '';
-				$o = '<img id="img_' . $label . '" style="margin-top:10px;"  width="' . $row['size_pic'] . '" src="" alt="image"/>';
-				// $o = '<img id="img_' . $label . '" style="margin-top:10px;"  width="' . $row['size_pic'] . '" src="' . setImageDefault( "" ) . '" alt="image"/>';
+				// $o = '<img id="img_' . $label . '" style="margin-top:10px;"  width="' . $row['size_pic'] . '" src="" alt="image"/>';
+				$o = '<img id="img_' . $label . '" style="margin-top:10px;"  width="' . $row['size_pic'] . '" src="' . setImageDefault( "" ) . '" alt="image"/>';
 				$oo = "";
 
 				if( ! empty( $isi ) )

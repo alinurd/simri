@@ -275,13 +275,13 @@ $(function () {
       closeWith: "button",
       type: "confirm",
       buttons: [
-        Noty.button("Cancel", "btn btn-link", function () {
+        Noty.button("<i class='icon-undo2 mr-2'></i>Cancel", "btn btn-outline-secondary pull-left", function () {
           notyConfirm.close();
         }),
 
         Noty.button(
-          'Delete <i class="icon-paperplane ml-2"></i>',
-          "btn bg-blue ml-1",
+          '<i class="icon-trash mr-2"></i> Delete',
+          "btn btn-danger ml-1",
           function () {
             notyConfirm.close();
             window.location.replace(x.attr("href"));
