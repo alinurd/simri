@@ -14,7 +14,7 @@
                                     <th>Stakeholder</th>
                                     <th>Tipe Ass</th>
                                     <th>Tahun</th>
-                                    <th>Periode</th>
+                                    <th class="text-center">Periode</th>
                                     <th>Status Mitigasi</th>
                                     <th>Tgl Propose Mitigasi</th>
                                     <th>Laporan</th>
@@ -31,7 +31,7 @@
                                         <td><?= $q['stakeholder_id'] ?></td>
                                         <td><?= $q['type_ass'] ?></td>
                                         <td><?= $q['period_name'] ?></td>
-                                        <td><?= $q['term'] ?> (<?= $q['tgl_mulai_term'] ?> - <?= $q['tgl_selesai_term'] ?>)</td>
+                                        <td class="text-center"><?= $q['term'] ?> <br> (<?= $q['tgl_mulai_term'] ?> - <?= $q['tgl_selesai_term'] ?>)</td>
                                         <td><?= $q['status_id_mitigasi'] ?></td>
                                         <td><?= $q['tgl_propose'] ?></td>
                                         <td>
