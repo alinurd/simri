@@ -23,6 +23,7 @@
                     <?php
                     $no = 1;
                     foreach ($overdue as $q) :
+                        // doi::dump($q);
                         $arr_pic = json_decode($q['penanggung_jawab_id']);
                         $rows = $this->db->where_in('owner_no', $arr_pic)->where('sts_owner', 1)->get(_TBL_VIEW_OFFICER)->result_array();
                         $log = $this->db->where('ref_id', $q['id'])->get("il_log_send_email")->result_array();
@@ -42,7 +43,7 @@
                     ?>
                         <tr class="<?= ($days_overdue_sign == '-' && $days_overdue > 3) ? 'table-danger' : '' ?>">
                             <td><?= $no++ ?></td>
-                            <td><b><?= $q['kode_dept'] ?></b><?= $q['owner_name'] ?></td>
+                            <td><b><?= $q['rcsa_mitigasi_id'] ?></b> - <?= $q['owner_name'] ?></td>
                             <td><?= $q['risiko_dept'] ?></td>
                             <td><?= $q['batas_waktu'] ?></td>
                             <td><?= $q['updated_at'] ?></td>
@@ -68,14 +69,14 @@
         <div class="collapse" id="collapseupcoming">
             <table class="table table-hover" id="tbl_list_mitigasi">
                 <thead>
-                    <tr>
+                <tr>
                         <th>No</th>
                         <th><?= _l('fld_owner_name'); ?></th>
                         <th><?= _l('risiko_dept'); ?></th>
                         <th><?= _l('fld_due_date'); ?></th>
-                        <th><?= _l('fld_updated_at'); ?></th>
+                        <th><?= _l('fld_tgl_update'); ?></th>
                         <th><?= _l('pic'); ?></th>
-                        <th>Days Left</th>
+                        <th>Days Overdue</th>
                         <th width="15%" class="text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -101,7 +102,7 @@
                     ?>
                         <tr class="<?= ($days_left_sign == '-' && $days_left > 3) ? 'table-danger' : '' ?>">
                             <td><?= $no++ ?></td>
-                            <td><b><?= $q['kode_dept'] ?></b><?= $q['owner_name'] ?></td>
+                            <td><b><?= $q['kode_dept'] ?></b> - <?= $q['owner_name'] ?></td>
                             <td><?= $q['risiko_dept'] ?></td>
                             <td><?= $q['batas_waktu'] ?></td>
                             <td><?= $q['updated_at'] ?></td>
