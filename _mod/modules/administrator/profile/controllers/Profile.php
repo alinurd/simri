@@ -127,13 +127,14 @@ class Profile extends MY_Controller
 		}
 		$this->crud->crud_field( 'email', $new_data['email'] );
 		$this->crud->crud_field( 'updated_by', $this->ion_auth->get_user_name() );
+		$this->crud->crud_field( 'updated_at', date( "Y-m-d H:i:s" ) );
 		$this->crud->process_crud();
 
 		$users = $this->db->where( 'id', $id )->get( _TBL_USERS )->row();
 		if( ! empty( $new_data['password'] ) )
 			$result = $this->ion_auth->reset_password( $new_data['username'], $new_data['password'] );
 
-		if( ! empty( $users->updated_at ) && ! empty( $users->password ) )
+		if( ! empty( $users->updated_at ) )
 		{
 			$getPref      = $this->db->get_where( _TBL_PREFERENCE, [ "uri_title" => "password_expr" ] )->row_array();
 			$userDate     = date( "Y-m-d", strtotime( $users->updated_at ) );

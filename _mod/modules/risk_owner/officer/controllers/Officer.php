@@ -231,6 +231,7 @@ class Officer extends MY_Controller
 				$this->crud->crud_field( 'email', $new_data['email'] );
 				$this->crud->crud_field( 'group_no', implode( ',', $new_data['group'] ) );
 				$this->crud->crud_field( 'created_by', $this->ion_auth->get_user_name() );
+				$this->crud->crud_field( 'updated_at', date( "Y-m-d H:i:s" ) );
 				$this->crud->process_crud();
 			}
 			else
@@ -255,14 +256,16 @@ class Officer extends MY_Controller
 				$this->crud->process_crud();
 			}
 			$users = $this->db->where( 'staft_id', $id )->get( _TBL_USERS )->row();
+
 			if( ! empty( $new_data['password'] ) )
 				$result = $this->ion_auth->reset_password( $new_data['nip'], $new_data['password'] );
 			if( $result )
 				$result = $this->data->save_group( $id, $new_data, $users );
 
 
-			if( ! empty( $users->updated_at ) && ! empty( $users->password ) )
+			if( ! empty( $users->updated_at ) )
 			{
+
 				$getPref      = $this->db->get_where( _TBL_PREFERENCE, [ "uri_title" => "password_expr" ] )->row_array();
 				$userDate     = date( "Y-m-d", strtotime( $users->updated_at ) );
 				$setExpiredAt = date( "Y-m-d", strtotime( "+{$getPref["value"]} days", strtotime( $userDate ) ) );
