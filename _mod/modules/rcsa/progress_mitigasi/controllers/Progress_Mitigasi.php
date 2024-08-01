@@ -104,7 +104,16 @@ class Progress_Mitigasi extends MY_Controller
 			'configuration'	=> $configuration
 		];
 	}
+	function content($ty = 'detail')
+	{
+		$data['x']=[];
+		$data['parent'] = $this->db
+			->get(_TBL_VIEW_RCSA)
+			->result_array();
+ 	$content = $this->load->view('sebaran', $data, true);
 
+		return $content;
+	}
 	public function MASTER_DATA_LIST($arrId, $rows)
 	{
 
