@@ -154,21 +154,22 @@ class Map
 
         $lastIndex = count( $getstatus ) - 1;
         $content   = "<table class='table-dashboard'><tbody>";
-        $content .= "<tr><td rowspan='2' colspan='2' class='remove-border' style='font-weight:400px;font-size:12px;'></td>";//Overall Rating
+        // $content .= "<tr><td rowspan='2' colspan='2' class='remove-border' style='font-weight:400px;font-size:12px;'>Overall Rating</td>";
 
-        foreach( $getstatus as $keyStas => $vStats )
-        {
+        // foreach( $getstatus as $keyStas => $vStats )
+        // {
 
-            $content .= "<td style='background-color:{$vStats["warna_bg"]};font-size:12px;' class='text-center top-border font-weight-bold'>" . $levelColor[strtolower( url_title( $vStats["tingkat"] ) )]["value"] . "</td>";
+        //     $content .= "<td style='background-color:{$vStats["warna_bg"]};font-size:12px;' class='text-center top-border font-weight-bold'>" . $levelColor[strtolower( url_title( $vStats["tingkat"] ) )]["value"] . "</td>";
 
-            if( $keyStas == $lastIndex )
-                $content .= "</tr>";
-        }
+        //     if( $keyStas == $lastIndex )
+        //         $content .= "</tr>";
+        // }
         foreach( $getstatus as $key => $value )
         {
             if( $key == 0 )
             {
                 $content .= "<tr>";
+                $content .= "<td colspan='2'></td>";
             }
             $content .= "<td class='remove-border'>{$levelColor[strtolower( url_title( $value['tingkat'] ) )]['label']}</td>";
 
@@ -387,21 +388,22 @@ class Map
 
         $lastIndex = count( $getstatus ) - 1;
         $content   = "<table class='table-profil-dashboard'><tbody>";
-        $content .= "<tr><td rowspan='2' colspan='2' class='remove-border' style='font-weight:400px;font-size:12px;'></td>";//Overall Rating
+        // $content .= "<tr><td rowspan='2' colspan='2' class='remove-border' style='font-weight:400px;font-size:12px;'>Overall Rating</td>";
 
-        foreach( $getstatus as $keyStas => $vStats )
-        {
+        // foreach( $getstatus as $keyStas => $vStats )
+        // {
 
-            $content .= "<td style='background-color:{$vStats["warna_bg"]};font-size:12px;' class='text-center top-border font-weight-bold'>" . $levelColor[strtolower( url_title( $vStats["tingkat"] ) )]["value"] . "</td>";
+        //     $content .= "<td style='background-color:{$vStats["warna_bg"]};font-size:12px;' class='text-center top-border font-weight-bold'>" . $levelColor[strtolower( url_title( $vStats["tingkat"] ) )]["value"] . "</td>";
 
-            if( $keyStas == $lastIndex )
-                $content .= "</tr>";
-        }
+        //     if( $keyStas == $lastIndex )
+        //         $content .= "</tr>";
+        // }
         foreach( $getstatus as $key => $value )
         {
             if( $key == 0 )
             {
                 $content .= "<tr>";
+                $content .= "<td colspan='2'></td>";
             }
             $content .= "<td class='remove-border'>{$levelColor[strtolower( url_title( $value['tingkat'] ) )]['label']}</td>";
 
