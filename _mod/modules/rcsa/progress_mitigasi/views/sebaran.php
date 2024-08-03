@@ -24,14 +24,16 @@
                             </div>
                         </div>
 
-
                         <?php
+                        $this->db->where('rcsa_id', 389);
                         $total_records = $this->db->count_all_results("il_view_rcsa_detail");
                         $total_pages = ceil($total_records / $records_per_page);
                         $this->db->limit($records_per_page, $offset);
                         $this->db->order_by('owner_id');
 
                         // Fetch and group records by owner_id
+
+                        $this->db->where('rcsa_id', 389);
                         $parent_records = $this->db->get("il_view_rcsa_detail")->result_array();
                         $grouped_by_owner = [];
 
@@ -60,7 +62,7 @@
                                     <?php
                                     $first_record = true;
                                     foreach ($records as $q) :
-                                        $mit = $this->db->where('rcsa_detail_id', $q['id'])->get("il_view_rcsa_mitigasi")->result_array();
+                                        $mit = $this->db->where('rcsa_detail_id', $q['id'])->get("il_view_rcsa_mitigasi_detail")->result_array();
                                         $penyebab_grouped = [];
 
                                         foreach ($mit as $m) {
@@ -125,33 +127,39 @@
                                                         </thead>
                                                         <tbody>
                                                             <?php foreach ($penyebab_grouped as $penyebabId => $items) : ?>
-                                                                <?php foreach ($items as $index => $m) : ?>
+                                                                <?php foreach ($items as $index => $m) :
+                                                                    $getProgress = $this->db->where('rcsa_mitigasi_detail_id', $m['id'])->get("il_view_rcsa_mitigasi_progres")->result_array();
+
+                                                                    $progress_by_month = [];
+                                                                    foreach ($getProgress as $progress) {
+                                                                        $getMinggu = $this->db->where('id', $progress['minggu_id'])->get("il_view_minggu")->row_array();
+                                                                        $month = intval($getMinggu['bulan_int']);
+                                                                        $progress_by_month[$month][] = $progress;
+                                                                    }
+                                                                ?>
                                                                     <tr>
                                                                         <?php if ($index === 0) : ?>
                                                                             <td rowspan="<?= count($items) ?>"><?= $m['penyebab_risiko'] ?></td>
                                                                         <?php endif; ?>
                                                                         <td width="150px"><?= $m['mitigasi'] ?></td>
-                                                                        <td>
-                                                                            <span class="btn" style="background-color: <?= $m['color']; ?>; color: <?= $m['color_text']; ?>;">
-                                                                                <?= $m['level_color']; ?>
-                                                                            </span>
-                                                                        </td>
-                                                                        <td>Content for Februari</td>
-                                                                        <td>Content for Maret</td>
-                                                                        <td>Content for April</td>
-                                                                        <td>Content for Mei</td>
-                                                                        <td>Content for Juni</td>
-                                                                        <td>Content for Juli</td>
-                                                                        <td>Content for Agustus</td>
-                                                                        <td>Content for September</td>
-                                                                        <td>Content for Oktober</td>
-                                                                        <td>Content for November</td>
-                                                                        <td>Content for Desember</td>
+                                                                        <?php for ($month = 1; $month <= 12; $month++) : ?>
+                                                                            <td>
+                                                                                <?php if (isset($progress_by_month[$month])) : ?>
+                                                                                    <?php foreach ($progress_by_month[$month] as $progress) : ?>
+                                                                                        <span>Target: <?= number_format($progress['target']) ?></span> 
+                                                                                        <span>Aktual: <?= number_format($progress['aktual']) ?></span> 
+                                                                                     <?php endforeach; ?>
+                                                                                <?php else : ?>
+                                                                                    No Data
+                                                                                <?php endif; ?>
+                                                                            </td>
+                                                                        <?php endfor; ?>
                                                                     </tr>
                                                                 <?php endforeach; ?>
                                                             <?php endforeach; ?>
                                                         </tbody>
                                                     </table>
+
                                                 </div>
                                             </td>
                                         </tr>
@@ -206,9 +214,3 @@
         min-width: 1100px;
     }
 </style>
-
-<script>
-    $(document).ready(function() {
-        $('#datatables_library').DataTable();
-    });
-</script>
