@@ -6,23 +6,23 @@
                     <div class="tab-pane fade active show" id="content-tab-00">
                         <!-- Dropdown for Limit Selection -->
                         <div class="dropdown mb-3">
-    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-        <?php 
-        $records_per_page = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $offset = ($page - 1) * $records_per_page;
-        ?>
-        Tampilkan <?= $records_per_page ?>
-    </button>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" href="?page=<?= $page ?>&limit=10">10</a>
-        <a class="dropdown-item" href="?page=<?= $page ?>&limit=20">20</a>
-        <a class="dropdown-item" href="?page=<?= $page ?>&limit=35">35</a>
-        <a class="dropdown-item" href="?page=<?= $page ?>&limit=50">50</a>
-        <a class="dropdown-item" href="?page=<?= $page ?>&limit=100">100</a>
-        <a class="dropdown-item" href="?page=<?= $page ?>&limit=500">500</a>
-    </div>
-</div>
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                <?php
+                                $records_per_page = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
+                                $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                                $offset = ($page - 1) * $records_per_page;
+                                ?>
+                                Tampilkan <?= $records_per_page ?>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="?page=<?= $page ?>&limit=10">10</a>
+                                <a class="dropdown-item" href="?page=<?= $page ?>&limit=20">20</a>
+                                <a class="dropdown-item" href="?page=<?= $page ?>&limit=35">35</a>
+                                <a class="dropdown-item" href="?page=<?= $page ?>&limit=50">50</a>
+                                <a class="dropdown-item" href="?page=<?= $page ?>&limit=100">100</a>
+                                <a class="dropdown-item" href="?page=<?= $page ?>&limit=500">500</a>
+                            </div>
+                        </div>
 
 
                         <?php
@@ -48,11 +48,11 @@
                                     <th width="5%">No.</th>
                                     <th>Owner Name</th>
                                     <th>Peristiwa</th>
-                                    <th>Jumlah Aktifitas</th>
-                                    <th>Impact</th>
-                                    <th>Residual</th>
-                                    <th>Target</th>
-                                    <th>Laporan</th>
+                                    <th class="text-center">Jumlah Aktifitas</th>
+                                    <th class="text-center">Impact</th>
+                                    <th class="text-center">Residual</th>
+                                    <th class="text-center">Target</th>
+                                    <th class="text-center">Laporan</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -70,7 +70,7 @@
                                         <!-- Owner Row -->
                                         <?php if ($first_record) : ?>
                                             <tr data-toggle="collapse" href="#ownerRow-<?= $q['kode_dept'] ?>" role="button" aria-expanded="false" aria-controls="ownerRow-<?= $q['kode_dept'] ?>">
-                                                <td colspan="8" class="font-weight-bold"><?= $q['kode_dept'] ?> - <?= $q['owner_name'] ?></td>
+                                                <td colspan="7" class="font-weight-bold"><?= $q['kode_dept'] ?> - <?= $q['owner_name'] ?></td>
                                                 <td>
                                                     <i class="icon-menu6 pointer text-primary risk-monitoring" title="View Risk Register" data-id="<?= $q['rcsa_id'] ?>"></i>
                                                 </td>
@@ -109,18 +109,18 @@
                                                             <tr>
                                                                 <th>Mitigasi</th>
                                                                 <th width="150px">Aktifitas</th>
-                                                                <th>Januari</th>
-                                                                <th>Februari</th>
-                                                                <th>Maret</th>
-                                                                <th>April</th>
-                                                                <th>Mei</th>
-                                                                <th>Juni</th>
-                                                                <th>Juli</th>
-                                                                <th>Agustus</th>
-                                                                <th>September</th>
-                                                                <th>Oktober</th>
-                                                                <th>November</th>
-                                                                <th>Desember</th>
+                                                                <th class="text-center">Januari</th>
+                                                                <th class="text-center">Februari</th>
+                                                                <th class="text-center">Maret</th>
+                                                                <th class="text-center">April</th>
+                                                                <th class="text-center">Mei</th>
+                                                                <th class="text-center">Juni</th>
+                                                                <th class="text-center">Juli</th>
+                                                                <th class="text-center">Agustus</th>
+                                                                <th class="text-center">September</th>
+                                                                <th class="text-center">Oktober</th>
+                                                                <th class="text-center">November</th>
+                                                                <th class="text-center">Desember</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -163,37 +163,38 @@
                 </div>
             </div>
         </div>
-    </div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
-                <a class="page-link" href="?page=<?= $page - 1 ?>&limit=<?= $records_per_page ?>" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-
-            <?php
-            $max_display_pages = 10;
-            $start_page = max(1, $page - floor($max_display_pages / 2));
-            $end_page = min($total_pages, $start_page + $max_display_pages - 1);
-
-            if ($end_page - $start_page + 1 < $max_display_pages) {
-                $start_page = max(1, $end_page - $max_display_pages + 1);
-            }
-
-            for ($i = $start_page; $i <= $end_page; $i++) : ?>
-                <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                    <a class="page-link" href="?page=<?= $i ?>&limit=<?= $records_per_page ?>"><?= $i ?></a>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
+                    <a class="page-link" href="?page=<?= $page - 1 ?>&limit=<?= $records_per_page ?>" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
                 </li>
-            <?php endfor; ?>
 
-            <li class="page-item <?= $page >= $total_pages ? 'disabled' : '' ?>">
-                <a class="page-link" href="?page=<?= $page + 1 ?>&limit=<?= $records_per_page ?>" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+                <?php
+                $max_display_pages = 10;
+                $start_page = max(1, $page - floor($max_display_pages / 2));
+                $end_page = min($total_pages, $start_page + $max_display_pages - 1);
+
+                if ($end_page - $start_page + 1 < $max_display_pages) {
+                    $start_page = max(1, $end_page - $max_display_pages + 1);
+                }
+
+                for ($i = $start_page; $i <= $end_page; $i++) : ?>
+                    <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                        <a class="page-link" href="?page=<?= $i ?>&limit=<?= $records_per_page ?>"><?= $i ?></a>
+                    </li>
+                <?php endfor; ?>
+
+                <li class="page-item <?= $page >= $total_pages ? 'disabled' : '' ?>">
+                    <a class="page-link" href="?page=<?= $page + 1 ?>&limit=<?= $records_per_page ?>" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
 </div>
 
 <style>
@@ -202,7 +203,7 @@
     }
 
     .table {
-        min-width: 1200px;
+        min-width: 1100px;
     }
 </style>
 
