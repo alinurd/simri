@@ -109,6 +109,8 @@
                                                     <table class="table table-sm">
                                                         <thead>
                                                             <tr>
+                                                                <th>Mitigasi</th>
+                                                                <th width="150px">Aktifitas</th>
                                                                 <th class="text-center">Januari</th>
                                                                 <th class="text-center">Februari</th>
                                                                 <th class="text-center">Maret</th>
@@ -124,24 +126,37 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <?php
-                                                            ?>
-                                                            <tr>
-                                                                <?php for ($month = 1; $month <= 12; $month++) : ?>
-                                                                    <td>
-                                                                        <?php
-                                                                        $m = $this->db->where('rcsa_detail_id', $q['id'])->where('month', $month)->get("il_peristiwa_monitoring")->row_array();
-                                                                        if (isset($m)) :
-                                                                        ?>
-                                                                            <center>
-                                                                                <a href="<?= base_url('progress-mitigasi/update-progres/' . $q['id'] . '/' . $month) ?>" title="Klik Untuk Update" class="btn" style="background-color: <?= $m['color']; ?>; color: <?= $m['color_text']; ?>;"> <?= $m['level_color']; ?></a>
-                                                                            </center>
-                                                                        <?php else : ?>
-                                                                            No Data
+                                                            <?php foreach ($penyebab_grouped as $penyebabId => $items) : ?>
+                                                                <?php foreach ($items as $index => $m) :
+                                                                    $getProgress = $this->db->where('rcsa_mitigasi_detail_id', $m['id'])->get("il_view_rcsa_mitigasi_progres")->result_array();
+
+                                                                    $progress_by_month = [];
+                                                                    foreach ($getProgress as $progress) {
+                                                                        $getMinggu = $this->db->where('id', $progress['minggu_id'])->get("il_view_minggu")->row_array();
+                                                                        $month = intval($getMinggu['bulan_int']);
+                                                                        $progress_by_month[$month][] = $progress;
+                                                                    }
+                                                                ?>
+                                                                    <tr>
+                                                                        <?php if ($index === 0) : ?>
+                                                                            <td rowspan="<?= count($items) ?>"><?= $m['penyebab_risiko'] ?></td>
                                                                         <?php endif; ?>
-                                                                    </td>
-                                                                <?php endfor; ?>
-                                                            </tr>
+                                                                        <td width="150px"><?= $m['mitigasi'] ?></td>
+                                                                        <?php for ($month = 1; $month <= 12; $month++) : ?>
+                                                                            <td>
+                                                                                <?php if (isset($progress_by_month[$month])) : ?>
+                                                                                    <?php foreach ($progress_by_month[$month] as $progress) : ?>
+                                                                                        <span>Target: <?= number_format($progress['target']) ?></span> 
+                                                                                        <span>Aktual: <?= number_format($progress['aktual']) ?></span> 
+                                                                                     <?php endforeach; ?>
+                                                                                <?php else : ?>
+                                                                                    No Data
+                                                                                <?php endif; ?>
+                                                                            </td>
+                                                                        <?php endfor; ?>
+                                                                    </tr>
+                                                                <?php endforeach; ?>
+                                                            <?php endforeach; ?>
                                                         </tbody>
                                                     </table>
 
