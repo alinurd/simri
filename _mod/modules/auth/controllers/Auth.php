@@ -147,11 +147,13 @@ class Auth extends MY_Controller
 		$this->db->update( 'users', [ 'session_id' => NULL, 'last_past_date' => time() ], [ $this->config->item( 'identity', 'ion_auth' ) => $this->session->userdata( 'identity' ) ] );
 
 		$user = $this->session->userdata( 'data_user' );
-		$this->logdata->set_log( 'sql', 'logout' );
-		$this->logdata->type = 2;
-		$this->logdata->user = [ 'id' => $user['id'], 'username' => $user['username'] ];
-		$this->logdata->save_log();
-
+		if( ! empty( $user ) )
+		{
+			$this->logdata->set_log( 'sql', 'logout' );
+			$this->logdata->type = 2;
+			$this->logdata->user = [ 'id' => $user['id'], 'username' => $user['username'] ];
+			$this->logdata->save_log();
+		}
 		$this->ion_auth->logout();
 		// redirect them to the login page
 		$this->session->set_flashdata( 'message', $this->ion_auth->messages() );
