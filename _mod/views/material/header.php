@@ -1,8 +1,10 @@
 <!-- Main navbar -->
 <?php
 $photo = img_url( 'profile.jpg' );
-if( file_exists( file_path( $params['user']['photo'] ) ) )
+if( file_exists( file_url( $params['user']['photo'] ) ) )
+{
     $photo = file_url( $params['user']['photo'] );
+}
 ?>
 <div class="navbar navbar-expand-md navbar-light fixed-top">
 
