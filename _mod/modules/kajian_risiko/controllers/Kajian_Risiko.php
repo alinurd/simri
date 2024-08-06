@@ -100,16 +100,15 @@ class Kajian_Risiko extends MY_Controller
 		];
 		if( ! empty( $_FILES[$_POST["field"]]["name"] ) )
 		{
-
-			$dataUpload["name"]      = generateIdString();
-			$dataUpload["full_path"] = $_FILES[$_POST["field"]]["full_path"];
-			$dataUpload["type"]      = $_FILES[$_POST["field"]]["type"];
-			$dataUpload["tmp_name"]  = $_FILES[$_POST["field"]]["tmp_name"];
-			$dataUpload["error"]     = $_FILES[$_POST["field"]]["error"];
-			$dataUpload["size"]      = $_FILES[$_POST["field"]]["size"];
-			$getStatusUpload         = $this->save_file( $paramUpload, $dataUpload );
-			$status                  = explode( "/", $getStatusUpload );
-			$resultUpload            = $status[1];
+			$dataUpload["name"] = generateIdString();
+			// $dataUpload["full_path"] = $_FILES[$_POST["field"]]["full_path"];
+			$dataUpload["type"]     = $_FILES[$_POST["field"]]["type"];
+			$dataUpload["tmp_name"] = $_FILES[$_POST["field"]]["tmp_name"];
+			$dataUpload["error"]    = $_FILES[$_POST["field"]]["error"];
+			$dataUpload["size"]     = $_FILES[$_POST["field"]]["size"];
+			$getStatusUpload        = $this->save_file( $paramUpload, $dataUpload );
+			$status                 = explode( "/", $getStatusUpload );
+			$resultUpload           = $status[1];
 
 			if( $resultUpload !== "error" )
 			{
