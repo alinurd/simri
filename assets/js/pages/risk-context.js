@@ -688,7 +688,7 @@ $(function () {
     $(document).on("click", ".add-penyebab", function () {
         var getMaxidentity = $("input[name='penyebab_id_text[]']").length;
         if (sts_penyebab_risiko == 0) {
-            var cbo = '<input name="penyebab_id[]" id="penyebab_id_" value="" class="form-control d-none" style="width:100%;"></input>';
+            var cbo = '<input name="penyebab_id[]" type="hidden" id="penyebab_id_" value="" class="form-control" style="width:100%;"></input>';
             cbo += '<input type="text" name="penyebab_id_text[]" value="" class="form-control getLibrary" identity="' + getMaxidentity + '" id="penyebab_id_text" readonly placeholder="Penyebab Risiko">';
         } else {
             var cbo = '<input type="text" name="penyebab_id_text[]" value="" class="form-control getLibrary" identity="' + getMaxidentity + '"  readonly id="penyebab_id_text" placeholder="Penyebab Risiko">';
@@ -707,7 +707,7 @@ $(function () {
     $(document).on("click", ".add-dampak", function () {
         var getMaxidentity = $("input[name='dampak_id_text[]']").length;
         if (sts_penyebab_risiko == 0) {
-            var cbo = '<input name="dampak_id[]" id="dampak_id_" class="form-control d-none" style="width:100%;"></input>';
+            var cbo = '<input name="dampak_id[]" type="hidden" id="dampak_id_" class="form-control" style="width:100%;"></input>';
             cbo += '<input type="text" name="dampak_id_text[]" value="" class="form-control getLibrary" id="dampak_id_text" identity="' + getMaxidentity + '" placeholder="Dampak Risiko">';
         } else {
             var cbo = '<input type="text" name="dampak_id_text[]" value="" class="form-control getLibrary" id="dampak_id_text" identity="' + getMaxidentity + '"  placeholder="Dampak Risiko">';
@@ -1700,16 +1700,18 @@ $(document).on("click", "#pilihLibrary", function () {
     var typeLib = $(this).attr("data-lib");
     var libName = $("#libraryName" + idLib).val();
     var identity = $("#identity" + idLib).val();
-
     switch (parseInt(typeLib)) {
         case 1:
+            $('#penyebab_id_text[identity="' + identity + '"]').prev("input").val(idLib);
             $('input[name="penyebab_id"][identity="' + identity + '"]').val(idLib).trigger('change');
             $('#penyebab_id_text[identity="' + identity + '"]').val(libName).trigger('change');
             changeRisikoDepartmentVal();
             break;
         case 3:
+            $('#dampak_id_text[identity="' + identity + '"]').prev("input").val(idLib);
             $('input[name="dampak_id"][ identity="' + identity + '"]').val(idLib).trigger('change');
             $('#dampak_id_text[identity="' + identity + '"]').val(libName).trigger('change');
+
 
             break;
         default:
@@ -1764,6 +1766,8 @@ $(document).on("click", ".saveLibrary", function () {
 });
 
 function resultaddlibrary(lib) {
+    console.log(lib);
+
     switch (parseInt(lib.tipeLib)) {
         case 1:
             $('input[name="penyebab_id"]').val(lib.idLibrary).trigger('change');
@@ -1782,8 +1786,8 @@ function resultaddlibrary(lib) {
 }
 
 $(document).on('hidden.bs.modal', '#modal_general', function () {
-    $("#refreshRiskLikeHood").trigger("click");
-    $("#refreshRiskDampak").trigger("click");
+    // $("#refreshRiskLikeHood").trigger("click");
+    // $("#refreshRiskDampak").trigger("click");
 });
 
 
