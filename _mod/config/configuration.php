@@ -53,7 +53,7 @@ $config['default_config'] = [
 ];
 
 $config['level_navigasi'] = [ 1 => 'A. Lembar Pengesahan', 2 => 'B. Lembar Distribusi', 3 => 'C. Lembar Quiz', 4 => 'D. Sejarah Perubahan', 5 => 'E. Konten' ];
-$config['free_module']    = [ 'profile', 'change-password', 'faq', 'tiketing', "operator", "ajax", "change_password" ];
+$config['free_module']    = [ 'profile', 'faq', 'tiketing', "operator", "ajax", "change_password" ];
 $config['upload_type']    = [ 'gif' => 'gif', 'jpg' => 'jpg', 'jpeg' => 'jpeg', 'png' => 'png', 'pdf' => 'pdf', 'pdfx' => 'pdfx', 'dox' => 'doc', 'docx' => 'docx', 'xls' => 'xls', 'xlsx' => 'xlsx', 'ppt' => 'ppt', 'pptx' => 'pptx' ];
 
 $config['pos_menu'] = array( 'header' => 'Header', 'footer' => 'footer', 'atas-kiri' => 'atas-kiri', 'atas-kanan' => 'atas-kanan', 'bawah-kiri' => 'bawah-kiri', 'bawah-kanan' => 'bawah-kanan', 'kiri' => 'kiri', 'kanan' => 'kanan', 'atas' => 'atas', 'bawah' => 'bawah' );

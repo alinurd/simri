@@ -1806,6 +1806,7 @@ class MY_Controller extends MX_Controller
 	{
 		$pt   = explode( '/', $row['path'] );
 		$path = $pt[0] . '_path_relative';
+
 		$this->load->library( 'image' );
 		$this->image->set_Param( 'nm_file', $row['field'] );
 		$this->image->set_Param( 'file_name', $data['name'] );
@@ -1814,6 +1815,12 @@ class MY_Controller extends MX_Controller
 		$this->image->set_Param( 'type', $row['file_type'] );
 		$this->image->set_Param( 'size', $row['file_size'] );
 		$this->image->set_Param( 'nm_random', $row['file_random'] );
+
+		if( ! empty( $row['multi'] ) )
+		{
+			$this->image->set_Param( 'multi', $row['multi'] );
+			$this->image->set_Param( 'image_no', $row['image_no'] );
+		}
 
 		$this->image->upload();
 		return $pt[1] . '/' . $this->image->result( 'file_name' );
@@ -2023,7 +2030,9 @@ class MY_Controller extends MX_Controller
 						}
 						if( $this->tmp_data['primary']['info'] )
 						{
+
 							$this->crud->crud_field( 'updated_by', $this->ion_auth->get_user_name() );
+							$this->crud->crud_field( 'updated_at', date( "Y-m-d H:i:s" ) );
 						}
 						$this->crud->crud_where( [ 'field' => $this->tmp_data['primary']['id'], 'value' => $idEdit, 'op' => '=' ] );
 						$this->crud->process_crud();
@@ -2915,7 +2924,6 @@ class MY_Controller extends MX_Controller
 		{
 			$path = $this->configuration['themes_mode'] . '/';
 		}
-
 		$this->_css_[] = 'icons/icomoon/styles.css';
 		$this->_css_[] = 'icons/fontawesome/styles.min.css';
 		$this->_css_[] = 'bootstrap.min.css';
@@ -2931,6 +2939,7 @@ class MY_Controller extends MX_Controller
 		// $this->_css_[] = 'datatable/responsive.bootstrap4.min.css';
 		$this->_css_[] = 'summernote.css';
 		$this->_css_[] = 'plugins/editors/trumbowyg/ui/trumbowyg.min.css';
+		$this->_css_[] = 'basic.min.css';
 		$this->_css_[] = 'style.css?v=2';
 	}
 
@@ -2970,6 +2979,7 @@ class MY_Controller extends MX_Controller
 		$this->_js_[] = 'plugins/datatable/fixed_header.min.js';
 		$this->_js_[] = 'plugins/datatable/responsive.min.js';
 		$this->_js_[] = 'plugins/echarts/echarts.min.js';
+		$this->_js_[] = 'plugins/dropzone/min/dropzone.min.js';
 		$this->_js_[] = 'jquery.doubleScroll.js';
 		$this->_js_[] = 'jquery.number.min.js';
 		$this->_js_[] = 'js.cookie.js';

@@ -712,5 +712,12 @@ if( ! function_exists( 'get_owner' ) )
 	}
 }
 
+if( ! function_exists( 'generateIdString' ) )
+{
+	function generateIdString()
+	{
+		return strtoupper( date( 'ymd' ) . uniqid() );
+	}
+}
 
 
