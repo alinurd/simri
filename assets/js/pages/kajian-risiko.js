@@ -40,7 +40,7 @@ function DropzoneUpload() {
         dictDefaultMessage: "Drag or Drop Your Document here",
         dictDuplicateFile: "Duplicate Files Cannot Be Uploaded",
         preventDuplicates: true,
-        previewTemplate: document.getElementById("preview-template").innerHTML,
+        previewTemplate: $("#preview-template").html(),
         dictRemoveFile: "<i class='icon-trash'>&nbsp;Delete</i>",
         params: {
             csrf_tridicom: csrf_hash,
@@ -119,7 +119,7 @@ function DropzoneUpload() {
         dictDuplicateFile: "Duplicate Files Cannot Be Uploaded",
         preventDuplicates: true,
         dictRemoveFile: "<i class='icon-trash'>&nbsp;Delete</i>",
-        previewTemplate: document.getElementById("preview-template").innerHTML,
+        previewTemplate: $("#preview-template").html(),
         params: {
             csrf_tridicom: csrf_hash,
             field: "dokumen_kajian",
@@ -183,6 +183,7 @@ function DropzoneUpload() {
             file.previewElement.classList.add("dz-error");
         }
     });
+
 }
 
 $(document).on("click", ".dz-preview", function () {
@@ -226,5 +227,8 @@ function deleteNotification(file) {
         ],
     }).show();
 }
+
+
+
 
 
