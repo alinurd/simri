@@ -619,12 +619,12 @@ class Risk_Context extends MY_Controller
 				}
 
 				$getPenyebabVal = $this->db->select( "id,library" )->get_where( 'il_library', [ "id" => $x ] )->row_array();
-				$penyebab .= '<tr><td style="padding-left:0px;">' . form_input( 'penyebab_id[]', $x, 'id="penyebab_id_"  class="form-control d-none"  style="width:100%;"' ) . form_input( 'penyebab_id_text[]', ( ! empty( $getPenyebabVal["library"] ) ) ? $getPenyebabVal["library"] : "", 'class="form-control getLibrary" readonly id="penyebab_id_text" identity="' . $key . '" placeholder="' . _l( 'fld_penyebab_risiko' ) . '" ' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;">' . $icon . '</td></tr>';
+				$penyebab .= '<tr><td style="padding-left:0px;"><input type="hidden" name="penyebab_id[]" value="' . $x . '" class="penyebab_id"/>' . form_input( 'penyebab_id_text[]', ( ! empty( $getPenyebabVal["library"] ) ) ? $getPenyebabVal["library"] : "", 'class="form-control getLibrary" readonly id="penyebab_id_text" identity="' . $key . '" placeholder="' . _l( 'fld_penyebab_risiko' ) . '" ' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;">' . $icon . '</td></tr>';
 			}
 		}
 		else
 		{
-			$penyebab .= '<tr><td style="padding-left:0px;">' . form_input( 'penyebab_id[]', '', 'id="penyebab_id_"  class="form-control d-none"   style="width:100%;"' ) . form_input( 'penyebab_id_text[]', '', 'class="form-control getLibrary" readonly identity="' . $key . '" id="penyebab_id_text" placeholder="' . _l( 'fld_penyebab_risiko' ) . '"' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;"><i class="icon-plus-circle2 text-primary-400 add-penyebab"></i></td></tr>';
+			$penyebab .= '<tr><td style="padding-left:0px;"><input type="hidden" name="penyebab_id[]" value="" class="penyebab_id"/>' . form_input( 'penyebab_id_text[]', '', 'class="form-control getLibrary" readonly identity="' . $key . '" id="penyebab_id_text" placeholder="' . _l( 'fld_penyebab_risiko' ) . '"' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;"><i class="icon-plus-circle2 text-primary-400 add-penyebab"></i></td></tr>';
 		}
 		$penyebab .= '</tbody></table>';
 
@@ -633,7 +633,6 @@ class Risk_Context extends MY_Controller
 		if( $data )
 		{
 			$pi = explode( ',', $data['dampak_id'] );
-
 			foreach( $pi as $key => $x )
 			{
 				$icon = '<i class="icon-plus-circle2 text-primary-400 add-dampak"></i>&nbsp;&nbsp;<i class="icon-file-empty text-success-400 add-text-dampak d-none" data-id="0"></i>';
@@ -642,13 +641,13 @@ class Risk_Context extends MY_Controller
 					$icon = '<i class="icon-database-remove text-danger-400 del-dampak"></i>';
 				}
 				$getDampakVal = $this->db->select( "id,library" )->get_where( 'il_library', [ "id" => $x ] )->row_array();
-				$dampak .= '<tr><td style="padding-left:0px;">' . form_input( 'dampak_id[]', $x, 'id="dampak_id_" class="form-control d-none"  style="width:100%;"' ) . form_input( 'dampak_id_text[]', ( ! empty( $getDampakVal["library"] ) ) ? $getDampakVal["library"] : "" ?? "", 'class="form-control getLibrary" readonly id="dampak_id_text" identity="' . $key . '" placeholder="' . _l( 'fld_dampak_risiko' ) . '"' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;">' . $icon . '</td></tr>';
+				$dampak .= '<tr><td style="padding-left:0px;"><input type="hidden" name="dampak_id[]" value=' . $x . ' class="dampak_id"/>' . form_input( 'dampak_id_text[]', ( ! empty( $getDampakVal["library"] ) ) ? $getDampakVal["library"] : "" ?? "", 'class="form-control getLibrary" readonly id="dampak_id_text" identity="' . $key . '" placeholder="' . _l( 'fld_dampak_risiko' ) . '"' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;">' . $icon . '</td></tr>';
 			}
 			$csslevel = 'background-color:' . $data['color'] . ';color:' . $data['color_text'] . ';';
 		}
 		else
 		{
-			$dampak .= '<tr><td style="padding-left:0px;">' . form_input( 'dampak_id[]', '', 'id="dampak_id_" class="form-control d-none"  style="width:100%;"' ) . form_input( 'dampak_id_text[]', '', 'class="form-control getLibrary" identity="0" id="dampak_id_text" readonly placeholder="' . _l( 'fld_dampak_risiko' ) . '"' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;"><i class="icon-plus-circle2 text-primary-400 add-dampak"></i></td></tr>';
+			$dampak .= '<tr><td style="padding-left:0px;"><input type="hidden" name="dampak_id[]" value="" class="dampak_id"/>' . form_input( 'dampak_id_text[]', '', 'class="form-control getLibrary" identity="0" id="dampak_id_text" readonly placeholder="' . _l( 'fld_dampak_risiko' ) . '"' ) . '</td><td class="text-right pointer" width="10%" style="padding-right:0px;"><i class="icon-plus-circle2 text-primary-400 add-dampak"></i></td></tr>';
 		}
 		$dampak .= '</tbody></table>';
 		$lib    = FALSE;
@@ -657,11 +656,7 @@ class Risk_Context extends MY_Controller
 			$lib = $this->db->where( 'id', $data['peristiwa_id'] )->get( _TBL_VIEW_LIBRARY )->row_array();
 		}
 
-		$peristiwa = '<table class="table table-borderless" id="tblperistiwa"><tbody>
-    <tr id="getPeristiwa">
-        <td style="padding-left:0px;">'
-		 . form_input( 'peristiwa_id_text', ( $lib ) ? $lib['library'] : '', 'class="form-control getPeristiwa" id="peristiwa_id_text" readonly="readonly" placeholder="' . _l( 'fld_peristiwa_risiko' ) . '"' )
-		 . form_hidden( 'peristiwa_id', ( $lib ) ? $data['peristiwa_id'] : '', 'id="peristiwa_id"' ) .
+		$peristiwa = '<table class="table table-borderless" id="tblperistiwa"><tbody><tr id="getPeristiwa"><td style="padding-left:0px;">' . form_input( 'peristiwa_id_text', ( $lib ) ? $lib['library'] : '', 'class="form-control getPeristiwa" id="peristiwa_id_text" readonly="readonly" placeholder="' . _l( 'fld_peristiwa_risiko' ) . '"' ) . form_hidden( 'peristiwa_id', ( $lib ) ? $data['peristiwa_id'] : '', 'id="peristiwa_id"' ) .
 		 '</td>
     </tr>
 </tbody></table>';
@@ -1354,8 +1349,7 @@ class Risk_Context extends MY_Controller
 
 	function simpan_identifikasi_awal()
 	{
-		$post = $this->input->post();
-		// peristiwa_id
+		$post      = $this->input->post();
 		$id_detail = $this->data->simpan_identifikasi_awal( $post );
 
 		$id    = intval( $post['rcsa_id'] );

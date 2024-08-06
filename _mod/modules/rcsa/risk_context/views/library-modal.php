@@ -1,7 +1,7 @@
 <div class='table-responsive'>
-    <span class="btn bg-primary-400 btn-labeled btn-labeled-right legitRipple pull-right" id="addLibrary" lib-type="<?=$thead3 ?>"
-        data-mode="0">
-        <b><i class="icon-file-plus "></i></b> Add <?=$thead3 ?>
+    <span class="btn bg-primary-400 btn-labeled btn-labeled-right legitRipple pull-right" id="addLibrary"
+        lib-type="<?= $thead3 ?>" data-mode="0">
+        <b><i class="icon-file-plus "></i></b> Add <?= $thead3 ?>
     </span>
     <br />&nbsp;<br />&nbsp;
     <table class="table table-hover datatables" id="list_library">
@@ -23,8 +23,8 @@
                     <td width="10%" class="text-center">
                         <input type="hidden" id="libraryName<?= $q['id'] ?>" value="<?= $q['library'] ?>">
                         <input type="hidden" id="identity<?= $q['id'] ?>" value="<?= $identity ?>">
-                        <span class="btn bg-primary-400 btn-labeled btn-labeled-left legitRipple" data-id="<?= $q['id'] ?>" data-lib="<?=$libtype?>"
-                            id="pilihLibrary">
+                        <span class="btn bg-primary-400 btn-labeled btn-labeled-left legitRipple" data-id="<?= $q['id'] ?>"
+                            data-lib="<?= $libtype ?>" id="pilihLibrary">
                             <b><i class="text-light icon-database-add"></i></b>Pilih <?= $thead3 ?>
                         </span>
                     </td>

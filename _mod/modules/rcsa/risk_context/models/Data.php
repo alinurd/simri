@@ -757,7 +757,6 @@ class Data extends MX_Model
 		}
 		$this->crud->crud_field( 'penyebab_id', $penyebab_id );
 
-
 		if( $dampak_id_tmp )
 		{
 			$dampak_id = implode( ',', $dampak_id_tmp );
