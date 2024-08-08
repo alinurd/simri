@@ -100,7 +100,7 @@ if ($search)
         // Highlighting rows and columns on mouseover
         var lastIdx = null;
         this.oTable = $('#datatable-list').DataTable({
-            lengthMenu: [[5, 10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+            lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"]],
             pageLength:5,
             fixedColumns: {
         leftColumns: 2
