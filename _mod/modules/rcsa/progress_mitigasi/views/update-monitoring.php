@@ -39,7 +39,7 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <a href="<?= base_url(_MODULE_NAME_ . '/progress/' . $id); ?>" class="btn bg-primary-400 btn-labeled btn-labeled-left legitRipple" id="back_identifikasi"><b><i class="icon-list"></i></b> Kembali ke List </a>
+                <a href="<?= base_url(_MODULE_NAME_ ); ?>" class="btn bg-primary-400 btn-labeled btn-labeled-left legitRipple" id="back_identifikasi"><b><i class="icon-list"></i></b> Kembali ke List </a>
             </div>
         </div>
     </div>
@@ -151,7 +151,7 @@
                                                     <!-- <?php if ($index === 0) : ?>
                                                          <td rowspan="<?= count($items) ?>"><?= $m['penyebab_risiko'] ?></td>
                                                     <?php endif; ?> -->
-                                                    <!-- <?= doi::dump($progress_by_month[$monthParam][0]);?> -->
+                                                    <!-- <?= doi::dump($m);?> -->
                                                     <td><?= $m['penyebab_risiko'] ?></td>
                                                     <td><?= $m['mitigasi'] ?></td>
                                                     <?php if (isset($progress_by_month[$monthParam][0])) : ?>
@@ -159,18 +159,31 @@
                                                         <td><?= number_format($progress_by_month[$monthParam][0]['aktual']) ?></td>
                                                         <td><?= $progress_by_month[$monthParam][0]['uraian'] ?></td>
                                                         <td><?= $progress_by_month[$monthParam][0]['kendala'] ?></td>
-                                                    <?php else : ?>
-                                                        <td colspan="4">
-                                                            <center>Data not available</center>
-                                                        </td>
-                                                    <?php endif; ?>
-                                                    <td>
+                                                        <td>
                                                         <span id="updateAktifitas" 
                                                         data-id="<?=$progress_by_month[$monthParam][0]['id']?>"
                                                         data-rcsadetail="<?=$progress_by_month[$monthParam][0]['rcsa_detail_id']?>"
                                                         data-mitigasi="<?=$progress_by_month[$monthParam][0]['rcsa_mitigasi_id']?>"
                                                         data-mitdetail="<?=$progress_by_month[$monthParam][0]['rcsa_mitigasi_detail_id']?>"
                                                         data-periode="<?=$progress_by_month[$monthParam][0]['period_id']?>"
+                                                        data-bln="<?=$monthParam?>"
+                                                         class="btn btn-primary" data-edit="0">
+                                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                        </span>
+                                                    </td>
+                                                    <?php else : ?>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    <?php endif; ?>
+                                                    <td>
+                                                        <span id="updateAktifitas" 
+                                                        data-id="<?=$m['id']?>"
+                                                        data-rcsadetail="<?=$m['rcsa_detail_id']?>"
+                                                        data-mitigasi="<?=$m['rcsa_mitigasi_id']?>"
+                                                        data-mitdetail="<?=$m['rcsa_mitigasi_id']?>"
+                                                         data-periode="<?=$m['period_id']?>"
                                                         data-bln="<?=$monthParam?>"
                                                          class="btn btn-primary" data-edit="0">
                                                             <i class="fa fa-pencil" aria-hidden="true"></i>
