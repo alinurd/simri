@@ -18,7 +18,8 @@ if ($search)
             <?php
             foreach($title as $row):?>
             <th class='text-<?=$row[4];?> <?=$row[5];?>' width='<?=$row[3];?>%'><?=$row[2];?></th>
-            <?php endforeach;?> 
+            <?php endforeach;?>
+            <th class="text-center" width='8%' style='padding:.75rem 0 !important;'>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -100,11 +101,8 @@ if ($search)
         // Highlighting rows and columns on mouseover
         var lastIdx = null;
         this.oTable = $('#datatable-list').DataTable({
-            lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"]],
-            pageLength:5,
-            fixedColumns: {
-        leftColumns: 2
-    },
+            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+            pageLength:10,
             columnDefs: [ 
                 {
                     targets: [0,1,'no-sort'],
