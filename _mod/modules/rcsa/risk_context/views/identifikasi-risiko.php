@@ -39,7 +39,6 @@ foreach( $detail['identifikasi'] as $key => $row ) :
     {
         $br = '<br/>';
     }
-
     ?>
     <div class="form-group row">
         <label

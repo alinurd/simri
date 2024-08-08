@@ -11,7 +11,7 @@ class Kajian_Risiko extends MY_Controller
 	{
 
 		$this->cboDept    = $this->get_combo_parent_dept();
-		$this->cbo_status = $this->crud->combo_value( [ 0 => '<span class="btn btn-danger disabled">Draft</span>', 1 => '<span class="btn btn-success disabled">Submit</span>' ] )->result_combo();
+		$this->cbo_status = $this->crud->combo_value( [ 0 => 'DRAFT', 1 => 'SUBMIT' ] )->result_combo();
 
 		$this->set_Tbl_Master( _TBL_VIEW_KAJIAN_RISIKO );
 
@@ -52,6 +52,26 @@ class Kajian_Risiko extends MY_Controller
 		return [
 		 'configuration' => $configuration,
 		];
+	}
+
+	function listBox_status( $field, $rows, $value )
+	{
+		$statusContent = "";
+		switch( $value )
+		{
+			case 0:
+				$statusContent = "<span class='btn btn-sm btn-danger' style='cursor:default'>DRAFT</span>";
+				break;
+			case 1:
+				$statusContent = "<span class='btn btn-sm btn-success' style='cursor:default'>SUBMITTED</span>";
+				break;
+
+			default:
+				$statusContent = "";
+				break;
+		}
+		return $statusContent;
+
 	}
 
 	function inputBox_link_dokumen_pendukung( $mode, $field, $row, $value )
@@ -189,14 +209,36 @@ class Kajian_Risiko extends MY_Controller
 
 	function optionalPersonalButton( $button, $row )
 	{
-		$button['propose'] = [
-		 'label' => 'Propose',
-		 'id'    => 'btn_schedule_one',
-		 'class' => 'text-warning',
-		 'icon'  => 'icon-paperplane',
-		 'url'   => "",
+		$button['risk_register'] = [
+		 'label' => 'Risk Register',
+		 'id'    => 'btn-kajian-risk-register',
+		 'class' => 'text-primary',
+		 'icon'  => 'icon-file-upload2',
+		 'url'   => base_url( $this->modul_name . "/register/list/" ),
 		 'attr'  => ' target="_self" ',
-		   ];
+		 ];
+		if( $row["status"] == 1 )
+		{
+			$button['submit'] = [
+			 'label' => 'Submitted',
+			 'id'    => 'btn_submitted',
+			 'class' => 'text-success disabled',
+			 'icon'  => 'icon-checkmark-circle',
+			 'url'   => "javascript:void(0);",
+			 'attr'  => '',
+			   ];
+		}
+		else
+		{
+			$button['propose'] = [
+			 'label' => 'Propose',
+			 'id'    => 'btn_schedule_one',
+			 'class' => 'text-warning',
+			 'icon'  => 'icon-paperplane',
+			 'url'   => base_url( $this->modul_name . "/register/propose/" ),
+			 'attr'  => ' target="_self" ',
+			   ];
+		}
 		return $button;
 	}
 
@@ -214,5 +256,167 @@ class Kajian_Risiko extends MY_Controller
 			}
 		}
 		return $value;
+	}
+
+	function register( $action, $idkajian, $idregister = NULL )
+	{
+		if( $_POST )
+		{
+			$this->submitregister( $this->input->post(), $action, $idkajian, $idregister );
+			$action = "list";
+		}
+		$content                 = "";
+		$btn_view                = "btn_default";
+		$dataView["module_name"] = $this->modul_name;
+		$dataView["kajian_id"]   = $idkajian;
+		$dataView["action"]      = $action;
+		$dataView["headerRisk"]  = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, [ "id" => $idkajian, "active" => 1 ] )->row_array();
+
+		if( $action == "submit" && $dataView["headerRisk"]["status"] != 1 )
+		{
+			$this->db->update( _TBL_KAJIAN_RISIKO, [ "status" => 1, "date_submit" => date( "Y-m-d H:i:s" ), "updated_at" => date( "Y-m-d H:i:s" ), "updated_by" => $this->ion_auth->get_user_name() ], [ "id" => $idkajian ] );
+		}
+
+		$dataView["disabledSubmit"] = ( $dataView["headerRisk"]["status"] == 1 ) ? "disabled" : "";
+		$dbObj                      = $this->db->where( [ "id_kajian_risiko" => $idkajian ] );
+		switch( $action )
+		{
+			case 'create':
+				$dbObj->where( [ "id" => $idregister ] );
+				$action = "form";
+				$actionForm = "create";
+				break;
+			case 'edit':
+				$dbObj->where( [ "id" => $idregister ] );
+				$action = "form";
+				$actionForm = "edit";
+				break;
+			case 'delete':
+				$resultDelete = $this->db->query( "delete a,b from il_kajian_risiko_register a left join il_kajian_risiko_mitigasi b on a.id = b.id_kajian_risiko_register where a.id ='{$idregister}'" );
+				$action = "list";
+				$actionForm = "delete";
+				break;
+			case 'propose':
+				$action = "propose";
+				$actionForm = "propose";
+				$btn_view = "btn_propose";
+				break;
+			case 'submit':
+				$action = "propose";
+				$actionForm = "propose";
+				$btn_view = "btn_propose";
+				break;
+			default:
+				$actionForm = "";
+				$action = "list";
+				break;
+		}
+		$dataView["view"]      = $action;
+		$dataView["btn_view"]  = $btn_view;
+		$dataView["formUrl"]   = base_url( $this->modul_name . "/" . __FUNCTION__ . "/" . $actionForm . "/" . $idkajian . "/" . $idregister );
+		$dataView["btnEdit"]   = base_url( $this->modul_name . "/" . __FUNCTION__ . "/edit/" . $idkajian . "/" );
+		$dataView["btnDelete"] = base_url( $this->modul_name . "/" . __FUNCTION__ . "/delete/" . $idkajian . "/" );
+		$dataView["register"]  = $this->setDataViewRegister( $dbObj->get( _TBL_KAJIAN_RISIKO_REGISTER )->result_array() );
+		if( $actionForm == "edit" )
+		{
+			$dataView["mitigasi"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_MITIGASI, [ "id_kajian_risiko_register" => $idregister ] )->result_array();
+		}
+		$content       = $this->load->view( "register", $dataView, TRUE );
+		$configuration = [
+		 'show_title_header'  => FALSE,
+		 'show_action_button' => FALSE,
+		   ];
+		$this->default_display( [ 'content' => $content, 'configuration' => $configuration ] );
+
+	}
+
+	function submitregister( $dataPost, $action, $idkajian, $idregister )
+	{
+		$dataMitigasi                 = $dataPost["risk_mitigasi"];
+		$dataPost["id_kajian_risiko"] = $idkajian;
+		switch( $action )
+		{
+			case 'create':
+				$dataPost["id"] = generateIdString();
+				$dataPost["risk_cause"] = json_encode( $dataPost["risk_cause"] );
+				$dataPost["risk_impact"] = json_encode( $dataPost["risk_impact"] );
+				$dataPost["created_at"] = date( "Y-m-d H:i:s" );
+				$dataPost["created_by"] = $this->ion_auth->get_user_name();
+				$dataPost["updated_at"] = date( "Y-m-d H:i:s" );
+				$dataPost["updated_by"] = $this->ion_auth->get_user_name();
+				unset( $dataPost["risk_mitigasi"] );
+				$registerInsertId = $this->db->insert( _TBL_KAJIAN_RISIKO_REGISTER, $dataPost );
+				if( $registerInsertId )
+				{
+					foreach( $dataMitigasi["mitigasi"] as $kmitigasi => $vmitigasi )
+					{
+						$dataInsertMitigasi = [
+						 "id"                        => generateIdString(),
+						 "id_kajian_risiko_register" => $dataPost["id"],
+						 "mitigasi"                  => $dataMitigasi["mitigasi"][$kmitigasi],
+						 "pic"                       => $dataMitigasi["pic"][$kmitigasi],
+						 "deadline"                  => $dataMitigasi["deadline"][$kmitigasi],
+						 "created_at"                => date( "Y-m-d H:i:s" ),
+						 "created_by"                => $this->ion_auth->get_user_name(),
+						 "updated_at"                => date( "Y-m-d H:i:s" ),
+						 "updated_by"                => $this->ion_auth->get_user_name(),
+						];
+						$this->db->insert( _TBL_KAJIAN_RISIKO_MITIGASI, $dataInsertMitigasi );
+					}
+				}
+				break;
+			case 'edit':
+				$dataPost["risk_cause"] = json_encode( $dataPost["risk_cause"] );
+				$dataPost["risk_impact"] = json_encode( $dataPost["risk_impact"] );
+				$dataPost["updated_at"] = date( "Y-m-d H:i:s" );
+				$dataPost["updated_by"] = $this->ion_auth->get_user_name();
+				unset( $dataPost["risk_mitigasi"] );
+				$resultUpdate = $this->db->update( _TBL_KAJIAN_RISIKO_REGISTER, $dataPost, [ "id" => $idregister ] );
+				if( $resultUpdate )
+				{
+					$this->db->delete( _TBL_KAJIAN_RISIKO_MITIGASI, [ "id_kajian_risiko_register" => $idregister ] );
+					foreach( $dataMitigasi["mitigasi"] as $kmitigasi => $vmitigasi )
+					{
+						$dataInsertMitigasi = [
+						 "id"                        => generateIdString(),
+						 "id_kajian_risiko_register" => $idregister,
+						 "mitigasi"                  => $dataMitigasi["mitigasi"][$kmitigasi],
+						 "pic"                       => $dataMitigasi["pic"][$kmitigasi],
+						 "deadline"                  => $dataMitigasi["deadline"][$kmitigasi],
+						 "created_at"                => date( "Y-m-d H:i:s" ),
+						 "created_by"                => $this->ion_auth->get_user_name(),
+						 "updated_at"                => date( "Y-m-d H:i:s" ),
+						 "updated_by"                => $this->ion_auth->get_user_name(),
+						];
+						$this->db->insert( _TBL_KAJIAN_RISIKO_MITIGASI, $dataInsertMitigasi );
+					}
+				}
+				break;
+
+			default:
+				# code...
+				break;
+		}
+
+	}
+
+	function setDataViewRegister( $dataView )
+	{
+		return $dataView;
+	}
+
+	function riskRegisterModal()
+	{
+		if( ! $this->input->is_ajax_request() )
+		{
+			exit( 'No direct script access allowed' );
+		}
+		$postData                    = $this->input->post();
+		$getdataRegister["register"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $postData["id_kajian"] ] )->result_array();
+		$result                      = $this->load->view( "ajax/register_modal", $getdataRegister, TRUE );
+
+		header( 'Content-type: text/json' );
+		header( 'Content-type: application/json' );
+		echo $result;
 	}
 }

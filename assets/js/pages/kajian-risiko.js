@@ -228,6 +228,34 @@ function deleteNotification(file) {
     }).show();
 }
 
+$(document).on("click", "#btnModalRegister", function () {
+    var id = $(this).attr("data-id");
+    var url = $(this).attr("data-url");
+    $.ajax({
+        type: "post",
+        url: url,
+        data: { "id_kajian": id },
+        dataType: "html",
+        beforeSend: function () {
+            looding('light', $("body"));
+        },
+        success: function (result) {
+            $(".modal-title").text("Risk Register Kajian Risiko");
+            $("#modal_general").find(".modal-title").text("Risk Register Kajian Risiko");
+            $("#modal_general").find(".modal-body").html(result);
+            $("#modal_general").modal("show");
+
+        },
+        error: function () {
+            alert('Error While Showing Risk Register Kajian Risiko');
+        },
+        complete: function () {
+            stopLooding($("body"));
+        }
+    })
+
+})
+
 
 
 

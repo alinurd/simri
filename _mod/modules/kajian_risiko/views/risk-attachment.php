@@ -80,7 +80,7 @@
 </div>
 
 <div id="preview-template" style="display:none">
-    <div class="dz-preview dz-complete dz-image-preview p-0 border-dark" style="box-shadow: none;">
+    <div class="dz-preview dz-complete dz-image-preview p-0" style="box-shadow: none;">
         <table class="table table-sm table-striped table-bordered">
             <tbody>
                 <tr>
