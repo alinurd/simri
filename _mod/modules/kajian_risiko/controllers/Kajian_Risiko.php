@@ -411,12 +411,25 @@ class Kajian_Risiko extends MY_Controller
 		{
 			exit( 'No direct script access allowed' );
 		}
-		$postData                    = $this->input->post();
-		$getdataRegister["register"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $postData["id_kajian"] ] )->result_array();
-		$result                      = $this->load->view( "ajax/register_modal", $getdataRegister, TRUE );
+		$postData                     = $this->input->post();
+		$getdataRegister["register"]  = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $postData["id_kajian"] ] )->result_array();
+		$getdataRegister["btnExport"] = base_url( $this->modul_name . "/export_excel/" . $postData["id_kajian"] );
+		$result                       = $this->load->view( "ajax/register_modal", $getdataRegister, TRUE );
 
 		header( 'Content-type: text/json' );
 		header( 'Content-type: application/json' );
 		echo $result;
+	}
+
+	function export_excel( $id )
+	{
+		$getdataRegister["register"]  = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $id ] )->result_array();
+		$getdataRegister["btnExport"] = base_url( $this->modul_name . "/export_excel/" . $id );
+		$result                       = $this->load->view( "ajax/register_modal", $getdataRegister, TRUE );
+		$nm_file                      = "Report Risk Register " . date( "Y-m-d" );
+		header( "Content-type:appalication/vnd.ms-excel" );
+		header( "content-disposition:attachment;filename=" . $nm_file . ".xls" );
+		echo $result;
+		exit;
 	}
 }

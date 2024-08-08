@@ -1,3 +1,14 @@
+$(document).ajaxComplete(function () {
+    $('.select').select2({
+        allowClear: false
+    });
+    $(".pickadate").pickadate({
+        selectMonths: true,
+        selectYears: true,
+        formatSubmit: "yyyy-mm-dd",
+    });
+});
+
 $(document).on("click", "#btn-reg-edit", function () {
     var id = $(this).attr("data-id");
     var url = $(this).attr("data-url");
@@ -7,7 +18,7 @@ $(document).on("click", "#btn-reg-edit", function () {
         data: { "id": id, "mode": "show" },
         dataType: "html",
         beforeSend: function () {
-            looding('light', $("body"));
+            looding('light', $("#content-monitoring"));
         },
         success: function (result) {
             $("#modal_general").find(".modal-title").text("Edit Risk Register Kajian Risiko");
@@ -19,16 +30,15 @@ $(document).on("click", "#btn-reg-edit", function () {
             alert('Error While Showing Risk Register Kajian Risiko');
         },
         complete: function () {
-            stopLooding($("body"));
+            stopLooding($("#content-monitoring"));
         }
     })
 
 })
-
 $(document).on("click", "#btn-submit-register", function (e) {
-    var id = $("#btn-submit-register").attr("data-id");
-    var url = $("#btn-submit-register").attr("data-url");
-    var idkajian = $("#btn-submit-register").attr("data-id-kajian");
+    var id = $(this).attr("data-id");
+    var url = $(this).attr("data-url");
+    var idkajian = $(this).attr("data-id-kajian");
     var formData = $("#form_general").serializeArray();
     formData.push({ name: "id", value: id });
     formData.push({ name: "mode", value: "edit" });
@@ -55,11 +65,10 @@ $(document).on("click", "#btn-submit-register", function (e) {
     })
 
 })
-
-$(document).on("click", "#add-monitoring", function (e) {
-    var url = $("#add-monitoring").attr("data-url");
-    var idkajian = $("#add-monitoring").attr("data-kajian-id");
-    var idmitigasi = $("#add-monitoring").attr("data-mitigasi-id");
+$(document).on("click", ".add-monitoring", function (e) {
+    var url = $(this).attr("data-url");
+    var idkajian = $(this).attr("data-kajian-id");
+    var idmitigasi = $(this).attr("data-mitigasi-id");
     var formData = $("#form_general").serializeArray();
     formData.push({ name: "idmitigasi", value: idmitigasi });
     formData.push({ name: "mode", value: "create" });
@@ -70,7 +79,7 @@ $(document).on("click", "#add-monitoring", function (e) {
         data: $.param(formData),
         dataType: "html",
         beforeSend: function () {
-            looding('light', $("body"));
+            looding('light', $("#content-monitoring"));
         },
         success: function (result) {
             $("#modal_general").find(".modal-title").text("Add Monitoring Mitigasi Risiko");
@@ -81,7 +90,7 @@ $(document).on("click", "#add-monitoring", function (e) {
             alert('Error While Showing Risk Register Kajian Risiko');
         },
         complete: function () {
-            stopLooding($("body"));
+            stopLooding($("#content-monitoring"));
         }
     })
 })
@@ -95,7 +104,7 @@ $(document).on("click", "#btn-edit-monitoring", function (e) {
         data: { "mode": "edit", "id": id, "idkajian": idKajian },
         dataType: "html",
         beforeSend: function () {
-            looding('light', $("body"));
+            looding('light', $("#content-monitoring"));
         },
         success: function (result) {
             $("#modal_general").find(".modal-title").text("Add Monitoring Mitigasi Risiko");
@@ -106,11 +115,12 @@ $(document).on("click", "#btn-edit-monitoring", function (e) {
             alert('Error While Showing Risk Register Kajian Risiko');
         },
         complete: function () {
-            stopLooding($("body"));
+            stopLooding($("#content-monitoring"));
         }
     })
 })
 $(document).on("click", "#btn-submit-monitoring", function (e) {
+
     var url = $(this).attr("data-url");
     var id = $(this).attr("data-id");
     var idkajian = $(this).attr("data-id-kajian");

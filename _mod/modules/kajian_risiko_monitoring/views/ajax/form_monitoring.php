@@ -28,7 +28,7 @@
                         <label for="status" class="col-md-2 col-form-label">Status<sup
                                 class="text-danger ml-1">(*)</sup></label>
                         <div class="col-md-10">
-                            <select class="form-control" name="status" id="status">
+                            <select class="form-control select" name="status" id="status">
                                 <option value="not-started" <?= ( ! empty( $formdata["status"] ) && $formdata["status"] == "not-started" ? "selected" : "" ) ?>>Not Started</option>
                                 <option value="on-progress" <?= ( ! empty( $formdata["status"] ) && $formdata["status"] == "on-progress" ? "selected" : "" ) ?>>On Progress</option>
                                 <option value="closed" <?= ( ! empty( $formdata["status"] ) && $formdata["status"] == "closed" ? "selected" : "" ) ?>>
@@ -50,7 +50,7 @@
                                 class="text-danger ml-1">(*)</sup></label>
                         <div class="col-md-10">
                             <input type="text" name="tanggal_update"
-                                value="<?= ( ! empty( $formdata["tanggal_update"] ) ? $formdata["tanggal_update"] : "" ) ?>"
+                                value="<?= ( ! empty( $formdata["tanggal_update"] ) ? date( "Y-m-d", strtotime( $formdata["tanggal_update"] ) ) : "" ) ?>"
                                 class="form-control pickadate" id="tanggal_update" placeholder="Tanggal Update">
                         </div>
                     </div>

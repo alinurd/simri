@@ -142,14 +142,20 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 
 		foreach( $registerData as $kReg => $vReg )
 		{
-			$registerData[$kReg]["mitigasi"]   = $this->db->get_where( _TBL_KAJIAN_RISIKO_MITIGASI, [ "id_kajian_risiko_register" => $vReg["id"] ] )->result_array();
-			$registerData[$kReg]["monitoring"] = $this->db->query( "select ikrm.id as id_mitigasi,ikrm.mitigasi,ikrm.pic,ikrm.deadline,ikrm2.id as id_monitoring, ikrm2.status,ikrm2.detail_progress,ikrm2.tanggal_update from il_kajian_risiko_mitigasi ikrm left join il_kajian_risiko_monitoring ikrm2 on ikrm.id =ikrm2.id_kajian_risiko_mitigasi where id_kajian_risiko_register='{$vReg['id']}'" )->result_array();
-
-			if( ! empty( $registerData[$kReg]["monitoring"] ) )
+			$registerData[$kReg]["mitigasi"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_MITIGASI, [ "id_kajian_risiko_register" => $vReg["id"] ] )->result_array();
+			if( ! empty( $registerData[$kReg]["mitigasi"] ) )
 			{
-				foreach( $registerData[$kReg]["monitoring"] as $kMon => $vMon )
+				foreach( $registerData[$kReg]["mitigasi"] as $keyMit => $vMit )
 				{
-					$registerData[$kReg]["monitoring"][$kMon]["status"] = $StatusMap[$vMon["status"]];
+					$registerData[$kReg]["monitoring"]["{$vMit['id']}"] = $this->db->query( "select ikrm.id as id_mitigasi,ikrm.mitigasi,ikrm.pic,ikrm.deadline,ikrm2.id as id_monitoring, ikrm2.status,ikrm2.detail_progress,ikrm2.tanggal_update from il_kajian_risiko_mitigasi ikrm left join il_kajian_risiko_monitoring ikrm2 on ikrm.id =ikrm2.id_kajian_risiko_mitigasi where ikrm.id='{$vMit['id']}'" )->result_array();
+
+					if( ! empty( $registerData[$kReg]["monitoring"] ) )
+					{
+						foreach( $registerData[$kReg]["monitoring"][$vMit["id"]] as $kMon => $vMon )
+						{
+							$registerData[$kReg]["monitoring"][$vMit["id"]][$kMon]["status"] = $StatusMap[$vMon["status"]];
+						}
+					}
 				}
 			}
 		}
@@ -243,7 +249,7 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 				 "id_kajian_risiko_mitigasi" => $posTdata["idmitigasi"],
 				 "status"                    => $posTdata["status"],
 				 "detail_progress"           => $posTdata["detail_progress"],
-				 "tanggal_update"            => $posTdata["tanggal_update"],
+				 "tanggal_update"            => $posTdata["tanggal_update_submit"],
 				 "created_at"                => date( "Y-m-d H:i:s" ),
 				 "created_by"                => $this->ion_auth->get_user_name(),
 				 "updated_at"                => date( "Y-m-d H:i:s" ),
@@ -254,12 +260,14 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 
 			case 'update':
 				$dataUpdate = [
-				 "status"          => $posTdata["status"],
-				 "detail_progress" => $posTdata["detail_progress"],
-				 "tanggal_update"  => $posTdata["tanggal_update"],
-				 "updated_at"      => date( "Y-m-d H:i:s" ),
-				 "updated_by"      => $this->ion_auth->get_user_name(),
+				 "status"            => $posTdata["status"],
+				 "detail_progress"   => $posTdata["detail_progress"],
+				 "tanggal_update"    => $posTdata["tanggal_update_submit"],
+				 "dokumen_pendukung" => $this->processFile( $_FILES ),
+				 "updated_at"        => date( "Y-m-d H:i:s" ),
+				 "updated_by"        => $this->ion_auth->get_user_name(),
 				 ];
+
 				$this->db->update( _TBL_KAJIAN_RISIKO_MONITORING, $dataUpdate, [ "id" => $posTdata["id"] ] );
 				break;
 
@@ -285,11 +293,30 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		}
 		$postData                     = $this->input->post();
 		$dataMonitoring["monitoring"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_MONITORING, [ "id_kajian_risiko" => $postData["id"] ] )->result_array();
+		$dataMonitoring["btnExport"]  = base_url( $this->modul_name . "/export_excel/" . $postData["id"] );
 		$result                       = $this->load->view( "ajax/monitoring_modal", $dataMonitoring, TRUE );
 
 		header( 'Content-type: text/json' );
 		header( 'Content-type: application/json' );
 		echo $result;
+	}
+
+	function processFile( $filedata )
+	{
+		return NULL;
+	}
+
+	function export_excel( $id )
+	{
+		$dataMonitoring["monitoring"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_MONITORING, [ "id_kajian_risiko" => $id ] )->result_array();
+		$dataMonitoring["btnExport"]  = base_url( $this->modul_name . "/export_excel/" . $id );
+		$result                       = $this->load->view( "ajax/monitoring_modal", $dataMonitoring, TRUE );
+
+		$nm_file = "Report Monitoring " . date( "Y-m-d" );
+		header( "Content-type:appalication/vnd.ms-excel" );
+		header( "content-disposition:attachment;filename=" . $nm_file . ".xls" );
+		echo $result;
+		exit;
 	}
 }
 

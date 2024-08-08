@@ -39,7 +39,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr class="collapse.show bg-light" id="row<?= $vReg["id"] ?>">
-                                                    <td colspan="8" class="p-3 shadow-sm">
+                                                    <td colspan="8" class="p-3 ">
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="card shadow-sm border m-0">
@@ -60,13 +60,17 @@
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
+                                                                                    <?php if (!empty( $vReg["mitigasi"])) {
+                                                                                $n=0;
+                                                                                foreach ($vReg["mitigasi"] as $kMit => $vMit) {?>
                                                                                     <?php if( ! empty( $vReg["monitoring"] ) )
                                                                                     {
-                                                                                        $spanCount = count( $vReg["monitoring"] );
-                                                                                        foreach( $vReg["monitoring"] as $kMonitoring => $vMonitoring )
+                                                                                        $spanCount = count( $vReg["monitoring"][$vMit['id']] );
+                                                                                        
+                                                                                        foreach( $vReg["monitoring"][$vMit['id']] as $kMonitoring => $vMonitoring )
                                                                                         { ?>
                                                                                             <tr>
-                                                                                                <?php if( $kMonitoring == 0 )
+                                                                                                <?php if( $n == 0 )
                                                                                                 { ?>
                                                                                                     <td rowspan="<?= $spanCount; ?>">
                                                                                                         <?= $vMonitoring["mitigasi"]; ?>
@@ -81,14 +85,14 @@
                                                                                                     <button type="button" id="add-monitoring"
                                                                                                             data-url="<?= $btnAdd ?>"
                                                                                                             data-kajian-id="<?= $vReg['id_kajian_risiko'] ?>"
-                                                                                                            data-mitigasi-id="<?=$vMonitoring['id_mitigasi']?>" class="btn btn-labeled button-action bg-success btn-sm"><i
+                                                                                                            data-mitigasi-id="<?=$vMonitoring['id_mitigasi']?>" class="btn btn-labeled button-action bg-success btn-sm add-monitoring"><i
                                                                                                             class="icon-plus-circle2"></i>
                                                                                                         </button>
                                                                                                     </td>
                                                                                                 <?php } ?>
                                                                                                 <td><?= $vMonitoring['detail_progress'] ?>
                                                                                                 </td>
-                                                                                                <td><?= $vMonitoring['tanggal_update'] ?>
+                                                                                                <td><?= date("Y-m-d",strtotime($vMonitoring['tanggal_update'])) ?>
                                                                                                 </td>
                                                                                                 <td><?= $vMonitoring['status'] ?></td>
                                                                                                 <td class="text-center">
@@ -109,9 +113,15 @@
                                                                                                 </td>
                                                                                             </tr>
                                                                                             <?php
-                                                                                          
 
+                                                                                          if ($kMonitoring==$spanCount) {
+                                                                                           
+                                                                                            }else{
+                                                                                                $n++;
+                                                                                            }
+                                                                                         
                                                                                         }
+                                                                                        $n=0;
                                                                                     }
                                                                                     else
                                                                                     {
@@ -120,6 +130,10 @@
                                                                                             <td colspan="7">Data Is Empty</td>
                                                                                         </tr>
                                                                                     <?php } ?>
+                                                                                    <?php 
+                                                                                        }
+                                                                                    }
+                                                                                ?>
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
