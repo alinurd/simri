@@ -176,7 +176,7 @@
                                                         <td></td>
                                                         <td></td>
                                                         <td></td>
-                                                    <?php endif; ?>
+                                                   
                                                     <td>
                                                         <span id="updateAktifitas" 
                                                         data-id="<?=$m['id']?>"
@@ -187,8 +187,9 @@
                                                         data-bln="<?=$monthParam?>"
                                                          class="btn btn-primary" data-edit="0">
                                                             <i class="fa fa-pencil" aria-hidden="true"></i>
-                                                        </span>
+                                                        </span>000
                                                     </td>
+                                                    <?php endif; ?>
                                                 </tr>
                                             <?php endforeach; ?>
                                         <?php endforeach; ?>

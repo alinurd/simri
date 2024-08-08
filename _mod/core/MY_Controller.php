@@ -2794,19 +2794,21 @@ class MY_Controller extends MX_Controller
 		$thnRcsa = substr($period['period'], 0, 4);
 		$dateRcsa = new DateTime($thnRcsa . '-' . $bln . '-' . $tgl);
 		$hariIni = new DateTime();
+		$title = 'Update Monitoring ' . date('M', mktime(0, 0, 0, $bln, 10));
+
 		if (isset($monthlyBefore)) {
 			if (intval($blnnow) > (1 * 100 + intval($period['period']))   and $hariIni  > $dateRcsa) {
 				if (isset($monthly)) {
-					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;background-color:' . $monthly['color'] . ';color:' . $monthly['color_text'] . ';">' . $monthly['level_color'] . ' </span></a>';
+					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;background-color:' . $monthly['color'] . ';color:' . $monthly['color_text'] . ';" title="'.$title.'">' . $monthly['level_color'] . ' </span></a>';
 				} else {
-					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;;"><i class="fa fa-pencil" aria-hidden="true"></i> </span></a>';
+					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;;" title="'.$title.'"><i class="fa fa-pencil" aria-hidden="true"></i> </span></a>';
 				}
 			} else {
 				$result = '<span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>';
 			}
 		} else {
 			if($bln==01){
-				$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;;"><i class="fa fa-pencil" aria-hidden="true"></i> </span></a>';
+				$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;;" title="'.$title.'"><i class="fa fa-pencil" aria-hidden="true"></i> </span></a>';
 			}else{
 				$result = '<span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>';
 			}

@@ -35,49 +35,43 @@ class Progress_Mitigasi extends MY_Controller
 		$this->addField(['field' => 'type_ass_id', 'input' => 'combo', 'required' => true, 'search' => true, 'values' => $this->type_ass_no, 'size' => 50]);
 		$this->addField(['field' => 'owner_id', 'title' => 'Department', 'type' => 'int', 'required' => true, 'input' => 'combo', 'search' => true, 'values' => $this->cboDept]);
 		$this->addField(['field' => 'risiko_dept', 'input' => 'multitext', 'search' => true, 'size' => 500]);
-		// $this->addField(['field' => 'ruang_lingkup', 'input' => 'multitext', 'search' => true, 'size' => 500]);
-		// $this->addField(['field' => 'stakeholder_id', 'title' => 'Stakeholder', 'type' => 'string', 'input' => 'combo', 'search' => true, 'values' => $this->cboStack, 'multiselect' => true]);
-
-		// $this->addField(['field' => 'alat_metode_id', 'title' => 'Alat & Metode', 'type' => 'int', 'input' => 'combo', 'search' => true, 'values' => $this->alat]);
 		$this->addField(['field' => 'period_id', 'title' => 'Periode', 'type' => 'int', 'required' => true, 'input' => 'combo', 'search' => true, 'values' => $this->period]);
-		// $this->addField(['field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => true, 'input' => 'combo', 'search' => true, 'values' => []]);
-		// $this->addField(['field' => 'minggu_id', 'title' => 'Bulan', 'type' => 'int', 'required' => true, 'input' => 'combo', 'search' => true, 'values' => []]);
+ 
+ 		$this->addField(['field' => 'level_color', 'show' => false]);
+ 		$this->addField(['field' => 'like_code', 'show' => false]);
+ 		$this->addField(['field' => 'impact_code', 'show' => false]);
+ 		$this->addField(['field' => 'color', 'show' => false]);
+ 		$this->addField(['field' => 'color_text', 'show' => false]);
 
-		// $this->addField(['field' => 'active', 'input' => 'boolean', 'size' => 20]);
-		// $this->addField(['field' => 'status_id', 'show' => false]);
-		// $this->addField(['field' => 'status_final', 'show' => false]);
-		// $this->addField(['field' => 'status_revisi', 'show' => false]);
-		// $this->addField(['field' => 'tgl_propose_mitigasi', 'type' => 'date', 'input' => 'date', 'show' => false]);
-		// $this->addField(['field' => 'register', 'title' => 'Laporan', 'type' => 'free', 'show' => false]);
-		// $this->addField(['field' => 'created_at', 'show' => false]);
-		// $this->addField(['field' => 'status_revisi_mitigasi', 'show' => false]);
-		// $this->addField(['field' => 'status_id_mitigasi', 'show' => false]);
-		// $this->addField(['field' => 'status_final_mitigasi', 'show' => false]);
-		// $this->addField(['field' => 'tgl_selesai_term', 'show' => false]);
-		// $this->addField(['field' => 'tgl_akhir_mitigasi', 'show' => false]);
 
-		// $this->addField(['field' => 'term', 'show' => false]);
-		$this->addField(['field' => 'kode_dept', 'show' => false]);
+ 		$this->addField(['field' => 'level_color_target', 'show' => false]);
+ 		$this->addField(['field' => 'like_code_target', 'show' => false]);
+ 		$this->addField(['field' => 'impact_code_target', 'show' => false]);
+ 		$this->addField(['field' => 'color_target', 'show' => false]);
+ 		$this->addField(['field' => 'color_text_target ', 'show' => false]);
+		
+
+ 		$this->addField(['field' => 'kode_dept', 'show' => false]);
 		$this->addField(['field' => 'owner_name', 'show' => false]);
-		// $this->addField(['field' => 'period_id', 'show' => false]);
-		$this->addField(['field' => 'rcsa_id', 'show' => false]);
+ 		$this->addField(['field' => 'rcsa_id', 'show' => false]);
+		$this->addField(['field' => 'inherent', 'type' => 'free', 'show' => false]);
+		$this->addField(['field' => 'target', 'type' => 'free', 'show' => false]);
 		foreach (range(1, 12) as $key => $value) {
 			$this->addField(['field' => 'monitoring' . $value, 'type' => 'free', 'show' => false]);
 		}
 		$this->set_Field_Primary($this->tbl_master, 'id', true);
 
-		$this->set_Sort_Table($this->tbl_master, 'created_at', 'desc');
-		// $this->set_Where_Table(['field'=>'status_id_mitigasi', 'value'=>1, 'op'=>'>=']);
-		// $this->set_Where_Table(['field'=>'status_final_mitigasi', 'value'=>1, 'op'=>'>=']);
+		$this->set_Sort_Table($this->tbl_master, 'created_at', 'desc'); 
 		$this->set_Where_Table(['field' => 'status_final', 'value' => 1, 'op' => '>=']);
 
-		$this->set_Table_List($this->tbl_master, 'id', '<input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;">', '0%', 'left', 'no-sort');
+		// $this->set_Table_List($this->tbl_master, 'id', '<input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;">', '0%', 'left', 'no-sort');
 
-		$this->set_Table_List($this->tbl_master, 'owner_name');
-		$this->set_Table_List($this->tbl_master, 'period_id', '');
-		$this->set_Table_List($this->tbl_master, 'risiko_dept', '');
-		// $this->set_Table_List($this->tbl_master, 'register', '', 7, 'center');
-		$bulan = [
+		$this->set_Table_List($this->tbl_master, 'owner_name','Owner Name', 15);
+		$this->set_Table_List($this->tbl_master, 'period_id', '', 'left',3);
+		$this->set_Table_List($this->tbl_master, 'risiko_dept', 'risiko_dept', 20);
+		$this->set_Table_List($this->tbl_master, 'inherent', '', 3);
+		$this->set_Table_List($this->tbl_master, 'target', '', 3);
+ 		$bulan = [
 			1 => 'Jan',
 			2 => 'Feb',
 			3 => 'Mar',
@@ -95,7 +89,7 @@ class Progress_Mitigasi extends MY_Controller
 		foreach (range(1, 12) as $key => $value) {
 			$datetime = DateTime::createFromFormat('m', $value);
 			$nama =  $bulan[$value];
-			$this->set_Table_List($this->tbl_master, 'monitoring' . $value, $nama, 3, 'center');
+			$this->set_Table_List($this->tbl_master, 'monitoring' . $value, $nama, 5, 'center', 'no-sort');
 		}
 
 		$this->_set_Where_Owner();
@@ -122,6 +116,18 @@ class Progress_Mitigasi extends MY_Controller
 		return [
 			'configuration'	=> $configuration
 		];
+	}
+
+	public function listBox_INHERENT($field, $rows, $value)
+	{
+		$result = '<span class="btn" style="padding:4px 8px;width:100%;background-color:' . $rows['color'] . ';color:' . $rows['color_text'] . ';">[' . $rows['like_code'] . ' x ' . $rows['impact_code'] . '] <br>' . $rows['level_color'] . '</span>';
+		return $result;
+	}
+
+	public function listBox_TARGET($field, $rows, $value)
+	{ 
+		$result = '<span class="btn" style="padding:4px 8px;width:100%;background-color:' . $rows['color_target'] . ';color:' . $rows['color_text_target'] . ';">[' . $rows['like_code_target'] . ' x ' . $rows['impact_code_target'] . '] <br>' . $rows['level_color_target'] . '</span>';
+		return $result;
 	}
 
 	public function listBox_MONITORING1($field, $rows, $value)
@@ -1548,9 +1554,9 @@ public function listBox_MONITORING12($field, $rows, $value)
 			$post['id'] = 0;
 		}
 
-		$id = $post['mitdetail'];
+		$id = $post['id'];
 		$imitigasiId = $post['mit'];
-		$id_edit = $post['id'];
+		$id_edit = $post['mitdetail'];
 		$bln = intval($post['bln']);
 		$periodeId = intval($post['periode']);
 		$awal = false;
