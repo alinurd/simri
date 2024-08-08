@@ -36,24 +36,24 @@ class Progress_Mitigasi extends MY_Controller
 		$this->addField(['field' => 'owner_id', 'title' => 'Department', 'type' => 'int', 'required' => true, 'input' => 'combo', 'search' => true, 'values' => $this->cboDept]);
 		$this->addField(['field' => 'risiko_dept', 'input' => 'multitext', 'search' => true, 'size' => 500]);
 		$this->addField(['field' => 'period_id', 'title' => 'Periode', 'type' => 'int', 'required' => true, 'input' => 'combo', 'search' => true, 'values' => $this->period]);
- 
- 		$this->addField(['field' => 'level_color', 'show' => false]);
- 		$this->addField(['field' => 'like_code', 'show' => false]);
- 		$this->addField(['field' => 'impact_code', 'show' => false]);
- 		$this->addField(['field' => 'color', 'show' => false]);
- 		$this->addField(['field' => 'color_text', 'show' => false]);
+
+		$this->addField(['field' => 'level_color', 'show' => false]);
+		$this->addField(['field' => 'like_code', 'show' => false]);
+		$this->addField(['field' => 'impact_code', 'show' => false]);
+		$this->addField(['field' => 'color', 'show' => false]);
+		$this->addField(['field' => 'color_text', 'show' => false]);
 
 
- 		$this->addField(['field' => 'level_color_target', 'show' => false]);
- 		$this->addField(['field' => 'like_code_target', 'show' => false]);
- 		$this->addField(['field' => 'impact_code_target', 'show' => false]);
- 		$this->addField(['field' => 'color_target', 'show' => false]);
- 		$this->addField(['field' => 'color_text_target ', 'show' => false]);
-		
+		$this->addField(['field' => 'level_color_target', 'show' => false]);
+		$this->addField(['field' => 'like_code_target', 'show' => false]);
+		$this->addField(['field' => 'impact_code_target', 'show' => false]);
+		$this->addField(['field' => 'color_target', 'show' => false]);
+		$this->addField(['field' => 'color_text_target ', 'show' => false]);
 
- 		$this->addField(['field' => 'kode_dept', 'show' => false]);
+
+		$this->addField(['field' => 'kode_dept', 'show' => false]);
 		$this->addField(['field' => 'owner_name', 'show' => false]);
- 		$this->addField(['field' => 'rcsa_id', 'show' => false]);
+		$this->addField(['field' => 'rcsa_id', 'show' => false]);
 		$this->addField(['field' => 'inherent', 'type' => 'free', 'show' => false]);
 		$this->addField(['field' => 'target', 'type' => 'free', 'show' => false]);
 		foreach (range(1, 12) as $key => $value) {
@@ -61,17 +61,17 @@ class Progress_Mitigasi extends MY_Controller
 		}
 		$this->set_Field_Primary($this->tbl_master, 'id', true);
 
-		$this->set_Sort_Table($this->tbl_master, 'created_at', 'desc'); 
+		$this->set_Sort_Table($this->tbl_master, 'created_at', 'desc');
 		$this->set_Where_Table(['field' => 'status_final', 'value' => 1, 'op' => '>=']);
 
 		// $this->set_Table_List($this->tbl_master, 'id', '<input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;">', '0%', 'left', 'no-sort');
 
-		$this->set_Table_List($this->tbl_master, 'owner_name','Owner Name', 15);
-		$this->set_Table_List($this->tbl_master, 'period_id', '', 'left',3);
-		$this->set_Table_List($this->tbl_master, 'risiko_dept', 'risiko_dept', 20);
-		$this->set_Table_List($this->tbl_master, 'inherent', '', 3);
-		$this->set_Table_List($this->tbl_master, 'target', '', 3);
- 		$bulan = [
+		$this->set_Table_List($this->tbl_master, 'owner_name', 'Owner Name', 15);
+		$this->set_Table_List($this->tbl_master, 'period_id', '', 5, 'center');
+		$this->set_Table_List($this->tbl_master, 'risiko_dept', 'risiko_dept', 15);
+		$this->set_Table_List($this->tbl_master, 'inherent', '', 5);
+		$this->set_Table_List($this->tbl_master, 'target', '', 5);
+		$bulan = [
 			1 => 'Jan',
 			2 => 'Feb',
 			3 => 'Mar',
@@ -89,7 +89,7 @@ class Progress_Mitigasi extends MY_Controller
 		foreach (range(1, 12) as $key => $value) {
 			$datetime = DateTime::createFromFormat('m', $value);
 			$nama =  $bulan[$value];
-			$this->set_Table_List($this->tbl_master, 'monitoring' . $value, $nama, 5, 'center', 'no-sort');
+			$this->set_Table_List($this->tbl_master, 'monitoring' . $value, $nama,5,'center', 'no-sort');
 		}
 
 		$this->_set_Where_Owner();
@@ -110,6 +110,7 @@ class Progress_Mitigasi extends MY_Controller
 		// }
 
 		$configuration = [
+			'monitoring'	=> true,
 			'show_title_header' => false,
 			'content_title' => $content_title
 		];
@@ -125,62 +126,62 @@ class Progress_Mitigasi extends MY_Controller
 	}
 
 	public function listBox_TARGET($field, $rows, $value)
-	{ 
+	{
 		$result = '<span class="btn" style="padding:4px 8px;width:100%;background-color:' . $rows['color_target'] . ';color:' . $rows['color_text_target'] . ';">[' . $rows['like_code_target'] . ' x ' . $rows['impact_code_target'] . '] <br>' . $rows['level_color_target'] . '</span>';
 		return $result;
 	}
 
 	public function listBox_MONITORING1($field, $rows, $value)
-{
-    return $this->getListMonitoring("01", $rows, $value);
-}
-public function listBox_MONITORING2($field, $rows, $value)
-{
-    return $this->getListMonitoring("02", $rows, $value);
-}
-public function listBox_MONITORING3($field, $rows, $value)
-{
-    return $this->getListMonitoring("03", $rows, $value);
-}
-public function listBox_MONITORING4($field, $rows, $value)
-{
-    return $this->getListMonitoring("04", $rows, $value);
-}
-public function listBox_MONITORING5($field, $rows, $value)
-{
-    return $this->getListMonitoring("05", $rows, $value);
-}
-public function listBox_MONITORING6($field, $rows, $value)
-{
-    return $this->getListMonitoring("06", $rows, $value);
-}
-public function listBox_MONITORING7($field, $rows, $value)
-{
-    return $this->getListMonitoring("07", $rows, $value);
-}
-public function listBox_MONITORING8($field, $rows, $value)
-{
-    return $this->getListMonitoring("08", $rows, $value);
-}
-public function listBox_MONITORING9($field, $rows, $value)
-{
-    return $this->getListMonitoring("09", $rows, $value);
-}
-public function listBox_MONITORING10($field, $rows, $value)
-{
-    return $this->getListMonitoring("10", $rows, $value);
-}
-public function listBox_MONITORING11($field, $rows, $value)
-{
-    return $this->getListMonitoring("11", $rows, $value);
-}
-public function listBox_MONITORING12($field, $rows, $value)
-{
-    return $this->getListMonitoring("12", $rows, $value);
-}
+	{
+		return $this->getListMonitoring("01", $rows, $value);
+	}
+	public function listBox_MONITORING2($field, $rows, $value)
+	{
+		return $this->getListMonitoring("02", $rows, $value);
+	}
+	public function listBox_MONITORING3($field, $rows, $value)
+	{
+		return $this->getListMonitoring("03", $rows, $value);
+	}
+	public function listBox_MONITORING4($field, $rows, $value)
+	{
+		return $this->getListMonitoring("04", $rows, $value);
+	}
+	public function listBox_MONITORING5($field, $rows, $value)
+	{
+		return $this->getListMonitoring("05", $rows, $value);
+	}
+	public function listBox_MONITORING6($field, $rows, $value)
+	{
+		return $this->getListMonitoring("06", $rows, $value);
+	}
+	public function listBox_MONITORING7($field, $rows, $value)
+	{
+		return $this->getListMonitoring("07", $rows, $value);
+	}
+	public function listBox_MONITORING8($field, $rows, $value)
+	{
+		return $this->getListMonitoring("08", $rows, $value);
+	}
+	public function listBox_MONITORING9($field, $rows, $value)
+	{
+		return $this->getListMonitoring("09", $rows, $value);
+	}
+	public function listBox_MONITORING10($field, $rows, $value)
+	{
+		return $this->getListMonitoring("10", $rows, $value);
+	}
+	public function listBox_MONITORING11($field, $rows, $value)
+	{
+		return $this->getListMonitoring("11", $rows, $value);
+	}
+	public function listBox_MONITORING12($field, $rows, $value)
+	{
+		return $this->getListMonitoring("12", $rows, $value);
+	}
 
 
-	 
+
 
 
 
@@ -1569,64 +1570,63 @@ public function listBox_MONITORING12($field, $rows, $value)
 
 		$dp = $this->db->where('id', $id_edit)->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->row_array();
 		$am = $this->db->where('id', $id)->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)->row_array();
-		 
-			$data['detail_progres'] = $this->db->where('rcsa_mitigasi_detail_id', $id)->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
-			$data['aktifitas_mitigas'] = $am;
-			$mit = $this->db->where('id',(isset($data['aktifitas_mitigas']['rcsa_mitigasi_id']) ? $data['aktifitas_mitigas']['rcsa_mitigasi_id'] : $imitigasiId))->get(_TBL_VIEW_RCSA_MITIGASI)->row_array();
-			$mit = $this->convert_owner->set_data($mit, false)->set_param(['penanggung_jawab' => 'penanggung_jawab_id', 'koordinator' => 'koordinator_id'])->draw();
-			$rcsa_detail = $this->db->where('id', $mit['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_DETAIL)->row_array();
-			$data['parent'] = $this->db->where('id', $rcsa_detail['rcsa_id'])->get(_TBL_VIEW_RCSA)->row_array();
-			$trg = 1;
-			$disabled = '';
-			if (isset($am) && $am['batas_waktu_detail'] < date('Y-m-d')) {
-				$trg = 100;
-			}
-			$data['minggu'] = $this->crud->combo_select(['id', 'concat(param_string, " ", YEAR(param_date)) as minggu'])->combo_where('kelompok', 'minggu')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 
-			$aktual = '<div class="input-group" style="width:19% !important;"> <button type="button" onclick="this.parentNode.querySelector(\'[type=number]\').stepDown();"> - </button>';
-			$aktual .= form_input(['type' => 'number', 'name' => 'aktual'], ($dp) ? $dp['aktual'] : '1', " class='form-control touchspin-postfix text-center' max='100' min='1' step='1' id='aktual' ");
-			$aktual .= '<button type="button" onclick="this.parentNode.querySelector(\'[type=number]\').stepUp();"> + </button> <div class="form-control-feedback text-primary form-control-feedback-lg pointer" style="right:-25%;"> % </div></div>';
+		$data['detail_progres'] = $this->db->where('rcsa_mitigasi_detail_id', $id)->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
+		$data['aktifitas_mitigas'] = $am;
+		$mit = $this->db->where('id', (isset($data['aktifitas_mitigas']['rcsa_mitigasi_id']) ? $data['aktifitas_mitigas']['rcsa_mitigasi_id'] : $imitigasiId))->get(_TBL_VIEW_RCSA_MITIGASI)->row_array();
+		$mit = $this->convert_owner->set_data($mit, false)->set_param(['penanggung_jawab' => 'penanggung_jawab_id', 'koordinator' => 'koordinator_id'])->draw();
+		$rcsa_detail = $this->db->where('id', $mit['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_DETAIL)->row_array();
+		$data['parent'] = $this->db->where('id', $rcsa_detail['rcsa_id'])->get(_TBL_VIEW_RCSA)->row_array();
+		$trg = 1;
+		$disabled = '';
+		if (isset($am) && $am['batas_waktu_detail'] < date('Y-m-d')) {
+			$trg = 100;
+		}
+		$data['minggu'] = $this->crud->combo_select(['id', 'concat(param_string, " ", YEAR(param_date)) as minggu'])->combo_where('kelompok', 'minggu')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 
-			$target = '<div class="input-group" style="width:19% !important;"> <button type="button" onclick="this.parentNode.querySelector(\'[type=number]\').stepDown();"> - </button>';
-			$target .= form_input(['type' => 'number', 'name' => 'target'], ($dp) ? $dp['target'] : $trg, " '.$disabled.' class='form-control touchspin-postfix text-center' max='100' min='1' step='1' id='target' ");
-			$target .= '<button type="button" onclick="this.parentNode.querySelector(\'[type=number]\').stepUp();"> + </button> <div class="form-control-feedback text-primary form-control-feedback-lg pointer" style="right:-25%;"> % </div></div>';
+		$aktual = '<div class="input-group" style="width:19% !important;"> <button type="button" onclick="this.parentNode.querySelector(\'[type=number]\').stepDown();"> - </button>';
+		$aktual .= form_input(['type' => 'number', 'name' => 'aktual'], ($dp) ? $dp['aktual'] : '1', " class='form-control touchspin-postfix text-center' max='100' min='1' step='1' id='aktual' ");
+		$aktual .= '<button type="button" onclick="this.parentNode.querySelector(\'[type=number]\').stepUp();"> + </button> <div class="form-control-feedback text-primary form-control-feedback-lg pointer" style="right:-25%;"> % </div></div>';
 
-			$data['progres'][] = ['title' => "Tahun ", 'mandatori' => false, 'isi' => form_input('bln', ($getMinggu) ? $getMinggu['period'] : $bln, 'class="form-control " id="bln" disabled style="width:100%;"') . form_hidden(['periodeId' => $periodeId, 'id' => $periodeId])];
-			$data['progres'][] = ['title' => "Bulan ", 'mandatori' => false, 'isi' => form_input('bln', ($getMinggu) ? $getMinggu['param_string'] : $bln, 'class="form-control " id="bln" disabled style="width:100%;"') . form_hidden(['periodeId' => $periodeId, 'id' => $periodeId])];
-			$data['progres'][] = ['title' => _l('fld_target'), 'help' => _h('help_target'), 'mandatori' => true, 'isi' => $target];
-			$data['progres'][] = ['title' => _l('fld_aktual'), 'help' => _h('help_aktual'), 'mandatori' => true, 'isi' => $aktual];
-			$data['progres'][] = ['title' => _l('fld_uraian'), 'help_popup' => false, 'help' => _h('help_uraian', '', true, false), 'mandatori' => true, 'isi' => form_textarea('uraian', ($dp) ? $dp['uraian'] : '', "required id='uraian' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 100px;' onblur='_maxLength(this , \"id_sisa_1\")' onkeyup='_maxLength(this , \"id_sisa_1\")' data-role='tagsinput'", true, ['size' => 1000, 'isi' => 0, 'no' => 1])];
-			$data['progres'][] = ['title' => _l('fld_kendala'), 'help' => _h('help_kendala'), 'isi' => form_textarea('kendala', ($dp) ? $dp['kendala'] : '', "required id='kendala' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 100px;' onblur='_maxLength(this , \"id_sisa_2\")' onkeyup='_maxLength(this , \"id_sisa_2\")' data-role='tagsinput'", true, ['size' => 1000, 'isi' => 0, 'no' => 2])];
-			$data['progres'][] = ['title' => _l('fld_tindak_lanjut'), 'help' => _h('help_tindak_lanjut'), 'isi' => form_textarea('tindak_lanjut', ($dp) ? $dp['tindak_lanjut'] : '', " id='tindak_lanjut' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 100px;' onblur='_maxLength(this , \"id_sisa_3\")' onkeyup='_maxLength(this , \"id_sisa_3\")' data-role='tagsinput'", true, ['size' => 1000, 'isi' => 0, 'no' => 3])];
-			$data['progres'][] = ['title' => _l('fld_due_date'), 'help' => _h('help_due_date'), 'isi' => form_input('batas_waktu_tindak_lanjut', ($dp) ? $dp['batas_waktu_tindak_lanjut'] : '', 'class="form-control pickadate" id="batas_waktu_tindak_lanjut" style="width:100%;"')];
+		$target = '<div class="input-group" style="width:19% !important;"> <button type="button" onclick="this.parentNode.querySelector(\'[type=number]\').stepDown();"> - </button>';
+		$target .= form_input(['type' => 'number', 'name' => 'target'], ($dp) ? $dp['target'] : $trg, " '.$disabled.' class='form-control touchspin-postfix text-center' max='100' min='1' step='1' id='target' ");
+		$target .= '<button type="button" onclick="this.parentNode.querySelector(\'[type=number]\').stepUp();"> + </button> <div class="form-control-feedback text-primary form-control-feedback-lg pointer" style="right:-25%;"> % </div></div>';
 
-			$data['progres'][] = ['title' => _l('fld_keterangan'), 'help' => _h('help_keterangan'), 'isi' => form_textarea('keterangan', ($dp) ? $dp['keterangan'] : '', " id='keterangan' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 100px;' onblur='_maxLength(this , \"id_sisa_4\")' onkeyup='_maxLength(this , \"id_sisa_4\")' data-role='tagsinput'", true, ['size' => 1000, 'isi' => 0, 'no' => 4])];
-			$data['progres'][] = ['title' => _l('fld_lampiran'), 'help' => _h('help_lampiran'), 'isi' => form_upload('lampiran')];
-			$data['progres'][] = ['title' => '', 'help' => '', 'isi' => form_hidden(['aktifitas_mitigasi_id' => $id, 'id' => $id_edit])];
+		$data['progres'][] = ['title' => "Tahun ", 'mandatori' => false, 'isi' => form_input('bln', ($getMinggu) ? $getMinggu['period'] : $bln, 'class="form-control " id="bln" disabled style="width:100%;"') . form_hidden(['periodeId' => $periodeId, 'id' => $periodeId])];
+		$data['progres'][] = ['title' => "Bulan ", 'mandatori' => false, 'isi' => form_input('bln', ($getMinggu) ? $getMinggu['param_string'] : $bln, 'class="form-control " id="bln" disabled style="width:100%;"') . form_hidden(['periodeId' => $periodeId, 'id' => $periodeId])];
+		$data['progres'][] = ['title' => _l('fld_target'), 'help' => _h('help_target'), 'mandatori' => true, 'isi' => $target];
+		$data['progres'][] = ['title' => _l('fld_aktual'), 'help' => _h('help_aktual'), 'mandatori' => true, 'isi' => $aktual];
+		$data['progres'][] = ['title' => _l('fld_uraian'), 'help_popup' => false, 'help' => _h('help_uraian', '', true, false), 'mandatori' => true, 'isi' => form_textarea('uraian', ($dp) ? $dp['uraian'] : '', "required id='uraian' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 100px;' onblur='_maxLength(this , \"id_sisa_1\")' onkeyup='_maxLength(this , \"id_sisa_1\")' data-role='tagsinput'", true, ['size' => 1000, 'isi' => 0, 'no' => 1])];
+		$data['progres'][] = ['title' => _l('fld_kendala'), 'help' => _h('help_kendala'), 'isi' => form_textarea('kendala', ($dp) ? $dp['kendala'] : '', "required id='kendala' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 100px;' onblur='_maxLength(this , \"id_sisa_2\")' onkeyup='_maxLength(this , \"id_sisa_2\")' data-role='tagsinput'", true, ['size' => 1000, 'isi' => 0, 'no' => 2])];
+		$data['progres'][] = ['title' => _l('fld_tindak_lanjut'), 'help' => _h('help_tindak_lanjut'), 'isi' => form_textarea('tindak_lanjut', ($dp) ? $dp['tindak_lanjut'] : '', " id='tindak_lanjut' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 100px;' onblur='_maxLength(this , \"id_sisa_3\")' onkeyup='_maxLength(this , \"id_sisa_3\")' data-role='tagsinput'", true, ['size' => 1000, 'isi' => 0, 'no' => 3])];
+		$data['progres'][] = ['title' => _l('fld_due_date'), 'help' => _h('help_due_date'), 'isi' => form_input('batas_waktu_tindak_lanjut', ($dp) ? $dp['batas_waktu_tindak_lanjut'] : '', 'class="form-control pickadate" id="batas_waktu_tindak_lanjut" style="width:100%;"')];
 
-			$data['info_1'][] = ['title' => _l('fld_risiko_dept'), 'isi' => $rcsa_detail['risiko_dept']];
-			$data['info_1'][] = ['title' => _l('fld_risiko_inherent'), 'isi' => $rcsa_detail['level_color']];
-			$data['info_1'][] = ['title' => _l('fld_efek_kontrol'), 'isi' => $rcsa_detail['efek_kontrol_text']];
-			$data['info_1'][] = ['title' => _l('fld_nama_control'), 'isi' => $rcsa_detail['nama_kontrol']];
-			$data['info_1'][] = ['title' => _l('fld_level_risiko_residual'), 'isi' => $rcsa_detail['level_color_residual']];
-			$data['info_1'][] = ['title' => _l('fld_treatment'), 'isi' => $rcsa_detail['treatment']];
+		$data['progres'][] = ['title' => _l('fld_keterangan'), 'help' => _h('help_keterangan'), 'isi' => form_textarea('keterangan', ($dp) ? $dp['keterangan'] : '', " id='keterangan' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 100px;' onblur='_maxLength(this , \"id_sisa_4\")' onkeyup='_maxLength(this , \"id_sisa_4\")' data-role='tagsinput'", true, ['size' => 1000, 'isi' => 0, 'no' => 4])];
+		$data['progres'][] = ['title' => _l('fld_lampiran'), 'help' => _h('help_lampiran'), 'isi' => form_upload('lampiran')];
+		$data['progres'][] = ['title' => '', 'help' => '', 'isi' => form_hidden(['aktifitas_mitigasi_id' => $id, 'id' => $id_edit])];
 
-			$data['info_2'][] = ['title' => _l('fld_mitigasi'), 'isi' => $mit['mitigasi']];
-			$data['info_2'][] = ['title' => _l('fld_biaya'), 'isi' => number_format($mit['biaya'])];
-			$data['info_2'][] = ['title' => _l('fld_pic'), 'isi' => $mit['penanggung_jawab']];
-			$data['info_2'][] = ['title' => _l('fld_koordinator'), 'isi' => $mit['koordinator']];
-			$data['info_2'][] = ['title' => _l('fld_due_date'), 'isi' => date('d-M-Y', strtotime($mit['batas_waktu']))];
+		$data['info_1'][] = ['title' => _l('fld_risiko_dept'), 'isi' => $rcsa_detail['risiko_dept']];
+		$data['info_1'][] = ['title' => _l('fld_risiko_inherent'), 'isi' => $rcsa_detail['level_color']];
+		$data['info_1'][] = ['title' => _l('fld_efek_kontrol'), 'isi' => $rcsa_detail['efek_kontrol_text']];
+		$data['info_1'][] = ['title' => _l('fld_nama_control'), 'isi' => $rcsa_detail['nama_kontrol']];
+		$data['info_1'][] = ['title' => _l('fld_level_risiko_residual'), 'isi' => $rcsa_detail['level_color_residual']];
+		$data['info_1'][] = ['title' => _l('fld_treatment'), 'isi' => $rcsa_detail['treatment']];
 
-			$data['update'] = $this->load->view('progres', $data, true);
-			$data['id'] = $id;
+		$data['info_2'][] = ['title' => _l('fld_mitigasi'), 'isi' => $mit['mitigasi']];
+		$data['info_2'][] = ['title' => _l('fld_biaya'), 'isi' => number_format($mit['biaya'])];
+		$data['info_2'][] = ['title' => _l('fld_pic'), 'isi' => $mit['penanggung_jawab']];
+		$data['info_2'][] = ['title' => _l('fld_koordinator'), 'isi' => $mit['koordinator']];
+		$data['info_2'][] = ['title' => _l('fld_due_date'), 'isi' => date('d-M-Y', strtotime($mit['batas_waktu']))];
 
-			$result['title'] = "Update Aktifitas ";
-			if (isset($mit['mitigasi']) && $mit['mitigasi'] !== '') {
-				$result['title'] .= ': ' . $mit['mitigasi'];
-			}
-			$result['combo'] = $this->load->view('progres', $data, true);
-			header('Content-type: application/json');
-			echo json_encode($result);
-		 
+		$data['update'] = $this->load->view('progres', $data, true);
+		$data['id'] = $id;
+
+		$result['title'] = "Update Aktifitas ";
+		if (isset($mit['mitigasi']) && $mit['mitigasi'] !== '') {
+			$result['title'] .= ': ' . $mit['mitigasi'];
+		}
+		$result['combo'] = $this->load->view('progres', $data, true);
+		header('Content-type: application/json');
+		echo json_encode($result);
 	}
 }

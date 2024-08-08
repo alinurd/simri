@@ -482,8 +482,10 @@ class MY_Controller extends MX_Controller
 	{
 		$this->register_button('list');
 		$this->configuration['button'] = $this->_button;
-
 		$content = $this->_template_ . '/list';
+		if(isset($this->configuration['monitoring'])){
+			$content = $this->_template_ . '/list-monitoring';
+		}
 		if (!$this->input->is_ajax_request() && array_key_exists('fields', $this->tmp_data)) {
 			$this->set_search_box($this->post);
 		}
