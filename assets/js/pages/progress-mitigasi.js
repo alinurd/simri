@@ -548,3 +548,58 @@ function view_kpi(hasil){
 function reset_approval(hasil){
 	location.reload();
 }
+
+
+
+$(document).on("change", "#like_id, #impact_id", function () {
+	var parent = $(this).parent();
+	var like = $("#like_id").val();
+	var impact = $("#impact_id").val();
+	var data = { 'like': like, 'impact': impact };
+	var url = "ajax/get-risiko-inherent";
+	_ajax_("post", parent, data, '', url, 'result_inherent');
+});
+
+$(document).on("click","#updateAktifitas", function () {
+	var parent = $(this).parent();
+	
+	var id = $(this).data('id');
+	var rcsadetail = $(this).data('rcsadetail');
+	var mitigasi = $(this).data('mitigasi');
+	var mitdetail = $(this).data('mitdetail');
+	var periode = $(this).data('periode');
+	var bln = $(this).data('bln');
+
+	var data={
+		'id':id, 
+		'rcsadetail':rcsadetail,
+		'mit':mitigasi,
+		'mitdetail':mitdetail,
+		'periode':periode,
+		'bln':bln
+	};
+	console.log(data)
+	var url = modul_name+"/form-update-aktifitas";
+	_ajax_("post", parent, data, '', url, 'aktififasMod');
+})
+
+function aktififasMod(hasil){
+	$("#modal_general").find(".modal-title").html(hasil.title);
+	$("#modal_general").find(".modal-body").html(hasil.combo);
+	$("#modal_general").find(".modal-footer").addClass('d-none');
+	$("#modal_general").modal("show");
+}
+function result_inherent(hasil) {
+ 
+	var likeCode = parseFloat(hasil.like_code);
+	var impactCode = parseFloat(hasil.impact_code);
+	var x = likeCode * impactCode;
+	$("#risiko_inherent_text").val(x + '-' + hasil.level_color);
+    $("#level_inherent_text").val(hasil.level_color);
+    $("input[name=\"risiko_inherent\"]").val(hasil.id);
+    $("input[name=\"level_inherent\"]").val(hasil.level_risk_no);
+    $("#level_inherent_text").css("background-color", hasil.color);
+    $("#level_inherent_text").css("color", hasil.color_text);
+
+
+}

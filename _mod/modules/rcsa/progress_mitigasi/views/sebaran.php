@@ -127,18 +127,21 @@
                                                             <?php
                                                             ?>
                                                             <tr>
-                                                                <?php for ($month = 1; $month <= 12; $month++) : ?>
+                                                                <?php for ($month = 1; $month <= 12; $month++) :
+                                                                     ?>
                                                                     <td>
                                                                         <?php
                                                                         $m = $this->db->where('rcsa_detail_id', $q['id'])->where('month', $month)->get("il_peristiwa_monitoring")->row_array();
                                                                         if (isset($m)) :
                                                                         ?>
                                                                             <center>
-                                                                                <a href="<?= base_url('progress-mitigasi/update-progres/' . $q['id'] . '/' . $month) ?>" title="Klik Untuk Update" class="btn" style="background-color: <?= $m['color']; ?>; color: <?= $m['color_text']; ?>;"> <?= $m['level_color']; ?></a>
+                                                                                <a target="'_blank" href="<?= base_url('progress-mitigasi/update/' . $q['id'] . '/' . $month) ?>" title="Klik Untuk Update" class="btn" style="background-color: <?= $m['color']; ?>; color: <?= $m['color_text']; ?>;"> <?= $m['level_color']; ?></a>
                                                                             </center>
                                                                         <?php else : ?>
-                                                                            No Data
-                                                                        <?php endif; ?>
+                                                                            <center>
+                                                                                <a target="_blank" href="<?= base_url('progress-mitigasi/update/' . $q['id'] . '/' . $month) ?>" title="Klik Untuk Update" class="btn btn-primary" ><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                                            </center>                                                                        
+                                                                            <?php endif; ?>
                                                                     </td>
                                                                 <?php endfor; ?>
                                                             </tr>

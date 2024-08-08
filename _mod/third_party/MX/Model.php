@@ -236,5 +236,20 @@ class MX_Model extends CI_Model
 		$hasil['minggu']   = $this->crud->combo_select( [ 'id', 'concat(param_string) as minggu' ] )->combo_where( 'kelompok', 'minggu' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		return $hasil;
 	}
+	public function getMonthlyMonitoring($id, $month)
+    {
+        $thn = date('Y');
+
+        $result = $this->db->select('mk_rcsa_monitoring.*, mk_level_mapping.*, mk_level_color.tingkat, mk_view_rcsa.periode_name')
+            ->join('mk_level_mapping', 'mk_level_mapping.id = mk_rcsa_monitoring.re_eksposure_level')
+            ->join('mk_level_color', 'mk_level_color.id = mk_rcsa_monitoring.re_eksposure_no')
+            ->join('mk_view_rcsa', 'mk_view_rcsa.id = mk_rcsa_monitoring.rcsa_id')
+            ->where('rcsa_detail_id', $id)
+            ->where('month', $month)
+            ->where('periode_name <=', $thn)
+            ->get('mk_rcsa_monitoring')->row_array();
+
+        return $result;
+    }
 }
 /* End of file app_login_model.php */
