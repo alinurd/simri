@@ -39,7 +39,7 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <a href="<?= base_url(_MODULE_NAME_ ); ?>" class="btn bg-primary-400 btn-labeled btn-labeled-left legitRipple" id="back_identifikasi"><b><i class="icon-list"></i></b> Kembali ke List </a>
+                <a href="<?= base_url(_MODULE_NAME_); ?>" class="btn bg-primary-400 btn-labeled btn-labeled-left legitRipple" id="back_identifikasi"><b><i class="icon-list"></i></b> Kembali ke List </a>
             </div>
         </div>
     </div>
@@ -69,29 +69,21 @@
             </div>
             <div class="tab-content">
                 <div class="tab-pane fade " id="content-tab-00">
-                    <center>
-                        <h1>identifikasi</h1>
-                    </center>
+                    <?= $identifikasi; ?>
                 </div>
                 <div class="tab-pane fade" id="content-tab-01">
-                    <center>
-                        <h1>analisis</h1>
-                    </center>
+                    <?= $analisa; ?>
+
                 </div>
                 <div class="tab-pane fade" id="content-tab-02">
-                    <center>
-                        <h1>evaluasi</h1>
-                    </center>
+                    <?= $evaluasi; ?>
                 </div>
                 <div class="tab-pane fade" id="content-tab-03">
-                    <center>
-                        <h1>target</h1>
-                    </center>
+                    <?= $target; ?>
+
                 </div>
                 <div class="tab-pane fade active show" id="content-tab-04">
-                    <center>
-                        <h1>Update Monitoring</h1>
-                    </center>
+
                     <div class="card" style="background-color: #ffffffb2;">
                         <div class="card-body">
                             <table class="table">
@@ -108,9 +100,9 @@
                                 <tr>
                                     <td width="130px">Residual Risk Level</td>
                                     <td width="5px">:</td>
-                                   
+
                                     <td><?= $level ?></td>
-                                     
+
                                 </tr>
                                 <tr>
                                     <td width="130px"></td>
@@ -151,7 +143,7 @@
                                                     <!-- <?php if ($index === 0) : ?>
                                                          <td rowspan="<?= count($items) ?>"><?= $m['penyebab_risiko'] ?></td>
                                                     <?php endif; ?> -->
-                                                    <!-- <?= doi::dump($m);?> -->
+                                                    <!-- <?= doi::dump($m); ?> -->
                                                     <td width="20%"><?= $m['penyebab_risiko'] ?></td>
                                                     <td width="20%"><?= $m['mitigasi'] ?></td>
                                                     <?php if (isset($progress_by_month[$monthParam][0])) : ?>
@@ -160,35 +152,35 @@
                                                         <td><?= $progress_by_month[$monthParam][0]['uraian'] ?></td>
                                                         <td><?= $progress_by_month[$monthParam][0]['kendala'] ?></td>
                                                         <td>
-                                                        <span id="updateAktifitas" 
-                                                        data-id="<?=$progress_by_month[$monthParam][0]['id']?>"
-                                                        data-rcsadetail="<?=$progress_by_month[$monthParam][0]['rcsa_detail_id']?>"
-                                                        data-mitigasi="<?=$progress_by_month[$monthParam][0]['rcsa_mitigasi_id']?>"
-                                                        data-mitdetail="<?=$progress_by_month[$monthParam][0]['rcsa_mitigasi_detail_id']?>"
-                                                        data-periode="<?=$progress_by_month[$monthParam][0]['period_id']?>"
-                                                        data-bln="<?=$monthParam?>"
-                                                         class="btn btn-primary" data-edit="0">
-                                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                                        </span>
-                                                    </td>
+                                                            <span id="updateAktifitas"
+                                                                data-id="<?= $progress_by_month[$monthParam][0]['id'] ?>"
+                                                                data-rcsadetail="<?= $progress_by_month[$monthParam][0]['rcsa_detail_id'] ?>"
+                                                                data-mitigasi="<?= $progress_by_month[$monthParam][0]['rcsa_mitigasi_id'] ?>"
+                                                                data-mitdetail="<?= $progress_by_month[$monthParam][0]['rcsa_mitigasi_detail_id'] ?>"
+                                                                data-periode="<?= $progress_by_month[$monthParam][0]['period_id'] ?>"
+                                                                data-bln="<?= $monthParam ?>"
+                                                                class="btn btn-primary" data-edit="0">
+                                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                            </span>
+                                                        </td>
                                                     <?php else : ?>
                                                         <td></td>
                                                         <td></td>
                                                         <td></td>
                                                         <td></td>
-                                                   
-                                                    <td>
-                                                        <span id="updateAktifitas" 
-                                                        data-id="<?=$m['id']?>"
-                                                        data-rcsadetail="<?=$m['rcsa_detail_id']?>"
-                                                        data-mitigasi="<?=$m['rcsa_mitigasi_id']?>"
-                                                        data-mitdetail="<?=$m['rcsa_mitigasi_id']?>"
-                                                         data-periode="<?=$m['period_id']?>"
-                                                        data-bln="<?=$monthParam?>"
-                                                         class="btn btn-primary" data-edit="0">
-                                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                                        </span>000
-                                                    </td>
+
+                                                        <td>
+                                                            <span id="updateAktifitas"
+                                                                data-id="<?= $m['id'] ?>"
+                                                                data-rcsadetail="<?= $m['rcsa_detail_id'] ?>"
+                                                                data-mitigasi="<?= $m['rcsa_mitigasi_id'] ?>"
+                                                                data-mitdetail="<?= $m['rcsa_mitigasi_id'] ?>"
+                                                                data-periode="<?= $m['period_id'] ?>"
+                                                                data-bln="<?= $monthParam ?>"
+                                                                class="btn btn-primary" data-edit="0">
+                                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                            </span>000
+                                                        </td>
                                                     <?php endif; ?>
                                                 </tr>
                                             <?php endforeach; ?>
@@ -206,7 +198,16 @@
                     </div>
                 </div>
             </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-10"> </div>
+            <div class="col-lg-1">
+                <span class="btn btn-primary pointer btnNext pull-right"><?= _l("fld_next_tab"); ?></span>
+            </div>
+            <div class="col-lg-1">
+                <span class="btn btn-warning pointer btnPrevious pull-right"><?= _l("fld_back_tab"); ?></span>&nbsp;&nbsp;
+            </div>
         </div>
     </div>
 </div>
-<label for=""></label>
