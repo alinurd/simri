@@ -1628,7 +1628,7 @@ class Progress_Mitigasi extends MY_Controller
 
 		$result['title'] = "Update Aktifitas ";
 		if (isset($mit['mitigasi']) && $mit['mitigasi'] !== '') {
-			$result['title'] .= ': ' . $mit['aktifitas_mitigasi'];
+			$result['title'] .= ': ' . $am['aktifitas_mitigasi'];
 		}
 		$result['combo'] = $this->load->view('progres', $data, true);
 		header('Content-type: application/json');
