@@ -317,9 +317,11 @@ $(function(){
 		var aktual=$("#aktual").val();
 		if (uraian.length>0 && target.length>0 && aktual.length>0){
 			var parent = $(this).parent().parent().parent();
-			var data = $("#form_progres").serialize();
+			// var data = $("#form_progres").serialize();
+					var data = $("#form_general").serialize();
+
 			var url = modul_name + "/simpan-progres";
-			_ajax_("post", parent, data, '', url, 'result_progres');
+			_ajax_("post", parent, data, '', url, 'simpanProgres');
 		}else{
 			alert("Target, Aktual dan Uraian wajib diisi!");
 			$("#uraian").focus();
@@ -547,4 +549,118 @@ function view_kpi(hasil){
 
 function reset_approval(hasil){
 	location.reload();
+}
+
+
+
+$(document).on("change", "#mit_like_id, #mit_impact_id", function () {
+	var parent = $(this).parent();
+	var like = $("#mit_like_id").val();
+	var impact = $("#mit_impact_id").val();
+	var data = { 'like': like, 'impact': impact };
+	var url = "ajax/get-risiko-inherent";
+ 	_ajax_("post", parent, data, '', url, 'resultInherent');
+});
+
+$(document).on('click','#simpanResidual', function(){
+	var parent = $(this).parent().parent().parent();
+	var like = $("#mit_like_id").val();
+	var impact = $("#mit_impact_id").val();
+	var impact = $("#mit_impact_id").val();	
+
+	var color = $("input[name=\"color\"]").val();
+	var level_color = $("input[name=\"level_color\"]").val();
+	var color_text = $("input[name=\"color_text\"]").val();
+	var score = $("input[name=\"score\"]").val();
+	var month = $("input[name=\"month\"]").val();
+	var id_detail = $("input[name=\"id_detail\"]").val();
+ 	var data = { 
+		'like': like,
+		'impact': impact,
+		'color_text': color_text,
+		'level_color': level_color,
+		'color': color,
+		'score': score,
+		'id_detail': id_detail,
+		 'month': month
+	 }; 
+	var url = modul_name+"/simpan-update-residual"; 
+	_ajax_("post", parent, data, '', url, 'simpanResidual');
+})
+
+
+$(document).on("click","#updateAktifitas", function () {
+	var parent = $(this).parent();
+	
+	var id = $(this).data('id');
+	var rcsadetail = $(this).data('rcsadetail');
+	var mitigasi = $(this).data('mitigasi');
+	var mitdetail = $(this).data('mitdetail');
+	var periode = $(this).data('periode');
+	var bln = $(this).data('bln');
+
+	var data={
+		'id':id, 
+		'rcsadetail':rcsadetail,
+		'mit':mitigasi,
+		'mitdetail':mitdetail,
+		'periode':periode,
+		'bln':bln
+	};
+ 	var url = modul_name+"/form-update-aktifitas";
+	_ajax_("post", parent, data, '', url, 'aktififasMod');
+})
+
+function aktififasMod(hasil){
+	$("#modal_general").find(".modal-title").html(hasil.title);
+	$("#modal_general").find(".modal-body").html(hasil.combo);
+	$("#modal_general").find(".modal-footer").addClass('d-none');
+	$("#modal_general").modal("show");
+}
+
+ 
+
+function simpanProgres(hasil){
+  	if(hasil){
+		alert('data berhasil disimpan') 
+		$("#modal_general").modal("hide");
+		location.reload();
+		
+	}else{
+		alert('gagal memproses data') 
+	}
+}
+function simpanResidual(hasil){
+	if(hasil){
+		alert('data berhasil disimpan')
+		//   pesan_toastr(hasil.info, 'success', 'Success', 'toast-top-center');
+	}else{
+		alert('gagal memproses data')
+    //   pesan_toastr('Error', 'err', 'Error', 'toast-top-center');
+	}
+}
+
+function resultInherent(hasil) {
+ 
+	var likeCode = parseFloat(hasil.like_code);
+	var impactCode = parseFloat(hasil.impact_code);
+	var x = likeCode * impactCode;
+	var isi= x + '-' + hasil.level_color;
+	$('#simpanResidual').removeClass('disabled');
+	if(x==0){
+		isi= "-";
+		$('#simpanResidual').addClass('disabled');
+	} 
+    $("#mit_level_residual_text").val(isi);
+    $("input[name=\"mit_like_id\"]").val(hasil.level_risk_no);
+    $("input[name=\"mit_impact_id\"]").val(hasil.impact);
+
+    $("input[name=\"level_color\"]").val(hasil.level_color);
+    $("input[name=\"color\"]").val(hasil.color);
+    $("input[name=\"color_text\"]").val(hasil.color_text);
+    $("input[name=\"score\"]").val(hasil.score);
+
+
+    $("#mit_level_residual_text").css("background-color", hasil.color);
+    $("#mit_level_residual_text").css("color", hasil.color_text);
 }

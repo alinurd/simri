@@ -472,7 +472,7 @@ class Risk_Context extends MY_Controller
 			header( 'Content-type: application/json' );
 			echo json_encode( $hasil );
 		}
-	}
+	} 
 
 	function identifikasi_content( $data = [], $parent = [] )
 	{
