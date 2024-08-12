@@ -535,4 +535,36 @@ function similarityResults(hasil) {
     $('#btn_save').removeClass('disabled').prop('disabled', false);
     $('#btn_save_quit').removeClass('disabled').prop('disabled', false);
   }
+
+  function pesan_toastr(pesan, tipe, title, posisi, progress) {
+    if (posisi === undefined) posisi = "toast-bottom-right";
+    if (progress === undefined) progress = true;
+  
+    toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": progress,
+      "positionClass": posisi,
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "5000",
+      "timeOut": "5000",
+      "extendedTimeOut": "5000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+    if (tipe == 'danger' || tipe == 'warning' || tipe == 'err') {
+      Command: toastr.error(pesan, title)
+    }
+    else if (tipe == 'ajax') {
+      Command: toastr.ajax(pesan, title)
+    }
+    else {
+      Command: toastr.success(pesan, title)
+    }
+  }
 }

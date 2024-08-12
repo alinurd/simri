@@ -250,5 +250,11 @@ class MX_Model extends CI_Model
 		$hasil['minggu']   = $this->crud->combo_select( [ 'id', 'concat(param_string) as minggu' ] )->combo_where( 'kelompok', 'minggu' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		return $hasil;
 	}
+	public function getMonthlyMonitoring($id, $month)
+    {
+        $thn = date('Y');
+		$getProgress = $this->db->where('rcsa_detail_id', $id)->where('month', $month)->get("il_update_residual")->row_array();
+         return $getProgress;
+    }
 }
 /* End of file app_login_model.php */
