@@ -281,6 +281,11 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 				break;
 
 			case 'delete':
+				$getfile = $this->db->get_where( _TBL_KAJIAN_RISIKO_MONITORING, [ "id" => $posTdata["id"] ] )->row_array()["dokumen_pendukung"];
+				if( ! empty( $getfile ) && file_exists( "./files/kajian_risiko_monitoring/{$getfile}" ) )
+				{
+					unlink( "./files/kajian_risiko_monitoring/" . $getfile );
+				}
 				$this->db->delete( _TBL_KAJIAN_RISIKO_MONITORING, [ "id" => $posTdata["id"] ] );
 				break;
 		}

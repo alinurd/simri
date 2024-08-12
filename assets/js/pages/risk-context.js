@@ -691,7 +691,7 @@ $(function () {
             var cbo = '<input name="penyebab_id[]" type="hidden" id="penyebab_id_" value="" class="form-control" style="width:100%;"></input>';
             cbo += '<input type="text" name="penyebab_id_text[]" value="" class="form-control getLibrary" identity="' + getMaxidentity + '" id="penyebab_id_text" readonly placeholder="Penyebab Risiko">';
         } else {
-            var cbo = '<input type="text" name="penyebab_id_text[]" value="" class="form-control getLibrary" identity="' + getMaxidentity + '"  readonly id="penyebab_id_text" placeholder="Penyebab Risiko">';
+            var cbo = '<input type="text" name="penyebab_id_text[]" value="" class="form-control getLibrary" identity="' + getMaxidentity + '"  readonly id="penyebab_id_text" placeholder="Penyebab Risiko" readonly>';
         }
         var row = $("#tblpenyebab > tbody");
 
@@ -708,9 +708,9 @@ $(function () {
         var getMaxidentity = $("input[name='dampak_id_text[]']").length;
         if (sts_penyebab_risiko == 0) {
             var cbo = '<input name="dampak_id[]" type="hidden" id="dampak_id_" class="form-control" style="width:100%;"></input>';
-            cbo += '<input type="text" name="dampak_id_text[]" value="" class="form-control getLibrary" id="dampak_id_text" identity="' + getMaxidentity + '" placeholder="Dampak Risiko">';
+            cbo += '<input type="text" name="dampak_id_text[]" value="" class="form-control getLibrary" id="dampak_id_text" identity="' + getMaxidentity + '" placeholder="Dampak Risiko" readonly>';
         } else {
-            var cbo = '<input type="text" name="dampak_id_text[]" value="" class="form-control getLibrary" id="dampak_id_text" identity="' + getMaxidentity + '"  placeholder="Dampak Risiko">';
+            var cbo = '<input type="text" name="dampak_id_text[]" value="" class="form-control getLibrary" id="dampak_id_text" identity="' + getMaxidentity + '"  placeholder="Dampak Risiko" readonly>';
         }
         var row = $("#tbldampak > tbody");
 
