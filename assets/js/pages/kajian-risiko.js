@@ -501,8 +501,8 @@ function resultaddlibrary(lib) {
 
         case 3:
 
-            $('#dampak_id_text[identity="' + identity + '"]').prev("input").val(idLib);
-            $('#dampak_id_text[identity="' + identity + '"]').val(libName).trigger('change');
+            $('#dampak_id_text[identity="' + lib.identity + '"]').prev("input").val(lib.idLibrary);
+            $('#dampak_id_text[identity="' + lib.identity + '"]').val(lib.libraryName).trigger('change');
 
             // $('input[name="dampak_id"]').val(lib.idLibrary).trigger('change');
             // $('#dampak_id_text[identity="' + identity + '"]').prev("input").val(idLib);
