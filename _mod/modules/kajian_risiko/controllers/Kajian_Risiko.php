@@ -274,7 +274,6 @@ class Kajian_Risiko extends MY_Controller
 			$this->db->update( _TBL_KAJIAN_RISIKO, [ "status" => 1, "date_submit" => date( "Y-m-d H:i:s" ), "updated_at" => date( "Y-m-d H:i:s" ), "updated_by" => $this->ion_auth->get_user_name() ], [ "id" => $idkajian ] );
 		}
 
-
 		$dataView["disabledSubmit"]  = ( $dataView["headerRisk"]["status"] == 1 ) ? "disabled" : "";
 		$getLevelMapImpact           = $this->db->get_where( _TBL_LEVEL, [ "active" => 1, "category" => "impact" ] )->result_array();
 		$getLevelMapLikelihood       = $this->db->get_where( _TBL_LEVEL, [ "active" => 1, "category" => "likelihood" ] )->result_array();
@@ -305,6 +304,7 @@ class Kajian_Risiko extends MY_Controller
 				$action = "propose";
 				$actionForm = "propose";
 				$btn_view = "btn_propose";
+				$dataView["mapData"] = $this->data->getRowMapData( $idkajian );
 				break;
 			case 'submit':
 				$action = "propose";

@@ -98,63 +98,39 @@
                                                 <div class="card-body bg-light">
                                                     <table class="table table-bordered">
                                                         <tbody>
-                                                            <tr>
-                                                                <td rowspan="5" class="rotate text-center p-1"
-                                                                    style='letter-spacing:5px;font-weight:400;font-size:12px;writing-mode:tb;'>
-                                                                    IMPACT
-                                                                </td>
-                                                                <td>5</td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td class="bg-danger"></td>
-                                                                <td class="bg-danger"></td>
-                                                                <td class="bg-danger"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>4</td>
-                                                                <td class="bg-success"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td class="bg-danger"></td>
-                                                                <td class="bg-danger"></td>
-                                                            </tr>
-                                                            <tr>
-
-                                                                <td>3</td>
-                                                                <td class="bg-success"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td class="bg-danger"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>2</td>
-                                                                <td class="bg-success"></td>
-                                                                <td class="bg-success"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td class="bg-success"></td>
-                                                                <td class="bg-success"></td>
-                                                                <td class="bg-success"></td>
-                                                                <td class="bg-success"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                            </tr>
+                                                            <?php if( ! empty( $mapData["inherent"] ) ) : ?>
+                                                                <?php foreach( $mapData["inherent"] as $kInherentRow => $vInherentRow ) : ?>
+                                                                    <tr>
+                                                                        <?php if( $kInherentRow == 0 ) : ?>
+                                                                            <td rowspan="5" class="rotate text-center p-1"
+                                                                                style='letter-spacing:5px;font-weight:400;font-size:12px;writing-mode:tb;'>
+                                                                                LIKELIHOOD
+                                                                            </td>
+                                                                        <?php endif; ?>
+                                                                        <td class="text-center"><?= $vInherentRow["code"] ?></td>
+                                                                        <?php if( ! empty( $vInherentRow["column"] ) ) : ?>
+                                                                            <?php foreach( $vInherentRow["column"] as $kInherentCol => $vInherentcol ) : ?>
+                                                                                <td
+                                                                                    style="background-color: <?= $vInherentcol["color"] ?>;color:<?= $vInherentcol["color_text"]?>" class="text-center"><b><?= $vInherentcol["countregister"] ?></b>
+                                                                                    
+                                                                                </td>
+                                                                            <?php endforeach; ?>
+                                                                        <?php endif; ?>
+                                                                    </tr>
+                                                                <?php endforeach; ?>
+                                                            <?php endif; ?>
                                                             <tr>
                                                                 <td colspan="2" rowspan="2"></td>
-                                                                <td>1</td>
-                                                                <td>2</td>
-                                                                <td>3</td>
-                                                                <td>4</td>
-                                                                <td>5</td>
+                                                                <td class="text-center">1</td>
+                                                                <td class="text-center">2</td>
+                                                                <td class="text-center">3</td>
+                                                                <td class="text-center">4</td>
+                                                                <td class="text-center">5</td>
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="5" class="text-center p-1"
                                                                     style='letter-spacing:5px;font-weight:400;font-size:12px;'>
-                                                                    LIKELIHOOD</td>
+                                                                    IMPACT</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -216,63 +192,39 @@
                                                 <div class="card-body bg-light">
                                                     <table class="table table-bordered">
                                                         <tbody>
-                                                            <tr>
-                                                                <td rowspan="5" class="rotate text-center p-1"
-                                                                    style='letter-spacing:5px;font-weight:400;font-size:12px;writing-mode:tb;'>
-                                                                    IMPACT
-                                                                </td>
-                                                                <td>5</td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td class="bg-danger"></td>
-                                                                <td class="bg-danger"></td>
-                                                                <td class="bg-danger"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>4</td>
-                                                                <td class="bg-success"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td class="bg-danger"></td>
-                                                                <td class="bg-danger"></td>
-                                                            </tr>
-                                                            <tr>
-
-                                                                <td>3</td>
-                                                                <td class="bg-success"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td class="bg-danger"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>2</td>
-                                                                <td class="bg-success"></td>
-                                                                <td class="bg-success"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td class="bg-success"></td>
-                                                                <td class="bg-success"></td>
-                                                                <td class="bg-success"></td>
-                                                                <td class="bg-success"></td>
-                                                                <td style="background-color: #ffff55;"></td>
-                                                            </tr>
+                                                        <?php if( ! empty( $mapData["residual"] ) ) : ?>
+                                                                <?php foreach( $mapData["residual"] as $kResidualRow => $vResidualRow ) : ?>
+                                                                    <tr>
+                                                                        <?php if( $kResidualRow == 0 ) : ?>
+                                                                            <td rowspan="5" class="rotate text-center p-1"
+                                                                                style='letter-spacing:5px;font-weight:400;font-size:12px;writing-mode:tb;'>
+                                                                                LIKELIHOOD
+                                                                            </td>
+                                                                        <?php endif; ?>
+                                                                        <td class="text-center"><?= $vResidualRow["code"] ?></td>
+                                                                        <?php if( ! empty( $vResidualRow["column"] ) ) : ?>
+                                                                            <?php foreach( $vResidualRow["column"] as $kResidualCol => $vResidualcol ) : ?>
+                                                                                <td
+                                                                                    style="background-color: <?= $vResidualcol["color"] ?>;color:<?= $vResidualcol["color_text"]?>" class="text-center"><b><?= $vResidualcol["countregister"] ?></b>
+                                                                                    
+                                                                                </td>
+                                                                            <?php endforeach; ?>
+                                                                        <?php endif; ?>
+                                                                    </tr>
+                                                                <?php endforeach; ?>
+                                                            <?php endif; ?>
                                                             <tr>
                                                                 <td colspan="2" rowspan="2"></td>
-                                                                <td>1</td>
-                                                                <td>2</td>
-                                                                <td>3</td>
-                                                                <td>4</td>
-                                                                <td>5</td>
+                                                                <td class="text-center">1</td>
+                                                                <td class="text-center">2</td>
+                                                                <td class="text-center">3</td>
+                                                                <td class="text-center">4</td>
+                                                                <td class="text-center">5</td>
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="5" class="text-center p-1"
                                                                     style='letter-spacing:5px;font-weight:400;font-size:12px;'>
-                                                                    LIKELIHOOD</td>
+                                                                    IMPACT</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
