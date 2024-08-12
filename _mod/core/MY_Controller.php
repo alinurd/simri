@@ -1226,10 +1226,6 @@ class MY_Controller extends MX_Controller
 						$url     = $pt[0] . '_url';
 						$url     = $url($isi);
 						$kel     = 'file'; //$row['path'];
-					} else {
-						$info    = pathinfo(img_path_relative($isi));
-						$info_ci = get_file_info(img_path_relative($isi));
-						$url     = img_url($isi);
 					}
 					else
 					{
