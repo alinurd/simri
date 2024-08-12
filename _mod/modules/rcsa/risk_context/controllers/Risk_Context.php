@@ -2473,9 +2473,10 @@ class Risk_Context extends MY_Controller
 		$viewData = [];
 		$lib      = 0;
 		$title    = "";
-		switch( $this->input->post( "lib" ) )
+		switch( strtolower( url_title( $this->input->post( "lib" ) ) ) )
 		{
 			case 'penyebab_id_text':
+			case 'penyebab-risiko':
 				$lib = 1;
 				$title = "Penyebab Risiko";
 				$viewData["thead1"] = _l( 'fld_klasifikasi_risiko' );
@@ -2484,6 +2485,7 @@ class Risk_Context extends MY_Controller
 				break;
 
 			case 'dampak_id_text':
+			case 'dampak-risiko':
 				$lib = 3;
 				$title = "Dampak Risiko";
 				$viewData["thead1"] = _l( 'fld_klasifikasi_risiko' );
@@ -2527,6 +2529,7 @@ class Risk_Context extends MY_Controller
 		$data['form'][] = [ 'title' => "", "show" => FALSE, 'help' => "", 'isi' => form_hidden( 'libtipe', $lib ) ];
 
 		$data["libtype"]   = $libtype;
+		$data["identity"]  = $this->input->post( "identity" );
 		$result["content"] = $this->load->view( 'add-library', $data, TRUE );
 		$result["lib"]     = $libtype;
 		header( 'Content-Type: application/json' );
@@ -2550,6 +2553,7 @@ class Risk_Context extends MY_Controller
 		$data['idLibrary']   = $lib['id'];
 		$data['libraryName'] = $lib['library'];
 		$data['tipeLib']     = $lib['type'];
+		$data['identity']    = $post['identity'];
 		header( 'Content-type: application/json' );
 		echo json_encode( $data );
 	}

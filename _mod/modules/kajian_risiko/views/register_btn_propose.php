@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="jumbotron p-3 mb-3 border">
+        <div class="jumbotron p-2 mb-3 border">
             <div class="row">
                 <div class="col-md-12">
                     <a class="btn bg-slate btn-labeled btn-labeled-left button-action mr-3"
@@ -16,7 +16,7 @@
             </div>
             <div class="row mt-3">
                 <div class="col-md-12">
-                    <div class="alert alert-info shadow-none border-none">
+                    <div class="alert alert-info shadow-none border-none m-0">
                         <p>Risk Register Ini akan Di Kirim Ke Officer
                             <b><?= ( ! empty( $headerRisk["owner_name"] ) ? $headerRisk["owner_name"] : "" ) ?></b>
                         </p>

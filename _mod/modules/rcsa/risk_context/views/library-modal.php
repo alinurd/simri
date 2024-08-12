@@ -1,6 +1,6 @@
 <div class='table-responsive'>
     <span class="btn bg-primary-400 btn-labeled btn-labeled-right legitRipple pull-right" id="addLibrary"
-        lib-type="<?= $thead3 ?>" data-mode="0">
+        lib-type="<?= $thead3 ?>" data-mode="0" identity="<?= $identity ?>">
         <b><i class="icon-file-plus "></i></b> Add <?= $thead3 ?>
     </span>
     <br />&nbsp;<br />&nbsp;

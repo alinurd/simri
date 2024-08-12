@@ -1523,11 +1523,6 @@ $(document).ajaxComplete(function () {
 
     // changeRisikoDepartmentVal();
 });
-
-// $(document).on("change", "#treatment_id", function () {
-
-// });
-
 $(document).on("click", "#getPeristiwa, #backListPeritwa", function () {
     var parent = $(this).parent();
     var id = 1;
@@ -1683,7 +1678,7 @@ $(document).on("change", "#seksi", function () {
     $("#info_seksi").html("");
 })
 
-$(document).on('click', ".getLibrary", function (e) {
+$(document).on('click', ".getLibrary, .backListLibrary", function (e) {
     var data = { 'lib': $(this).attr("id"), "identity": $(this).attr("identity") };
     var url = modul_name + "/getLibraryModal";
     _ajax_("post", $(this).parent(), data, '', url, "library_modal");
@@ -1734,7 +1729,8 @@ function changeRisikoDepartmentVal() {
 $(document).on("click", "#addLibrary", function () {
     var parent = $(this).parent();
     var libtype = $(this).attr("lib-type");
-    var data = { 'lib': libtype };
+    var identity = $(this).attr("identity");
+    var data = { 'lib': libtype, "identity": identity };
     var url = modul_name + "/addLibrary";
     _ajax_("post", parent, data, '', url, 'listlibrary');
 })
@@ -1749,6 +1745,7 @@ $(document).on("click", ".saveLibrary", function () {
     var parent = $(this).parent();
     var data = $("#form_library_baru").serializeArray();
     data.push({ name: "risktype", value: $("input[name='tipe_risiko_id']").val() });
+    data.push({ name: "identity", value: $(this).attr("identity") });
     var hasil = true;
     pesan = "data dibawah ini wajib diisi:\n";
 
@@ -1766,17 +1763,15 @@ $(document).on("click", ".saveLibrary", function () {
 });
 
 function resultaddlibrary(lib) {
-    console.log(lib);
-
     switch (parseInt(lib.tipeLib)) {
         case 1:
-            $('input[name="penyebab_id"]').val(lib.idLibrary).trigger('change');
-            $('#penyebab_id_text').val(lib.libraryName).trigger('change');
+            $('#penyebab_id_text[identity="' + lib.identity + '"]').prev("input").val(lib.idLibrary).trigger('change');
+            $('#penyebab_id_text[identity="' + lib.identity + '"]').val(lib.libraryName).trigger('change');
             break;
 
         case 3:
-            $('input[name="dampak_id"]').val(lib.idLibrary).trigger('change');
-            $('#dampak_id_text').val(lib.libraryName).trigger('change');
+            $('#dampak_id_text[identity="' + lib.identity + '"]').prev("input").val(lib.idLibrary).trigger('change');
+            $('#dampak_id_text[identity="' + lib.identity + '"]').val(lib.libraryName).trigger('change');
             break;
         default:
             break;

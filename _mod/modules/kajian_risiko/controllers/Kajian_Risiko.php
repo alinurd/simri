@@ -15,21 +15,18 @@ class Kajian_Risiko extends MY_Controller
 
 		$this->set_Tbl_Master( _TBL_VIEW_KAJIAN_RISIKO );
 
-		$this->set_Open_Tab( 'Data Kajian Risiko' );
+		$this->set_Open_Coloums( 'Data Kajian Risiko' );
 		$this->addField( [ 'field' => 'id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ] );
 		$this->addField( [ 'field' => 'owner_id', 'title' => 'Risk Owner', 'input' => 'combo', 'values' => $this->cboDept, 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'name', 'title' => 'Nama Kajian Risiko', 'type' => 'string', 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'request_date', 'type' => 'date', 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'release_date', 'type' => 'date', 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'status', 'title' => 'Status', "show" => FALSE, 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_status, 'default' => 0, 'size' => 40 ] );
+		$this->addField( [ 'field' => 'link_dokumen_kajian', "title" => "Dokumen Self-Assessmen" ] );
+
 		$this->addField( [ 'field' => 'link_dokumen_pendukung', "title" => "Dokumen Pendukung" ] );
 
-		$this->set_Close_Tab();
-
-		$this->set_Open_Tab( 'Dokumen Kajian Risiko' );
-		$this->addField( [ 'field' => 'link_dokumen_kajian', "title" => "Dokumen Kajian Risiko" ] );
-
-		$this->set_Close_Tab();
+		$this->set_Close_Coloums();
 
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 		$this->set_Join_Table( [ 'pk' => $this->tbl_master ] );
@@ -40,7 +37,7 @@ class Kajian_Risiko extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'name', "Nama Kajian Risiko" );
 		$this->set_Table_List( $this->tbl_master, 'request_date', "Tanggal Permintaan" );
 		$this->set_Table_List( $this->tbl_master, 'release_date', "Tanggal Release" );
-		$this->set_Table_List( $this->tbl_master, 'status', "Status" );
+		$this->set_Table_List( $this->tbl_master, 'status', "Status", 0, "center" );
 		$this->set_Close_Setting();
 
 		$this->set_Save_Table( _TBL_KAJIAN_RISIKO );
@@ -60,10 +57,10 @@ class Kajian_Risiko extends MY_Controller
 		switch( $value )
 		{
 			case 0:
-				$statusContent = "<span class='btn btn-sm btn-danger' style='cursor:default'>DRAFT</span>";
+				$statusContent = "<span class='btn btn-sm btn-block btn-danger' style='cursor:default'>DRAFT</span>";
 				break;
 			case 1:
-				$statusContent = "<span class='btn btn-sm btn-success' style='cursor:default'>SUBMITTED</span>";
+				$statusContent = "<span class='btn btn-sm btn-block btn-success' style='cursor:default'>SUBMITTED</span>";
 				break;
 
 			default:
@@ -277,17 +274,25 @@ class Kajian_Risiko extends MY_Controller
 			$this->db->update( _TBL_KAJIAN_RISIKO, [ "status" => 1, "date_submit" => date( "Y-m-d H:i:s" ), "updated_at" => date( "Y-m-d H:i:s" ), "updated_by" => $this->ion_auth->get_user_name() ], [ "id" => $idkajian ] );
 		}
 
-		$dataView["disabledSubmit"] = ( $dataView["headerRisk"]["status"] == 1 ) ? "disabled" : "";
-		$dbObj                      = $this->db->where( [ "id_kajian_risiko" => $idkajian ] );
+
+		$dataView["disabledSubmit"]  = ( $dataView["headerRisk"]["status"] == 1 ) ? "disabled" : "";
+		$getLevelMapImpact           = $this->db->get_where( _TBL_LEVEL, [ "active" => 1, "category" => "impact" ] )->result_array();
+		$getLevelMapLikelihood       = $this->db->get_where( _TBL_LEVEL, [ "active" => 1, "category" => "likelihood" ] )->result_array();
+		$dbObj                       = $this->db->where( [ "id_kajian_risiko" => $idkajian ] );
+		$dataView["mitigasiPicData"] = $this->cboDept;
 		switch( $action )
 		{
 			case 'create':
 				$dbObj->where( [ "id" => $idregister ] );
+				$dataView["levelImpact"] = $getLevelMapImpact;
+				$dataView["levelLikelihood"] = $getLevelMapLikelihood;
 				$action = "form";
 				$actionForm = "create";
 				break;
 			case 'edit':
 				$dbObj->where( [ "id" => $idregister ] );
+				$dataView["levelImpact"] = $getLevelMapImpact;
+				$dataView["levelLikelihood"] = $getLevelMapLikelihood;
 				$action = "form";
 				$actionForm = "edit";
 				break;
@@ -316,10 +321,21 @@ class Kajian_Risiko extends MY_Controller
 		$dataView["formUrl"]   = base_url( $this->modul_name . "/" . __FUNCTION__ . "/" . $actionForm . "/" . $idkajian . "/" . $idregister );
 		$dataView["btnEdit"]   = base_url( $this->modul_name . "/" . __FUNCTION__ . "/edit/" . $idkajian . "/" );
 		$dataView["btnDelete"] = base_url( $this->modul_name . "/" . __FUNCTION__ . "/delete/" . $idkajian . "/" );
-		$dataView["register"]  = $this->setDataViewRegister( $dbObj->get( _TBL_KAJIAN_RISIKO_REGISTER )->result_array() );
+		$dataView["register"]  = $this->setDataViewRegister( $dbObj->get( _TBL_VIEW_KAJIAN_RISIKO_REGISTER )->result_array() );
 		if( $actionForm == "edit" )
 		{
 			$dataView["mitigasi"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_MITIGASI, [ "id_kajian_risiko_register" => $idregister ] )->result_array();
+			if( ! empty( $dataView["mitigasi"] ) )
+			{
+				foreach( $dataView["mitigasi"] as $kgetMit => $vgetMit )
+				{
+					if( ! empty( $vgetMit["pic"] ) )
+					{
+						$setPicDataSelect[$kgetMit] = json_decode( $vgetMit["pic"] );
+					}
+				}
+				$dataView["setPicSelect"] = json_encode( $setPicDataSelect );
+			}
 		}
 		$content       = $this->load->view( "register", $dataView, TRUE );
 		$configuration = [
@@ -327,7 +343,6 @@ class Kajian_Risiko extends MY_Controller
 		 'show_action_button' => FALSE,
 		   ];
 		$this->default_display( [ 'content' => $content, 'configuration' => $configuration ] );
-
 	}
 
 	function submitregister( $dataPost, $action, $idkajian, $idregister )
@@ -381,7 +396,7 @@ class Kajian_Risiko extends MY_Controller
 						 "id"                        => generateIdString(),
 						 "id_kajian_risiko_register" => $idregister,
 						 "mitigasi"                  => $dataMitigasi["mitigasi"][$kmitigasi],
-						 "pic"                       => $dataMitigasi["pic"][$kmitigasi],
+						 "pic"                       => json_encode( $dataMitigasi["pic"][$kmitigasi]["list"] ),
 						 "deadline"                  => $dataMitigasi["deadline"][$kmitigasi],
 						 "created_at"                => date( "Y-m-d H:i:s" ),
 						 "created_by"                => $this->ion_auth->get_user_name(),
@@ -402,6 +417,32 @@ class Kajian_Risiko extends MY_Controller
 
 	function setDataViewRegister( $dataView )
 	{
+
+		if( ! empty( $dataView ) )
+		{
+			foreach( $dataView as $kView => $vView )
+			{
+				$getdatariskCause = json_decode( $vView["risk_cause"] );
+				if( ! empty( $getdatariskCause ) )
+				{
+					$dataView[$kView]["risk_cause"] = [];
+					foreach( $getdatariskCause as $kRiskCause => $vRiskCause )
+					{
+
+						$dataView[$kView]["risk_cause"][$kRiskCause] = [ "risk_cause_id" => $vRiskCause, "risk_cause_name" => $this->db->get_where( _TBL_LIBRARY, [ "id" => $vRiskCause ] )->row_array()["library"] ];
+					}
+				}
+				$getdatariskImpact = json_decode( $vView["risk_impact"] );
+				if( ! empty( $getdatariskImpact ) )
+				{
+					$dataView[$kView]["risk_impact"] = [];
+					foreach( $getdatariskImpact as $kRiskImpact => $vRiskImpact )
+					{
+						$dataView[$kView]["risk_impact"][$kRiskImpact] = [ "risk_impact_id" => $vRiskImpact, "risk_impact_name" => $this->db->get_where( _TBL_LIBRARY, [ "id" => $vRiskImpact ] )->row_array()["library"] ];
+					}
+				}
+			}
+		}
 		return $dataView;
 	}
 
@@ -412,7 +453,7 @@ class Kajian_Risiko extends MY_Controller
 			exit( 'No direct script access allowed' );
 		}
 		$postData                     = $this->input->post();
-		$getdataRegister["register"]  = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $postData["id_kajian"] ] )->result_array();
+		$getdataRegister["register"]  = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $postData["id_kajian"] ] )->result_array();
 		$getdataRegister["btnExport"] = base_url( $this->modul_name . "/export_excel/" . $postData["id_kajian"] );
 		$result                       = $this->load->view( "ajax/register_modal", $getdataRegister, TRUE );
 
@@ -423,7 +464,7 @@ class Kajian_Risiko extends MY_Controller
 
 	function export_excel( $id )
 	{
-		$getdataRegister["register"]  = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $id ] )->result_array();
+		$getdataRegister["register"]  = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $id ] )->result_array();
 		$getdataRegister["btnExport"] = base_url( $this->modul_name . "/export_excel/" . $id );
 		$result                       = $this->load->view( "ajax/register_modal", $getdataRegister, TRUE );
 		$nm_file                      = "Report Risk Register " . date( "Y-m-d" );
@@ -431,5 +472,23 @@ class Kajian_Risiko extends MY_Controller
 		header( "content-disposition:attachment;filename=" . $nm_file . ".xls" );
 		echo $result;
 		exit;
+	}
+
+	function getlevelrisk( $impact = NULL, $likelihood = NULL )
+	{
+		if( ! $this->input->is_ajax_request() )
+		{
+			$result = $this->db->get_where( _TBL_VIEW_LEVEL_MAPPING, [ "like_code" => $likelihood, "impact_code" => $impact ] )->row_array();
+			return $result;
+		}
+		else
+		{
+			$postData = $this->input->post();
+			$result   = $this->db->get_where( _TBL_VIEW_LEVEL_MAPPING, [ "like_code" => $postData["likelihood"], "impact_code" => $postData["impact"] ] )->row_array();
+			header( 'Content-type: text/json' );
+			header( 'Content-type: application/json' );
+			echo json_encode( $result );
+		}
+
 	}
 }

@@ -42,6 +42,10 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		$configuration = [
 		 'show_title_header' => FALSE,
 		 'content_title'     => 'Kajian Risiko Monitoring',
+		//  'show_action_button' => FALSE,
+		//  'show_column_action' => FALSE,
+		//  'type_action_button' => FALSE,
+
 		];
 		return [
 		 'configuration' => $configuration,
@@ -72,6 +76,7 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 	{
 		unset( $button['update'] );
 		unset( $button['delete'] );
+		unset( $button['view'] );
 		// $button['view'] = [
 		//  'label' => 'View',
 		//  'id'    => 'btn_view',
@@ -115,13 +120,10 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		$dataView["btnDelete"]         = base_url( $this->modul_name . "/submitMonitoring" );
 		$dataView["btnAdd"]            = base_url( $this->modul_name . "/formMonitoringAjax" );
 		$dataView["headerRisk"]        = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, [ "id" => $idkajian, "active" => 1 ] )->row_array();
-		$getRegisterData               = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $idkajian ] )->result_array();
+		$getRegisterData               = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $idkajian ] )->result_array();
 		$dataView["register"]          = $this->setDataViewMonitoring( $getRegisterData );
-		// echo "<pre>";
-		// print_r( $dataView["register"] );
-		// exit;
-		$content       = $this->load->view( $action, $dataView, TRUE );
-		$configuration = [
+		$content                       = $this->load->view( $action, $dataView, TRUE );
+		$configuration                 = [
 		 'show_title_header'  => FALSE,
 		 'show_action_button' => FALSE,
 		   ];
@@ -147,13 +149,13 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 			{
 				foreach( $registerData[$kReg]["mitigasi"] as $keyMit => $vMit )
 				{
-					$registerData[$kReg]["monitoring"]["{$vMit['id']}"] = $this->db->query( "select ikrm.id as id_mitigasi,ikrm.mitigasi,ikrm.pic,ikrm.deadline,ikrm2.id as id_monitoring, ikrm2.status,ikrm2.detail_progress,ikrm2.tanggal_update from il_kajian_risiko_mitigasi ikrm left join il_kajian_risiko_monitoring ikrm2 on ikrm.id =ikrm2.id_kajian_risiko_mitigasi where ikrm.id='{$vMit['id']}'" )->result_array();
+					$registerData[$kReg]["monitoring"]["{$vMit['id']}"] = $this->db->query( "select ikrm.id as id_mitigasi,ikrm.mitigasi,ikrm.pic,ikrm.deadline,ikrm2.id as id_monitoring, ikrm2.status,ikrm2.detail_progress,ikrm2.tanggal_update,ikrm2.dokumen_pendukung from il_kajian_risiko_mitigasi ikrm left join il_kajian_risiko_monitoring ikrm2 on ikrm.id =ikrm2.id_kajian_risiko_mitigasi where ikrm.id='{$vMit['id']}'" )->result_array();
 
 					if( ! empty( $registerData[$kReg]["monitoring"] ) )
 					{
 						foreach( $registerData[$kReg]["monitoring"][$vMit["id"]] as $kMon => $vMon )
 						{
-							$registerData[$kReg]["monitoring"][$vMit["id"]][$kMon]["status"] = $StatusMap[$vMon["status"]];
+							$registerData[$kReg]["monitoring"][$vMit["id"]][$kMon]["status"] = ! empty( $StatusMap[$vMon["status"]] ) ? $StatusMap[$vMon["status"]] : "";
 						}
 					}
 				}
@@ -174,7 +176,9 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		switch( $postData["mode"] )
 		{
 			case 'show':
-				$dataView["formdata"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "id" => $postData["id"] ] )->row_array();
+				$dataView["formdata"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_REGISTER, [ "id" => $postData["id"] ] )->row_array();
+				$dataView["levelImpact"] = $this->db->get_where( _TBL_LEVEL, [ "active" => 1, "category" => "impact" ] )->result_array();
+				$dataView["levelLikelihood"] = $this->db->get_where( _TBL_LEVEL, [ "active" => 1, "category" => "likelihood" ] )->result_array();
 				$dataView["formUrl"] = base_url( $this->modul_name . "/editRegisterAjax/" . $postData["id"] );
 				$dataView["btnUrl"] = base_url( $this->modul_name . "/editRegisterAjax" );
 				$result = $this->load->view( "ajax/register_edit_ajax", $dataView, TRUE );
@@ -192,7 +196,7 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 				];
 
 				$this->db->update( _TBL_KAJIAN_RISIKO_REGISTER, $dataUpdate, [ "id" => $postData["id"] ] );
-				$getRegisterData = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $postData["idkajian"] ] )->result_array();
+				$getRegisterData = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $postData["idkajian"] ] )->result_array();
 				$dataView["btnEdit"] = base_url( $this->modul_name . "/editRegisterAjax" );
 				$dataView["btnDelete"] = base_url( $this->modul_name . "/" . __FUNCTION__ . "/delete/" . $postData["idkajian"] . "/" );
 				$dataView["btnAdd"] = base_url( $this->modul_name . "/formMonitoringAjax" );
@@ -220,7 +224,7 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		{
 			case 'edit':
 				$dataView["type"] = "update";
-				$dataView["formdata"] = $this->db->query( "select ikrm.id as id_monitoring, ikrm.status, ikrm.detail_progress,ikrm.tanggal_update,ikrm2.id as id,ikrm2.mitigasi,ikrm2.pic,ikrm2.deadline from il_kajian_risiko_monitoring ikrm left join il_kajian_risiko_mitigasi ikrm2 on ikrm.id_kajian_risiko_mitigasi =ikrm2.id where ikrm.id='{$postData['id']}'" )->row_array();
+				$dataView["formdata"] = $this->db->query( "select ikrm.id as id_monitoring, ikrm.status, ikrm.detail_progress,ikrm.tanggal_update,ikrm2.id as id,ikrm2.mitigasi,ikrm2.pic,ikrm2.deadline,ikrm.dokumen_pendukung from il_kajian_risiko_monitoring ikrm left join il_kajian_risiko_mitigasi ikrm2 on ikrm.id_kajian_risiko_mitigasi =ikrm2.id where ikrm.id='{$postData['id']}'" )->row_array();
 				$result = $this->load->view( "ajax/form_monitoring", $dataView, TRUE );
 				break;
 
@@ -250,6 +254,7 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 				 "status"                    => $posTdata["status"],
 				 "detail_progress"           => $posTdata["detail_progress"],
 				 "tanggal_update"            => $posTdata["tanggal_update_submit"],
+				 "dokumen_pendukung"         => $this->processFile( $posTdata ),
 				 "created_at"                => date( "Y-m-d H:i:s" ),
 				 "created_by"                => $this->ion_auth->get_user_name(),
 				 "updated_at"                => date( "Y-m-d H:i:s" ),
@@ -263,10 +268,14 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 				 "status"            => $posTdata["status"],
 				 "detail_progress"   => $posTdata["detail_progress"],
 				 "tanggal_update"    => $posTdata["tanggal_update_submit"],
-				 "dokumen_pendukung" => $this->processFile( $_FILES ),
+				 "dokumen_pendukung" => $this->processFile( $posTdata ),
 				 "updated_at"        => date( "Y-m-d H:i:s" ),
 				 "updated_by"        => $this->ion_auth->get_user_name(),
 				 ];
+				if( empty( $_FILES["file"] ) )
+				{
+					unset( $dataUpdate["dokumen_pendukung"] );
+				}
 
 				$this->db->update( _TBL_KAJIAN_RISIKO_MONITORING, $dataUpdate, [ "id" => $posTdata["id"] ] );
 				break;
@@ -275,7 +284,7 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 				$this->db->delete( _TBL_KAJIAN_RISIKO_MONITORING, [ "id" => $posTdata["id"] ] );
 				break;
 		}
-		$getRegisterData               = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $posTdata["idkajian"] ] )->result_array();
+		$getRegisterData               = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $posTdata["idkajian"] ] )->result_array();
 		$dataView["btnEdit"]           = base_url( $this->modul_name . "/editRegisterAjax" );
 		$dataView["btnDelete"]         = base_url( $this->modul_name . "/" . __FUNCTION__ . "/delete/" . $posTdata["idkajian"] . "/" );
 		$dataView["btnAdd"]            = base_url( $this->modul_name . "/formMonitoringAjax" );
@@ -291,7 +300,8 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		{
 			exit( 'No direct script access allowed' );
 		}
-		$postData                     = $this->input->post();
+		$postData = $this->input->post();
+
 		$dataMonitoring["monitoring"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_MONITORING, [ "id_kajian_risiko" => $postData["id"] ] )->result_array();
 		$dataMonitoring["btnExport"]  = base_url( $this->modul_name . "/export_excel/" . $postData["id"] );
 		$result                       = $this->load->view( "ajax/monitoring_modal", $dataMonitoring, TRUE );
@@ -301,9 +311,43 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		echo $result;
 	}
 
-	function processFile( $filedata )
+	function processFile( $postdata )
 	{
-		return NULL;
+		$resultUpload = [];
+		$paramUpload  = [
+		 "path"        => "file/kajian_risiko_monitoring",
+		 "field"       => "file",
+		 "file_type"   => "gif|jpg|jpeg|png|pdf|xlsx|docx|ppt",
+		 "file_thumb"  => FALSE,
+		 "file_size"   => "10000",
+		 "file_random" => FALSE,
+		 "multi"       => FALSE,
+		 "image-no"    => FALSE,
+		];
+		if( ! empty( $_FILES["file"] ) )
+		{
+			$dataUpload["name"]     = generateIdString();
+			$dataUpload["type"]     = $_FILES["file"]["type"];
+			$dataUpload["tmp_name"] = $_FILES["file"]["tmp_name"];
+			$dataUpload["error"]    = $_FILES["file"]["error"];
+			$dataUpload["size"]     = $_FILES["file"]["size"];
+			if( empty( $postdata["file_monitoring"] ) )
+			{
+				$getStatusUpload = $this->save_file( $paramUpload, $dataUpload );
+				$status          = explode( "/", $getStatusUpload );
+				$resultUpload    = $status[1];
+				// $resultUpload["name"]            = $_FILES["file"]["name"];
+			}
+			else
+			{
+				unlink( "./files/kajian_risiko_monitoring/" . $postdata["file_monitoring"] );
+				$getStatusUpload = $this->save_file( $paramUpload, $dataUpload );
+				$status          = explode( "/", $getStatusUpload );
+				$resultUpload    = $status[1];
+				// $resultUpload["name"] = $_FILES["file"]["name"];
+			}
+		}
+		return ( ! empty( $resultUpload ) ) ? $resultUpload : NULL;
 	}
 
 	function export_excel( $id )
@@ -311,8 +355,7 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		$dataMonitoring["monitoring"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_MONITORING, [ "id_kajian_risiko" => $id ] )->result_array();
 		$dataMonitoring["btnExport"]  = base_url( $this->modul_name . "/export_excel/" . $id );
 		$result                       = $this->load->view( "ajax/monitoring_modal", $dataMonitoring, TRUE );
-
-		$nm_file = "Report Monitoring " . date( "Y-m-d" );
+		$nm_file                      = "Report Monitoring " . date( "Y-m-d" );
 		header( "Content-type:appalication/vnd.ms-excel" );
 		header( "content-disposition:attachment;filename=" . $nm_file . ".xls" );
 		echo $result;

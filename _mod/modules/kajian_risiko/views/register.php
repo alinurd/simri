@@ -1,7 +1,7 @@
 <hr>
 <div class="row">
     <div class="col-md-12">
-        <div class="jumbotron p-3 mb-3 border d-flex justify-content-start">
+        <div class="jumbotron p-2 mb-3 border d-flex justify-content-start">
             <div class="col-md-4">
                 <table class="table table-borderless">
                     <tbody>

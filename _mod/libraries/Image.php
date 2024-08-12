@@ -67,8 +67,6 @@ class Image
         $config['overwrite']     = FALSE;
         $config['encryp_name']   = FALSE;
         $config['remove_space']  = TRUE;
-
-
         if( ( $this->param['multi'] && $this->param['image_no'] == 0 ) || ! $this->param['multi'] )
         {
             $this->ci->load->library( 'upload', $config );
@@ -78,7 +76,6 @@ class Image
             $this->ci->load->library( 'upload', $config );
             $this->ci->upload->initialize( $config, TRUE );
         }
-
         if( ! $this->ci->upload->do_upload( $this->param['nm_file'] ) )
         {
             $error = $this->ci->upload->display_errors();

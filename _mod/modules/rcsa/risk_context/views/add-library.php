@@ -1,8 +1,9 @@
-<span class="btn bg-warning-400 btn-labeled btn-labeled-left legitRipple" id="backListLibrary">
+<span class="btn bg-warning-400 btn-labeled btn-labeled-left legitRipple backListLibrary" id="<?= $libtype ?>"
+    identity="<?= $identity ?>">
     <b><i class="icon-arrow-left5"></i></b> <?= _l( 'fld_back_like_indi' ); ?>
 </span>
 <span class="btn bg-success-400 btn-labeled btn-labeled-right legitRipple pull-right saveLibrary" id="btn_save"
-    data-lib="">
+    data-lib="" identity="<?= $identity ?>">
     <b><i class="icon-floppy-disk"></i></b> Simpan
 </span>
 <br />

@@ -31,48 +31,6 @@
 		</div>
 		<?php echo $this->template->right_sidebar; ?>
 	</div>
-	<!-- Clickable menu -->
-	<!-- <ul class="fab-menu fab-menu-fixed fab-menu-bottom-right" data-fab-toggle="hover" data-fab-state="closed">
-			<li>
-				<a class="fab-menu-btn btn bg-indigo-400 btn-float rounded-round btn-icon legitRipple">
-					<i class="fab-icon-open icon-cog52"></i>
-					<i class="fab-icon-close icon-cross2"></i>
-				</a>
-
-				<ul class="fab-menu-inner">
-					<li>
-						<div data-fab-label="Support/Tiket">
-							<a href="<?= base_url( 'support' ); ?>" class="btn btn-light rounded-round btn-icon btn-float">
-								<i class="icon-cog2"></i>
-							</a>
-						</div>
-					</li>
-					<li>
-						<div data-fab-label="Full Screen">
-							<a href="#" class="btn btn-light rounded-round btn-icon btn-float  full_screen">
-								<i class="icon-screen-full"></i>
-							</a>
-						</div>
-					</li>
-					<li>
-						<div data-fab-label="Lock Screen">
-							<a href="<?= base_url( 'lock-screen' ); ?>" class="btn bg-light rounded-round btn-icon btn-float">
-							<i class="icon-lock"></i>
-							</a>
-						</div>
-					</li>
-					<li>
-						<div data-fab-label="Close Aplication">
-							<a href="<?= base_url( 'auth/logout' ); ?>" class="btn bg-light rounded-round btn-icon btn-float">
-							<i class="icon-enter3"></i>
-							</a>
-						</div>
-					</li>
-				</ul>
-			</li>
-		</ul> -->
-	<!-- /clickable menu -->
-
 	<script>
 
 		var base_url = "<?php echo base_url(); ?>";
