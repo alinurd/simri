@@ -242,7 +242,7 @@
                                                     foreach( $mitigasi as $kMit => $vMit )
                                                     {
                                                         $kMit+=1;
-                                                        $vMit["pic"]=(!empty($vMit["pic"])&&json_validate($vMit["pic"]))?json_decode($vMit["pic"]):"";
+                                                        $vMit["pic"]=(!empty($vMit["pic"]) && json_decode($vMit["pic"]))? json_decode($vMit["pic"]):"";
                                                         ?>
                                                         <tr class="row-mitigasi border-top">
                                                             <td>
