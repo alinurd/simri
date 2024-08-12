@@ -377,9 +377,6 @@ class Kajian_Risiko extends MY_Controller
 						 "updated_at"                => date( "Y-m-d H:i:s" ),
 						 "updated_by"                => $this->ion_auth->get_user_name(),
 						];
-						echo "<pre>";
-						print_r( $dataInsertMitigasi );
-						exit;
 						$this->db->insert( _TBL_KAJIAN_RISIKO_MITIGASI, $dataInsertMitigasi );
 					}
 				}
