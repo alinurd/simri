@@ -22,6 +22,7 @@ class Data extends MX_Model
 
 	function simpan_progres($data)
 	{
+		// doi::dump($data);die('cek');
 		$id = intval($data['id']);
 		$this->crud->crud_table(_TBL_RCSA_MITIGASI_PROGRES);
 		$this->crud->crud_field('rcsa_mitigasi_detail_id', $data['aktifitas_mitigasi_id']);

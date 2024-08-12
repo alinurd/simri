@@ -539,12 +539,8 @@ class Progress_Mitigasi extends MY_Controller
 	{
 		$post = $this->input->post();
 		$id_edit = $this->data->simpan_progres($post);
-
-		$id = intval($post['aktifitas_mitigasi_id']);
-		$hasil = $this->update_progres(0, $id);
-		$result['update'] = $hasil['update'];
-		$result['list_progres'] = $hasil['list_progres'];
-		header('Content-type: application/json');
+		$result['sts'] = $id_edit;
+		 
 		echo json_encode($result);
 	}
 
@@ -1558,8 +1554,7 @@ class Progress_Mitigasi extends MY_Controller
 			$post = $this->input->post();
 			$post['id'] = 0;
 		}
-
-		$id = $post['id'];
+ 		$id = $post['id'];
 		$imitigasiId = $post['mit'];
 		$id_edit = $post['mitdetail'];
 		$bln = intval($post['bln']);
@@ -1571,8 +1566,7 @@ class Progress_Mitigasi extends MY_Controller
 			$id_edit = 0;
 		}
 		$getMinggu = $this->db->where('period_id', $periodeId)->where('bulan_int', $bln)->get("il_view_minggu")->row_array();
-
-		$dp = $this->db->where('id', $id_edit)->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->row_array();
+ 		$dp = $this->db->where('id', $id_edit)->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->row_array();
 		$am = $this->db->where('id', $id)->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)->row_array();
 
 		$data['detail_progres'] = $this->db->where('rcsa_mitigasi_detail_id', $id)->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
@@ -1596,8 +1590,12 @@ class Progress_Mitigasi extends MY_Controller
 		$target .= form_input(['type' => 'number', 'name' => 'target'], ($dp) ? $dp['target'] : $trg, " '.$disabled.' class='form-control touchspin-postfix text-center' max='100' min='1' step='1' id='target' ");
 		$target .= '<button type="button" onclick="this.parentNode.querySelector(\'[type=number]\').stepUp();"> + </button> <div class="form-control-feedback text-primary form-control-feedback-lg pointer" style="right:-25%;"> % </div></div>';
 
-		$data['progres'][] = ['title' => "Tahun ", 'mandatori' => false, 'isi' => form_input('bln', ($getMinggu) ? $getMinggu['period'] : $bln, 'class="form-control " id="bln" disabled style="width:100%;"') . form_hidden(['periodeId' => $periodeId, 'id' => $periodeId])];
-		$data['progres'][] = ['title' => "Bulan ", 'mandatori' => false, 'isi' => form_input('bln', ($getMinggu) ? $getMinggu['param_string'] : $bln, 'class="form-control " id="bln" disabled style="width:100%;"') . form_hidden(['periodeId' => $periodeId, 'id' => $periodeId])];
+		$data['progres'][] = ['title' => "Tahun ", 'mandatori' => false, 'isi' => form_input('bln', ($getMinggu) ? $getMinggu['period'] : $bln, 'class="form-control " id="bln" disabled style="width:100%;"')];
+		$data['progres'][] = ['title' => "Bulan ", 'mandatori' => false, 'isi' => form_input('bln', ($getMinggu) ? $getMinggu['param_string'] : $bln, 'class="form-control " id="bln" disabled style="width:100%;"')
+		 . form_hidden(['month' => $bln, 'id' => $bln])
+		 . form_hidden(['minggu' => $getMinggu['id']])
+		 . form_hidden(['periode' => $periodeId])
+		];
 		$data['progres'][] = ['title' => _l('fld_target'), 'help' => _h('help_target'), 'mandatori' => true, 'isi' => $target];
 		$data['progres'][] = ['title' => _l('fld_aktual'), 'help' => _h('help_aktual'), 'mandatori' => true, 'isi' => $aktual];
 		$data['progres'][] = ['title' => _l('fld_uraian'), 'help_popup' => false, 'help' => _h('help_uraian', '', true, false), 'mandatori' => true, 'isi' => form_textarea('uraian', ($dp) ? $dp['uraian'] : '', "required id='uraian' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 100px;' onblur='_maxLength(this , \"id_sisa_1\")' onkeyup='_maxLength(this , \"id_sisa_1\")' data-role='tagsinput'", true, ['size' => 1000, 'isi' => 0, 'no' => 1])];
@@ -1607,7 +1605,7 @@ class Progress_Mitigasi extends MY_Controller
 
 		$data['progres'][] = ['title' => _l('fld_keterangan'), 'help' => _h('help_keterangan'), 'isi' => form_textarea('keterangan', ($dp) ? $dp['keterangan'] : '', " id='keterangan' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 100px;' onblur='_maxLength(this , \"id_sisa_4\")' onkeyup='_maxLength(this , \"id_sisa_4\")' data-role='tagsinput'", true, ['size' => 1000, 'isi' => 0, 'no' => 4])];
 		$data['progres'][] = ['title' => _l('fld_lampiran'), 'help' => _h('help_lampiran'), 'isi' => form_upload('lampiran')];
-		$data['progres'][] = ['title' => '', 'help' => '', 'isi' => form_hidden(['aktifitas_mitigasi_id' => $id, 'id' => $id_edit])];
+		$data['progres'][] = ['title' => '', 'help' => '', 'isi' => form_hidden(['aktifitas_mitigasi_id' => $imitigasiId, 'id' => $id_edit])];
 
 		$data['info_1'][] = ['title' => _l('fld_risiko_dept'), 'isi' => $rcsa_detail['risiko_dept']];
 		$data['info_1'][] = ['title' => _l('fld_risiko_inherent'), 'isi' => $rcsa_detail['level_color']];

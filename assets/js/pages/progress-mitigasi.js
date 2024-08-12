@@ -317,9 +317,11 @@ $(function(){
 		var aktual=$("#aktual").val();
 		if (uraian.length>0 && target.length>0 && aktual.length>0){
 			var parent = $(this).parent().parent().parent();
-			var data = $("#form_progres").serialize();
+			// var data = $("#form_progres").serialize();
+					var data = $("#form_general").serialize();
+
 			var url = modul_name + "/simpan-progres";
-			_ajax_("post", parent, data, '', url, 'result_progres');
+			_ajax_("post", parent, data, '', url, 'simpanProgres');
 		}else{
 			alert("Target, Aktual dan Uraian wajib diisi!");
 			$("#uraian").focus();
@@ -614,6 +616,15 @@ function aktififasMod(hasil){
 	$("#modal_general").find(".modal-body").html(hasil.combo);
 	$("#modal_general").find(".modal-footer").addClass('d-none');
 	$("#modal_general").modal("show");
+}
+function simpanProgres(hasil){
+ 	if(hasil){
+      pesan_toastr(hasil.info, 'success', 'Success', 'toast-top-center');
+	  $("#modal_general").modal("hide");
+
+	}else{
+      pesan_toastr('Error', 'err', 'Error', 'toast-top-center');
+	}
 }
 function simpanResidual(hasil){
  	if(hasil){
