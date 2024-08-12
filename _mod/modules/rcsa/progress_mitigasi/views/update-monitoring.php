@@ -143,8 +143,8 @@
                                                 }
                                             ?> 
                                                 <tr>
-                                                    <td width="20%"><?= $m['penyebab_risiko'] ?></td>
                                                     <td width="20%"><?= $m['mitigasi'] ?></td>
+                                                    <td width="20%"><?= $m['aktifitas_mitigasi'] ?></td>
                                                     <?php if (isset($progress_by_month[$monthParam][0])) : ?>
                                                         <td><?= number_format($progress_by_month[$monthParam][0]['target']) ?> %</td>
                                                         <td><?= number_format($progress_by_month[$monthParam][0]['aktual']) ?> %</td>
