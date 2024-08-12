@@ -1628,7 +1628,7 @@ class Progress_Mitigasi extends MY_Controller
 
 		$result['title'] = "Update Aktifitas ";
 		if (isset($mit['mitigasi']) && $mit['mitigasi'] !== '') {
-			$result['title'] .= ': ' . $mit['mitigasi'];
+			$result['title'] .= ': ' . $mit['aktifitas_mitigasi'];
 		}
 		$result['combo'] = $this->load->view('progres', $data, true);
 		header('Content-type: application/json');
@@ -2340,28 +2340,29 @@ class Progress_Mitigasi extends MY_Controller
     $level_color = $post['level_color']; 
     $color = $post['color']; 
     $score = $post['score']; 
-    $row = $this->data->getMonthlyMonitoring($id_detail, $month);
-
+	
     $this->crud->crud_table("il_update_residual");
     $this->crud->crud_field('rcsa_detail_id', $id_detail);
     $this->crud->crud_field('month', $month);
     $this->crud->crud_field('like', $like);
     $this->crud->crud_field('impact', $impact);
-
+	
     $this->crud->crud_field('level_color', $level_color);
     $this->crud->crud_field('color', $color);
     $this->crud->crud_field('color_text', $color_text);
     $this->crud->crud_field('score', $score);
-// doi::dump($row);
-    if (isset($row)) {
+	// doi::dump($row);die;
+	$row = $this->db->where('rcsa_detail_id', $id_detail)->where('month', $month)->get("il_update_residual")->result_array();
+    if ($row) {
         $this->crud->crud_type('edit');
-        $this->crud->crud_where(['field' => 'id', 'value' => $row['id']]); 
+        $this->crud->crud_where(['field' => 'rcsa_detail_id', 'value' => $id_detail]); 
+        $this->crud->crud_where(['field' => 'month', 'value' => $month]); 
 		$id= $this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
         $info['info'] = "update";
 		$info['data'] = $this->data->getMonthlyMonitoring($id_detail, $month);
 		$this->crud->process_crud();
     } else {
-        $this->crud->crud_type('add');
+    	$this->crud->crud_type('add');
        $id= $this->crud->crud_field('created_by', $this->ion_auth->get_user_name());
 	   $info['info'] = "create";$this->crud->process_crud();
 	   $info['data'] = $this->data->getMonthlyMonitoring($id_detail, $month);
