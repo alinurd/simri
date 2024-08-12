@@ -43,17 +43,10 @@ class MY_Controller extends MX_Controller
 
 		$this->remap_default = array('add' => '__insert', 'edit' => '__update', 'delete' => '__delete', 'delete_all' => '__delete_all', 'export' => '__export_all', 'view' => '__update', 'print' => '__print');
 
-<<<<<<< HEAD
 		$lock_screen = $this->session->userdata( 'lock_screen' );
 		if( $lock_screen && $this->router->fetch_module() !== 'auth' )
 		{
 			header( 'location:' . base_url( 'auth/lock-screen' ) );
-=======
-		$this->free_modul = ['ajax', 'change_password'];
-		$lock_screen      = $this->session->userdata('lock_screen');
-		if ($lock_screen && $this->router->fetch_module() !== 'auth') {
-			header('location:' . base_url('auth/lock-screen'));
->>>>>>> ali
 		}
 
 		if (!$this->ion_auth->logged_in() && $this->router->fetch_module() !== 'auth') {
@@ -76,11 +69,7 @@ class MY_Controller extends MX_Controller
 		$this->configuration['content_title'] = (!empty($this->lang->line(_MODULE_NAME_REAL_ . '_title'))) ? $this->lang->line(_MODULE_NAME_REAL_ . '_title') : ucwords(str_replace('-', ' ', _MODULE_NAME_)) . ' ' . ucwords(_MODE_);
 		$this->configuration['preference']    = $this->data_config->get_Preference();
 		$this->configuration['user']          = $this->_data_user_;
-<<<<<<< HEAD
 		$this->configuration['free_module']   = $this->config->item( 'free_module', 'configuration' );
-=======
-		$this->configuration['free_modul']    = $this->config->item('free_modul', 'configuration');
->>>>>>> ali
 		$this->configuration['_mode_']        = $this->_mode_;
 		$this->preference                     = $this->configuration['preference'];
 		// if ($this->_is_data_exist){
@@ -151,13 +140,8 @@ class MY_Controller extends MX_Controller
 		$this->tmp_data['coloums']     = array();
 		$this->tmp_data['coloums_all'] = array();
 
-<<<<<<< HEAD
 		if( method_exists( $this->router->fetch_class(), 'init' ) )
 		{
-=======
-
-		if (method_exists($this->router->fetch_class(), 'init')) {
->>>>>>> ali
 			$configuration = (array) $this->init();
 			$this->register_configuration($configuration['configuration']);
 		}
@@ -376,25 +360,12 @@ class MY_Controller extends MX_Controller
 		if (_USER_ID_) {
 			$this->can = $this->ion_auth->privilege($method_cek, $this->configuration['user']);
 		}
-<<<<<<< HEAD
 
 		$this->can = array_merge( $this->can, $this->canTmp );
 
 		if( ! $this->can['read'] && $this->router->fetch_module() !== 'errorpage' && ! in_array( $this->router->fetch_module(), $this->configuration["free_module"] ) && ( ! $this->ion_auth->is_admin() ) )
 		{
 			header( 'location:' . base_url( 'access-denied' ) );
-=======
-		// dumps($this->can);
-		// dumps($this->canTmp);
-		$this->can = array_merge($this->can, $this->canTmp);
-		// die($this->router->fetch_module());
-		// !$this->can['read'] true
-		// dumps($method_cek);
-		// die();
-		// !$this->configuration['user']['is_admin']
-		if (!$this->can['read'] && $this->router->fetch_module() !== 'errorpage' && !in_array($this->router->fetch_module(), $this->free_modul) && (!$this->ion_auth->is_admin())) {
-			header('location:' . base_url('access-denied'));
->>>>>>> ali
 			exit();
 		} elseif (array_key_exists($method, $this->remap_default)) {
 			$method = $this->remap_default[$method];
@@ -684,17 +655,10 @@ class MY_Controller extends MX_Controller
 	function set_Open_Coloums($title = "")
 	{
 		$jml = 0;
-<<<<<<< HEAD
 		if( $this->tmp_data['tabs'] )
 		{
 			if( array_key_exists( 'cols', $this->tmp_data['tabs'][$this->jml_tabs] ) )
 				$jml = count( $this->tmp_data['tabs'][$this->jml_tabs]['cols'] );
-=======
-		if ($this->tmp_data['tabs']) {
-			//dump($this->tmp_data['tabs']);
-			if (array_key_exists('cols', $this->tmp_data['tabs'][$this->jml_tabs]))
-				$jml = count($this->tmp_data['tabs'][$this->jml_tabs]['cols']);
->>>>>>> ali
 		}
 
 		$this->sts_open_coloums                        = TRUE;
@@ -913,12 +877,7 @@ class MY_Controller extends MX_Controller
 				$row['box'] = $x;
 			}
 		}
-<<<<<<< HEAD
 		unset( $row );
-=======
-		unset($row);
-		// dump($this->tmp_data['fields']);
->>>>>>> ali
 	}
 
 	function set_box_input($row, $isi = "", $search = FALSE)
@@ -980,13 +939,8 @@ class MY_Controller extends MX_Controller
 			$label = $row['field'];
 		}
 
-<<<<<<< HEAD
 		if( ! empty( $row['prepend'] ) || ! empty( $row['append'] ) )
 		{
-=======
-
-		if (!empty($row['prepend']) || !empty($row['append'])) {
->>>>>>> ali
 			$size          = $row['size'] . '%';
 			$start_prepend = '<div class="input-group" style="width:' . $size . ';">';
 			if (!empty($row['prepend'])) {
@@ -1006,16 +960,10 @@ class MY_Controller extends MX_Controller
 			$feedBack        = '<div class="form-group form-group-feedback form-group-feedback-' . $row['bidFeedBackAlign'] . '">';
 			$feedBackContent = '<div class="form-control-feedback">' . $row['bidFeedBackContent'] . '</div></div>';
 		}
-<<<<<<< HEAD
 
 		if( $this->configuration['placeholder_tool'] )
 		{
 			if( ! empty( $row['placeholder'] ) )
-=======
-		//dump($this->configuration);die();
-		if ($this->configuration['placeholder_tool']) {
-			if (!empty($row['placeholder']))
->>>>>>> ali
 				$placeholder = 'placeholder="' . $row['placeholder'] . '"';
 		}
 
@@ -1040,13 +988,8 @@ class MY_Controller extends MX_Controller
 			}
 			$width = 'width:' . $size . ' !important;';
 		}
-<<<<<<< HEAD
 		switch( $type )
 		{
-=======
-		// echo ' fields : '.$row['field'].' - '.$isi.'<br/>';
-		switch ($type) {
->>>>>>> ali
 			case 'plaintext':
 				$content = '<div class="form-control-plaintext">' . $isi . '</div>';
 				break;
@@ -1271,13 +1214,9 @@ class MY_Controller extends MX_Controller
 				// $o = '<img id="img_' . $label . '" style="margin-top:10px;"  width="' . $row['size_pic'] . '" src="" alt="image"/>';
 				$o = '<img id="img_' . $label . '" style="margin-top:10px;"  width="' . $row['size_pic'] . '" src="' . setImageDefault( "" ) . '" alt="image"/>';
 				$oo = "";
-<<<<<<< HEAD
 
 				if( ! empty( $isi ) )
 				{
-=======
-				if (!empty($isi)) {
->>>>>>> ali
 					$kel = 'image';
 					if (array_key_exists('path', $row)) {
 						$pt      = explode('/', $row['path']);
@@ -1292,7 +1231,6 @@ class MY_Controller extends MX_Controller
 						$info_ci = get_file_info(img_path_relative($isi));
 						$url     = img_url($isi);
 					}
-<<<<<<< HEAD
 					else
 					{
 						$info    = pathinfo( img_path_relative( $isi ) );
@@ -1311,9 +1249,6 @@ class MY_Controller extends MX_Controller
 					/** end */
 					if( strtolower( $info['extension'] ) == "jpg" || strtolower( $info['extension'] ) == "png" || strtolower( $info['extension'] ) == "jpeg" || strtolower( $info['extension'] ) == "gif" || strtolower( $info['extension'] ) == "bmp" )
 					{
-=======
-					if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || strtolower($info['extension']) == "gif" || strtolower($info['extension']) == "bmp") {
->>>>>>> ali
 						$o = '<img id="img_' . $label . '"  src="' . $url . '" alt="image" style="margin-top:10px;" class="detail-img pointer" width="' . $row['size_pic'] . '"  data-file="' . $isi . '" data-path="' . $pt[0] . '" />';
 					}
 					$nmFunc = $kel . '_path_relative';
@@ -1327,11 +1262,7 @@ class MY_Controller extends MX_Controller
 					$oo = '<br/><span class="well"><span data-url="' . base_url('ajax/download_preview/') . '" data-target="' . $kel . '" data-file="' . $isi . '" class="preview_file pointer text-primary">' . $isi . '</span></span><br/><span style="padding-left:19px;">Size : ' . $size . '</span><br/>&nbsp;<br/>';
 				}
 				$content = $o . $oo;
-<<<<<<< HEAD
 				$content .= '<br><small>note :<br/>Image type : [' . $row['file_type'] . ']<br/>Max Image Size : ' . number_format( floatval( $row['file_size'] ) / 1024, 2 ) . ' Mb</small><br/><div class="upload-btn-wrapper">
-=======
-				$content .= '<small>note :<br/>Image type : [' . $row['file_type'] . ']<br/>Max Image Size : ' . number_format(floatval($row['file_size']) / 1024, 2) . ' Mb</small><br/><div class="upload-btn-wrapper">
->>>>>>> ali
 				<button class="btn">Upload a file</button>';
 				$content .= form_upload($label, '', 'class="pointer" onchange="showMyImage(this,\'img_' . $label . '\')"');
 				$content .= form_hidden([$label . '_tmp' => $isi]);
@@ -1404,12 +1335,8 @@ class MY_Controller extends MX_Controller
 
 	function __insert()
 	{
-<<<<<<< HEAD
 
 		$this->breadcrumbs->push( 'Add', 'add' );
-=======
-		$this->breadcrumbs->push('Add', 'add');
->>>>>>> ali
 		$manualSave = FALSE;
 		$data       = $this->input->post();
 		$this->set_input_box($data, 'add');
@@ -1442,17 +1369,12 @@ class MY_Controller extends MX_Controller
 				}
 			}
 
-<<<<<<< HEAD
 			if( $sts_form_validation == FALSE )
 			{
 				$this->session->set_flashdata( "message", "" );
 				$this->session->set_flashdata( "message_crud", "" );
 				$this->session->set_flashdata( "message_crud_error", "" );
 				$this->session->set_flashdata( 'message_crud_error', $this->logdata->errors_array() );
-=======
-			if ($sts_form_validation == FALSE) {
-				$this->session->set_flashdata('message_crud_error', $this->logdata->errors_array());
->>>>>>> ali
 				$this->template->_params = $this->configuration;
 				$this->set_template();
 				$content       = $this->_template_ . '/input';
@@ -1541,7 +1463,6 @@ class MY_Controller extends MX_Controller
 				}
 
 				$id = TRUE;
-<<<<<<< HEAD
 				if( $id_new > 0 )
 				{
 					if( method_exists( $this->router->fetch_class(), 'afterSave' ) )
@@ -1550,12 +1471,6 @@ class MY_Controller extends MX_Controller
 
 						if( ! $id )
 						{
-=======
-				if ($id_new > 0) {
-					if (method_exists($this->router->fetch_class(), 'afterSave')) {
-						$id = $this->afterSave($id_new, $this->tmp_data['data'], [], 'add');
-						if (!$id) {
->>>>>>> ali
 							$this->db->trans_rollback();
 							$this->logdata->type = 0;
 							throw new Exception('Error: ' . $this->logdata->errors(), E_USER_ERROR);
@@ -1645,7 +1560,6 @@ class MY_Controller extends MX_Controller
 	{
 		$pt   = explode('/', $row['path']);
 		$path = $pt[0] . '_path_relative';
-<<<<<<< HEAD
 
 		$this->load->library( 'image' );
 		$this->image->set_Param( 'nm_file', $row['field'] );
@@ -1655,16 +1569,6 @@ class MY_Controller extends MX_Controller
 		$this->image->set_Param( 'type', $row['file_type'] );
 		$this->image->set_Param( 'size', $row['file_size'] );
 		$this->image->set_Param( 'nm_random', $row['file_random'] );
-=======
-		$this->load->library('image');
-		$this->image->set_Param('nm_file', $row['field']);
-		$this->image->set_Param('file_name', $data['name']);
-		$this->image->set_Param('path', $path($pt[1]));
-		$this->image->set_Param('thumb', $row['file_thumb']);
-		$this->image->set_Param('type', $row['file_type']);
-		$this->image->set_Param('size', $row['file_size']);
-		$this->image->set_Param('nm_random', $row['file_random']);
->>>>>>> ali
 
 		if( ! empty( $row['multi'] ) )
 		{
@@ -1673,24 +1577,14 @@ class MY_Controller extends MX_Controller
 		}
 
 		$this->image->upload();
-<<<<<<< HEAD
 		return $pt[1] . '/' . $this->image->result( 'file_name' );
-=======
-		// die($this->image->error());
-		return $pt[1] . '/' . $this->image->result('file_name');
->>>>>>> ali
 	}
 
 	function __update($id = '')
 	{
-<<<<<<< HEAD
 
 
 		$this->breadcrumbs->push( 'Edit', 'edit' );
-=======
-		// DUMP($_FILES);die();
-		$this->breadcrumbs->push('Edit', 'edit');
->>>>>>> ali
 		$manualSave = FALSE;
 		$idEdit     = ($id == '') ? $this->uri->segment(3) : $id;
 		if ($idEdit == '') {
@@ -1733,12 +1627,7 @@ class MY_Controller extends MX_Controller
 		$this->set_input_box($data, 'edit');
 		$header = '';
 		$footer = '';
-<<<<<<< HEAD
 		$this->register_button( 'edit', $idEdit );
-=======
-		$this->register_button('edit', $idEdit);
-		// dump($this->_button);
->>>>>>> ali
 		$this->configuration['button'] = $this->_button;
 		$this->configuration['fields'] = $this->tmp_data['fields'];
 		$this->template->_params       = $this->configuration;
@@ -1750,15 +1639,9 @@ class MY_Controller extends MX_Controller
 			$footer = $this->setContentFooter(_MODE_);
 		}
 
-<<<<<<< HEAD
 		if( ! empty( $save ) )
 		{
 			if( isset( $data['Save'] ) )
-=======
-		// dump($post);die();
-		if (!empty($save)) {
-			if (isset($data['Save']))
->>>>>>> ali
 				$mode = 'Stay';
 			else
 				$mode = 'Back';
@@ -1851,16 +1734,11 @@ class MY_Controller extends MX_Controller
 								}
 							}
 						}
-<<<<<<< HEAD
 						if( $this->tmp_data['primary']['info'] )
 						{
 
 							$this->crud->crud_field( 'updated_by', $this->ion_auth->get_user_name() );
 							$this->crud->crud_field( 'updated_at', date( "Y-m-d H:i:s" ) );
-=======
-						if ($this->tmp_data['primary']['info']) {
-							$this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
->>>>>>> ali
 						}
 						$this->crud->crud_where(['field' => $this->tmp_data['primary']['id'], 'value' => $idEdit, 'op' => '=']);
 						$this->crud->process_crud();
@@ -2461,7 +2339,6 @@ class MY_Controller extends MX_Controller
 		$this->output_parent[$ad['id']] = $space . $ad['title'] . $code;
 		if (array_key_exists('children', $ad)) {
 			++$level;
-<<<<<<< HEAD
 			foreach( $ad['children'] as $row )
 			{
 				if( $level > 3 && $this->modul_name == "risk-context" )
@@ -2469,10 +2346,6 @@ class MY_Controller extends MX_Controller
 					continue;
 				}
 				$this->buildItem_parent_dept( $row, $level );
-=======
-			foreach ($ad['children'] as $row) {
-				$this->buildItem_parent_dept($row, $level);
->>>>>>> ali
 			}
 		}
 		$level = 0;
@@ -2512,15 +2385,9 @@ class MY_Controller extends MX_Controller
 		$query = $this->db->get();
 		$rows  = $query->result_array();
 		$input = [];
-<<<<<<< HEAD
 		foreach( $rows as $row )
 		{
 			$input[$row['id']] = array( "id" => $row['id'], "title" => $row['owner_name'], "code" => $row['owner_code'], "slug" => $row['pid'], "urut" => $row['urut'], "active" => $row['active'] );
-=======
-		// dumps($rows);
-		foreach ($rows as $row) {
-			$input[$row['id']] = array("id" => $row['id'], "title" => $row['owner_name'], "code" => $row['owner_code'], "slug" => $row['pid'], "urut" => $row['urut'], "active" => $row['active']);
->>>>>>> ali
 		}
 		return $input;
 	}
@@ -2671,19 +2538,12 @@ class MY_Controller extends MX_Controller
 		$this->_js_[] = 'app.js';
 		$this->_js_[] = 'custom.js';
 
-<<<<<<< HEAD
 		$arr_js = [ $this->modul_name, 'bersama' ];
 		foreach( $arr_js as $js )
 		{
 			if( file_exists( FCPATH . 'assets/js/pages/' . $js . ".js" ) )
 			{
 				$this->_js_[] = 'pages/' . $js . '.js';//?ver=51
-=======
-		$arr_js = [$this->modul_name, 'bersama'];
-		foreach ($arr_js as $js) {
-			if (file_exists(FCPATH . 'assets/js/pages/' . $js . ".js")) {
-				$this->_js_[] = 'pages/' . $js . '.js?ver=51';
->>>>>>> ali
 			}
 		}
 	}
@@ -2705,16 +2565,9 @@ class MY_Controller extends MX_Controller
 		if ($this->_data_user_['group']['param']['privilege_owner'] >= 2) {
 			$op = TRUE;
 		}
-<<<<<<< HEAD
 		if( $op )
 		{
 			$this->set_Where_Table( [ 'tbl' => $tbl, 'field' => $field, 'op' => 'in', 'value' => $this->_data_user_['owner'] ] );
-=======
-		// dumps($this->_data_user_['group']['param']['privilege_owner']);
-		// die();
-		if ($op) {
-			$this->set_Where_Table(['tbl' => $tbl, 'field' => $field, 'op' => 'in', 'value' => $this->_data_user_['owner']]);
->>>>>>> ali
 		}
 	}
 
@@ -2751,7 +2604,6 @@ class MY_Controller extends MX_Controller
 					for ($x = 0; $x < count($nm) - 1; ++$x) {
 						$nms[] = $nm[$x];
 					}
-<<<<<<< HEAD
 					$nm2 = implode( '_', $nms );
 					if( is_array( $isi ) )
 					{
@@ -2759,15 +2611,6 @@ class MY_Controller extends MX_Controller
 						{
 							if( array_key_exists( $nm2, $isi[$nm1] ) )
 							{
-=======
-					$nm2 = implode('_', $nms);
-					// dumps($nms);
-					// dumps($nm);
-					// dumps($nm2);
-					if (is_array($isi)) {
-						if (array_key_exists($nm1, $isi)) {
-							if (array_key_exists($nm2, $isi[$nm1])) {
->>>>>>> ali
 								$isi = $isi[$nm1][$nm2];
 							} else {
 								$isi = '';
