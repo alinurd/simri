@@ -107,7 +107,9 @@
                                 <tr>
                                     <td width="130px"></td>
                                     <td width="5px"></td>
-                                    <td><span class="btn btn-success">Simpan</span></td>
+                                    <td>
+                                        <span class="btn btn-success<?= isset($mit) ? '' : ' disabled' ?>" id="simpanResidual">Simpan</span>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -140,10 +142,6 @@
                                                 }
                                             ?>
                                                 <tr>
-                                                    <!-- <?php if ($index === 0) : ?>
-                                                         <td rowspan="<?= count($items) ?>"><?= $m['penyebab_risiko'] ?></td>
-                                                    <?php endif; ?> -->
-                                                    <!-- <?= doi::dump($m); ?> -->
                                                     <td width="20%"><?= $m['penyebab_risiko'] ?></td>
                                                     <td width="20%"><?= $m['mitigasi'] ?></td>
                                                     <?php if (isset($progress_by_month[$monthParam][0])) : ?>
@@ -179,7 +177,7 @@
                                                                 data-bln="<?= $monthParam ?>"
                                                                 class="btn btn-primary" data-edit="0">
                                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
-                                                            </span>000
+                                                            </span>
                                                         </td>
                                                     <?php endif; ?>
                                                 </tr>

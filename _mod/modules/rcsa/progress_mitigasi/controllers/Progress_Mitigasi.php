@@ -365,22 +365,23 @@ class Progress_Mitigasi extends MY_Controller
 
 		$csslevel          = '';
 		$csslevel_inherent = '';
-		if ($data) {
-			$csslevel          = 'background-color:' . $data['color_residual'] . ';color:' . $data['color_text_residual'] . ';';
-			$csslevel_inherent = 'background-color:' . $data['color_text'] . ';color:' . $data['color_text'] . ';';
-		}
+		$residual = $this->db->where('rcsa_detail_id', $id)->where('month', $month)->get("il_update_residual")->row_array();
+		if ($residual) {
+			$csslevel  = 'background-color:' . $residual['color'] . ';color:' . $residual['color_text'] . ';';
+ 		}
 
-		$info['level'] = form_input('level_inherent_text', ($data) ? $data['level_color'] : '', 'class="form-control text-center" id="level_inherent_text" readonly="readonly" style="width:30%;' . $csslevel . '"') . form_hidden(['level_inherent' => ($data) ? $data['level_inherent'] : 0]);
+		$info['level'] = form_input('mit_level_residual_text', ($residual) ? $residual['score'].'-'.$residual['level_color'] : '', 'class="form-control text-center" id="mit_level_residual_text" readonly="readonly" style="width:30%;' . $csslevel . '"')
+		 . form_hidden(['level_color' => ($data) ? $data['level_color'] : ''])
+		 . form_hidden(['color' => ($data) ? $data['color'] : ''])
+		 . form_hidden(['color_text' => ($data) ? $data['color_text'] : ''])
+		 . form_hidden(['score' => ($data) ? $data['score'] : 0])
+		 . form_hidden(['month' => ($month) ? $month : 0])
+		 . form_hidden(['id_detail' => ($id) ? $id: 0])
+		 ;
 
-		$info['dampak'] =  form_dropdown('like_id', $like, ($data) ? $data['like_id'] : '', 'id="like_id" class="form-control select" ')
-			. form_hidden(['like_text_kuantitatif' => ($data && $data['like_inherent']) ? $data['like_inherent'] : ''])
-			. form_hidden(['like_id_2' => ($data) ? $data['like_id'] : '']);
+		$info['dampak'] =  form_dropdown('mit_like_id', $like, ($residual) ? $residual['like'] : '', 'id="mit_like_id" class="form-control select" ');
 
-		$info['impact'] =  form_dropdown('impact_id', $impact, ($data) ? $data['impact_id'] : '', 'id="impact_id" class="form-control select" ')
-			. form_hidden(['impact_text_kuantitatif' => ($data && $data['impact_inherent']) ? $data['impact_inherent'] : ''])
-			. form_hidden(
-				['impact_id_2' => ($data) ? $data['impact_id'] : '']
-			);
+		$info['impact'] =  form_dropdown('mit_impact_id', $impact, ($residual) ? $residual['impact'] : '', 'id="mit_impact_id" class="form-control select" ');
 
 		$info['update'] = $this->load->view('progres', $info, true);
 		$info['list_progres'] = $this->load->view('list-progres', $info, true);
@@ -389,7 +390,9 @@ class Progress_Mitigasi extends MY_Controller
 		$info['mode_text']       = _l('fld_mode_add'); //'Mode : Insert data';
 		$info['rcsa_detail']     = ['sts_save_evaluasi' => 0];
 		$info['content']=$this->edit_identifikasi($rcsa_detail['rcsa_id'], $rcsa_detail['id']);
-		// doi::dump($info['content']);die;
+
+		$info['mit']= $this->data->getMonthlyMonitoring($id, $month);
+
 		$content = $this->load->view('update-monitoring', $info, true);
 		$configuration = [
 			'show_title_header' => false,
@@ -1855,6 +1858,7 @@ class Progress_Mitigasi extends MY_Controller
 
 	function target_content($data = [])
 	{
+		 
 		$aspek = 0;
 		if ($data) {
 			if ($data['tipe_analisa_no'] == 2 || $data['tipe_analisa_no'] == 3) {
@@ -2321,4 +2325,58 @@ class Progress_Mitigasi extends MY_Controller
 		$param['analisa2'][] = [ 'title' => _l( 'fld_lampiran' ), 'help' => _h( 'help_lampiran' ), 'isi' => form_upload( 'lampiran' ) ];
 		return $param;
 	}
+
+
+	function simpan_update_residual()
+{
+    $post = $this->input->post(); 
+    $like = $post['like'];
+    $impact = $post['impact'];
+    $id_detail = $post['id_detail']; 
+    $month = $post['month']; 
+
+    $color_text = $post['color_text']; 
+    $level_color = $post['level_color']; 
+    $color = $post['color']; 
+    $score = $post['score']; 
+    $row = $this->data->getMonthlyMonitoring($id_detail, $month);
+
+    $this->crud->crud_table("il_update_residual");
+    $this->crud->crud_field('rcsa_detail_id', $id_detail);
+    $this->crud->crud_field('month', $month);
+    $this->crud->crud_field('like', $like);
+    $this->crud->crud_field('impact', $impact);
+
+    $this->crud->crud_field('level_color', $level_color);
+    $this->crud->crud_field('color', $color);
+    $this->crud->crud_field('color_text', $color_text);
+    $this->crud->crud_field('score', $score);
+// doi::dump($row);
+    if (isset($row)) {
+        $this->crud->crud_type('edit');
+        $this->crud->crud_where(['field' => 'id', 'value' => $row['id']]); 
+		$id= $this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
+        $info['info'] = "update";
+		$info['data'] = $this->data->getMonthlyMonitoring($id_detail, $month);
+		$this->crud->process_crud();
+    } else {
+        $this->crud->crud_type('add');
+       $id= $this->crud->crud_field('created_by', $this->ion_auth->get_user_name());
+	   $info['info'] = "create";$this->crud->process_crud();
+	   $info['data'] = $this->data->getMonthlyMonitoring($id_detail, $month);
+	   $this->crud->process_crud();
+
+    }
+
+    if ($id) {
+        $info['status'] = "berhasil"; 
+    } else {
+		$info['status'] = "gagal";
+    }
+
+    header('Content-type: application/json');
+    echo json_encode($info);
+}
+
+
 }

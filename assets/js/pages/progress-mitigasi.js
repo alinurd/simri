@@ -551,14 +551,41 @@ function reset_approval(hasil){
 
 
 
-$(document).on("change", "#like_id, #impact_id", function () {
+$(document).on("change", "#mit_like_id, #mit_impact_id", function () {
 	var parent = $(this).parent();
-	var like = $("#like_id").val();
-	var impact = $("#impact_id").val();
+	var like = $("#mit_like_id").val();
+	var impact = $("#mit_impact_id").val();
 	var data = { 'like': like, 'impact': impact };
 	var url = "ajax/get-risiko-inherent";
-	_ajax_("post", parent, data, '', url, 'result_inherent');
+ 	_ajax_("post", parent, data, '', url, 'resultInherent');
 });
+
+$(document).on('click','#simpanResidual', function(){
+	var parent = $(this).parent().parent().parent();
+	var like = $("#mit_like_id").val();
+	var impact = $("#mit_impact_id").val();
+	var impact = $("#mit_impact_id").val();	
+
+	var color = $("input[name=\"color\"]").val();
+	var level_color = $("input[name=\"level_color\"]").val();
+	var color_text = $("input[name=\"color_text\"]").val();
+	var score = $("input[name=\"score\"]").val();
+	var month = $("input[name=\"month\"]").val();
+	var id_detail = $("input[name=\"id_detail\"]").val();
+ 	var data = { 
+		'like': like,
+		'impact': impact,
+		'color_text': color_text,
+		'level_color': level_color,
+		'color': color,
+		'score': score,
+		'id_detail': id_detail,
+		 'month': month
+	 }; 
+	var url = modul_name+"/simpan-update-residual"; 
+	_ajax_("post", parent, data, '', url, 'simpanResidual');
+})
+
 
 $(document).on("click","#updateAktifitas", function () {
 	var parent = $(this).parent();
@@ -578,8 +605,7 @@ $(document).on("click","#updateAktifitas", function () {
 		'periode':periode,
 		'bln':bln
 	};
-	console.log(data)
-	var url = modul_name+"/form-update-aktifitas";
+ 	var url = modul_name+"/form-update-aktifitas";
 	_ajax_("post", parent, data, '', url, 'aktififasMod');
 })
 
@@ -589,17 +615,35 @@ function aktififasMod(hasil){
 	$("#modal_general").find(".modal-footer").addClass('d-none');
 	$("#modal_general").modal("show");
 }
-function result_inherent(hasil) {
+function simpanResidual(hasil){
+ 	if(hasil){
+      pesan_toastr(hasil.info, 'success', 'Success', 'toast-top-center');
+	}else{
+      pesan_toastr('Error', 'err', 'Error', 'toast-top-center');
+	}
+}
+
+function resultInherent(hasil) {
  
 	var likeCode = parseFloat(hasil.like_code);
 	var impactCode = parseFloat(hasil.impact_code);
 	var x = likeCode * impactCode;
-	$("#risiko_inherent_text").val(x + '-' + hasil.level_color);
-    $("#level_inherent_text").val(hasil.level_color);
-    $("input[name=\"risiko_inherent\"]").val(hasil.id);
-    $("input[name=\"level_inherent\"]").val(hasil.level_risk_no);
-    $("#level_inherent_text").css("background-color", hasil.color);
-    $("#level_inherent_text").css("color", hasil.color_text);
+	var isi= x + '-' + hasil.level_color;
+	$('#simpanResidual').removeClass('disabled');
+	if(x==0){
+		isi= "-";
+		$('#simpanResidual').addClass('disabled');
+	} 
+    $("#mit_level_residual_text").val(isi);
+    $("input[name=\"mit_like_id\"]").val(hasil.level_risk_no);
+    $("input[name=\"mit_impact_id\"]").val(hasil.impact);
+
+    $("input[name=\"level_color\"]").val(hasil.level_color);
+    $("input[name=\"color\"]").val(hasil.color);
+    $("input[name=\"color_text\"]").val(hasil.color_text);
+    $("input[name=\"score\"]").val(hasil.score);
 
 
+    $("#mit_level_residual_text").css("background-color", hasil.color);
+    $("#mit_level_residual_text").css("color", hasil.color_text);
 }

@@ -239,7 +239,7 @@ class MX_Model extends CI_Model
 	public function getMonthlyMonitoring($id, $month)
     {
         $thn = date('Y');
-		$getProgress = $this->db->where('rcsa_detail_id', $id)->where('month', $month)->get("il_peristiwa_monitoring")->row_array();
+		$getProgress = $this->db->where('rcsa_detail_id', $id)->where('month', $month)->get("il_update_residual")->row_array();
          return $getProgress;
     }
 }
