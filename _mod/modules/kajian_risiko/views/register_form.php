@@ -88,9 +88,63 @@
                                     <div class="row">
                                         <div class="col-md-6" id="level-inherent-risk">
                                             <div role="alert" id="result-inherent-level"
-                                                class="alert alert-sm shadow-none border text-center"
+                                                class="alert alert-sm shadow-none border text-center m-0"
                                                 style="cursor:default;background-color:<?= ( ! empty( $register[0]["inherent_level_color"] ) ? $register[0]["inherent_level_color"] : "" ) ?>;color:<?= ( ! empty( $register[0]["inherent_text_level_color"] ) ? $register[0]["inherent_text_level_color"] : "" ) ?>;">
                                                 <b><?= ( ! empty( $register[0]["inherent_level_name"] ) ? $register[0]["inherent_level_name"] : "No Result" ) ?></b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="impact-residual" class="col-md-3 col-form-label text-right">Level Dampak
+                                    Residual<sup class="text-danger ml-1">(*)</sup></label>
+                                <div class="col-md-9">
+                                    <select class="form-control select residual-select" name="impact_residual_level"
+                                        id="impact-residual" required="required">
+                                        <option value=""><i>-- Please Select --</i></option>
+                                        <?php if( ! empty( $levelImpact ) )
+                                        {
+                                            foreach( $levelImpact as $kImpact => $vImpact )
+                                            { ?>
+                                                <option value="<?= $vImpact["code"] ?>" <?= ( ! empty( $register[0]["impact_residual_level"] ) && $register[0]["impact_residual_level"] == $vImpact["code"] ? "selected" : "" ) ?>><?= $vImpact["code"] ?> - <?= $vImpact["level"] ?></option>
+                                            <?php }
+                                        } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="likelihood-residual" class="col-md-3 col-form-label text-right">Level
+                                    Kemungkinan
+                                    Residual<sup class="text-danger ml-1">(*)</sup></label>
+                                <div class="col-md-9">
+                                    <select class="form-control select residual-select" name="likelihood_residual_level"
+                                        id="likelihood-residual" required="required">
+                                        <option value=""><i>-- Please Select --</i></option>
+                                        <?php if( ! empty( $levelLikelihood ) )
+                                        {
+                                            foreach( $levelLikelihood as $kLikelihood => $vLikelihood )
+                                            { ?>
+                                                <option value="<?= $vLikelihood["code"] ?>" <?= ( ! empty( $register[0]["likelihood_residual_level"] ) && $register[0]["likelihood_residual_level"] == $vLikelihood["code"] ? "selected" : "" ) ?>><?= $vLikelihood["code"] ?> - <?= $vLikelihood["level"] ?>
+                                                </option>
+                                            <?php }
+                                        } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="risk-residual" class="col-md-3 col-form-label text-right">Risk Level
+                                    Residual
+                                    (RL)<sup class="text-danger ml-1">(*)</sup></label>
+                                <div class="col-md-9">
+                                    <input type="hidden" name="residual_risk_level" id="risk-residual"
+                                        value="<?= ( ! empty( $register[0]["residual_risk_level"] ) ? $register[0]["residual_risk_level"] : "" ) ?>">
+                                    <div class="row">
+                                        <div class="col-md-6" id="level-residual-risk">
+                                            <div role="alert" id="result-residual-level"
+                                                class="alert alert-sm shadow-none border text-center m-0"
+                                                style="cursor:default;background-color:<?= ( ! empty( $register[0]["residual_level_color"] ) ? $register[0]["residual_level_color"] : "" ) ?>;color:<?= ( ! empty( $register[0]["residual_text_level_color"] ) ? $register[0]["residual_text_level_color"] : "" ) ?>">
+                                                <b><?= ( ! empty( $register[0]["residual_level_name"] ) ? $register[0]["residual_level_name"] : "No Result" ) ?></b>
                                             </div>
                                         </div>
                                     </div>
@@ -319,60 +373,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group row mb-3">
-                                <label for="impact-residual" class="col-md-3 col-form-label text-right">Level Dampak
-                                    Residual<sup class="text-danger ml-1">(*)</sup></label>
-                                <div class="col-md-9">
-                                    <select class="form-control select residual-select" name="impact_residual_level"
-                                        id="impact-residual" required="required">
-                                        <option value=""><i>-- Please Select --</i></option>
-                                        <?php if( ! empty( $levelImpact ) )
-                                        {
-                                            foreach( $levelImpact as $kImpact => $vImpact )
-                                            { ?>
-                                                <option value="<?= $vImpact["code"] ?>" <?= ( ! empty( $register[0]["impact_residual_level"] ) && $register[0]["impact_residual_level"] == $vImpact["code"] ? "selected" : "" ) ?>><?= $vImpact["code"] ?> - <?= $vImpact["level"] ?></option>
-                                            <?php }
-                                        } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label for="likelihood-residual" class="col-md-3 col-form-label text-right">Level
-                                    Kemungkinan
-                                    Residual<sup class="text-danger ml-1">(*)</sup></label>
-                                <div class="col-md-9">
-                                    <select class="form-control select residual-select" name="likelihood_residual_level"
-                                        id="likelihood-residual" required="required">
-                                        <option value=""><i>-- Please Select --</i></option>
-                                        <?php if( ! empty( $levelLikelihood ) )
-                                        {
-                                            foreach( $levelLikelihood as $kLikelihood => $vLikelihood )
-                                            { ?>
-                                                <option value="<?= $vLikelihood["code"] ?>" <?= ( ! empty( $register[0]["likelihood_residual_level"] ) && $register[0]["likelihood_residual_level"] == $vLikelihood["code"] ? "selected" : "" ) ?>><?= $vLikelihood["code"] ?> - <?= $vLikelihood["level"] ?>
-                                                </option>
-                                            <?php }
-                                        } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label for="risk-residual" class="col-md-3 col-form-label text-right">Risk Level
-                                    Residual
-                                    (RL)<sup class="text-danger ml-1">(*)</sup></label>
-                                <div class="col-md-9">
-                                    <input type="hidden" name="residual_risk_level" id="risk-residual"
-                                        value="<?= ( ! empty( $register[0]["residual_risk_level"] ) ? $register[0]["residual_risk_level"] : "" ) ?>">
-                                    <div class="row">
-                                        <div class="col-md-6" id="level-residual-risk">
-                                            <div role="alert" id="result-residual-level"
-                                                class="alert alert-sm shadow-none border text-center"
-                                                style="cursor:default;background-color:<?= ( ! empty( $register[0]["residual_level_color"] ) ? $register[0]["residual_level_color"] : "" ) ?>;color:<?= ( ! empty( $register[0]["residual_text_level_color"] ) ? $register[0]["residual_text_level_color"] : "" ) ?>">
-                                                <b><?= ( ! empty( $register[0]["residual_level_name"] ) ? $register[0]["residual_level_name"] : "No Result" ) ?></b>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
+                          
                             <hr>
                             <div class="form-group row">
                                 <div class="col-md-6">
