@@ -617,20 +617,26 @@ function aktififasMod(hasil){
 	$("#modal_general").find(".modal-footer").addClass('d-none');
 	$("#modal_general").modal("show");
 }
-function simpanProgres(hasil){
- 	if(hasil){
-      pesan_toastr(hasil.info, 'success', 'Success', 'toast-top-center');
-	  $("#modal_general").modal("hide");
 
+ 
+
+function simpanProgres(hasil){
+  	if(hasil){
+		alert('data berhasil disimpan') 
+		$("#modal_general").modal("hide");
+		location.reload();
+		
 	}else{
-      pesan_toastr('Error', 'err', 'Error', 'toast-top-center');
+		alert('gagal memproses data') 
 	}
 }
 function simpanResidual(hasil){
- 	if(hasil){
-      pesan_toastr(hasil.info, 'success', 'Success', 'toast-top-center');
+	if(hasil){
+		alert('data berhasil disimpan')
+		//   pesan_toastr(hasil.info, 'success', 'Success', 'toast-top-center');
 	}else{
-      pesan_toastr('Error', 'err', 'Error', 'toast-top-center');
+		alert('gagal memproses data')
+    //   pesan_toastr('Error', 'err', 'Error', 'toast-top-center');
 	}
 }
 

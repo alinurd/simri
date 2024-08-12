@@ -1556,18 +1556,21 @@ class Progress_Mitigasi extends MY_Controller
 		}
  		$id = $post['id'];
 		$imitigasiId = $post['mit'];
-		$id_edit = $post['mitdetail'];
+		$mitdetail = $post['mitdetail'];
 		$bln = intval($post['bln']);
 		$periodeId = intval($post['periode']);
-		$awal = false;
-		if (!$id) {
-			$awal = true;
+		$getMinggu = $this->db->where('period_id', $periodeId)->where('bulan_int', $bln)->get("il_view_minggu")->row_array();
+		$x = $this->db->where('rcsa_mitigasi_detail_id', $mitdetail)->where('minggu_id', $getMinggu['id'])->get("il_rcsa_mitigasi_progres")->row_array();
+		if (!$x) { 
 			$id = intval($this->uri->segment(3));
 			$id_edit = 0;
+		}else{
+			
+			$id_edit = $x['id'];
 		}
-		$getMinggu = $this->db->where('period_id', $periodeId)->where('bulan_int', $bln)->get("il_view_minggu")->row_array();
+		// doi::dump($post);
  		$dp = $this->db->where('id', $id_edit)->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->row_array();
-		$am = $this->db->where('id', $id)->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)->row_array();
+		$am = $this->db->where('id', $mitdetail)->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)->row_array();
 
 		$data['detail_progres'] = $this->db->where('rcsa_mitigasi_detail_id', $id)->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
 		$data['aktifitas_mitigas'] = $am;
@@ -1605,7 +1608,7 @@ class Progress_Mitigasi extends MY_Controller
 
 		$data['progres'][] = ['title' => _l('fld_keterangan'), 'help' => _h('help_keterangan'), 'isi' => form_textarea('keterangan', ($dp) ? $dp['keterangan'] : '', " id='keterangan' maxlength='500' size='500' class='form-control' style='overflow: hidden; width: 100% !important; height: 100px;' onblur='_maxLength(this , \"id_sisa_4\")' onkeyup='_maxLength(this , \"id_sisa_4\")' data-role='tagsinput'", true, ['size' => 1000, 'isi' => 0, 'no' => 4])];
 		$data['progres'][] = ['title' => _l('fld_lampiran'), 'help' => _h('help_lampiran'), 'isi' => form_upload('lampiran')];
-		$data['progres'][] = ['title' => '', 'help' => '', 'isi' => form_hidden(['aktifitas_mitigasi_id' => $imitigasiId, 'id' => $id_edit])];
+		$data['progres'][] = ['title' => '', 'help' => '', 'isi' => form_hidden(['aktifitas_mitigasi_id' => $mitdetail, 'id' => $id_edit])];
 
 		$data['info_1'][] = ['title' => _l('fld_risiko_dept'), 'isi' => $rcsa_detail['risiko_dept']];
 		$data['info_1'][] = ['title' => _l('fld_risiko_inherent'), 'isi' => $rcsa_detail['level_color']];

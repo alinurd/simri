@@ -132,6 +132,7 @@
                                     <?php if (isset($penyebab_grouped)) : ?>
                                         <?php foreach ($penyebab_grouped as $penyebabId => $items) : ?>
                                             <?php foreach ($items as $index => $m) :
+                                            // doi::dump($m);
                                                 $getProgress = $this->db->where('rcsa_mitigasi_detail_id', $m['id'])->get("il_view_rcsa_mitigasi_progres")->result_array();
 
                                                 $progress_by_month = [];
@@ -140,13 +141,13 @@
                                                     $monthProgress = intval($getMinggu['bulan_int']);
                                                     $progress_by_month[$monthProgress][] = $progress;
                                                 }
-                                            ?>
+                                            ?> 
                                                 <tr>
                                                     <td width="20%"><?= $m['penyebab_risiko'] ?></td>
                                                     <td width="20%"><?= $m['mitigasi'] ?></td>
                                                     <?php if (isset($progress_by_month[$monthParam][0])) : ?>
-                                                        <td><?= number_format($progress_by_month[$monthParam][0]['target']) ?></td>
-                                                        <td><?= number_format($progress_by_month[$monthParam][0]['aktual']) ?></td>
+                                                        <td><?= number_format($progress_by_month[$monthParam][0]['target']) ?> %</td>
+                                                        <td><?= number_format($progress_by_month[$monthParam][0]['aktual']) ?> %</td>
                                                         <td><?= $progress_by_month[$monthParam][0]['uraian'] ?></td>
                                                         <td><?= $progress_by_month[$monthParam][0]['kendala'] ?></td>
                                                         <td>
@@ -172,7 +173,7 @@
                                                                 data-id="<?= $m['id'] ?>"
                                                                 data-rcsadetail="<?= $m['rcsa_detail_id'] ?>"
                                                                 data-mitigasi="<?= $m['rcsa_mitigasi_id'] ?>"
-                                                                data-mitdetail="<?= $m['rcsa_mitigasi_id'] ?>"
+                                                                data-mitdetail="<?= $m['id'] ?>"
                                                                 data-periode="<?= $m['period_id'] ?>"
                                                                 data-bln="<?= $monthParam ?>"
                                                                 class="btn btn-primary" data-edit="0">
