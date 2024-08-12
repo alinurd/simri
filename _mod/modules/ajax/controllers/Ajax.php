@@ -83,8 +83,21 @@ class Ajax extends MY_Controller
 
 	function get_register()
 	{
-		$id         = $this->input->post( 'rcsa_id' );
-		$data       = $this->data->get_data_register( $id );
+		$id   = $this->input->post( 'rcsa_id' );
+		$data = $this->data->get_data_register( $id );
+		if( ! empty( $data["rows"] ) )
+		{
+			foreach( $data["rows"] as $key => $value )
+			{
+				$data['rows'][$key]["like_target"]        = ( strtolower( $value["treatment"] ) == "menerima" ? "" : $value["like_target"] );
+				$data['rows'][$key]["impact_target"]      = ( strtolower( $value["treatment"] ) == "menerima" ? "" : $value["impact_target"] );
+				$data['rows'][$key]["risiko_target_text"] = ( strtolower( $value["treatment"] ) == "menerima" ? "" : $value["risiko_target_text"] );
+				$data['rows'][$key]["level_color_target"] = ( strtolower( $value["treatment"] ) == "menerima" ? "" : $value["level_color_target"] );
+				$data['rows'][$key]["color_target"]       = ( strtolower( $value["treatment"] ) == "menerima" ? "" : $value["color_target"] );
+				$data['rows'][$key]["color_text_target"]  = ( strtolower( $value["treatment"] ) == "menerima" ? "" : $value["color_text_target"] );
+				$data['rows'][$key]["efek_mitigasi_text"] = ( strtolower( $value["treatment"] ) == "menerima" ? "" : $value["efek_mitigasi_text"] );
+			}
+		}
 		$data['id'] = $id;
 		$cbominggu  = $this->data->get_data_minggu_per_bulan( $data['parent']['term_id'] );
 
