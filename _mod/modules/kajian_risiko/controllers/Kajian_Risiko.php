@@ -347,6 +347,7 @@ class Kajian_Risiko extends MY_Controller
 
 	function submitregister( $dataPost, $action, $idkajian, $idregister )
 	{
+
 		$dataMitigasi                 = $dataPost["risk_mitigasi"];
 		$dataPost["id_kajian_risiko"] = $idkajian;
 		switch( $action )
@@ -369,13 +370,16 @@ class Kajian_Risiko extends MY_Controller
 						 "id"                        => generateIdString(),
 						 "id_kajian_risiko_register" => $dataPost["id"],
 						 "mitigasi"                  => $dataMitigasi["mitigasi"][$kmitigasi],
-						 "pic"                       => $dataMitigasi["pic"][$kmitigasi],
+						 "pic"                       => json_encode( $dataMitigasi["pic"][$kmitigasi]["list"] ),
 						 "deadline"                  => $dataMitigasi["deadline"][$kmitigasi],
 						 "created_at"                => date( "Y-m-d H:i:s" ),
 						 "created_by"                => $this->ion_auth->get_user_name(),
 						 "updated_at"                => date( "Y-m-d H:i:s" ),
 						 "updated_by"                => $this->ion_auth->get_user_name(),
 						];
+						echo "<pre>";
+						print_r( $dataInsertMitigasi );
+						exit;
 						$this->db->insert( _TBL_KAJIAN_RISIKO_MITIGASI, $dataInsertMitigasi );
 					}
 				}

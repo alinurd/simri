@@ -286,7 +286,8 @@ if( isset( $export ) )
                                     <td rowspan="<?= $jml; ?>"><?= $row['aktifitas']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['sasaran']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['tahapan']; ?></td>
-                                    <td rowspan="<?= $jml; ?>"><?= format_list( $row['peristiwa'], '###' ); ?></td>
+                                    <!-- <td rowspan="<?= $jml; ?>"><?= format_list( $row['peristiwa'], '###' ); ?></td> -->
+                                    <td rowspan="<?= $jml; ?>"><?= $row['peristiwa_risiko'] ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['klasifikasi_risiko']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['tipe_risiko']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['fraud_risk'] == 1 ? 'Ya' : 'Tidak'; ?></td>
@@ -296,7 +297,8 @@ if( isset( $export ) )
                                         <?= $row['kode_dept'] . '-' . $row['kode_aktifitas'] . '-' . $urut; ?>
                                     </td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['risiko_dept']; ?></td>
-                                    <td rowspan="<?= $jml; ?>"><?= $row['penyebab_risiko']; ?></td>
+                                    <!-- <td rowspan="<?= $jml; ?>"><?= $row['penyebab_risiko']; ?></td> -->
+                                    <td rowspan="<?= $jml; ?>"><?= format_list( $row['penyebab'], '###' ); ?></td>
 
                                     <td rowspan="<?= $jml; ?>"><?= format_list( $row['dampak'], '###' ); ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= implode( '<br/><br/> ', $like1 ); ?></td>
@@ -320,7 +322,7 @@ if( isset( $export ) )
                                         <?= ( ! empty( $row["like_residual"] ) ) ? $row['like_residual'][0] : ""; ?>
                                     </td>
                                     <td rowspan="<?= $jml; ?>">
-                                        <?= ( ! empty( $row["risiko_residual_text"] ) ) ? $row['risiko_residual_text'][0] : ""; ?>
+                                        <?= ( ! empty( $row["impact_residual"] ) ) ? $row['impact_residual'][0] : ""; ?>
                                     </td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['risiko_residual_text']; ?></td>
                                     <td rowspan="<?= $jml; ?>"

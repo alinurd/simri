@@ -138,7 +138,8 @@ class MX_Model extends CI_Model
 
 	function get_data_register( $id )
 	{
-		$rows            = $this->db->where( 'id', $id )->get( _TBL_VIEW_RCSA )->row_array();
+		$rows = $this->db->where( 'id', $id )->get( _TBL_VIEW_RCSA )->row_array();
+
 		$hasil['parent'] = $rows;
 		$rows            = $this->db->where( 'rcsa_id', $id )->get( _TBL_VIEW_RCSA_MITIGASI )->result_array();
 		$rows            = $this->convert_owner->set_data( $rows )->set_param( [ 'penanggung_jawab' => 'penanggung_jawab_id', 'koordinator' => 'koordinator_id' ] )->draw();
@@ -162,6 +163,16 @@ class MX_Model extends CI_Model
 		$rows              = $this->db->select( [ _TBL_VIEW_REGISTER . ".*", "CONCAT(" . _TBL_OWNER . ".owner_name" . ",' - '," . _TBL_OWNER . ".owner_code) as seksi" ] )->order_by( 'kode_dept' )->order_by( 'kode_aktifitas' )->join( _TBL_OWNER, _TBL_OWNER . '.id = ' . _TBL_VIEW_REGISTER . '.seksi', 'left' )->get_where( _TBL_VIEW_REGISTER, [ 'rcsa_id' => $id ] )->result_array();
 		foreach( $rows as &$row )
 		{
+			$idx  = explode( ',', $row['penyebab_id'] );
+			$libs = $this->db->where_in( 'id', $idx )->get( _TBL_LIBRARY )->result_array();
+			$x    = [];
+			foreach( $libs as $lib )
+			{
+				$x[] = $lib['library'];
+			}
+			$row['penyebab'] = implode( '###', $x );
+
+
 			$idx  = explode( ',', $row['peristiwa_id'] );
 			$libs = $this->db->where_in( 'id', $idx )->get( _TBL_LIBRARY )->result_array();
 			$x    = [];
