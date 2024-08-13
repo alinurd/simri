@@ -2440,7 +2440,7 @@ function proses_propose_mitigasi_final($id_detail, $month)
 	$this->crud->crud_field( 'note', 'final' );
 	$this->crud->crud_field( 'tanggal', date( 'Y-m-d H:i:s' ), 'datetime' );
 	$this->crud->crud_field( 'user_id', $this->ion_auth->get_user_id() );
-	$this->crud->crud_field( 'penerima_id', $notif['staft_no'] );
+	$this->crud->crud_field( 'penerima_id', '' );
 	$this->crud->process_crud();
 
 	$creatorEmail = $this->data->get_email_creator( $id );
