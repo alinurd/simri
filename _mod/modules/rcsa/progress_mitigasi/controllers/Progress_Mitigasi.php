@@ -2377,7 +2377,7 @@ class Progress_Mitigasi extends MY_Controller
 
     if ($id) {
         $info['status'] = "berhasil"; 
-		$this->data->cek_mitigasi_final($id_detail, $month);
+		$this->data->cek_mitigasi_final($id_detail, $month, true);
     } else {
 		$info['status'] = "gagal";
     }

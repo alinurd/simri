@@ -256,7 +256,7 @@ class MX_Model extends CI_Model
 		$getProgress = $this->db->where('rcsa_detail_id', $id)->where('month', $month)->get("il_update_residual")->row_array();
          return $getProgress;
     }
-	function cek_mitigasi_final($id_detail, $month)
+	function cek_mitigasi_final($id_detail, $month, $update)
 	{
 		$alur  = [];
 		$notif = [];
@@ -284,7 +284,7 @@ class MX_Model extends CI_Model
 		}
 		$setFinal = false;
 
-		if ($cekResidual && $countMitDetailProg > $countMitdetail) {
+		if ($cekResidual && $countMitDetailProg >= $countMitdetail) {
 			$detail = $this->db->where('id', $id_detail)->get("il_view_rcsa_detail")->row_array();
 			$id = $detail['rcsa_id'];
 			$sts_final                       = 1;
@@ -294,9 +294,9 @@ class MX_Model extends CI_Model
 		} else {
 			$sts_final                       = 0;
 			$final                       = "Proses Mitigasi";
-		}
-
-		if ($setFinal) {
+		} 
+		
+		if ($setFinal && $update) {
 			$this->crud->crud_table(_TBL_RCSA);
 			$this->crud->crud_type('edit');
 			$this->crud->crud_field('status_revisi_mitigasi', 0, 'int');

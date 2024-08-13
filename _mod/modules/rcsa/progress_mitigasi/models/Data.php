@@ -61,6 +61,9 @@ class Data extends MX_Model
 			$this->crud->crud_where(['field' => 'id', 'value' => $data['aktifitas_mitigasi_id']]);
 			$this->crud->process_crud();
 		}
+		$getMinggu = $this->db->where('id', $rows['minggu_id'])->get("il_view_minggu")->row_array();
+
+		$this->data->cek_mitigasi_final($rows['rcsa_detail_id'], $getMinggu['param_int'], true);
 
 		return $id;
 	}
