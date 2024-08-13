@@ -3285,7 +3285,7 @@ class MY_Controller extends MX_Controller
 	{
 		$bln=intval($b);
  		$tgl = 01;
-		$cekFinal = $this->data->cek_mitigasi_final($rows['id'], $bln);
+		$cekFinal = $this->data->cek_mitigasi_final($rows['id'], $bln, false);
 		$monthly = $this->data->getMonthlyMonitoring($rows['id'], $bln);
 		$monthlyBefore = $this->data->getMonthlyMonitoring($rows['id'], $bln - 1);
 		$period = $this->db->where('period_id', $rows['period_id'])->where('bulan_int', $bln)->get("il_view_minggu")->row_array();
