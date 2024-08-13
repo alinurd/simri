@@ -373,8 +373,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                          
                             <hr>
                             <div class="form-group row">
                                 <div class="col-md-6">
@@ -407,4 +405,9 @@
 <script>
      var getDeptData = `<?=json_encode($mitigasiPicData)?>`;
      var setPicSelect = `<?=!empty($setPicSelect)?$setPicSelect:''?>`;
+     $( document ).on( "ajaxComplete", function() {
+        $(".select").select2({
+                allowClear: false,
+            })
+        });
 </script>
