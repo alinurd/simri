@@ -2417,10 +2417,9 @@ function proses_propose_mitigasi_final($id_detail, $month)
 		$id=$detail['rcsa_id'];
 		$sts_final                       = 1;
 		$urut                            = count( $alur );
-		// $alur[$notif['urut']]['tanggal'] = date( 'Y-m-d H:i:s' );
-	}
+ 	}
 	 
-	if($detail){
+	if($detail && $countMitDetailProg > $countMitdetail){
 		$this->crud->crud_table( _TBL_RCSA );
 		$this->crud->crud_type( 'edit' );
 		$this->crud->crud_field( 'status_revisi_mitigasi', 0, 'int' );
