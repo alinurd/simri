@@ -39,21 +39,21 @@
                                                     <td><?= $vReg["library"] ?></td>
                                                     <td><?= $vReg["taksonomi_name"] ?></td>
                                                     <td><?= $vReg["tipe_risiko_name"] ?></td>
-                                                    <td><div class="alert alert-sm border shadow-none m-0 text-center"
+                                                    <td><div class="alert alert-sm border shadow-none m-0 p-1 text-center"
                                                             style="background-color:<?= $vReg["inherent_level_color"] ?>;color:<?= $vReg["inherent_text_level_color"] ?>">
                                                             <b><?= $vReg["inherent_level_name"] ?></b>
                                                         </div>  </td>
-                                                    <td> <div class="alert alert-sm border shadow-none m-0 text-center"
+                                                    <td> <div class="alert alert-sm border shadow-none m-0 p-1 text-center"
                                                 style="background-color:<?= $vReg["residual_level_color"] ?>;color:<?= $vReg["residual_text_level_color"] ?>">
                                                 <b><?= $vReg["residual_level_name"] ?></b>
                                             </div>    </td>
                                                     <td class="text-center">
-                                                        <button type="button" data-toggle="collapse"
+                                                        <a href="#" data-toggle="collapse"
                                                             data-target="#row<?= $vReg["id"] ?>" aria-expanded="false"
                                                             aria-controls="row<?= $vReg["id"] ?>"
-                                                            class="btn bg-success btn-labeled btn-labeled-right button-action clickable btn-sm">
-                                                            <b><i class="icon-arrow-down16"></i></b> Mitigasi
-                                                        </button>
+                                                            class="btn bg-success btn-sm">
+                                                            <b><i class="icon-arrow-down16"></i></b>
+                                                        </a>
                                                     </td>
                                                     <td class="text-center">
                                                         <button type="button" id="btn-reg-edit" data-id="<?= $vReg["id"] ?>"
@@ -101,7 +101,11 @@
                                                                                                         <?= $vMonitoring["mitigasi"]; ?>
                                                                                                     </td>
                                                                                                     <td rowspan="<?= $spanCount; ?>">
-                                                                                                        <?= $vMonitoring["pic"]; ?>
+                                                                                                    <?php if (!empty($vMonitoring["pic"])):?>
+                                                                                                            <?php foreach ($vMonitoring["pic"] as $kEachPic => $vEachPic):?>
+                                                                                                                <?=($kEachPic+1)?><b><?='. '.$vEachPic["owner_name"];?></b><br>
+                                                                                                                <?php endforeach; ?>
+                                                                                                        <?php endif;?>
                                                                                                     </td>
                                                                                                     <td rowspan="<?= $spanCount; ?>" class="text-center">
                                                                                                         <?= $vMonitoring["deadline"]; ?>

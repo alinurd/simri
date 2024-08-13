@@ -155,6 +155,11 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 					{
 						foreach( $registerData[$kReg]["monitoring"][$vMit["id"]] as $kMon => $vMon )
 						{
+							if( ! empty( $vMon["pic"] ) && json_decode( $vMon["pic"] ) )
+							{
+								$registerData[$kReg]["monitoring"][$vMit["id"]][$kMon]["pic"] = $this->db->select( "owner_name" )->where_in( "id", json_decode( $vMon["pic"] ) )->get( _TBL_OWNER )->result_array();
+
+							}
 							$registerData[$kReg]["monitoring"][$vMit["id"]][$kMon]["status"] = ! empty( $StatusMap[$vMon["status"]] ) ? $StatusMap[$vMon["status"]] : "";
 						}
 					}
@@ -308,8 +313,19 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		$postData = $this->input->post();
 
 		$dataMonitoring["monitoring"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_MONITORING, [ "id_kajian_risiko" => $postData["id"] ] )->result_array();
-		$dataMonitoring["btnExport"]  = base_url( $this->modul_name . "/export_excel/" . $postData["id"] );
-		$result                       = $this->load->view( "ajax/monitoring_modal", $dataMonitoring, TRUE );
+		if( ! empty( $dataMonitoring["monitoring"] ) )
+		{
+			foreach( $dataMonitoring["monitoring"] as $kModMon => $vModMon )
+			{
+				if( ! empty( $vModMon["pic"] ) && json_decode( $vModMon["pic"] ) )
+				{
+					$dataMonitoring["monitoring"][$kModMon]["pic"] = $this->db->select( "owner_name" )->where_in( "id", json_decode( $vModMon["pic"] ) )->get( _TBL_OWNER )->result_array();
+
+				}
+			}
+		}
+		$dataMonitoring["btnExport"] = base_url( $this->modul_name . "/export_excel/" . $postData["id"] );
+		$result                      = $this->load->view( "ajax/monitoring_modal", $dataMonitoring, TRUE );
 
 		header( 'Content-type: text/json' );
 		header( 'Content-type: application/json' );

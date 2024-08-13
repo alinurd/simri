@@ -3,7 +3,7 @@
         <div class="jumbotron p-2 border">
             <div class="card m-0">
                 <div class="card-body">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-sm">
                         <thead class="bg-slate">
                             <tr>
                                 <th>No</th>
@@ -28,13 +28,13 @@
                                         <td><?= $vRegister["taksonomi_name"] ?></td>
                                         <td><?= $vRegister["tipe_risiko_name"] ?></td>
                                         <td class="text-center">
-                                            <div class="alert alert-sm border shadow-none m-0"
+                                            <div class="alert alert-sm border shadow-none m-0 p-1"
                                                 style="background-color:<?= $vRegister["inherent_level_color"] ?>;color:<?= $vRegister["inherent_text_level_color"] ?>">
                                                 <b><?= $vRegister["inherent_level_name"] ?></b>
                                             </div>
                                         </td>
                                         <td class="text-center">
-                                            <div class="alert alert-sm border shadow-none m-0"
+                                            <div class="alert alert-sm border shadow-none m-0 p-1"
                                                 style="background-color:<?= $vRegister["residual_level_color"] ?>;color:<?= $vRegister["residual_text_level_color"] ?>">
                                                 <b><?= $vRegister["residual_level_name"] ?></b>
                                             </div>

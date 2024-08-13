@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <form class="form-horizontal" action="<?= $formUrl ?>" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" action="<?= $formUrl ?>" method="post" enctype="multipart/form-data" id="form-register">
             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                 value="<?php echo $this->security->get_csrf_hash(); ?>">
             <div class="jumbotron p-2 border d-flex justify-content-center">
@@ -15,7 +15,7 @@
                                         value="<?= ( ! empty( $register[0]["risiko"] ) ? $register[0]["risiko"] : "" ) ?>">
                                     <input type="text" class="form-control border"
                                         value="<?= ( ! empty( $register[0]["library"] ) ? $register[0]["library"] : "" ) ?>"
-                                        id="risiko-name" placeholder="Peristiwa Risiko" readonly>
+                                        id="risiko-name" placeholder="Peristiwa Risiko" readonly required="required">
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
@@ -81,16 +81,70 @@
                             <div class="form-group row mb-3">
                                 <label for="inherent-level" class="col-md-3 col-form-label text-right">Risk Level
                                     Inherent
-                                    (RL)<sup class="text-danger ml-1">(*)</sup></label>
+                                    (RL)</label>
                                 <div class="col-md-9">
                                     <input type="hidden" name="inherent_risk_level" id="inherent-level"
                                         value="<?= ( ! empty( $register[0]["inherent_risk_level"] ) ? $register[0]["inherent_risk_level"] : "" ) ?>">
                                     <div class="row">
                                         <div class="col-md-6" id="level-inherent-risk">
                                             <div role="alert" id="result-inherent-level"
-                                                class="alert alert-sm shadow-none border text-center"
+                                                class="alert alert-sm shadow-none border text-center m-0 p-1"
                                                 style="cursor:default;background-color:<?= ( ! empty( $register[0]["inherent_level_color"] ) ? $register[0]["inherent_level_color"] : "" ) ?>;color:<?= ( ! empty( $register[0]["inherent_text_level_color"] ) ? $register[0]["inherent_text_level_color"] : "" ) ?>;">
                                                 <b><?= ( ! empty( $register[0]["inherent_level_name"] ) ? $register[0]["inherent_level_name"] : "No Result" ) ?></b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="impact-residual" class="col-md-3 col-form-label text-right">Level Dampak
+                                    Residual<sup class="text-danger ml-1">(*)</sup></label>
+                                <div class="col-md-9">
+                                    <select class="form-control select residual-select" name="impact_residual_level"
+                                        id="impact-residual" required="required">
+                                        <option value=""><i>-- Please Select --</i></option>
+                                        <?php if( ! empty( $levelImpact ) )
+                                        {
+                                            foreach( $levelImpact as $kImpact => $vImpact )
+                                            { ?>
+                                                <option value="<?= $vImpact["code"] ?>" <?= ( ! empty( $register[0]["impact_residual_level"] ) && $register[0]["impact_residual_level"] == $vImpact["code"] ? "selected" : "" ) ?>><?= $vImpact["code"] ?> - <?= $vImpact["level"] ?></option>
+                                            <?php }
+                                        } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="likelihood-residual" class="col-md-3 col-form-label text-right">Level
+                                    Kemungkinan
+                                    Residual<sup class="text-danger ml-1">(*)</sup></label>
+                                <div class="col-md-9">
+                                    <select class="form-control select residual-select" name="likelihood_residual_level"
+                                        id="likelihood-residual" required="required">
+                                        <option value=""><i>-- Please Select --</i></option>
+                                        <?php if( ! empty( $levelLikelihood ) )
+                                        {
+                                            foreach( $levelLikelihood as $kLikelihood => $vLikelihood )
+                                            { ?>
+                                                <option value="<?= $vLikelihood["code"] ?>" <?= ( ! empty( $register[0]["likelihood_residual_level"] ) && $register[0]["likelihood_residual_level"] == $vLikelihood["code"] ? "selected" : "" ) ?>><?= $vLikelihood["code"] ?> - <?= $vLikelihood["level"] ?>
+                                                </option>
+                                            <?php }
+                                        } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="risk-residual" class="col-md-3 col-form-label text-right">Risk Level
+                                    Residual
+                                    (RL)</label>
+                                <div class="col-md-9">
+                                    <input type="hidden" name="residual_risk_level" id="risk-residual"
+                                        value="<?= ( ! empty( $register[0]["residual_risk_level"] ) ? $register[0]["residual_risk_level"] : "" ) ?>">
+                                    <div class="row">
+                                        <div class="col-md-6" id="level-residual-risk">
+                                            <div role="alert" id="result-residual-level"
+                                                class="alert alert-sm shadow-none border text-center m-0 p-1"
+                                                style="cursor:default;background-color:<?= ( ! empty( $register[0]["residual_level_color"] ) ? $register[0]["residual_level_color"] : "" ) ?>;color:<?= ( ! empty( $register[0]["residual_text_level_color"] ) ? $register[0]["residual_text_level_color"] : "" ) ?>">
+                                                <b><?= ( ! empty( $register[0]["residual_level_name"] ) ? $register[0]["residual_level_name"] : "No Result" ) ?></b>
                                             </div>
                                         </div>
                                     </div>
@@ -242,13 +296,13 @@
                                                     foreach( $mitigasi as $kMit => $vMit )
                                                     {
                                                         $kMit+=1;
-                                                        $vMit["pic"]=(!empty($vMit["pic"])&&json_validate($vMit["pic"]))?json_decode($vMit["pic"]):"";
+                                                        $vMit["pic"]=(!empty($vMit["pic"]) && json_decode($vMit["pic"]))? json_decode($vMit["pic"]):"";
                                                         ?>
                                                         <tr class="row-mitigasi border-top">
                                                             <td>
                                                                 <textarea name="risk_mitigasi[mitigasi][<?=$kMit?>]"
                                                                     class="form-control mitigasi"
-                                                                    placeholder="Mitigasi"><?= $vMit['mitigasi'] ?></textarea>
+                                                                    placeholder="Mitigasi" required="required"><?= $vMit['mitigasi'] ?></textarea>
                                                             </td>
                                                             <td>
                                                                     <select class="form-control pic selectpic" name="risk_mitigasi[pic][<?=$kMit?>][list][]"
@@ -266,7 +320,7 @@
                                                                 <input type="text" name="risk_mitigasi[deadline][<?=$kMit?>]"
                                                                     class="form-control deadline pickadate-kajian bg-white border"
                                                                     placeholder="Deadline"
-                                                                    value="<?= date( "Y-m-d", strtotime( $vMit["deadline"] ) ) ?>">
+                                                                    value="<?= date( "Y-m-d", strtotime( $vMit["deadline"] ) ) ?>" required="required">
                                                             </td>
                                                             <td>
                                                                 <?php if( $kMit == 1 )
@@ -292,7 +346,7 @@
                                                         <td>
                                                             <textarea name="risk_mitigasi[mitigasi][1]"
                                                                 class="form-control mitigasi"
-                                                                placeholder="Mitigasi"></textarea>
+                                                                placeholder="Mitigasi" required="required"></textarea>
                                                         </td>
                                                         <td>
                                                             <select class="form-control pic selectpic" name="risk_mitigasi[pic][1][list][]" required="required">
@@ -307,7 +361,7 @@
                                                         </td>
                                                         <td><input type="text" name="risk_mitigasi[deadline][1]"
                                                                 class="form-control deadline pickadate-kajian bg-white border"
-                                                                placeholder="Deadline">
+                                                                placeholder="Deadline" required="required">
                                                         </td>
                                                         <td><button type="button"
                                                                 class="btn btn-success btn-sm btn-add-mitigasi"><i
@@ -316,60 +370,6 @@
                                                 <?php } ?>
                                             </tbody>
                                         </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label for="impact-residual" class="col-md-3 col-form-label text-right">Level Dampak
-                                    Residual<sup class="text-danger ml-1">(*)</sup></label>
-                                <div class="col-md-9">
-                                    <select class="form-control select residual-select" name="impact_residual_level"
-                                        id="impact-residual" required="required">
-                                        <option value=""><i>-- Please Select --</i></option>
-                                        <?php if( ! empty( $levelImpact ) )
-                                        {
-                                            foreach( $levelImpact as $kImpact => $vImpact )
-                                            { ?>
-                                                <option value="<?= $vImpact["code"] ?>" <?= ( ! empty( $register[0]["impact_residual_level"] ) && $register[0]["impact_residual_level"] == $vImpact["code"] ? "selected" : "" ) ?>><?= $vImpact["code"] ?> - <?= $vImpact["level"] ?></option>
-                                            <?php }
-                                        } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label for="likelihood-residual" class="col-md-3 col-form-label text-right">Level
-                                    Kemungkinan
-                                    Residual<sup class="text-danger ml-1">(*)</sup></label>
-                                <div class="col-md-9">
-                                    <select class="form-control select residual-select" name="likelihood_residual_level"
-                                        id="likelihood-residual" required="required">
-                                        <option value=""><i>-- Please Select --</i></option>
-                                        <?php if( ! empty( $levelLikelihood ) )
-                                        {
-                                            foreach( $levelLikelihood as $kLikelihood => $vLikelihood )
-                                            { ?>
-                                                <option value="<?= $vLikelihood["code"] ?>" <?= ( ! empty( $register[0]["likelihood_residual_level"] ) && $register[0]["likelihood_residual_level"] == $vLikelihood["code"] ? "selected" : "" ) ?>><?= $vLikelihood["code"] ?> - <?= $vLikelihood["level"] ?>
-                                                </option>
-                                            <?php }
-                                        } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label for="risk-residual" class="col-md-3 col-form-label text-right">Risk Level
-                                    Residual
-                                    (RL)<sup class="text-danger ml-1">(*)</sup></label>
-                                <div class="col-md-9">
-                                    <input type="hidden" name="residual_risk_level" id="risk-residual"
-                                        value="<?= ( ! empty( $register[0]["residual_risk_level"] ) ? $register[0]["residual_risk_level"] : "" ) ?>">
-                                    <div class="row">
-                                        <div class="col-md-6" id="level-residual-risk">
-                                            <div role="alert" id="result-residual-level"
-                                                class="alert alert-sm shadow-none border text-center"
-                                                style="cursor:default;background-color:<?= ( ! empty( $register[0]["residual_level_color"] ) ? $register[0]["residual_level_color"] : "" ) ?>;color:<?= ( ! empty( $register[0]["residual_text_level_color"] ) ? $register[0]["residual_text_level_color"] : "" ) ?>">
-                                                <b><?= ( ! empty( $register[0]["residual_level_name"] ) ? $register[0]["residual_level_name"] : "No Result" ) ?></b>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -389,7 +389,7 @@
                                     <?php }
                                     else
                                     { ?>
-                                        <button type="submit"
+                                        <button type="button" id="btn-submit-register"
                                             class="btn bg-success btn-labeled btn-labeled-left pull-right">
                                             <b><i class="icon-checkmark-circle"></i></b>Save</button>
                                     <?php } ?>

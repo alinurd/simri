@@ -37,21 +37,20 @@
                                             "closed"      => "Closed",
                                            ];
                                         foreach( $monitoring as $kmonitoring => $vmonitoring )
-                                        {
-                                            ?>
+                                        { ?>
                                             <tr>
                                                 <td><?= $kmonitoring + 1 ?></td>
                                                 <td><?= $vmonitoring["library"] ?></td>
                                                 <td><?= $vmonitoring["taksonomi_name"] ?></td>
                                                 <td><?= $vmonitoring["tipe_risiko_name"] ?></td>
                                                 <td class="text-center">
-                                                    <div class="alert alert-sm border shadow-none m-0"
+                                                    <div class="alert alert-sm border shadow-none m-0 p-1"
                                                         style="background-color:<?= $vmonitoring["inherent_level_color"] ?>;color:<?= $vmonitoring["inherent_text_level_color"] ?>">
                                                         <b><?= $vmonitoring["inherent_level_name"] ?></b>
                                                     </div>
                                                 </td>
                                                 <td class="text-center">
-                                                    <div class="alert alert-sm border shadow-none m-0"
+                                                    <div class="alert alert-sm border shadow-none m-0 p-1"
                                                         style="background-color:<?= $vmonitoring["residual_level_color"] ?>;color:<?= $vmonitoring["residual_text_level_color"] ?>">
                                                         <b><?= $vmonitoring["residual_level_name"] ?></b>
                                                     </div>
@@ -59,7 +58,13 @@
                                                 <td class="text-center"><?= $vmonitoring["mitigasi"] ?></td>
                                                 <td class="text-center"><?= $vmonitoring["detail_progress"] ?></td>
                                                 <td class="text-center"><?= $vmonitoring["deadline"] ?></td>
-                                                <td class="text-center"><?= $vmonitoring["pic"] ?></td>
+                                                <td class="">
+                                                    <?php if( ! empty( $vmonitoring["pic"] ) ) : ?>
+                                                        <?php foreach( $vmonitoring["pic"] as $kEachPic => $vEachPic ) : ?>
+                                                            <?= ( $kEachPic + 1 ) ?><b><?= '. ' . $vEachPic["owner_name"]; ?></b><br>
+                                                        <?php endforeach; ?>
+                                                    <?php endif; ?>
+                                                </td>
                                                 <td class="text-center">
                                                     <?= ( ! empty( $StatusMap[$vmonitoring["status"]] ) ) ? $StatusMap[$vmonitoring["status"]] : "" ?>
                                                 </td>
