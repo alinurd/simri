@@ -2443,42 +2443,39 @@ function proses_propose_mitigasi_final($id_detail, $month)
 	$this->crud->crud_field( 'penerima_id', '' );
 	$this->crud->process_crud();
 
-	$creatorEmail = $this->data->get_email_creator( $id );
-	if( $creatorEmail )
-	{
-		if( ! is_null( $creatorEmail->email ) && $creatorEmail->email !== '' )
-		{
-			$datasOutbox     = [
-			 'recipient' => [ $creatorEmail->email ],
-			];
-			$content_replace = [
-			 '[[konteks]]' => 'Progress Mitigasi',
-			 '[[redir]]'   => 2,
-			 '[[id]]'      => $id,
-			 '[[notif]]'   => $creatorEmail->real_name,
-			 '[[sender]]'  => $this->session->userdata( 'data_user' )['real_name'],
-			 '[[link]]'    => base_url() . "progress-mitigasi",
-			 '[[footer]]'  => $this->session->userdata( 'preference-0' )['nama_kantor'],
+	// $creatorEmail = $this->data->get_email_creator( $id );
+	// if( $creatorEmail )
+	// {
+	// 	if( ! is_null( $creatorEmail->email ) && $creatorEmail->email !== '' )
+	// 	{
+	// 		$datasOutbox     = [
+	// 		 'recipient' => [ $creatorEmail->email ],
+	// 		];
+	// 		$content_replace = [
+	// 		 '[[konteks]]' => 'Progress Mitigasi',
+	// 		 '[[redir]]'   => 2,
+	// 		 '[[id]]'      => $id,
+	// 		 '[[notif]]'   => $creatorEmail->real_name,
+	// 		 '[[sender]]'  => $this->session->userdata( 'data_user' )['real_name'],
+	// 		 '[[link]]'    => base_url() . "progress-mitigasi",
+	// 		 '[[footer]]'  => $this->session->userdata( 'preference-0' )['nama_kantor'],
 
-			];
-			if( $this->session->userdata( 'preference-0' )['send_notif'] == 1 )
-			{
-				$this->load->library( 'outbox' );
-				$this->outbox->setTemplate( 'NOTIF02' );
-				$this->outbox->setParams( $content_replace );
-				$this->outbox->setDatas( $datasOutbox );
-				$this->outbox->send();
-			}
-		}
-	}
+	// 		];
+	// 		if( $this->session->userdata( 'preference-0' )['send_notif'] == 1 )
+	// 		{
+	// 			$this->load->library( 'outbox' );
+	// 			$this->outbox->setTemplate( 'NOTIF02' );
+	// 			$this->outbox->setParams( $content_replace );
+	// 			$this->outbox->setDatas( $datasOutbox );
+	// 			$this->outbox->send();
+	// 		}
+	// 	}
+	// }
+	
 	}
 	
 
-	
-
-	header( 'Content-type: application/json' );
-	echo json_encode( [ 'data' => TRUE ] );
-	// header('location:'.base_url(_MODULE_NAME_));
+	return true;  
 }
 
 }
