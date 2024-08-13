@@ -374,12 +374,13 @@ class Progress_Mitigasi extends MY_Controller
  		}
 
 		$info['level'] = form_input('mit_level_residual_text', ($residual) ? $residual['score'].'-'.$residual['level_color'] : '', 'class="form-control text-center" id="mit_level_residual_text" readonly="readonly" style="width:30%;' . $csslevel . '"')
-		 . form_hidden(['level_color' => ($data) ? $data['level_color'] : ''])
-		 . form_hidden(['color' => ($data) ? $data['color'] : ''])
-		 . form_hidden(['color_text' => ($data) ? $data['color_text'] : ''])
-		 . form_hidden(['score' => ($data) ? $data['score'] : 0])
+		 . form_hidden(['level_color' => ($residual) ? $residual['level_color'] : ''])
+		 . form_hidden(['color' => ($residual) ? $residual['color'] : ''])
+		 . form_hidden(['color_text' => ($residual) ? $residual['color_text'] : ''])
+		 . form_hidden(['score' => ($residual) ? $residual['score'] : 0])
 		 . form_hidden(['month' => ($month) ? $month : 0])
 		 . form_hidden(['id_detail' => ($id) ? $id: 0])
+		 . form_hidden(['id_edit' => ($residual) ? $residual['id']: 0])
 		 ;
 
 		$info['dampak'] =  form_dropdown('mit_like_id', $like, ($residual) ? $residual['like'] : '', 'id="mit_like_id" class="form-control select" ');
@@ -2339,7 +2340,8 @@ class Progress_Mitigasi extends MY_Controller
     $like = $post['like'];
     $impact = $post['impact'];
     $id_detail = $post['id_detail']; 
-    $month = $post['month']; 
+     $month = $post['month']; 
+	$id_edit = intval($post['id_edit']);
 
     $color_text = $post['color_text']; 
     $level_color = $post['level_color']; 
@@ -2347,8 +2349,6 @@ class Progress_Mitigasi extends MY_Controller
     $score = $post['score']; 
 	
     $this->crud->crud_table("il_update_residual");
-    $this->crud->crud_field('rcsa_detail_id', $id_detail);
-    $this->crud->crud_field('month', $month);
     $this->crud->crud_field('like', $like);
     $this->crud->crud_field('impact', $impact);
 	
@@ -2356,24 +2356,24 @@ class Progress_Mitigasi extends MY_Controller
     $this->crud->crud_field('color', $color);
     $this->crud->crud_field('color_text', $color_text);
     $this->crud->crud_field('score', $score);
-	// doi::dump($row);die;
-	$row = $this->db->where('rcsa_detail_id', $id_detail)->where('month', $month)->get("il_update_residual")->result_array();
-     if ($row) {
+      if ($id_edit>0) {
         $this->crud->crud_type('edit');
-        $this->crud->crud_where(['field' => 'rcsa_detail_id', 'value' => $id_detail]); 
-        $this->crud->crud_where(['field' => 'month', 'value' => $month]); 
-		$id= $this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
+        $this->crud->crud_where(['field' => 'id', 'value' => $id_edit]);  
+ 		 $this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
+		  $id = $id_edit;
         $info['info'] = "update";
-		$info['data'] = $this->data->getMonthlyMonitoring($id_detail, $month);
-		$this->crud->process_crud();
-    } else {
-    	$this->crud->crud_type('add');
-       $id= $this->crud->crud_field('created_by', $this->ion_auth->get_user_name());
+		// $info['data'] = $this->data->getMonthlyMonitoring($id_detail, $month);
+     } else {
+ 		
+		$this->crud->crud_field('rcsa_detail_id', $id_detail);
+		$this->crud->crud_field('month', $month);
+         $this->crud->crud_field('created_by', $this->ion_auth->get_user_name());
+		 $id = $this->crud->last_id();
 	   $info['info'] = "create";
-	   $info['data'] = $this->data->getMonthlyMonitoring($id_detail, $month);
-	   $this->crud->process_crud();
-
+	//    $info['data'] = $this->data->getMonthlyMonitoring($id_detail, $month);
+	   
     }
+	$this->crud->process_crud();
 
     if ($id) {
         $info['status'] = "berhasil"; 
