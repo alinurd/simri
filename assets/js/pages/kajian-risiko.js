@@ -77,6 +77,9 @@ function DropzoneUpload() {
                 type: 'get',
                 data: { idrisk: $("input[name=id]").val(), field: "dokumen_pendukung" },
                 dataType: 'json',
+                beforeSend: function (param) {
+                    looding('light', $(".dropzone"));
+                },
                 success: function (response) {
                     $.each(response, function (key, value) {
                         var getFile = {
@@ -96,6 +99,9 @@ function DropzoneUpload() {
                         $(".dz-remove").addClass("border");
 
                     });
+                },
+                complete: function (param) {
+                    stopLooding($(".dropzone"));
                 }
             });
             this.on('sending', function (file, xhr, formData) {

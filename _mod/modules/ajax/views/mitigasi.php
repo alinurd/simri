@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card m-0">
     <div class="card-header">
         <legend class="text-uppercase font-size-lg text-success font-weight-bold"><i class="icon-grid"></i> DETAIL
             IDENTIFIKASI

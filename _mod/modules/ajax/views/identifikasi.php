@@ -1,6 +1,6 @@
 <legend class="text-uppercase font-size-lg text-primary font-weight-bold"><i class="icon-grid"></i> LIST IDENTIFIKASI
 </legend>
-<table class="table table- table-bordered">
+<table class="table table-bordered">
     <thead>
         <tr class="bg-primary-300">
             <th width="5%">No.</th>
@@ -43,7 +43,7 @@
                         class="badge bg-warning-400 badge-pill align-self-center ml-auto"><?= $row['jml3']; ?></span></td>
             </tr>
             <tr id="result_mitigasi_<?= $row['id']; ?>" class="result_mitigasi d-none bg-light">
-                <td colspan="10" style="padding: 30px;">
+                <td colspan="10" class="p-3">
 
                 </td>
             </tr>
