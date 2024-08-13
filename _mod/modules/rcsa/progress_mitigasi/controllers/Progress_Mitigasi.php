@@ -2353,7 +2353,7 @@ class Progress_Mitigasi extends MY_Controller
     $this->crud->crud_field('score', $score);
 	// doi::dump($row);die;
 	$row = $this->db->where('rcsa_detail_id', $id_detail)->where('month', $month)->get("il_update_residual")->result_array();
-    if ($row) {
+     if ($row) {
         $this->crud->crud_type('edit');
         $this->crud->crud_where(['field' => 'rcsa_detail_id', 'value' => $id_detail]); 
         $this->crud->crud_where(['field' => 'month', 'value' => $month]); 
@@ -2364,7 +2364,7 @@ class Progress_Mitigasi extends MY_Controller
     } else {
     	$this->crud->crud_type('add');
        $id= $this->crud->crud_field('created_by', $this->ion_auth->get_user_name());
-	   $info['info'] = "create";$this->crud->process_crud();
+	   $info['info'] = "create";
 	   $info['data'] = $this->data->getMonthlyMonitoring($id_detail, $month);
 	   $this->crud->process_crud();
 
