@@ -3298,6 +3298,9 @@ class MY_Controller extends MX_Controller
 		$title = 'Update Monitoring ' . date('M', mktime(0, 0, 0, $bln, 10));
 		if(!$cekFinal && isset($monthly)){
 			$title = 'update aktifitas belum lengkap';
+		}elseif ($cekFinal) {
+			
+			$title = 'Update monitoring ' . date('M', mktime(0, 0, 0, $bln, 10)). ' lengkap';
 		}
 
 		if (isset($monthlyBefore)) {
@@ -3305,12 +3308,21 @@ class MY_Controller extends MX_Controller
 				if (isset($monthly)) {
 					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;background-color:' . $monthly['color'] . ';color:' . $monthly['color_text'] . ';" title="'.$title.'">' . $monthly['level_color'] . ' </span></a>';
 				} else {
-					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;;" title="'.$title.'"><i class="fa fa-pencil" aria-hidden="true"></i> </span></a>';
+					if($cekFinal){
+						$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;;" title="'.$title.'"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>';
+					}else{
+						$result = '<span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>';
+
+					}
+					
 				}
 			}
 			else
 			{
-				$result = '<span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>';
+				$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;;" title="'.$title.'"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>';
+				if(!$cekFinal && $monthly){
+					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;background-color:' . $monthly['color'] . ';color:' . $monthly['color_text'] . ';" title="'.$title.'">' . $monthly['level_color'] . ' </span></a>';
+				}
 			}
 		}
 		else

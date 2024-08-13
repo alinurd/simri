@@ -258,9 +258,7 @@ class MX_Model extends CI_Model
     }
 	function cek_mitigasi_final($id_detail, $month, $update)
 	{
-		$alur  = [];
-		$notif = [];
-		$minggu_id = 3316;
+		$alur  = []; 
 		$cekResidual = $this->db->where('rcsa_detail_id', $id_detail)->where('month', $month)->get("il_update_residual")->row_array();
 		$countMitdetail = 0;
 		$countMitDetailProg = 0;  // Initialize to keep track of total progress
@@ -295,7 +293,6 @@ class MX_Model extends CI_Model
 			$sts_final                       = 0;
 			$final                       = "Proses Mitigasi";
 		} 
-		
 		if ($setFinal && $update) {
 			$this->crud->crud_table(_TBL_RCSA);
 			$this->crud->crud_type('edit');
@@ -318,35 +315,7 @@ class MX_Model extends CI_Model
 			$this->crud->crud_field('user_id', $this->ion_auth->get_user_id());
 			$this->crud->crud_field('penerima_id', '');
 			$this->crud->process_crud();
-
-			// $creatorEmail = $this->data->get_email_creator( $id );
-			// if( $creatorEmail )
-			// {
-			// 	if( ! is_null( $creatorEmail->email ) && $creatorEmail->email !== '' )
-			// 	{
-			// 		$datasOutbox     = [
-			// 		 'recipient' => [ $creatorEmail->email ],
-			// 		];
-			// 		$content_replace = [
-			// 		 '[[konteks]]' => 'Progress Mitigasi',
-			// 		 '[[redir]]'   => 2,
-			// 		 '[[id]]'      => $id,
-			// 		 '[[notif]]'   => $creatorEmail->real_name,
-			// 		 '[[sender]]'  => $this->session->userdata( 'data_user' )['real_name'],
-			// 		 '[[link]]'    => base_url() . "progress-mitigasi",
-			// 		 '[[footer]]'  => $this->session->userdata( 'preference-0' )['nama_kantor'],
-
-			// 		];
-			// 		if( $this->session->userdata( 'preference-0' )['send_notif'] == 1 )
-			// 		{
-			// 			$this->load->library( 'outbox' );
-			// 			$this->outbox->setTemplate( 'NOTIF02' );
-			// 			$this->outbox->setParams( $content_replace );
-			// 			$this->outbox->setDatas( $datasOutbox );
-			// 			$this->outbox->send();
-			// 		}
-			// 	}
-			// }
+ 
 			$setFinal = true;
 		}
 
