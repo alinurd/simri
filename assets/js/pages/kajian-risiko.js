@@ -1,5 +1,5 @@
 Dropzone.autoDiscover = false;
-$(document).ready(function () {
+$(function () {
     DropzoneUpload();
     $('#request_date,#release_date').pickadate({
         selectMonths: false,
@@ -21,8 +21,14 @@ $(document).ready(function () {
     if (window.setPicSelect) {
         setPicselect(setPicSelect);
     }
-
+    // $('#form-register').validate();
 })
+
+$(document).on("ajaxComplete", "document", function () {
+    $(".select").select2({
+        allowClear: false,
+    })
+});
 
 $(document).on("click", "#link_dokumen_pendukungbtnLink", function () {
     var getTotalLinKDocPendukung = $(".link_dokumen_pendukung").length + 1;
@@ -371,14 +377,14 @@ function resSavePeristiwa(lib) {
 
 $(document).on("click", ".btn-add-cause", function () {
     var getLenghtInputIdentity = $(".count-penyebab").length + 1;
-    var htmlString = "<tr class='row-penyebab'><td><input type='hidden' value='' name='risk_cause[]' id='penyebab-risiko'><input type='text' class='form-control getLibrary count-penyebab bg-white border' id='penyebab_id_text' identity='" + getLenghtInputIdentity + "' placeholder='Penyebab Risiko' readonly></td><td><button type='button' class='btn btn-danger btn-del-cause btn-sm'><i class='icon-bin'></i></button></td></tr>";
+    var htmlString = "<tr class='row-penyebab'><td><input type='hidden' value='' name='risk_cause[]' id='penyebab-risiko'><input type='text' class='form-control getLibrary count-penyebab bg-white border' id='penyebab_id_text' identity='" + getLenghtInputIdentity + "' placeholder='Penyebab Risiko' readonly required='required'></td><td><button type='button' class='btn btn-danger btn-del-cause btn-sm'><i class='icon-bin'></i></button></td></tr>";
     $(htmlString).insertAfter($(".row-penyebab").last());
     getLenghtInputIdentity = 0;
 });
 
 $(document).on("click", ".btn-add-impact", function () {
     var getLenghtInputIdentity = $(".count-dampak").length + 1;
-    var htmlString = "<tr class='row-dampak'><td><input type='hidden' value='' name='risk_impact[]' id='dampak-risiko'><input type='text' class='form-control getLibrary count-dampak bg-white border' id='dampak_id_text' identity='" + getLenghtInputIdentity + "' placeholder='Dampak Risiko' readonly></td><td><button type='button' class='btn btn-danger btn-del-cause btn-sm'><i class='icon-bin'></i></button></td></tr>";
+    var htmlString = "<tr class='row-dampak'><td><input type='hidden' value='' name='risk_impact[]' id='dampak-risiko'><input type='text' class='form-control getLibrary count-dampak bg-white border' id='dampak_id_text' identity='" + getLenghtInputIdentity + "' placeholder='Dampak Risiko' readonly required='required'></td><td><button type='button' class='btn btn-danger btn-del-cause btn-sm'><i class='icon-bin'></i></button></td></tr>";
     $(htmlString).insertAfter($(".row-dampak").last());
     getLenghtInputIdentity = 0;
 });
@@ -389,7 +395,7 @@ $(document).on("click", ".btn-add-mitigasi", function () {
         optionSelectPic += "<option value='" + i + "'>" + v + "</option>";
     });
     var getLenghtInputIdentity = $(".row-mitigasi").length + 1;
-    var htmlString = "<tr class='row-mitigasi border-top'><td><textarea  name='risk_mitigasi[mitigasi][]' class='form-control mitigasi' placeholder='Mitigasi'></textarea></td><td><select select class='form-control pic selectpic' name = 'risk_mitigasi[pic][" + getLenghtInputIdentity + "][list][]' required = 'required' >" + optionSelectPic + "</select></td ><td><input type='text' name='risk_mitigasi[deadline][]' class='form-control deadline pickadate-kajian bg-white border' placeholder='Deadline'></td><td><button type='button' class='btn btn-danger btn-sm btn-del-mitigasi'><i class='icon-bin'></i></button></td></tr > ";
+    var htmlString = "<tr class='row-mitigasi border-top'><td><textarea  name='risk_mitigasi[mitigasi][]' class='form-control mitigasi' placeholder='Mitigasi' required='required'></textarea></td><td><select select class='form-control pic selectpic' name = 'risk_mitigasi[pic][" + getLenghtInputIdentity + "][list][]' required = 'required' >" + optionSelectPic + "</select></td ><td><input type='text' name='risk_mitigasi[deadline][]' class='form-control deadline pickadate-kajian bg-white border' placeholder='Deadline' required='required'></td><td><button type='button' class='btn btn-danger btn-sm btn-del-mitigasi'><i class='icon-bin'></i></button></td></tr > ";
     $(htmlString).insertAfter($(".row-mitigasi").last());
     getLenghtInputIdentity = 0;
 
@@ -563,4 +569,14 @@ function setPicselect(paramdatapic) {
         });
     }
 }
+
+$(document).on("click", "#btn-submit-register", function (e) {
+    var form = $('#form-register');
+    if (form.valid()) {
+        form.submit();
+    }
+})
+
+
+
 

@@ -19,7 +19,7 @@
                                             value="<?= ( ! empty( $formdata["risiko"] ) ? $formdata["risiko"] : "" ) ?>">
                                         <input type="text" class="form-control border" readonly
                                             value="<?= ( ! empty( $formdata["library"] ) ? $formdata["library"] : "" ) ?>"
-                                            id="risiko" placeholder="Risiko">
+                                            id="risiko" placeholder="Risiko" required>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-3">
@@ -29,8 +29,8 @@
                                     <div class="col-md-8">
                                         <input type="hidden"
                                             value="<?= ( ! empty( $formdata["inherent_risk_level"] ) ? $formdata["inherent_risk_level"] : "" ) ?>"
-                                            name="inherent_risk_level">
-                                        <div class="alert alert-sm border shadow-none m-0"
+                                            name="inherent_risk_level" required>
+                                        <div class="alert alert-sm border shadow-none m-0 p-1 text-center"
                                             style="background-color:<?= $formdata["inherent_level_color"] ?>;color:<?= $formdata["inherent_text_level_color"] ?>">
                                             <b><?= $formdata["inherent_level_name"] ?></b>
                                         </div>
@@ -43,8 +43,9 @@
                                         (RL)<sup class="text-danger ml-1">(*)</sup></label>
                                     <div class="col-md-8">
                                         <input type="hidden" name="residual_risk_level" id="risk-residual"
-                                            value="<?= ( ! empty( $formdata["residual_risk_level"] ) ? $formdata["residual_risk_level"] : "" ) ?>">
-                                        <div class="alert alert-sm border shadow-none m-0"
+                                            value="<?= ( ! empty( $formdata["residual_risk_level"] ) ? $formdata["residual_risk_level"] : "" ) ?>"
+                                            required>
+                                        <div class="alert alert-sm border shadow-none m-0 p-1 text-center"
                                             style="background-color:<?= $formdata["residual_level_color"] ?>;color:<?= $formdata["residual_text_level_color"] ?>">
                                             <b><?= $formdata["residual_level_name"] ?></b>
                                         </div>
@@ -101,12 +102,12 @@
                                                 <label for="result-residual-level"
                                                     class="col-md-4 col-form-label text-right">Risk Level
                                                     Residual
-                                                    (RL)<sup class="text-danger ml-1">(*)</sup></label>
+                                                    (RL)</label>
                                                 <div class="col-md-8">
                                                     <div class="row">
                                                         <div class="col-md-10" id="level-residual-risk">
                                                             <div role="alert" id="result-residual-level"
-                                                                class="alert alert-sm shadow-none border text-center m-0"
+                                                                class="alert alert-sm shadow-none border text-center m-0 p-1 text-center"
                                                                 style="cursor:default;background-color:<?= ( ! empty( $formdata["residual_level_color"] ) ? $formdata["residual_level_color"] : "" ) ?>;color:<?= ( ! empty( $formdata["residual_text_level_color"] ) ? $formdata["residual_text_level_color"] : "" ) ?>">
                                                                 <b><?= ( ! empty( $formdata["residual_level_name"] ) ? $formdata["residual_level_name"] : "No Result" ) ?></b>
                                                             </div>

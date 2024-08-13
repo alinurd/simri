@@ -305,6 +305,7 @@ class Kajian_Risiko extends MY_Controller
 				$actionForm = "propose";
 				$btn_view = "btn_propose";
 				$dataView["mapData"] = $this->data->getRowMapData( $idkajian );
+				$this->db->where( [ "id_kajian_risiko" => $idkajian ] );
 				break;
 			case 'submit':
 				$action = "propose";

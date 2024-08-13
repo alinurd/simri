@@ -36,6 +36,10 @@ $(document).on("click", "#btn-reg-edit", function () {
 
 })
 $(document).on("click", "#btn-submit-register", function (e) {
+
+    if (!$("#form-register-kajian").valid()) {
+        return false;
+    }
     var id = $(this).attr("data-id");
     var url = $(this).attr("data-url");
     var idkajian = $(this).attr("data-id-kajian");
@@ -120,6 +124,10 @@ $(document).on("click", "#btn-edit-monitoring", function (e) {
     })
 })
 $(document).on("click", "#btn-submit-monitoring", function (e) {
+
+    if (!$("#form-monitoring").valid()) {
+        return false;
+    }
 
     var formUpload = new FormData();
     var url = $(this).attr("data-url");
@@ -231,14 +239,6 @@ function result_level_residual(result) {
         $("#result-residual-level").css("color", "rgb(0, 0, 0)");
     }
 }
-
-// $(document).on("submit", "#form-monitoring", function (e) {
-//     e.preventDefault();
-//     var form = $("#form-monitoring")[0];
-//     // var myData = new FormData(form);
-//     console.log(form.files);
-//     alert('aaaa');
-// });
 
 
 

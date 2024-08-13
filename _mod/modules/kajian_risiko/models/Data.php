@@ -7,7 +7,7 @@ class Data extends MX_Model
 		parent::__construct();
 	}
 
-	function getRowMapData()
+	function getRowMapData( $idkajian )
 	{
 		$levelQuery  = "select id,code,level from il_level ivlm where category='likelihood' order by code desc";
 		$getRowLevel = $this->db->query( $levelQuery )->result_array();
@@ -30,7 +30,7 @@ class Data extends MX_Model
 					$result["inherent"][$kLvl]["column"][$kColumn]["impact_code"]   = $vCol["impact_code"];
 					$result["inherent"][$kLvl]["column"][$kColumn]["impact_text"]   = $vCol["impact_text"];
 					$result["inherent"][$kLvl]["column"][$kColumn]["id"]            = $vCol["id"];
-					$result["inherent"][$kLvl]["column"][$kColumn]["countregister"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "impact_inherent_level" => $vCol["impact_code"], "likelihood_inherent_level" => $vCol["like_code"] ] )->num_rows();
+					$result["inherent"][$kLvl]["column"][$kColumn]["countregister"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "impact_inherent_level" => $vCol["impact_code"], "likelihood_inherent_level" => $vCol["like_code"], "id_kajian_risiko" => $idkajian ] )->num_rows();
 				}
 			}
 		}
@@ -53,7 +53,7 @@ class Data extends MX_Model
 					$result["residual"][$kLvl2]["column"][$kColumnRes]["impact_code"]   = $vColRes["impact_code"];
 					$result["residual"][$kLvl2]["column"][$kColumnRes]["impact_text"]   = $vColRes["impact_text"];
 					$result["residual"][$kLvl2]["column"][$kColumnRes]["id"]            = $vColRes["id"];
-					$result["residual"][$kLvl2]["column"][$kColumnRes]["countregister"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "impact_residual_level" => $vColRes["impact_code"], "likelihood_residual_level" => $vColRes["like_code"] ] )->num_rows();
+					$result["residual"][$kLvl2]["column"][$kColumnRes]["countregister"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "impact_residual_level" => $vColRes["impact_code"], "likelihood_residual_level" => $vColRes["like_code"], "id_kajian_risiko" => $idkajian ] )->num_rows();
 					;
 				}
 			}
