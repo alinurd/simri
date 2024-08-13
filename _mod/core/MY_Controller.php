@@ -3283,30 +3283,29 @@ class MY_Controller extends MX_Controller
 
 	function getListMonitoring( $b, $rows, $value )
 	{
-		$bln           = intval( $b );
-		$tgl           = 01;
-		$monthly       = $this->data->getMonthlyMonitoring( $rows['id'], $bln );
-		$monthlyBefore = $this->data->getMonthlyMonitoring( $rows['id'], $bln - 1 );
-		$period        = $this->db->where( 'period_id', $rows['period_id'] )->where( 'bulan_int', $bln )->get( "il_view_minggu" )->row_array();
+		$bln=intval($b);
+ 		$tgl = 01;
+		$cekFinal = $this->data->cek_mitigasi_final($rows['id'], $bln);
+		$monthly = $this->data->getMonthlyMonitoring($rows['id'], $bln);
+		$monthlyBefore = $this->data->getMonthlyMonitoring($rows['id'], $bln - 1);
+		$period = $this->db->where('period_id', $rows['period_id'])->where('bulan_int', $bln)->get("il_view_minggu")->row_array();
 
-		$blnnow   = date( 'mY' );
-		$tglnow   = date( 'd' );
-		$thnRcsa  = substr( $period['period'], 0, 4 );
-		$dateRcsa = new DateTime( $thnRcsa . '-' . $bln . '-' . $tgl );
-		$hariIni  = new DateTime();
-		$title    = 'Update Monitoring ' . date( 'M', mktime( 0, 0, 0, $bln, 10 ) );
+ 		$blnnow = date('mY');
+		$tglnow = date('d');
+		$thnRcsa = substr($period['period'], 0, 4);
+		$dateRcsa = new DateTime($thnRcsa . '-' . $bln . '-' . $tgl);
+		$hariIni = new DateTime();
+		$title = 'Update Monitoring ' . date('M', mktime(0, 0, 0, $bln, 10));
+		if(!$cekFinal && isset($monthly)){
+			$title = 'update aktifitas belum lengkap';
+		}
 
-		if( isset( $monthlyBefore ) )
-		{
-			if( intval( $blnnow ) > ( 1 * 100 + intval( $period['period'] ) ) and $hariIni > $dateRcsa )
-			{
-				if( isset( $monthly ) )
-				{
-					$result = '<a class="propose" href="' . base_url( 'progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln ) . '"><span class="btn" style="padding:4px 8px;width:100%;background-color:' . $monthly['color'] . ';color:' . $monthly['color_text'] . ';" title="' . $title . '">' . $monthly['level_color'] . ' </span></a>';
-				}
-				else
-				{
-					$result = '<a class="propose" href="' . base_url( 'progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln ) . '"><span class="btn" style="padding:4px 8px;width:100%;;" title="' . $title . '"><i class="fa fa-pencil" aria-hidden="true"></i> </span></a>';
+		if (isset($monthlyBefore)) {
+			if (intval($blnnow) > (1 * 100 + intval($period['period']))   and $hariIni  > $dateRcsa && $cekFinal) {
+				if (isset($monthly)) {
+					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;background-color:' . $monthly['color'] . ';color:' . $monthly['color_text'] . ';" title="'.$title.'">' . $monthly['level_color'] . ' </span></a>';
+				} else {
+					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;;" title="'.$title.'"><i class="fa fa-pencil" aria-hidden="true"></i> </span></a>';
 				}
 			}
 			else
