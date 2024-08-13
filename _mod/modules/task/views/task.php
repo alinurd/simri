@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <div class="row">
     <div class="col-md-12">
         <div id="overdue">
@@ -21,63 +20,6 @@
                             <th><?= _l( 'pic' ); ?></th>
                             <th>Days Overdue</th>
                             <th width="15%" class="text-center">Aksi</th>
-=======
-<div class='table-responsive'>
-    <div id="overdue">
-        <h3>
-            <a data-toggle="collapse" href="#collapseOverdue" role="button" aria-expanded="false" aria-controls="collapseOverdue">
-                <legend class="text-uppercase font-size-lg text-danger font-weight-bold"><i class="icon-grid"></i> Melewati Batas Waktu</legend>
-            </a>
-        </h3>
-        <div class="collapse" id="collapseOverdue">
-            <table class="table table-hover" id="tbl_list_mitigasi">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th><?= _l('fld_owner_name'); ?></th>
-                        <th><?= _l('risiko_dept'); ?></th>
-                        <th><?= _l('fld_due_date'); ?></th>
-                        <th><?= _l('fld_tgl_update'); ?></th>
-                        <th><?= _l('pic'); ?></th>
-                        <th>Days Overdue</th>
-                        <th width="15%" class="text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $no = 1;
-                    foreach ($overdue as $q) :
-                        // doi::dump($q);
-                        $arr_pic = json_decode($q['penanggung_jawab_id']);
-                        $rows = $this->db->where_in('owner_no', $arr_pic)->where('sts_owner', 1)->get(_TBL_VIEW_OFFICER)->result_array();
-                        $log = $this->db->where('ref_id', $q['id'])->get("il_log_send_email")->result_array();
-                        $pic = '';
-                        if (!empty($rows)) {
-                            foreach ($rows as $row) {
-                                $pic .= $row['owner_name'] . ', ';
-                            }
-                            $pic = rtrim($pic, ', ');
-                        }
-
-                        $batas_waktu = new DateTime($q['batas_waktu']);
-                        $today = new DateTime();
-                        $interval = $today->diff($batas_waktu);
-                        $days_overdue = $interval->days;
-                        $days_overdue_sign = $interval->invert ? '-' : '';
-                    ?>
-                        <tr class="<?= ($days_overdue_sign == '-' && $days_overdue > 3) ? 'table-danger' : '' ?>">
-                            <td><?= $no++ ?></td>
-                            <td><b><?= $q['rcsa_mitigasi_id'] ?></b> - <?= $q['owner_name'] ?></td>
-                            <td><?= $q['risiko_dept'] ?></td>
-                            <td><?= $q['batas_waktu'] ?></td>
-                            <td><?= $q['updated_at'] ?></td>
-                            <td><?= $pic ?></td>
-                            <td><?= $days_overdue_sign . $days_overdue ?></td>
-                            <td class="text-center">
-                                <span class="btn btn-light" id="cekLog" data-id="<?=$q['id']?>">Histori</span>
-                                <span class="btn btn-light" id="sendEmail" data-id="<?=$q['id']?>">Remider</span>
-                            </td>
->>>>>>> ali
                         </tr>
                     </thead>
                     <tbody>
@@ -121,7 +63,6 @@
                 </table>
             </div>
         </div>
-<<<<<<< HEAD
         <hr>
         <div id="upcoming">
             <h3>
@@ -143,62 +84,6 @@
                             <th><?= _l( 'pic' ); ?></th>
                             <th>Days Left</th>
                             <th width="15%" class="text-center">Aksi</th>
-=======
-    </div>
-    <hr>
-    <div id="upcoming">
-        <h3>
-            <a data-toggle="collapse" href="#collapseupcoming" role="button" aria-expanded="false" aria-controls="collapseupcoming">
-                <legend class="text-uppercase font-size-lg text-info font-weight-bold"><i class="icon-grid"></i> Mendekati Batas Waktu (h-7)</legend>
-            </a>
-        </h3>
-        <div class="collapse" id="collapseupcoming">
-            <table class="table table-hover" id="tbl_list_mitigasi">
-                <thead>
-                <tr>
-                        <th>No</th>
-                        <th><?= _l('fld_owner_name'); ?></th>
-                        <th><?= _l('risiko_dept'); ?></th>
-                        <th><?= _l('fld_due_date'); ?></th>
-                        <th><?= _l('fld_tgl_update'); ?></th>
-                        <th><?= _l('pic'); ?></th>
-                        <th>Days Overdue</th>
-                        <th width="15%" class="text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $no = 1;
-                    foreach ($upcoming as $q) :
-                        $arr_pic = json_decode($q['penanggung_jawab_id']);
-                        $rows = $this->db->where_in('owner_no', $arr_pic)->where('sts_owner', 1)->get(_TBL_VIEW_OFFICER)->result_array();
-                        $pic = '';
-                        if (!empty($rows)) {
-                            foreach ($rows as $row) {
-                                $pic .= $row['owner_name'] . ', ';
-                            }
-                            $pic = rtrim($pic, ', ');
-                        }
-
-                        $batas_waktu = new DateTime($q['batas_waktu']);
-                        $today = new DateTime();
-                        $interval = $today->diff($batas_waktu);
-                        $days_left = $interval->days;
-                        $days_left_sign = $interval->invert ? '-' : '';
-                    ?>
-                        <tr class="<?= ($days_left_sign == '-' && $days_left > 3) ? 'table-danger' : '' ?>">
-                            <td><?= $no++ ?></td>
-                            <td><b><?= $q['kode_dept'] ?></b> - <?= $q['owner_name'] ?></td>
-                            <td><?= $q['risiko_dept'] ?></td>
-                            <td><?= $q['batas_waktu'] ?></td>
-                            <td><?= $q['updated_at'] ?></td>
-                            <td><?= $pic ?></td>
-                            <td><?= $days_left_sign . $days_left ?></td>
-                            <td class="text-center">
-                            <span class="btn btn-light" id="cekLog" data-id="<?=$q['id']?>">Histori</span>
-                                <span class="btn btn-light" id="sendEmail" data-id="<?=$q['id']?>">Remider</span>
-                            </td>
->>>>>>> ali
                         </tr>
                     </thead>
                     <tbody>
@@ -283,7 +168,6 @@
         </div>
     </div>
 </div>
-
 <script>
     <?php
     $setLabelDatatable = '<span class="text-info" style="font-style: italic;"><i class="fa fa-info-circle"></i> Untuk Pertanyaan Lebih Lanjut Silahkan Menghubungi Manajemen Risiko. </span>';
@@ -375,11 +259,11 @@
             } else {
                 row.child(format(row.data())).show();
                 tr.addClass('shown');
-                tr.next().addClass('bg-light');
+                // tr.next().addClass('bg-light');
             }
         });
         function format(d) {
-            return '<div class="card collapse-card"><div class="card-body"><b>' + d.answer + '</b></div></div>';
+            return '<div class="jumbotron m-2 p-2 border shadow-sm"><div class="card collapse-card m-0 shadow-none border"><div class="card-body"><b>' + d.answer + '</b></div></div></div>';
         }
     });
 </script>
