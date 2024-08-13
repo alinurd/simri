@@ -3286,6 +3286,7 @@ class MY_Controller extends MX_Controller
 		$bln=intval($b);
  		$tgl = 01;
 		$cekFinal = $this->data->cek_mitigasi_final($rows['id'], $bln, false);
+		$cekFinalBefor = $this->data->cek_mitigasi_final($rows['id'], $bln - 1, false);
 		$monthly = $this->data->getMonthlyMonitoring($rows['id'], $bln);
 		$monthlyBefore = $this->data->getMonthlyMonitoring($rows['id'], $bln - 1);
 		$period = $this->db->where('period_id', $rows['period_id'])->where('bulan_int', $bln)->get("il_view_minggu")->row_array();
@@ -3296,8 +3297,13 @@ class MY_Controller extends MX_Controller
 		$dateRcsa = new DateTime($thnRcsa . '-' . $bln . '-' . $tgl);
 		$hariIni = new DateTime();
 		$title = 'Update Monitoring ' . date('M', mktime(0, 0, 0, $bln, 10));
+		$aktifitas=false;
 		if(!$cekFinal && isset($monthly)){
 			$title = 'update aktifitas belum lengkap';
+			$aktifitas=true;
+		}elseif ($cekFinal) {
+			
+			$title = 'Update monitoring ' . date('M', mktime(0, 0, 0, $bln, 10)). ' lengkap';
 		}
 
 		if (isset($monthlyBefore)) {
@@ -3305,12 +3311,23 @@ class MY_Controller extends MX_Controller
 				if (isset($monthly)) {
 					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;background-color:' . $monthly['color'] . ';color:' . $monthly['color_text'] . ';" title="'.$title.'">' . $monthly['level_color'] . ' </span></a>';
 				} else {
-					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;;" title="'.$title.'"><i class="fa fa-pencil" aria-hidden="true"></i> </span></a>';
+					if($cekFinal){
+						$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;;" title="'.$title.'"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>';
+					}else{
+						$result = '<span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>';
+					}
+					
 				}
 			}
 			else
 			{
-				$result = '<span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>';
+ 				if($cekFinalBefor && $monthly){
+					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;background-color:' . $monthly['color'] . ';color:' . $monthly['color_text'] . ';" title="'.$title.'">' . $monthly['level_color'] . ' </span></a>';
+				}elseif($cekFinalBefor){
+					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;;" title="'.$title.'"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>';
+				}else{
+					$result = '<span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>';
+				}
 			}
 		}
 		else
