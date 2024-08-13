@@ -2362,7 +2362,7 @@ class Progress_Mitigasi extends MY_Controller
         $this->crud->crud_type('edit');
         $this->crud->crud_where(['field' => 'id', 'value' => $cekResidual[0]['id']]);  
  		 $this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
-		  $id = $id_edit;
+		  $id = $cekResidual['0']['id'];
         $info['info'] = "update";
 		// $info['data'] = $this->data->getMonthlyMonitoring($id_detail, $month);
      } else {
