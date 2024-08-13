@@ -570,6 +570,7 @@ $(document).on('click','#simpanResidual', function(){
 
 	var color = $("input[name=\"color\"]").val();
 	var level_color = $("input[name=\"level_color\"]").val();
+	var id_edit = $("input[name=\"id_edit\"]").val();
 	var color_text = $("input[name=\"color_text\"]").val();
 	var score = $("input[name=\"score\"]").val();
 	var month = $("input[name=\"month\"]").val();
@@ -578,6 +579,7 @@ $(document).on('click','#simpanResidual', function(){
 		'like': like,
 		'impact': impact,
 		'color_text': color_text,
+		'id_edit': id_edit,
 		'level_color': level_color,
 		'color': color,
 		'score': score,
