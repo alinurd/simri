@@ -2417,21 +2417,16 @@ function proses_propose_mitigasi_final($id_detail, $month)
 		$id=$detail['rcsa_id'];
 		$sts_final                       = 1;
 		$urut                            = count( $alur );
-		$alur[$notif['urut']]['tanggal'] = date( 'Y-m-d H:i:s' );
+		// $alur[$notif['urut']]['tanggal'] = date( 'Y-m-d H:i:s' );
 	}
-	else
-	{
-		$urut                                = $notif['urut'];
-		$alur[$notif['urut'] - 1]['tanggal'] = date( 'Y-m-d H:i:s' );
-	}
-
+	 
 	if($detail){
 		$this->crud->crud_table( _TBL_RCSA );
 		$this->crud->crud_type( 'edit' );
 		$this->crud->crud_field( 'status_revisi_mitigasi', 0, 'int' );
 		$this->crud->crud_field( 'status_id_mitigasi', $notif['urut'], 'int' );
 		$this->crud->crud_field( 'note_propose_mitigasi', 'final' );
-		$this->crud->crud_field( 'param_approval_mitigasi', json_encode( $alur ) );
+		// $this->crud->crud_field( 'param_approval_mitigasi', json_encode( $alur ) );
 		$this->crud->crud_field( 'tgl_propose_mitigasi', date( 'Y-m-d H:i:s' ), 'datetime' );
 		$this->crud->crud_field( 'status_final_mitigasi', $sts_final, 'int' );
 		$this->crud->crud_where( [ 'field' => 'id', 'value' => $id ] );
