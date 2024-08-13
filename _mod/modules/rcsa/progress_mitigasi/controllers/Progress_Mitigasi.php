@@ -2424,7 +2424,7 @@ function proses_propose_mitigasi_final($id_detail, $month)
 		$this->crud->crud_table( _TBL_RCSA );
 		$this->crud->crud_type( 'edit' );
 		$this->crud->crud_field( 'status_revisi_mitigasi', 0, 'int' );
-		$this->crud->crud_field( 'status_id_mitigasi', $notif['urut'], 'int' );
+		$this->crud->crud_field( 'status_id_mitigasi', $sts_final, 'int' );
 		$this->crud->crud_field( 'note_propose_mitigasi', 'final' );
 		// $this->crud->crud_field( 'param_approval_mitigasi', json_encode( $alur ) );
 		$this->crud->crud_field( 'tgl_propose_mitigasi', date( 'Y-m-d H:i:s' ), 'datetime' );
@@ -2440,7 +2440,7 @@ function proses_propose_mitigasi_final($id_detail, $month)
 	$this->crud->crud_field( 'note', 'final' );
 	$this->crud->crud_field( 'tanggal', date( 'Y-m-d H:i:s' ), 'datetime' );
 	$this->crud->crud_field( 'user_id', $this->ion_auth->get_user_id() );
-	$this->crud->crud_field( 'penerima_id', $notif['staft_no'] );
+	$this->crud->crud_field( 'penerima_id', '' );
 	$this->crud->process_crud();
 
 	$creatorEmail = $this->data->get_email_creator( $id );
