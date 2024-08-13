@@ -2374,6 +2374,7 @@ class Progress_Mitigasi extends MY_Controller
 
     if ($id) {
         $info['status'] = "berhasil"; 
+		$this->proses_propose_mitigasi_final($id_detail, $month);
     } else {
 		$info['status'] = "gagal";
     }
@@ -2382,5 +2383,107 @@ class Progress_Mitigasi extends MY_Controller
     echo json_encode($info);
 }
 
+function proses_propose_mitigasi_final($id_detail, $month)
+{ 
+	$alur  = [];
+	$notif = [];
+	$minggu_id = 3316;
+	$cekResidual = $this->db->where('rcsa_detail_id', $id_detail)->where('month', $month)->get("il_update_residual")->row_array();
+	$countMitdetail = 0;
+	$countMitDetailProg = 0;  // Initialize to keep track of total progress
+	
+	$getMitigasi = $this->db->where('rcsa_detail_id', $id_detail)->get("il_rcsa_mitigasi")->result_array();
+	$rcsa_detail = $this->db->where('id', $id_detail)->get("il_view_rcsa_detail")->row_array();
+	
+	foreach ($getMitigasi as $m) {
+		$mitDetails = $this->db->where('rcsa_mitigasi_id', $m['id'])->get("il_rcsa_mitigasi_detail")->result_array();
+		
+		foreach ($mitDetails as $md) {
+			$getMinggu = $this->db->where('period_id', $rcsa_detail['period_id'])->where('bulan_int', $month)->get("il_view_minggu")->row_array();
+			
+			if ($getMinggu) {
+				$mitProgress = $this->db->where('minggu_id', $getMinggu['id'])->get("il_rcsa_mitigasi_progres")->result_array();
+				
+				$countMitdetail++;  // Increment count for each mitigation detail
+				$countMitDetailProg += count($mitProgress);  // Add the number of progress entries to the total
+			}
+		}
+	}
+	
+	$sts_final = 1;
+	if($cekResidual && $countMitDetailProg > $countMitdetail)
+	{
+		$detail = $this->db->where('id', $id_detail)->get("il_view_rcsa_detail")->row_array();
+		$id=$detail['rcsa_id'];
+		$sts_final                       = 1;
+		$urut                            = count( $alur );
+		$alur[$notif['urut']]['tanggal'] = date( 'Y-m-d H:i:s' );
+	}
+	else
+	{
+		$urut                                = $notif['urut'];
+		$alur[$notif['urut'] - 1]['tanggal'] = date( 'Y-m-d H:i:s' );
+	}
+
+	if($detail){
+		$this->crud->crud_table( _TBL_RCSA );
+		$this->crud->crud_type( 'edit' );
+		$this->crud->crud_field( 'status_revisi_mitigasi', 0, 'int' );
+		$this->crud->crud_field( 'status_id_mitigasi', $notif['urut'], 'int' );
+		$this->crud->crud_field( 'note_propose_mitigasi', 'final' );
+		$this->crud->crud_field( 'param_approval_mitigasi', json_encode( $alur ) );
+		$this->crud->crud_field( 'tgl_propose_mitigasi', date( 'Y-m-d H:i:s' ), 'datetime' );
+		$this->crud->crud_field( 'status_final_mitigasi', $sts_final, 'int' );
+		$this->crud->crud_where( [ 'field' => 'id', 'value' => $id ] );
+		$this->crud->process_crud();
+		$this->crud->crud_table( _TBL_LOG_APPROVAL );
+	$this->crud->crud_type( 'add' );
+	$this->crud->crud_field( 'tipe_log', 2, 'int' );
+	$this->crud->crud_field( 'rcsa_id', $id, 'int' );
+	$this->crud->crud_field( 'keterangan', 'Final' );
+
+	$this->crud->crud_field( 'note', 'final' );
+	$this->crud->crud_field( 'tanggal', date( 'Y-m-d H:i:s' ), 'datetime' );
+	$this->crud->crud_field( 'user_id', $this->ion_auth->get_user_id() );
+	$this->crud->crud_field( 'penerima_id', $notif['staft_no'] );
+	$this->crud->process_crud();
+
+	$creatorEmail = $this->data->get_email_creator( $id );
+	if( $creatorEmail )
+	{
+		if( ! is_null( $creatorEmail->email ) && $creatorEmail->email !== '' )
+		{
+			$datasOutbox     = [
+			 'recipient' => [ $creatorEmail->email ],
+			];
+			$content_replace = [
+			 '[[konteks]]' => 'Progress Mitigasi',
+			 '[[redir]]'   => 2,
+			 '[[id]]'      => $id,
+			 '[[notif]]'   => $creatorEmail->real_name,
+			 '[[sender]]'  => $this->session->userdata( 'data_user' )['real_name'],
+			 '[[link]]'    => base_url() . "progress-mitigasi",
+			 '[[footer]]'  => $this->session->userdata( 'preference-0' )['nama_kantor'],
+
+			];
+			if( $this->session->userdata( 'preference-0' )['send_notif'] == 1 )
+			{
+				$this->load->library( 'outbox' );
+				$this->outbox->setTemplate( 'NOTIF02' );
+				$this->outbox->setParams( $content_replace );
+				$this->outbox->setDatas( $datasOutbox );
+				$this->outbox->send();
+			}
+		}
+	}
+	}
+	
+
+	
+
+	header( 'Content-type: application/json' );
+	echo json_encode( [ 'data' => TRUE ] );
+	// header('location:'.base_url(_MODULE_NAME_));
+}
 
 }
