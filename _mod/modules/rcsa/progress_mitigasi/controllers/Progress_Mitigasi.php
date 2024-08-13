@@ -2356,9 +2356,11 @@ class Progress_Mitigasi extends MY_Controller
     $this->crud->crud_field('color', $color);
     $this->crud->crud_field('color_text', $color_text);
     $this->crud->crud_field('score', $score);
-      if ($id_edit>0) {
+	$cekResidual = $this->db->where('rcsa_detail_id', $id_detail)->where('month', $month)->get("il_update_residual")->result_array();
+
+      if (count($cekResidual)>0) {
         $this->crud->crud_type('edit');
-        $this->crud->crud_where(['field' => 'id', 'value' => $id_edit]);  
+        $this->crud->crud_where(['field' => 'id', 'value' => $cekResidual[0]['id']]);  
  		 $this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
 		  $id = $id_edit;
         $info['info'] = "update";
