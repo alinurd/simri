@@ -22,9 +22,14 @@ class Kajian_Risiko extends MY_Controller
 		$this->addField( [ 'field' => 'request_date', 'type' => 'date', 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'release_date', 'type' => 'date', 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'status', 'title' => 'Status', "show" => FALSE, 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_status, 'default' => 0, 'size' => 40 ] );
-		$this->addField( [ 'field' => 'link_dokumen_kajian', "title" => "Dokumen Self-Assessment" ] );
 
-		$this->addField( [ 'field' => 'link_dokumen_pendukung', "title" => "Dokumen Pendukung" ] );
+		if( $this->_mode_ != "add" )
+		{
+			$this->addField( [ 'field' => 'link_dokumen_kajian', "title" => "Dokumen Self-Assessment" ] );
+
+			$this->addField( [ 'field' => 'link_dokumen_pendukung', "title" => "Dokumen Pendukung" ] );
+		}
+
 
 		$this->set_Close_Coloums();
 
@@ -206,6 +211,14 @@ class Kajian_Risiko extends MY_Controller
 
 	function optionalPersonalButton( $button, $row )
 	{
+		$button['document']      = [
+		 'label' => 'Dokumen',
+		 'id'    => 'btn-kajian-risk-document',
+		 'class' => 'text-warning',
+		 'icon'  => 'icon-file-text',
+		 'url'   => base_url( $this->modul_name . "/edit/" ),
+		 'attr'  => ' target="_self" ',
+		 ];
 		$button['risk_register'] = [
 		 'label' => 'Risk Register',
 		 'id'    => 'btn-kajian-risk-register',
@@ -214,6 +227,7 @@ class Kajian_Risiko extends MY_Controller
 		 'url'   => base_url( $this->modul_name . "/register/list/" ),
 		 'attr'  => ' target="_self" ',
 		 ];
+
 		if( $row["status"] == 1 )
 		{
 			$button['submit'] = [
