@@ -199,7 +199,8 @@
                                     <td rowspan="<?= $jml; ?>"><?= $row['fraud_risk'] == 1 ? 'Ya' : 'Tidak'; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['smap'] == 1 ? 'Ya' : 'Tidak'; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['esg_risk'] == 1 ? 'Ya' : 'Tidak'; ?></td>
-                                    <td rowspan="<?= $jml; ?>"><?= $row['kode_risiko_dept'] . '-' . $urut . '-' . $urut; ?></td>
+                                    <td rowspan="<?= $jml; ?>"><?= $row['kode_risiko_dept'] . '-' . $urut . '-' . $urut; ?>
+                                    </td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['risiko_dept']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['penyebab_risiko']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= format_list( $row['peristiwa'], '###' ); ?></td>
@@ -211,7 +212,8 @@
                                     <td rowspan="<?= $jml; ?>"><?= $row['risiko_inherent_text']; ?></td>
                                     <td rowspan="<?= $jml; ?>"
                                         style="background:<?= $row['color']; ?>;color:<?= $row['color_text']; ?>;">
-                                        <?= $row['level_color']; ?></td>
+                                        <?= $row['level_color']; ?>
+                                    </td>
                                     <td rowspan="<?= $jml; ?>"><?= format_list( $row['nama_kontrol'], '###' ); ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['efek_kontrol_text']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= implode( '<br/>', $like2 ); ?></td>
@@ -221,7 +223,8 @@
                                     <td rowspan="<?= $jml; ?>"><?= $row['risiko_residual_text']; ?></td>
                                     <td rowspan="<?= $jml; ?>"
                                         style="background:<?= $row['color_residual']; ?>;color:<?= $row['color_text_residual']; ?>;">
-                                        <?= $row['level_color_residual']; ?></td>
+                                        <?= $row['level_color_residual']; ?>
+                                    </td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['treatment']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= implode( '<br/>', $like3 ); ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= implode( '<br/>', $dampak3 ); ?></td>
@@ -230,7 +233,8 @@
                                     <td rowspan="<?= $jml; ?>"><?= $row['risiko_target_text']; ?></td>
                                     <td rowspan="<?= $jml; ?>"
                                         style="background:<?= $row['color_target']; ?>;color:<?= $row['color_text_target']; ?>;">
-                                        <?= $row['level_color_target']; ?></td>
+                                        <?= $row['level_color_target']; ?>
+                                    </td>
                                     <?php
                                     if( array_key_exists( $row['id'], $mitigasi ) )
                                     {

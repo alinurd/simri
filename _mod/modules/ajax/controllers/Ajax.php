@@ -89,13 +89,13 @@ class Ajax extends MY_Controller
 		{
 			foreach( $data["rows"] as $key => $value )
 			{
-				$data['rows'][$key]["like_target"]        = ( strtolower( $value["treatment"] ) == "menerima" ? "" : $value["like_target"] );
-				$data['rows'][$key]["impact_target"]      = ( strtolower( $value["treatment"] ) == "menerima" ? "" : $value["impact_target"] );
-				$data['rows'][$key]["risiko_target_text"] = ( strtolower( $value["treatment"] ) == "menerima" ? "" : $value["risiko_target_text"] );
-				$data['rows'][$key]["level_color_target"] = ( strtolower( $value["treatment"] ) == "menerima" ? "" : $value["level_color_target"] );
-				$data['rows'][$key]["color_target"]       = ( strtolower( $value["treatment"] ) == "menerima" ? "" : $value["color_target"] );
-				$data['rows'][$key]["color_text_target"]  = ( strtolower( $value["treatment"] ) == "menerima" ? "" : $value["color_text_target"] );
-				$data['rows'][$key]["efek_mitigasi_text"] = ( strtolower( $value["treatment"] ) == "menerima" ? "" : $value["efek_mitigasi_text"] );
+				$data['rows'][$key]["like_target"]        = ( ! empty( $value["treatment"] ) && strtolower( $value["treatment"] ) == "menerima" ? "" : $value["like_target"] );
+				$data['rows'][$key]["impact_target"]      = ( ! empty( $value["treatment"] ) && strtolower( $value["treatment"] ) == "menerima" ? "" : $value["impact_target"] );
+				$data['rows'][$key]["risiko_target_text"] = ( ! empty( $value["treatment"] ) && strtolower( $value["treatment"] ) == "menerima" ? "" : $value["risiko_target_text"] );
+				$data['rows'][$key]["level_color_target"] = ( ! empty( $value["treatment"] ) && strtolower( $value["treatment"] ) == "menerima" ? "" : $value["level_color_target"] );
+				$data['rows'][$key]["color_target"]       = ( ! empty( $value["treatment"] ) && strtolower( $value["treatment"] ) == "menerima" ? "" : $value["color_target"] );
+				$data['rows'][$key]["color_text_target"]  = ( ! empty( $value["treatment"] ) && strtolower( $value["treatment"] ) == "menerima" ? "" : $value["color_text_target"] );
+				$data['rows'][$key]["efek_mitigasi_text"] = ( ! empty( $value["treatment"] ) && strtolower( $value["treatment"] ) == "menerima" ? "" : $value["efek_mitigasi_text"] );
 			}
 		}
 		$data['id'] = $id;

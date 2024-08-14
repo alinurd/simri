@@ -1168,6 +1168,7 @@ class Data extends MX_Model
 		$this->crud->crud_field( 'penanggung_jawab_id', $data['penanggung_jawab_id'] );
 		$this->crud->crud_field( 'koordinator_id', $data['koordinator_id'] );
 		$this->crud->crud_field( 'status_jangka', $data['status_jangka'] );
+		$this->crud->crud_field( 'reminder_email', $data['email_reminder'] );
 
 		if( $id > 0 )
 		{

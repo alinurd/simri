@@ -1385,6 +1385,7 @@ function result_dampak(hasil) {
 function list_mitigasi(hasil) {
     $("#entri_mitigasi").html(hasil.mitigasi);
     $("#list_mitigasi").html(hasil.list_mitigasi);
+    $("#modal_general").modal("hide");
 }
 
 function result_inherent(hasil) {
