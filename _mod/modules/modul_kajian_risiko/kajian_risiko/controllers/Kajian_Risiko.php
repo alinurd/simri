@@ -19,20 +19,12 @@ class Kajian_Risiko extends MY_Controller
 		$this->addField( [ 'field' => 'id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ] );
 		$this->addField( [ 'field' => 'owner_id', 'title' => 'Risk Owner', 'input' => 'combo', 'values' => $this->cboDept, 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'name', 'title' => 'Nama Kajian Risiko', 'type' => 'string', 'search' => TRUE, "required" => TRUE ] );
-		$this->addField( [ 'field' => 'request_date', 'type' => 'date', 'search' => TRUE, "required" => TRUE ] );
-		$this->addField( [ 'field' => 'release_date', 'type' => 'date', 'search' => TRUE, "required" => TRUE ] );
+		$this->addField( [ 'field' => 'request_date', 'type' => 'date', "show" => FALSE ] );
+		$this->addField( [ 'field' => 'release_date', 'type' => 'date', "show" => FALSE ] );
 		$this->addField( [ 'field' => 'status', 'title' => 'Status', "show" => FALSE, 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_status, 'default' => 0, 'size' => 40 ] );
-
-		if( $this->_mode_ != "add" )
-		{
-			$this->addField( [ 'field' => 'link_dokumen_kajian', "title" => "Dokumen Self-Assessment" ] );
-
-			$this->addField( [ 'field' => 'link_dokumen_pendukung', "title" => "Dokumen Pendukung" ] );
-		}
-
-
+		$this->addField( [ 'field' => 'link_dokumen_kajian', "title" => "Dokumen Self-Assessment", "save" => FALSE ] );
+		$this->addField( [ 'field' => 'link_dokumen_pendukung', "title" => "Dokumen Pendukung", "save" => FALSE ] );
 		$this->set_Close_Coloums();
-
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 		$this->set_Join_Table( [ 'pk' => $this->tbl_master ] );
 
@@ -56,6 +48,30 @@ class Kajian_Risiko extends MY_Controller
 		];
 	}
 
+	function inputContent( $mode, $data )
+	{
+
+		$get_id = $this->db->query( "select * from il_kajian_risiko_file where id_kajian_risiko not in (select id from il_kajian_risiko)" )->result_array();
+		if( ! empty( $get_id ) )
+		{
+			foreach( $get_id as $kID => $vId )
+			{
+				if( ! empty( $vId['server_filename'] ) && file_exists( $vId["file_path"] . $vId["server_filename"] ) )
+				{
+					unlink( $vId["file_path"] . $vId["server_filename"] );
+					$this->db->delete( 'il_kajian_risiko_file', array( 'id' => $vId["id"] ) );
+				}
+			}
+		}
+		if( $this->_mode_ == "add" )
+		{
+			$data["fields"]["id"]["isi"]           = $this->data->getIdIncrementDb();
+			$data["fields"]["request_date"]["isi"] = date( "Y-m-d H:i:s" );
+
+		}
+		return $this->load->view( 'material/input', $data, TRUE );
+
+	}
 	function listBox_status( $field, $rows, $value )
 	{
 		$statusContent = "";
@@ -211,14 +227,7 @@ class Kajian_Risiko extends MY_Controller
 
 	function optionalPersonalButton( $button, $row )
 	{
-		$button['document']      = [
-		 'label' => 'Dokumen',
-		 'id'    => 'btn-kajian-risk-document',
-		 'class' => 'text-warning',
-		 'icon'  => 'icon-file-text',
-		 'url'   => base_url( $this->modul_name . "/edit/" ),
-		 'attr'  => ' target="_self" ',
-		 ];
+
 		$button['risk_register'] = [
 		 'label' => 'Risk Register',
 		 'id'    => 'btn-kajian-risk-register',
@@ -242,7 +251,7 @@ class Kajian_Risiko extends MY_Controller
 		else
 		{
 			$button['propose'] = [
-			 'label' => 'Propose',
+			 'label' => 'Submit',
 			 'id'    => 'btn_schedule_one',
 			 'class' => 'text-warning',
 			 'icon'  => 'icon-paperplane',

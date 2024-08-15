@@ -3,7 +3,7 @@
         <div class="jumbotron p-2 mb-3 border">
             <a class="btn bg-slate btn-labeled btn-labeled-left button-action mr-3"
                 href="<?= base_url( $module_name ) ?>">
-                <b><i class="icon-exit"></i></b> Back To Kajian Risiko </a>
+                <b><i class="icon-exit"></i></b> Back To Kajian Risiko List </a>
             <a class="btn bg-primary btn-labeled btn-labeled-left button-action <?= $disabledSubmit ?> "
                 href="<?= base_url( $module_name . "/register/create/" . $kajian_id ) ?>">
                 <b><i class="icon-database-add"></i></b> Create New </a>

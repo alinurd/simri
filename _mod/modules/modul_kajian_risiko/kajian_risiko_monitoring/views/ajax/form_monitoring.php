@@ -72,9 +72,11 @@
                                                 <span class="input-group-text">Upload</span>
                                             </div>
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="dokumen_pendukung"
-                                                    aria-describedby="dokumen_pendukung" name="dokumen_pendukung">
-                                                <label class="custom-file-label" for="dokumen_pendukung">Choose
+                                                <input type="file" class="form-control custom-file-input"
+                                                    id="dokumen_pendukung" aria-describedby="dokumen_pendukung"
+                                                    name="dokumen_pendukung">
+                                                <label id="label-dokumen-pendukung" class="custom-file-label"
+                                                    for="dokumen_pendukung">Choose
                                                     file</label>
                                             </div>
                                         </div>

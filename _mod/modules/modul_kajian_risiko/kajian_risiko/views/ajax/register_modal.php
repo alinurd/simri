@@ -65,7 +65,7 @@
                                     else
                                     { ?>
                                         <tr class="text-center bg-light">
-                                            <td colspan="8"><strong>Data is Empty</strong></td>
+                                            <td colspan="10"><strong>Data is Empty</strong></td>
                                         </tr>
                                     <?php } ?>
                                     <tr></tr>

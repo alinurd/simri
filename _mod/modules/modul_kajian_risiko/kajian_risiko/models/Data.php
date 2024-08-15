@@ -60,6 +60,13 @@ class Data extends MX_Model
 		}
 		return $result;
 	}
+
+	function getIdIncrementDb()
+	{
+		$query = "SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'il_kajian_risiko' and table_schema = '" . $this->db->database . "';";
+		return $this->db->query( $query )->row_array()["AUTO_INCREMENT"];
+
+	}
 }
 /* End of file app_login_model.php */
 /* Location: ./application/models/app_login_model.php */

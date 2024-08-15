@@ -239,6 +239,10 @@ function result_level_residual(result) {
         $("#result-residual-level").css("color", "rgb(0, 0, 0)");
     }
 }
+$(document).on('change', "#dokumen_pendukung", function () {
+    var filename = $(this).val().split("\\");
+    $("#label-dokumen-pendukung").html(filename[2]);
+});
 
 
 

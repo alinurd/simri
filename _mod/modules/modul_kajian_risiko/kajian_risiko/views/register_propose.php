@@ -1,4 +1,21 @@
 <style>
+    .table-map {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .table-map,
+    .table-map td {
+        /* border: 1px solid black; */
+        border-collapse: collapse;
+    }
+
+    .table-map tr,
+    td {
+        width: 25px !important;
+        height: 35px !important;
+    }
+
     .rotate {
         -moz-transform: scale(-1, -1);
         -webkit-transform: scale(-1, -1);
@@ -67,7 +84,7 @@
                                     else
                                     { ?>
                                         <tr class="text-center bg-light">
-                                            <td colspan="8"><strong>Data is Empty</strong></td>
+                                            <td colspan="10"><strong>Data is Empty</strong></td>
                                         </tr>
                                     <?php } ?>
                                     <tr></tr>
@@ -96,7 +113,7 @@
                                         <div class="col-md-4">
                                             <div class="card shadow-sm border">
                                                 <div class="card-body bg-light">
-                                                    <table class="table table-bordered">
+                                                    <table class="table table-bordered table-map">
                                                         <tbody>
                                                             <?php if( ! empty( $mapData["inherent"] ) ) : ?>
                                                                 <?php foreach( $mapData["inherent"] as $kInherentRow => $vInherentRow ) : ?>
@@ -190,7 +207,7 @@
                                         <div class="col-md-4">
                                             <div class="card shadow-none border">
                                                 <div class="card-body bg-light">
-                                                    <table class="table table-bordered">
+                                                    <table class="table table-bordered table-map">
                                                         <tbody>
                                                         <?php if( ! empty( $mapData["residual"] ) ) : ?>
                                                                 <?php foreach( $mapData["residual"] as $kResidualRow => $vResidualRow ) : ?>

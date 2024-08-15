@@ -1,3 +1,8 @@
+<style>
+    .select2-container--open {
+    z-index: 9999999 !important;
+}
+</style>
 <div class="row">
     <div class="col-md-12">
         <form class="form-horizontal" action="<?= $formUrl ?>" method="post" enctype="multipart/form-data" id="form-register">
@@ -43,28 +48,11 @@
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
-                                <label for="inherent-impact" class="col-md-3 col-form-label text-right">Level Dampak
-                                    Inherent<sup class="text-danger ml-1">(*)</sup></label>
-                                <div class="col-md-9">
-                                    <select class="form-control select inherent-select" name="impact_inherent_level"
-                                        id="inherent-impact" required="required">
-                                        <option value=""><i>-- Please Select --</i></option>
-                                        <?php if( ! empty( $levelImpact ) )
-                                        {
-                                            foreach( $levelImpact as $kImpact => $vImpact )
-                                            { ?>
-                                                <option value="<?= $vImpact["code"] ?>" <?= ( ! empty( $register[0]["impact_inherent_level"] ) && $register[0]["impact_inherent_level"] == $vImpact["code"] ? "selected" : "" ) ?>><?= $vImpact["code"] ?> - <?= $vImpact["level"] ?></option>
-                                            <?php }
-                                        } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
                                 <label for="inherent-likelihood" class="col-md-3 col-form-label text-right">Level
                                     Kemungkinan
                                     Inherent<sup class="text-danger ml-1">(*)</sup></label>
                                 <div class="col-md-9">
-                                    <select class="form-control select inherent-select" name="likelihood_inherent_level"
+                                    <select class="form-control select-form inherent-select" name="likelihood_inherent_level"
                                         id="inherent-likelihood" required="required">
                                         <option value=""><i>-- Please Select --</i></option>
                                         <?php if( ! empty( $levelLikelihood ) )
@@ -78,6 +66,24 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group row mb-3">
+                                <label for="inherent-impact" class="col-md-3 col-form-label text-right">Level Dampak
+                                    Inherent<sup class="text-danger ml-1">(*)</sup></label>
+                                <div class="col-md-9">
+                                    <select class="form-control select-form inherent-select" name="impact_inherent_level"
+                                        id="inherent-impact" required="required">
+                                        <option value=""><i>-- Please Select --</i></option>
+                                        <?php if( ! empty( $levelImpact ) )
+                                        {
+                                            foreach( $levelImpact as $kImpact => $vImpact )
+                                            { ?>
+                                                <option value="<?= $vImpact["code"] ?>" <?= ( ! empty( $register[0]["impact_inherent_level"] ) && $register[0]["impact_inherent_level"] == $vImpact["code"] ? "selected" : "" ) ?>><?= $vImpact["code"] ?> - <?= $vImpact["level"] ?></option>
+                                            <?php }
+                                        } ?>
+                                    </select>
+                                </div>
+                            </div>
+                           
                             <div class="form-group row mb-3">
                                 <label for="inherent-level" class="col-md-3 col-form-label text-right">Risk Level
                                     Inherent
@@ -97,28 +103,11 @@
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
-                                <label for="impact-residual" class="col-md-3 col-form-label text-right">Level Dampak
-                                    Residual<sup class="text-danger ml-1">(*)</sup></label>
-                                <div class="col-md-9">
-                                    <select class="form-control select residual-select" name="impact_residual_level"
-                                        id="impact-residual" required="required">
-                                        <option value=""><i>-- Please Select --</i></option>
-                                        <?php if( ! empty( $levelImpact ) )
-                                        {
-                                            foreach( $levelImpact as $kImpact => $vImpact )
-                                            { ?>
-                                                <option value="<?= $vImpact["code"] ?>" <?= ( ! empty( $register[0]["impact_residual_level"] ) && $register[0]["impact_residual_level"] == $vImpact["code"] ? "selected" : "" ) ?>><?= $vImpact["code"] ?> - <?= $vImpact["level"] ?></option>
-                                            <?php }
-                                        } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
                                 <label for="likelihood-residual" class="col-md-3 col-form-label text-right">Level
                                     Kemungkinan
                                     Residual<sup class="text-danger ml-1">(*)</sup></label>
                                 <div class="col-md-9">
-                                    <select class="form-control select residual-select" name="likelihood_residual_level"
+                                    <select class="form-control select-form residual-select" name="likelihood_residual_level"
                                         id="likelihood-residual" required="required">
                                         <option value=""><i>-- Please Select --</i></option>
                                         <?php if( ! empty( $levelLikelihood ) )
@@ -132,6 +121,24 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group row mb-3">
+                                <label for="impact-residual" class="col-md-3 col-form-label text-right">Level Dampak
+                                    Residual<sup class="text-danger ml-1">(*)</sup></label>
+                                <div class="col-md-9">
+                                    <select class="form-control select-form residual-select" name="impact_residual_level"
+                                        id="impact-residual" required="required">
+                                        <option value=""><i>-- Please Select --</i></option>
+                                        <?php if( ! empty( $levelImpact ) )
+                                        {
+                                            foreach( $levelImpact as $kImpact => $vImpact )
+                                            { ?>
+                                                <option value="<?= $vImpact["code"] ?>" <?= ( ! empty( $register[0]["impact_residual_level"] ) && $register[0]["impact_residual_level"] == $vImpact["code"] ? "selected" : "" ) ?>><?= $vImpact["code"] ?> - <?= $vImpact["level"] ?></option>
+                                            <?php }
+                                        } ?>
+                                    </select>
+                                </div>
+                            </div>
+                           
                             <div class="form-group row mb-3">
                                 <label for="risk-residual" class="col-md-3 col-form-label text-right">Risk Level
                                     Residual

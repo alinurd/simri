@@ -18,6 +18,9 @@ $(function () {
         allowClear: false,
         multiple: true,
     });
+    $('.select-form').select2({
+        allowClear: false,
+    });
     if (window.setPicSelect) {
         setPicselect(setPicSelect);
     }
