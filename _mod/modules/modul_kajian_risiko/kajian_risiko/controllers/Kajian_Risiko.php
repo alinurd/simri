@@ -22,8 +22,8 @@ class Kajian_Risiko extends MY_Controller
 		$this->addField( [ 'field' => 'request_date', 'type' => 'date', "show" => FALSE ] );
 		$this->addField( [ 'field' => 'release_date', 'type' => 'date', "show" => FALSE ] );
 		$this->addField( [ 'field' => 'status', 'title' => 'Status', "show" => FALSE, 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_status, 'default' => 0, 'size' => 40 ] );
-		$this->addField( [ 'field' => 'link_dokumen_kajian', "title" => "Dokumen Self-Assessment", "save" => FALSE ] );
-		$this->addField( [ 'field' => 'link_dokumen_pendukung', "title" => "Dokumen Pendukung", "save" => FALSE ] );
+		$this->addField( [ 'field' => 'link_dokumen_kajian', "title" => "Dokumen Self-Assessment" ] );
+		$this->addField( [ 'field' => 'link_dokumen_pendukung', "title" => "Dokumen Pendukung" ] );
 		$this->set_Close_Coloums();
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 		$this->set_Join_Table( [ 'pk' => $this->tbl_master ] );
