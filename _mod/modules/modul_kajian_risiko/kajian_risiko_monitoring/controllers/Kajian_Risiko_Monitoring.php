@@ -40,11 +40,11 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		$this->set_Save_Table( _TBL_KAJIAN_RISIKO );
 
 		$configuration = [
-		 'show_title_header' => FALSE,
-		 'content_title'     => 'Kajian Risiko Monitoring',
-		//  'show_action_button' => FALSE,
-		//  'show_column_action' => FALSE,
-		//  'type_action_button' => FALSE,
+		 'show_title_header'  => FALSE,
+		 'content_title'      => 'Kajian Risiko Monitoring',
+		 'show_action_button' => FALSE,
+		 'show_column_action' => FALSE,
+		 'type_action_button' => "",
 
 		];
 		return [
@@ -58,10 +58,10 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		switch( $value )
 		{
 			case 0:
-				$statusContent = "<span class='btn btn-sm btn-danger' style='cursor:default'>DRAFT</span>";
+				$statusContent = "<span class='btn btn-sm btn-danger disabled' style='cursor:default'>DRAFT</span>";
 				break;
 			case 1:
-				$statusContent = "<span class='btn btn-sm btn-success' style='cursor:default'>SUBMITTED</span>";
+				$statusContent = "<span class='btn btn-sm btn-success disabled' style='cursor:default'>SUBMITTED</span>";
 				break;
 
 			default:
@@ -74,6 +74,7 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 
 	function optionalPersonalButton( $button, $row )
 	{
+
 		unset( $button['update'] );
 		unset( $button['delete'] );
 		unset( $button['view'] );
@@ -89,10 +90,11 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		$button['update_progress'] = [
 		'label' => 'Update Progress',
 		'id'    => 'btn_update_progress',
-		'class' => 'text-warning',
-		'icon'  => 'icon-stats-bars3',
+		'class' => 'btn btn-sm btn-warning text-center',
+		'icon'  => 'icon-stats-bars3 text-white',
 		'url'   => base_url( $this->modul_name . "/progress/show/" ),
 		'attr'  => ' target="_self" ',
+		'align' => 'center',
 		 ];
 
 		// $button['dokumen'] = [
@@ -374,9 +376,20 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 	function export_excel( $id )
 	{
 		$dataMonitoring["monitoring"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_MONITORING, [ "id_kajian_risiko" => $id ] )->result_array();
-		$dataMonitoring["btnExport"]  = base_url( $this->modul_name . "/export_excel/" . $id );
-		$result                       = $this->load->view( "ajax/monitoring_modal", $dataMonitoring, TRUE );
-		$nm_file                      = "Report Monitoring " . date( "Y-m-d" );
+		if( ! empty( $dataMonitoring["monitoring"] ) )
+		{
+			foreach( $dataMonitoring["monitoring"] as $kModMon => $vModMon )
+			{
+				if( ! empty( $vModMon["pic"] ) && json_decode( $vModMon["pic"] ) )
+				{
+					$dataMonitoring["monitoring"][$kModMon]["pic"] = $this->db->select( "owner_name" )->where_in( "id", json_decode( $vModMon["pic"] ) )->get( _TBL_OWNER )->result_array();
+
+				}
+			}
+		}
+		$dataMonitoring["btnExport"] = base_url( $this->modul_name . "/export_excel/" . $id );
+		$result                      = $this->load->view( "ajax/monitoring_modal", $dataMonitoring, TRUE );
+		$nm_file                     = "Report Monitoring " . date( "Y-m-d" );
 		header( "Content-type:appalication/vnd.ms-excel" );
 		header( "content-disposition:attachment;filename=" . $nm_file . ".xls" );
 		echo $result;

@@ -12,7 +12,7 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table table-bordered table-sm">
+                            <table class="table table-bordered table-sm" border="1">
                                 <thead class="bg-slate">
                                     <tr>
                                         <th rowspan="2" class="text-center">No</th>
