@@ -45,7 +45,6 @@ foreach( $fields as $row )
     {
         $hide[$row['field']] = $row['isi'];
     }
-
 }
 echo form_hidden( $hide );
 foreach( $tabs as $row ) : ?>
@@ -62,8 +61,7 @@ endforeach; ?>
     $awal = TRUE;
     foreach( $tabs as $row ) :
         ?>
-        <div class="tab-pane fade <?= ( $awal ) ? 'active show' : ''; ?>" id="content-
-<?= $row['id']; ?>">
+        <div class="tab-pane fade <?= ( $awal ) ? 'active show' : ''; ?>" id="content-<?= $row['id']; ?>">
             <?php
             if( array_key_exists( 'cols', $row ) )
             {
@@ -97,8 +95,7 @@ endforeach; ?>
                                             class="<?= $fields[$col]['line-icon']; ?>"></i>
                                         <?= $fields[$col]['line-text']; ?></legend>
                                 <?php endif; ?>
-                                <label class="col-form-label col-lg-2 text-
-<?= $params['align_label']; ?>">
+                                <label class="col-form-label col-lg-2 text-<?= $params['align_label']; ?>">
                                     <?= ( $fields[$col]['required'] ) ? $required : '' ?>
                                     <?= $fields[$col]['title']; ?>
                                     <?= $span_help; ?>
