@@ -244,6 +244,8 @@
                                 endforeach; ?>
                             </div>
                             <?= $level ?>
+                            <span class="btn btn-success<?= isset($mit) ? '' : ' disabled' ?>" id="simpanResidual">Simpan</span>
+
                             <!-- <table class="table">
                                 <tr>
                                     <td width="130px">Residual Likelihood</td>
