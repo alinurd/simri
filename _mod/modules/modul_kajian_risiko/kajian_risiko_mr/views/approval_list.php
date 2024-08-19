@@ -19,13 +19,14 @@
                                 <tbody>
                                     <?php if( ! empty( $link_dokumen_kajian ) )
                                     {
+                                        $n = 0;
                                         foreach( $link_dokumen_kajian as $kLinkDockajian => $vLinkDockajian )
                                         {
                                             if( ! empty( $vLinkDockajian ) )
                                             {
                                                 ?>
                                                 <tr>
-                                                    <td><?= $kLinkDockajian ?></td>
+                                                    <td><?= $n = $n + 1 ?></td>
                                                     <td><?= $vLinkDockajian ?></td>
                                                     <td>
                                                         <?php if( ! empty( $vLinkDockajian ) )
@@ -111,13 +112,14 @@
                                     <tr>
                                         <?php if( ! empty( $link_dokumen_pendukung ) )
                                         {
+                                            $n = 0;
                                             foreach( $link_dokumen_pendukung as $kLinkDocpendukung => $vLinkDocPendukung )
                                             {
                                                 if( ! empty( $vLinkDocPendukung ) )
                                                 {
                                                     ?>
                                                 <tr>
-                                                    <td><?= $kLinkDocpendukung ?></td>
+                                                    <td><?= $n = $n + 1 ?></td>
                                                     <td><?= $vLinkDocPendukung ?></td>
                                                     <td>
                                                         <?php if( ! empty( $vLinkDocPendukung ) )

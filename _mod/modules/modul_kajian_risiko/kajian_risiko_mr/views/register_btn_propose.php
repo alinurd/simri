@@ -5,7 +5,7 @@
                 <div class="col-md-12">
                     <a class="btn bg-slate btn-labeled btn-labeled-left button-action mr-3"
                         href="<?= base_url( $module_name ) ?>">
-                        <b><i class="icon-exit"></i></b> Back To Kajian Risiko List </a>
+                        <b><i class="icon-exit"></i></b> Back To Kajian Risiko MR List </a>
                     <a class="btn bg-primary btn-labeled btn-labeled-left button-action pull-right"
                         href="<?= base_url( $module_name . "/register/list/" . $kajian_id ) ?>">
                         <b><i class="icon-redo2"></i></b> Input Risk Register</a>

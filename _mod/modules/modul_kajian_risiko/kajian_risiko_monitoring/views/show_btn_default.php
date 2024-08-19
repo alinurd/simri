@@ -5,7 +5,7 @@
                 href="<?= base_url( $module_name ) ?>">
                 <b><i class="icon-exit"></i></b> Back To Kajian Risiko Monitoring List </a>
             <a class="btn bg-warning btn-labeled btn-labeled-left button-action"
-                href="<?= base_url( "kajian-risiko/register/propose/" . $kajian_id ) ?>">
+                href="<?= base_url( "kajian-risiko-mr/register/propose/" . $kajian_id ) ?>">
                 <b><i class="icon-file-text2"></i></b> Preview Risk Register </a>
             <button type="button" id="btnModalRegister" data-id="<?= $kajian_id ?>"
                 data-url="<?= base_url( $module_name . "/monitoringModal" ) ?>"
