@@ -553,10 +553,15 @@ function reset_approval(hasil){
 
 
 
-$(document).on("change", "#mit_like_id, #mit_impact_id", function () {
+$(document).on("change", "#like_id_3, #impact_id_3", function () {
 	var parent = $(this).parent();
-	var like = $("#mit_like_id").val();
-	var impact = $("#mit_impact_id").val();
+	// var like = $("#mit_like_id").val();
+	// var impact = $("#mit_impact_id").val();
+	var like = $("#like_id_3").val();
+
+	var impact = $('input[name="impact_id_3"]').val();
+
+
 	var data = { 'like': like, 'impact': impact };
 	var url = "ajax/get-risiko-inherent";
  	_ajax_("post", parent, data, '', url, 'resultInherent');
@@ -590,7 +595,52 @@ $(document).on('click','#simpanResidual', function(){
 	_ajax_("post", parent, data, '', url, 'simpanResidual');
 })
 
+$(document).on("click", "#indikator_dampak", function () {
+        var parent = $(this).parent();
+        // var rcsa = $(this).data('rcsa');
+        var id = $(this).data('id');
+        var data = { 'id': 0, 'rcsa_detail_no': id, 'bk_tipe': 1 };
+        var url = modul_name + "/indikator-dampak";
+        _ajax_("post", parent, data, '', url, 'indikator_dampak');
+    })
 
+    $(document).on("click", "#indikator_dampak_residual", function () {
+        var parent = $(this).parent();
+        var id = $(this).data('id');
+        var data = { 'id': 0, 'rcsa_detail_no': id, 'bk_tipe': 2 };
+        var url = modul_name + "/indikator-dampak";
+        _ajax_("post", parent, data, '', url, 'indikator_dampak');
+    })
+
+    $(document).on("click", "#indikator_dampak_target", function () {
+        var parent = $(this).parent();
+        var id = $(this).data('id');
+        var data = { 'id': 0, 'rcsa_detail_no': id, 'bk_tipe': 3 };
+        var url = modul_name + "/indikator-dampak";
+        _ajax_("post", parent, data, '', url, 'indikator_dampak');
+    })
+
+	function indikator_dampak(hasil) {
+		$("#modal_general").find(".modal-title").html('Daftar Risk Indicator Dampak');
+		$("#modal_general").find(".modal-body").html(hasil.combo);
+		$("#modal_general").modal("show");
+	}
+	$(document).on("click", "#refreshRiskDampak", function () {
+		var url = modul_name + "/refreshAnalisaRisk";
+		var id = $("#indikator_dampak").data('id');
+		var data = { "id_edit": id, "type": "dampak" }
+		_ajax_("post", $("#indikator_dampak"), data, '', url, "refresh_dampak");
+	})
+	
+	function refresh_likehood(result) {
+		$("#indikator_like").text(" Input Risk Indikator Likelihood [" + result + "]")
+		$("#indikator_like").attr("data-jml_like_indi", result)
+	}
+	
+	function refresh_dampak(result) {
+		$("#indikator_dampak").text(" Input Risk Indikator Dampak [" + result + "]")
+		$("#indikator_dampak").attr("data-jml_dampak_indi", result)
+	}
 $(document).on("click","#updateAktifitas", function () {
 	var parent = $(this).parent();
 	
@@ -622,7 +672,7 @@ $(document).on('change', '#aspek_risiko_id', function () {
 		$("#aspek_det").parent().parent().parent().hide()
 	}
 	var data = { 'id': id };
-	var target_combo = $("#like_id_3");
+	var target_combo = $(".like_id_3");
 	var url = "ajax/get-like-aspekrisiko";
 	_ajax_("post", parent, data, target_combo, url);
 })
@@ -636,13 +686,35 @@ $(document).on("change", "#like_id_3, #impact_id_3", function () {
 	_ajax_("post", parent, data, '', url, 'result_inherent');
 });
 function result_inherent(hasil) {
+	var likeCode = parseFloat(hasil.like_code);
+	var impactCode = parseFloat(hasil.impact_code);
+	var x = likeCode * impactCode;
+	var isi= x + '-' + hasil.level_color;
+	$('#simpanResidual').removeClass('disabled');
+	if(x==0){
+		isi= "-";
+		$('#simpanResidual').addClass('disabled');
+	} 
+    $("#mit_level_residual_text").val(isi);
+    $("input[name=\"mit_like_id\"]").val(hasil.level_risk_no);
+    $("input[name=\"mit_impact_id\"]").val(hasil.impact);
+
+    $("input[name=\"level_color\"]").val(hasil.level_color);
+    $("input[name=\"color\"]").val(hasil.color);
+    $("input[name=\"color_text\"]").val(hasil.color_text);
+    $("input[name=\"score\"]").val(hasil.score);
+
+
+    $("#mit_level_residual_text").css("background-color", hasil.color);
+    $("#mit_level_residual_text").css("color", hasil.color_text);
+
 
     $("#risiko_inherent_text").val(parseFloat(hasil.like_code) * parseFloat(hasil.impact_code));
-    $("#level_inherent_text").val(hasil.level_color);
+    $("#mit_level_residual_text").val(hasil.level_color);
     $("input[name=\"risiko_inherent\"]").val(hasil.id);
     $("input[name=\"level_inherent\"]").val(hasil.level_risk_no);
-    $("#level_inherent_text").css("background-color", hasil.color);
-    $("#level_inherent_text").css("color", hasil.color_text);
+    $("#mit_level_residual_text").css("background-color", hasil.color);
+    $("#mit_level_residual_text").css("color", hasil.color_text);
 
 
 }

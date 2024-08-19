@@ -2273,7 +2273,7 @@ class Progress_Mitigasi extends MY_Controller
 
 		$urutTemp = [ 1, 7, 8, 9, 10 ];
 
-		$like_semi_form = '<select name="like_id_3" id="like_id_3" class="form-control select" style="width:100%;">';
+		$like_semi_form = '<select name="like_id_3" id="like_id_3" class="form-control like_id_3 select" style="width:100%;">';
 		if( ! empty( $like_semi ) )
 		{
 
@@ -2390,6 +2390,46 @@ class Progress_Mitigasi extends MY_Controller
     echo json_encode($info);
 }
 
+function indikator_dampak()
+	{
+		$post                = $this->input->post();
+		$data['parent']      = $post;
+		$data['dampak_indi'] = [];
+		$tipe_kri            = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'tipe-kri' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+		$data['tipe_kri']    = form_dropdown( 'tipe_kri[]', $tipe_kri, '', 'class="form-control tipe_kri select" id="tipe_kri"' );
+		$data['kri']         = form_dropdown( 'kri[]', [], '', 'class="form-control kri select" id="kri"' );
+		$data['detail']      = form_input( 'detail[]', '', 'class="form-control detail_input" id="detail_input"' );
 
+		$rows = $this->db->where( 'bk_tipe', $post['bk_tipe'] )->where( 'rcsa_detail_id', intval( $post['rcsa_detail_no'] ) )->or_group_start()->where( 'rcsa_detail_id', 0 )->where( 'created_by', $this->ion_auth->get_user_name() )->group_end()->get( _TBL_VIEW_RCSA_DET_DAMPAK_INDI )->result_array();
+
+		if( $post['bk_tipe'] == 1 )
+		{
+			$disabeld          = '';
+			$data['sub_title'] = 'Inheren';
+		}
+		else
+		{
+			$data['sub_title'] = 'Residual';
+			$disabeld          = '';
+			// $disabeld=' readonly="readonly" ';
+		}
+
+		foreach( $rows as &$row )
+		{
+			$tipe_kri            = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'tipe-kri' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+			$kri                 = $this->crud->combo_select( [ 'id', 'concat(urut,\' - \',data) as data' ] )->combo_where( 'pid', $row['jenis_kri_id'] )->combo_where( 'param_int', 2 )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+			$detail_input        = '';
+			$row['cbo_kri']      = form_dropdown( 'kri[]', $kri, $row['kri_id'], 'class="form-control kri select" id="kri"' );
+			$row['cbo_tipe_kri'] = form_dropdown( 'tipe_kri[]', $tipe_kri, $row['jenis_kri_id'], 'class="form-control tipe_kri select" ' . $disabeld . ' id="tipe_kri"' );
+			$row['detail_input'] = form_input( 'detail[]', $row['detail'], 'class="form-control detail_input ' . $row['detail'] . '" ' . $disabeld . ' id="detail_input"' );
+		}
+		unset( $row );
+
+		$data['list_dampak_indi'] = $rows;
+
+		$result['combo'] = $this->load->view( 'input-indikator-dampak', $data, TRUE );
+		header( 'Content-type: application/json' );
+		echo json_encode( $result );
+	}
 
 }

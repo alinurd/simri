@@ -72,13 +72,13 @@
                     <?= $identifikasi; ?>
                 </div>
                 <div class="tab-pane fade" id="content-tab-01">
-                    <?php
-                     $tipe = intval( $detail['tipe_analisa_no'] );
-                   
-                    $help = '';
-                    if (isset($idenContent['tipe_analisa']['help']))
-                        $help = $idenContent['tipe_analisa']['help'];
-                    ?>
+                    <!-- <?php
+                            $tipe = intval($detail['tipe_analisa_no']);
+
+                            $help = '';
+                            if (isset($idenContent['tipe_analisa']['help']))
+                                $help = $idenContent['tipe_analisa']['help'];
+                            ?>
                     <div class="form-group row">
                         <label
                             class="col-lg-3 col-form-label text-<?= $this->_preference_['align_label']; ?>"><?= $idenContent['tipe_analisa']['title'] . $help; ?></label>
@@ -87,7 +87,7 @@
                                 <?= $idenContent['tipe_analisa']['isi']; ?>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <?= $analisa; ?>
 
                 </div>
@@ -101,7 +101,7 @@
                 <div class="tab-pane fade active show" id="content-tab-04">
                     <?php
                     //  doi::dump($detail);
-                     $tipe = 3;
+                    $tipe = 3;
                     //  $tipe = intval( $detail['tipe_analisa_no'] );
                     $help = '';
                     if (isset($idenContent['tipe_analisa']['help']))
@@ -118,139 +118,132 @@
                     </div>
                     <div class="card" style="background-color: #ffffffb2;">
                         <div class="card-body">
-                        <div id="div_analisa_kualitatif" class="<?= ( $tipe != 1 ) ? 'd-none' : ''; ?>">
-    <?php
-    foreach( $idenContent['analisa_kualitatif'] as $key => $row ) :
-        $add  = FALSE;
-        $help = '';
+                            <div id="div_analisa_kualitatif" class="<?= ($tipe != 1) ? 'd-none' : ''; ?>">
+                                <?php
+                                foreach ($idenContent['analisa_kualitatif'] as $key => $row) :
+                                    $add  = FALSE;
+                                    $help = '';
 
-        $mandatori = FALSE;
-        if( isset( $row['mandatori'] ) )
-        {
-            $mandatori = $row['mandatori'];
-        }
-        $required = '';
-        if( $mandatori )
-        {
-            $required = '<sup class="text-danger">*)</sup>&nbsp;&nbsp;';
-        }
+                                    $mandatori = FALSE;
+                                    if (isset($row['mandatori'])) {
+                                        $mandatori = $row['mandatori'];
+                                    }
+                                    $required = '';
+                                    if ($mandatori) {
+                                        $required = '<sup class="text-danger">*)</sup>&nbsp;&nbsp;';
+                                    }
 
-        if( isset( $row['add'] ) )
-            $add = $row['add'];
-        if( isset( $row['help'] ) )
-            $help = $row['help'];
+                                    if (isset($row['add']))
+                                        $add = $row['add'];
+                                    if (isset($row['help']))
+                                        $help = $row['help'];
 
-        ?>
-        <div class="form-group row">
-            <label
-                class="col-lg-3 col-form-label text-<?= $this->_preference_['align_label']; ?>"><?= $required . $row['title'] . $help; ?></label>
-            <div class="col-lg-9">
-                <div class="form-group form-group-feedback form-group-feedback-right">
-                    <?= $row['isi']; ?>
-                    <?php if( $add ) :
-                        echo form_input( 'txt_' . $key, '', 'class="form-control d-none" id="txt_' . $key . '" placeholder="' . $row['title'] . '"' );
-                        ?>
-                        <div class="form-control-feedback text-primary form-control-feedback-lg pointer manual_combo"
-                            data-id="0" data-key="<?= $key; ?>" id="add_<?= $key; ?>"><i class="icon-plus3"></i></div>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-        <?php
-    endforeach; ?>
-</div>
-<div id="div_analisa_kuantitatif" class="<?= ( $tipe != 2 ) ? 'd-none' : ''; ?>">
-    <?php
-    foreach( $idenContent['analisa_kuantitatif'] as $key => $row ) :
-        $add  = FALSE;
-        $help = '';
+                                ?>
+                                    <div class="form-group row">
+                                        <label
+                                            class="col-lg-3 col-form-label text-<?= $this->_preference_['align_label']; ?>"><?= $required . $row['title'] . $help; ?></label>
+                                        <div class="col-lg-9">
+                                            <div class="form-group form-group-feedback form-group-feedback-right">
+                                                <?= $row['isi']; ?>
+                                                <?php if ($add) :
+                                                    echo form_input('txt_' . $key, '', 'class="form-control d-none" id="txt_' . $key . '" placeholder="' . $row['title'] . '"');
+                                                ?>
+                                                    <div class="form-control-feedback text-primary form-control-feedback-lg pointer manual_combo"
+                                                        data-id="0" data-key="<?= $key; ?>" id="add_<?= $key; ?>"><i class="icon-plus3"></i></div>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php
+                                endforeach; ?>
+                            </div>
+                            <div id="div_analisa_kuantitatif" class="<?= ($tipe != 2) ? 'd-none' : ''; ?>">
+                                <?php
+                                foreach ($idenContent['analisa_kuantitatif'] as $key => $row) :
+                                    $add  = FALSE;
+                                    $help = '';
 
-        $mandatori = FALSE;
-        if( isset( $row['mandatori'] ) )
-        {
-            $mandatori = $row['mandatori'];
-        }
-        $required = '';
-        if( $mandatori )
-        {
-            $required = '<sup class="text-danger">*)</sup>&nbsp;&nbsp;';
-        }
+                                    $mandatori = FALSE;
+                                    if (isset($row['mandatori'])) {
+                                        $mandatori = $row['mandatori'];
+                                    }
+                                    $required = '';
+                                    if ($mandatori) {
+                                        $required = '<sup class="text-danger">*)</sup>&nbsp;&nbsp;';
+                                    }
 
-        if( isset( $row['add'] ) )
-            $add = $row['add'];
-        if( isset( $row['help'] ) )
-            $help = $row['help'];
+                                    if (isset($row['add']))
+                                        $add = $row['add'];
+                                    if (isset($row['help']))
+                                        $help = $row['help'];
 
-        $help_popup = TRUE;
-        if( isset( $row['help_popup'] ) )
-        {
-            $help_popup = $row['help_popup'];
-        }
-        $br = '';
-        if( ! $help_popup )
-        {
-            $br = '<br/>';
-        }
-        ?>
-        <div class="form-group row">
-            <label
-                class="col-lg-3 col-form-label text-<?= $this->_preference_['align_label']; ?>"><?= $required . $row['title'] . $br . $help; ?></label>
-            <div class="col-lg-9">
-                <div class="form-group form-group-feedback form-group-feedback-right">
-                    <?= $row['isi']; ?>
-                    <?php if( $add ) :
-                        echo form_input( 'txt_' . $key, '', 'class="form-control d-none" id="txt_' . $key . '" placeholder="' . $row['title'] . '"' );
-                        ?>
-                        <div class="form-control-feedback text-primary form-control-feedback-lg pointer manual_combo"
-                            data-id="0" data-key="<?= $key; ?>" id="add_<?= $key; ?>"><i class="icon-plus3"></i>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-        <?php
-    endforeach; ?>
-</div>
-<div id="div_analisa_semi" class="<?= ( $tipe != 3 ) ? 'd-none' : ''; ?>">
-    <?php
-    foreach( $idenContent['analisa_semi'] as $key => $row ) :
-        $add       = FALSE;
-        $help      = '';
-        $mandatori = FALSE;
-        if( isset( $row['mandatori'] ) )
-        {
-            $mandatori = $row['mandatori'];
-        }
-        $required = '';
-        if( $mandatori )
-        {
-            $required = '<sup class="text-danger">*)</sup>&nbsp;&nbsp;';
-        }
-        if( isset( $row['add'] ) )
-            $add = $row['add'];
-        if( isset( $row['help'] ) )
-            $help = $row['help'];
+                                    $help_popup = TRUE;
+                                    if (isset($row['help_popup'])) {
+                                        $help_popup = $row['help_popup'];
+                                    }
+                                    $br = '';
+                                    if (! $help_popup) {
+                                        $br = '<br/>';
+                                    }
+                                ?>
+                                    <div class="form-group row">
+                                        <label
+                                            class="col-lg-3 col-form-label text-<?= $this->_preference_['align_label']; ?>"><?= $required . $row['title'] . $br . $help; ?></label>
+                                        <div class="col-lg-9">
+                                            <div class="form-group form-group-feedback form-group-feedback-right">
+                                                <?= $row['isi']; ?>
+                                                <?php if ($add) :
+                                                    echo form_input('txt_' . $key, '', 'class="form-control d-none" id="txt_' . $key . '" placeholder="' . $row['title'] . '"');
+                                                ?>
+                                                    <div class="form-control-feedback text-primary form-control-feedback-lg pointer manual_combo"
+                                                        data-id="0" data-key="<?= $key; ?>" id="add_<?= $key; ?>"><i class="icon-plus3"></i>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php
+                                endforeach; ?>
+                            </div>
+                            <div id="div_analisa_semi" class="<?= ($tipe != 3) ? 'd-none' : ''; ?>">
+                                <?php
+                                foreach ($idenContent['analisa_semi'] as $key => $row) :
+                                    $add       = FALSE;
+                                    $help      = '';
+                                    $mandatori = FALSE;
+                                    if (isset($row['mandatori'])) {
+                                        $mandatori = $row['mandatori'];
+                                    }
+                                    $required = '';
+                                    if ($mandatori) {
+                                        $required = '<sup class="text-danger">*)</sup>&nbsp;&nbsp;';
+                                    }
+                                    if (isset($row['add']))
+                                        $add = $row['add'];
+                                    if (isset($row['help']))
+                                        $help = $row['help'];
 
-        ?>
+                                ?>
 
-        <div class="form-group row">
-            <label
-                class="col-lg-3 col-form-label text-<?= $this->_preference_['align_label']; ?>"><?= $required . $row['title'] . $help; ?></label>
-            <div class="col-lg-9">
-                <div class="form-group form-group-feedback form-group-feedback-right">
-                    <?= $row['isi']; ?>
-                    <?php if( $add ) :
-                        echo form_input( 'txt_' . $key, '', 'class="form-control d-none" id="txt_' . $key . '" placeholder="' . $row['title'] . '"' );
-                        ?>
-                        <div class="form-control-feedback text-primary form-control-feedback-lg pointer manual_combo"
-                            data-id="0" data-key="<?= $key; ?>" id="add_<?= $key; ?>"><i class="icon-plus3"></i></div>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-        <?php
-    endforeach; ?>
-</div>
+                                    <div class="form-group row">
+                                        <label
+                                            class="col-lg-3 col-form-label text-<?= $this->_preference_['align_label']; ?>"><?= $required . $row['title'] . $help; ?></label>
+                                        <div class="col-lg-9">
+                                            <div class="form-group form-group-feedback form-group-feedback-right">
+                                                <?= $row['isi']; ?>
+                                                <?php if ($add) :
+                                                    echo form_input('txt_' . $key, '', 'class="form-control d-none" id="txt_' . $key . '" placeholder="' . $row['title'] . '"');
+                                                ?>
+                                                    <div class="form-control-feedback text-primary form-control-feedback-lg pointer manual_combo"
+                                                        data-id="0" data-key="<?= $key; ?>" id="add_<?= $key; ?>"><i class="icon-plus3"></i></div>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php
+                                endforeach; ?>
+                            </div>
+                            <?= $level ?>
                             <!-- <table class="table">
                                 <tr>
                                     <td width="130px">Residual Likelihood</td>
