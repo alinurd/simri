@@ -396,6 +396,7 @@ class Progress_Mitigasi extends MY_Controller
 		$info['content']=$this->edit_identifikasi($rcsa_detail['rcsa_id'], $rcsa_detail['id']);
 
 		$info['mit']= $this->data->getMonthlyMonitoring($id, $month);
+		$info['idenContent'] = $this->identifikasi_content($rcsa_detail, $info['parent']);
 
 		$content = $this->load->view('update-monitoring', $info, true);
 		$configuration = [
@@ -1691,6 +1692,7 @@ class Progress_Mitigasi extends MY_Controller
 		$data['evaluasi']      = $this->load->view('evaluasi-risiko', $data, TRUE);
 		$data['target']        = $this->load->view('target-risiko', $data, TRUE);
 		$data['hidden']        = ['rcsa_id' => $id, 'rcsa_detail_id' => $edit];
+		$data['detvail']          = $this->identifikasi_content($rcsa_detail, $data['parent']);
 		$hasil['combo']        = $this->load->view('update-monitoring', $data, TRUE);
 		return $hasil;
 		
