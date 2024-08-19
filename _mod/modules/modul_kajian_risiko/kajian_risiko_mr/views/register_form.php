@@ -388,7 +388,10 @@
                                         <b><i class="icon-exit"></i></b>Back</a>
                                 </div>
                                 <div class="col-md-6">
-                                    <?php if( ! empty( $disabledSubmit ) )
+                                <button type="button" id="btn-submit-register"
+                                            class="btn bg-success btn-labeled btn-labeled-left pull-right">
+                                            <b><i class="icon-checkmark-circle"></i></b>Save</button>
+                                    <!-- <?php if( ! empty( $disabledSubmit ) )
                                     { ?>
                                         <button type="button"
                                             class="btn bg-success btn-labeled btn-labeled-left pull-right <?= $disabledSubmit ?>">
@@ -399,7 +402,7 @@
                                         <button type="button" id="btn-submit-register"
                                             class="btn bg-success btn-labeled btn-labeled-left pull-right">
                                             <b><i class="icon-checkmark-circle"></i></b>Save</button>
-                                    <?php } ?>
+                                    <?php } ?> -->
                                 </div>
                             </div>
                         </div>
