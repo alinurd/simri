@@ -64,3 +64,4 @@
 </div>
 <?php $this->load->view( "register_" . $btn_view, $register ); ?>
 <?php $this->load->view( "register_" . $view, $register ); ?>
+<?php $this->load->view( "register_upload_dokumen_mr", $register ) ?>

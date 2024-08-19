@@ -82,4 +82,3 @@
         </div>
     </div>
 </div>
-<?php $this->load->view( "register_upload_dokumen_mr", $register ) ?>
