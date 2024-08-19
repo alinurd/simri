@@ -576,9 +576,12 @@ function reset_approval(hasil) {
 
 $(document).on("click", "#simpanResidual", function () {
 	var parent = $(this).parent().parent().parent();
-	var like = $("#mit_like_id").val();
-	var impact = $("#mit_impact_id").val();
-	var impact = $("#mit_impact_id").val();
+	var like = $("#like_id_3").val();
+	var aspek = $("#aspek_risiko_id").val();
+	// var impact = $("#mit_impact_id").val();
+	// var impact = $("#mit_impact_id").val();
+	var impact = $('input[name="impact_id_3"]').val();
+	var impact = $('input[name="impact_id_3"]').val();
 
 	var color = $('input[name="color"]').val();
 	var level_color = $('input[name="level_color"]').val();
@@ -588,6 +591,7 @@ $(document).on("click", "#simpanResidual", function () {
 	var month = $('input[name="month"]').val();
 	var id_detail = $('input[name="id_detail"]').val();
 	var data = {
+		aspek: aspek,
 		like: like,
 		impact: impact,
 		color_text: color_text,
@@ -674,12 +678,13 @@ $(document).on("click", "#updateAktifitas", function () {
 $(document).on("change", "#aspek_risiko_id", function () {
 	var parent = $(this).parent().parent().parent();
 	var id = $(this).val();
+	console.log(id)
 	var text = $(this).find("option:selected").text();
 	if (text == "dll") {
 		$("#aspek_det").parent().parent().parent().show();
 	} else {
 		$("#aspek_det").parent().parent().parent().hide();
-	}
+	}	
 	var data = { id: id };
 	var target_combo = $(".like_id_3");
 	var url = "ajax/get-like-aspekrisiko";

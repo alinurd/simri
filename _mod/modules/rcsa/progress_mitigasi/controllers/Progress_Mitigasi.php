@@ -1659,7 +1659,7 @@ class Progress_Mitigasi extends MY_Controller
 		$data['mode_text'] = _l('fld_mode_edit'); //'Mode : Update data';
 		$cbominggu         = $this->data->get_data_minggu($data['parent']['term_id']);
 		$minggu            = ($data['parent']['minggu_id']) ? $cbominggu[$data['parent']['minggu_id']] : '';
-
+// 
 		$data['parent']['bulan'] = (isset($this->term[$data['parent']['term_id']])) ? $this->term[$data['parent']['term_id']] . ' - ' . $minggu : '-';
 		$data['info_parent']     = $this->load->view('info-parent', $data, TRUE);
 		$data['detail']          = $this->identifikasi_content($rcsa_detail, $data['parent']);
@@ -1692,7 +1692,7 @@ class Progress_Mitigasi extends MY_Controller
 		$data['evaluasi']      = $this->load->view('evaluasi-risiko', $data, TRUE);
 		$data['target']        = $this->load->view('target-risiko', $data, TRUE);
 		$data['hidden']        = ['rcsa_id' => $id, 'rcsa_detail_id' => $edit];
-		$data['detvail']          = $this->identifikasi_content($rcsa_detail, $data['parent']);
+		// $data['detvail']          = $this->identifikasi_content($rcsa_detail, $data['parent']);
 		$hasil['combo']        = $this->load->view('update-monitoring', $data, TRUE);
 		return $hasil;
 		
@@ -2001,7 +2001,12 @@ class Progress_Mitigasi extends MY_Controller
 
 	function identifikasi_content($data = [], $parent = [])
 	{
-		$mode    = 'add';
+		$uriId = intval($this->uri->segment(3));
+		$uriMonth = intval($this->uri->segment(4));
+		$residual = $this->db->where('rcsa_detail_id', $uriId)->where('month', $uriMonth)->get("il_update_residual")->row_array();
+
+// doi::dump($residual);
+ 		$mode    = 'add';
 		$id_edit = 0;
 		if ($data) {
 			$mode    = 'edit';
@@ -2046,11 +2051,10 @@ class Progress_Mitigasi extends MY_Controller
 
 		$aspek     = 0;
 		$aspek_det = "";
-		if ($data) {
+		if ($residual) {
 			if ($data['tipe_analisa_no'] == 2 || $data['tipe_analisa_no'] == 3) {
-				$aspek = $data['aspek_risiko_id'];
+				$aspek = $residual['aspek'];
 			} else {
-
 				$aspek = 0;
 			}
 
@@ -2279,7 +2283,7 @@ class Progress_Mitigasi extends MY_Controller
 
 			foreach( $like_semi as $key => $value )
 			{
-				$sel            = ( $data ) ? $data['like_id'] : '';
+				$sel            = ( $residual ) ? $residual['like'] : '';
 				$selected       = ( $sel == $key ) ? 'selected' : '';
 				$k              = intval( $key ) - 1;
 				$dataTemp       = ( isset( $urutTemp[$k] ) ) ? $urutTemp[$k] : 0;
