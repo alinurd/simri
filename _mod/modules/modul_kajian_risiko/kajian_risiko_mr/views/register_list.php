@@ -41,7 +41,7 @@
                                         </td>
                                         <td class="text-center"><?= $vRegister["created_at"] ?></td>
                                         <td class="text-center">
-                                            <?php if( ! empty( $disabledSubmit ) )
+                                            <!-- <?php if( ! empty( $disabledSubmit ) )
                                             { ?>
                                                 <button type="button"
                                                     class="btn btn-labeled button-action bg-success btn-sm <?= $disabledSubmit ?>"><i
@@ -56,7 +56,13 @@
                                                     class="btn btn-labeled button-action bg-danger delete btn-sm"><i
                                                         class="icon-bin"></i></a>
 
-                                            <?php } ?>
+                                            <?php } ?> -->
+                                            <a href="<?= $btnEdit . $vRegister["id"] ?>"
+                                                class="btn btn-labeled button-action bg-primary btn-sm"><i
+                                                    class="icon-pencil"></i></a>
+                                            <a href="<?= $btnDelete . $vRegister["id"] ?>"
+                                                class="btn btn-labeled button-action bg-danger delete btn-sm"><i
+                                                    class="icon-bin"></i></a>
                                         </td>
                                     </tr>
                                     <?php
