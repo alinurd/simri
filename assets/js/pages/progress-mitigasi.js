@@ -582,10 +582,13 @@ $(document).on("click", "#simpanResidual", function () {
 console.log(like_id_3)
 	var impact = $('input[name="impact_id_3"]').val();
 
-	var aspek = $("#aspek_risiko_id").val();
+	// var aspek = $("#aspek_risiko_id").val();
 
 	var like = $('input[name="mit_like_id"]').val();
-
+	var likeCek = $('input[name="mit_like_id_cek"]').val();
+	if(likeCek){
+		like=likeCek
+	}
 	var color = $('input[name="color"]').val();
 	var level_color = $('input[name="level_color"]').val();
 	var id_edit = $('input[name="id_edit"]').val();
@@ -682,7 +685,7 @@ $(document).on("click", "#updateAktifitas", function () {
 $(document).on("change", "#aspek_risiko_id", function () {
 	var parent = $(this).parent().parent().parent();
 	var id = $(this).val();
-	console.log(id)
+	// console.log(id)
 	$('input[name="aspek"]').val(id);
 	var text = $(this).find("option:selected").text();
 	if (text == "dll") {
@@ -700,7 +703,11 @@ $(document).on("change", "#like_id_3", function () {
 	// mit_like_id
 	var like = $(this).val();
 	var impact = $('input[name="impact_id_3"]').val();
-	$('input[name="mit_like_id"]').val(like);
+	$('input[name="mit_like_id_cek"]').val(like);
+	console.log(like)
+	var mit_like_id_cek = $('input[name="mit_like_id_cek"]').val();
+	console.log(mit_like_id_cek)
+
 	var data = { like: like, impact: impact };
 	var url = "ajax/get-risiko-inherent-semi";
 	_ajax_("post", parent, data, "", url, "resultInherent");

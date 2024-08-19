@@ -243,8 +243,16 @@
                                 <?php
                                 endforeach; ?>
                             </div>
-                            <?= $level ?>
-                            <span class="btn btn-success<?= isset($mit) ? '' : ' disabled' ?>" id="simpanResidual">Simpan</span>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label text-right "> Level Risiko </label>
+                                <div class="col-lg-9">
+                                    <div class="form-group form-group-feedback form-group-feedback-right">
+                                        <?= $level ?><br>
+                                        <span class="btn btn-success<?= isset($mit) ? '' : ' disabled' ?>" id="simpanResidual">Simpan</span>
+
+                                    </div>
+                                </div>
+                            </div>
 
                             <!-- <table class="table">
                                 <tr>
