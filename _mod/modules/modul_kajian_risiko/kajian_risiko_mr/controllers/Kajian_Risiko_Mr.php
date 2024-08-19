@@ -425,13 +425,12 @@ class Kajian_Risiko_Mr extends MY_Controller
 				$action = "list";
 				break;
 		}
-		$dataView["view"]                    = $action;
-		$dataView["btn_view"]                = $btn_view;
-		$dataView["formUrl"]                 = base_url( $this->modul_name . "/" . __FUNCTION__ . "/" . $actionForm . "/" . $idkajian . "/" . $idregister );
-		$dataView["btnEdit"]                 = base_url( $this->modul_name . "/" . __FUNCTION__ . "/edit/" . $idkajian . "/" );
-		$dataView["btnDelete"]               = base_url( $this->modul_name . "/" . __FUNCTION__ . "/delete/" . $idkajian . "/" );
-		$dataView["register"]                = $this->setDataViewRegister( $dbObj->get( _TBL_VIEW_KAJIAN_RISIKO_REGISTER )->result_array() );
-		$dataView["register"]["module_name"] = $this->modul_name;
+		$dataView["view"]      = $action;
+		$dataView["btn_view"]  = $btn_view;
+		$dataView["formUrl"]   = base_url( $this->modul_name . "/" . __FUNCTION__ . "/" . $actionForm . "/" . $idkajian . "/" . $idregister );
+		$dataView["btnEdit"]   = base_url( $this->modul_name . "/" . __FUNCTION__ . "/edit/" . $idkajian . "/" );
+		$dataView["btnDelete"] = base_url( $this->modul_name . "/" . __FUNCTION__ . "/delete/" . $idkajian . "/" );
+		$dataView["register"]  = $this->setDataViewRegister( $dbObj->get( _TBL_VIEW_KAJIAN_RISIKO_REGISTER )->result_array() );
 		if( $actionForm == "edit" )
 		{
 			$dataView["mitigasi"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_MITIGASI, [ "id_kajian_risiko_register" => $idregister ] )->result_array();
