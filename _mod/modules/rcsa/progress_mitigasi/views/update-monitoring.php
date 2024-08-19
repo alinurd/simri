@@ -101,7 +101,8 @@
                 <div class="tab-pane fade active show" id="content-tab-04">
                     <?php
                     //  doi::dump($detail);
-                     $tipe = intval( $detail['tipe_analisa_no'] );
+                     $tipe = 3;
+                    //  $tipe = intval( $detail['tipe_analisa_no'] );
                     $help = '';
                     if (isset($idenContent['tipe_analisa']['help']))
                         $help = $idenContent['tipe_analisa']['help'];

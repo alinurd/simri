@@ -396,7 +396,7 @@ class Progress_Mitigasi extends MY_Controller
 		$info['content']=$this->edit_identifikasi($rcsa_detail['rcsa_id'], $rcsa_detail['id']);
 
 		$info['mit']= $this->data->getMonthlyMonitoring($id, $month);
-		$info['idenContent'] = $this->identifikasi_content($rcsa_detail, $info['parent']);
+		$info['idenContent'] = $this->identifikasi_content($rcsa_detail, $data['parent']);
 
 		$content = $this->load->view('update-monitoring', $info, true);
 		$configuration = [

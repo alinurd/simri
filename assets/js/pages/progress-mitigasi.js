@@ -612,6 +612,40 @@ $(document).on("click","#updateAktifitas", function () {
  	var url = modul_name+"/form-update-aktifitas";
 	_ajax_("post", parent, data, '', url, 'aktififasMod');
 })
+$(document).on('change', '#aspek_risiko_id', function () {
+	var parent = $(this).parent().parent().parent();
+	var id = $(this).val();
+	var text = $(this).find("option:selected").text();
+	if (text == "dll") {
+		$("#aspek_det").parent().parent().parent().show()
+	} else {
+		$("#aspek_det").parent().parent().parent().hide()
+	}
+	var data = { 'id': id };
+	var target_combo = $("#like_id_3");
+	var url = "ajax/get-like-aspekrisiko";
+	_ajax_("post", parent, data, target_combo, url);
+})
+$(document).on("change", "#like_id_3, #impact_id_3", function () {
+	var parent = $(this).parent();
+	var like = $("#like_id_3").val();
+
+	var impact = $('input[name="impact_id_3"]').val();
+	var data = { 'like': like, 'impact': impact };
+	var url = "ajax/get-risiko-inherent-semi";
+	_ajax_("post", parent, data, '', url, 'result_inherent');
+});
+function result_inherent(hasil) {
+
+    $("#risiko_inherent_text").val(parseFloat(hasil.like_code) * parseFloat(hasil.impact_code));
+    $("#level_inherent_text").val(hasil.level_color);
+    $("input[name=\"risiko_inherent\"]").val(hasil.id);
+    $("input[name=\"level_inherent\"]").val(hasil.level_risk_no);
+    $("#level_inherent_text").css("background-color", hasil.color);
+    $("#level_inherent_text").css("color", hasil.color_text);
+
+
+}
 
 function aktififasMod(hasil){
 	$("#modal_general").find(".modal-title").html(hasil.title);
