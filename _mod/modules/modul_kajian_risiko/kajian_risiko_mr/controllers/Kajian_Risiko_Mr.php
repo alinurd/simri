@@ -137,7 +137,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 		'label' => 'Risk Register',
 		'id'    => 'btn-kajian-risk-register',
 		'class' => 'text-center text-primary',
-		'icon'  => 'icon-file-check2',
+		'icon'  => 'icon-file-upload2',
 		'url'   => base_url( $this->modul_name . "/register/propose/" ),
 		'attr'  => ' target="_self" ',
 		'align' => 'center',
