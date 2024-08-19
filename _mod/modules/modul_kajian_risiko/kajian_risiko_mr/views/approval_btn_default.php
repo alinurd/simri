@@ -9,7 +9,7 @@
                 <b><i class="icon-history"></i></b>History</button> -->
             <a class="btn bg-primary btn-labeled btn-labeled-left button-action pull-right"
                 href="<?= base_url( $module_name . "/register/list/{$kajian_id}" ) ?>">
-                <b><i class="icon-file-text2"></i></b>Risk Register </a>
+                <b><i class="icon-folder-upload2"></i></b>Risk Register </a>
         </div>
     </div>
 </div>
