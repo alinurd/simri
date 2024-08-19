@@ -25,8 +25,26 @@
                         </tr>
                         <tr>
                             <td><em>Status</em></td>
-                            <td><span
-                                    class="btn btn-sm disabled btn-block  <?= ( ! empty( $headerRisk["status"] ) && $headerRisk["status"] == 1 ? "btn-success" : "btn-danger" ) ?>"><strong><?= ( ! empty( $headerRisk["status"] ) ? "SUBMITTED" : "DRAFT" ) ?></strong></span>
+                            <td><?php
+                            if( ! empty( $headerRisk["status"] ) )
+                            {
+                                switch( $headerRisk["status"] )
+                                {
+                                    case 1: ?>
+                                            <span
+                                                class="btn btn-sm disabled btn-block btn-success"><strong>SUBMITTED</strong></span>
+                                            <?php break; ?>
+
+                                        <?php case 2: ?>
+                                            <span class="btn btn-sm disabled btn-block btn-warning"><strong>REVISI</strong></span>
+                                            <?php break; ?>
+
+                                        <?php default:
+
+                                        break;
+                                }
+                            }
+                            ?>
                             </td>
                         </tr>
                         <?php if( ! empty( $headerRisk["date_submit"] ) )

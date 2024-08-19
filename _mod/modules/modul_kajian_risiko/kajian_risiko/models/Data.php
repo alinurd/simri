@@ -67,6 +67,11 @@ class Data extends MX_Model
 		return $this->db->query( $query )->row_array()["AUTO_INCREMENT"];
 
 	}
+	function getDataHistoryKajian( $idkajian )
+	{
+		$queryHistoryKajian = "select ikrah.*,ikr.name,ikr.tiket_terbit from il_kajian_risiko_approval_history ikrah join il_kajian_risiko ikr on ikrah.id_kajian_risiko =ikr.id where ikr.id={$idkajian} ";
+		return $this->db->query( $queryHistoryKajian )->result_array();
+	}
 }
 /* End of file app_login_model.php */
 /* Location: ./application/models/app_login_model.php */

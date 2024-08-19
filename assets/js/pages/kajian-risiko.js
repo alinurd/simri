@@ -586,6 +586,97 @@ $(document).on("click", "#btn-submit-register", function (e) {
     }
 })
 
+$(document).on("click", "#btn-upload-dokument-mr", function (e) {
+    var url = $(this).attr("data-url");
+    var id = $(this).attr("data-id");
+    $.ajax({
+        type: "post",
+        url: url,
+        data: { csrf_token_name: csrf_hash },
+        cache: false,
+        dataType: "html",
+        beforeSend: function () {
+            looding('light', $("#btn-upload-dokument-mr"));
+        },
+        success: function (result) {
+            $("#result-dokumen").html(result);
+            $("#modal_dokumen_mr").modal("show");
+        },
+        error: function () {
+            alert('Error While Showing Upload Dokumen Risiko MR');
+        },
+        complete: function () {
+            stopLooding($("#btn-upload-dokument-mr"));
+        }
+    })
+
+})
+
+$(document).on("click", "#submit-dokumen-mr", function (e) {
+    var formUpload = new FormData();
+    var url = $(this).attr("data-url");
+    var id = $(this).attr("data-id");
+    var getfileexist = $("#file-exist").val();
+    var getFileInput = document.getElementById('dokumen-mr-input').files[0];
+    formUpload.append("id", id);
+    formUpload.append("file", getFileInput);
+    formUpload.append("fileexist", getfileexist);
+    formUpload.append(csrf_token_name, csrf_hash);
+    $.ajax({
+        type: "post",
+        url: url,
+        data: formUpload,
+        enctype: 'multipart/form-data',
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "html",
+        beforeSend: function () {
+            looding('light', $("#card-dokumen-risiko-mr"));
+        },
+        success: function (result) {
+            $("#result-dokumen").html(result);
+        },
+        error: function () {
+            alert('Error While Showing Risk Register Kajian Risiko');
+        },
+        complete: function () {
+            stopLooding($("#card-dokumen-risiko-mr"));
+        }
+    })
+
+})
+
+$(document).on("click", "#btn-clear-dokumen", function (e) {
+    var formUpload = new FormData();
+    var url = $(this).attr("data-url");
+    var filename = $(this).attr("data-filename");
+
+    $.ajax({
+        type: "post",
+        url: url,
+        data: { csrf_token_name: csrf_hash, "filename": filename },
+        cache: false,
+        dataType: "html",
+        beforeSend: function () {
+            looding('light', $("#result-dokumen"));
+        },
+        success: function (result) {
+            $("#result-dokumen").html(result);
+        },
+        error: function () {
+            alert('Error While Showing Risk Register Kajian Risiko');
+        },
+        complete: function () {
+            stopLooding($("#result-dokumen"));
+        }
+    })
+})
+
+$(document).on('change', "#dokumen-mr-input", function () {
+    var filename = $(this).val().split("\\");
+    $("#label-dokumen-mr-input").html(filename[2]);
+});
 
 
 

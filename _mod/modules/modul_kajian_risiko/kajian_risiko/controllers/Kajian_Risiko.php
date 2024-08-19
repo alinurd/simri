@@ -19,11 +19,15 @@ class Kajian_Risiko extends MY_Controller
 		$this->addField( [ 'field' => 'id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ] );
 		$this->addField( [ 'field' => 'owner_id', 'title' => 'Risk Owner', 'input' => 'combo', 'values' => $this->cboDept, 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'name', 'title' => 'Nama Kajian Risiko', 'type' => 'string', 'search' => TRUE, "required" => TRUE ] );
-		$this->addField( [ 'field' => 'request_date', 'type' => 'date', "show" => FALSE ] );
-		$this->addField( [ 'field' => 'release_date', 'type' => 'date', "show" => FALSE ] );
+		$this->addField( [ 'field' => 'request_date', 'type' => 'date', "show" => FALSE, "save" => TRUE ] );
+		$this->addField( [ 'field' => 'release_date', 'type' => 'date', "show" => FALSE,] );
+		$this->addField( [ 'field' => 'tiket_terbit', 'type' => 'date', "show" => FALSE,] );
+		$this->addField( [ 'field' => 'urutan_tiket', 'type' => 'int', "show" => FALSE,] );
+		$this->addField( [ 'field' => 'status_approval', 'type' => 'string', "show" => FALSE,] );
 		$this->addField( [ 'field' => 'status', 'title' => 'Status', "show" => FALSE, 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_status, 'default' => 0, 'size' => 40 ] );
 		$this->addField( [ 'field' => 'link_dokumen_kajian', "title" => "Dokumen Self-Assessment" ] );
 		$this->addField( [ 'field' => 'link_dokumen_pendukung', "title" => "Dokumen Pendukung" ] );
+		$this->addField( [ 'field' => 'dokumen_mr', "show" => FALSE, "save" => FALSE ] );
 		$this->set_Close_Coloums();
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 		$this->set_Join_Table( [ 'pk' => $this->tbl_master ] );
@@ -33,8 +37,13 @@ class Kajian_Risiko extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'owner_id', "Risk Owner" );
 		$this->set_Table_List( $this->tbl_master, 'name', "Nama Kajian Risiko" );
 		$this->set_Table_List( $this->tbl_master, 'request_date', "Tanggal Permintaan" );
-		$this->set_Table_List( $this->tbl_master, 'release_date', "Tanggal Release" );
+		$this->set_Table_List( $this->tbl_master, 'release_date', "Max Tanggal Release" );
+		$this->set_Table_List( $this->tbl_master, 'tiket_terbit', "Tanggal Tiket Terbit" );
+		$this->set_Table_List( $this->tbl_master, 'urutan_tiket', "Urutan Tiket" );
+
 		$this->set_Table_List( $this->tbl_master, 'status', "Status", 0, "center" );
+		$this->set_Table_List( $this->tbl_master, 'status_approval', "Status Approval", 0, "center" );
+		$this->set_Table_List( $this->tbl_master, 'dokumen_mr', "Dokumen MR", 0, "center" );
 		$this->set_Close_Setting();
 
 		$this->set_Save_Table( _TBL_KAJIAN_RISIKO );
@@ -72,6 +81,7 @@ class Kajian_Risiko extends MY_Controller
 		return $this->load->view( 'material/input', $data, TRUE );
 
 	}
+
 	function listBox_status( $field, $rows, $value )
 	{
 		$statusContent = "";
@@ -83,12 +93,49 @@ class Kajian_Risiko extends MY_Controller
 			case 1:
 				$statusContent = "<span class='btn btn-sm btn-block btn-success' style='cursor:default'>SUBMITTED</span>";
 				break;
+			case 2:
+				$statusContent = "<span class='btn btn-sm btn-block btn-warning' style='cursor:default'>REVISI</span>";
+				break;
 
 			default:
 				$statusContent = "";
 				break;
 		}
 		return $statusContent;
+
+	}
+
+	function listBox_status_approval( $field, $rows, $value )
+	{
+		$statusContent = "";
+		switch( $value )
+		{
+			case "review":
+				$statusContent = "<span class='btn btn-sm btn-block btn-warning' style='cursor:default'>REVIEW</span>";
+				break;
+			case "rejected":
+				$statusContent = "<span class='btn btn-sm btn-block btn-danger' style='cursor:default'>REJECTED</span>";
+				break;
+
+			case "approved":
+				$statusContent = "<span class='btn btn-sm btn-block btn-success' style='cursor:default'>APPROVED</span>";
+				break;
+
+			default:
+				$statusContent = "";
+				break;
+		}
+		return $statusContent;
+
+	}
+
+	function listBox_dokumen_mr( $field, $rows, $value )
+	{
+		$filepath = base_url( "files/kajian_risiko_mr/" . $value );
+		if( ! empty( $value ) )
+		{
+			return $value = ( file_exists( "files/kajian_risiko_mr/" . $value ) ) ? "<a href='{$filepath}'><i class='icon-file-text'></i></a>" : "";
+		}
 
 	}
 
@@ -227,38 +274,57 @@ class Kajian_Risiko extends MY_Controller
 
 	function optionalPersonalButton( $button, $row )
 	{
-
-		$button['risk_register'] = [
-		 'label' => 'Risk Register',
-		 'id'    => 'btn-kajian-risk-register',
-		 'class' => 'text-primary',
-		 'icon'  => 'icon-file-upload2',
-		 'url'   => base_url( $this->modul_name . "/register/list/" ),
-		 'attr'  => ' target="_self" ',
-		 ];
-
-		if( $row["status"] == 1 )
+		if( ! empty( $row["release_date"] ) )
 		{
-			$button['submit'] = [
-			 'label' => 'Submitted',
-			 'id'    => 'btn_submitted',
-			 'class' => 'text-success disabled',
-			 'icon'  => 'icon-checkmark-circle',
-			 'url'   => "javascript:void(0);",
-			 'attr'  => '',
-			   ];
+			$button['risk_register'] = [
+			 'label' => 'Risk Register',
+			 'id'    => 'btn-kajian-risk-register',
+			 'class' => 'text-primary',
+			 'icon'  => 'icon-file-upload2',
+			 'url'   => base_url( $this->modul_name . "/register/list/" ),
+			 'attr'  => ' target="_self" ',
+			 ];
 		}
-		else
+		if( $row["status"] != 1 )
 		{
+			// $button['submit'] = [
+			//  'label' => 'Submitted',
+			//  'id'    => 'btn_submitted',
+			//  'class' => 'text-success disabled',
+			//  'icon'  => 'icon-checkmark-circle',
+			//  'url'   => "javascript:void(0);",
+			//  'attr'  => '',
+			//    ];
 			$button['propose'] = [
-			 'label' => 'Submit',
+			 'label' => 'SUBMIT',
 			 'id'    => 'btn_schedule_one',
-			 'class' => 'text-warning',
+			 'class' => 'text-success',
 			 'icon'  => 'icon-paperplane',
-			 'url'   => base_url( $this->modul_name . "/register/propose/" ),
+			 'url'   => base_url( $this->modul_name . "/register/submit/" ),
 			 'attr'  => ' target="_self" ',
 			   ];
 		}
+		// else
+		// {
+		// 	$button['propose'] = [
+		// 	 'label' => 'SUBMIT',
+		// 	 'id'    => 'btn_schedule_one',
+		// 	 'class' => 'text-success',
+		// 	 'icon'  => 'icon-paperplane',
+		// 	 'url'   => base_url( $this->modul_name . "/register/submit/" ),
+		// 	 'attr'  => ' target="_self" ',
+		// 	   ];
+		// }
+
+		$button['history'] = [
+		 'label' => 'History',
+		 'id'    => 'btn-history',
+		 'class' => 'text-warning',
+		 'icon'  => 'icon-history',
+		 'url'   => base_url( $this->modul_name . "/history/" ),
+		 'attr'  => ' target="_self" ',
+		 ];
+
 		return $button;
 	}
 
@@ -294,7 +360,10 @@ class Kajian_Risiko extends MY_Controller
 
 		if( $action == "submit" && $dataView["headerRisk"]["status"] != 1 )
 		{
-			$this->db->update( _TBL_KAJIAN_RISIKO, [ "status" => 1, "date_submit" => date( "Y-m-d H:i:s" ), "updated_at" => date( "Y-m-d H:i:s" ), "updated_by" => $this->ion_auth->get_user_name() ], [ "id" => $idkajian ] );
+			$this->db->update( _TBL_KAJIAN_RISIKO, [ "status" => 1, "date_submit" => date( "Y-m-d H:i:s" ), "updated_at" => date( "Y-m-d H:i:s" ), "updated_by" => $this->ion_auth->get_user_name(), "status_approval" => "review" ], [ "id" => $idkajian ] );
+			$this->proposeRisikoHistory( $idkajian );
+			$dataView["headerRisk"]["status"] = 1;
+			$this->session->set_flashdata( 'message_crud', "Berhasil Submit Data {$dataView["headerRisk"]['name']} !" );
 		}
 
 		$dataView["disabledSubmit"]  = ( $dataView["headerRisk"]["status"] == 1 ) ? "disabled" : "";
@@ -331,9 +400,12 @@ class Kajian_Risiko extends MY_Controller
 				$this->db->where( [ "id_kajian_risiko" => $idkajian ] );
 				break;
 			case 'submit':
+				redirect( $this->modul_name );
 				$action = "propose";
 				$actionForm = "propose";
 				$btn_view = "btn_propose";
+				$dataView["mapData"] = $this->data->getRowMapData( $idkajian );
+				$this->db->where( [ "id_kajian_risiko" => $idkajian ] );
 				break;
 			default:
 				$actionForm = "";
@@ -513,6 +585,184 @@ class Kajian_Risiko extends MY_Controller
 			header( 'Content-type: application/json' );
 			echo json_encode( $result );
 		}
+
+	}
+
+	function proposeRisikoHistory( $idkajidan )
+	{
+		$getdatakajian                     = $this->db->get_where( _TBL_KAJIAN_RISIKO, [ "id" => $idkajidan ] )->row_array();
+		$dataInsertHistoryFromSubmitKajian = [
+		 "id"               => generateIdString(),
+		 "id_kajian_risiko" => $idkajidan,
+		 "status_approval"  => $getdatakajian["status_approval"],
+		 "note"             => "",
+		 "created_at"       => date( "Y-m-d H:i:s" ),
+		 "created_by"       => $this->ion_auth->get_user_name(),
+		 "updated_at"       => date( "Y-m-d H:i:s" ),
+		 "updated_by"       => $this->ion_auth->get_user_name(),
+		];
+		$this->db->insert( _TBL_KAJIAN_RISIKO_APPROVAL_HISTORY, $dataInsertHistoryFromSubmitKajian );
+
+	}
+
+	function history( $idkajian )
+	{
+		$getdataHistory["dataview"] = $this->data->getDataHistoryKajian( $idkajian );
+		if( ! empty( $getdataHistory["dataview"] ) )
+		{
+			foreach( $getdataHistory["dataview"] as $kView => $vView )
+			{
+
+				switch( $vView["status_approval"] )
+				{
+					case "review":
+						$getdataHistory["dataview"][$kView]["status_approval"] = "<span class='btn btn-sm btn-block btn-warning disabled' style='cursor:default'>REVIEW</span>";
+						break;
+					case "rejected":
+						$getdataHistory["dataview"][$kView]["status_approval"] = "<span class='btn btn-sm btn-block btn-danger disabled' style='cursor:default'>REJECTED</span>";
+						break;
+
+					case "approved":
+						$getdataHistory["dataview"][$kView]["status_approval"] = "<span class='btn btn-sm btn-block btn-success disabled' style='cursor:default'>APPROVED</span>";
+						break;
+
+					default:
+						$getdataHistory["dataview"][$kView]["status_approval"] = "<span class='btn btn-sm btn-block btn-default disabled' style='cursor:default'> - </span>";
+						break;
+				}
+				;
+			}
+		}
+		$result        = $this->load->view( "history", $getdataHistory, TRUE );
+		$configuration = [
+		 'show_title_header'  => FALSE,
+		 'show_action_button' => FALSE,
+		   ];
+		$this->default_display( [ 'content' => $result, 'configuration' => $configuration ] );
+
+	}
+
+	function uploadDokumenMr( $idkajian )
+	{
+		$resultUpload = FALSE;
+		$content      = "";
+		$paramUpload  = [
+		 "path"        => "file/kajian_risiko_mr",
+		 "field"       => "file",
+		 "file_type"   => "gif|jpg|jpeg|png|pdf|xlsx|docx|ppt",
+		 "file_thumb"  => FALSE,
+		 "file_size"   => "10000",
+		 "file_random" => FALSE,
+		 "multi"       => FALSE,
+		 "image-no"    => FALSE,
+		];
+		if( ! empty( $_FILES["file"] ) )
+		{
+			$dataUpload["name"]     = generateIdString();
+			$dataUpload["type"]     = $_FILES["file"]["type"];
+			$dataUpload["tmp_name"] = $_FILES["file"]["tmp_name"];
+			$dataUpload["error"]    = $_FILES["file"]["error"];
+			$dataUpload["size"]     = $_FILES["file"]["size"];
+			if( ! empty( $this->input->post( "fileexist" ) ) )
+			{
+				unlink( "files/kajian_risiko_mr/" . $this->input->post( "fileexist" ) );
+			}
+			$getStatusUpload = $this->save_file( $paramUpload, $dataUpload );
+			$status          = explode( "/", $getStatusUpload );
+			$getnameFile     = $status[1];
+			if( $getnameFile != "error" )
+			{
+				$status = $this->db->update( _TBL_KAJIAN_RISIKO, [ "dokumen_mr" => $getnameFile ], [ "id" => $idkajian ] );
+				if( $status )
+				{
+					$dataview["filename"]    = ( file_exists( "files/kajian_risiko_mr/" . $getnameFile ) ) ? $getnameFile : "";
+					$dataview["urlclearbtn"] = base_url( "kajian-risiko/clearDokumen/" . $idkajian );
+					$content                 = $this->load->view( "ajax/upload-dokumen-mr", $dataview, TRUE );
+				}
+			}
+		}
+		echo $content;
+	}
+
+	function getDokumenMr( $idkajian )
+	{
+		$result                  = $this->db->get_where( _TBL_KAJIAN_RISIKO, [ "id" => $idkajian ] )->row_array()["dokumen_mr"];
+		$dataview["filename"]    = ( file_exists( "files/kajian_risiko_mr/" . $result ) ) ? $result : "";
+		$dataview["urlclearbtn"] = base_url( "kajian-risiko/clearDokumen/" . $idkajian );
+		$content                 = $this->load->view( "ajax/upload-dokumen-mr", $dataview, TRUE );
+		echo $content;
+	}
+
+	function clearDokumen( $idkajian )
+	{
+
+		$status = $this->db->update( _TBL_KAJIAN_RISIKO, [ "dokumen_mr" => NULL ], [ "id" => $idkajian ] );
+		if( $status )
+		{
+			unlink( "files/kajian_risiko_mr/" . $this->input->post( "filename" ) );
+		}
+		$result                  = $this->db->get_where( _TBL_KAJIAN_RISIKO, [ "id" => $idkajian ] )->row_array()["dokumen_mr"];
+		$dataview["filename"]    = ( file_exists( "files/kajian_risiko_mr/" . $result ) ) ? $result : "";
+		$dataview["urlclearbtn"] = base_url( "kajian-risiko/clearDokumen/" . $idkajian );
+		$content                 = $this->load->view( "ajax/upload-dokumen-mr", $dataview, TRUE );
+		echo $content;
+	}
+
+	function afterDelete( $id )
+	{
+		if( empty( $id[0] ) || ! is_numeric( (int) $id[0] ) )
+		{
+			return FALSE;
+		}
+		$getFile = $this->db->get_where( _TBL_KAJIAN_RISIKO_FILE, [ "id_kajian_risiko" => $id[0] ] )->result_array();
+		if( ! empty( $getFile ) )
+		{
+			foreach( $getFile as $kFile => $vFile )
+			{
+				if( ! empty( $vFile["server_filename"] ) )
+				{
+					$this->db->delete( _TBL_KAJIAN_RISIKO_FILE, [ "id" => $vFile["id"] ] );
+					if( file_exists( "files/kajian_risiko/" . $vFile["server_filename"] ) )
+					{
+						unlink( "files/kajian_risiko/" . $vFile["server_filename"] );
+					}
+				}
+			}
+		}
+
+		$getregister = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $id[0] ] )->result_array();
+		if( ! empty( $getregister ) )
+		{
+			foreach( $getregister as $kReg => $vReg )
+			{
+				$getMitigasi = $this->db->get_where( _TBL_KAJIAN_RISIKO_MITIGASI, [ "id_kajian_risiko_register" => $vReg["id"] ] )->result_array();
+				if( ! empty( $getMitigasi ) )
+				{
+					foreach( $getMitigasi as $kMitigasi => $vMitigasi )
+					{
+						$getMonitoring = $this->db->get_where( _TBL_KAJIAN_RISIKO_MONITORING, [ "id_kajian_risiko_mitigasi" => $vMitigasi["id"] ] )->result_array();
+						if( ! empty( $getMonitoring ) )
+						{
+							foreach( $getMonitoring as $kMonitoring => $vMonitoring )
+							{
+								if( ! empty( $vMonitoring["id"] ) )
+								{
+									$this->db->delete( _TBL_KAJIAN_RISIKO_MONITORING, [ "id_kajian_mitigasi" => $vMitigasi["id"] ] );
+									if( file_exists( "files/kajian_risiko_monitoring/" . $vMonitoring["dokumen_pendukung"] ) )
+									{
+										unlink( "files/kajian_risiko_monitoring/" . $vMonitoring["dokumen_pendukung"] );
+									}
+								}
+							}
+						}
+					}
+				}
+				$this->db->delete( _TBL_KAJIAN_RISIKO_MITIGASI, [ "id_kajian_risiko_register" => $vReg["id"] ] );
+			}
+		}
+		$this->db->delete( _TBL_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $id[0] ] );
+		$this->db->delete( _TBL_KAJIAN_RISIKO_APPROVAL_HISTORY, [ "id_kajian_risiko" => $id[0] ] );
+		return ( ! empty( $id ) ) ? TRUE : FALSE;
 
 	}
 }

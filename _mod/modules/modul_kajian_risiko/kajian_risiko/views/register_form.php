@@ -385,7 +385,7 @@
                                 <div class="col-md-6">
                                     <a class="btn bg-slate btn-labeled btn-labeled-left button-action "
                                         href="<?= base_url( $module_name . "/register/list/" . $kajian_id ) ?>">
-                                        <b><i class="icon-exit"></i></b>Back To List</a>
+                                        <b><i class="icon-exit"></i></b>Back</a>
                                 </div>
                                 <div class="col-md-6">
                                     <?php if( ! empty( $disabledSubmit ) )
