@@ -58,10 +58,10 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		switch( $value )
 		{
 			case 0:
-				$statusContent = "<span class='btn btn-sm btn-danger disabled' style='cursor:default'>DRAFT</span>";
+				$statusContent = "<span class='btn btn-sm btn-danger' style='cursor:default'>DRAFT</span>";
 				break;
 			case 1:
-				$statusContent = "<span class='btn btn-sm btn-success disabled' style='cursor:default'>SUBMITTED</span>";
+				$statusContent = "<span class='btn btn-sm btn-success' style='cursor:default'>SUBMITTED</span>";
 				break;
 
 			default:
