@@ -93,15 +93,19 @@
                 </div>
                 <div class="tab-pane fade" id="content-tab-02">
                     <?= $evaluasi; ?>
+                    
                 </div>
                 <div class="tab-pane fade" id="content-tab-03">
                     <?= $target; ?>
 
                 </div>
                 <div class="tab-pane fade active show" id="content-tab-04">
-                    <?php
+                    
+                    <div class="card" style="background-color: #ffffffb2;">
+                        <div class="card-body">
+                        <?php
                     //  doi::dump($detail);
-                    $tipe = 3;
+                    // $tipe = 3;
                     //  $tipe = intval( $detail['tipe_analisa_no'] );
                     $help = '';
                     if (isset($idenContent['tipe_analisa']['help']))
@@ -116,8 +120,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card" style="background-color: #ffffffb2;">
-                        <div class="card-body">
+
                             <div id="div_analisa_kualitatif" class="<?= ($tipe != 1) ? 'd-none' : ''; ?>">
                                 <?php
                                 foreach ($idenContent['analisa_kualitatif'] as $key => $row) :

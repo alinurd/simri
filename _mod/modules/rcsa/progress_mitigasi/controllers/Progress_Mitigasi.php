@@ -363,7 +363,7 @@ class Progress_Mitigasi extends MY_Controller
 		$info['monthParam'] = $month;
 
 		$impact       = $this->crud->combo_select(['id', 'concat(code,\' - \',level) as x'])->combo_where('active', 1)->combo_where('category', 'impact')->combo_tbl(_TBL_LEVEL)->get_combo()->result_combo();
-		$aspek     = 0;
+		// $aspek     = 0;
 		$like = $this->crud->combo_select(['id', 'concat(code,\' - \',level) as x'])->combo_where('active', 1)->combo_where('category', 'likelihood')->combo_tbl(_TBL_LEVEL)->get_combo()->result_combo();
 
 		$csslevel          = '';
@@ -2052,13 +2052,16 @@ class Progress_Mitigasi extends MY_Controller
 		$aspek     = 0;
 		$aspek_det = "";
 		if ($residual) {
+			$aspek = $residual['aspek'];
+		}elseif($data){
 			if ($data['tipe_analisa_no'] == 2 || $data['tipe_analisa_no'] == 3) {
-				$aspek = $residual['aspek'];
+				$aspek = $data['aspek_risiko_id'];
 			} else {
 				$aspek = 0;
 			}
-
 			$aspek_det = $data['aspek_det'];
+		}else{
+			$aspek = 0;
 		}
 		// dumps($aspek);
 		if ($aspek) {
