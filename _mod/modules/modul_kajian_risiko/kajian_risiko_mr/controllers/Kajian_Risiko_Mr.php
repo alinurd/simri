@@ -689,7 +689,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 				if( $status )
 				{
 					$dataview["filename"]    = ( file_exists( "files/kajian_risiko_mr/" . $getnameFile ) ) ? $getnameFile : "";
-					$dataview["urlclearbtn"] = base_url( "kajian-risiko/clearDokumen/" . $idkajian );
+					$dataview["urlclearbtn"] = base_url( $this->module_name . "/clearDokumen/" . $idkajian );
 					$content                 = $this->load->view( "ajax/upload-dokumen-mr", $dataview, TRUE );
 				}
 			}
