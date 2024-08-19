@@ -2340,6 +2340,7 @@ class Progress_Mitigasi extends MY_Controller
 {
     $post = $this->input->post(); 
     $like = $post['like'];
+    $aspek = $post['aspek'];
     $impact = $post['impact'];
     $id_detail = $post['id_detail']; 
      $month = $post['month']; 
@@ -2352,6 +2353,7 @@ class Progress_Mitigasi extends MY_Controller
 	
     $this->crud->crud_table("il_update_residual");
     $this->crud->crud_field('like', $like);
+    $this->crud->crud_field('aspek', $aspek);
     $this->crud->crud_field('impact', $impact);
 	
     $this->crud->crud_field('level_color', $level_color);
