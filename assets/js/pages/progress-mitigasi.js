@@ -576,12 +576,15 @@ function reset_approval(hasil) {
 
 $(document).on("click", "#simpanResidual", function () {
 	var parent = $(this).parent().parent().parent();
-	var like = $("#like_id_3").val();
+	// var aspek = $("#aspek_risiko_id").val();
+	var like_id_3 = $("#like_id_3").val();
+	var aspek = $("#aspek").val();
+console.log(like_id_3)
+	var impact = $('input[name="impact_id_3"]').val();
+
 	var aspek = $("#aspek_risiko_id").val();
-	// var impact = $("#mit_impact_id").val();
-	// var impact = $("#mit_impact_id").val();
-	var impact = $('input[name="impact_id_3"]').val();
-	var impact = $('input[name="impact_id_3"]').val();
+
+	var like = $('input[name="mit_like_id"]').val();
 
 	var color = $('input[name="color"]').val();
 	var level_color = $('input[name="level_color"]').val();
@@ -602,6 +605,7 @@ $(document).on("click", "#simpanResidual", function () {
 		id_detail: id_detail,
 		month: month,
 	};
+	console.log(data)
 	var url = modul_name + "/simpan-update-residual";
 	_ajax_("post", parent, data, "", url, "simpanResidual");
 });
@@ -679,12 +683,13 @@ $(document).on("change", "#aspek_risiko_id", function () {
 	var parent = $(this).parent().parent().parent();
 	var id = $(this).val();
 	console.log(id)
+	$('input[name="aspek"]').val(id);
 	var text = $(this).find("option:selected").text();
 	if (text == "dll") {
 		$("#aspek_det").parent().parent().parent().show();
 	} else {
 		$("#aspek_det").parent().parent().parent().hide();
-	}	
+	}
 	var data = { id: id };
 	var target_combo = $(".like_id_3");
 	var url = "ajax/get-like-aspekrisiko";
@@ -692,13 +697,15 @@ $(document).on("change", "#aspek_risiko_id", function () {
 });
 $(document).on("change", "#like_id_3", function () {
 	var parent = $(this).parent();
- 
+	// mit_like_id
 	var like = $(this).val();
 	var impact = $('input[name="impact_id_3"]').val();
+	$('input[name="mit_like_id"]').val(like);
 	var data = { like: like, impact: impact };
 	var url = "ajax/get-risiko-inherent-semi";
 	_ajax_("post", parent, data, "", url, "resultInherent");
 });
+
 function result_inherent(hasil) {
 	var likeCode = parseFloat(hasil.like_code);
 	var impactCode = parseFloat(hasil.impact_code);

@@ -2214,7 +2214,7 @@ class Progress_Mitigasi extends MY_Controller
 		$check1          = FALSE;
 		$check2          = TRUE;
 		$check3          = FALSE;
-		$tipe_analisa_no = 2;
+		// $tipe_analisa_no = 2;
 		if( $data )
 		{
 			$data['tipe_analisa_no'] = ( $data['tipe_analisa_no'] == 1 ) ? 2 : $data['tipe_analisa_no'];
@@ -2271,7 +2271,7 @@ class Progress_Mitigasi extends MY_Controller
 
 
 		/**========== */
-		$param['analisa_semi'][] = [ 'title' => _l( 'fld_indi_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'aspek_risiko_id', $aspek_risiko, $aspek, 'id="aspek_risiko_id" class="form-control select" style="width:100%;"' ) ];
+		$param['analisa_semi'][] = [ 'title' => _l( 'fld_indi_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'aspek_risiko_id', $aspek_risiko, $aspek, 'id="aspek_risiko_id" class="form-control select" style="width:100%;"' ).form_hidden( [ 'aspek' => ( $residual ) ? $residual['aspek'] : '' ], 'id="aspek"' ) ];
 
 		$param['analisa_semi'][] = [ 'title' => "Detail", 'help' => _h( "keterangan/Detail lainnya" ), 'mandatori' => FALSE, 'isi' => form_input( 'aspek_det', ( $data ) ? $data['aspek_det'] : '', 'id="aspek_det" class="form-control" style="width:100%;" ' ) ];
 
@@ -2291,9 +2291,9 @@ class Progress_Mitigasi extends MY_Controller
 			}
 		}
 		$like_semi_form .= '</select>';
-
+ 
 		// form_dropdown('like_id_3', $like_semi, ($data)?$data['like_id']:'', 'id="like_id_3" class="form-control select" style="width:100%;"')
-
+		
 		$param['analisa_semi'][] = [ 'title' => _l( 'fld_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => $like_semi_form ];
 
 		$param['analisa_semi'][] = [ 'title' => '', 'help' => '', 'isi' => '<span class="btn btn-primary legitRipple pointer"  data-rcsa="' . $parent['id'] . '" data-id="' . $id_edit . '" id="indikator_dampak" style="width:100%;"> Input Risk Indikator Dampak  [ ' . $jml_dampak_indi . ' ] </span>' .
@@ -2312,7 +2312,7 @@ class Progress_Mitigasi extends MY_Controller
 
 
 		$param['analisa2'][] = [ 'title' => _l( 'fld_risiko_inherent' ), 'help' => _h( 'help_risiko_inherent' ), 'mandatori' => TRUE, 'isi' => form_input( 'risiko_inherent_text', ( $data ) ? $data['risiko_inherent_text'] : '', 'class="form-control text-center" id="risiko_inherent_text" readonly="readonly" style="width:15%;"' ) . form_hidden( [ 'risiko_inherent' => ( $data ) ? $data['risiko_inherent'] : 0 ] ) ];
-		$param['analisa2'][] = [ 'title' => _l( 'fld_level_risiko' ), 'help' => _h( 'help_level_risiko' ), 'mandatori' => TRUE, 'isi' => form_input( 'level_inherent_text', ( $data ) ? $data['level_color'] : '', 'class="form-control text-center" id="level_inherent_text" readonly="readonly" style="width:30%;' . $csslevel . '"' ) . form_hidden( [ 'level_inherent' => ( $data ) ? $data['level_inherent'] : 0 ] ) ];
+		$param['analisa2'][] = [ 'title' => _l( 'fld_level_risiko' ), 'help' => _h( 'help_level_risiko' ), 'mandatori' => TRUE, 'isi' => form_input( 'level_inherent_text', ( $data ) ? $data['level_color'] : '', 'class="form-control text-center" id="level_inherent_text" readonly="readonly" style="width:30%;' . $csslevel . '"' ) . form_hidden( [ 'level_inherent' => ( $data ) ? $data['level_inherent'] : 0 ] ).form_hidden( [ 'mit_like_id' => ( $residual ) ? $residual['like'] : '' ], 'id="mit_like_id"' ) ];
 		$param['analisa2'][] = [ 'title' => _l( 'fld_nama_control' ), 'help' => _h( 'help_nama_control' ), 'mandatori' => FALSE, 'isi' => $kontrol ];
 		$param['analisa2'][] = [ 'title' => _l( 'fld_nama_control_checkbox' ), 'help' => _h( 'help_nama_control_checkbox' ), 'mandatori' => FALSE, 'isi' => $kontrolCheckbox ];
 		$param['analisa2'][] = [ 'title' => _l( 'fld_efek_kontrol' ), 'help' => _h( 'help_efek_kontrol' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'efek_kontrol', $efek_control, ( $data ) ? $data['efek_kontrol'] : '', 'id="efek_kontrol" class="form-control select" style="width:100%;"'.$disabled ) ];
