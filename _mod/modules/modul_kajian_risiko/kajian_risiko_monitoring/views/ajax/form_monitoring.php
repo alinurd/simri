@@ -79,11 +79,11 @@
                                                     for="dokumen_pendukung">Choose
                                                     file</label>
                                             </div>
-                                            <div class="mt-2">
-                                                <label style="color:red;font-size:10px"><i>*) Supported File :
-                                                        pdf, doc, docx, xls, xlsx</i>
-                                                </label>
-                                            </div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <label style="color:red;font-size:10px"><i>*) Supported File :
+                                                    pdf, doc, docx, xls, xlsx</i>
+                                            </label>
                                         </div>
                                         <input type="hidden" name="file_monitoring" id="file-monitoring"
                                             value="<?= ( ! empty( $formdata["dokumen_pendukung"] ) ? $formdata["dokumen_pendukung"] : "" ) ?>"
