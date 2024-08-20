@@ -153,43 +153,6 @@ function setPicselect(paramdatapic) {
     }
 }
 
-function deleteNotification(file) {
-    var notyConfirm = new Noty({
-        text: '<h6 class="mb-3">Please confirm your action</h6><label>are you sure you want to permanently delete this data ?</label>',
-        timeout: false,
-        modal: true,
-        layout: "center",
-        theme: "  p-0 bg-white",
-        closeWith: "button",
-        type: "confirm",
-        buttons: [
-            Noty.button("<i class='icon-undo2 mr-2'></i>Cancel", "btn btn-outline-secondary pull-left", function () {
-                notyConfirm.close();
-            }),
-            Noty.button(
-                '<i class="icon-trash mr-2"></i> Delete',
-                "btn btn-danger ml-1",
-                function () {
-                    notyConfirm.close();
-                    $.ajax({
-                        url: base_url + modul_name + "/deleteAttachmentFile",
-                        type: "POST",
-                        dataType: "Json",
-                        data: { 'id': file.id, 'file_type': file.file_type, 'file_path': file.file_path, 'server_filename': file.serverFileName, idrisk: $("input[name=id]").val() },
-                        beforeSend: function () {
-                            looding('light', file.previewElement);
-                        }, complete: function () {
-                            stopLooding(file.previewElement);
-                        },
-
-                    });
-                    file.previewElement.remove();
-                }, { id: "button1", "data-status": "ok" }
-            ),
-        ],
-    }).show();
-}
-
 $(document).on("click", "#btnModalRegister", function () {
     var id = $(this).attr("data-id");
     var url = $(this).attr("data-url");

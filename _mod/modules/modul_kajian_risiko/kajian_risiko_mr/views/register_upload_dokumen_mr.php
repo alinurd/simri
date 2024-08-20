@@ -17,11 +17,17 @@
                                                 MR</strong></label>
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" id="dokumen-mr-input"
-                                                name="dokumen_kajian_risiko_mr" required>
+                                                name="dokumen_kajian_risiko_mr" accept=".pdf, .doc, .docx, .xls, .xlsx"
+                                                required>
                                             <label id="label-dokumen-mr-input" class="custom-file-label"
                                                 for="dokumen-mr-input">Choose
                                                 file...</label>
                                         </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <label style="color:red;font-size:10px"><i>*) Supported File : pdf, doc, docx,
+                                                xls, xlsx</i>
+                                        </label>
                                     </div>
                                 </form>
                             </div>

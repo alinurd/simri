@@ -348,7 +348,7 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		$paramUpload  = [
 		 "path"        => "file/kajian_risiko_monitoring",
 		 "field"       => "file",
-		 "file_type"   => "gif|jpg|jpeg|png|pdf|xlsx|docx|ppt",
+		 "file_type"   => "pdf|xlsx|docx|doc|docx",
 		 "file_thumb"  => FALSE,
 		 "file_size"   => "10000",
 		 "file_random" => FALSE,

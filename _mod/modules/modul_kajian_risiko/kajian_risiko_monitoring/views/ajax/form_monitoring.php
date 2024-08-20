@@ -74,10 +74,15 @@
                                             <div class="custom-file">
                                                 <input type="file" class="form-control custom-file-input"
                                                     id="dokumen_pendukung" aria-describedby="dokumen_pendukung"
-                                                    name="dokumen_pendukung">
+                                                    name="dokumen_pendukung" accept=".pdf, .doc, .docx, .xls, .xlsx">
                                                 <label id="label-dokumen-pendukung" class="custom-file-label"
                                                     for="dokumen_pendukung">Choose
                                                     file</label>
+                                            </div>
+                                            <div class="mt-2">
+                                                <label style="color:red;font-size:10px"><i>*) Supported File :
+                                                        pdf, doc, docx, xls, xlsx</i>
+                                                </label>
                                             </div>
                                         </div>
                                         <input type="hidden" name="file_monitoring" id="file-monitoring"

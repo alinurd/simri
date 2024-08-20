@@ -44,6 +44,7 @@ function DropzoneUpload() {
         url: base_url + modul_name + "/uploadAttachmentFile",
         paramName: "dokumen_pendukung",
         maxFilesize: 10,
+        acceptedFiles: "application/pdf,.doc,.docx,.xls,.xlsx",
         // addRemoveLinks: true,
         dictDefaultMessage: "Drag or Drop Your Document here",
         dictDuplicateFile: "Duplicate Files Cannot Be Uploaded",
@@ -91,8 +92,8 @@ function DropzoneUpload() {
                 }
             });
             this.on('sending', function (file, xhr, formData) {
-                console.log(file);
-                console.log(xhr);
+                // console.log(file);
+                // console.log(xhr);
             })
 
             this.on("addedfile", function (file, xhr, formData) {
@@ -104,7 +105,11 @@ function DropzoneUpload() {
             });
         },
         removedfile: function (file) {
-            deleteNotification(file);
+            if (file.status == "error") {
+                file.previewElement.remove();
+            } else {
+                deleteNotification(file);
+            }
         },
         success: function (file, response) {
             // file.previewElement.classList.add("dz-success");
@@ -118,7 +123,9 @@ function DropzoneUpload() {
             stopLooding(file.previewElement);
         },
         error: function (file, response) {
-            file.previewElement.classList.add("dz-error");
+            alert("File Type not Supported");
+            this.removeFile(file);
+            // file.previewElement.classList.add("dz-error");
         },
 
     });
@@ -128,6 +135,7 @@ function DropzoneUpload() {
         url: base_url + modul_name + "/uploadAttachmentFile",
         paramName: "dokumen_kajian",
         maxFilesize: 10,
+        acceptedFiles: "application/pdf,.doc,.docx,.xls,.xlsx",
         // addRemoveLinks: true,
         dictDefaultMessage: "Drag or Drop Your Document here",
         dictDuplicateFile: "Duplicate Files Cannot Be Uploaded",
@@ -167,9 +175,14 @@ function DropzoneUpload() {
                 }
             });
 
+            // this.on('error', function (file, xhr, formData) {
+            //     console.log(file);
+            //     console.log(formData);
+
+            // })
             this.on('sending', function (file, xhr, formData) {
-                console.log(file);
-                console.log(xhr);
+                // console.log(file);
+                // console.log(xhr);
             })
 
             this.on("addedfile", function (file, xhr, formData) {
@@ -181,7 +194,12 @@ function DropzoneUpload() {
             });
         },
         removedfile: function (file) {
-            deleteNotification(file);
+            if (file.status == "error") {
+                file.previewElement.remove();
+            } else {
+                deleteNotification(file);
+            }
+
         },
         success: function (file, response) {
             // file.previewElement.classList.add("dz-success");
@@ -194,11 +212,50 @@ function DropzoneUpload() {
             file.previewElement.querySelector("img").src = base_url + "assets/default/file-thumb-default.png";
         },
         error: function (file, response) {
+            alert("File Type not Supported");
+            this.removeFile(file);
             file.previewElement.classList.add("dz-error");
         }
     });
 
 }
+function deleteNotification(file) {
+    var notyConfirm = new Noty({
+        text: '<h6 class="mb-3">Please confirm your action</h6><label>are you sure you want to permanently delete this data ?</label>',
+        timeout: false,
+        modal: true,
+        layout: "center",
+        theme: "  p-0 bg-white",
+        closeWith: "button",
+        type: "confirm",
+        buttons: [
+            Noty.button("<i class='icon-undo2 mr-2'></i>Cancel", "btn btn-outline-secondary pull-left", function () {
+                notyConfirm.close();
+            }),
+            Noty.button(
+                '<i class="icon-trash mr-2"></i> Delete',
+                "btn btn-danger ml-1",
+                function () {
+                    notyConfirm.close();
+                    $.ajax({
+                        url: base_url + modul_name + "/deleteAttachmentFile",
+                        type: "POST",
+                        dataType: "Json",
+                        data: { 'id': file.id, 'file_type': file.file_type, 'file_path': file.file_path, 'server_filename': file.serverFileName, idrisk: $("input[name=id]").val() },
+                        beforeSend: function () {
+                            looding('light', file.previewElement);
+                        }, complete: function () {
+                            stopLooding(file.previewElement);
+                        },
+
+                    });
+                    file.previewElement.remove();
+                }, { id: "button1", "data-status": "ok" }
+            ),
+        ],
+    }).show();
+}
+
 
 $(document).on("click", ".dz-preview", function () {
     var url = $(this).attr("link");

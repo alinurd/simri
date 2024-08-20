@@ -190,7 +190,7 @@ class Kajian_Risiko extends MY_Controller
 		$paramUpload  = [
 		 "path"        => "file/kajian_risiko",
 		 "field"       => ( ! empty( $_POST["field"] ) ) ? $_POST["field"] : "",
-		 "file_type"   => "gif|jpg|jpeg|png|pdf|xlsx|docx|ppt",
+		 "file_type"   => "pdf|doc|xls|xlsx|docx",
 		 "file_thumb"  => FALSE,
 		 "file_size"   => "10000",
 		 "file_random" => FALSE,
