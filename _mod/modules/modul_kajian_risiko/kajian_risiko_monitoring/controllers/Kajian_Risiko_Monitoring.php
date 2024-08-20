@@ -72,6 +72,14 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 
 	}
 
+	function listBox_release_date( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "Y-m-d", strtotime( $value ) ) : "";
+	}
+	function listBox_request_date( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "Y-m-d", strtotime( $value ) ) : "";
+	}
 	function optionalPersonalButton( $button, $row )
 	{
 

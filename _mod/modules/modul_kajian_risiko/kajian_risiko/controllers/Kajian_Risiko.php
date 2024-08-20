@@ -343,6 +343,7 @@ class Kajian_Risiko extends MY_Controller
 
 		return $button;
 	}
+
 	function optionalButton( $button, $mode )
 	{
 		if( $mode == "edit" && $this->data_fields["data"]["status_approval"] == "approved" )
