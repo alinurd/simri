@@ -67,7 +67,7 @@
                                     <label for="dokumen_pendukung" class="col-md-4 col-form-label text-right">Dokumen
                                         Pendukung</label>
                                     <div class="col-md-8">
-                                        <div class="input-group mb-3">
+                                        <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Upload</span>
                                             </div>
