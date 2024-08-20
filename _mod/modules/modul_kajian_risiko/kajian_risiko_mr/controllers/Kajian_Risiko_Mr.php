@@ -176,7 +176,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 		$dataView["module_name"]    = $this->modul_name;
 		$dataView["kajian_id"]      = $idkajian;
 		$dataView["action"]         = $action;
-		$dataView["headerRisk"]     = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, [ "id" => $idkajian, "active" => 1, "status" => 1 ] )->row_array();
+		$dataView["headerRisk"]     = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, [ "id" => $idkajian, "active" => 1, "status !=" => 0 ] )->row_array();
 		$dbObj                      = $this->db->where( [ "id" => $idkajian, "status" => 1 ] );
 		$dataView["disabledSubmit"] = ( $dataView["headerRisk"]["status"] == 1 ) ? "disabled" : "";
 		switch( $action )
@@ -225,7 +225,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 		}
 		else
 		{
-			$this->db->update( _TBL_KAJIAN_RISIKO, [ "status" => 2 ], [ "id" => $idkajian ] );
+			$update_status = $this->db->update( _TBL_KAJIAN_RISIKO, [ "status" => 2 ], [ "id" => $idkajian ] );
 		}
 		$kajianUpdateId = $this->db->update( _TBL_KAJIAN_RISIKO, $dataInsrt, [ "id" => $idkajian ] );
 		if( $kajianUpdateId )
@@ -233,6 +233,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 			$dataInsertHistory = [
 			 "id"               => generateIdString(),
 			 "id_kajian_risiko" => $idkajian,
+			 "status_kajian"    => ( ! empty( $update_status ) && $update_status ) ? 2 : 1,
 			 "status_approval"  => $dataPost["status_approval"],
 			 "note"             => $dataPost["note"],
 			 "created_at"       => date( "Y-m-d H:i:s" ),

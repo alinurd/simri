@@ -393,8 +393,7 @@ class Kajian_Risiko extends MY_Controller
 					default:
 						$getdataHistory["dataview"][$kView]["status_approval"] = "<span class='btn btn-sm btn-block btn-default disabled' style='cursor:default'> - </span>";
 						break;
-				}
-				;
+				};
 			}
 		}
 		$result        = $this->load->view( "history", $getdataHistory, TRUE );
@@ -488,6 +487,7 @@ class Kajian_Risiko extends MY_Controller
 		$dataInsertHistoryFromSubmitKajian = [
 		 "id"               => generateIdString(),
 		 "id_kajian_risiko" => $idkajidan,
+		 "status_kajian"    => 1,
 		 "status_approval"  => $getdatakajian["status_approval"],
 		 "note"             => "",
 		 "created_at"       => date( "Y-m-d H:i:s" ),

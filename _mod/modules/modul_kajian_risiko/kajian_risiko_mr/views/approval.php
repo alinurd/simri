@@ -46,7 +46,7 @@
                                                         <?php break; ?>
                                                     <?php case 2: ?>
                                                         <span
-                                                            class="btn btn-sm disabled btn-block btn-success"><strong>REVISI</strong></span>
+                                                            class="btn btn-sm disabled btn-block btn-warning"><strong>REVISI</strong></span>
                                                         <?php break; ?>
                                                     <?php default:
 
