@@ -316,7 +316,7 @@ class Kajian_Risiko extends MY_Controller
 			 'id'    => 'btn_schedule_one',
 			 'class' => 'text-success',
 			 'icon'  => 'icon-paperplane',
-			 'url'   => base_url( "kajian-risiko-mr/register/submit/" ),
+			 'url'   => base_url( $this->modul_name . "/register/submit/" ),
 			 'attr'  => ' target="_self" ',
 			   ];
 		}
@@ -465,6 +465,38 @@ class Kajian_Risiko extends MY_Controller
 		$this->db->delete( _TBL_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $id[0] ] );
 		$this->db->delete( _TBL_KAJIAN_RISIKO_APPROVAL_HISTORY, [ "id_kajian_risiko" => $id[0] ] );
 		return ( ! empty( $id ) ) ? TRUE : FALSE;
+
+	}
+
+	function register( $action, $idkajian )
+	{
+		$dataView["headerRisk"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, [ "id" => $idkajian, "active" => 1 ] )->row_array();
+
+		if( $action == "submit" && $dataView["headerRisk"]["status"] != 1 )
+		{
+			$this->db->update( _TBL_KAJIAN_RISIKO, [ "status" => 1, "date_submit" => date( "Y-m-d H:i:s" ), "updated_at" => date( "Y-m-d H:i:s" ), "updated_by" => $this->ion_auth->get_user_name(), "status_approval" => "review" ], [ "id" => $idkajian ] );
+			$this->proposeRisikoHistory( $idkajian );
+			$dataView["headerRisk"]["status"] = 1;
+			$this->session->set_flashdata( 'message_crud', "Berhasil Submit Data {$dataView["headerRisk"]['name']} !" );
+			redirect( $this->modul_name );
+		}
+
+	}
+
+	function proposeRisikoHistory( $idkajidan )
+	{
+		$getdatakajian                     = $this->db->get_where( _TBL_KAJIAN_RISIKO, [ "id" => $idkajidan ] )->row_array();
+		$dataInsertHistoryFromSubmitKajian = [
+		 "id"               => generateIdString(),
+		 "id_kajian_risiko" => $idkajidan,
+		 "status_approval"  => $getdatakajian["status_approval"],
+		 "note"             => "",
+		 "created_at"       => date( "Y-m-d H:i:s" ),
+		 "created_by"       => $this->ion_auth->get_user_name(),
+		 "updated_at"       => date( "Y-m-d H:i:s" ),
+		 "updated_by"       => $this->ion_auth->get_user_name(),
+		];
+		$this->db->insert( _TBL_KAJIAN_RISIKO_APPROVAL_HISTORY, $dataInsertHistoryFromSubmitKajian );
 
 	}
 }

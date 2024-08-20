@@ -377,13 +377,13 @@ class Kajian_Risiko_Mr extends MY_Controller
 		$dataView["action"]      = $action;
 		$dataView["headerRisk"]  = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, [ "id" => $idkajian, "active" => 1 ] )->row_array();
 
-		if( $action == "submit" && $dataView["headerRisk"]["status"] != 1 )
-		{
-			$this->db->update( _TBL_KAJIAN_RISIKO, [ "status" => 1, "date_submit" => date( "Y-m-d H:i:s" ), "updated_at" => date( "Y-m-d H:i:s" ), "updated_by" => $this->ion_auth->get_user_name(), "status_approval" => "review" ], [ "id" => $idkajian ] );
-			$this->proposeRisikoHistory( $idkajian );
-			$dataView["headerRisk"]["status"] = 1;
-			$this->session->set_flashdata( 'message_crud', "Berhasil Submit Data {$dataView["headerRisk"]['name']} !" );
-		}
+		// if( $action == "submit" && $dataView["headerRisk"]["status"] != 1 )
+		// {
+		// 	$this->db->update( _TBL_KAJIAN_RISIKO, [ "status" => 1, "date_submit" => date( "Y-m-d H:i:s" ), "updated_at" => date( "Y-m-d H:i:s" ), "updated_by" => $this->ion_auth->get_user_name(), "status_approval" => "review" ], [ "id" => $idkajian ] );
+		// 	$this->proposeRisikoHistory( $idkajian );
+		// 	$dataView["headerRisk"]["status"] = 1;
+		// 	$this->session->set_flashdata( 'message_crud', "Berhasil Submit Data {$dataView["headerRisk"]['name']} !" );
+		// }
 
 		$dataView["disabledSubmit"]  = ( $dataView["headerRisk"]["status"] == 1 ) ? "disabled" : "";
 		$getLevelMapImpact           = $this->db->get_where( _TBL_LEVEL, [ "active" => 1, "category" => "impact" ] )->result_array();
@@ -418,14 +418,14 @@ class Kajian_Risiko_Mr extends MY_Controller
 				$dataView["mapData"] = $this->data->getRowMapData( $idkajian );
 				$this->db->where( [ "id_kajian_risiko" => $idkajian ] );
 				break;
-			case 'submit':
-				redirect( $this->modul_name );
-				$action = "propose";
-				$actionForm = "propose";
-				$btn_view = "btn_propose";
-				$dataView["mapData"] = $this->data->getRowMapData( $idkajian );
-				$this->db->where( [ "id_kajian_risiko" => $idkajian ] );
-				break;
+			// case 'submit':
+			// 	redirect( $this->modul_name );
+			// 	$action = "propose";
+			// 	$actionForm = "propose";
+			// 	$btn_view = "btn_propose";
+			// 	$dataView["mapData"] = $this->data->getRowMapData( $idkajian );
+			// 	$this->db->where( [ "id_kajian_risiko" => $idkajian ] );
+			// 	break;
 			default:
 				$actionForm = "";
 				$action = "list";
