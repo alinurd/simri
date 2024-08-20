@@ -753,8 +753,51 @@ $(document).on("change", "#like_id_3", function () {
 	var url = "ajax/get-risiko-inherent-semi";
 	_ajax_("post", parent, data, "", url, "resultInherent");
 });
+$(document).on("click", "#indikator_like", function () {
+	var parent = $(this).parent();
+	// var rcsa = $(this).data('rcsa');
+	var id = $(this).data('id');
+	var dampak = $('input[name="impact_id_2"]').val();
+	var kpi = $('#id_kpi').val();
+	var data = { 'id': 0, 'rcsa_detail_no': id, 'bk_tipe': 1, 'dampak_id': dampak, 'id_kpi': kpi };
+	var url = modul_name + "/indikator-like";
+	_ajax_("post", parent, data, '', url, 'indikator_like');
+});
+$(document).on("click", ".update-like-indi", function () {
+	var parent = $(this).parent();
+	var id = $(this).data('id');
+	var rcsa = $(this).data('parent');
+	var kpi = $('#id_kpi').val();
+	var data = { 'id': id, 'rcsa_detail_no': rcsa, 'bk_tipe': 1, 'id_kpi': kpi };
+	// url edit ke controller
+	var url = modul_name + "/indikator-like-add";
+	_ajax_("post", parent, data, '', url, 'indikator_like');
+})
+ // simpan like indi 
+ $(document).on('click', '#simpan_like_indi', function () {
+	var parent = $(this).parent().parent().parent();
 
- 
+	var bk = $('input[name="bk_tipe"]').val();
+	if (parseFloat(bk) == 1) {
+		var dampak = $('input[name="impact_id_2"]').val();
+	} else if (parseFloat(bk) == 2) {
+		var dampak = $('input[name="impact_residual_id"]').val();
+	} else if (parseFloat(bk) == 3) {
+		var dampak = $('input[name="impact_target_id"]').val();
+	}
+	var data = $("#form_like_indi").serializeArray();
+	data.push({ name: "dampak_id", value: dampak });
+	var target_combo = $("#parent_risk");
+	// ke controller untuk simpan 
+	var url = modul_name + "/simpan-like-indi";
+	_ajax_("post", parent, data, target_combo, url, 'indikator_like');
+})
+
+function indikator_like(hasil) {
+    $("#modal_general").find(".modal-title").html('Daftar Risk Indicator Likelihood');
+    $("#modal_general").find(".modal-body").html(hasil.combo);
+    $("#modal_general").modal("show");
+}
 
 function aktififasMod(hasil) {
 	$("#modal_general").find(".modal-title").html(hasil.title);

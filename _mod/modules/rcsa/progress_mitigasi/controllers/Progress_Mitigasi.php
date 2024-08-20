@@ -2541,4 +2541,65 @@ class Progress_Mitigasi extends MY_Controller
 		header('Content-type: application/json');
 		echo json_encode($result);
 	}
+		// function add likelihod 
+		function indikator_like_add()
+		{
+			$post          = $this->input->post();
+			$data['param'] = $post;
+			// $kpi = ($post['id_kpi'])?$post['id_kpi']:'1=1';
+			$this->cboKri = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'kri' )->combo_where( 'param_other_int', $post['id_kpi'] )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+			// ->combo_where( 'param_int', 1 )
+	
+			$this->cboSatuan = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'satuan' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+	
+			$rows = $this->db->where( 'rcsa_detail_id', intval( $post['rcsa_detail_no'] ) )->get( _TBL_VIEW_RCSA_DET_LIKE_INDI )->result_array();
+			$mak  = 100;
+			foreach( $rows as $row )
+			{
+				$mak += floatval( $row['pembobotan'] );
+			}
+			$mit = $this->db->where( 'id', intval( $post['id'] ) )->get( _TBL_VIEW_RCSA_DET_LIKE_INDI )->row_array();
+			if( $mit )
+			{
+				$mak += floatval( $mit['pembobotan'] );
+			}
+			$disabled = '';
+			if( intval( $post['bk_tipe'] ) > 1 )
+			{
+				$disabled = ' disabled="disabled" ';
+			}
+			$pembobotan = '<div class="input-group" style="width:15% !important;">
+				<button type="button" onclick="this.parentNode.querySelector(\'[type=number]\').stepDown();">
+					-
+				</button>';
+	
+			$pembobotan .= form_input( array( 'type' => 'number', 'name' => 'pembobotan' ), ( $mit ) ? $mit['pembobotan'] : '', " class='form-control touchspin-postfix text-center'  " . $disabled . " max='" . $mak . "' min='" . ( $mak * -1 ) . "' step='1' id='pembobotan' " );
+	
+			$pembobotan .= '<button type="button" onclick="this.parentNode.querySelector(\'[type=number]\').stepUp();">
+					+
+				</button>
+				</div>';
+			// inputan likelihod view
+			$data['like'][] = [ 'title' => _l( 'fld_kri' ), 'help' => _h( 'help_kri' ), 'add' => FALSE, 'isi' => form_dropdown( 'kri_id', $this->cboKri, ( $mit ) ? $mit['kri_id'] : '', 'class="form-control select" ' . $disabled . ' id="kri_id"' ) ];
+			$data['like'][] = [ 'title' => _l( 'fld_pembobotan' ), 'help' => _h( 'help_pembobotan' ), 'isi' => $pembobotan ];
+			$data['like'][] = [ 'title' => _l( 'fld_satuan' ), 'help' => _h( 'help_satuan' ), 'isi' => form_dropdown( 'satuan_id', $this->cboSatuan, ( $mit ) ? $mit['satuan_id'] : '', 'class="form-control select" ' . $disabled . ' id="satuan_id"' ) ];
+	
+			$data['like'][] = [ 'title' => '<a style="height:1.4rem;width:1.4rem;background-color:#2c5b29" class="btn bg-successx-400 rounded-round btn-icon btn-sm" ><span class="letter-icon"></span></a>', 'help' => _h( 'help_pencapaian' ), 'isi' => form_input( 'p_1', ( $mit ) ? $mit['p_1'] : '', 'class="form-control" ' . $disabled . ' id="p_1" placeholder="' . _l( 'fld_pencapaian' ) . '" style="width:50%"' ) . '&nbsp;&nbsp;&nbsp;' . form_input( 's_1_min', ( $mit ) ? $mit['s_1_min'] : '', 'class="form-control text-center" ' . $disabled . ' id="s_1_min" placeholder="' . _l( 'fld_min_satuan' ) . '" style="width:10%"' ) . '&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;' . form_input( 's_1_max', ( $mit ) ? $mit['s_1_max'] : '', 'class="form-control text-center" ' . $disabled . ' id="s_1_max" placeholder="' . _l( 'fld_mak_satuan' ) . '" style="width:10%"' ) . ' <span class="input-group-text"> Satuan </span> ' ];
+	
+			$data['like'][] = [ 'title' => '<a style="height:1.4rem;width:1.4rem;background-color:#50ca4e;" class="btn bg-orangex-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>', 'help' => _h( 'help_pencapaian_4' ), 'isi' => form_input( 'p_4', ( $mit ) ? $mit['p_4'] : '', 'class="form-control" ' . $disabled . ' id="p_4" placeholder="' . _l( 'fld_pencapaian' ) . '" style="width:50%"' ) . '&nbsp;&nbsp;&nbsp;' . form_input( 's_4_min', ( $mit ) ? $mit['s_4_min'] : '', 'class="form-control text-center" ' . $disabled . ' id="s_4_min" placeholder="' . _l( 'fld_min_satuan' ) . '" style="width:10%"' ) . '&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;' . form_input( 's_4_max', ( $mit ) ? $mit['s_4_max'] : '', 'class="form-control text-center" ' . $disabled . ' id="s_4_max" placeholder="' . _l( 'fld_mak_satuan' ) . '" style="width:10%"' ) . ' <span class="input-group-text"> Satuan </span> ' ];
+	
+			$data['like'][] = [ 'title' => '<a style="height:1.4rem;width:1.4rem;background-color:#edfd17;" class="btn bg-dangerx-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>', 'help' => _h( 'help_pencapaian_2' ), 'isi' => form_input( 'p_2', ( $mit ) ? $mit['p_2'] : '', 'class="form-control" ' . $disabled . ' id="p_2" placeholder="' . _l( 'fld_pencapaian' ) . '" style="width:50%"' ) . '&nbsp;&nbsp;&nbsp;' . form_input( 's_2_min', ( $mit ) ? $mit['s_2_min'] : '', 'class="form-control text-center" ' . $disabled . ' id="s_2_min" placeholder="' . _l( 'fld_min_satuan' ) . '" style="width:10%"' ) . '&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;' . form_input( 's_2_max', ( $mit ) ? $mit['s_2_max'] : '', 'class="form-control text-center" ' . $disabled . ' id="s_2_max" placeholder="' . _l( 'fld_mak_satuan' ) . '" style="width:10%"' ) . ' <span class="input-group-text"> Satuan </span> ' ];
+	
+			$data['like'][] = [ 'title' => '<a style="height:1.4rem;width:1.4rem;background-color:#f0ca0f;" class="btn bg-dangers-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>', 'help' => _h( 'help_pencapaian_5' ), 'isi' => form_input( 'p_5', ( $mit ) ? $mit['p_5'] : '', 'class="form-control" ' . $disabled . ' id="p_5" placeholder="' . _l( 'fld_pencapaian' ) . '" style="width:50%"' ) . '&nbsp;&nbsp;&nbsp;' . form_input( 's_5_min', ( $mit ) ? $mit['s_5_min'] : '', 'class="form-control text-center" ' . $disabled . ' id="s_5_min" placeholder="' . _l( 'fld_min_satuan' ) . '" style="width:10%"' ) . '&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;' . form_input( 's_5_max', ( $mit ) ? $mit['s_5_max'] : '', 'class="form-control text-center" ' . $disabled . ' id="s_5_max" placeholder="' . _l( 'fld_mak_satuan' ) . '" style="width:10%"' ) . ' <span class="input-group-text"> Satuan </span> ' ];
+	
+			$data['like'][] = [ 'title' => '<a style="height:1.4rem;width:1.4rem;background-color:#e70808" class="btn bg-dangers-400 rounded-round btn-icon btn-sm"><span class="letter-icon"></span></a>', 'help' => _h( 'help_pencapaian_3' ), 'isi' => form_input( 'p_3', ( $mit ) ? $mit['p_3'] : '', 'class="form-control" ' . $disabled . ' id="p_3" placeholder="' . _l( 'fld_pencapaian' ) . '" style="width:50%"' ) . '&nbsp;&nbsp;&nbsp;' . form_input( 's_3_min', ( $mit ) ? $mit['s_3_min'] : '', 'class="form-control text-center" ' . $disabled . ' id="s_3_min" placeholder="' . _l( 'fld_min_satuan' ) . '" style="width:10%"' ) . '&nbsp;&nbsp;&nbsp;<span class="input-group-text"> - </span>&nbsp;&nbsp;&nbsp;' . form_input( 's_3_max', ( $mit ) ? $mit['s_3_max'] : '', 'class="form-control text-center" ' . $disabled . ' id="s_3_max" placeholder="' . _l( 'fld_mak_satuan' ) . '" style="width:10%"' ) . ' <span class="input-group-text"> Satuan </span> ' ];
+	
+			$data['like'][] = [ 'title' => _l( 'fld_score' ), 'help' => _h( 'help_score' ), 'isi' => '<div class="input-group" style="width:15%;text-align:center;">' . form_input( 'score', ( $mit ) ? $mit['score'] : '', 'class="form-control" id="score" placeholder="' . _l( 'fld_score' ) . '"' ) . '</div>' ];
+	
+			$result['combo'] = $this->load->view( 'input-indikator-like', $data, TRUE );
+			header( 'Content-type: application/json' );
+			echo json_encode( $result );
+		}
+	
+	 
 }

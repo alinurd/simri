@@ -609,6 +609,190 @@ class Data extends MX_Model
 
 		return $hasil;
 	}
+
+	function update_list_indi_like( $data = [] )
+	{
+
+		$rows = $this->db->where( 'category', 'likelihood' )->order_by( 'code' )->get( _TBL_LEVEL )->result_array();
+
+		$x = [];
+		foreach( $rows as $row )
+		{
+			$x[$row['code']] = $row;
+		}
+		$mLike = $x;
+
+		$rows = $this->db->where( 'bk_tipe', $data['bk_tipe'] )->where( 'rcsa_detail_id', intval( $data['rcsa_detail_no'] ) )->or_group_start()->where( 'rcsa_detail_id', 0 )->where( 'created_by', $this->ion_auth->get_user_name() )->group_end()->get( _TBL_VIEW_RCSA_DET_LIKE_INDI )->result_array();
+
+
+		$ttl = 0;
+		foreach( $rows as $row )
+		{
+			$nilai = ( $row['pencapaian'] / 100 ) * ( $row['pembobotan'] * count( $rows ) );
+			$ttl += floatval( $nilai );
+		}
+
+		$jml = round( ( ( count( $rows ) * 5 ) - count( $rows ) ) / 5, 1 );
+
+		$last = count( $rows ) + $jml;
+
+
+		$param[1] = [ 'min' => count( $rows ), 'mak' => $last ];
+		$param[2] = [ 'min' => $last, 'mak' => $last += $jml ];
+		$param[3] = [ 'min' => $last, 'mak' => $last += $jml ];
+		$param[4] = [ 'min' => $last, 'mak' => $last += $jml ];
+		$param[5] = [ 'min' => $last, 'mak' => $last += $jml ];
+
+
+		foreach( $param as $key => $row )
+		{
+			if( $key == 1 )
+			{
+				if( $ttl <= $row['min'] )
+				{
+					$like = $key;
+					break;
+				}
+				elseif( $ttl >= $row['min'] && $ttl < $row['mak'] )
+				{
+					$like = $key;
+					break;
+				}
+			}
+			elseif( $key == 5 )
+			{
+				if( $ttl >= $row['mak'] )
+				{
+					$like = $key;
+					break;
+				}
+				elseif( $ttl >= $row['min'] && $ttl < $row['mak'] )
+				{
+					$like = $key;
+					break;
+				}
+			}
+			elseif( $ttl >= $row['min'] && $ttl < $row['mak'] )
+			{
+				$like = $key;
+				break;
+			}
+		}
+
+		if( array_key_exists( $like, $mLike ) )
+		{
+
+			$like_no = $mLike[$like]['id'];
+			$likes   = $mLike[$like]['code'] . ' - ' . $mLike[$like]['level'];
+		}
+		$color  = '#ffffff';
+		$tcolor = '#000000';
+		if( array_key_exists( intval( $like ), $mLike ) )
+		{
+			$color  = $mLike[intval( $like )]['warna'];
+			$tcolor = '#ffffff';
+			$like .= ' - ' . $mLike[intval( $like )]['level'];
+		}
+
+		$hasil['like_no'] = $like_no;
+		$hasil['likes']   = $likes;
+		$hasil['color']   = $color;
+		$hasil['tcolor']  = $tcolor;
+		$hasil['ttl']     = $ttl;
+		$hasil['param']   = $param;
+		$hasil['mLike']   = $mLike;
+
+		$x = [ 'id' => 0, 'level_color' => '-', 'level_risk_no' => 0, 'code' => 0, 'like_code' => 0, 'impact_code' => 0, 'color' => '#FAFAFA', 'color_text' => '#000000', 'text' => '-', 'nil' => 0 ];
+
+		$this->db->where( 'likelihood', intval( $like_no ) );
+		$this->db->where( 'impact', intval( $data['dampak_id'] ) );
+		$rows = $this->db->get( _TBL_VIEW_LEVEL_MAPPING )->row_array();
+		if( $rows )
+		{
+			$x = $rows;
+		}
+		$hasil['warna']   = $x;
+		$hasil['bk_tipe'] = $data['bk_tipe'];
+		return $hasil;
+	}
+	function simpan_like_indi( $data )
+	{
+		$id = 0;
+		if( isset( $data['id'] ) )
+		{
+			$id = intval( $data['id'] );
+		}
+		if( $data['bk_tipe'] == 1 )
+		{
+			if( isset( $data['txt_like'] ) )
+			{
+				if( ! empty( trim( $data['txt_like'] ) ) )
+				{
+					$this->crud->crud_type( 'add' );
+					$this->crud->crud_table( _TBL_COMBO );
+					$this->crud->crud_field( 'data', $data['txt_like'] );
+					$this->crud->crud_field( 'kelompok', 'kri' );
+					$this->crud->crud_field( 'active', 1 );
+					$this->crud->process_crud();
+					$data['kri_id'] = $this->crud->last_id();
+				}
+			}
+
+			$this->crud->crud_table( _TBL_RCSA_DET_LIKE_INDI );
+			$this->crud->crud_field( 'rcsa_detail_id', $data['rcsa_detail_no'] );
+			$this->crud->crud_field( 'bk_tipe', $data['bk_tipe'] );
+			$this->crud->crud_field( 'kri_id', $data['kri_id'] );
+			$this->crud->crud_field( 'satuan_id', $data['satuan_id'] );
+			$this->crud->crud_field( 'pembobotan', $data['pembobotan'] );
+			$this->crud->crud_field( 'p_1', $data['p_1'] );
+			$this->crud->crud_field( 's_1_min', $data['s_1_min'] );
+			$this->crud->crud_field( 's_1_max', $data['s_1_max'] );
+			$this->crud->crud_field( 'p_4', $data['p_4'] );
+			$this->crud->crud_field( 's_4_min', $data['s_4_min'] );
+			$this->crud->crud_field( 's_4_max', $data['s_4_max'] );
+			$this->crud->crud_field( 'p_2', $data['p_2'] );
+			$this->crud->crud_field( 's_2_min', $data['s_2_min'] );
+			$this->crud->crud_field( 's_2_max', $data['s_2_max'] );
+			$this->crud->crud_field( 'p_5', $data['p_5'] );
+			$this->crud->crud_field( 's_5_min', $data['s_5_min'] );
+			$this->crud->crud_field( 's_5_max', $data['s_5_max'] );
+			$this->crud->crud_field( 'p_3', $data['p_3'] );
+			$this->crud->crud_field( 's_3_min', $data['s_3_min'] );
+			$this->crud->crud_field( 's_3_max', $data['s_3_max'] );
+			$this->crud->crud_field( 'score', $data['score'] );
+		}
+		else
+		{
+			$this->crud->crud_table( _TBL_RCSA_DET_LIKE_INDI );
+			$this->crud->crud_field( 'score', $data['score'] );
+		}
+
+		if( $id > 0 )
+		{
+			$this->crud->crud_type( 'edit' );
+			$this->crud->crud_where( [ 'field' => 'id', 'value' => $id ] );
+			$this->crud->crud_field( 'updated_by', $this->ion_auth->get_user_name() );
+		}
+		else
+		{
+			$this->crud->crud_type( 'add' );
+			$this->crud->crud_field( 'created_by', $this->ion_auth->get_user_name() );
+		}
+		$this->crud->process_crud();
+		if( $id == 0 )
+		{
+			$id = $this->crud->last_id();
+		}
+
+		// $rows=$this->db->where('rcsa_detail_id', intval($data['rcsa_detail_no']))->group_start()->where('rcsa_detail_id',0)->or_where('created_by', $this->ion_auth->get_user_name())->group_end()->get(_TBL_VIEW_RCSA_DET_LIKE_INDI)->result_array();
+		$hasil       = $this->update_list_indi_like( $data );
+		$hasil['id'] = $id;
+		return $hasil;
+	}
+
+	// update like indi 
+ 
+
 }
 /* End of file app_login_model.php */
 /* Location: ./application/models/app_login_model.php */
