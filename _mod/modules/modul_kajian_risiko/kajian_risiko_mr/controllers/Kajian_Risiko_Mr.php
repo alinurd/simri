@@ -120,6 +120,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 	{
 		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "Y-m-d", strtotime( $value ) ) : "";
 	}
+
 	function listBox_request_date( $field, $rows, $value )
 	{
 		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "Y-m-d", strtotime( $value ) ) : "";
@@ -210,7 +211,6 @@ class Kajian_Risiko_Mr extends MY_Controller
 
 	function submitApproval( $dataPost, $action, $idkajian )
 	{
-
 		$dataInsrt["status_approval"] = $dataPost["status_approval"];
 		$dataInsrt["date_approval"]   = date( "Y-m-d H:i:s" );
 		$dataInsrt["approved_by"]     = $this->ion_auth->get_user_name();
@@ -247,7 +247,6 @@ class Kajian_Risiko_Mr extends MY_Controller
 			}
 		}
 		redirect( $this->modul_name . "/approval/list/" . $idkajian );
-
 	}
 
 	function setDataViewApproval( $dataView )

@@ -84,7 +84,7 @@
                                     else
                                     { ?>
                                         <tr class="text-center bg-light">
-                                            <td colspan="10"><strong>Data is Empty</strong></td>
+                                            <td colspan="10"><strong>Data Empty</strong></td>
                                         </tr>
                                     <?php } ?>
                                     <tr></tr>
@@ -113,7 +113,7 @@
                                         <div class="col-md-4">
                                             <div class="card shadow-sm border">
                                                 <div class="card-body bg-light p-2">
-                                                    <table class="table table-bordered table-map">
+                                                    <table class="table table-bordered table-sm table-map">
                                                         <tbody>
                                                             <?php if( ! empty( $mapData["inherent"] ) ) : ?>
                                                                 <?php foreach( $mapData["inherent"] as $kInherentRow => $vInherentRow ) : ?>
@@ -190,7 +190,7 @@
                                                                 else
                                                                 { ?>
                                                                     <tr class="text-center bg-light">
-                                                                        <td colspan="8"><strong>Data is Empty</strong></td>
+                                                                        <td colspan="8"><strong>Data Empty</strong></td>
                                                                     </tr>
                                                                 <?php } ?>
                                                                 <tr></tr>
@@ -207,7 +207,7 @@
                                         <div class="col-md-4">
                                             <div class="card shadow-sm border">
                                                 <div class="card-body bg-light p-2">
-                                                    <table class="table table-bordered table-map">
+                                                    <table class="table table-bordered table-sm table-map">
                                                         <tbody>
                                                         <?php if( ! empty( $mapData["residual"] ) ) : ?>
                                                                 <?php foreach( $mapData["residual"] as $kResidualRow => $vResidualRow ) : ?>
@@ -284,7 +284,7 @@
                                                                 else
                                                                 { ?>
                                                                     <tr class="text-center bg-light">
-                                                                        <td colspan="8"><strong>Data is Empty</strong></td>
+                                                                        <td colspan="8"><strong>Data Empty</strong></td>
                                                                     </tr>
                                                                 <?php } ?>
                                                                 <tr></tr>

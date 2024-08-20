@@ -480,7 +480,6 @@ class Kajian_Risiko extends MY_Controller
 			$this->session->set_flashdata( 'message_crud', "Berhasil Submit Data {$dataView["headerRisk"]['name']} !" );
 			redirect( $this->modul_name );
 		}
-
 	}
 
 	function proposeRisikoHistory( $idkajidan )
