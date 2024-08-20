@@ -304,11 +304,10 @@ class Kajian_Risiko_Mr extends MY_Controller
 						$getTemplate["content_html"] = str_replace( "[[NOTE]]", $postData['note'], $getTemplate["content_html"] );
 						$getTemplate["content_html"] = str_replace( "[[STATUS]]", $postData['status_approval'], $getTemplate["content_html"] );
 						$content                     = $this->load->view( "email-notification", $getTemplate, TRUE );
-						// $emailData['email']          = [ $vOff["email"] ];
-						$emailData['email']   = [ "rifkyr.personal@gmail.com" ];
-						$emailData['subject'] = $getTemplate["subject"] ?? "Notifikasi Kajian Risiko";
-						$emailData['content'] = $content ?? "";
-						$status               = Doi::kirim_email( $emailData );
+						$emailData['email']          = [ $vOff["email"] ];
+						$emailData['subject']        = $getTemplate["subject"] ?? "Notifikasi Kajian Risiko";
+						$emailData['content']        = $content ?? "";
+						$status                      = Doi::kirim_email( $emailData );
 						if( $status == "success" )
 						{
 							$this->crud->crud_table( _TBL_LOG_SEND_EMAIL );
