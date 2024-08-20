@@ -7,7 +7,7 @@
                         <div class="card-header border-bottom text-center p-2 bg-slate">
                             <strong>Dokumen Self-Assessment</strong>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body p-2">
                             <table class="table table-sm table-bordered">
                                 <thead class="bg-light">
                                     <tr>
@@ -99,7 +99,7 @@
                         <div class="card-header border-bottom text-center p-2 bg-slate">
                             <strong>Dokumen Pendukung</strong>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body p-2">
                             <table class="table table-sm table-bordered">
                                 <thead class="bg-light">
                                     <tr>

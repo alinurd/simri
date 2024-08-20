@@ -7,7 +7,7 @@
     <div class="col-md-12">
         <div class="jumbotron p-2 border">
             <div class="card shadow-none border m-0">
-                <div class="card-body" id="content-monitoring">
+                <div class="card-body p-2" id="content-monitoring">
                     <div class="row border-bottom">
                         <div class="col-md-12">
                             <h6>Daftar Risiko</h6>
@@ -67,7 +67,7 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="card shadow-none border m-0">
-                                                                    <div class="card-body">
+                                                                    <div class="card-body p-2">
                                                                         <div id="setTableMonitoring">
                                                                             <table class="table table-sm table-bordered">
                                                                                 <thead class="bg-success">
@@ -154,12 +154,10 @@
                                                                                             </tr>
                                                                                             <?php
 
-                                                                                          if ($kMonitoring==$spanCount) {
-                                                                                           
+                                                                                          if ($kMonitoring==$spanCount) {  
                                                                                             }else{
                                                                                                 $n++;
                                                                                             }
-                                                                                         
                                                                                         }
                                                                                         $n=0;
                                                                                     }
@@ -167,7 +165,7 @@
                                                                                     {
                                                                                         ?>
                                                                                         <tr class="text-center">
-                                                                                            <td colspan="7">Data Is Empty</td>
+                                                                                            <td colspan="7"><strong>Data Empty</strong></td>
                                                                                         </tr>
                                                                                     <?php } ?>
                                                                                     <?php 
@@ -185,6 +183,11 @@
                                                 </tr>
                                                 <?php
                                             }
+                                        }else{?>
+                                                                                <tr class="text-center">
+                                                                                            <td colspan="8"><strong>Data Empty</strong></td>
+                                                                                        </tr>
+                                        <?php 
                                         }
                                         ?>
 

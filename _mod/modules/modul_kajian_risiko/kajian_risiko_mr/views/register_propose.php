@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card shadow-none border mb-2">
-                        <div class="card-body bg-light">
+                        <div class="card-body bg-light p-2">
                             <table class="table table-bordered table-sm">
                                 <thead class="bg-slate">
                                     <tr>
@@ -97,7 +97,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card shadow-none border m-0">
-                        <div class="card-body ">
+                        <div class="card-body p-2">
                             <ul class="nav nav-tabs nav-tabs-top">
                                 <li class="nav-item">
                                     <a href="#content-tab-00" class="nav-link active show"
@@ -112,7 +112,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="card shadow-sm border">
-                                                <div class="card-body bg-light">
+                                                <div class="card-body bg-light p-2">
                                                     <table class="table table-bordered table-map">
                                                         <tbody>
                                                             <?php if( ! empty( $mapData["inherent"] ) ) : ?>
@@ -157,12 +157,12 @@
                                         <div class="col-md-8">
                                             <div class="jumbotron p-2 border">
                                                 <div class="card shadow-none border m-0">
-                                                    <div class="card-body">
+                                                    <div class="card-body p-2">
                                                         <table class="table table-bordered table-sm">
                                                             <thead class="bg-slate">
                                                                 <tr>
                                                                     <th rowspan="2">No</th>
-                                                                    <th rowspan="2" class="text-center">Perisitiwa
+                                                                    <th rowspan="2" class="text-center">Peristiwa
                                                                         Risiko</th>
                                                                     <th colspan="3" class="text-center">Inherent Risk
                                                                         Level</th>
@@ -205,8 +205,8 @@
                                 <div class="tab-pane fade " id="content-tab-01">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="card shadow-none border">
-                                                <div class="card-body bg-light">
+                                            <div class="card shadow-sm border">
+                                                <div class="card-body bg-light p-2">
                                                     <table class="table table-bordered table-map">
                                                         <tbody>
                                                         <?php if( ! empty( $mapData["residual"] ) ) : ?>
@@ -251,12 +251,12 @@
                                         <div class="col-md-8">
                                             <div class="jumbotron p-2 border">
                                                 <div class="card shadow-none border m-0">
-                                                    <div class="card-body">
+                                                    <div class="card-body p-2">
                                                         <table class="table table-bordered table-sm">
                                                             <thead class="bg-slate">
                                                                 <tr>
                                                                     <th rowspan="2">No</th>
-                                                                    <th rowspan="2" class="text-center">Perisitiwa
+                                                                    <th rowspan="2" class="text-center">Peristiwa
                                                                         Risiko</th>
                                                                     <th colspan="3" class="text-center">Residual Risk
                                                                         Level</th>

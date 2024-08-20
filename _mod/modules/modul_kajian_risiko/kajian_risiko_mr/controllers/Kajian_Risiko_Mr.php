@@ -115,6 +115,14 @@ class Kajian_Risiko_Mr extends MY_Controller
 		}
 
 	}
+	function listBox_release_date( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) ) ? date( "Y-m-d", strtotime( $value ) ) : "";
+	}
+	function listBox_request_date( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) ) ? date( "Y-m-d", strtotime( $value ) ) : "";
+	}
 
 	function optionalPersonalButton( $button, $row )
 	{
@@ -218,7 +226,6 @@ class Kajian_Risiko_Mr extends MY_Controller
 		{
 			$this->db->update( _TBL_KAJIAN_RISIKO, [ "status" => 2 ], [ "id" => $idkajian ] );
 		}
-		$this->sendEmailNotification( $dataPost, $idkajian );
 		$kajianUpdateId = $this->db->update( _TBL_KAJIAN_RISIKO, $dataInsrt, [ "id" => $idkajian ] );
 		if( $kajianUpdateId )
 		{
@@ -281,7 +288,6 @@ class Kajian_Risiko_Mr extends MY_Controller
 
 	function sendEmailNotification( $postData, $idkajian )
 	{
-
 		$getTemplate   = $this->db->get_where( "il_template_email", [ "code" => "NOTIF08" ] )->row_array();
 		$getDataKajian = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, [ "id" => $idkajian ] )->row_array();
 		if( ! empty( $getDataKajian ) )
@@ -297,12 +303,11 @@ class Kajian_Risiko_Mr extends MY_Controller
 						$getTemplate["content_html"] = str_replace( "[[NOTE]]", $postData['note'], $getTemplate["content_html"] );
 						$getTemplate["content_html"] = str_replace( "[[STATUS]]", $postData['status_approval'], $getTemplate["content_html"] );
 						$content                     = $this->load->view( "email-notification", $getTemplate, TRUE );
-						// $emailData['email']          = [ $vOff["email"] ];
-						$emailData['email']   = [ "rifkyr.54321@gmail.com" ];
-						$emailData['subject'] = $getTemplate["subject"] ?? "Notifikasi Kajian Risiko";
-						$emailData['content'] = $content ?? "";
-						$status               = Doi::kirim_email( $emailData );
-						if( $status )
+						$emailData['email']          = [ $vOff["email"] ];
+						$emailData['subject']        = $getTemplate["subject"] ?? "Notifikasi Kajian Risiko";
+						$emailData['content']        = $content ?? "";
+						$status                      = Doi::kirim_email( $emailData );
+						if( $status == "success" )
 						{
 							$this->crud->crud_table( _TBL_LOG_SEND_EMAIL );
 							$this->crud->crud_type( 'add' );
@@ -719,5 +724,50 @@ class Kajian_Risiko_Mr extends MY_Controller
 		$dataview["urlclearbtn"] = base_url( $this->modul_name . "/clearDokumen/" . $idkajian );
 		$content                 = $this->load->view( "ajax/upload-dokumen-mr", $dataview, TRUE );
 		echo $content;
+	}
+
+	function setReminderNotificationEmail()
+	{
+		$countDays              = 1;
+		$sqlQuery               = "select id,owner_id,name from il_kajian_risiko ikr where date_format(DATE_ADD(release_date , INTERVAL -{$countDays} DAY),'%Y-%m-%d')=date_format(NOW(),'%Y-%m-%d') And status = 1";
+		$getTemplate            = $this->db->get_where( "il_template_email", [ "code" => "NOTIF09" ] )->row_array();
+		$getdateReminderRelease = $this->db->query( $sqlQuery )->result_array();
+		if( ! empty( $getdateReminderRelease ) )
+		{
+			foreach( $getdateReminderRelease as $kRerelease => $vRelease )
+			{
+				$getOfficerData = $this->db->get_where( _TBL_OFFICER, [ "owner_no" => $vRelease['owner_id'], "active" => 1 ] )->result_array();
+				if( ! empty( $getOfficerData ) )
+				{
+					foreach( $getOfficerData as $kOff => $vOff )
+					{
+						if( ! empty( $vOff["email"] ) )
+						{
+							$getTemplate["content_html"] = str_replace( "[[OWNER]]", $vOff['officer_name'], $getTemplate["content_html"] );
+							$getTemplate["content_html"] = str_replace( "[[KAJIAN]]", $vRelease['name'], $getTemplate["content_html"] );
+							$content                     = $this->load->view( "email-notification", $getTemplate, TRUE );
+							$emailData['email']          = [ $vOff["email"] ];
+							$emailData['subject']        = $getTemplate["subject"] ?? "Notifikasi Reminder Kajian Risiko";
+							$emailData['content']        = $content ?? "";
+							$status                      = Doi::kirim_email( $emailData );
+							if( $status == "success" )
+							{
+								$this->crud->crud_table( _TBL_LOG_SEND_EMAIL );
+								$this->crud->crud_type( 'add' );
+								$this->crud->crud_field( 'type', 1, 'int' );
+								$this->crud->crud_field( 'ref_id', $vOff["id"], 'int' );
+								$this->crud->crud_field( 'subject', $vOff["officer_name"], 'string' );
+								$this->crud->crud_field( 'message', $emailData['subject'], 'string' );
+								$this->crud->crud_field( 'ket', '', 'string' );
+								$this->crud->crud_field( 'to', $vOff["email"], 'string' );
+								$this->crud->process_crud();
+							}
+						}
+					}
+
+				}
+			}
+
+		}
 	}
 }

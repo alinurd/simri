@@ -263,7 +263,7 @@
                                                                         align="center">
 
                                                                         <img align="center" border="0"
-                                                                            src="https://cdn.templates.unlayer.com/assets/1593141680866-reset.png"
+                                                                            src="<?= asset_url( "images/notification.png" ) ?>"
                                                                             alt="Image" title="Image"
                                                                             style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 10%;max-width: 58px;"
                                                                             width="58" />
@@ -288,7 +288,7 @@
                                                                 <p
                                                                     style="font-size: 14px; line-height: 140%; text-align: center;">
                                                                     <span
-                                                                        style="font-size: 28px; line-height: 39.2px; color: #ffffff; font-family: Lato, sans-serif;"><?= $subject ?></span>
+                                                                        style="font-size: 28px; line-height: 39.2px; color: #ffffff; font-family: Lato, sans-serif;"><?= ! empty( $subject ) ? $subject : "" ?></span>
                                                                 </p>
                                                             </div>
                                                         </td>

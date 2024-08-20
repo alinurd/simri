@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-md-12">
         <div class="jumbotron p-2 border">
-            <div class="card m-0">
-                <div class="card-body">
+            <div class="card m-0 shadow-none border">
+                <div class="card-body p-2">
                     <table class="table table-bordered table-sm">
                         <thead class="bg-slate">
                             <tr>

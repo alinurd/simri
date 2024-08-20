@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card shadow-none border m-0">
-                        <div class="card-body">
+                        <div class="card-body p-2">
                             <table class="table table-sm table-bordered">
                                 <thead class="bg-slate">
                                     <tr>

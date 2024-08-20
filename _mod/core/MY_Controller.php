@@ -158,7 +158,6 @@ class MY_Controller extends MX_Controller
 			$configuration = (array) $this->init();
 			$this->register_configuration( $configuration['configuration'] );
 		}
-
 		return $this;
 	}
 
@@ -720,6 +719,7 @@ class MY_Controller extends MX_Controller
 
 	function set_Open_Tab( $title, $icon = "list" )
 	{
+
 		$this->sts_open_tab                      = TRUE;
 		$this->jml_tabs                          = count( $this->tmp_data['tabs'] );
 		$this->tmp_data['tabs'][$this->jml_tabs] = array( 'title' => $title, 'id' => 'tab-0' . count( $this->tmp_data['tabs'] ), 'icon' => $icon );
@@ -773,6 +773,7 @@ class MY_Controller extends MX_Controller
 
 	function addField( $data = array() )
 	{
+
 		$config_list = $this->config->item( 'default_list', 'configuration' );
 		$tbl         = $this->tbl_master;
 		if( array_key_exists( 'tbl', $data ) )
@@ -858,7 +859,6 @@ class MY_Controller extends MX_Controller
 		$data['placeholder'] = $placeholder;
 
 		$this->tmp_data['fields'][$field] = array_merge( $config_list, $data );
-
 		if( $this->sts_open_tab )
 		{
 			$this->tmp_data['tabs'][$this->jml_tabs]['field'][] = $field;
@@ -948,6 +948,7 @@ class MY_Controller extends MX_Controller
 		$search = [];
 		foreach( $this->tmp_data['fields'] as &$row )
 		{
+
 			$isi = '';
 			if( $value )
 			{
@@ -974,6 +975,7 @@ class MY_Controller extends MX_Controller
 			}
 			$draw         = TRUE;
 			$getKeyStatus = ( ! empty( $value ) ) ? array_key_exists( $row['field'], $value ) : FALSE;
+
 			if( $row['type'] !== 'free' && ! $getKeyStatus && $mode == 'edit' )
 			{
 				$draw = FALSE;
@@ -984,13 +986,16 @@ class MY_Controller extends MX_Controller
 				$method_name = 'inputBox_' . strtoupper( $row['field'] );
 				if( $row['show'] && $draw )
 				{
+
 					if( method_exists( $this->router->fetch_class(), $method_name ) )
 					{
+
 						$x          = $this->$method_name( $mode, $row, $value, $isi );
 						$row['box'] = $x;
 					}
 					else
 					{
+
 						$row['box'] = $this->set_box_input( $row, $isi );
 					}
 				}
@@ -1200,7 +1205,6 @@ class MY_Controller extends MX_Controller
 				{
 					$size = '100%';
 				}
-
 				$content = form_input( $label, $isi, " class='form-control angka $error $align'  maxlength='" . $row['max'] . "' $disabled $required size=$row[size] id=$label $readOnly $autofocus style='width: $size' " );
 				if( ! empty( $disabled ) )
 					$content .= form_hidden( $label, $isi );
@@ -1575,7 +1579,6 @@ class MY_Controller extends MX_Controller
 			else
 			{
 				$this->tmp_data['data'] = $this->input->post();
-
 				foreach( $this->tmp_data['fields'] as $field )
 				{
 					if( array_key_exists( 'show', $field ) )
@@ -1776,9 +1779,11 @@ class MY_Controller extends MX_Controller
 			}
 			else
 			{
+
 				$content = $this->load->view( $content, $tmp, TRUE );
 			}
-			$this->template->content->view( $this->_template_ . '/content', [ 'content' => $content, 'params' => $this->configuration, 'header' => $header, 'footer' => $footer, 'info' => 'info add saja' ] );
+
+			$this->template->content->view( $this->_template_ . '/content', [ 'content' => $content, 'params' => $this->configuration, 'header' => $header, 'footer' => $footer, 'info' => '' ] );
 
 			$this->template->publish();
 		}
@@ -3283,49 +3288,65 @@ class MY_Controller extends MX_Controller
 
 	function getListMonitoring( $b, $rows, $value )
 	{
-		$bln=intval($b);
- 		$tgl = 01;
-		$cekFinal = $this->data->cek_mitigasi_final($rows['id'], $bln, false);
-		$cekFinalBefor = $this->data->cek_mitigasi_final($rows['id'], $bln - 1, false);
-		$monthly = $this->data->getMonthlyMonitoring($rows['id'], $bln);
-		$monthlyBefore = $this->data->getMonthlyMonitoring($rows['id'], $bln - 1);
-		$period = $this->db->where('period_id', $rows['period_id'])->where('bulan_int', $bln)->get("il_view_minggu")->row_array();
+		$bln           = intval( $b );
+		$tgl           = 01;
+		$cekFinal      = $this->data->cek_mitigasi_final( $rows['id'], $bln, FALSE );
+		$cekFinalBefor = $this->data->cek_mitigasi_final( $rows['id'], $bln - 1, FALSE );
+		$monthly       = $this->data->getMonthlyMonitoring( $rows['id'], $bln );
+		$monthlyBefore = $this->data->getMonthlyMonitoring( $rows['id'], $bln - 1 );
+		$period        = $this->db->where( 'period_id', $rows['period_id'] )->where( 'bulan_int', $bln )->get( "il_view_minggu" )->row_array();
 
- 		$blnnow = date('mY');
-		$tglnow = date('d');
-		$thnRcsa = substr($period['period'], 0, 4);
-		$dateRcsa = new DateTime($thnRcsa . '-' . $bln . '-' . $tgl);
-		$hariIni = new DateTime();
-		$title = 'Update Monitoring ' . date('M', mktime(0, 0, 0, $bln, 10));
-		$aktifitas=false;
-		if(!$cekFinal && isset($monthly)){
-			$title = 'update aktifitas belum lengkap';
-			$aktifitas=true;
-		}elseif ($cekFinal) {
-			
-			$title = 'Update monitoring ' . date('M', mktime(0, 0, 0, $bln, 10)). ' lengkap';
+		$blnnow    = date( 'mY' );
+		$tglnow    = date( 'd' );
+		$thnRcsa   = substr( $period['period'], 0, 4 );
+		$dateRcsa  = new DateTime( $thnRcsa . '-' . $bln . '-' . $tgl );
+		$hariIni   = new DateTime();
+		$title     = 'Update Monitoring ' . date( 'M', mktime( 0, 0, 0, $bln, 10 ) );
+		$aktifitas = FALSE;
+		if( ! $cekFinal && isset( $monthly ) )
+		{
+			$title     = 'update aktifitas belum lengkap';
+			$aktifitas = TRUE;
+		}
+		elseif( $cekFinal )
+		{
+
+			$title = 'Update monitoring ' . date( 'M', mktime( 0, 0, 0, $bln, 10 ) ) . ' lengkap';
 		}
 
-		if (isset($monthlyBefore)) {
-			if (intval($blnnow) > (1 * 100 + intval($period['period']))   and $hariIni  > $dateRcsa && $cekFinal) {
-				if (isset($monthly)) {
-					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;background-color:' . $monthly['color'] . ';color:' . $monthly['color_text'] . ';" title="'.$title.'">' . $monthly['level_color'] . ' </span></a>';
-				} else {
-					if($cekFinal){
-						$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;;" title="'.$title.'"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>';
-					}else{
+		if( isset( $monthlyBefore ) )
+		{
+			if( intval( $blnnow ) > ( 1 * 100 + intval( $period['period'] ) ) and $hariIni > $dateRcsa && $cekFinal )
+			{
+				if( isset( $monthly ) )
+				{
+					$result = '<a class="propose" href="' . base_url( 'progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln ) . '"><span class="btn" style="padding:4px 8px;width:100%;background-color:' . $monthly['color'] . ';color:' . $monthly['color_text'] . ';" title="' . $title . '">' . $monthly['level_color'] . ' </span></a>';
+				}
+				else
+				{
+					if( $cekFinal )
+					{
+						$result = '<a class="propose" href="' . base_url( 'progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln ) . '"><span class="btn" style="padding:4px 8px;width:100%;;" title="' . $title . '"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>';
+					}
+					else
+					{
 						$result = '<span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>';
 					}
-					
+
 				}
 			}
 			else
 			{
- 				if($cekFinalBefor && $monthly){
-					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;background-color:' . $monthly['color'] . ';color:' . $monthly['color_text'] . ';" title="'.$title.'">' . $monthly['level_color'] . ' </span></a>';
-				}elseif($cekFinalBefor){
-					$result = '<a class="propose" href="' . base_url('progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln) . '"><span class="btn" style="padding:4px 8px;width:100%;;" title="'.$title.'"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>';
-				}else{
+				if( $cekFinalBefor && $monthly )
+				{
+					$result = '<a class="propose" href="' . base_url( 'progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln ) . '"><span class="btn" style="padding:4px 8px;width:100%;background-color:' . $monthly['color'] . ';color:' . $monthly['color_text'] . ';" title="' . $title . '">' . $monthly['level_color'] . ' </span></a>';
+				}
+				elseif( $cekFinalBefor )
+				{
+					$result = '<a class="propose" href="' . base_url( 'progress-mitigasi' . '/update/' . $rows['id'] . '/' . $bln ) . '"><span class="btn" style="padding:4px 8px;width:100%;;" title="' . $title . '"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>';
+				}
+				else
+				{
 					$result = '<span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>';
 				}
 			}

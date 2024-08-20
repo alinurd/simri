@@ -4,7 +4,7 @@
     <div class="col-md-12">
         <div class="jumbotron p-2 mb-3 border">
             <div class="card m-0 shadow-sm border">
-                <div class="card-body">
+                <div class="card-body p-2">
                     <div class="row">
                         <div class="col-md-6">
                             <table class="table table-bordered">
@@ -44,12 +44,10 @@
                                                         <span
                                                             class="btn btn-sm disabled btn-block btn-success"><strong>SUBMITTED</strong></span>
                                                         <?php break; ?>
-
                                                     <?php case 2: ?>
                                                         <span
                                                             class="btn btn-sm disabled btn-block btn-success"><strong>REVISI</strong></span>
                                                         <?php break; ?>
-
                                                     <?php default:
 
                                                         break;
@@ -123,7 +121,7 @@
                                         <div class="jumbotron p-2 mb-3 border">
                                             <div class="card m-0 shadow-none border">
                                                 <div class="card-header text-center p-1 border-bottom">
-                                                    <h5 class="mb-0">Catatan</h5>
+                                                    <h6 class="mb-0">Catatan</h6>
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="form-group">
@@ -142,7 +140,7 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-md-9">
-                                                        <div class="form-group row">
+                                                        <div class="form-group row d-none">
                                                             <label class="col-form-label col-md-4">Send Email
                                                                 Notification
                                                             </label>

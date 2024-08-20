@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="jumbotron p-2 mb-3 border">
             <div class="card shadow-none border m-0">
-                <div class="card-body">
+                <div class="card-body p-2">
                     <div class="row">
                         <div class="col-md-12">
                             <a href="<?= $btnExport ?>" class="btn bg-green btn-labeled btn-labeled-left"><b><i
@@ -75,7 +75,7 @@
                                     else
                                     { ?>
                                         <tr class="text-center bg-light">
-                                            <td colspan="8"><strong>Data is Empty</strong></td>
+                                            <td colspan="11"><strong>Data Empty</strong></td>
                                         </tr>
                                     <?php } ?>
                                     <tr></tr>
