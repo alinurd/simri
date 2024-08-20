@@ -552,6 +552,7 @@ class Data extends MX_Model
 	function simpan_dampak_indi( $data )
 	{
 		// $id=intval($data['id']);
+		// doi::dump($data);
 
 		if( isset( $data['edit_id'] ) )
 		{
@@ -563,7 +564,8 @@ class Data extends MX_Model
 					$this->crud->crud_table( "il_update_residual" );
 					$this->crud->crud_field( 'rcsa_detail_id', $data['rcsa_detail_no'] );
 					$this->crud->crud_field( 'kri_id', $data['kri'][$key] );
-					$this->crud->crud_field( 'detail_kri', $data['detail'][$key] );
+					$this->crud->crud_field( 'like', $data['like_id'][$key] );
+					$this->crud->crud_field( 'impact', $data['mak'][$key] );
 
 					if( $row > 0 )
 					{
@@ -586,24 +588,26 @@ class Data extends MX_Model
 		$this->db->where( 'category', 'impact' );
 		$this->db->where( 'code', intval( $data['mak'] ) );
 		$rows  = $this->db->get( _TBL_LEVEL )->row_array();
-		// doi::dump($rows);
-		// doi::dump($data);
 		$hasil = [ 'id' => 0, 'level_color' => '-', 'level_risk_id' => 0, 'code' => 0, 'like_code' => 0, 'impact_code' => 0, 'color' => '#FAFAFA', 'color_text' => '#000000', 'text' => '-', 'nil' => 0 ];
 		if( $rows )
 		{
 			$x['text'] = $rows['code'] . ' - ' . $rows['level'];
 			$x['nil']  = $rows['id'];
 
-			$this->db->where( 'like_code', intval( $data['like_id'] ) );
-			$this->db->where( 'impact_code', intval( $data['mak'] ) );
-			$rows1 = $this->db->get( _TBL_VIEW_LEVEL_MAPPING )->row_array();
-			if( $rows1 )
+			$this->db->where( 'likelihood', intval( $data['like_id'] ) );
+			$this->db->where( 'impact', intval( $rows['id'] ) );
+			$rows = $this->db->get( _TBL_VIEW_LEVEL_MAPPING )->row_array();
+			if( $rows )
 			{
-				$hasil         = $rows1;
+				$hasil         = $rows;
 				$hasil['text'] = $x['text'];
 				$hasil['nil']  = $x['nil'];
 			}
 		}
+		$hasil['rows'] = $rows;
+		$hasil['data'] = $data;
+ 
+
 		$hasil['stsDakmap'] = true;
 		$hasil['bk_tipe'] = $data['bk_tipe'];
 

@@ -2230,18 +2230,26 @@ class Progress_Mitigasi extends MY_Controller
 
 
 		/**inherent impact */
+		
 		$LV =null;
 		if($residual ){
 			$this->db->where( 'like_code', intval( $residual['like'] ) );
 			$this->db->where( 'impact_code', intval( $residual['impact'] ) );
 			$LV = $this->db->get( _TBL_VIEW_LEVEL_MAPPING )->row_array();
  		}
+		
+		 $param['analisa_kuantitatif'][] = ['title' => _l('fld_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => TRUE, 'isi' => form_input('like_text_kuantitatif', ($LV) ? $LV['like_code'] .'-'. $LV['like_text']: $data['like_inherent'], 'id="like_text_kuantitatif" class="form-control" readonly="readonly" style="width:100%;"')
+		 . form_hidden(['like_text' => ($LV) ? $LV['like_text'] :  $data['like_text']])
+		 . form_hidden(['like_id' => ($LV) ? $LV['like_code'] :$data['like_id']])
+		 . form_hidden(['like_id_2' => ($LV) ? $LV['like_code'] :$data['like_id']])];
+
+		 $param['analisa_kuantitatif'][] = ['title' => _l('fld_impact'), 'help' => _h('help_impact'), 'mandatori' => TRUE, 'isi' => form_input('impact_text_kuantitatif', ($LV) ? $LV['impact_code'] .'-'.$LV['impact_text']:'', 'id="impact_text_kuantitatif" class="form-control" readonly="readonly" style="width:100%;"') 
+		 . form_hidden(['impact_text' => ($LV) ? $LV['impact_text'] : $data['impact_text']]) 
+		 . form_hidden(['impact_id' => ($LV) ? $LV['impact_code'] : $data['impact_id']]) 
+		 . form_hidden(['impact_id_2' => ($LV) ? $LV['impact_code'] : $data['impact_id']])];
 		// doi::dump($residual);
 		
- 		$param['analisa_kuantitatif'][] = ['title' => _l('fld_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => TRUE, 'isi' => form_input('like_text_kuantitatif', ($LV) ? $LV['like_code'] .'-'. $LV['like_text']: '', 'id="like_text_kuantitatif" class="form-control" readonly="readonly" style="width:100%;"') . form_hidden(['like_text' => ($LV) ? $LV['like_text'] : '']) . form_hidden(['like_id' => ($LV) ? $LV['like_code'] : '']) . form_hidden(['like_id_2' => ($LV) ? $LV['like_code'] : ''])];
-
-		$param['analisa_kuantitatif'][] = ['title' => _l('fld_impact'), 'help' => _h('help_impact'), 'mandatori' => TRUE, 'isi' => form_input('impact_text_kuantitatif', ($LV) ? $LV['impact_code'] .'-'.$LV['impact_text']:'', 'id="impact_text_kuantitatif" class="form-control" readonly="readonly" style="width:100%;"') . form_hidden(['impact_text' => ($LV) ? $LV['impact_text'] : '']) . form_hidden(['impact_id' => ($LV) ? $LV['impact_code'] : '']) . form_hidden(['impact_id_2' => ($LV) ? $LV['impact_code'] : ''])];
-
+ 	
 
 		/**========== */
 		$param['analisa_semi'][] = ['title' => _l('fld_indi_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => TRUE, 'isi' => form_dropdown('aspek_risiko_id', $aspek_risiko, $aspek, 'id="aspek_risiko_id" class="form-control select" style="width:100%;"') . form_hidden(['aspek' => 0], 'id="aspek"')];

@@ -838,8 +838,8 @@ function resultInherent(hasil) {
 	}
 
  	$("#mit_level_residual_text").val(isi);
-	$('input[name="mit_like_id"]').val(hasil.level_risk_no);
-	$('input[name="mit_impact_id"]').val(hasil.impact);
+	$('input[name="mit_like_id"]').val(hasil.like_code);
+	$('input[name="mit_impact_id"]').val(hasil.impact_code);
 
 	$('input[name="level_color"]').val(hasil.level_color);
 	$('input[name="color"]').val(hasil.color);
@@ -852,7 +852,7 @@ function resultInherent(hasil) {
 	if(hasil.stsDakmap){
 		// $('input[name="mit_kri"]').val(hasil.id)
 		// $('input[name="mit_detial"]').val(hasil.detial)
-		$('input[name="mit_like_id_cek"]').val(hasil.level_risk_no)
+		$('input[name="mit_like_id_cek"]').val(hasil.like_code)
 		$('input[name="mit_impact_id"]').val(hasil.impact_code);
 		$('input[name="mit_like_id"]').val(hasil.impact_code);
 		$('input[name="impact_text_kuantitatif"]').val(hasil.impact_code+'-'+hasil.impact_text);
