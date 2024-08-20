@@ -549,6 +549,66 @@ class Data extends MX_Model
 
 		return $option;
 	}
+	function simpan_dampak_indi( $data )
+	{
+		// $id=intval($data['id']);
+
+		if( isset( $data['edit_id'] ) )
+		{
+			if( count( $data['edit_id'] ) > 0 )
+			{
+				$no = 0;
+				foreach( $data['edit_id'] as $key => $row )
+				{
+					$this->crud->crud_table( "il_update_residual" );
+					$this->crud->crud_field( 'rcsa_detail_id', $data['rcsa_detail_no'] );
+					$this->crud->crud_field( 'kri_id', $data['kri'][$key] );
+					$this->crud->crud_field( 'detail_kri', $data['detail'][$key] );
+
+					if( $row > 0 )
+					{
+						$this->crud->crud_type( 'edit' );
+						$this->crud->crud_where( [ 'field' => 'id', 'value' => $row ] );
+						$this->crud->crud_field( 'updated_by', $this->ion_auth->get_user_name() );
+					}
+					else
+					{
+						$this->crud->crud_field( 'month', $data['month'] );
+						$this->crud->crud_field( 'bk_tipe', $data['bk_tipe'] );
+						$this->crud->crud_type( 'add' );
+						$this->crud->crud_field( 'created_by', $this->ion_auth->get_user_name() );
+					}
+					$this->crud->process_crud();
+				}
+			}
+		}
+
+		$this->db->where( 'category', 'impact' );
+		$this->db->where( 'code', intval( $data['mak'] ) );
+		$rows  = $this->db->get( _TBL_LEVEL )->row_array();
+		// doi::dump($rows);
+		// doi::dump($data);
+		$hasil = [ 'id' => 0, 'level_color' => '-', 'level_risk_id' => 0, 'code' => 0, 'like_code' => 0, 'impact_code' => 0, 'color' => '#FAFAFA', 'color_text' => '#000000', 'text' => '-', 'nil' => 0 ];
+		if( $rows )
+		{
+			$x['text'] = $rows['code'] . ' - ' . $rows['level'];
+			$x['nil']  = $rows['id'];
+
+			$this->db->where( 'like_code', intval( $data['like_id'] ) );
+			$this->db->where( 'impact_code', intval( $data['mak'] ) );
+			$rows1 = $this->db->get( _TBL_VIEW_LEVEL_MAPPING )->row_array();
+			if( $rows1 )
+			{
+				$hasil         = $rows1;
+				$hasil['text'] = $x['text'];
+				$hasil['nil']  = $x['nil'];
+			}
+		}
+		$hasil['stsDakmap'] = true;
+		$hasil['bk_tipe'] = $data['bk_tipe'];
+
+		return $hasil;
+	}
 }
 /* End of file app_login_model.php */
 /* Location: ./application/models/app_login_model.php */

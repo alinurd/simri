@@ -358,7 +358,48 @@ $(function () {
 	// 	var url = modul_name + "/proses-propose-mitigasi";
 	// 	_ajax_file_("post", parent, data, '', url, 'result_progres');
 	// })
+	$(document).on('click', '#simpan_dampak_indi', function () {
+        var mak = 0;
+        var cek = 0;
+        $(".kri").each(function () {
+            cek = ($('option:selected', this).index());
+            if (cek > mak) {
+                mak = cek;
+            }
+        });
+        var parent = $(this).parent().parent().parent();
+        var tipe = $('input[name=\"tipe_analisa_no\"]:checked').val();
+        var bktipe = $('input[name=\"bk_tipe\"]').val();
+        if (tipe == 2) {
+            if (bktipe == 2) {
+                var like_id = $('input[name="like_residual_id"]').val();
+            } else if (bktipe == 3) {
+                var like_id = $('input[name="like_target_id"]').val();
+            } else {
+                var like_id = $('input[name="like_id_2"]').val();
+            }
+        } else {
+            if (bktipe == 2) {
+                var like_id = $('#like_residual_id_3 :selected').data('temp');
+            } else if (bktipe == 3) {
+                var like_id = $('#like_target_id_3 :selected').data('temp');
+            } else {
+                var like_id = $('#like_id_3 :selected').data('temp');
+            }
+        }
 
+        var parent = $(this).parent().parent().parent();
+        var data = $("#form_dampak_indi").serializeArray();
+
+        data.push({ name: 'like_id', value: like_id });
+        data.push({ name: 'mak', value: mak });
+        var target_combo = '';
+        var url = modul_name + "/simpan-dampak-indi";
+        _ajax_("post", parent, data, target_combo, url, 'resultInherent');
+    })
+   
+	
+	
 	$(document).on("click", "#view-kpi", function () {
 		var parent = $(this).parent().parent().parent();
 		var id = $(this).data("id");
@@ -456,6 +497,7 @@ $(function () {
 		_ajax_("post", parent, data, target_combo, url);
 	});
 });
+
 
 var checkboxes = [];
 function readyCheckbox() {
@@ -576,16 +618,15 @@ function reset_approval(hasil) {
 
 $(document).on("click", "#simpanResidual", function () {
 	var parent = $(this).parent().parent().parent();
-	// var aspek = $("#aspek_risiko_id").val();
-	var like_id_3 = $("#like_id_3").val();
-	var aspek = $("#aspek").val();
-console.log(like_id_3)
-	var impact = $('input[name="impact_id_3"]').val();
-
-	// var aspek = $("#aspek_risiko_id").val();
-
-	var like = $('input[name="mit_like_id"]').val();
-	var likeCek = $('input[name="mit_like_id_cek"]').val();
+ 	var like_id_3 = $("#like_id_3").val();
+ 	var impact = $('input[name="impact_id_3"]').val();
+	 var like = $('input[name="mit_like_id"]').val();
+	 var likeCek = $('input[name="mit_like_id_cek"]').val();
+	 var aspek = $("#aspek").val();
+	 if (typeof aspek === 'undefined' || aspek === null || aspek === "") {
+		aspek = 0;
+	}
+	
 	if(likeCek){
 		like=likeCek
 	}
@@ -713,37 +754,7 @@ $(document).on("change", "#like_id_3", function () {
 	_ajax_("post", parent, data, "", url, "resultInherent");
 });
 
-function result_inherent(hasil) {
-	var likeCode = parseFloat(hasil.like_code);
-	var impactCode = parseFloat(hasil.impact_code);
-	var x = likeCode * impactCode;
-	var isi = x + "-" + hasil.level_color;
-	$("#simpanResidual").removeClass("disabled");
-	if (x == 0) {
-		isi = "-";
-		$("#simpanResidual").addClass("disabled");
-	}
-	$("#mit_level_residual_text").val(isi);
-	$('input[name="mit_like_id"]').val(hasil.level_risk_no);
-	$('input[name="mit_impact_id"]').val(hasil.impact);
-
-	$('input[name="level_color"]').val(hasil.level_color);
-	$('input[name="color"]').val(hasil.color);
-	$('input[name="color_text"]').val(hasil.color_text);
-	$('input[name="score"]').val(hasil.score);
-
-	$("#mit_level_residual_text").css("background-color", hasil.color);
-	$("#mit_level_residual_text").css("color", hasil.color_text);
-
-	$("#risiko_inherent_text").val(
-		parseFloat(hasil.like_code) * parseFloat(hasil.impact_code)
-	);
-	$("#mit_level_residual_text").val(hasil.level_color);
-	$('input[name="risiko_inherent"]').val(hasil.id);
-	$('input[name="level_inherent"]').val(hasil.level_risk_no);
-	$("#mit_level_residual_text").css("background-color", hasil.color);
-	$("#mit_level_residual_text").css("color", hasil.color_text);
-}
+ 
 
 function aktififasMod(hasil) {
 	$("#modal_general").find(".modal-title").html(hasil.title);
@@ -772,6 +783,7 @@ function simpanResidual(hasil) {
 }
 
 function resultInherent(hasil) {
+	console.log(hasil)
 	var likeCode = parseFloat(hasil.like_code);
 	var impactCode = parseFloat(hasil.impact_code);
 	var x = likeCode * impactCode;
@@ -782,7 +794,7 @@ function resultInherent(hasil) {
 		$("#simpanResidual").addClass("disabled");
 	}
 
-	$("#mit_level_residual_text").val(isi);
+ 	$("#mit_level_residual_text").val(isi);
 	$('input[name="mit_like_id"]').val(hasil.level_risk_no);
 	$('input[name="mit_impact_id"]').val(hasil.impact);
 
@@ -793,4 +805,59 @@ function resultInherent(hasil) {
 
 	$("#mit_level_residual_text").css("background-color", hasil.color);
 	$("#mit_level_residual_text").css("color", hasil.color_text);
+
+	if(hasil.stsDakmap){
+		// $('input[name="mit_kri"]').val(hasil.id)
+		// $('input[name="mit_detial"]').val(hasil.detial)
+		$('input[name="mit_like_id_cek"]').val(hasil.level_risk_no)
+		$('input[name="mit_impact_id"]').val(hasil.impact_code);
+		$('input[name="mit_like_id"]').val(hasil.impact_code);
+		$('input[name="impact_text_kuantitatif"]').val(hasil.impact_code+'-'+hasil.impact_text);
+		$('input[name="impact_id"]').val(hasil.impact_code);
+		$('input[name="impact_id_2"]').val(hasil.impact_code);
+	}
+ 		
+	 
+	
+}
+
+function result_dampak(hasil) {
+	console.log(hasil)
+if (hasil.bk_tipe == 1) {
+	$('#impact_text_kuantitatif').val(hasil.text);
+	$('input[name="impact_id_2"]').val(hasil.nil);
+
+	$('#impact_text_kuantitatif_semi').val(hasil.text);
+	$('input[name="impact_id_3"]').val(hasil.nil);
+
+	$("#risiko_inherent_text").val(parseFloat(hasil.like_code) * parseFloat(hasil.impact_code));
+	$("#level_inherent_text").val(hasil.level_color);
+	$("input[name=\"risiko_inherent\"]").val(hasil.id);
+	$("input[name=\"level_inherent\"]").val(hasil.level_risk_no);
+	$("#level_inherent_text").css("background-color", hasil.color);
+	$("#level_inherent_text").css("color", hasil.color_text);
+
+} else if (hasil.bk_tipe == 2) {
+	$('#impact_text_kuantitatif_residual').val(hasil.text);
+	$('input[name="impact_residual_id"]').val(hasil.nil);
+
+	$("#risiko_residual_text").val(parseFloat(hasil.like_code) * parseFloat(hasil.impact_code));
+	$("#level_residual_text").val(hasil.level_color);
+	$("input[name=\"risiko_residual\"]").val(hasil.id);
+	$("input[name=\"level_residual\"]").val(hasil.level_risk_no);
+	$("#level_residual_text").css("background-color", hasil.color);
+	$("#level_residual_text").css("color", hasil.color_text);
+} else if (hasil.bk_tipe == 3) {
+	$('#impact_text_kuantitatif_target').val(hasil.text);
+	$('input[name="impact_target_id"]').val(hasil.nil);
+
+	$("#risiko_target_text").val(parseFloat(hasil.like_code) * parseFloat(hasil.impact_code));
+	$("#level_target_text").val(hasil.level_color);
+	$("input[name=\"risiko_target\"]").val(hasil.id);
+	$("input[name=\"level_target\"]").val(hasil.level_risk_no);
+	$("#level_target_text").css("background-color", hasil.color);
+	$("#level_target_text").css("color", hasil.color_text);
+}
+
+
 }
