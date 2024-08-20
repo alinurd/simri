@@ -1147,14 +1147,7 @@ class Risk_Context extends MY_Controller
 		$data['mitigasi'][] = [ 'title' => _l( 'fld_due_date' ), 'help' => _h( 'help_due_date' ), 'mandatori' => TRUE, 'isi' => form_input( 'batas_waktu', ( $mit ) ? $mit['batas_waktu'] : '', 'class="form-control pickadateaddmitigasi" id="batas_waktu" style="width:100%;"' ) ];
 		$data['mitigasi'][] = [ 'title' => _l( 'fld_status_jangka' ), 'help' => _h( 'help_status_jangka' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'status_jangka', [ 1 => 'Jangka Pendek', 2 => 'Jangka Panjang' ], ( $mit ) ? $mit['status_jangka'] : '', 'class="form-control select" id="status_jangka"' ) ];
 		$data['mitigasi'][] = [ 'title' => '', 'help' => '', 'isi' => form_hidden( [ 'id' => ( $mit ) ? $mit['id'] : 0, 'rcsa_detail_id' => intval( $rcsa_detail ) ] ) ];
-		$data['mitigasi'][] = [ 'title' => "Reminder Email Notification ", 'help' => "", 'mandatori' => TRUE, 'isi' => "<span class='input-group-prepend'><span class='input-group-text'><</span></span><div class='input-group' style='width:15% !important;'><button type='button' onclick='this.parentNode.querySelector(\'[type=number]\').stepDown();'>
-				-
-			</button>'" . form_input( array( 'type' => 'number', 'name' => 'email_reminder' ), ( ! empty( $mit['reminder_email'] ) ) ? $mit['reminder_email'] : '', " class='form-control touchspin-postfix text-center' placeholder='hari' max='' min='1' step='1' id='email_reminder' " ) . '<button type="button"  onclick="this.parentNode.querySelector(\'[type=number]\').stepUp();">
-				+
-			</button>
-			</div>' ];
-
-
+		$data['mitigasi'][] = [ 'title' => "Reminder Email Notification ", 'help' => "", 'mandatori' => TRUE, 'isi' => '<div class="input-group" style="width:15% !important;"><button type="button" onclick="this.parentNode.querySelector(\'[type=number]\').stepDown();"> - </button>' . form_input( array( 'type' => 'number', 'name' => 'email_reminder' ), ( ! empty( $mit['reminder_email'] ) ) ? $mit['reminder_email'] : 1, " class='form-control touchspin-postfix text-center' placeholder='hari' max='' min='1' step='1' id='email_reminder' " ) . '<button type="button"  onclick="this.parentNode.querySelector(\'[type=number]\').stepUp();">+</button></div>' ];
 
 		$result = $this->load->view( 'mitigasi', $data, TRUE );
 		if( $mode == 'add' )

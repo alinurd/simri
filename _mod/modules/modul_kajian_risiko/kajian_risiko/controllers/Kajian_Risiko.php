@@ -132,15 +132,15 @@ class Kajian_Risiko extends MY_Controller
 
 	function listBox_release_date( $field, $rows, $value )
 	{
-		return ( ! empty( $value ) ) ? date( "Y-m-d", strtotime( $value ) ) : "";
+		return ( ! empty( $value ) && $value != "0000-00-00 00:00:00" ) ? date( "Y-m-d", strtotime( $value ) ) : "";
 	}
 	function listBox_request_date( $field, $rows, $value )
 	{
-		return ( ! empty( $value ) ) ? date( "Y-m-d", strtotime( $value ) ) : "";
+		return ( ! empty( $value ) && $value != "0000-00-00 00:00:00" ) ? date( "Y-m-d", strtotime( $value ) ) : "";
 	}
 	function listBox_tiket_terbit( $field, $rows, $value )
 	{
-		return ( ! empty( $value ) ) ? date( "Y-m-d", strtotime( $value ) ) : "";
+		return ( ! empty( $value ) && $value != "0000-00-00 00:00:00" ) ? date( "Y-m-d", strtotime( $value ) ) : "";
 	}
 	function listBox_dokumen_mr( $field, $rows, $value )
 	{
