@@ -9,7 +9,6 @@ class Kajian_Risiko extends MY_Controller
 
 	function init( $action = 'list' )
 	{
-
 		$this->cboDept    = $this->get_combo_parent_dept();
 		$this->cbo_status = $this->crud->combo_value( [ 0 => 'DRAFT', 1 => 'SUBMIT' ] )->result_combo();
 
@@ -132,15 +131,15 @@ class Kajian_Risiko extends MY_Controller
 
 	function listBox_release_date( $field, $rows, $value )
 	{
-		return ( ! empty( $value ) && $value != "0000-00-00 00:00:00" ) ? date( "Y-m-d", strtotime( $value ) ) : "";
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "Y-m-d", strtotime( $value ) ) : "";
 	}
 	function listBox_request_date( $field, $rows, $value )
 	{
-		return ( ! empty( $value ) && $value != "0000-00-00 00:00:00" ) ? date( "Y-m-d", strtotime( $value ) ) : "";
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "Y-m-d", strtotime( $value ) ) : "";
 	}
 	function listBox_tiket_terbit( $field, $rows, $value )
 	{
-		return ( ! empty( $value ) && $value != "0000-00-00 00:00:00" ) ? date( "Y-m-d", strtotime( $value ) ) : "";
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "Y-m-d", strtotime( $value ) ) : "";
 	}
 	function listBox_dokumen_mr( $field, $rows, $value )
 	{
@@ -287,7 +286,6 @@ class Kajian_Risiko extends MY_Controller
 
 	function optionalPersonalButton( $button, $row )
 	{
-
 		if( ! empty( $row["status_approval"] ) && $row["status_approval"] == "approved" )
 		{
 			unset( $button["delete"] );
@@ -318,7 +316,7 @@ class Kajian_Risiko extends MY_Controller
 			 'id'    => 'btn_schedule_one',
 			 'class' => 'text-success',
 			 'icon'  => 'icon-paperplane',
-			 'url'   => base_url( $this->modul_name . "/register/submit/" ),
+			 'url'   => base_url( "kajian-risiko-mr/register/submit/" ),
 			 'attr'  => ' target="_self" ',
 			   ];
 		}
@@ -343,6 +341,14 @@ class Kajian_Risiko extends MY_Controller
 		 'attr'  => ' target="_self" ',
 		 ];
 
+		return $button;
+	}
+	function optionalButton( $button, $mode )
+	{
+		if( $mode == "edit" && $this->data_fields["data"]["status_approval"] == "approved" )
+		{
+			unset( $button["delete"] );
+		}
 		return $button;
 	}
 
