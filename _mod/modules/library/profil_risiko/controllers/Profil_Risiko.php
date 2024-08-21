@@ -1072,10 +1072,10 @@ class Profil_Risiko extends MY_Controller
 		{
 			$data['jml_inherent'] = '<span class="badge bg-primary badge-pill"> ' . $jml . ' </span>';
 		}
-		$this->data->filter_data( $this->_data_user_ ); 
+	
 		$rows                 = $this->db->SELECT( 'risiko_residual as id,  level_color, level_color_residual, level_color_target, minggu_id' ) 
 		->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
-
+		// $this->data->filter_data( $this->_data_user_ ); 
         $getResidual         = $this->db->get( "il_update_residual" )->result_array();
 		
 		$resResult = [];
