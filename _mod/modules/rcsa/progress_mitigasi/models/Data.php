@@ -585,6 +585,8 @@ class Data extends MX_Model
 		$this->db->where('code', intval($data['mak']));
 		$rows  = $this->db->get(_TBL_LEVEL)->row_array();
 		$hasil = ['id' => 0, 'level_color' => '-', 'level_risk_id' => 0, 'code' => 0, 'like_code' => 0, 'impact_code' => 0, 'color' => '#FAFAFA', 'color_text' => '#000000', 'text' => '-', 'nil' => 0];
+		$hasil['rows'] = $rows;
+
 		if ($rows) {
 			$x['text'] = $rows['code'] . ' - ' . $rows['level'];
 			$x['nil']  = $rows['id'];
@@ -599,7 +601,7 @@ class Data extends MX_Model
 		}
 		$hasil['rows'] = $rows;
 		$hasil['data'] = $data;
-		// doi::dump($hasil);
+		doi::dump($hasil);
 
 		$this->db->where('rcsa_detail_id', intval($data['rcsa_detail_no']));
 		$this->db->where('month', intval($data['month']));
