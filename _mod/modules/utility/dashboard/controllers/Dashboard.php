@@ -127,8 +127,21 @@ class Dashboard extends MY_Controller
 
 		$this->db->where( 'status_final', 1 );
 
-		$rows                        = $this->db->SELECT( 'risiko_residual as id, COUNT(risiko_residual) as nilai, level_color, level_color_residual, level_color_target' )->group_by( 'risiko_residual' )->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
-		$data['map_residual']        = $this->map->set_data( $rows )->set_param( [ 'tipe' => 'angka', 'level' => 2 ] )->draw_dashboard();
+		
+		$rows                        = $this->db->SELECT( 'id as rcsa_detail, risiko_residual as id, COUNT(risiko_residual) as nilai, level_color, level_color_residual, level_color_target' )->group_by( 'risiko_residual' )->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
+ 		$getResidual         = $this->db->get( "il_update_residual" )->result_array();
+
+		$resResult = [];
+
+		foreach ($rows as $row) {
+			foreach ($getResidual as $residual) {
+				if ($row['rcsa_detail'] == $residual['rcsa_detail_id']) {
+					$resResult[] = $row;
+				}
+			}
+		}
+		
+		$data['map_residual']        = $this->map->set_data( $resResult )->set_param( [ 'tipe' => 'angka', 'level' => 2 ] )->draw_dashboard_monitoring();
 		$jml                         = $this->map->get_total_nilai();
 		$jmlstatus                   = $this->map->get_jumlah_status();
 		$data['jml_residual_status'] = $jmlstatus;
