@@ -397,8 +397,8 @@ $(function () {
     // var aspek_detx = $("#aspek_det").val();
     // var aspek_det = $('input[name="aspek_det"]').val();
     var aspek = $('input[name="aspek"]').val();
-    console.log(aspek_det)
-    console.log(aspek_detx)
+    // console.log(aspek_det)
+    // console.log(aspek_detx)
      if (typeof aspek === "undefined" || aspek === null || aspek === "") {
       aspek = 0;
     }
