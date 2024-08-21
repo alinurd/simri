@@ -1163,12 +1163,11 @@ class MY_Controller extends MX_Controller
 				}
 				break;
 			case 'multitext':
-				$jmlhuruf = intval( $row['size'] ) - intval( strlen( $isi ) );
-
+				$jmlhuruf = intval( $row['size'] ) - ( ! empty( $isi ) ? intval( strlen( $isi ) ) : 0 );
 				++$this->i_left;
 				$left = 'id_sisa_' . $this->i_left;
 				$size = "100%";
-				$isi = nl2br( stripslashes( $isi ) );
+				$isi = ( ! empty( $isi ) ? nl2br( stripslashes( $isi ) ) : "" );
 
 				if( intval( $row['size'] ) > 0 )
 				{
