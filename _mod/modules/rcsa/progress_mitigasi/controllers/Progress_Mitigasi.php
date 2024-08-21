@@ -2524,6 +2524,7 @@ class Progress_Mitigasi extends MY_Controller
 									$data['s_3_max']        = 0;
 									$data['score']          = 0;
 									$data['dampak_id']      = $post['dampak_id'];
+									$data['month']      = $post['month'];
 									$this->data->simpan_like_indi($data);
 								}
 							}
@@ -2532,7 +2533,7 @@ class Progress_Mitigasi extends MY_Controller
 				}
 			}
 
-			$post['hasil'] = $this->data->update_list_indi_like(['rcsa_detail_no' => $post['rcsa_detail_no'], 'bk_tipe' => $post['bk_tipe'], 'dampak_id' => $post['dampak_id']]);
+			$post['hasil'] = $this->data->update_list_indi_like(['rcsa_detail_no' => $post['rcsa_detail_no'], 'bk_tipe' => $post['bk_tipe'], 'dampak_id' => $post['dampak_id'], 'month'=>$post['month']], false);
 		}
 
 
@@ -2557,7 +2558,7 @@ class Progress_Mitigasi extends MY_Controller
 			$data['sub_title'] = ' Residual';
 			$result['combo']   = $this->load->view('indikator-like-target', $data, TRUE);
 		}
-
+		$result['hasil']=$post['hasil'];
 		header('Content-type: application/json');
 		echo json_encode($result);
 	}
@@ -2588,6 +2589,7 @@ class Progress_Mitigasi extends MY_Controller
 			{
 				$disabled = ' disabled="disabled" ';
 			}
+			$disabled = ' disabled="disabled" ';
 			$pembobotan = '<div class="input-group" style="width:15% !important;">
 				<button type="button" onclick="this.parentNode.querySelector(\'[type=number]\').stepDown();">
 					-
