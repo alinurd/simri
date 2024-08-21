@@ -2410,7 +2410,7 @@ class Progress_Mitigasi extends MY_Controller
 				'tipe_kri[]',               
 				$tipe_kri,               
 				isset($residual['tipe_kri']) ? $residual['tipe_kri'] : $row['jenis_kri_id'],
-				'class="form-control kri select" id="tipe_kri"'
+				'class="form-control tipe_kri select" id="tipe_kri"'
 			);
  			$row['detail_input'] = form_input('detail[]', isset($residual['detail_dampak_indi']) ? $residual['detail_dampak_indi'] : $row['detail'], 'class="form-control detail_input ' . $row['detail'] . '" ' . $disabeld . ' id="detail_input"');
 		}
