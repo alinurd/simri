@@ -1,8 +1,6 @@
 <div class='table-responsive' id="div_like_indi">
     <?= _l( 'fld_list_like_indi' ) . $sub_title; ?>
-    <span class="btn bg-primary-400 btn-labeled btn-labeled-right legitRipple pull-right" data-parent="<?= $parent; ?>"
-        data-id="0" id="add_like_indi"><b><i class="icon-file-plus "></i></b>
-        <?= _l( 'fld_add_like_indi' ); ?></span><br />&nbsp;<br />&nbsp;
+     
     <table class="table table-hover table-bordered tabel-framed" id="tbl_list_like_indi">
         <thead>
             <tr class="bg-primary-300">
@@ -38,9 +36,7 @@
                     <td class="pointer">
                         <!-- masuk ke javascript utk edit -->
                         <i class="icon-database-edit2 text-primary-400 update-like-indi" data-parent="<?= $parent; ?>"
-                            data-id="<?= $row['id']; ?>"></i> |
-                        <i class="icon-database-remove text-danger-400 delete-like-indi" data-parent="<?= $parent; ?>"
-                            data-id="<?= $row['id']; ?>" data-bk="1"></i>
+                            data-id="<?= $row['id']; ?>"></i>
                     </td>
                 </tr>
             <?php endforeach; ?>
