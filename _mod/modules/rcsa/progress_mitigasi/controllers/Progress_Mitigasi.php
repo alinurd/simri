@@ -349,6 +349,7 @@ class Progress_Mitigasi extends MY_Controller
 		$data = false;
 
 		$rcsa_detail = $this->db->where('id', $id)->get(_TBL_VIEW_RCSA_DETAIL)->row_array();
+		
 		$info['detail'] = $rcsa_detail;
 		$info['parent'] = $this->db->where('id', $rcsa_detail['rcsa_id'])->get(_TBL_VIEW_RCSA)->row_array();
 		$mit = $this->db->where('rcsa_detail_id', $id)->get("il_view_rcsa_mitigasi_detail")->result_array();
@@ -382,9 +383,9 @@ class Progress_Mitigasi extends MY_Controller
 			. form_hidden(['id_detail' => ($id) ? $id : 0])
 			. form_hidden(['id_edit' => ($residual) ? $residual['id'] : 0]);
 
-		$info['dampak'] =  form_dropdown('mit_like_id', $like, ($residual) ? $residual['like'] : '', 'id="mit_like_id" class="form-control select" ');
+		$info['dampak'] =  form_dropdown('mit_like_id', $like, ($residual) ? $residual['like'] : $rcsa_detail['like_code'], 'id="mit_like_id" class="form-control select" ');
 
-		$info['impact'] =  form_dropdown('mit_impact_id', $impact, ($residual) ? $residual['impact'] : '', 'id="mit_impact_id" class="form-control select" ');
+		$info['impact'] =  form_dropdown('mit_impact_id', $impact, ($residual) ? $residual['impact'] : $rcsa_detail['impact_code'], 'id="mit_impact_id" class="form-control select" ');
 
 		$info['update'] = $this->load->view('progres', $info, true);
 		$info['list_progres'] = $this->load->view('list-progres', $info, true);
