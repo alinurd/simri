@@ -551,7 +551,7 @@ class Data extends MX_Model
 	function simpan_dampak_indi($data)
 	{
 
-
+// doi::dump($data);
 		$this->db->where('rcsa_detail_id', intval($data['rcsa_detail_no']));
 		$this->db->where('month', intval($data['month']));
 		$p = $this->db->get("il_update_residual")->row_array();
@@ -565,6 +565,12 @@ class Data extends MX_Model
 			$this->crud->crud_field('tipe_kri', $data['tipe_kri'][$key]);
 			$this->crud->crud_field('like', $data['like_id'][$key]);
 			$this->crud->crud_field('impact', $data['mak'][$key]);
+			if($data['aspek']){
+				$this->crud->crud_field('aspek', $data['aspek']);
+			}
+			if($data['aspek_det']){
+				$this->crud->crud_field('aspek_det', $data['aspek_det']);
+			}
 
 			if ($p) {
 				$this->crud->crud_type('edit');
@@ -578,7 +584,6 @@ class Data extends MX_Model
 			}
 			$this->crud->process_crud();
 		}
-
 
 		// doi::dump($data);
 		$this->db->where('category', 'impact');
