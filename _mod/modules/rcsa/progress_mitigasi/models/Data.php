@@ -566,7 +566,7 @@ class Data extends MX_Model
 			$this->crud->crud_field('like', $data['like_id'][$key]);
 			$this->crud->crud_field('impact', $data['mak'][$key]);
 
-			if ($row > 0) {
+			if ($p) {
 				$this->crud->crud_type('edit');
 				$this->crud->crud_where(['field' => 'id', 'value' => $p['id']]);
 				$this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
