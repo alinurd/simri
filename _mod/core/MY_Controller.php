@@ -86,7 +86,6 @@ class MY_Controller extends MX_Controller
 		$this->js();
 
 		$this->initialize();
-
 		if( $this->configuration['themes_mode'] !== 'default' )
 		{
 			$this->_template_ = $this->configuration['themes_mode'];
@@ -2219,6 +2218,15 @@ class MY_Controller extends MX_Controller
 
 	function proses_delete( $id = [] )
 	{
+		if( method_exists( $this->router->fetch_class(), 'beforeDelete' ) )
+		{
+			$statusbefore = $this->beforeDelete( $id );
+			if( ! $statusbefore )
+			{
+				$this->logdata->set_message( 'Error Before Delete Process !', TRUE );
+			}
+
+		}
 		$status = TRUE;
 		$this->db->trans_begin();
 		$this->crud->crud_table( $this->tbl_simpan );

@@ -405,12 +405,19 @@ class Kajian_Risiko extends MY_Controller
 
 	}
 
-	function afterDelete( $id )
+	function beforeDelete( $id )
 	{
 		if( empty( $id[0] ) || ! is_numeric( (int) $id[0] ) )
 		{
 			return FALSE;
 		}
+
+		$getDokumenMr = $this->db->get_where( _TBL_KAJIAN_RISIKO, [ "id" => $id[0] ] )->row_array();
+		if( ! empty( $getDokumenMr["dokumen_mr"] ) && file_exists( "files/kajian_risiko_mr/" . $getDokumenMr["dokumen_mr"] ) )
+		{
+			unlink( "files/kajian_risiko_mr/" . $getDokumenMr["dokumen_mr"] );
+		}
+
 		$getFile = $this->db->get_where( _TBL_KAJIAN_RISIKO_FILE, [ "id_kajian_risiko" => $id[0] ] )->result_array();
 		if( ! empty( $getFile ) )
 		{
@@ -422,10 +429,6 @@ class Kajian_Risiko extends MY_Controller
 					if( file_exists( "files/kajian_risiko/" . $vFile["server_filename"] ) )
 					{
 						unlink( "files/kajian_risiko/" . $vFile["server_filename"] );
-					}
-					if( file_exists( "files/kajian_risiko_mr/" . $vFile["dokumen_mr"] ) )
-					{
-						unlink( "files/kajian_risiko_mr/" . $vFile["dokumen_mr"] );
 					}
 				}
 			}
