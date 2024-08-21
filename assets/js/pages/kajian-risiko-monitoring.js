@@ -223,7 +223,7 @@ $(document).on("click", "#btnModalRegister", function (e) {
 })
 $(document).on("change", ".residual-select", function (e) {
     var data = { 'likelihood': $("#likelihood-residual").val(), "impact": $("#impact-residual").val() };
-    var url = "/kajian-risiko/getlevelrisk";
+    var url = "/kajian-risiko-mr/getlevelrisk";
     _ajax_("post", $("#result-residual-level"), data, "", url, "result_level_residual");
 })
 function result_level_residual(result) {

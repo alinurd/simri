@@ -286,7 +286,7 @@ class Kajian_Risiko extends MY_Controller
 
 	function optionalPersonalButton( $button, $row )
 	{
-		if( ! empty( $row["status_approval"] ) && $row["status_approval"] == "approved" )
+		if( ! empty( $row["status"] ) && $row["status"] == 1 )
 		{
 			unset( $button["delete"] );
 		}

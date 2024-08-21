@@ -22,6 +22,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 		$this->addField( [ 'field' => 'name', 'title' => 'Nama Kajian Risiko', 'type' => 'string', 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'request_date', 'type' => 'date', 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'release_date', 'type' => 'date', 'search' => TRUE, "required" => TRUE ] );
+		$this->addField( [ 'field' => 'tiket_terbit', 'type' => 'date', "show" => FALSE,] );
 		$this->addField( [ 'field' => 'status', 'title' => 'Status', "show" => FALSE, 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_status, 'default' => 0, 'size' => 40 ] );
 		$this->addField( [ 'field' => 'status_approval', 'title' => 'Status Approval', "show" => FALSE, 'type' => 'string', 'input' => 'combo', 'values' => $this->cbo_status_approval, 'default' => 'waiting', 'size' => 40 ] );
 		$this->addField( [ 'field' => 'link_dokumen_kajian', "title" => "Dokumen Self-Assessment" ] );
@@ -39,8 +40,9 @@ class Kajian_Risiko_Mr extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'owner_id', "Risk Owner" );
 		$this->set_Table_List( $this->tbl_master, 'name', "Nama Kajian Risiko" );
 		$this->set_Table_List( $this->tbl_master, 'request_date', "Tanggal Permintaan" );
-		$this->set_Table_List( $this->tbl_master, 'release_date', "Tanggal Release" );
-		$this->set_Table_List( $this->tbl_master, 'status', "Status", 0, "center" );
+		$this->set_Table_List( $this->tbl_master, 'tiket_terbit', "Tanggal Tiket Terbit" );
+		$this->set_Table_List( $this->tbl_master, 'release_date', "Max Tanggal Release" );
+		// $this->set_Table_List( $this->tbl_master, 'status', "Status", 0, "center" );
 		$this->set_Table_List( $this->tbl_master, 'status_approval', "Status Approval", 0, "center" );
 		$this->set_Table_List( $this->tbl_master, 'dokumen_mr', "Dokumen MR", 0, "center" );
 		$this->set_Close_Setting();

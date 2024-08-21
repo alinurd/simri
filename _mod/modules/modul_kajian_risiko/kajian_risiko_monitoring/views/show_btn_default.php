@@ -10,7 +10,7 @@
             <button type="button" id="btnModalRegister" data-id="<?= $kajian_id ?>"
                 data-url="<?= base_url( $module_name . "/monitoringModal" ) ?>"
                 class="btn bg-primary btn-labeled btn-labeled-left button-action pull-right">
-                <b><i class="icon-file-text2"></i></b> Monitoring </button>
+                <b><i class="icon-file-text2"></i></b>Report Monitoring </button>
         </div>
     </div>
 </div>
