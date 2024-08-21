@@ -568,9 +568,9 @@ class Data extends MX_Model
 			if($data['aspek']){
 				$this->crud->crud_field('aspek', $data['aspek']);
 			}
-			if($data['aspek_det']){
-				$this->crud->crud_field('aspek_det', $data['aspek_det']);
-			}
+			// if($data['aspek_det']){
+			// 	$this->crud->crud_field('aspek_det', $data['aspek_det']);
+			// }
 
 			if ($p) {
 				$this->crud->crud_type('edit');

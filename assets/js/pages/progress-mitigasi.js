@@ -406,9 +406,9 @@ $(function () {
      if (typeof likeCek === "undefined" || likeCek === null || likeCek === ""|| likeCek === "0") {
       likeCek = false;
     }
-     if (typeof aspek_det === "undefined" || aspek_det === null || aspek_det === "") {
-      aspek_det = 0;
-    }
+    //  if (typeof aspek_det === "undefined" || aspek_det === null || aspek_det === "") {
+    //   aspek_det = 0;
+    // }
     var like_id_3 = $('input[name="like_id_3"]').val();
     var like_id_2 = $('input[name="like_id_2"]').val();
     var like = $('input[name="mit_like_id"]').val();
