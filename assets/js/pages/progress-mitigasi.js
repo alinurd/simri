@@ -350,14 +350,18 @@ $(function () {
     }
   });
 
-  // $(document).on('click','#proses_propose_mitigasi', function(){
-  // 	var parent = $(this).parent().parent().parent();
-  // 	// var data = $("#form_general").serialize();
-  // 	var form = $('#form_general').get(0);
-  // 	var data = new FormData(form);
-  // 	var url = modul_name + "/proses-propose-mitigasi";
-  // 	_ajax_file_("post", parent, data, '', url, 'result_progres');
-  // })
+  $(document).on("change", ".tipe_kri", function () {
+    var parent = $(this).parent().parent().parent();
+    var nilai = $(this).val();
+    var data = {
+        'id': nilai
+    };
+    var target_combo = $(this).closest('tr').find('.kri');
+    var url = "ajax/get-kri";
+    _ajax_("post", parent, data, target_combo, url);
+})
+
+
   $(document).on("click", "#simpan_dampak_indi", function () {
     var mak = 0;
     var cek = 0;

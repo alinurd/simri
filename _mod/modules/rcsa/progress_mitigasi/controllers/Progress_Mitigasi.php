@@ -2398,7 +2398,7 @@ class Progress_Mitigasi extends MY_Controller
 
 		foreach ($rows as &$row) {
 			$tipe_kri            = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'tipe-kri')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-			$kri                 = $this->crud->combo_select(['id', 'concat(urut,\' - \',data) as data'])->combo_where('pid', $row['jenis_kri_id'])->combo_where('param_int', 2)->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+			$kri                 = $this->crud->combo_select(['id', 'concat(urut,\' - \',data) as data'])->combo_where('pid',isset($residual['tipe_kri'])?$residual['tipe_kri']:$row['jenis_kri_id'])->combo_where('param_int', 2)->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 			$detail_input        = '';
 			$row['cbo_kri'] = form_dropdown(
 				'kri[]',               
