@@ -600,16 +600,21 @@ class Data extends MX_Model
 		$hasil['rows'] = $rows;
 		$hasil['data'] = $data;
 
-
-		$this->crud->crud_table("il_update_residual");
-		$this->crud->crud_field('level_color', $rows['level_color']);
-		$this->crud->crud_field('color_text', $rows['color_text']);
-		$this->crud->crud_field('color', $rows['color']);
-		$this->crud->crud_field('score', $rows['score']);
-
-		$this->crud->crud_type('edit');
-		$this->crud->crud_where(['field' => 'id', 'value' => $p['id']]);
-		$this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
+		$this->db->where('rcsa_detail_id', intval($data['rcsa_detail_no']));
+		$this->db->where('month', intval($data['month']));
+		$pp = $this->db->get("il_update_residual")->row_array();
+		if($pp){
+			$this->crud->crud_table("il_update_residual");
+			$this->crud->crud_field('level_color', $rows['level_color']);
+			$this->crud->crud_field('color_text', $rows['color_text']);
+			$this->crud->crud_field('color', $rows['color']);
+			$this->crud->crud_field('score', $rows['score']);
+	
+			$this->crud->crud_type('edit');
+			$this->crud->crud_where(['field' => 'id', 'value' => $pp['id']]);
+			$this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
+		}
+		
 
 		$this->crud->process_crud();
 
