@@ -2524,7 +2524,7 @@ class Progress_Mitigasi extends MY_Controller
 									$data['s_3_max']        = 0;
 									$data['score']          = 0;
 									$data['dampak_id']      = $post['dampak_id'];
-									$data['month']      = $post['month'];
+									$data['month']      = 2;
 									$this->data->simpan_like_indi($data);
 								}
 							}
@@ -2533,7 +2533,7 @@ class Progress_Mitigasi extends MY_Controller
 				}
 			}
 
-			$post['hasil'] = $this->data->update_list_indi_like(['rcsa_detail_no' => $post['rcsa_detail_no'], 'bk_tipe' => $post['bk_tipe'], 'dampak_id' => $post['dampak_id'], 'month'=>$post['month']], false);
+			$post['hasil'] = $this->data->update_list_indi_like(['rcsa_detail_no' => $post['rcsa_detail_no'], 'bk_tipe' => $post['bk_tipe'], 'dampak_id' => $post['dampak_id'], 'month'=>2], false);
 		}
 
 
