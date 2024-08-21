@@ -2022,6 +2022,7 @@ class Progress_Mitigasi extends MY_Controller
 		$aspek_det = "";
 		if ($residual) {
 			$aspek = $residual['aspek'];
+			$aspek_det = $residual['aspek_det'];
 		} elseif ($data) {
 			if ($data['tipe_analisa_no'] == 2 || $data['tipe_analisa_no'] == 3) {
 				$aspek = $data['aspek_risiko_id'];
@@ -2242,20 +2243,23 @@ class Progress_Mitigasi extends MY_Controller
 		 $param['analisa_kuantitatif'][] = ['title' => _l('fld_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => TRUE, 'isi' => form_input('like_text_kuantitatif', ($LV) ? $LV['like_code'] .'-'. $LV['like_text']: $data['like_inherent'], 'id="like_text_kuantitatif" class="form-control" readonly="readonly" style="width:100%;"')
 		 . form_hidden(['like_text' => ($LV) ? $LV['like_text'] :  $data['like_text']])
 		 . form_hidden(['like_id' => ($LV) ? $LV['like_code'] :$data['like_code']])
-		 . form_hidden(['like_id_2' => ($LV) ? $LV['like_code'] :$data['like_code']])];
+		 . form_hidden(['like_id_2' => ($LV) ? $LV['like_code'] :$data['like_code']])
+		 . form_hidden(['like_id_3' => ($LV) ? $LV['like_code'] :$data['like_code']])];
 
 		 $param['analisa_kuantitatif'][] = ['title' => _l('fld_impact'), 'help' => _h('help_impact'), 'mandatori' => TRUE, 'isi' => form_input('impact_text_kuantitatif', ($LV) ? $LV['impact_code'] .'-'.$LV['impact_text']:'', 'id="impact_text_kuantitatif" class="form-control" readonly="readonly" style="width:100%;"') 
 		 . form_hidden(['impact_text' => ($LV) ? $LV['impact_text'] : $data['impact_text']]) 
 		 . form_hidden(['impact_id' => ($LV) ? $LV['impact_code'] : $data['impact_code']]) 
-		 . form_hidden(['impact_id_2' => ($LV) ? $LV['impact_code'] : $data['impact_code']])];
+		 . form_hidden(['impact_id_2' => ($LV) ? $LV['impact_code'] : $data['impact_code']])
+		 . form_hidden(['impact_id_3' => ($LV) ? $LV['impact_code'] : $data['impact_code']])];
 		// doi::dump($residual);
 		
  	
 
 		/**========== */
-		$param['analisa_semi'][] = ['title' => _l('fld_indi_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => TRUE, 'isi' => form_dropdown('aspek_risiko_id', $aspek_risiko, $aspek, 'id="aspek_risiko_id" class="form-control select" style="width:100%;"') . form_hidden(['aspek' => 0], 'id="aspek"')];
+		$param['analisa_semi'][] = ['title' => _l('fld_indi_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => TRUE, 'isi' => form_dropdown('aspek_risiko_id', $aspek_risiko, $aspek, 'id="aspek_risiko_id" class="form-control select" style="width:100%;"') 
+		. form_hidden('aspek', ($aspek) ? $aspek : 0, 'id="aspek"')];
 
-		$param['analisa_semi'][] = ['title' => "Detail", 'help' => _h("keterangan/Detail lainnya"), 'mandatori' => FALSE, 'isi' => form_input('aspek_det', ($data) ? $data['aspek_det'] : '', 'id="aspek_det" class="form-control" style="width:100%;" ')];
+		// $param['analisa_semi'][] = ['title' => "Detail", 'help' => _h("keterangan/Detail lainnya"), 'mandatori' => FALSE, 'isi' => form_input('aspek_det', ($aspek_det) ? $aspek_det : '', 'id="aspek_det" class="form-control" style="width:100%;" ')];
 
 		$urutTemp = [1, 7, 8, 9, 10];
 
@@ -2271,6 +2275,10 @@ class Progress_Mitigasi extends MY_Controller
 			}
 		}
 		$like_semi_form .= '</select>';
+		$like_semi_form .= form_hidden(['like_text' => ($LV) ? $LV['like_text'] :  $data['like_text']])
+		 . form_hidden(['like_id' => ($LV) ? $LV['like_code'] :$data['like_code']])
+		 . form_hidden(['like_id_2' => ($LV) ? $LV['like_code'] :$data['like_code']])
+		 . form_hidden(['like_id_3' => ($LV) ? $LV['like_code'] :$data['like_code']]);
 
 		// form_dropdown('like_id_3', $like_semi, ($data)?$data['like_id']:'', 'id="like_id_3" class="form-control select" style="width:100%;"')
 
@@ -2280,13 +2288,16 @@ class Progress_Mitigasi extends MY_Controller
 			form_hidden(['indikator_dampak_cek' => ($jml_dampak_indi) ? $jml_dampak_indi : ''], 'id="indikator_dampak_cek"')];
 		// $param['analisa_semi'][] = [ 'title' => _l( 'fld_likelihood' ), 'help' => _h( 'help_likelihood' ), 'mandatori' => TRUE, 'isi' => form_input( 'like_text_kuantitatif_semi', ( $data ) ? $data['like_inherent'] : '', 'id="like_text_kuantitatif" class="form-control" style="width:100%;" readonly="readonly"' ) . form_hidden( [ 'like_id_3' => ( $data ) ? $data['like_id'] : '' ] ) ];
 
-		$param['analisa_semi'][] = ['title' => _l('fld_impact'), 'help' => _h('help_impact'), 'mandatori' => TRUE, 'isi' => form_input('impact_text_kuantitatif', ($data) ? $data['impact_inherent'] : '', 'id="impact_text_kuantitatif_semi" class="form-control" style="width:100%;" readonly="readonly"') . form_hidden(['impact_id_3' => ($data) ? $data['impact_id'] : ''], 'id="impact_id_3"')];
+		$param['analisa_semi'][] = ['title' => _l('fld_impact'), 'help' => _h('help_impact'), 'mandatori' => TRUE, 'isi' => form_input('impact_text_kuantitatif', ($LV) ? $LV['impact_code'] .'-'.$LV['impact_text'] : '', 'id="impact_text_kuantitatif_semi" class="form-control" style="width:100%;" readonly="readonly"') 
+		. form_hidden(['impact_text' => ($LV) ? $LV['impact_text'] : $data['impact_text']]) 
+		 . form_hidden(['impact_id' => ($LV) ? $LV['impact_code'] : $data['impact_code']]) 
+		 . form_hidden(['impact_id_2' => ($LV) ? $LV['impact_code'] : $data['impact_code']])
+		 . form_hidden(['impact_id_3' => ($LV) ? $LV['impact_code'] :  $data['impact_code']], 'id="impact_id_3"')];
+
 
 		$param['analisa_semi'][] = ['title' => '', 'help' => '', 'isi' => form_input('like_text_3', ($data) ? $data['like_text'] : '', 'id="like_text_3" class="form-control" style="width:100%;display:none"')];
 
 		// $param['analisa_semi'][] = ['title'=>_l('fld_impact'),'help'=>_h('help_impact'), 'mandatori'=>true,'isi'=>form_dropdown('impact_id_3', $impact, ($data)?$data['impact_id']:'', 'id="impact_id_3" class="form-control select" style="width:100%;"')];
-
-
 
 		$param['analisa_semi'][] = ['title' => '', 'help' => '', 'isi' => form_input('impact_text_3', ($data) ? $data['impact_text'] : '', 'id="impact_text_3" class="form-control" style="width:100%;display:none"')];
 

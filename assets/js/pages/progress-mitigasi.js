@@ -375,7 +375,8 @@ $(function () {
     var tipe = $('input[name="tipe_analisa_no"]:checked').val();
     var bktipe = $('input[name="bk_tipe"]').val();
     var month = $('input[name="month"]').val();
-    if (tipe == 2) {
+    console.log(bktipe)
+     if (tipe == 2) {
       if (bktipe == 2) {
         var like_id = $('input[name="like_residual_id"]').val();
       } else if (bktipe == 3) {
@@ -385,20 +386,71 @@ $(function () {
       }
     } else {
       if (bktipe == 2) {
-        var like_id = $("#like_residual_id_3 :selected").data("temp");
+        var like_id = $("#like_residual_id_3 :selected").val();
       } else if (bktipe == 3) {
-        var like_id = $("#like_target_id_3 :selected").data("temp");
+        var like_id = $("#like_target_id_3 :selected").val();
       } else {
-        var like_id = $("#like_id_3 :selected").data("temp");
+        var like_id = $("#like_id_3 :selected").val();
       }
     }
+    
+    // var aspek_detx = $("#aspek_det").val();
+    // var aspek_det = $('input[name="aspek_det"]').val();
+    var aspek = $('input[name="aspek"]').val();
+    console.log(aspek_det)
+    console.log(aspek_detx)
+     if (typeof aspek === "undefined" || aspek === null || aspek === "") {
+      aspek = 0;
+    }
+    var likeCek = $('input[name="mit_like_id_cek"]').val(); 
+     if (typeof likeCek === "undefined" || likeCek === null || likeCek === ""|| likeCek === "0") {
+      likeCek = false;
+    }
+     if (typeof aspek_det === "undefined" || aspek_det === null || aspek_det === "") {
+      aspek_det = 0;
+    }
+    var like_id_3 = $('input[name="like_id_3"]').val();
+    var like_id_2 = $('input[name="like_id_2"]').val();
+    var like = $('input[name="mit_like_id"]').val();
 
+    var cekLik="start"
+    if (likeCek) {
+       cekLik="likeCek"
+      like_id = likeCek;
+      console.log(likeCek)
+    } else if (like) {
+      like_id = like;
+       cekLik="like"
+      
+      console.log('2')
+    } else if (like_id)  {
+       cekLik="like_id"
+      console.log('3')
+      like_id = like_id;
+    }else if (like_id_3)  {
+     cekLik="like_3"
+    console.log('4')
+    like_id = like_id_3;
+  }else if (like_id_2)  {
+     cekLik="like_2"
+    console.log('5')
+    like_id = like_id_2;
+  }else{
+   cekLik="else"
+  console.log('6')
+    like_id=1
+  }
+  
     var parent = $(this).parent().parent().parent();
     var data = $("#form_dampak_indi").serializeArray();
-
+ 
+    data.push({ name: "cekLik", value: cekLik });
     data.push({ name: "like_id", value: like_id });
     data.push({ name: "mak", value: mak });
     data.push({ name: "month", value: month });
+    data.push({ name: "aspek", value: aspek });
+    // data.push({ name: "aspek_det", value: aspek_det });
+    console.log(data)
     var target_combo = "";
     var url = modul_name + "/simpan-dampak-indi";
     _ajax_("post", parent, data, target_combo, url, "resultInherent");
@@ -739,6 +791,8 @@ $(document).on("change", "#aspek_risiko_id", function () {
   } else {
     $("#aspek_det").parent().parent().parent().hide();
   }
+  $('input[name="aspek"]').val(id);
+
   var data = { id: id };
   var target_combo = $(".like_id_3");
   var url = "ajax/get-like-aspekrisiko";
