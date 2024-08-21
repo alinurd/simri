@@ -580,7 +580,7 @@ class Data extends MX_Model
 		}
 
 
-		// doi::dump($data);
+		doi::dump($data);
 		$this->db->where('category', 'impact');
 		$this->db->where('code', intval($data['mak']));
 		$rows  = $this->db->get(_TBL_LEVEL)->row_array();
