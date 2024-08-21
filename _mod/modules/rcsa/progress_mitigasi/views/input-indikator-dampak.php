@@ -3,10 +3,11 @@ $events = 'auto';
 if (intval($parent['bk_tipe'])>1){
     $events='none';
 }
+ 
 echo form_open_multipart($this->uri->uri_string, array('id'=>'form_dampak_indi','class'=>'form-horizontal'), $parent);?>
 <div class='table-responsive' id="div_like_indi">
     <?=_l('fld_list_dampak_indi').' '.$sub_title;?>
-    <span class="btn bg-primary-400 btn-labeled btn-labeled-right legitRipple pull-right" id="add_dampak_indi"  style="pointer-events:<?=$events;?>"><b><i class="icon-file-plus "></i></b> <?=_l('fld_add_dampak_indi');?></span><br/>&nbsp;<br/>&nbsp;
+    <!-- <span class="btn bg-primary-400 btn-labeled btn-labeled-right legitRipple pull-right" id="add_dampak_indi"  style="pointer-events:<?=$events;?>"><b><i class="icon-file-plus "></i></b> <?=_l('fld_add_dampak_indi');?></span><br/>&nbsp;<br/>&nbsp; -->
     <table class="table table-hover" id="tbl_list_dampak_indi">
         <thead>
             <tr>
@@ -30,7 +31,7 @@ echo form_open_multipart($this->uri->uri_string, array('id'=>'form_dampak_indi',
                 <td><?=$row['cbo_kri'];?></td>
                 <td><?=$row['detail_input'];?></td>
                 <td class="pointer text-center">
-                    <i class="icon-database-remove text-danger-400 del-dampak-indi" data-parent="<?=$parent['rcsa_detail_no'];?>" data-id="<?=$row['id'];?>"></i> </td>
+                    <!-- <i class="icon-database-remove text-danger-400 del-dampak-indi" data-parent="<?=$parent['rcsa_detail_no'];?>" data-id="<?=$row['id'];?>"></i> </td> -->
             </tr>
             <?php endforeach;?>
         </tbody>

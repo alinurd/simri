@@ -551,26 +551,27 @@ class Data extends MX_Model
 	}
 	function simpan_dampak_indi( $data )
 	{
-		// $id=intval($data['id']);
-		// doi::dump($data);
+ 
 
-		if( isset( $data['edit_id'] ) )
-		{
-			if( count( $data['edit_id'] ) > 0 )
-			{
+				$this->db->where( 'rcsa_detail_id', intval( $data['rcsa_detail_no'] ) );
+				$this->db->where( 'month', intval( $data['month'] ) );
+				$p = $this->db->get( "il_update_residual" )->row_array();
+
 				$no = 0;
 				foreach( $data['edit_id'] as $key => $row )
 				{
 					$this->crud->crud_table( "il_update_residual" );
 					$this->crud->crud_field( 'rcsa_detail_id', $data['rcsa_detail_no'] );
 					$this->crud->crud_field( 'kri_id', $data['kri'][$key] );
+					$this->crud->crud_field( 'detail_dampak_indi', $data['detail'][$key] );
+					$this->crud->crud_field( 'tipe_kri', $data['tipe_kri'][$key] );
 					$this->crud->crud_field( 'like', $data['like_id'][$key] );
 					$this->crud->crud_field( 'impact', $data['mak'][$key] );
 
 					if( $row > 0 )
 					{
 						$this->crud->crud_type( 'edit' );
-						$this->crud->crud_where( [ 'field' => 'id', 'value' => $row ] );
+						$this->crud->crud_where( [ 'field' => 'id', 'value' => $p['id'] ] );
 						$this->crud->crud_field( 'updated_by', $this->ion_auth->get_user_name() );
 					}
 					else
@@ -582,8 +583,7 @@ class Data extends MX_Model
 					}
 					$this->crud->process_crud();
 				}
-			}
-		}
+			 
 
 		$this->db->where( 'category', 'impact' );
 		$this->db->where( 'code', intval( $data['mak'] ) );
@@ -594,8 +594,8 @@ class Data extends MX_Model
 			$x['text'] = $rows['code'] . ' - ' . $rows['level'];
 			$x['nil']  = $rows['id'];
 
-			$this->db->where( 'likelihood', intval( $data['like_id'] ) );
-			$this->db->where( 'impact', intval( $rows['id'] ) );
+			$this->db->where( 'like_code', intval( $data['like_id'] ) );
+			$this->db->where( 'impact_code', intval( $rows['code'] ) );
 			$rows = $this->db->get( _TBL_VIEW_LEVEL_MAPPING )->row_array();
 			if( $rows )
 			{

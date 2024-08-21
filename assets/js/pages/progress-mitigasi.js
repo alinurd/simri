@@ -370,6 +370,7 @@ $(function () {
         var parent = $(this).parent().parent().parent();
         var tipe = $('input[name=\"tipe_analisa_no\"]:checked').val();
         var bktipe = $('input[name=\"bk_tipe\"]').val();
+		var month = $('input[name="month"]').val();
         if (tipe == 2) {
             if (bktipe == 2) {
                 var like_id = $('input[name="like_residual_id"]').val();
@@ -393,6 +394,7 @@ $(function () {
 
         data.push({ name: 'like_id', value: like_id });
         data.push({ name: 'mak', value: mak });
+        data.push({ name: 'month', value: month });
         var target_combo = '';
         var url = modul_name + "/simpan-dampak-indi";
         _ajax_("post", parent, data, target_combo, url, 'resultInherent');
@@ -657,8 +659,10 @@ $(document).on("click", "#simpanResidual", function () {
 $(document).on("click", "#indikator_dampak", function () {
 	var parent = $(this).parent();
 	// var rcsa = $(this).data('rcsa');
+	var month = $('input[name="month"]').val();
+
 	var id = $(this).data("id");
-	var data = { id: 0, rcsa_detail_no: id, bk_tipe: 1 };
+	var data = { id: 0, rcsa_detail_no: id, bk_tipe: 1, month:month };
 	var url = modul_name + "/indikator-dampak";
 	_ajax_("post", parent, data, "", url, "indikator_dampak");
 });
@@ -830,14 +834,14 @@ function resultInherent(hasil) {
 	var likeCode = parseFloat(hasil.like_code);
 	var impactCode = parseFloat(hasil.impact_code);
 	var x = likeCode * impactCode;
-	var isi = x + "-" + hasil.level_color;
+	var isi = hasil.score + "-" + hasil.level_color;
 	$("#simpanResidual").removeClass("disabled");
 	if (x == 0) {
 		isi = "-";
 		$("#simpanResidual").addClass("disabled");
 	}
 
- 	$("#mit_level_residual_text").val(isi);
+ 	$("#mit_level_residual_text").val(hasil.level_color);
 	$('input[name="mit_like_id"]').val(hasil.like_code);
 	$('input[name="mit_impact_id"]').val(hasil.impact_code);
 

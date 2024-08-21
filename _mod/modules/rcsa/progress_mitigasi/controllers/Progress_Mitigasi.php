@@ -373,7 +373,7 @@ class Progress_Mitigasi extends MY_Controller
 			$csslevel  = 'background-color:' . $residual['color'] . ';color:' . $residual['color_text'] . ';';
 		}
 
-		$info['level'] = form_input('mit_level_residual_text', ($residual) ? $residual['score'] . '-' . $residual['level_color'] : '', 'class="form-control text-center" id="mit_level_residual_text" readonly="readonly" style="width:30%;' . $csslevel . '"')
+		$info['level'] = form_input('mit_level_residual_text', ($residual) ?  $residual['level_color'] : '', 'class="form-control text-center" id="mit_level_residual_text" readonly="readonly" style="width:30%;' . $csslevel . '"')
 			. form_hidden(['level_color' => ($residual) ? $residual['level_color'] : ''])
 			. form_hidden(['color' => ($residual) ? $residual['color'] : ''])
 			. form_hidden(['color_text' => ($residual) ? $residual['color_text'] : ''])
@@ -2237,7 +2237,7 @@ class Progress_Mitigasi extends MY_Controller
 			$this->db->where( 'impact_code', intval( $residual['impact'] ) );
 			$LV = $this->db->get( _TBL_VIEW_LEVEL_MAPPING )->row_array();
  		}
-		
+
 		 $param['analisa_kuantitatif'][] = ['title' => _l('fld_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => TRUE, 'isi' => form_input('like_text_kuantitatif', ($LV) ? $LV['like_code'] .'-'. $LV['like_text']: $data['like_inherent'], 'id="like_text_kuantitatif" class="form-control" readonly="readonly" style="width:100%;"')
 		 . form_hidden(['like_text' => ($LV) ? $LV['like_text'] :  $data['like_text']])
 		 . form_hidden(['like_id' => ($LV) ? $LV['like_code'] :$data['like_id']])
@@ -2380,7 +2380,7 @@ class Progress_Mitigasi extends MY_Controller
 		$data['tipe_kri']    = form_dropdown('tipe_kri[]', $tipe_kri, '', 'class="form-control tipe_kri select" id="tipe_kri"');
 		$data['kri']         = form_dropdown('kri[]', [], '', 'class="form-control kri select" id="kri"');
 		$data['detail']      = form_input('detail[]', '', 'class="form-control detail_input" id="detail_input"');
-
+ 
 		$rows = $this->db->where('bk_tipe', $post['bk_tipe'])->where('rcsa_detail_id', intval($post['rcsa_detail_no']))->or_group_start()->where('rcsa_detail_id', 0)->where('created_by', $this->ion_auth->get_user_name())->group_end()->get(_TBL_VIEW_RCSA_DET_DAMPAK_INDI)->result_array();
 
 		if ($post['bk_tipe'] == 1) {
@@ -2391,14 +2391,27 @@ class Progress_Mitigasi extends MY_Controller
 			$disabeld          = '';
 			// $disabeld=' readonly="readonly" ';
 		}
+				$this->db->where( 'rcsa_detail_id', intval( $post['rcsa_detail_no'] ) );
+				$this->db->where( 'month', intval( $post['month'] ) );
+				$residual = $this->db->get( "il_update_residual" )->row_array();
 
 		foreach ($rows as &$row) {
 			$tipe_kri            = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'tipe-kri')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 			$kri                 = $this->crud->combo_select(['id', 'concat(urut,\' - \',data) as data'])->combo_where('pid', $row['jenis_kri_id'])->combo_where('param_int', 2)->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 			$detail_input        = '';
-			$row['cbo_kri']      = form_dropdown('kri[]', $kri, $row['kri_id'], 'class="form-control kri select" id="kri"');
-			$row['cbo_tipe_kri'] = form_dropdown('tipe_kri[]', $tipe_kri, $row['jenis_kri_id'], 'class="form-control tipe_kri select" ' . $disabeld . ' id="tipe_kri"');
-			$row['detail_input'] = form_input('detail[]', $row['detail'], 'class="form-control detail_input ' . $row['detail'] . '" ' . $disabeld . ' id="detail_input"');
+			$row['cbo_kri'] = form_dropdown(
+				'kri[]',               
+				$kri,               
+				isset($residual['kri_id']) ? $residual['kri_id'] : $row['kri_id'],
+				'class="form-control kri select" id="kri"'
+			);
+			$row['cbo_tipe_kri'] = form_dropdown(
+				'tipe_kri[]',               
+				$tipe_kri,               
+				isset($residual['tipe_kri']) ? $residual['tipe_kri'] : $row['kri_id'],
+				'class="form-control kri select" id="tipe_kri"'
+			);
+ 			$row['detail_input'] = form_input('detail[]', isset($residual['detail_dampak_indi']) ? $residual['detail_dampak_indi'] : $row['detail'], 'class="form-control detail_input ' . $row['detail'] . '" ' . $disabeld . ' id="detail_input"');
 		}
 		unset($row);
 
