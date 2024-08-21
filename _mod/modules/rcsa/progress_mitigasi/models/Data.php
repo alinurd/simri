@@ -596,7 +596,7 @@ class Data extends MX_Model
 
 			if (empty($rows)) {
 				$this->db->where('likelihood', intval($data['like_id']));
-				$this->db->where('like_code', intval($data['like_id']));
+				$this->db->where('impact_code', intval($rows['code']));
 				$rows = $this->db->get(_TBL_VIEW_LEVEL_MAPPING)->row_array();
 			}
 			if ($rows) {
