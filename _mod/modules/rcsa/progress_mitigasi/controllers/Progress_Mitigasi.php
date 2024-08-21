@@ -2240,13 +2240,13 @@ class Progress_Mitigasi extends MY_Controller
 
 		 $param['analisa_kuantitatif'][] = ['title' => _l('fld_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => TRUE, 'isi' => form_input('like_text_kuantitatif', ($LV) ? $LV['like_code'] .'-'. $LV['like_text']: $data['like_inherent'], 'id="like_text_kuantitatif" class="form-control" readonly="readonly" style="width:100%;"')
 		 . form_hidden(['like_text' => ($LV) ? $LV['like_text'] :  $data['like_text']])
-		 . form_hidden(['like_id' => ($LV) ? $LV['like_code'] :$data['like_id']])
-		 . form_hidden(['like_id_2' => ($LV) ? $LV['like_code'] :$data['like_id']])];
+		 . form_hidden(['like_id' => ($LV) ? $LV['like_code'] :$data['like_code']])
+		 . form_hidden(['like_id_2' => ($LV) ? $LV['like_code'] :$data['like_code']])];
 
 		 $param['analisa_kuantitatif'][] = ['title' => _l('fld_impact'), 'help' => _h('help_impact'), 'mandatori' => TRUE, 'isi' => form_input('impact_text_kuantitatif', ($LV) ? $LV['impact_code'] .'-'.$LV['impact_text']:'', 'id="impact_text_kuantitatif" class="form-control" readonly="readonly" style="width:100%;"') 
 		 . form_hidden(['impact_text' => ($LV) ? $LV['impact_text'] : $data['impact_text']]) 
-		 . form_hidden(['impact_id' => ($LV) ? $LV['impact_code'] : $data['impact_id']]) 
-		 . form_hidden(['impact_id_2' => ($LV) ? $LV['impact_code'] : $data['impact_id']])];
+		 . form_hidden(['impact_id' => ($LV) ? $LV['impact_code'] : $data['impact_code']]) 
+		 . form_hidden(['impact_id_2' => ($LV) ? $LV['impact_code'] : $data['impact_code']])];
 		// doi::dump($residual);
 		
  	
@@ -2408,7 +2408,7 @@ class Progress_Mitigasi extends MY_Controller
 			$row['cbo_tipe_kri'] = form_dropdown(
 				'tipe_kri[]',               
 				$tipe_kri,               
-				isset($residual['tipe_kri']) ? $residual['tipe_kri'] : $row['kri_id'],
+				isset($residual['tipe_kri']) ? $residual['tipe_kri'] : $row['jenis_kri_id'],
 				'class="form-control kri select" id="tipe_kri"'
 			);
  			$row['detail_input'] = form_input('detail[]', isset($residual['detail_dampak_indi']) ? $residual['detail_dampak_indi'] : $row['detail'], 'class="form-control detail_input ' . $row['detail'] . '" ' . $disabeld . ' id="detail_input"');
@@ -2524,7 +2524,7 @@ class Progress_Mitigasi extends MY_Controller
 									$data['s_3_max']        = 0;
 									$data['score']          = 0;
 									$data['dampak_id']      = $post['dampak_id'];
-									$data['month']      = 2;
+									$data['month']      = $post['month'];
 									$this->data->simpan_like_indi($data);
 								}
 							}
@@ -2533,7 +2533,7 @@ class Progress_Mitigasi extends MY_Controller
 				}
 			}
 
-			$post['hasil'] = $this->data->update_list_indi_like(['rcsa_detail_no' => $post['rcsa_detail_no'], 'bk_tipe' => $post['bk_tipe'], 'dampak_id' => $post['dampak_id'], 'month'=>2], false);
+			$post['hasil'] = $this->data->update_list_indi_like(['rcsa_detail_no' => $post['rcsa_detail_no'], 'bk_tipe' => $post['bk_tipe'], 'dampak_id' => $post['dampak_id'], 'month'=>$post['month']], false);
 		}
 
 
