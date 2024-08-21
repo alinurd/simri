@@ -605,7 +605,7 @@ class Data extends MX_Model
 				$hasil['nil']  = $x['nil'];
 			}
 		}
-		$hasil['rows'] = $rCek;
+		// $hasil['rows'] = $rCek;
 		$hasil['data'] = $data;
 		// doi::dump($hasil);
 
