@@ -2259,7 +2259,7 @@ class Progress_Mitigasi extends MY_Controller
 		$param['analisa_semi'][] = ['title' => _l('fld_indi_likelihood'), 'help' => _h('help_likelihood'), 'mandatori' => TRUE, 'isi' => form_dropdown('aspek_risiko_id', $aspek_risiko, $aspek, 'id="aspek_risiko_id" class="form-control select" style="width:100%;"') 
 		. form_hidden('aspek', ($aspek) ? $aspek : 0, 'id="aspek"')];
 
-		$param['analisa_semi'][] = ['title' => "Detail", 'help' => _h("keterangan/Detail lainnya"), 'mandatori' => FALSE, 'isi' => form_input('aspek_det', ($aspek_det) ? $aspek_det : '', 'id="aspek_det" class="form-control" style="width:100%;" ')];
+		// $param['analisa_semi'][] = ['title' => "Detail", 'help' => _h("keterangan/Detail lainnya"), 'mandatori' => FALSE, 'isi' => form_input('aspek_det', ($aspek_det) ? $aspek_det : '', 'id="aspek_det" class="form-control" style="width:100%;" ')];
 
 		$urutTemp = [1, 7, 8, 9, 10];
 

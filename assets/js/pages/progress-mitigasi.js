@@ -393,12 +393,15 @@ $(function () {
         var like_id = $("#like_id_3 :selected").val();
       }
     }
- 
+    
+    // var aspek_detx = $("#aspek_det").val();
+    // var aspek_det = $('input[name="aspek_det"]').val();
     var aspek = $('input[name="aspek"]').val();
+    console.log(aspek_det)
+    console.log(aspek_detx)
      if (typeof aspek === "undefined" || aspek === null || aspek === "") {
       aspek = 0;
     }
-    var aspek_det = $('input[name="aspek_det"]').val();
     var likeCek = $('input[name="mit_like_id_cek"]').val(); 
      if (typeof likeCek === "undefined" || likeCek === null || likeCek === ""|| likeCek === "0") {
       likeCek = false;
@@ -446,7 +449,7 @@ $(function () {
     data.push({ name: "mak", value: mak });
     data.push({ name: "month", value: month });
     data.push({ name: "aspek", value: aspek });
-    data.push({ name: "aspek_det", value: aspek_det });
+    // data.push({ name: "aspek_det", value: aspek_det });
     console.log(data)
     var target_combo = "";
     var url = modul_name + "/simpan-dampak-indi";
