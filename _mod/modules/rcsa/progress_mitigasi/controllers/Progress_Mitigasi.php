@@ -349,6 +349,7 @@ class Progress_Mitigasi extends MY_Controller
 		$data = false;
 
 		$rcsa_detail = $this->db->where('id', $id)->get(_TBL_VIEW_RCSA_DETAIL)->row_array();
+		
 		$info['detail'] = $rcsa_detail;
 		$info['parent'] = $this->db->where('id', $rcsa_detail['rcsa_id'])->get(_TBL_VIEW_RCSA)->row_array();
 		$mit = $this->db->where('rcsa_detail_id', $id)->get("il_view_rcsa_mitigasi_detail")->result_array();
@@ -382,9 +383,9 @@ class Progress_Mitigasi extends MY_Controller
 			. form_hidden(['id_detail' => ($id) ? $id : 0])
 			. form_hidden(['id_edit' => ($residual) ? $residual['id'] : 0]);
 
-		$info['dampak'] =  form_dropdown('mit_like_id', $like, ($residual) ? $residual['like'] : '', 'id="mit_like_id" class="form-control select" ');
+		$info['dampak'] =  form_dropdown('mit_like_id', $like, ($residual) ? $residual['like'] : $rcsa_detail['like_code'], 'id="mit_like_id" class="form-control select" ');
 
-		$info['impact'] =  form_dropdown('mit_impact_id', $impact, ($residual) ? $residual['impact'] : '', 'id="mit_impact_id" class="form-control select" ');
+		$info['impact'] =  form_dropdown('mit_impact_id', $impact, ($residual) ? $residual['impact'] : $rcsa_detail['impact_code'], 'id="mit_impact_id" class="form-control select" ');
 
 		$info['update'] = $this->load->view('progres', $info, true);
 		$info['list_progres'] = $this->load->view('list-progres', $info, true);
@@ -2397,7 +2398,7 @@ class Progress_Mitigasi extends MY_Controller
 
 		foreach ($rows as &$row) {
 			$tipe_kri            = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'tipe-kri')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-			$kri                 = $this->crud->combo_select(['id', 'concat(urut,\' - \',data) as data'])->combo_where('pid', $row['jenis_kri_id'])->combo_where('param_int', 2)->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+			$kri                 = $this->crud->combo_select(['id', 'concat(urut,\' - \',data) as data'])->combo_where('pid',isset($residual['tipe_kri'])?$residual['tipe_kri']:$row['jenis_kri_id'])->combo_where('param_int', 2)->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 			$detail_input        = '';
 			$row['cbo_kri'] = form_dropdown(
 				'kri[]',               
@@ -2409,7 +2410,7 @@ class Progress_Mitigasi extends MY_Controller
 				'tipe_kri[]',               
 				$tipe_kri,               
 				isset($residual['tipe_kri']) ? $residual['tipe_kri'] : $row['jenis_kri_id'],
-				'class="form-control kri select" id="tipe_kri"'
+				'class="form-control tipe_kri select" id="tipe_kri"'
 			);
  			$row['detail_input'] = form_input('detail[]', isset($residual['detail_dampak_indi']) ? $residual['detail_dampak_indi'] : $row['detail'], 'class="form-control detail_input ' . $row['detail'] . '" ' . $disabeld . ' id="detail_input"');
 		}

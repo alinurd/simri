@@ -585,27 +585,27 @@ class Data extends MX_Model
 		$this->db->where('code', intval($data['mak']));
 		$rows  = $this->db->get(_TBL_LEVEL)->row_array();
 		$hasil = ['id' => 0, 'level_color' => '-', 'level_risk_id' => 0, 'code' => 0, 'like_code' => 0, 'impact_code' => 0, 'color' => '#FAFAFA', 'color_text' => '#000000', 'text' => '-', 'nil' => 0];
-		$hasil['rows'] = $rows;
+		// $hasil['rows'] = $rows;
 
 		if ($rows) {
 			$x['text'] = $rows['code'] . ' - ' . $rows['level'];
 			$x['nil']  = $rows['id'];
 			$this->db->where('like_code', intval($data['like_id']));
 			$this->db->where('impact_code', intval($rows['code']));
- 			$rows = $this->db->get(_TBL_VIEW_LEVEL_MAPPING)->row_array();
+ 			$rCek = $this->db->get(_TBL_VIEW_LEVEL_MAPPING)->row_array();
 
 			if (empty($rows)) {
 				$this->db->where('likelihood', intval($data['like_id']));
 				$this->db->where('impact_code', intval($rows['code']));
-				$rows = $this->db->get(_TBL_VIEW_LEVEL_MAPPING)->row_array();
+				$rCek = $this->db->get(_TBL_VIEW_LEVEL_MAPPING)->row_array();
 			}
-			if ($rows) {
-				$hasil         = $rows;
+			if ($rCek) {
+				$hasil         = $rCek;
 				$hasil['text'] = $x['text'];
 				$hasil['nil']  = $x['nil'];
 			}
 		}
-		$hasil['rows'] = $rows;
+		// $hasil['rows'] = $rCek;
 		$hasil['data'] = $data;
 		// doi::dump($hasil);
 
