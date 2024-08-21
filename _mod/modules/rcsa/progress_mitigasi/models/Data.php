@@ -580,7 +580,7 @@ class Data extends MX_Model
 		}
 
 
-		doi::dump($data);
+		// doi::dump($data);
 		$this->db->where('category', 'impact');
 		$this->db->where('code', intval($data['mak']));
 		$rows  = $this->db->get(_TBL_LEVEL)->row_array();
@@ -592,7 +592,13 @@ class Data extends MX_Model
 			$x['nil']  = $rows['id'];
 			$this->db->where('like_code', intval($data['like_id']));
 			$this->db->where('impact_code', intval($rows['code']));
-			$rows = $this->db->get(_TBL_VIEW_LEVEL_MAPPING)->row_array();
+ 			$rows = $this->db->get(_TBL_VIEW_LEVEL_MAPPING)->row_array();
+
+			if (empty($rows)) {
+				$this->db->where('likelihood', intval($data['like_id']));
+				$this->db->where('like_code', intval($data['like_id']));
+				$rows = $this->db->get(_TBL_VIEW_LEVEL_MAPPING)->row_array();
+			}
 			if ($rows) {
 				$hasil         = $rows;
 				$hasil['text'] = $x['text'];
@@ -601,7 +607,7 @@ class Data extends MX_Model
 		}
 		$hasil['rows'] = $rows;
 		$hasil['data'] = $data;
-		doi::dump($hasil);
+		// doi::dump($hasil);
 
 		$this->db->where('rcsa_detail_id', intval($data['rcsa_detail_no']));
 		$this->db->where('month', intval($data['month']));
