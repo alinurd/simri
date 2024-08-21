@@ -251,7 +251,7 @@
                                 <div class="col-lg-9">
                                     <div class="form-group form-group-feedback form-group-feedback-right">
                                         <?= $level ?><br>
-                                        <span class="btn btn-success<?= isset($mit) ? '' : ' disabled' ?>" id="simpanResidual">Simpan</span>
+                                        <!-- <span class="btn btn-success<?= isset($mit) ? '' : ' disabled' ?>" id="simpanResidual">Simpan</span> -->
 
                                     </div>
                                 </div>
