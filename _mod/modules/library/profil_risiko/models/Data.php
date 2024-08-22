@@ -44,6 +44,141 @@ class Data extends MX_Model
 		return $checklist;
 	}
 
+	function filter_data_mon( $dtuser )
+	{
+
+		if( isset( $this->pos['owner'] ) )
+		{
+			$check = $this->checklist( $this->pos['owner'], $this->pos['period'] );
+		}
+		else
+		{
+			$this->super_user = intval( $dtuser['is_admin'] );
+			$this->ownerx     = intval( ( $this->super_user == 0 ) ? $dtuser['owner_id'] : 0 );
+			$check            = $this->checklist( $this->ownerx, _TAHUN_ID_ );
+		}
+		$ck = [];
+		if( count( $check ) > 0 )
+		{
+			foreach( $check as $key => $value )
+			{
+				$k    = explode( '-', $value );
+				$ck[] = $k[0] . '-' . $k[1] . '-' . str_pad( $k[2], 3, 0, STR_PAD_LEFT );
+			}
+		}
+
+		if( $this->cek_tgl )
+		{
+			if( isset( $this->pos['minggu'] ) )
+			{
+				if( intval( $this->pos['minggu'] ) )
+				{
+					$rows              = $this->db->select( '*' )->where( 'id', intval( $this->pos['minggu'] ) )->get( _TBL_COMBO )->row_array();
+					$this->pos['tgl1'] = $rows['param_date'];
+					$this->pos['tgl2'] = $rows['param_date_after'];
+				}
+			}
+
+			if( ! isset( $this->pos['tgl1'] ) )
+			{
+				if( isset( $this->pos['term_mulai'] ) )
+				{
+					if( intval( $this->pos['term_mulai'] ) )
+					{
+						$rows              = $this->db->select( '*' )->where( 'id', intval( $this->pos['term_mulai'] ) )->get( _TBL_COMBO )->row_array();
+						$this->pos['tgl1'] = $rows['param_date'];
+						// $this->pos['tgl2']=$rows['param_date_after'];
+					}
+				}
+
+				if( isset( $this->pos['term_akhir'] ) )
+				{
+					if( intval( $this->pos['term_akhir'] ) )
+					{
+						$rows = $this->db->select( '*' )->where( 'id', intval( $this->pos['term_akhir'] ) )->get( _TBL_COMBO )->row_array();
+						// $this->pos['tgl1']=$rows['param_date'];
+						$this->pos['tgl2'] = $rows['param_date_after'];
+					}
+				}
+			}
+		}
+
+		if( count( $ck ) > 0 )
+		{
+			$this->db->where_in( 'kode_risk', $ck );
+		}
+		else
+		{
+			$this->db->where( 'kode_risk', '-1' );
+		}
+
+		if( $this->pos )
+		{
+			if( $this->pos['owner'] )
+			{
+				if( $this->owner_child )
+				{
+					$this->db->where_in( 'owner_id', $this->owner_child );
+				}
+			}
+
+			if( $this->pos['type_ass'] )
+			{
+				$this->db->where( 'type_ass_id', $this->pos['type_ass'] );
+			}
+
+			if( $this->pos['period'] )
+			{
+				$this->db->where( 'period_id', $this->pos['period'] );
+			}
+
+			if( isset( $this->pos['tgl1'] ) )
+			{
+				$this->db->where( 'tgl_mulai_minggu', $this->pos['tgl1'] );
+			}
+
+			if( isset( $this->pos['tgl2'] ) )
+			{
+				$this->db->or_where( 'tgl_akhir_minggu', $this->pos['tgl2'] );
+			}
+			if( $this->pos['owner'] )
+			{
+				if( $this->owner_child )
+				{
+					$this->db->where_in( 'owner_id', $this->owner_child );
+				}
+			}
+
+			if( $this->pos['type_ass'] )
+			{
+				$this->db->where( 'type_ass_id', $this->pos['type_ass'] );
+			}
+
+			if( $this->pos['period'] )
+			{
+				$this->db->where( 'period_id', $this->pos['period'] );
+			}
+
+
+			// elseif ($this->pos['minggu']){
+			// 	// $this->db->where('minggu_id', $this->pos['minggu']);
+			// }
+		}
+		else
+		{
+			$this->db->where( 'period_id', _TAHUN_ID_ );
+			$this->db->where( 'term_id', _TERM_ID_ );
+		}
+
+		if( count( $ck ) > 0 )
+		{
+			$this->db->where_in( 'kode_risk', $ck );
+		}
+		else
+		{
+			$this->db->where( 'kode_risk', '-1' );
+		}
+	}
 	function filter_data( $dtuser )
 	{
 
