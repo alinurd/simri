@@ -40,7 +40,7 @@
                                             </div>
                                         </td>
                                         <td class="text-center">
-                                            <?= ( ! empty( $vRegister["created_at"] ) && date( "d-m-Y", strtotime( $headerRisk["created_at"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $vRegister["created_at"] ) ) : "" ) ?>
+                                            <?= ( ! empty( $vRegister["created_at"] ) && $headerRisk["created_at"] != "0000-00-00" ? date( "d-m-Y", strtotime( $vRegister["created_at"] ) ) : "" ) ?>
                                         </td>
                                         <td class="text-center">
                                             <!-- <?php if( ! empty( $disabledSubmit ) )

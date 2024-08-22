@@ -24,12 +24,12 @@
                                     </tr>
                                     <tr>
                                         <td><em>Tanggal Permintaan</em></td>
-                                        <td><strong><?= ( ! empty( $headerRisk["request_date"] ) && date( "d-m-Y", strtotime( $headerRisk["request_date"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $headerRisk["request_date"] ) ) : "" ) ?></strong>
+                                        <td><strong><?= ( ! empty( $headerRisk["request_date"] ) && $headerRisk["request_date"] != "0000-00-00" ? date( "d-m-Y", strtotime( $headerRisk["request_date"] ) ) : "" ) ?></strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><em>Tanggal Release</em></td>
-                                        <td><strong><?= ( ! empty( $headerRisk["release_date"] ) && date( "d-m-Y", strtotime( $headerRisk["release_date"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $headerRisk["release_date"] ) ) : "" ) ?></strong>
+                                        <td><strong><?= ( ! empty( $headerRisk["release_date"] ) && $headerRisk["release_date"] != "0000-00-00" ? date( "d-m-Y", strtotime( $headerRisk["release_date"] ) ) : "" ) ?></strong>
                                         </td>
                                     </tr>
                                     <tr>

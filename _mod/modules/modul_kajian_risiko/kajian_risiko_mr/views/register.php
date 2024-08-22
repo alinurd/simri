@@ -20,7 +20,7 @@
                         </tr>
                         <tr>
                             <td><em>Tanggal Permintaan</em></td>
-                            <td><strong><?= ( ! empty( $headerRisk["request_date"] ) && date( "d-m-Y", strtotime( $headerRisk["request_date"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $headerRisk["request_date"] ) ) : "" ) ?></strong>
+                            <td><strong><?= ( ! empty( $headerRisk["request_date"] ) && $headerRisk["request_date"] != "0000-00-00" ? date( "d-m-Y", strtotime( $headerRisk["request_date"] ) ) : "" ) ?></strong>
                             </td>
                         </tr>
                         <tr>
@@ -47,7 +47,7 @@
                             ?>
                             </td>
                         </tr>
-                        <?php if( ! empty( $headerRisk["date_submit"] ) )
+                        <?php if( ! empty( $headerRisk["date_submit"] ) && $headerRisk["request_date"] != "0000-00-00" )
                         { ?>
                             <tr>
                                 <td><em>Tanggal Submit</em></td>

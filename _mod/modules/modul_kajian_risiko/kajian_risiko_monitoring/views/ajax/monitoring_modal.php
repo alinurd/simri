@@ -58,7 +58,7 @@
                                                 <td class="text-center"><?= $vmonitoring["mitigasi"] ?></td>
                                                 <td class="text-center"><?= $vmonitoring["detail_progress"] ?></td>
                                                 <td class="text-center">
-                                                    <?= ! empty( $vmonitoring["deadline"] ) && date( "d-m-Y", strtotime( $vmonitoring["deadline"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $vmonitoring["deadline"] ) ) : ""; ?>
+                                                    <?= ! empty( $vmonitoring["deadline"] ) && $vmonitoring["deadline"] != "0000-00-00" ? date( "d-m-Y", strtotime( $vmonitoring["deadline"] ) ) : ""; ?>
                                                 </td>
                                                 <td class="">
                                                     <?php if( ! empty( $vmonitoring["pic"] ) ) : ?>
