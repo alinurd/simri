@@ -190,7 +190,19 @@ class Profil_Risiko extends MY_Controller
 
 	function listBox_like_code_residual( $field, $rows, $value )
 	{
-		$a = '<div class="text-center" style="padding:20px;background-color:' . $rows['color_residual'] . ';color' . $rows['color_text_residual'] . ';">' . $rows['level_color_residual'] . '<br/><small>' . $rows['like_code_residual'] . 'x' . $rows['impact_code_residual'] . ' : ' . $rows['risiko_residual_text'] . '</small></div>';
+		// doi::dump($rows);
+
+		$this->db->select('level_color_mon, color_text_mon, color_mon, like_code_mon, impact_code_mon, likximpact');
+		$this->db->where('id', $rows['id']); 
+		$this->db->order_by('month', 'DESC');  
+		$this->db->limit(1);  
+		$r = $this->db->get("il_view_rcsa_detail_monitoring")->row_array();
+		if($r){
+			$a = '<div class="text-center" style="padding:20px;background-color:' . $r['color_mon'] . ';color' . $r['color_text_mon'] . ';">' . $r['level_color_mon'] . '<br/><small>' . $r['like_code_mon'] . 'x' . $r['impact_code_mon'] . ' : ' . $r['likximpact'] . '</small></div>';
+		}else{
+			$a = '-';
+		}
+		
 		return $a;
 	}
 
