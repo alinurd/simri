@@ -162,7 +162,9 @@
                                                             <div class="col-md-6">
                                                                 <input type="text" name="release_date"
                                                                     class="form-control pickadate border bg-white"
-                                                                    placeholder="Max Release Date" value="">
+                                                                    placeholder="Max Release Date"
+                                                                    data-value="<?= date( "Y/m/d" ) ?>" value=""
+                                                                    id="release-date-mr">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row mt-2">

@@ -66,6 +66,19 @@ class Data extends MX_Model
 		return $result;
 	}
 
+	function getDataNotificationDocument( $ownerId, $is_ajax = FALSE )
+	{
+		$sqlQuery = "select a.*, b.owner_name FROM il_kajian_risiko a join il_owner b on a.owner_id = b.id WHERE a.status = 1 AND a.active = 1 AND a.dokumen_mr IS NULL AND owner_id = {$ownerId}";
+		if( $is_ajax )
+		{
+			return $this->db->query( $sqlQuery )->num_rows();
+		}
+		else
+		{
+			return $this->db->query( $sqlQuery )->result_array();
+		}
+	}
+
 }
 /* End of file app_login_model.php */
 /* Location: ./application/models/app_login_model.php */

@@ -1,5 +1,4 @@
 $(function () {
-
     $('.pickadate-kajian').pickadate({
         selectMonths: false,
         selectYears: false,

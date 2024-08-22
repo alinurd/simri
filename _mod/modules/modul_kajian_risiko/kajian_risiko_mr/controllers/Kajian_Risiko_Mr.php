@@ -1,4 +1,5 @@
 <?php if( ! defined( 'BASEPATH' ) ) exit( 'No direct script access allowed' );
+use phpDocumentor\Reflection\Types\False_;
 
 class Kajian_Risiko_Mr extends MY_Controller
 {
@@ -783,21 +784,14 @@ class Kajian_Risiko_Mr extends MY_Controller
 
 	function getDataKajianRisikoBeforeUpload( $owner_id )
 	{
-		$whereCond = [
-		 "active"     => 1,
-		 "dokumen_mr" => NULL,
-		 "status"     => 1,
-		 "owner_id"   => $owner_id,
-		];
-
 
 		if( ! $this->input->is_ajax_request() )
 		{
-			return $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, $whereCond )->num_rows();
+			return $this->data->getDataNotificationDocument( $owner_id, TRUE );
 		}
 		else
 		{
-			$getData["data"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, $whereCond )->result_array();
+			$getData["data"] = $this->data->getDataNotificationDocument( $owner_id, FALSE );
 			$content         = $this->load->view( 'ajax/dokument-mr-not-uploaded', $getData, TRUE );
 			echo $content;
 		}
