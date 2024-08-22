@@ -8,8 +8,63 @@ class Data extends MX_Model
 	{
 		parent::__construct();
 	}
-	function get_data_map()
-	{
+
+	function get_data_map_current(){
+		// $data['rcsa'] = $this->db->where('id', $this->pos['id'])->get(_TBL_VIEW_RCSA)->row_array();
+		// $this->db->where('status_final', 1);
+		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_MITIGASI)->result_array();
+		$miti=[];
+		foreach($rows as $row){
+			$miti[$row['id']]=$row['jml'];
+		}
+		// $this->db->where('status_final', 1);
+		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)->result_array();
+		$aktifitas=[];
+		foreach($rows as $row){
+			$aktifitas[$row['id']]=$row['jml'];
+		}
+		// $this->db->where('status_final', 1);
+		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
+		$progres=[];
+		foreach($rows as $row){
+			$progres[$row['id']]=$row['jml'];
+		}
+		// $this->filter_data();
+		// $this->filter_data_all(_TBL_VIEW_RCSA_DETAIL_MONITORING);
+
+		if ($this->pos['level']==1){
+			$this->db->where('risiko_inherent',$this->pos['id']);
+		}elseif ($this->pos['level']==2){
+			$this->db->where('risiko_target_mon',$this->pos['id']);
+		}elseif ($this->pos['level']==3){
+			$this->db->where('risiko_target',$this->pos['id']);
+		}elseif ($this->pos['level']==9){
+			$this->db->where('owner_id',$this->pos['id']);
+		}
+
+		$this->db->where('status_final', 1);
+		$rows=$this->db->get("il_view_rcsa_detail_monitoring")->result_array();
+		foreach($rows as &$row){
+			if (array_key_exists($row['id'], $miti)){
+				$row['jml']=$miti[$row['id']];
+			}
+			$row['jml2']=0;
+			if (array_key_exists($row['id'], $aktifitas)){
+				$row['jml2']=$aktifitas[$row['id']];
+			}
+			$row['jml3']=0;
+			if (array_key_exists($row['id'], $progres)){
+				$row['jml3']=$progres[$row['id']];
+			}
+		}
+		unset($row);
+		$data['detail']=$rows;
+		$data['pos']=$this->pos;
+		return $data;
+
+	}
+	function get_data_map(){
+
 		// $data['rcsa'] = $this->db->where('id', $this->pos['id'])->get(_TBL_VIEW_RCSA)->row_array();
 		// $this->db->where('status_final', 1);
 		$rows = $this->db->select( 'rcsa_detail_id as id, count(rcsa_detail_id) as jml' )->group_by( [ 'rcsa_detail_id' ] )->get( _TBL_VIEW_RCSA_MITIGASI )->result_array();
