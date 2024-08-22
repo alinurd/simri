@@ -130,7 +130,7 @@ class Dashboard extends MY_Controller
 		$rows                      = $this->db->SELECT( 'risiko_target_mon as id, COUNT(risiko_target_mon) as nilai, level_color_mon as level_color, level_color_residual, level_color_target, bulan_mon, mon_id' )->group_by( 'risiko_target_mon' )->get( "il_view_rcsa_detail_monitoring" )->result_array();
  
 		
-		$data['map_residual']        = $this->map->_setDataMonitoring( $rows )->_setParam( [ 'tipe' => 'angka', 'level' => 2 ] )->draw_dashboard_monitoring();
+		$data['map_residual']        = $this->map->_setDataMonitoring( $rows )->_setParam( [ 'tipe' => 'angka', 'level' => 2, 'rows'=>$rows] )->draw_dashboard_monitoring();
 		$jml                         = $this->map->get_total_nilai();
 		$jmlstatus                   = $this->map->get_jumlah_status();
 		$data['jml_residual_status'] = $jmlstatus;

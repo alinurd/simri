@@ -224,6 +224,15 @@ class Ajax extends MY_Controller
 		header( 'Content-type: application/json' );
 		echo json_encode( $hasil );
 	}
+	function get_detail_map_current()
+	{
+		$post            = $this->input->post();
+		$this->data->pos = $post;
+		$x               = $this->data->get_data_map_current();
+		$hasil['combo']  = $this->load->view( 'identifikasi_current', $x, TRUE );
+		header( 'Content-type: application/json' );
+		echo json_encode( $hasil );
+	}
 
 	function indikator_like( $post = [] )
 	{

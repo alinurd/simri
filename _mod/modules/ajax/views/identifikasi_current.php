@@ -17,6 +17,7 @@
     </thead>
     <tboy>
         <?php
+        doi::dump($pos);
         $no = 0;
         foreach( $detail as $row ) : 
             $this->db->select('color, color_text, level_color, like, impact, month');
