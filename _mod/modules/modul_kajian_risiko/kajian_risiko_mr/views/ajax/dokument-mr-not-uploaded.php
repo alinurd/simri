@@ -27,13 +27,13 @@
                                                 <td><?= $vdata["name"] ?></td>
                                                 <td><?= $vdata["owner_name"] ?></td>
                                                 <td class="text-center">
-                                                    <?= ( ! empty( $vdata["request_date"] ) ) ? date( "d-m-Y", strtotime( $vdata["request_date"] ) ) : "" ?>
+                                                    <?= ( ! empty( $vdata["request_date"] ) && $vdata["request_date"] != "0000-00-00" ) ? date( "d-m-Y", strtotime( $vdata["request_date"] ) ) : "" ?>
                                                 </td>
                                                 <td class="text-center">
-                                                    <?= ( ! empty( $vdata["release_date"] ) ) ? date( "d-m-Y", strtotime( $vdata["release_date"] ) ) : "" ?>
+                                                    <?= ( ! empty( $vdata["release_date"] ) && $vdata["release_date"] != "0000-00-00" ) ? date( "d-m-Y", strtotime( $vdata["release_date"] ) ) : "" ?>
                                                 </td>
                                                 <td class="text-center">
-                                                    <?= ( ! empty( $vdata["date_submit"] ) ) ? date( "d-m-Y", strtotime( $vdata["date_submit"] ) ) : "" ?>
+                                                    <?= ( ! empty( $vdata["date_submit"] ) && $vdata["date_submit"] != "0000-00-00" ) ? date( "d-m-Y", strtotime( $vdata["date_submit"] ) ) : "" ?>
                                                 </td>
                                             </tr>
                                             <?php
