@@ -76,12 +76,13 @@ $(function () {
         var minggu = $("#minggu").val();
         var id = $(this).data('id');
         var monid = $(this).data('monid');
+        console.log(monid)
         var level = $(this).data('level');
         var data = { 'monid': monid,'id': id, 'level': level, 'period': period, 'owner': owner, 'type_ass': type_ass, 'term': term, 'minggu': minggu };
         var target_combo = '';
         var url = "ajax/get-detail-map-current";
         console.log(monid
-            
+
         )
         _ajax_("post", parent, data, target_combo, url, 'list_map');
     })
