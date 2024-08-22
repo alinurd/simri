@@ -39,7 +39,9 @@
                                                 <b><?= $vRegister["residual_level_name"] ?></b>
                                             </div>
                                         </td>
-                                        <td class="text-center"><?= $vRegister["created_at"] ?></td>
+                                        <td class="text-center">
+                                            <?= ( ! empty( $vRegister["created_at"] ) ? date( "d-m-Y", strtotime( $vRegister["created_at"] ) ) : "" ) ?>
+                                        </td>
                                         <td class="text-center">
                                             <!-- <?php if( ! empty( $disabledSubmit ) )
                                             { ?>
