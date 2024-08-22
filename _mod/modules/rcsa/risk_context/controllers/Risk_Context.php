@@ -661,23 +661,23 @@ class Risk_Context extends MY_Controller
 		</tr>
 		</tbody></table>';
 
-				$tasktonomi = '<table class="table table-borderless" id="tblperistiwa"><tbody>
+		$tasktonomi = '<table class="table table-borderless" id="tblperistiwa"><tbody>
 			<tr>
 				<td style="padding-left:0px;">'
-				. form_input( 'tasktonomiName', ( $lib ) ? $lib['nama_kelompok'] : '', 'class="form-control getPeristiwa" id="tasktonomiName" readonly="readonly" placeholder="' . _l( 'help_ket_peristiwa' ) . '"' )
-				. form_hidden( 'klasifikasi_risiko_id', ( $lib ) ? $data['klasifikasi_risiko_id'] : '', 'id="klasifikasi_risiko_id"' ) .
-				'</td>
+		. form_input( 'tasktonomiName', ( $lib ) ? $lib['nama_kelompok'] : '', 'class="form-control getPeristiwa" id="tasktonomiName" readonly="readonly" placeholder="' . _l( 'help_ket_peristiwa' ) . '"' )
+		. form_hidden( 'klasifikasi_risiko_id', ( $lib ) ? $data['klasifikasi_risiko_id'] : '', 'id="klasifikasi_risiko_id"' ) .
+		'</td>
 			</tr>
 		</tbody></table>';
 
-				$tipeRisiko = '<table class="table table-borderless" id="tblperistiwa"><tbody>
+		$tipeRisiko = '<table class="table table-borderless" id="tblperistiwa"><tbody>
 			<tr>
 				<td style="padding-left:0px;">'
-				. form_input( 'tipeName', ( $lib ) ? $lib['risk_type'] : '', 'class="form-control getPeristiwa" id="tipeName" readonly="readonly" placeholder="' . _l( 'help_ket_peristiwa' ) . '"' )
-				. form_hidden( 'tipe_risiko_id', ( $lib ) ? $data['tipe_risiko_id'] : '', 'id="tipe_risiko_id"' ) .
-				'</td>
+		. form_input( 'tipeName', ( $lib ) ? $lib['risk_type'] : '', 'class="form-control getPeristiwa" id="tipeName" readonly="readonly" placeholder="' . _l( 'help_ket_peristiwa' ) . '"' )
+		. form_hidden( 'tipe_risiko_id', ( $lib ) ? $data['tipe_risiko_id'] : '', 'id="tipe_risiko_id"' ) .
+		'</td>
 			</tr>
-		</tbody></table>';	
+		</tbody></table>';
 
 		$tAdd                         = '<div class="form-control-feedback form-control-feedback-lg"><i class="icon-make-group"></i></div>';
 		$param['identifikasi']['kpi'] = [ 'title' => "KPI", 'help' => "", 'add' => FALSE, 'mandatori' => FALSE, 'isi' => form_dropdown( 'id_kpi', $kpi, ( $data ) ? $data['id_kpi'] : '', 'id="id_kpi" class="form-control select" style="width:100%;"' ) ];
@@ -2549,5 +2549,10 @@ class Risk_Context extends MY_Controller
 		$data['identity']    = $post['identity'];
 		header( 'Content-type: application/json' );
 		echo json_encode( $data );
+	}
+
+	function redirectUrl( $id )
+	{
+		return base_url( $this->modul_name . "/identifikasi-risiko/" . $id );
 	}
 }

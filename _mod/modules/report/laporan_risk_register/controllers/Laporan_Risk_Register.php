@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined( 'BASEPATH' ) or exit( 'No direct script access allowed' );
 
-class Laporan_Risk_Register extends MY_Controller {
+class Laporan_Risk_Register extends MY_Controller
+{
 
 	/**
 	 * Index Page for this controller.
@@ -19,78 +20,91 @@ class Laporan_Risk_Register extends MY_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 *
 	 */
-	
+
 	public function __construct()
 	{
 		parent::__construct();
 
 	}
 
-	function content($ty='detail'){
-		$x = $this->session->userdata('periode');
-		$tgl1=date('Y-m-d');
-		$tgl2=date('Y-m-d');
-		if ($x){
-			$tgl1=$x['tgl_awal'];
-			$tgl2=$x['tgl_akhir'];
+	function content( $ty = 'detail' )
+	{
+		$x    = $this->session->userdata( 'periode' );
+		$tgl1 = date( 'Y-m-d' );
+		$tgl2 = date( 'Y-m-d' );
+		if( $x )
+		{
+			$tgl1 = $x['tgl_awal'];
+			$tgl2 = $x['tgl_akhir'];
 		}
-		$data['owner']=$this->get_combo_parent_dept();
-		$data['period']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'period')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-		$data['term']=$this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'term')->combo_where('pid', _TAHUN_ID_)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-		$data['minggu']=$this->crud->combo_select(['id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+		$data['owner']  = $this->get_combo_parent_dept();
+		$data['period'] = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'period' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+		$data['term']   = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'term' )->combo_where( 'pid', _TAHUN_ID_ )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+		$data['minggu'] = $this->crud->combo_select( [ 'id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu' ] )->combo_where( 'kelompok', 'minggu' )->combo_where( 'param_date>=', $tgl1 )->combo_where( 'param_date<=', $tgl2 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		// $data['minggu']=$this->crud->combo_select(['id', 'concat(param_string,\' minggu ke - \',data, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-		$data['data']=$this->data->get_data();
-		$data['tbl']=$this->hasil=$this->load->view('lap',$data, true);
-		$this->hasil=$this->load->view('view',$data, true);
+		$data['data'] = $this->data->get_data();
+		$data['tbl']  = $this->hasil = $this->load->view( 'lap', $data, TRUE );
+		$this->hasil = $this->load->view( 'view', $data, TRUE );
 
 		return $this->hasil;
 	}
 
-	function init($aksi=''){
+	function init( $aksi = '' )
+	{
 		$configuration = [
-			'show_title_header' => false, 
-			'show_action_button' => false, 
-			'box_content' => false, 
-			'left_sidebar_mini' => false,
+		 'show_title_header'  => FALSE,
+		 'show_action_button' => FALSE,
+		 'box_content'        => FALSE,
+		 'left_sidebar_mini'  => FALSE,
 		];
 		return [
-			'configuration'	=> $configuration
+		 'configuration' => $configuration,
 		];
 	}
 
-	function get_bulan(){
-		$tahun = intval($this->input->post('tahun'));
-		$rows = $this->db->select('bulan, cbulan')->where('tahun', $tahun)->distinct()->order_by('bulan')->get(_TBL_VIEW_ORDERS)->result_array();
-		$arr='';
-		foreach($rows as $row){
-			$arr .='<option value="'.$row['bulan'].'">'.$row['cbulan'].'</option>';
+	function get_bulan()
+	{
+		$tahun = intval( $this->input->post( 'tahun' ) );
+		$rows  = $this->db->select( 'bulan, cbulan' )->where( 'tahun', $tahun )->distinct()->order_by( 'bulan' )->get( _TBL_VIEW_ORDERS )->result_array();
+		$arr   = '';
+		foreach( $rows as $row )
+		{
+			$arr .= '<option value="' . $row['bulan'] . '">' . $row['cbulan'] . '</option>';
 		}
-		header('Content-type: application/json');
-		echo json_encode(['combo'=>$arr]);
+		header( 'Content-type: application/json' );
+		echo json_encode( [ 'combo' => $arr ] );
 	}
 
-	function get_product(){
-		$categori = $this->input->post('category');
-		if ($categori){
-			if ($categori[0]>0){
-				$rows=$this->datacombo->upperGroup()->set_data()->where(['category_id'=>$categori])->isGroup()->set_noblank(false)->build('product');
-			}else{
-				$rows=$this->datacombo->upperGroup()->set_data()->isGroup()->set_noblank(false)->build('product');
+	function get_product()
+	{
+		$categori = $this->input->post( 'category' );
+		if( $categori )
+		{
+			if( $categori[0] > 0 )
+			{
+				$rows = $this->datacombo->upperGroup()->set_data()->where( [ 'category_id' => $categori ] )->isGroup()->set_noblank( FALSE )->build( 'product' );
 			}
-		}else{
-			$rows=$this->datacombo->upperGroup()->set_data()->isGroup()->set_noblank(false)->build('product');
+			else
+			{
+				$rows = $this->datacombo->upperGroup()->set_data()->isGroup()->set_noblank( FALSE )->build( 'product' );
+			}
 		}
-		$combo = form_dropdown('product', $rows, '', 'class="form-control select" style="width:100% !important;" multiple="multiple" id="product"');
-		header('Content-type: application/json');
-		echo json_encode(['combo'=>$combo]);
+		else
+		{
+			$rows = $this->datacombo->upperGroup()->set_data()->isGroup()->set_noblank( FALSE )->build( 'product' );
+		}
+		$combo = form_dropdown( 'product', $rows, '', 'class="form-control select" style="width:100% !important;" multiple="multiple" id="product"' );
+		header( 'Content-type: application/json' );
+		echo json_encode( [ 'combo' => $combo ] );
 	}
-	
-	function proses_search(){
-		$post=$this->input->post();
-		$this->data->post=$post;
-		$data['rows'] = $this->data->get_data();
-		$hasil['combo'] = $this->load->view('lap', $data, true);
-		header('Content-type: application/json');
-		echo json_encode($hasil);
+
+	function proses_search()
+	{
+		$post             = $this->input->post();
+		$this->data->post = $post;
+		$data['rows']     = $this->data->get_data();
+		$hasil['combo']   = $this->load->view( 'lap', $data, TRUE );
+		header( 'Content-type: application/json' );
+		echo json_encode( $hasil );
 	}
 }

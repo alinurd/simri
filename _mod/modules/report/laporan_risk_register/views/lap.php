@@ -23,7 +23,6 @@
                         <thead class="bg-primary">
                             <tr>
                                 <th rowspan="2">No.</th>
-                                
                                 <th rowspan="2">Direktorat</th>
                                 <th rowspan="2">Departemen</th>
                                 <th rowspan="2">Sasaran Departemen</th>
@@ -78,6 +77,8 @@
                             <?php
                             $no = 1;
                              foreach ($data['parent'] as $row) :
+                                $ownerName=$row["owner_name"];
+                                $sasaranDept=$row["sasaran_dept"];
                                 $id = $row['id'];
                                 $jml = 1;
                                 $mitigasi[$id]=$this->db->where('rcsa_id', $id)->get(_TBL_VIEW_RCSA_MITIGASI)->result_array();
@@ -132,8 +133,8 @@
                                 <tr> 
                                    <td  rowspan="<?= $jml; ?>" ><?=$no++?></td>
                                 <td  rowspan="<?= $jml; ?>" >Direktorat</td>
-                                <td  rowspan="<?= $jml; ?>" ><?=$row['owner_name']?></td>
-                                <td  rowspan="<?= $jml; ?>" ><?=$row['sasaran_dept']?></td>
+                                <td  rowspan="<?= $jml; ?>" ><?=$ownerName?></td>
+                                <td  rowspan="<?= $jml; ?>" ><?=$sasaranDept?></td>
                                  <td  rowspan="<?= $jml; ?>" >Kode Aktivitas</td>
                                 <td  rowspan="<?= $jml; ?>" >Aktivitas</td>
                                 <td  rowspan="<?= $jml; ?>" >Sasaran Aktivitas</td>
