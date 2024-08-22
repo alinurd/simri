@@ -34,9 +34,13 @@
                 <td class="text-center" style="background-color:<?= $row['color']; ?>;color:<?= $row['color_text']; ?>;">
                     <?= $row['level_color']; ?><br /><small><?= $row['like_code'] . 'x' . $row['impact_code'] . ' : ' . $row['risiko_inherent_text']; ?></small>
                 </td>
+                <?php if(isset($r)){?>
                 <td class="text-center" style="background-color:<?= $r['color']; ?>;color:<?= $r['color_text']; ?>;">
                     <?= $r['level_color']; ?><br /><small><?= $r['like'] . 'x' . $r['impact'] . ' : ' . $r['like']*$r['impact']; ?></small>
                 </td>
+                <?php }else{?>
+                    <td class="text-center">-</td>
+               <?php }?>
                 <td class="text-center"
                     style="background-color:<?= $row['color_target']; ?>;color:<?= $row['color_text_target']; ?>;">
                     <?= $row['level_color_target']; ?><br /><small><?= $row['like_code_target'] . 'x' . $row['impact_code_target'] . ' : ' . $row['risiko_target_text']; ?></small>
