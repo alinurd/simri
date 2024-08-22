@@ -348,6 +348,57 @@ class Map
         }
         return $this;
     }
+    function set_data_profile_mon( $data = [], $post = "" )
+    {
+
+        if( $data )
+        {
+            $no = 0;
+
+            foreach( $data as $row )
+            {
+                if( array_key_exists( $row['id'], $this->_data ) )
+                {
+                    if( $post['term_mulai'] > 0 )
+                    {
+                        if( $post['term_mulai'] == $row['bulan_id'] )
+                        {
+                            $this->_data[$row['id']]['mulai'][]['nilai'] = ++$no;
+                            if( array_key_exists( 'level_color_mon', $data ) )
+                            {
+                                $this->_data[$row['id']]['mulai']['level_color_mon']          = $row['level_color_mon'];
+                                $this->_data[$row['id']]['mulai']['level_color_residual'] = $row['level_color_residual'];
+                                $this->_data[$row['id']]['mulai']['level_color_target']   = $row['level_color_target'];
+                            }
+                        }
+                    }
+
+                }
+            }
+            $no = 0;
+
+            foreach( $data as $row )
+            {
+                if( array_key_exists( $row['id'], $this->_data ) )
+                {
+                    if( $post['term_akhir'] > 0 )
+                    {
+                        if( $post['term_akhir'] == $row['bulan_id'] )
+                        {
+                            $this->_data[$row['id']]['akhir'][]['nilai'] = ++$no;
+                            if( array_key_exists( 'level_color_mon', $data ) )
+                            {
+                                $this->_data[$row['id']]['akhir']['level_color_mon']          = $row['level_color_mon'];
+                                $this->_data[$row['id']]['akhir']['level_color_residual'] = $row['level_color_residual'];
+                                $this->_data[$row['id']]['akhir']['level_color_target']   = $row['level_color_target'];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $this;
+    }
 
 
 
@@ -605,16 +656,7 @@ class Map
 
         $lastIndex = count( $getstatus ) - 1;
         $content   = "<table class='table-profil-dashboard'><tbody>";
-        // $content .= "<tr><td rowspan='2' colspan='2' class='remove-border' style='font-weight:400px;font-size:12px;'>Overall Rating</td>";
-
-        // foreach( $getstatus as $keyStas => $vStats )
-        // {
-
-        //     $content .= "<td style='background-color:{$vStats["warna_bg"]};font-size:12px;' class='text-center top-border font-weight-bold'>" . $levelColor[strtolower( url_title( $vStats["tingkat"] ) )]["value"] . "</td>";
-
-        //     if( $keyStas == $lastIndex )
-        //         $content .= "</tr>";
-        // }
+ 
         foreach( $getstatus as $key => $value )
         {
             if( $key == 0 )
@@ -648,9 +690,7 @@ class Map
                 {
                     $nilaiket = empty( $nilai ) ? 0 : $nilai;
                 }
-                // $nilaiket = (!empty($nilai)) ? '<span class="badge bg-primary badge-pill badge-sm"> '.$nilai.'</span>':$nilai;
-                // $nilaiketakhir = (!empty($nilaiakhir)) ? '<span style="background-color:#1d445b !important;color: white !important" class="badge badge-pill badge-sm"> '.$nilaiakhir.'</span>':$nilaiakhir;
-                if( isset( $vData['akhir'] ) )
+             if( isset( $vData['akhir'] ) )
                 {
                     foreach( $vData['akhir'] as $a => $b )
                     {
@@ -771,7 +811,7 @@ class Map
         $content .= "</tbody></table>";
         // var_dump( $content );
         // exit;
-        $this->_clear();
+        $this->_clearMonitoring();
         return $content;
     }
 

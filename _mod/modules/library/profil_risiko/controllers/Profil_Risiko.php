@@ -1084,24 +1084,12 @@ class Profil_Risiko extends MY_Controller
 		{
 			$data['jml_inherent'] = '<span class="badge bg-primary badge-pill"> ' . $jml . ' </span>';
 		}
-	
-		$rows                 = $this->db->SELECT( 'risiko_residual as id,  level_color, level_color_residual, level_color_target, minggu_id' ) 
-		->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
-		// $this->data->filter_data( $this->_data_user_ ); 
-        $getResidual         = $this->db->get( "il_update_residual" )->result_array();
-		
-		$resResult = [];
+		$this->data->filter_data_mon( $this->_data_user_ );
 
-		foreach ($rows as $row) {
-			foreach ($getResidual as $residual) {
-				if ($row['id'] == $residual['rcsa_detail_id']) {
-					$row['additional_data'] = $residual;
-					$resResult[] = $row;
-				}
-			}
-		}
+		$rows                      = $this->db->SELECT( 'risiko_target_mon as id, COUNT(risiko_target_mon) as nilai, level_color_mon , level_color_residual, level_color_target, bulan_mon, mon_id, id as detail_id, bulan_id' )->group_by( 'risiko_target_mon' )->get( "il_view_rcsa_detail_monitoring" )->result_array();
+  	 
 
-		$data['map_residual'] = $this->map->set_data_profile( $resResult, $this->pos )->set_param( [ 'tipe' => 'angka', 'level' => 2 ] )->draw_profile_dashboard_monitoring();
+		$data['map_residual'] = $this->map->set_data_profile_mon( $rows, $this->pos )->set_param( [ 'tipe' => 'angka', 'level' => 2 ] )->draw_profile_dashboard_monitoring();
 
 		$jml                         = $this->map->get_total_nilai();
 		$jmlstatus                   = $this->map->get_jumlah_status_profil();

@@ -97,7 +97,7 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-header header-elements-sm-inline">
-                <h6 class="card-title">Daftar Identifikasi</h6>
+                <h6 class="card-title">Daftar xxxxxxxxxxxx</h6>
                 <div class="header-elements">
                     <div class="list-icons">
                         <a class="list-icons-item" data-action="reload"></a>
