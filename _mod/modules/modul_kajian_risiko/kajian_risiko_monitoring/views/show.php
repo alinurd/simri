@@ -20,7 +20,7 @@
                         </tr>
                         <tr>
                             <td><em>Tanggal Permintaan</em></td>
-                            <td><strong><?= ( ! empty( $headerRisk["request_date"] ) ? date( "d-m-Y", strtotime( $headerRisk["request_date"] ) ) : "" ) ?></strong>
+                            <td><strong><?= ( ! empty( $headerRisk["request_date"] ) && date( "d-m-Y", strtotime( $headerRisk["request_date"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $headerRisk["request_date"] ) ) : "" ) ?></strong>
                             </td>
                         </tr>
                         <tr>
@@ -29,7 +29,7 @@
                                     class="btn btn-sm disabled btn-block  <?= ( ! empty( $headerRisk["status"] ) && $headerRisk["status"] == 1 ? "btn-success" : "btn-danger" ) ?>"><strong><?= ( ! empty( $headerRisk["status"] ) ? "SUBMITTED" : "DRAFT" ) ?></strong></span>
                             </td>
                         </tr>
-                        <?php if( ! empty( $headerRisk["date_submit"] ) )
+                        <?php if( ! empty( $headerRisk["date_submit"] ) && date( "d-m-Y", strtotime( $headerRisk["date_submit"] ) ) != "00-00-0000" )
                         { ?>
                             <tr>
                                 <td><em>Tanggal Submit</em></td>

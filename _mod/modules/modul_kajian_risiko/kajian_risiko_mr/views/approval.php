@@ -24,12 +24,12 @@
                                     </tr>
                                     <tr>
                                         <td><em>Tanggal Permintaan</em></td>
-                                        <td><strong><?= ( ! empty( $headerRisk["request_date"] ) ? date( "d-m-Y", strtotime( $headerRisk["request_date"] ) ) : "" ) ?></strong>
+                                        <td><strong><?= ( ! empty( $headerRisk["request_date"] ) && date( "d-m-Y", strtotime( $headerRisk["request_date"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $headerRisk["request_date"] ) ) : "" ) ?></strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><em>Tanggal Release</em></td>
-                                        <td><strong><?= ( ! empty( $headerRisk["release_date"] ) ? date( "d-m-Y", strtotime( $headerRisk["release_date"] ) ) : "" ) ?></strong>
+                                        <td><strong><?= ( ! empty( $headerRisk["release_date"] ) && date( "d-m-Y", strtotime( $headerRisk["release_date"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $headerRisk["release_date"] ) ) : "" ) ?></strong>
                                         </td>
                                     </tr>
                                     <tr>
@@ -61,14 +61,14 @@
                                     { ?>
                                         <tr>
                                             <td><em>Tanggal Submit</em></td>
-                                            <td><strong><?= date( "d-m-Y", strtotime( $headerRisk["date_submit"] ) ) ?></strong>
+                                            <td><strong><?= ! empty( $headerRisk["date_submit"] ) && date( "d-m-Y", strtotime( $headerRisk["date_submit"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $headerRisk["date_submit"] ) ) : "" ?></strong>
                                             </td>
                                         </tr>
                                     <?php } ?>
                                     <tr>
                                         <td><em>Tanggal Approval</em></td>
                                         <td>
-                                            <strong><?= ( ! empty( $headerRisk["approved_by"] ) ? date( "d-m-Y", strtotime( $headerRisk["date_approval"] ) ) : "" ) ?></strong>
+                                            <strong><?= ( ! empty( $headerRisk["approved_by"] ) && date( "d-m-Y", strtotime( $headerRisk["approved_by"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $headerRisk["date_approval"] ) ) : "" ) ?></strong>
                                         </td>
                                     </tr>
                                     <tr>

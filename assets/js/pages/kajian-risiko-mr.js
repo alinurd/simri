@@ -16,6 +16,7 @@ $(function () {
     if (window.setPicSelect) {
         setPicselect(setPicSelect);
     }
+    $('#form-register').validate();
 })
 
 // $(document).on("click", "#btn-history", function (e) {

@@ -29,10 +29,7 @@
                                 <div class="col-md-9">
                                     <input name="taksonomi" type="hidden" id="taksonomi"
                                         value="<?= ( ! empty( $register[0]["taksonomi"] ) ? $register[0]["taksonomi"] : "" ) ?>">
-                                    <input type="text"
-                                        value="<?= ( ! empty( $register[0]["taksonomi_name"] ) ? $register[0]["taksonomi_name"] : "" ) ?>"
-                                        class="form-control border" id="taksonomi-name" placeholder="Taksonomi BUMN" readonly
-                                        required="required">
+                                    <input type="text" value="<?= ( ! empty( $register[0]["taksonomi_name"] ) ? $register[0]["taksonomi_name"] : "" ) ?>" class="form-control border" id="taksonomi-name" placeholder="Taksonomi BUMN" readonly required="required">
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
@@ -41,10 +38,7 @@
                                 <div class="col-md-9">
                                     <input name="tipe_risiko" type="hidden" id="tipe-risiko"
                                         value="<?= ( ! empty( $register[0]["tipe_risiko"] ) ? $register[0]["tipe_risiko"] : "" ) ?>">
-                                    <input type="text"
-                                        value="<?= ( ! empty( $register[0]["tipe_risiko_name"] ) ? $register[0]["tipe_risiko_name"] : "" ) ?>"
-                                        class="form-control border" id="tipe-risiko-name" placeholder="Tipe Risiko" readonly
-                                        required="required">
+                                    <input type="text" value="<?= ( ! empty( $register[0]["tipe_risiko_name"] ) ? $register[0]["tipe_risiko_name"] : "" ) ?>" class="form-control border" id="tipe-risiko-name" placeholder="Tipe Risiko" readonly required="required">
                                 </div>
                             </div>
                             <div class="form-group row mb-3">

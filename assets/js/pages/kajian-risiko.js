@@ -255,8 +255,6 @@ function deleteNotification(file) {
         ],
     }).show();
 }
-
-
 $(document).on("click", ".dz-preview", function () {
     var url = $(this).attr("link");
     window.open(url);
