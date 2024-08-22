@@ -17,8 +17,17 @@
     </thead>
     <tboy>
         <?php
-        $no = 0;
-        foreach( $detail as $row ) : ?>
+        $no = 0; 
+        foreach( $detail as $row ) :
+            
+            $this->db->select('color, color_text, level_color, like, impact, month');
+            $this->db->where('rcsa_detail_id', $row['id']);
+            $this->db->order_by('month', 'DESC');  
+            $this->db->limit(1);  
+            $r = $this->db->get("il_update_residual")->row_array();
+
+            
+            ?>
             <tr class="pointer detail-rcsa" data-id="<?= $row['id']; ?>" data-dampak="<?= $row['impact_residual_id']; ?>">
                 <td><?= ++$no; ?></td>
                 <td><?= $row['owner_name']; ?></td>
@@ -28,8 +37,8 @@
                     <?= $row['level_color']; ?><br /><small><?= $row['like_code'] . 'x' . $row['impact_code'] . ' : ' . $row['risiko_inherent_text']; ?></small>
                 </td>
                 <td class="text-center"
-                    style="background-color:<?= $row['color_residual']; ?>;color:<?= $row['color_text_residual']; ?>;">
-                    <?= $row['level_color_residual']; ?><br /><small><?= $row['like_code_residual'] . 'x' . $row['impact_code_residual'] . ' : ' . $row['risiko_residual_text']; ?></small>
+                    style="background-color:<?= $r['color']; ?>;color:<?= $r['color_text']; ?>;">
+                    <?= $r['level_color']; ?><br /><small><?= $r['like'] . 'x' . $r['impact'] . ' : ' . $r['like']*$r['impact']; ?></small>
                 </td>
                 <td class="text-center"
                     style="background-color:<?= $row['color_target']; ?>;color:<?= $row['color_text_target']; ?>;">
