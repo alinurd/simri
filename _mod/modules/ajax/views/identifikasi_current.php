@@ -17,13 +17,15 @@
     </thead>
     <tboy>
         <?php
-        doi::dump($pos);
+        // doi::dump($pos);
         $no = 0;
         foreach( $detail as $row ) : 
+            doi::dump($row['id']);
+            doi::dump($row['month']);
             $this->db->select('color, color_text, level_color, like, impact, month');
             $this->db->where('rcsa_detail_id', $row['id']); 
-            $this->db->order_by('month', 'DESC');  
-            $this->db->limit(1);  
+            $this->db->where('month', $row['month']); 
+ 
             $r = $this->db->get("il_update_residual")->row_array();
 
     ?>
@@ -43,7 +45,7 @@
                     <?= $row['level_color_target']; ?><br /><small><?= $row['like_code_target'] . 'x' . $row['impact_code_target'] . ' : ' . $row['risiko_target_text']; ?></small>
                 </td>
                 <td class="text-center"><span
-                        class="badge bg-orange-400 badge-pill align-self-center ml-auto"><?= $row['jml']; ?></span></td>
+                        class="badge bg-orange-400 badge-pill align-self-center ml-auto"><?= isset($row['jml'])?$row['jml']:0; ?></span></td>
                 <td class="text-center"><span
                         class="badge bg-teal-400 badge-pill align-self-center ml-auto"><?= $row['jml2']; ?></span></td>
                 <td class="text-center"><span
