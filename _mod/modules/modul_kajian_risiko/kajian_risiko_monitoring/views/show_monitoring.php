@@ -108,7 +108,7 @@
                                                                                                         <?php endif;?>
                                                                                                     </td>
                                                                                                     <td rowspan="<?= $spanCount; ?>" class="text-center">
-                                                                                                        <?= $vMonitoring["deadline"]; ?>
+                                                                                                        <?= !empty($vMonitoring["deadline"])&& $vMonitoring["deadline"] != "0000-00-00"?date("d-m-Y",strtotime($vMonitoring["deadline"])):""; ?>
                                                                                                     </td>
                                                                                                     <td rowspan="<?= $spanCount; ?>" class="text-center">
                                                                                                     <button type="button" id="add-monitoring"
@@ -121,7 +121,7 @@
                                                                                                 <?php } ?>
                                                                                                 <td><?= $vMonitoring['detail_progress'] ?>
                                                                                                 </td>
-                                                                                                <td class="text-center"><?= (!empty($vMonitoring['tanggal_update']))?date("Y-m-d",strtotime($vMonitoring['tanggal_update'])):"" ?>
+                                                                                                <td class="text-center"><?= (!empty($vMonitoring['tanggal_update'])&& $vMonitoring["tanggal_update"] != "0000-00-00")?date("Y-m-d",strtotime($vMonitoring['tanggal_update'])):"" ?>
                                                                                                 </td>
                                                                                                 <td class="text-center">
                                                                                                   <?php if (!empty($vMonitoring["dokumen_pendukung"])&&file_exists("./files/kajian_risiko_monitoring/{$vMonitoring["dokumen_pendukung"]}")) :?>

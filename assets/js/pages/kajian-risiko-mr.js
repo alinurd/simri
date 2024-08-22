@@ -1,5 +1,4 @@
 $(function () {
-
     $('.pickadate-kajian').pickadate({
         selectMonths: false,
         selectYears: false,
@@ -17,6 +16,7 @@ $(function () {
     if (window.setPicSelect) {
         setPicselect(setPicSelect);
     }
+    $('#form-register').validate();
 })
 
 // $(document).on("click", "#btn-history", function (e) {
@@ -463,3 +463,30 @@ function result_level_residual(result) {
         $("#result-residual-level").css("color", "rgb(0, 0, 0)");
     }
 }
+
+$(document).on("click", "#btn-list-upload-dokumen-mr", function (e) {
+    var url = $(this).attr("data-url");
+    var data = {};
+    $.ajax({
+        type: "post",
+        url: url,
+        data: data,
+        cache: false,
+        dataType: "html",
+        beforeSend: function () {
+            looding('light', $("#btn-list-upload-dokumen-mr"));
+        },
+        success: function (result) {
+            $("#modal_general").find(".modal-title").text("Daftar Kajian Risiko Yang Belum Terupload Dokumen");
+            $("#modal_general").find(".modal-body").html(result);
+            $("#modal_general").modal("show");
+
+        },
+        error: function () {
+            alert('Error While Showing Kajian Risiko Notif Document');
+        },
+        complete: function () {
+            stopLooding($("#btn-list-upload-dokumen-mr"));
+        }
+    })
+})

@@ -239,7 +239,7 @@ class Ajax extends MY_Controller
 		// if(!$post){
 		// $post=$this->input->post();
 
-		$post['hasil'] = $this->data->update_list_indi_like( [ 'rcsa_detail_no' => $post['id'], 'bk_tipe' => 2, 'dampak_id' => $post['dampak_id'] ] );
+		$post['hasil'] = $this->data->update_list_indi_like( [ 'rcsa_detail_no' => $post['id'], 'bk_tipe' => 2, 'dampak_id' => ! empty( $post['dampak_id'] ) ? $post['dampak_id'] : "" ] );
 
 		// }
 

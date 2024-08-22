@@ -24,12 +24,12 @@
                                     </tr>
                                     <tr>
                                         <td><em>Tanggal Permintaan</em></td>
-                                        <td><strong><?= ( ! empty( $headerRisk["request_date"] ) ? $headerRisk["request_date"] : "" ) ?></strong>
+                                        <td><strong><?= ( ! empty( $headerRisk["request_date"] ) && $headerRisk["request_date"] != "0000-00-00" ? date( "d-m-Y", strtotime( $headerRisk["request_date"] ) ) : "" ) ?></strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><em>Tanggal Release</em></td>
-                                        <td><strong><?= ( ! empty( $headerRisk["release_date"] ) ? $headerRisk["release_date"] : "" ) ?></strong>
+                                        <td><strong><?= ( ! empty( $headerRisk["release_date"] ) && $headerRisk["release_date"] != "0000-00-00" ? date( "d-m-Y", strtotime( $headerRisk["release_date"] ) ) : "" ) ?></strong>
                                         </td>
                                     </tr>
                                     <tr>
@@ -61,14 +61,14 @@
                                     { ?>
                                         <tr>
                                             <td><em>Tanggal Submit</em></td>
-                                            <td><strong><?= $headerRisk["date_submit"] ?></strong>
+                                            <td><strong><?= ! empty( $headerRisk["date_submit"] ) && date( "d-m-Y", strtotime( $headerRisk["date_submit"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $headerRisk["date_submit"] ) ) : "" ?></strong>
                                             </td>
                                         </tr>
                                     <?php } ?>
                                     <tr>
-                                        <td><em>Date Approval</em></td>
+                                        <td><em>Tanggal Approval</em></td>
                                         <td>
-                                            <strong><?= ( ! empty( $headerRisk["approved_by"] ) ? $headerRisk["date_approval"] : "" ) ?></strong>
+                                            <strong><?= ( ! empty( $headerRisk["approved_by"] ) && date( "d-m-Y", strtotime( $headerRisk["approved_by"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $headerRisk["date_approval"] ) ) : "" ) ?></strong>
                                         </td>
                                     </tr>
                                     <tr>
@@ -118,7 +118,7 @@
                                     value="<?php echo $this->security->get_csrf_hash(); ?>">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="jumbotron p-2 mb-3 border">
+                                        <div class="jumbotron p-2 mb-2 border">
                                             <div class="card m-0 shadow-none border">
                                                 <div class="card-header text-center p-1 border-bottom">
                                                     <h6 class="mb-0">Catatan</h6>
@@ -136,8 +136,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="card m-0 shadow-none">
-                                            <div class="card-body">
+                                        <div class="card m-0 shadow-none border">
+                                            <div class="card-body bg-light">
                                                 <div class="row">
                                                     <div class="col-md-9">
                                                         <div class="form-group row d-none">
@@ -161,11 +161,13 @@
                                                             </label>
                                                             <div class="col-md-6">
                                                                 <input type="text" name="release_date"
-                                                                    class="form-control pickadate"
-                                                                    placeholder="Release Date" value="">
+                                                                    class="form-control pickadate border bg-white"
+                                                                    placeholder="Max Release Date"
+                                                                    data-value="<?= date( "Y/m/d" ) ?>" value=""
+                                                                    id="release-date-mr">
                                                             </div>
                                                         </div>
-                                                        <div class="form-group row">
+                                                        <div class="form-group row mt-2">
                                                             <label class="col-form-label col-md-4">Status Approval
                                                             </label>
                                                             <div class="col-md-6">
@@ -176,7 +178,6 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                     <div class="col-md-3 align-content-end justify-content-end">
                                                         <button
@@ -187,6 +188,21 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3 mb-2">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-primary shadow-sm mb-0 p-2 text-center">
+                                            Anda Memiliki
+                                            <strong><?= ! empty( $countNotifDocumen ) ? $countNotifDocumen : 0 ?></strong>
+                                            daftar
+                                            Kajian Risiko yang belum
+                                            terupload dokumen.&nbsp;
+                                            <button type="button" id="btn-list-upload-dokumen-mr"
+                                                data-url="<?= ( ! empty( $notifdokumenUrl ) ? $notifdokumenUrl : "" ) ?>"
+                                                class="btn btn-sm btn-primary">Lihat
+                                                Daftar</button>
                                         </div>
                                     </div>
                                 </div>

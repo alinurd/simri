@@ -51,9 +51,13 @@
                                                 </td>
                                                 <td class="text-center"><?= $vView["status_approval"] ?></td>
                                                 <td class="text-center"><?= $vView["note"] ?></td>
-                                                <td class="text-center"><?= $vView["updated_at"] ?></td>
+                                                <td class="text-center">
+                                                    <?= ! empty( $vView["updated_at"] ) && $vView["updated_at"] != "0000-00-00" ? date( "d-m-Y", strtotime( $vView["updated_at"] ) ) : "" ?>
+                                                </td>
                                                 <td class="text-center"><?= $vView["updated_by"] ?></td>
-                                                <td class="text-center"><?= $vView["tiket_terbit"] ?></td>
+                                                <td class="text-center">
+                                                    <?= ! empty( $vView["tiket_terbit"] ) && $vView["tiket_terbit"] != "0000-00-00" ? date( "d-m-Y", strtotime( $vView["tiket_terbit"] ) ) : "" ?>
+                                                </td>
                                             </tr>
                                         <?php } ?>
                                     <?php }

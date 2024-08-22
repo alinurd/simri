@@ -1,4 +1,5 @@
 <?php if( ! defined( 'BASEPATH' ) ) exit( 'No direct script access allowed' );
+use phpDocumentor\Reflection\Types\False_;
 
 class Kajian_Risiko_Mr extends MY_Controller
 {
@@ -120,12 +121,17 @@ class Kajian_Risiko_Mr extends MY_Controller
 
 	function listBox_release_date( $field, $rows, $value )
 	{
-		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "Y-m-d", strtotime( $value ) ) : "";
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
+	}
+
+	function listBox_tiket_terbit( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
 	}
 
 	function listBox_request_date( $field, $rows, $value )
 	{
-		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "Y-m-d", strtotime( $value ) ) : "";
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
 	}
 
 	function optionalPersonalButton( $button, $row )
@@ -198,9 +204,11 @@ class Kajian_Risiko_Mr extends MY_Controller
 		}
 		$dataView["view"]                     = $action;
 		$dataView["btn_view"]                 = $btn_view;
+		$dataView["countNotifDocumen"]        = $this->getDataKajianRisikoBeforeUpload( $dataView["headerRisk"]["owner_id"] );
 		$dataView["formUrl"]                  = base_url( $this->modul_name . "/" . __FUNCTION__ . "/" . $actionForm . "/" . $idkajian . "/" . $idregister );
 		$dataView["btnEdit"]                  = base_url( $this->modul_name . "/" . __FUNCTION__ . "/edit/" . $idkajian . "/" );
 		$dataView["btnDelete"]                = base_url( $this->modul_name . "/" . __FUNCTION__ . "/delete/" . $idkajian . "/" );
+		$dataView["notifdokumenUrl"]          = base_url( $this->modul_name . "/getDataKajianRisikoBeforeUpload/" . $dataView["headerRisk"]["owner_id"] );
 		$dataView["getfiledata"]              = $this->setDataViewApproval( $dbObj->get( _TBL_KAJIAN_RISIKO )->row_array() );
 		$dataView["getfiledata"]["kajian_id"] = $idkajian;
 		$content                              = $this->load->view( "approval", $dataView, TRUE );
@@ -772,5 +780,21 @@ class Kajian_Risiko_Mr extends MY_Controller
 			}
 
 		}
+	}
+
+	function getDataKajianRisikoBeforeUpload( $owner_id )
+	{
+
+		if( ! $this->input->is_ajax_request() )
+		{
+			return $this->data->getDataNotificationDocument( $owner_id, TRUE );
+		}
+		else
+		{
+			$getData["data"] = $this->data->getDataNotificationDocument( $owner_id, FALSE );
+			$content         = $this->load->view( 'ajax/dokument-mr-not-uploaded', $getData, TRUE );
+			echo $content;
+		}
+
 	}
 }
