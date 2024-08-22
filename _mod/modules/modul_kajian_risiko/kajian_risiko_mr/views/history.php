@@ -52,11 +52,11 @@
                                                 <td class="text-center"><?= $vView["status_approval"] ?></td>
                                                 <td class="text-center"><?= $vView["note"] ?></td>
                                                 <td class="text-center">
-                                                    <?= ! empty( $vView["updated_at"] ) && date( "d-m-Y", strtotime( $headerRisk["updated_at"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $vView["updated_at"] ) ) : "" ?>
+                                                    <?= ! empty( $vView["updated_at"] ) && date( "d-m-Y", strtotime( $vView["updated_at"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $vView["updated_at"] ) ) : "" ?>
                                                 </td>
                                                 <td class="text-center"><?= $vView["updated_by"] ?></td>
                                                 <td class="text-center">
-                                                    <?= ! empty( $vView["tiket_terbit"] ) && date( "d-m-Y", strtotime( $headerRisk["tiket_terbit"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $vView["tiket_terbit"] ) ) : "" ?>
+                                                    <?= ! empty( $vView["tiket_terbit"] ) && date( "d-m-Y", strtotime( $vView["tiket_terbit"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $vView["tiket_terbit"] ) ) : "" ?>
                                                 </td>
                                             </tr>
                                         <?php } ?>
