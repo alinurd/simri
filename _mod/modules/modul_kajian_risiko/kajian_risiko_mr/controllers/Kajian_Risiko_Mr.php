@@ -790,14 +790,15 @@ class Kajian_Risiko_Mr extends MY_Controller
 		 "owner_id"   => $owner_id,
 		];
 
-		$getData["data"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, $whereCond )->result_array();
+
 		if( ! $this->input->is_ajax_request() )
 		{
-			return count( $getData["data"] );
+			return $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, $whereCond )->num_rows();
 		}
 		else
 		{
-			$content = $this->load->view( 'ajax/dokument-mr-not-uploaded', $getData, TRUE );
+			$getData["data"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, $whereCond )->result_array();
+			$content         = $this->load->view( 'ajax/dokument-mr-not-uploaded', $getData, TRUE );
 			echo $content;
 		}
 
