@@ -31,24 +31,26 @@ class Map
 
     function initialize( $config = array() ) {}
 
-    function _clear()
+    function _clearMonitoring()
     {
         $rows = $this->_ci->db->order_by( "code_likelihood DESC,code_impact ASC" )->get( _TBL_VIEW_MATRIK_RCSA )->result_array();
-
+        
         $this->_data = [];
         foreach( $rows as $key => $row )
         {
             $this->_data[$row['id']] = $row;
         }
-        $this->_param = [];
-    }
 
-    function set_data( $data = [] )
+        // doi::dump("_clearMonitoring:".$this->_data);
+
+         $this->_param = [];
+    }
+    function _setDataMonitoring( $data = [] )
     {
+        // doi::dump("_setDataMonitoring:". print_r($data,true));
 
         if( $data )
         {
-
             foreach( $data as $row )
             {
                 if( array_key_exists( $row['id'], $this->_data ) )
@@ -56,72 +58,26 @@ class Map
                     $this->_data[$row['id']]['nilai'] = $row['nilai'];
                     if( array_key_exists( 'level_color', $data ) )
                     {
-
-                        $this->_data[$row['id']]['level_color']          = $row['level_color'];
-                        $this->_data[$row['id']]['level_color_residual'] = $row['level_color_residual'];
-                        $this->_data[$row['id']]['level_color_target']   = $row['level_color_target'];
-                        $this->_data[$row['id']]['level_color_target']   = $row['level_color_target'];
+                        $this->_data[$row['id']]['level_color']          = $row['level_color']; 
 
                     }
                 }
             }
         }
-
         return $this;
     }
 
-    function set_data_profile( $data = [], $post = "" )
+    function _setParam( $params = [] )
     {
-
-        if( $data )
+        if( is_array( $params ) )
         {
-            $no = 0;
-
-            foreach( $data as $row )
+            foreach( $params as $key => $row )
             {
-                if( array_key_exists( $row['id'], $this->_data ) )
-                {
-                    if( $post['term_mulai'] > 0 )
-                    {
-                        if( $post['term_mulai'] == $row['minggu_id'] )
-                        {
-                            $this->_data[$row['id']]['mulai'][]['nilai'] = ++$no;
-                            if( array_key_exists( 'level_color', $data ) )
-                            {
-                                $this->_data[$row['id']]['mulai']['level_color']          = $row['level_color'];
-                                $this->_data[$row['id']]['mulai']['level_color_residual'] = $row['level_color_residual'];
-                                $this->_data[$row['id']]['mulai']['level_color_target']   = $row['level_color_target'];
-                            }
-                        }
-                    }
-
-                }
-            }
-            $no = 0;
-
-            foreach( $data as $row )
-            {
-                if( array_key_exists( $row['id'], $this->_data ) )
-                {
-                    if( $post['term_akhir'] > 0 )
-                    {
-                        if( $post['term_akhir'] == $row['minggu_id'] )
-                        {
-                            $this->_data[$row['id']]['akhir'][]['nilai'] = ++$no;
-                            if( array_key_exists( 'level_color', $data ) )
-                            {
-                                $this->_data[$row['id']]['akhir']['level_color']          = $row['level_color'];
-                                $this->_data[$row['id']]['akhir']['level_color_residual'] = $row['level_color_residual'];
-                                $this->_data[$row['id']]['akhir']['level_color_target']   = $row['level_color_target'];
-                            }
-                        }
-                    }
-                }
+                $this->_param[$key] = $row;
             }
         }
         return $this;
     }
-
     function set_param( $params = [] )
     {
         if( is_array( $params ) )
@@ -132,6 +88,18 @@ class Map
             }
         }
         return $this;
+    }
+
+    function _clear()
+    {
+        $rows = $this->_ci->db->order_by( "code_likelihood DESC,code_impact ASC" )->get( _TBL_VIEW_MATRIK_RCSA )->result_array();
+
+        $this->_data = [];
+        foreach( $rows as $key => $row )
+        {
+            $this->_data[$row['id']] = $row;
+        }
+        $this->_param = [];
     }
 
     function draw_dashboard_monitoring()
@@ -154,16 +122,7 @@ class Map
 
         $lastIndex = count( $getstatus ) - 1;
         $content   = "<table class='table-dashboard'><tbody>";
-        // $content .= "<tr><td rowspan='2' colspan='2' class='remove-border' style='font-weight:400px;font-size:12px;'>Overall Rating</td>";
-
-        // foreach( $getstatus as $keyStas => $vStats )
-        // {
-
-        //     $content .= "<td style='background-color:{$vStats["warna_bg"]};font-size:12px;' class='text-center top-border font-weight-bold'>" . $levelColor[strtolower( url_title( $vStats["tingkat"] ) )]["value"] . "</td>";
-
-        //     if( $keyStas == $lastIndex )
-        //         $content .= "</tr>";
-        // }
+ 
         foreach( $getstatus as $key => $value )
         {
             if( $key == 0 )
@@ -280,16 +239,96 @@ class Map
                 default:
                     break;
             }
-
         }
         $content .= "<tr><td class='remove-border'></td><td class='remove-border'></td><td class='remove-border'>1</td><td class='remove-border'>2</td><td class='remove-border'>3</td><td class='remove-border'>4</td><td class='remove-border'>5</td></tr>";
         $content .= "<tr><td class='remove-border'></td><td class='remove-border'></td><td class='remove-border' colspan='5' style='text-align:center;letter-spacing:5px;font-weight:400px;font-size:12px;'>IMPACT</td></tr>";
         $content .= "</tbody></table>";
         // var_dump( $content );
         // exit;
-        $this->_clear();
+        $this->_clearMonitoring();
         return $content;
     }
+
+    function set_data( $data = [] )
+    {
+
+        if( $data )
+        {
+
+            foreach( $data as $row )
+            {
+                if( array_key_exists( $row['id'], $this->_data ) )
+                {
+                    $this->_data[$row['id']]['nilai'] = $row['nilai'];
+                    if( array_key_exists( 'level_color', $data ) )
+                    {
+
+                        $this->_data[$row['id']]['level_color']          = $row['level_color'];
+                        $this->_data[$row['id']]['level_color_residual'] = $row['level_color_residual'];
+                        $this->_data[$row['id']]['level_color_target']   = $row['level_color_target'];
+                        $this->_data[$row['id']]['level_color_target']   = $row['level_color_target'];
+
+                    }
+                }
+            }
+        }
+        return $this;
+    }
+
+    function set_data_profile( $data = [], $post = "" )
+    {
+
+        if( $data )
+        {
+            $no = 0;
+
+            foreach( $data as $row )
+            {
+                if( array_key_exists( $row['id'], $this->_data ) )
+                {
+                    if( $post['term_mulai'] > 0 )
+                    {
+                        if( $post['term_mulai'] == $row['minggu_id'] )
+                        {
+                            $this->_data[$row['id']]['mulai'][]['nilai'] = ++$no;
+                            if( array_key_exists( 'level_color', $data ) )
+                            {
+                                $this->_data[$row['id']]['mulai']['level_color']          = $row['level_color'];
+                                $this->_data[$row['id']]['mulai']['level_color_residual'] = $row['level_color_residual'];
+                                $this->_data[$row['id']]['mulai']['level_color_target']   = $row['level_color_target'];
+                            }
+                        }
+                    }
+
+                }
+            }
+            $no = 0;
+
+            foreach( $data as $row )
+            {
+                if( array_key_exists( $row['id'], $this->_data ) )
+                {
+                    if( $post['term_akhir'] > 0 )
+                    {
+                        if( $post['term_akhir'] == $row['minggu_id'] )
+                        {
+                            $this->_data[$row['id']]['akhir'][]['nilai'] = ++$no;
+                            if( array_key_exists( 'level_color', $data ) )
+                            {
+                                $this->_data[$row['id']]['akhir']['level_color']          = $row['level_color'];
+                                $this->_data[$row['id']]['akhir']['level_color_residual'] = $row['level_color_residual'];
+                                $this->_data[$row['id']]['akhir']['level_color_target']   = $row['level_color_target'];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $this;
+    }
+
+
+
     function draw_dashboard()
     {
         $levelColor = [
