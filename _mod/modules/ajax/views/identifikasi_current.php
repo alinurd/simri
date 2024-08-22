@@ -17,6 +17,7 @@
     </thead>
     <tboy>
         <?php
+        // doi::dump($pos);
         $no = 0;
         foreach( $detail as $row ) : 
             $this->db->select('color, color_text, level_color, like, impact, month');
@@ -27,22 +28,25 @@
 
     ?>
             <tr class="pointer detail-rcsa" data-id="<?= $row['id']; ?>" data-dampak="<?= $row['impact_residual_id']; ?>">
-                <td><?= ++$no; ?></td>
+                 <td><?= ++$no; ?></td>
                 <td><?= $row['owner_name']; ?></td>
                 <td><?= $row['risiko_dept']; ?></td>
                 <td><?= $row['klasifikasi_risiko'] . ' | ' . $row['tipe_risiko']; ?></td>
                 <td class="text-center" style="background-color:<?= $row['color']; ?>;color:<?= $row['color_text']; ?>;">
                     <?= $row['level_color']; ?><br /><small><?= $row['like_code'] . 'x' . $row['impact_code'] . ' : ' . $row['risiko_inherent_text']; ?></small>
                 </td>
-                <td class="text-center" style="background-color:<?= $r['color']; ?>;color:<?= $r['color_text']; ?>;">
-                    <?= $r['level_color']; ?><br /><small><?= $r['like'] . 'x' . $r['impact'] . ' : ' . $r['like']*$r['impact']; ?></small>
+
+                <td class="text-center" style="background-color:<?= $row['color_mon']; ?>;color:<?= $row['color_text_mon']; ?>;">
+                    <?= $row['level_color_mon']; ?><br /><small><?= $row['like_code_mon'] . 'x' . $row['impact_code_mon'] . ' : ' . $row['risiko_target_mon']; ?></small>
                 </td>
+             
+               
                 <td class="text-center"
                     style="background-color:<?= $row['color_target']; ?>;color:<?= $row['color_text_target']; ?>;">
                     <?= $row['level_color_target']; ?><br /><small><?= $row['like_code_target'] . 'x' . $row['impact_code_target'] . ' : ' . $row['risiko_target_text']; ?></small>
                 </td>
                 <td class="text-center"><span
-                        class="badge bg-orange-400 badge-pill align-self-center ml-auto"><?= $row['jml']; ?></span></td>
+                        class="badge bg-orange-400 badge-pill align-self-center ml-auto"><?= isset($row['jml'])?$row['jml']:0; ?></span></td>
                 <td class="text-center"><span
                         class="badge bg-teal-400 badge-pill align-self-center ml-auto"><?= $row['jml2']; ?></span></td>
                 <td class="text-center"><span
