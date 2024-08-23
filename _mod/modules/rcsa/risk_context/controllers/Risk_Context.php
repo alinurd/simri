@@ -2551,7 +2551,7 @@ class Risk_Context extends MY_Controller
 		echo json_encode( $data );
 	}
 
-	function redirectUrl( $id )
+	function redirectUrlQuit( $id )
 	{
 		return base_url( $this->modul_name . "/identifikasi-risiko/" . $id );
 	}
