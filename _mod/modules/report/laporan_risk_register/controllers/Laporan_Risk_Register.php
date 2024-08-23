@@ -42,7 +42,7 @@ class Laporan_Risk_Register extends MY_Controller
 		$data['term']   = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'term' )->combo_where( 'pid', _TAHUN_ID_ )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		$data['minggu'] = $this->crud->combo_select( [ 'id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu' ] )->combo_where( 'kelompok', 'minggu' )->combo_where( 'param_date>=', $tgl1 )->combo_where( 'param_date<=', $tgl2 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		// $data['minggu']=$this->crud->combo_select(['id', 'concat(param_string,\' minggu ke - \',data, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-		$data['data'] = $this->data->get_data();
+		$data['data'] = $this->data->get_data( [] );
 		$data['tbl']  = $this->hasil = $this->load->view( 'lap', $data, TRUE );
 		$this->hasil = $this->load->view( 'view', $data, TRUE );
 
@@ -100,9 +100,19 @@ class Laporan_Risk_Register extends MY_Controller
 
 	function proses_search()
 	{
-		$post             = $this->input->post();
+		$whereData = [];
+		$post      = $this->input->post();
+		if( ! empty( $post["owner"] ) )
+		{
+			$whereData["owner_id"] = $post["owner"];
+		}
+		if( ! empty( $post["period"] ) )
+		{
+			$whereData["period_id"] = $post["period"];
+		}
+
 		$this->data->post = $post;
-		$data['rows']     = $this->data->get_data();
+		$data['data']     = $this->data->get_data( $whereData );
 		$hasil['combo']   = $this->load->view( 'lap', $data, TRUE );
 		header( 'Content-type: application/json' );
 		echo json_encode( $hasil );
