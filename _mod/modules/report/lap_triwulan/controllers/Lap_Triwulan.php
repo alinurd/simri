@@ -79,8 +79,9 @@ class Lap_Triwulan extends MY_Controller {
 			$data['jml_inherent']='<span class="badge bg-primary badge-pill"> '.$jml.' </span>';
 		}
 		$this->data->filter_data();
-		$rows = $this->db->SELECT('risiko_residual as id, COUNT(risiko_residual) as nilai')->group_by('risiko_residual')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
-		$data['map_residual']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>2])->draw();
+		$rows                      = $this->db->SELECT( 'risiko_target_mon as id, COUNT(risiko_target_mon) as nilai, level_color_mon , level_color_residual, level_color_target, bulan_mon, mon_id, id as detail_id' )->group_by( 'risiko_target_mon' )->get( "il_view_rcsa_detail_monitoring" )->result_array();
+		$data['map_residual']        = $this->map->_setDataMonitoring( $rows )->_setParam( [ 'tipe' => 'angka', 'level' => 2, 'rows'=>$rows] )->draw_current();
+		
 		$jml=$this->map->get_total_nilai();
 		$data['jml_residual']='';
 		if ($jml>0){
@@ -102,7 +103,9 @@ class Lap_Triwulan extends MY_Controller {
 			$level[$row['id']]=$row;
 		}
 		$this->data->filter_data();
-		$rows = $this->db->SELECT('level_risk_no_residual as id, level_color_residual, COUNT(level_color_residual) as nilai')->group_by('level_color_residual')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		$rows                      = $this->db->SELECT( 'risiko_target_mon as id, COUNT(risiko_target_mon) as nilai, level_color_mon , level_color_residual, level_color_target, bulan_mon, mon_id, id as detail_id' )->group_by( 'risiko_target_mon' )->get( "il_view_rcsa_detail_monitoring" )->result_array();
+
+		// $rows = $this->db->SELECT('level_risk_no_residual as id, level_color_residual, COUNT(level_color_residual) as nilai')->group_by('level_color_residual')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 		$x=$level;
 		foreach($rows as $row){
 			if (isset($x[$row['id']]['jml'])) {
