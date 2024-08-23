@@ -2221,13 +2221,12 @@ class Progress_Mitigasi extends MY_Controller
 
 		$param['analisa_kuantitatif'][] = ['title' => '', 'help' => '', 'isi' => '<div style="display: flex; justify-content: space-between;">
 		<span class="btn btn-primary legitRipple pointer" data-rcsa="' . $parent['id'] . '" data-id="' . $id_edit . '" id="indikator_like" data-jml_like_indi="' . $jml_like_indi . '" style="width:100%;"> Input Risk Indikator Likelihood [ ' . $jml_like_indi . ' ] </span>
-		 <span class="icon-database-refresh pointer" id="refreshRiskLikeHood" title="Click untuk refresh data" style="width: 5%;"></span></div> ' .
+		</div> ' .
 			form_hidden(['indikator_like_cek' => ($jml_like_indi) ? $jml_like_indi : ''], 'id="indikator_like_cek"')];
 
 		$param['analisa_kuantitatif'][] = ['title' => '', 'help' => '', 'isi' => '<div style="display: flex; justify-content: space-between;">
 		<span class="btn btn-primary legitRipple pointer"  data-rcsa="' . $parent['id'] . '" data-id="' . $id_edit . '" id="indikator_dampak" data-jml_dampak_indi="' . $jml_dampak_indi . '" style="width:100%;"> Input Risk Indikator Dampak  [ ' . $jml_dampak_indi . ' ] </span>		 
-		<span class="icon-database-refresh pointer" id="refreshRiskDampak" title="Click untuk refresh data" style="width: 5%;">
-		</span></div> '];
+		</div> '];
 
 
 
@@ -2544,7 +2543,7 @@ class Progress_Mitigasi extends MY_Controller
 					}
 				}
 			}
-			
+
 			if(!isset($post['month'])){
 				$post['month']=1;
 			}
