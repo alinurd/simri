@@ -64,7 +64,7 @@ class Profil_Risiko extends MY_Controller
 		$this->addField( [ 'field' => 'owner_id', 'title' => 'Owner', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->cbo_owner, 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'period_id', 'title' => 'Period', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->period, 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->term, 'show' => FALSE ] );
-		$this->addField( [ 'field' => 'minggu_id', 'title' => 'Bulan', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => [], 'show' => FALSE ] );
+		$this->addField( [ 'field' => 'minggu_id', 'title' => 'Bulan', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->minggu, 'show' => FALSE ] );
 
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 
@@ -190,8 +190,10 @@ class Profil_Risiko extends MY_Controller
 
 	function listBox_like_code_residual( $field, $rows, $value )
 	{
-		// doi::dump($rows);
-
+		 
+		if(isset($this->post['minggu_id'])){
+			$this->db->where('bulan_id', $this->post['minggu_id']); 
+		}
 		$this->db->select('level_color_mon, color_text_mon, color_mon, like_code_mon, impact_code_mon, likximpact');
 		$this->db->where('id', $rows['id']); 
 		$this->db->order_by('month', 'DESC');  
