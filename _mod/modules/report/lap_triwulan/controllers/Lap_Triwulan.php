@@ -103,7 +103,9 @@ class Lap_Triwulan extends MY_Controller {
 			$level[$row['id']]=$row;
 		}
 		$this->data->filter_data();
-		$rows = $this->db->SELECT('level_risk_no_residual as id, level_color_residual, COUNT(level_color_residual) as nilai')->group_by('level_color_residual')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		$rows                      = $this->db->SELECT( 'risiko_target_mon as id, COUNT(risiko_target_mon) as nilai, level_color_mon , level_color_residual, level_color_target, bulan_mon, mon_id, id as detail_id' )->group_by( 'risiko_target_mon' )->get( "il_view_rcsa_detail_monitoring" )->result_array();
+
+		// $rows = $this->db->SELECT('level_risk_no_residual as id, level_color_residual, COUNT(level_color_residual) as nilai')->group_by('level_color_residual')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 		$x=$level;
 		foreach($rows as $row){
 			if (isset($x[$row['id']]['jml'])) {
