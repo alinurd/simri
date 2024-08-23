@@ -190,7 +190,19 @@ class Profil_Risiko extends MY_Controller
 
 	function listBox_like_code_residual( $field, $rows, $value )
 	{
-		$a = '<div class="text-center" style="padding:20px;background-color:' . $rows['color_residual'] . ';color' . $rows['color_text_residual'] . ';">' . $rows['level_color_residual'] . '<br/><small>' . $rows['like_code_residual'] . 'x' . $rows['impact_code_residual'] . ' : ' . $rows['risiko_residual_text'] . '</small></div>';
+		// doi::dump($rows);
+
+		$this->db->select('level_color_mon, color_text_mon, color_mon, like_code_mon, impact_code_mon, likximpact');
+		$this->db->where('id', $rows['id']); 
+		$this->db->order_by('month', 'DESC');  
+		$this->db->limit(1);  
+		$r = $this->db->get("il_view_rcsa_detail_monitoring")->row_array();
+		if($r){
+			$a = '<div class="text-center" style="padding:20px;background-color:' . $r['color_mon'] . ';color' . $r['color_text_mon'] . ';">' . $r['level_color_mon'] . '<br/><small>' . $r['like_code_mon'] . 'x' . $r['impact_code_mon'] . ' : ' . $r['likximpact'] . '</small></div>';
+		}else{
+			$a = '-';
+		}
+		
 		return $a;
 	}
 
@@ -1072,24 +1084,12 @@ class Profil_Risiko extends MY_Controller
 		{
 			$data['jml_inherent'] = '<span class="badge bg-primary badge-pill"> ' . $jml . ' </span>';
 		}
-	
-		$rows                 = $this->db->SELECT( 'risiko_residual as id,  level_color, level_color_residual, level_color_target, minggu_id' ) 
-		->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
-		// $this->data->filter_data( $this->_data_user_ ); 
-        $getResidual         = $this->db->get( "il_update_residual" )->result_array();
-		
-		$resResult = [];
+		$this->data->filter_data_mon( $this->_data_user_ );
 
-		foreach ($rows as $row) {
-			foreach ($getResidual as $residual) {
-				if ($row['id'] == $residual['rcsa_detail_id']) {
-					$row['additional_data'] = $residual;
-					$resResult[] = $row;
-				}
-			}
-		}
+		$rows                      = $this->db->SELECT( 'risiko_target_mon as id, COUNT(risiko_target_mon) as nilai, level_color_mon , level_color_residual, level_color_target, bulan_mon, mon_id, id as detail_id, bulan_id' )->group_by( 'risiko_target_mon' )->get( "il_view_rcsa_detail_monitoring" )->result_array();
+  	 
 
-		$data['map_residual'] = $this->map->set_data_profile( $resResult, $this->pos )->set_param( [ 'tipe' => 'angka', 'level' => 2 ] )->draw_profile_dashboard_monitoring();
+		$data['map_residual'] = $this->map->set_data_profile_mon( $rows, $this->pos )->set_param( [ 'tipe' => 'angka', 'level' => 2 ] )->draw_profile_dashboard_monitoring();
 
 		$jml                         = $this->map->get_total_nilai();
 		$jmlstatus                   = $this->map->get_jumlah_status_profil();

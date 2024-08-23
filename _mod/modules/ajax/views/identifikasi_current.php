@@ -20,11 +20,11 @@
         // doi::dump($pos);
         $no = 0;
         foreach( $detail as $row ) : 
-            $this->db->select('color, color_text, level_color, like, impact, month');
-            $this->db->where('rcsa_detail_id', $row['id']); 
-            $this->db->order_by('month', 'DESC');  
+            // $this->db->select('color, color_text, level_color, like, impact, month');
+            $this->db->where('risiko_target_mon', $pos['id']); 
+            // $this->db->order_by('month', 'DESC');  
             $this->db->limit(1);  
-            $r = $this->db->get("il_update_residual")->row_array();
+            $r = $this->db->get("il_view_rcsa_detail_monitoring")->row_array();
 
     ?>
             <tr class="pointer detail-rcsa" data-id="<?= $row['id']; ?>" data-dampak="<?= $row['impact_residual_id']; ?>">
@@ -37,7 +37,7 @@
                 </td>
 
                 <td class="text-center" style="background-color:<?= $row['color_mon']; ?>;color:<?= $row['color_text_mon']; ?>;">
-                    <?= $row['level_color_mon']; ?><br /><small><?= $row['like_code_mon'] . 'x' . $row['impact_code_mon'] . ' : ' . $row['risiko_target_mon']; ?></small>
+                    <?= $row['level_color_mon']; ?><br /><small><?= $row['like_code_mon'] . 'x' . $row['impact_code_mon'] . ' : ' .$row['like_code_mon']*$row['impact_code_mon']; ?></small>
                 </td>
              
                

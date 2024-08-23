@@ -23,6 +23,11 @@ class Data extends MX_Model
 		foreach($rows as $row){
 			$aktifitas[$row['id']]=$row['jml'];
 		}
+		$rows=$this->db->select(' id, count(id) as jml')->group_by(['id'])->get("il_view_rcsa_detail_monitoring")->result_array();
+		$mon=[];
+		foreach($rows as $row){
+			$mon[$row['id']]=$row['jml'];
+		}
 		// $this->db->where('status_final', 1);
 		$rows=$this->db->select('rcsa_detail_id as id, count(rcsa_detail_id) as jml')->group_by(['rcsa_detail_id'])->get(_TBL_VIEW_RCSA_MITIGASI_PROGRES)->result_array();
 		$progres=[];
