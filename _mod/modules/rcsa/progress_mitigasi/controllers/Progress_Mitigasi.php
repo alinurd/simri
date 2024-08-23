@@ -2544,7 +2544,10 @@ class Progress_Mitigasi extends MY_Controller
 					}
 				}
 			}
-
+			
+			if(!isset($post['month'])){
+				$post['month']=1;
+			}
 			$post['hasil'] = $this->data->update_list_indi_like(['rcsa_detail_no' => $post['rcsa_detail_no'], 'bk_tipe' => $post['bk_tipe'], 'dampak_id' => $post['dampak_id'], 'month'=>$post['month']], false);
 		}
 
