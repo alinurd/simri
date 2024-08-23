@@ -633,6 +633,80 @@ class Map
         return $content;
     }
 
+    function draw_current()
+    {
+
+        $this->total_nilai = 0;
+        $this->jmlstatus   = [];
+        $content           = '<table style="text-align:center;" border="1" width="100%" class="table table-bordered" id="table-report-triwulan">';
+        $content .= '<tr><td colspan="2" rowspan="3" width="25%"><strong>PERINGKAT<br/>KEMUNGKINAN<br/>RISIKO</strong></td>';
+        $content .= '<td colspan="5"><strong>PERINGKAT DAMPAK RISIKO</strong></td></tr>';
+        foreach( $this->impact as $key => $row )
+        {
+            $content .= '<td class="text-center" style="padding:5px;" width="15%">' . $row['level'] . '</td>';
+        }
+        $content .= '</tr><tr>';
+        foreach( $this->impact as $key => $row )
+        {
+            $content .= '<td style="padding:5px;">' . $row['urut'] . '</td>';
+        }
+        $no        = 0;
+        $noTd      = 5;
+        $nourut    = 0;
+        $arrBorder = [];
+        $key       = 0;
+
+        foreach( $this->_data as $keys => $row )
+        {
+
+            $icon = '&nbsp;&nbsp;';
+            if( ! empty( $row['icon'] ) )
+            {
+                $icon = show_image( $row['icon'], 0, 10, 'slide', 0, 'pull-right' );
+            }
+
+            $apetite = ' <i class="fa fa-minus-circle pull-right text-primary"></i> ';
+
+            $icon = '&nbsp;&nbsp;';
+            ++$no;
+            $nilai = ( ! empty( $row['nilai'] ) ) ? $row['nilai'] : "";
+
+            if( $this->_param['tipe'] == 'angka' )
+            {
+                $nilaiket = $nilai;
+            }
+            else
+            {
+                $nilaiket = ( ! empty( $row['nilai'] ) ) ? '<i class="icon-checkmark-circle" style="color:' . $row['warna_txt'] . '"></i>' : "";
+            }
+
+            $this->jmlstatus[] = [ 'nilai' => intval( $nilai ), 'tingkat' => $row['tingkat'] ];
+            $this->total_nilai += intval( $nilai );
+            if( $key == 0 )
+            {
+                $content .= '<tr><td class="text-center" width="15%" style="padding:5px;">' . $this->like[$nourut]['level'] . '</td><td style="padding:5px;" width="5%">' . $this->like[$nourut]['urut'] . '</td>';
+                ++$nourut;
+            }
+
+            $notif = '<strong>' . $row['tingkat'] . '</strong><br/>Standar Nilai :<br/>Impact: [ >' . $row['bawah_impact'] . ' s.d <=' . $row['atas_impact'] . ']<br/>Likelihood: [ >' . $row['bawah_like'] . ' s.d <=' . $row['atas_like'] . ']';
+
+            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $row['id'] . '" class="pointer detail-peta-current" style="background-color:' . $row['warna_bg'] . ';color:' . $row['warna_txt'] . ';border:solid 1px black; font-size:16px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . ( ! empty( $nilaiket ) ? $nilaiket : 0 ) . '</div><sub class="pull-right" style="font-weight: 400;font-size: x-small;">' . $row["pgn_inheren"] . '</sub></td>';
+            if( $no % 5 == 0 && $key < 24 )
+            {
+                --$noTd;
+                $content .= '</tr><tr><td width="15%" class="td-nomor-v" style="padding:5px;text-align:center;">' . $this->like[$nourut]['level'] . '</td><td width="5%" style="padding:5px;">' . $this->like[$nourut]['urut'] . '</td>';
+                ++$nourut;
+            }
+            ++$key;
+        }
+
+        $content .= '</tr>';
+        $content .= '</table ><br/>&nbsp;';
+
+        $this->_clear();
+        return $content;
+    }
+
     function draw_profile_dashboard_monitoring()
     {
         $levelColor = [

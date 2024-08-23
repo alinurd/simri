@@ -24,7 +24,6 @@
             $this->db->order_by('month', 'DESC');  
             $this->db->limit(1);  
             $r = $this->db->get("il_update_residual")->row_array();
-
     ?>
             <tr class="pointer detail-rcsa" data-id="<?= $row['id']; ?>" data-dampak="<?= $row['impact_residual_id']; ?>">
                 <td><?= ++$no; ?></td>
