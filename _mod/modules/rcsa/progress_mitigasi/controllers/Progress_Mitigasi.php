@@ -66,9 +66,9 @@ class Progress_Mitigasi extends MY_Controller
 
 		// $this->set_Table_List($this->tbl_master, 'id', '<input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;">', '0%', 'left', 'no-sort');
 
-		$this->set_Table_List($this->tbl_master, 'owner_name', 'Owner Name', 15);
-		$this->set_Table_List($this->tbl_master, 'period_id', '');
-		$this->set_Table_List($this->tbl_master, 'risiko_dept', 'Risiko Departemen', 15);
+		$this->set_Table_List($this->tbl_master, 'owner_name', 'Owner Name', 10);
+		$this->set_Table_List($this->tbl_master, 'period_id', 10);
+		$this->set_Table_List($this->tbl_master, 'risiko_dept', 'Risiko Departemen', 20);
 		$this->set_Table_List($this->tbl_master, 'inherent', '', 3, '', 'no-sort');
 		$this->set_Table_List($this->tbl_master, 'target', '', 3, '', 'no-sort');
 		$bulan = [
@@ -89,7 +89,7 @@ class Progress_Mitigasi extends MY_Controller
 		foreach (range(1, 12) as $key => $value) {
 			$datetime = DateTime::createFromFormat('m', $value);
 			$nama =  $bulan[$value];
-			$this->set_Table_List($this->tbl_master, 'monitoring' . $value, $nama, '', 'center', 'no-sort');
+			$this->set_Table_List($this->tbl_master, 'monitoring' . $value, $nama, 5, 'center', 'no-sort');
 		}
 
 		$this->_set_Where_Owner();
@@ -108,18 +108,25 @@ class Progress_Mitigasi extends MY_Controller
 		// }else{
 		$content_title = 'Daftar Mitigasi';
 		// }
-
 		$configuration = [
 			'monitoring'	=> true,
-			'show_title_header' => false,
-			'show_action_button' => FALSE,
-			'show_column_action' => FALSE,
 			'type_action_button' => FALSE,
-			'content_title' => $content_title
-		];
-		return [
-			'configuration'	=> $configuration
-		];
+			'show_title_header' => FALSE,
+		   ];
+		   return [
+			'configuration' => $configuration,
+		   ];
+	// 	$configuration = [
+	// 		'monitoring'	=> true,
+	// 		'show_title_header' => false,
+	// 		'show_action_button' => FALSE,
+	// 		'show_column_action' => FALSE,
+	// 		'type_action_button' => FALSE,
+	// 		'content_title' => $content_title
+	// 	];
+	// 	return [
+	// 		'configuration'	=> $configuration
+	// 	];
 	}
 
 	public function listBox_INHERENT($field, $rows, $value)

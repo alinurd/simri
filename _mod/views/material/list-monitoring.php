@@ -10,21 +10,24 @@ endforeach;
 if ($search)
     echo 'Search by : ' . $filter . ' <a href="'.base_url(_MODULE_NAME_).'?cs=1"> <i class="icon-close2 pointer text-danger"></i></a>';
 ?>
-<table class="table table-hover table-striped " id='datatable-list'>
-    <thead>
-        <tr>
-            <th width='5%' class='text-center' style="padding-left:2px;"><input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;"></th>
-            <th width='5%' class='text-center'>#</th>
-            <?php
-            foreach($title as $row):?>
-            <th class='text-<?=$row[4];?> <?=$row[5];?>' width='<?=$row[3];?>%'><?=$row[2];?></th>
-            <?php endforeach;?>
-            <th class="text-center" width='8%' style='padding:.75rem 0 !important;'>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+<div style=" overflow-y:auto; ">
+    <table class="table table-hover table-striped " id='datatable-list'>
+        <thead>
+            <tr>
+                <th width='2%' class='text-center' style="padding-left:2px;">
+                    <input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;">
+                </th>
+                <th width='2%' class='text-center'>#</th>
+                <?php foreach($title as $row): ?>
+                    <th class='text-<?=$row[4];?> <?=$row[5];?>' width='<?=$row[3];?>%'><?=$row[2];?></th>
+                <?php endforeach; ?>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
 <?php $pesan =$this->session->flashdata('message_crud');?>
 
 <?php if($params['modal_box_search']):?>
