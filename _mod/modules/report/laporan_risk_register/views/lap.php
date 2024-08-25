@@ -44,7 +44,6 @@
                 <th colspan="6" class="text-center" style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Risiko Inheren</th>
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Jenis/Nama Kontrol</th>
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Efek L/D Kontrol</th>
-                <th colspan="4" class="text-center" style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Risiko Current</th>
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Respon Risiko</th>
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;color:#ffffff;">Efek L/D Mitigasi</th>
                 <th colspan="4" class="text-center" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Risiko Residual</th>
@@ -53,24 +52,27 @@
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">PIC</th>
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Due Date</th>
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Aktifitas & Progres Mitigasi</th>
+                <th colspan="4" class="text-center" style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Risiko Current</th>
             </tr>
             <tr>
-                <th style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Risk Indikator Likelihood</th>
+
+            <th style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Risk Indikator Likelihood</th>
                 <th style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Risk Indikator Dampak</th>
                 <th style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Likelihood Inheren</th>
                 <th style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Inheren Impact</th>
                 <th style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Inheren Risk</th>
                 <th style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Risk Level Inheren</th>
 
+                <th style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Likelihood Residual</th>
+                <th style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Residual Impact</th>
+                <th style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Residual Risk</th>
+                <th style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Residual Risk Level</th>
+
                 <th style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Likelihood Current</th>
                 <th style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Current Impact</th>
                 <th style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Current Risk</th>
                 <th style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Current Risk Level</th>
 
-                <th style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Likelihood Residual</th>
-                <th style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Residual Impact</th>
-                <th style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Residual Risk</th>
-                <th style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Residual Risk Level</th>
             </tr>
         </thead>
 
@@ -244,11 +246,7 @@
                         <td rowspan="<?= $jml; ?>" style="background:<?= $row['color']; ?>;color:<?= $row['color_text']; ?>;"><?= $row['level_color']; ?></td>
                         <td rowspan="<?= $jml; ?>"><?php echo strip_tags($row['nama_kontrol_note'], '<p><span><br>'); ?></td>
                         <td rowspan="<?= $jml; ?>"><?= $row['efek_kontrol_text']; ?></td>
-                        <td rowspan="<?= $jml; ?>"><?= $row['like_residual'][0]; ?></td>
-                        <td rowspan="<?= $jml; ?>"><?= $row['impact_residual'][0]; ?></td>
-                        <td rowspan="<?= $jml; ?>"><?= $row['risiko_residual_text']; ?></td>
-                        <td rowspan="<?= $jml; ?>" style="background:<?= $row['color_residual']; ?>;color:<?= $row['color_text_residual']; ?>;"><?= $row['level_color_residual']; ?></td>
-                        <td rowspan="<?= $jml; ?>"><?= $row['treatment']; ?></td>
+                       <td rowspan="<?= $jml; ?>"><?= $row['treatment']; ?></td>
                         <td rowspan="<?= $jml; ?>"><?= $row['efek_mitigasi_text']; ?></td>
                         <td rowspan="<?= $jml; ?>"><?= $row['like_target'][0]; ?></td>
                         <td rowspan="<?= $jml; ?>"><?= $row['impact_target'][0]; ?></td>
@@ -272,6 +270,14 @@
                         </ul>
 
                     </td>
+
+                    <td rowspan="<?= $jml; ?>"><?= $row['like_residual'][0]; ?></td>
+                        <td rowspan="<?= $jml; ?>"><?= $row['impact_residual'][0]; ?></td>
+                        <td rowspan="<?= $jml; ?>"><?= $row['risiko_residual_text']; ?></td>
+                        <td rowspan="<?= $jml; ?>" style="background:<?= $row['color_residual']; ?>;color:<?= $row['color_text_residual']; ?>;"><?= $row['level_color_residual']; ?></td>
+                        
+
+
                     </tr>
                     <?php
                                 endforeach;
