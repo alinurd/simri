@@ -44,10 +44,10 @@
                 <th colspan="6" class="text-center" style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Risiko Inheren</th>
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Jenis/Nama Kontrol</th>
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_inherent']; ?> !important;color:#ffffff;">Efek L/D Kontrol</th>
-                <th colspan="4" class="text-center" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Risiko Residual</th>
+                <th colspan="4" class="text-center" style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Risiko Current</th>
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Respon Risiko</th>
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;color:#ffffff;">Efek L/D Mitigasi</th>
-                <th colspan="4" class="text-center" style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Risiko Current</th>
+                <th colspan="4" class="text-center" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Risiko Residual</th>
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Mitigasi</th>
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Kordinator</th>
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">PIC</th>
@@ -238,7 +238,7 @@
                         <td rowspan="<?= $jml; ?>"><?= format_list($row['dampak'], '###'); ?></td>
                         <td rowspan="<?= $jml; ?>"><?= implode('<br/><br/> ', $like1); ?></td>
                         <td rowspan="<?= $jml; ?>"><?= implode('<br/><br/>', $dampak1); ?></td>
-                        <td rowspan="<?= $jml; ?>"><?= $row['like_inherent'][0]; ?>aaaaaa</td>
+                        <td rowspan="<?= $jml; ?>"><?= $row['like_inherent'][0]; ?></td>
                         <td rowspan="<?= $jml; ?>"><?= $row['impact_inherent'][0]; ?></td>
                         <td rowspan="<?= $jml; ?>"><?= $row['risiko_inherent_text']; ?></td>
                         <td rowspan="<?= $jml; ?>" style="background:<?= $row['color']; ?>;color:<?= $row['color_text']; ?>;"><?= $row['level_color']; ?></td>
