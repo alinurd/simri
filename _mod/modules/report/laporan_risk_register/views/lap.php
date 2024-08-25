@@ -52,7 +52,7 @@
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">PIC</th>
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Due Date</th>
                 <th rowspan="2" style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Aktifitas & Progres Mitigasi</th>
-                <th colspan="4" class="text-center" style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Risiko Current</th>
+                <th rowspan="2"  colspan="4" class="text-center" style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Risiko Current</th>
             </tr>
             <tr>
 
@@ -68,10 +68,10 @@
                 <th style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Residual Risk</th>
                 <th style="background:<?= $this->_preference_['warna_target']; ?> !important;;color:#ffffff;">Residual Risk Level</th>
 
-                <th style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Likelihood Current</th>
+                <!-- <th style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Likelihood Current</th>
                 <th style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Current Impact</th>
                 <th style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Current Risk</th>
-                <th style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Current Risk Level</th>
+                <th style="background:<?= $this->_preference_['warna_residual']; ?> !important;;color:#ffffff;">Current Risk Level</th> -->
 
             </tr>
         </thead>
@@ -268,13 +268,37 @@
                             <li>Aktifitas: <?= $mit['jml']; ?></li>
                             <li>Progres : <?= $mit['progres']; ?>%</li>
                         </ul>
-
                     </td>
-
-                    <td rowspan="<?= $jml; ?>"><?= $row['like_residual'][0]; ?></td>
-                        <td rowspan="<?= $jml; ?>"><?= $row['impact_residual'][0]; ?></td>
-                        <td rowspan="<?= $jml; ?>"><?= $row['risiko_residual_text']; ?></td>
-                        <td rowspan="<?= $jml; ?>" style="background:<?= $row['color_residual']; ?>;color:<?= $row['color_text_residual']; ?>;"><?= $row['level_color_residual']; ?></td>
+                    <td rowspan="<?= $jml; ?>" colspan="4">
+                         <table>
+                            <tr>
+                                <td>Month</td>
+                                <td>Likelihood</td>
+                                <td>Impact</td>
+                                <td>Risk</td>
+                                <td>Risk Level</td>
+                            </tr>
+                            <?php 
+                        $mon = $this->db->where('id', $row['id'])->get('il_view_rcsa_detail_monitoring')->result_array();
+                        if($mon){
+                        foreach($mon as $m):
+                        ?>
+                            <tr>
+                                <td><?=$m['bulan_mon']?>-<?=$m['mon_id']?></td>
+                                <td><?=$m['like_code_mon']?></td>
+                                <td><?=$m['impact_code_mon']?></td>
+                                <td><?=$m['likximpact']?></td>
+                                <td style="text-align:center; background:<?= $m['color_mon']; ?>;color:<?= $m['color_text_mon']; ?>;"><?= $m['level_color_mon']; ?></td>
+                            </tr>
+                           <?php endforeach;
+                        }else{ ?>
+                            <tr>
+                                <td colspan="5" class="text-center">Data not found</td>
+                            </tr>
+                            <?php }?>
+                        </table>
+                        
+                   </td>
                         
 
 
