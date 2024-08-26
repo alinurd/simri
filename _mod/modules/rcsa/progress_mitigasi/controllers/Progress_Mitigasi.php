@@ -67,7 +67,7 @@ class Progress_Mitigasi extends MY_Controller
 		// $this->set_Table_List($this->tbl_master, 'id', '<input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;">', '0%', 'left', 'no-sort');
 
 		$this->set_Table_List($this->tbl_master, 'owner_name', 'Owner Name', 10);
-		$this->set_Table_List($this->tbl_master, 'period_id', 10);
+		$this->set_Table_List($this->tbl_master, 'period_id','thn', 10);
 		$this->set_Table_List($this->tbl_master, 'risiko_dept', 'Risiko Departemen', 20);
 		$this->set_Table_List($this->tbl_master, 'inherent', '', 3, '', 'no-sort');
 		$this->set_Table_List($this->tbl_master, 'target', '', 3, '', 'no-sort');
