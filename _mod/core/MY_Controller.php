@@ -1329,7 +1329,7 @@ class MY_Controller extends MX_Controller
 					$size  = '100%';
 					$multi = ' multiple="multiple" ';
 					$label = $label . '[]';
-					if( ! is_array( $isi ) )
+					if( ! empty( $isi ) && ! is_array( $isi ) )
 					{
 						$isi = explode( ',', $isi );
 					}
