@@ -55,6 +55,25 @@ $(function(){
 		_ajax_("post", parent, data, target_combo, url, 'list_map');
     })
 
+    $(document).on('click', '.detail-peta-current', function () {
+        var parent = $(this).parent().parent().parent();
+        var owner = $("#owner").val();
+        var period = $("#period").val();
+        var type_ass = $("#type_ass").val();
+        var term = $("#term").val();
+        var minggu = $("#minggu").val();
+        var id = $(this).data('id');
+        var monid = 0;
+         var level = $(this).data('level');
+        var data = { 'monid': monid,'id': id, 'level': level, 'period': period, 'owner': owner, 'type_ass': type_ass, 'term': term, 'minggu': minggu };
+        var target_combo = '';
+        var url = "ajax/get-detail-map-current";
+        console.log(monid
+
+        )
+        _ajax_("post", parent, data, target_combo, url, 'list_map');
+    })
+    
     $(document).on('click','.detail-rcsa', function() {
 		var parent = $(this).parent().parent().parent();
 		var id = $(this).data('id');

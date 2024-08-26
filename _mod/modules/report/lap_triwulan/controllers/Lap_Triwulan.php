@@ -70,6 +70,13 @@ class Lap_Triwulan extends MY_Controller {
 	}
 
 	function map(){
+		//cari totalrows=$thsoi>
+		$rows = $this->db->select('*, 0 as jml')->order_by('urut')->get(_TBL_LEVEL_COLOR)->result_array();
+		$level=[];
+		foreach($rows as $row){
+			$level[$row['level_color']]=$row;
+		}
+
 		$this->data->filter_data();
 		$rows = $this->db->SELECT('risiko_inherent as id, COUNT(risiko_inherent) as nilai')->group_by('risiko_inherent')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 		$data['map_inherent']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>1])->draw();
@@ -79,8 +86,18 @@ class Lap_Triwulan extends MY_Controller {
 			$data['jml_inherent']='<span class="badge bg-primary badge-pill"> '.$jml.' </span>';
 		}
 		$this->data->filter_data();
-		$rows = $this->db->SELECT('risiko_residual as id, COUNT(risiko_residual) as nilai')->group_by('risiko_residual')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
-		$data['map_residual']=$this->map->set_data($rows)->set_param(['tipe'=>'angka', 'level'=>2])->draw();
+		$rowsCurrent                      = $this->db->SELECT( 'risiko_target_mon as id, COUNT(risiko_target_mon) as nilai, level_color_mon , level_color_residual, level_color_target, bulan_mon, mon_id, id as detail_id' )->group_by( 'risiko_target_mon' )->get( "il_view_rcsa_detail_monitoring" )->result_array();
+		$data['map_residual']        = $this->map->_setDataMonitoring( $rowsCurrent )->_setParam( [ 'tipe' => 'angka', 'level' => 2, 'rows'=>$rows] )->draw_current();
+		$x=$level;
+		// doi::dump($rowsCurrent );
+		foreach($rowsCurrent as $row){
+			if (array_key_exists($row['level_color_mon'], $x)){
+				$x[$row['level_color_mon']]['jml']+=intval($row['nilai']);
+			}
+		}
+		$data['t_residual']=$x;
+		// doi::dump($x );
+
 		$jml=$this->map->get_total_nilai();
 		$data['jml_residual']='';
 		if ($jml>0){
@@ -95,28 +112,14 @@ class Lap_Triwulan extends MY_Controller {
 			$data['jml_target']='<span class="badge bg-warning badge-pill"> '.$jml.' </span>';
 		}
 
-		//cari totalrows=$thsoi>
-		$rows = $this->db->select('*, 0 as jml')->order_by('id desc')->get(_TBL_LEVEL_COLOR)->result_array();
-		$level=[];
-		foreach($rows as $row){
-			$level[$row['id']]=$row;
-		}
-		$this->data->filter_data();
-		$rows = $this->db->SELECT('level_risk_no_residual as id, level_color_residual, COUNT(level_color_residual) as nilai')->group_by('level_color_residual')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
-		$x=$level;
-		foreach($rows as $row){
-			if (isset($x[$row['id']]['jml'])) {
-				$x[$row['id']]['jml']+=intval($row['nilai']);
-			}
-		}
-		$data['t_residual']=$x;
+		
 
 		$this->data->filter_data();
 		$rows = $this->db->SELECT('level_risk_no_target as id, level_color_target, COUNT(level_color_target) as nilai')->group_by('level_color_target')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 		$x=$level;
 		foreach($rows as $row){
-			if (array_key_exists($row['id'], $x)){
-				$x[$row['id']]['jml']+=intval($row['nilai']);
+			if (array_key_exists($row['level_color_target'], $x)){
+				$x[$row['level_color_target']]['jml']+=intval($row['nilai']);
 			}
 		}
 		$data['t_target']=$x;
