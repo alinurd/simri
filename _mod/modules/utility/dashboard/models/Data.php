@@ -311,9 +311,8 @@ class Data extends MX_Model {
 				$this->db->where('tgl_mulai_minggu>=', $this->pos['tgl1']);
 				$this->db->where('tgl_akhir_minggu<=', $this->pos['tgl2']);
 			}elseif (isset($this->pos['minggu'])){
-				// $this->db->where('minggu_id', $this->pos['minggu']);
-				// dumps($minggu);
-			
+				$this->db->where('minggu_id', $this->pos['minggu']);
+ 			
 				if (count($minggu)>0) {
 					$this->db->where_in('minggu_id', $minggu);
 				}elseif(intval($this->pos['minggu']) > 0){
