@@ -64,7 +64,7 @@ class Data extends MX_Model
 		// }
 		$peristiwa_id_tmp = [];
 		$dampak_id_tmp    = [];
-
+		$penyebab_id_tmp  = [];
 		if( isset( $data['txt_penyebab_id'] ) )
 		{
 
@@ -192,7 +192,7 @@ class Data extends MX_Model
 		$this->crud->crud_field( 'klasifikasi_risiko_id', $data['klasifikasi_risiko_id'] );
 		$this->crud->crud_field( 'tipe_risiko_id', $data['tipe_risiko_id'] );
 		$this->crud->crud_field( 'peristiwa_id', $data['peristiwa_id'] );
-		// $this->crud->crud_field( 'penyebab_id', $data['penyebab_id'] );
+
 
 		// if( $peristiwa_id_tmp )
 		// {
@@ -204,6 +204,14 @@ class Data extends MX_Model
 		// }
 		// $this->crud->crud_field( 'peristiwa_id', $peristiwa_id );
 
+		if( $penyebab_id_tmp )
+		{
+			$penyebab_id = implode( ',', $penyebab_id_tmp );
+		}
+		else
+		{
+			$penyebab_id = implode( ',', $data['penyebab_id'] );
+		}
 		if( $dampak_id_tmp )
 		{
 			$dampak_id = implode( ',', $dampak_id_tmp );
@@ -212,6 +220,7 @@ class Data extends MX_Model
 		{
 			$dampak_id = implode( ',', $data['dampak_id'] );
 		}
+		$this->crud->crud_field( 'penyebab_id', $penyebab_id );
 		$this->crud->crud_field( 'dampak_id', $dampak_id );
 
 		$this->crud->crud_field( 'risiko_dept', $data['risiko_dept'] );
