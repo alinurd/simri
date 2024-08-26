@@ -131,6 +131,8 @@ class Data extends MX_Model
 
 		$this->db->where( 'status_final', 1 );
 		$rows = $this->db->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
+		// var_dump( $this->db->last_query() );
+		// exit;
 		foreach( $rows as &$row )
 		{
 			if( array_key_exists( $row['id'], $miti ) )
@@ -212,7 +214,6 @@ class Data extends MX_Model
 		}
 
 
-
 		// if (isset($this->post['period'])){
 		// 	$this->db->where('period_id', $this->post['period']);
 		// }else{
@@ -281,7 +282,7 @@ class Data extends MX_Model
 			{
 				$this->db->where( $field . 'type_ass_id', $this->pos['type_ass'] );
 			}
-			if( ! empty( $this->pos['period'] ) && $this->pos['period'] )
+			if( $this->pos['period'] )
 			{
 				$this->db->where( $field . 'period_id', $this->pos['period'] );
 			}
@@ -340,7 +341,6 @@ class Data extends MX_Model
 				$this->db->where( 'type_ass_id', $this->pos['type_ass'] );
 			}
 		}
-
 		// $this->db->where('type_ass_id', 128);
 	}
 
