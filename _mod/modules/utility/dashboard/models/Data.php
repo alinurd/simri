@@ -325,27 +325,28 @@ class Data extends MX_Model {
 	}
 	function filter_data_mon(){
 		// doi::dump($this->pos);
-		$this->db->where('period_id', _TAHUN_ID_);
-			$this->db->where('term_id', _TERM_ID_);
-
-			if ($this->pos['owner']){
+		if ($this->pos){
+			if (isset($this->pos['owner'])){
 				if(count($this->owner_child)){
 					$this->db->where_in('owner_id', $this->owner_child);
 				}
 			}
-			if ($this->pos['type_ass']){
+			if (isset($this->pos['type_ass'])){
 				$this->db->where('type_ass_id', $this->pos['type_ass']);
 			}
-			if ($this->pos['period']){
+			if (isset($this->pos['period'])){
 				$this->db->where('period_id', $this->pos['period']);
 			}
-			if ($this->pos['minggu']){
+			if (isset($this->pos['minggu'])){
 				$this->db->where('minggu_id', $this->pos['minggu']);				 
 			}
-			if ($this->pos['term']){
+			if (isset($this->pos['term'])){
 				$this->db->where('term_id', $this->pos['term']);
 				}
-		 
+		}else{
+			$this->db->where('period_id', _TAHUN_ID_);
+			$this->db->where('term_id', _TERM_ID_);
+		}
 	}
 	
 
