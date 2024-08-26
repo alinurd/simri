@@ -340,12 +340,12 @@ class Data extends MX_Model {
 			if ($this->pos['minggu']!=""){
 				$this->db->where('minggu_id', $this->pos['minggu']);				 
 			}
-			if ($this->pos['term']!=""){
-				$this->db->where_in('term_id', $this->pos['term']);
-				}
+			// if ($this->pos['term']!=""){
+			// 	$this->db->where_in('term_id', $this->pos['term']);
+			// 	}
 		}else{
 			$this->db->where('period_id', _TAHUN_ID_);
-			$this->db->where('term_id', _TERM_ID_);
+			// $this->db->where('term_id', _TERM_ID_);
 		}
 	}
 	
