@@ -33,7 +33,7 @@
                         <?php echo form_dropdown( 'period', $period, _TAHUN_ID_, 'class="form-control select" style="width:100%;"  id="period"' ); ?>
                     </div>
                 </div>
-                <!-- <div class="form-group row">
+                <div class="form-group row">
                     <label class="col-form-label col-lg-2 text-right"><?= _l( 'fld_term_id' ); ?></label>
                     <div class="col-lg-10">
                         <?php echo form_dropdown( 'term', $term, _TERM_ID_, 'class="form-control select" style="width:100%;"  id="term"' ); ?>
@@ -44,7 +44,7 @@
                     <div class="col-lg-10">
                         <?php echo form_dropdown( 'minggu', $minggu, _MINGGU_ID_, 'class="form-control select" style="width:100%;"  id="minggu"' ); ?>
                     </div>
-                </div> -->
+                </div>
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <span class="btn btn-primary pointer pull-right" id="proses"> Proses </span>
