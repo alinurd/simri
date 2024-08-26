@@ -1745,7 +1745,7 @@ class MY_Controller extends MX_Controller
 					{
 						if( method_exists( $this->router->fetch_class(), $method_name_redirect_quit ) )
 						{
-							$url = $this->$method_name( $id_new );
+							$url = $this->$method_name_redirect_quit( $id_new );
 						}
 						else
 						{
