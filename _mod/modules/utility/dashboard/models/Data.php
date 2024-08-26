@@ -323,8 +323,8 @@ class Data extends MX_Model {
 			// $this->db->where('term_id', _TERM_ID_);
 		}
 	}
-	function filter_data_mon($custom = false, $field = ''){
-		
+	function filter_data_mon(){
+		// doi::dump($this->pos);
 		if ($this->pos){
 			if (isset($this->pos['owner'])){
 				if(count($this->owner_child)){
@@ -332,16 +332,16 @@ class Data extends MX_Model {
 				}
 			}
 			if (isset($this->pos['type_ass'])){
-				$this->db->where_in('type_ass_id', $this->pos['type_ass']);
+				$this->db->where('type_ass_id', $this->pos['type_ass']);
 			}
 			if (isset($this->pos['period'])){
-				$this->db->where_in('period_id', $this->pos['period']);
+				$this->db->where('period_id', $this->pos['period']);
 			}
 			if (isset($this->pos['minggu'])){
 				$this->db->where('minggu_id', $this->pos['minggu']);				 
 			}
 			if (isset($this->pos['term'])){
-				$this->db->where_in('term_id', $this->pos['term']);
+				$this->db->where('term_id', $this->pos['term']);
 				}
 		}else{
 			$this->db->where('period_id', _TAHUN_ID_);
