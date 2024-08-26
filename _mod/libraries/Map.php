@@ -42,43 +42,49 @@ class Map
             $this->_data[$row['id']] = $row;
         }
 
-         $this->_param = [];
+        $this->_param = [];
     }
 
     function _setDataMonitoring( $data = [] )
     {
-        
+
         if( $data )
         {
-            $groupedData=[];
-            foreach ($data as $row) { 
-                if (array_key_exists($row['id'], $this->_data)) {
+            $groupedData = [];
+            foreach( $data as $row )
+            {
+                if( array_key_exists( $row['id'], $this->_data ) )
+                {
                     $this->_data[$row['id']]['nilai'] = $row['nilai'];
-                     
-                    if (isset($row['level_color_mon'])) {
+
+                    if( isset( $row['level_color_mon'] ) )
+                    {
                         $this->_data[$row['id']]['level_color_mon'] = $row['level_color_mon'];
                     }
                 }
-             
+
                 $levelColor = $row['id'];
-             
-                if (!array_key_exists($levelColor, $groupedData)) {
+
+                if( ! array_key_exists( $levelColor, $groupedData ) )
+                {
                     $groupedData[$levelColor] = [];
-                } 
+                }
                 $groupedData[$levelColor][] = $row['mon_id'];
-            
+
                 // Memastikan _data juga menyimpan mon_id
                 // $this->_data[$row['id']]['mon_id'] = $row['mon_id'];
             }
-            
-             foreach ($this->_data as $id => &$item) {
-                 if (isset($item['id']) && array_key_exists($item['id'], $groupedData)) {
-                     $item['mon_id'] = $groupedData[$item['id']];
+
+            foreach( $this->_data as $id => &$item )
+            {
+                if( isset( $item['id'] ) && array_key_exists( $item['id'], $groupedData ) )
+                {
+                    $item['mon_id'] = $groupedData[$item['id']];
                 }
             }
-            
-         }
-        
+
+        }
+
         return $this;
     }
 
@@ -138,7 +144,7 @@ class Map
 
         $lastIndex = count( $getstatus ) - 1;
         $content   = "<table class='table-dashboard'><tbody>";
- 
+
         foreach( $getstatus as $key => $value )
         {
             if( $key == 0 )
@@ -154,9 +160,10 @@ class Map
         }
         foreach( $this->_data as $keyData => $vData )
         {
-            if(!isset($vData['mon_id'])){
-                $vData['mon_id']=[];
-            }        
+            if( ! isset( $vData['mon_id'] ) )
+            {
+                $vData['mon_id'] = [];
+            }
 
             $nilai = ( ! empty( $vData['nilai'] ) ) ? $vData['nilai'] : "";
             if( $this->_param['tipe'] == 'angka' )
@@ -181,14 +188,14 @@ class Map
                     {
                         case 1:
                             $content .= "<tr><td rowspan='5' class='rotate remove-border' style='letter-spacing:5px;font-weight:400;font-size:12px;writing-mode:tb;'>LIKELIHOOD</td><td class='remove-border'>{$vData["code_likelihood"]}</td>";
-                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode($vData['mon_id']) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
+                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode( $vData['mon_id'] ) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                         case 5:
-                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode($vData['mon_id']) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
+                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode( $vData['mon_id'] ) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             $content .= "</tr>";
                             break;
                         default:
-                            $content .= ' <td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode($vData['mon_id']) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
+                            $content .= ' <td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode( $vData['mon_id'] ) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                     }
                     break;
@@ -197,14 +204,14 @@ class Map
                     {
                         case 1:
                             $content .= "<tr><td class='remove-border'>{$vData["code_likelihood"]}</td>";
-                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode($vData['mon_id']) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
+                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode( $vData['mon_id'] ) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                         case 5:
-                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode($vData['mon_id']) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
+                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode( $vData['mon_id'] ) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             $content .= "</tr>";
                             break;
                         default:
-                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode($vData['mon_id']) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
+                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode( $vData['mon_id'] ) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                     }
                     break;
@@ -213,15 +220,15 @@ class Map
                     {
                         case 1:
                             $content .= "<tr><td  class='remove-border'>{$vData["code_likelihood"]}</td>";
-                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode($vData['mon_id']) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
+                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode( $vData['mon_id'] ) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                         case 5:
-                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode($vData['mon_id']) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
+                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode( $vData['mon_id'] ) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             $content .= "</tr>";
                             break;
 
                         default:
-                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode($vData['mon_id']) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
+                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode( $vData['mon_id'] ) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                     }
                     break;
@@ -230,14 +237,14 @@ class Map
                     {
                         case 1:
                             $content .= "<tr><td  class='remove-border'>{$vData["code_likelihood"]}</td>";
-                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode($vData['mon_id']) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
+                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode( $vData['mon_id'] ) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                         case 5:
-                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode($vData['mon_id']) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
+                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode( $vData['mon_id'] ) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             $content .= "</tr>";
                             break;
                         default:
-                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode($vData['mon_id']) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
+                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode( $vData['mon_id'] ) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                     }
                     break;
@@ -246,14 +253,14 @@ class Map
                     {
                         case 1:
                             $content .= "<tr><td  class='remove-border'>{$vData["code_likelihood"]}</td>";
-                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode($vData['mon_id']) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
+                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode( $vData['mon_id'] ) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                         case 5:
-                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode($vData['mon_id']) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
+                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode( $vData['mon_id'] ) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             $content .= "</tr>";
                             break;
                         default:
-                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode($vData['mon_id']) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
+                            $content .= '<td data-level="' . $this->_param['level'] . '" data-id="' . $vData['id'] . '" class="pointer detail-peta-current" data-monid=\'' . json_encode( $vData['mon_id'] ) . '\'style="background-color:' . $vData['warna_bg'] . ';color:' . $vData['warna_txt'] . ';border:solid 1px rgba(153, 151, 152); font-size:12px; font-weight:bold;height:30px !important;" data-trigger="hover" data-toggle = "popover" data-placement="top" data-html="true" data-content="' . $notif . '" data-nilai="' . $nilai . '" ><div class="containingBlock">' . $nilaiket . '</div><sub class="pull-right" style="font-weight: 400;font-size: 8px;">' . $vData["pgn_inheren"] . '</sub> </td>';
                             break;
                     }
                     break;
@@ -270,7 +277,7 @@ class Map
         return $content;
     }
 
- 
+
     function set_data( $data = [] )
     {
 
@@ -308,7 +315,7 @@ class Map
             {
                 if( array_key_exists( $row['id'], $this->_data ) )
                 {
-                    if( $post['term_mulai'] > 0 )
+                    if( ! empty( $post['term_mulai'] ) && $post['term_mulai'] > 0 )
                     {
                         if( $post['term_mulai'] == $row['minggu_id'] )
                         {
@@ -330,7 +337,7 @@ class Map
             {
                 if( array_key_exists( $row['id'], $this->_data ) )
                 {
-                    if( $post['term_akhir'] > 0 )
+                    if( ! empty( $post['term_akhir'] ) && $post['term_akhir'] > 0 )
                     {
                         if( $post['term_akhir'] == $row['minggu_id'] )
                         {
@@ -366,7 +373,7 @@ class Map
                             $this->_data[$row['id']]['mulai'][]['nilai'] = ++$no;
                             if( array_key_exists( 'level_color_mon', $data ) )
                             {
-                                $this->_data[$row['id']]['mulai']['level_color_mon']          = $row['level_color_mon'];
+                                $this->_data[$row['id']]['mulai']['level_color_mon']      = $row['level_color_mon'];
                                 $this->_data[$row['id']]['mulai']['level_color_residual'] = $row['level_color_residual'];
                                 $this->_data[$row['id']]['mulai']['level_color_target']   = $row['level_color_target'];
                             }
@@ -388,7 +395,7 @@ class Map
                             $this->_data[$row['id']]['akhir'][]['nilai'] = ++$no;
                             if( array_key_exists( 'level_color_mon', $data ) )
                             {
-                                $this->_data[$row['id']]['akhir']['level_color_mon']          = $row['level_color_mon'];
+                                $this->_data[$row['id']]['akhir']['level_color_mon']      = $row['level_color_mon'];
                                 $this->_data[$row['id']]['akhir']['level_color_residual'] = $row['level_color_residual'];
                                 $this->_data[$row['id']]['akhir']['level_color_target']   = $row['level_color_target'];
                             }
@@ -730,7 +737,7 @@ class Map
 
         $lastIndex = count( $getstatus ) - 1;
         $content   = "<table class='table-profil-dashboard'><tbody>";
- 
+
         foreach( $getstatus as $key => $value )
         {
             if( $key == 0 )
@@ -764,7 +771,7 @@ class Map
                 {
                     $nilaiket = empty( $nilai ) ? 0 : $nilai;
                 }
-             if( isset( $vData['akhir'] ) )
+                if( isset( $vData['akhir'] ) )
                 {
                     foreach( $vData['akhir'] as $a => $b )
                     {
