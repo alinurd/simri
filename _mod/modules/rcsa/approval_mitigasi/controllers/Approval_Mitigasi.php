@@ -128,7 +128,7 @@ class Approval_Mitigasi extends MY_Controller
 	{
 		$cbominggu = $this->data->get_data_minggu( $value );
 		$minggu    = ( $rows['minggu_id'] ) ? $cbominggu[$rows['minggu_id']] : '';
-		$a         = $this->term[$value] . ' - ' . $minggu;
+		$a         = ( ! empty( $this->term[$value] ) ) ? $this->term[$value] . ' - ' . $minggu : "";
 		return $a;
 	}
 
@@ -220,7 +220,7 @@ class Approval_Mitigasi extends MY_Controller
 		$cbominggu      = $this->data->get_data_minggu( $data['parent']['term_id'] );
 		$minggu         = ( $data['parent']['minggu_id'] ) ? $cbominggu[$data['parent']['minggu_id']] : '';
 
-		$data['parent']['bulan'] = $this->term[$data['parent']['term_id']] . ' - ' . $minggu;
+		$data['parent']['bulan'] = ( ! empty( $this->term[$data['parent']['term_id']] ) ) ? $this->term[$data['parent']['term_id']] . ' - ' . $minggu : "";
 		$data['info_parent']     = $this->load->view( 'info-parent', $data, TRUE );
 
 		$rows           = $this->db->where( 'rcsa_id', $id )->get( _TBL_VIEW_RCSA_MITIGASI_DETAIL )->result_array();

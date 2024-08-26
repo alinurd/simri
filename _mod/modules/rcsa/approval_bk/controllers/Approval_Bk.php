@@ -31,8 +31,8 @@ class Approval_Bk extends MY_Controller
 		$this->addField( [ 'field' => 'stakeholder_id', 'title' => 'Stakeholder', 'type' => 'string', 'input' => 'combo', 'search' => TRUE, 'values' => $this->cboDept, 'multiselect' => TRUE ] );
 		$this->addField( [ 'field' => 'alat_metode_id', 'title' => 'Alat & Metode', 'type' => 'int', 'input' => 'combo', 'search' => TRUE, 'values' => $this->alat ] );
 		$this->addField( [ 'field' => 'period_id', 'title' => 'Period', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->period ] );
-		$this->addField( [ 'field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => [] ] );
-		$this->addField( [ 'field' => 'minggu_id', 'title' => 'Bulan', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => [] ] );
+		$this->addField( [ 'field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => FALSE, 'values' => [] ] );
+		$this->addField( [ 'field' => 'minggu_id', 'title' => 'Bulan', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => FALSE, 'values' => [] ] );
 		$this->addField( [ 'field' => 'term', 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'kode_dept', 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'owner_name', 'show' => FALSE ] );
@@ -57,7 +57,7 @@ class Approval_Bk extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'stakeholder_id' );
 		$this->set_Table_List( $this->tbl_master, 'type_ass_id', 'Tipe asesmen' );
 		$this->set_Table_List( $this->tbl_master, 'period_id', 'Tahun' );
-		$this->set_Table_List( $this->tbl_master, 'term_id', 'Periode' );
+		// $this->set_Table_List( $this->tbl_master, 'term_id', 'Periode' );
 		$this->set_Table_List( $this->tbl_master, 'status_id' );
 		$this->set_Table_List( $this->tbl_master, 'tgl_propose' );
 		$this->set_Table_List( $this->tbl_master, 'register', '', 7, 'center' );
