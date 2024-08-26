@@ -36,7 +36,7 @@
                 ?>
                 <!-- </div> -->
                 <!-- </div> -->
-                <div class="form-group row">
+                <!-- <div class="form-group row">
                     <label class="col-form-label col-lg-2 text-right"><?= _l( 'fld_minggu_id' ); ?></label>
                     <div class="col-lg-5">
                         <label class="col-form-label">Awal</label>
@@ -46,7 +46,7 @@
                         <label class="col-form-label">Akhir</label>
                         <?php echo form_dropdown( 'term_akhir', $minggu, _TERM_ID_, 'class="form-control select minggu" style="width:100%;"  id="term_akhir"' ); ?>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="form-group row">
                     <div class="col-lg-12">
