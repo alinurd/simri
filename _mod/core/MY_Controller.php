@@ -84,7 +84,6 @@ class MY_Controller extends MX_Controller
 		define( '_USER_ID_', $user_id );
 		$this->css();
 		$this->js();
-
 		$this->initialize();
 		if( $this->configuration['themes_mode'] !== 'default' )
 		{
@@ -464,6 +463,7 @@ class MY_Controller extends MX_Controller
 
 	function set_template()
 	{
+
 		$this->template->title->add( 'Welcomes!' );
 		$this->template->title = 'Selamat Datang';
 		$this->template->set_template( $this->_template_ );
@@ -583,6 +583,7 @@ class MY_Controller extends MX_Controller
 
 	function set_Tbl_Master( $tbl, $db = "", $prefix = TRUE )
 	{
+
 		if( empty( $db ) )
 		{
 			$db = $this->db->database;
@@ -598,6 +599,7 @@ class MY_Controller extends MX_Controller
 		{
 			$this->tbl_master = $tbl;
 		}
+
 		$this->tmp_data['table'] = $tbl;
 		$this->set_Attr_Table( 'size', '100%' );
 		$this->tbl_simpan = $this->tbl_master;
@@ -959,7 +961,15 @@ class MY_Controller extends MX_Controller
 					}
 					elseif( $row['multiselect'] && ! is_array( $value[$row['field']] ) )
 					{
-						$isi = explode( ',', $value[$row['field']] );
+						if( ! empty( $value[$row['field']] ) && is_array( $value[$row['field']] ) )
+						{
+							$isi = explode( ',', $value[$row['field']] );
+						}
+						else
+						{
+							$isi = $value[$row['field']];
+						}
+
 					}
 					else
 					{
@@ -1319,8 +1329,11 @@ class MY_Controller extends MX_Controller
 					$size  = '100%';
 					$multi = ' multiple="multiple" ';
 					$label = $label . '[]';
-					if( ! is_array( $isi ) )
+					if( ! empty( $isi ) && is_array( $isi ) )
+					{
 						$isi = explode( ',', $isi );
+					}
+
 				}
 				elseif( $row['size'] == 100 )
 				{
@@ -1716,7 +1729,8 @@ class MY_Controller extends MX_Controller
 				if( $id_new && $id )
 				{
 					unset( $_POST );
-					$method_name = 'redirectUrl';
+					$method_name               = 'redirectUrl';
+					$method_name_redirect_quit = 'redirectUrlQuit';
 					if( $mode == 'Stay' )
 					{
 						if( method_exists( $this->router->fetch_class(), $method_name ) )
@@ -1730,15 +1744,13 @@ class MY_Controller extends MX_Controller
 					}
 					else
 					{
-						switch( $this->modul_name )
+						if( method_exists( $this->router->fetch_class(), $method_name_redirect_quit ) )
 						{
-							case 'risk-context':
-								$url = base_url( $this->modul_name . "/identifikasi-risiko/" . $id_new );
-								break;
-
-							default:
-								$url = base_url( $this->modul_name );
-								break;
+							$url = $this->$method_name( $id_new );
+						}
+						else
+						{
+							$url = base_url( $this->modul_name );
 						}
 					}
 					header( 'location:' . $url );
