@@ -123,7 +123,7 @@ class Dashboard extends MY_Controller
 			$data['jml_inherent'] = '<span class="badge bg-primary badge-pill"> ' . $jml . ' </span>';
 		}
 
-		$this->data->filter_data();
+		$this->data->filter_data_mon();
 
 		$this->db->where( 'status_final', 1 );
 
