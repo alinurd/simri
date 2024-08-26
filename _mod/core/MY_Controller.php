@@ -1329,11 +1329,10 @@ class MY_Controller extends MX_Controller
 					$size  = '100%';
 					$multi = ' multiple="multiple" ';
 					$label = $label . '[]';
-					if( ! empty( $isi ) && is_array( $isi ) )
+					if( ! is_array( $isi ) )
 					{
 						$isi = explode( ',', $isi );
 					}
-
 				}
 				elseif( $row['size'] == 100 )
 				{
