@@ -63,7 +63,7 @@ class Profil_Risiko extends MY_Controller
 		$this->addField( [ 'field' => 'jml', 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'owner_id', 'title' => 'Owner', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->cbo_owner, 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'period_id', 'title' => 'Period', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->period, 'show' => FALSE ] );
-		$this->addField( [ 'field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->term, 'show' => FALSE ] );
+		// $this->addField( [ 'field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->term, 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'minggu_id', 'title' => 'Bulan', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->minggu, 'show' => FALSE ] );
 
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
@@ -79,7 +79,7 @@ class Profil_Risiko extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'kode_risk', 'Kode Risiko' );
 		$this->set_Table_List( $this->tbl_master, 'owner_name', 'Owner' );
 		$this->set_Table_List( $this->tbl_master, 'period_id', 'Tahun' );
-		$this->set_Table_List( $this->tbl_master, 'term_id', 'Periode' );
+		// $this->set_Table_List( $this->tbl_master, 'term_id', 'Periode' );
 		$this->set_Table_List( $this->tbl_master, 'risiko_dept', 'Risiko Dept.' );
 		$this->set_Table_List( $this->tbl_master, 'klasifikasi_risiko', 'Klasifikasi' );
 		$this->set_Table_List( $this->tbl_master, 'like_code', 'Risiko Inheren' );
