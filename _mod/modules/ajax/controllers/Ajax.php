@@ -352,7 +352,7 @@ class Ajax extends MY_Controller
 			$entry   = trim( strtolower( $entry ) );
 			$library = trim( strtolower( $row->library ) );
 			similar_text( $entry, $library, $percent );
-			if( $percent > $perc )
+			if( $percent < $perc )
 			{
 				$results[] = [
 				 'id'            => $row->id,
@@ -376,6 +376,7 @@ class Ajax extends MY_Controller
 		$x['entry']     = $entry;
 		$x['rows']      = $results;
 		$hasil['combo'] = $this->load->view( 'lib-similarity', $x, TRUE );
+
 		header( 'Content-type: application/json' );
 		echo json_encode( $hasil );
 	}
