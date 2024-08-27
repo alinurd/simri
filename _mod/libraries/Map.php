@@ -375,9 +375,11 @@ class Map
                     {
                         if( $row['tgl_mulai_minggu']=$tm1 )
                         {
-                            $this->_data[$row['id']]['mulai'][]['nilai'] = ++$no;
-                            if( array_key_exists( 'level_color_mon', $data ) )
+
+                            
+                            if( isset( $row['level_color_mon'] ) )
                             {
+                                $this->_data[$row['id']]['mulai']['nilai'] = $row['nilai'];
                                 $this->_data[$row['id']]['mulai']['level_color_mon']      = $row['level_color_mon'];
                                 $this->_data[$row['id']]['mulai']['level_color_residual'] = $row['level_color_residual'];
                                 $this->_data[$row['id']]['mulai']['level_color_target']   = $row['level_color_target'];
@@ -397,9 +399,9 @@ class Map
                     {
                         if($row['tgl_akhir_minggu']=$tm2)
                         {
-                            $this->_data[$row['id']]['akhir'][]['nilai'] = ++$no;
-                            if( array_key_exists( 'level_color_mon', $data ) )
+                            if( isset( $row['level_color_mon'] ) )
                             {
+                                $this->_data[$row['id']]['akhir']['nilai'] = $row['nilai'];
                                 $this->_data[$row['id']]['akhir']['level_color_mon']      = $row['level_color_mon'];
                                 $this->_data[$row['id']]['akhir']['level_color_residual'] = $row['level_color_residual'];
                                 $this->_data[$row['id']]['akhir']['level_color_target']   = $row['level_color_target'];
@@ -756,6 +758,7 @@ class Map
                 $content .= "</tr>";
 
         }
+        // doi::dump($this->_data);
         foreach( $this->_data as $keyData => $vData )
         {
 
@@ -767,10 +770,12 @@ class Map
             {
                 if( isset( $vData['mulai'] ) )
                 {
-                    foreach( $vData['mulai'] as $n => $i )
-                    {
-                        $nilaiket .= '<span class="badge bg-primary badge-pill badge-sm"> ' . $i['nilai'] . '</span>';
-                    }
+                    // doi::dump($vData['mulai']['nilai']);
+                    // foreach( $vData['mulai']['nilai'] as $n => $i )
+                    // // doi::dump($i);
+                    // {
+                    // }
+                    $nilaiket .= '<span class="badge bg-primary badge-pill badge-sm"> ' . $vData['mulai']['nilai'] . '</span>';
                 }
                 else
                 {
@@ -778,10 +783,12 @@ class Map
                 }
                 if( isset( $vData['akhir'] ) )
                 {
-                    foreach( $vData['akhir'] as $a => $b )
-                    {
-                        $nilaiketakhir .= '<span style="background-color:#1d445b !important;color: white !important" class="badge badge-pill badge-sm"> ' . $b['nilai'] . '</span>';
-                    }
+                    // foreach( $vData['akhir']['nilai'] as $a => $b )
+                    // {
+                    //     $nilaiketakhir .= '<span style="background-color:#1d445b !important;color: white !important" class="badge badge-pill badge-sm"> ' . $b . '</span>';
+                    // }
+                    $nilaiketakhir .= '<span class="badge bg-primary badge-pill badge-sm"> ' . $vData['akhir']['nilai'] . '</span>';
+
                 }
                 else
                 {
