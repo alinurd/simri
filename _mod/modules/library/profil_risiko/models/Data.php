@@ -110,7 +110,7 @@ class Data extends MX_Model
 			}
 		} else {
 			$this->db->where('period_id', _TAHUN_ID_);
-			$this->db->where('term_id', _TERM_ID_);
+			// $this->db->where('term_id', _TERM_ID_);
 		}
 
 		if (count($ck) > 0) {
@@ -215,7 +215,7 @@ class Data extends MX_Model
 			// }
 		} else {
 			$this->db->where('period_id', _TAHUN_ID_);
-			$this->db->where('term_id', _TERM_ID_);
+			// $this->db->where('term_id', _TERM_ID_);
 		}
 
 		if (count($ck) > 0) {
@@ -356,21 +356,21 @@ class Data extends MX_Model
 			}
 
 			if ($range) {
-				if (isset($this->pos['tgl1'])) {
-					$this->db->where('tgl_mulai_minggu>=', $this->pos['tgl1']);
-				}
-				if (isset($this->pos['tgl2'])) {
-					$this->db->where('tgl_akhir_minggu<=', $this->pos['tgl2']);
-				}
+				// if (isset($this->pos['tgl1'])) {
+				// 	$this->db->where('tgl_mulai_minggu>=', $this->pos['tgl1']);
+				// }
+				// if (isset($this->pos['tgl2'])) {
+				// 	$this->db->where('tgl_akhir_minggu<=', $this->pos['tgl2']);
+				// }
 			} else {
 
-				if (isset($this->pos['tgl1'])) {
-					$this->db->where('tgl_mulai_minggu', $this->pos['tgl1']);
-				}
+				// if (isset($this->pos['tgl1'])) {
+				// 	$this->db->where('tgl_mulai_minggu', $this->pos['tgl1']);
+				// }
 
-				if (isset($this->pos['tgl2'])) {
-					$this->db->or_where('tgl_akhir_minggu', $this->pos['tgl2']);
-				}
+				// if (isset($this->pos['tgl2'])) {
+				// 	$this->db->or_where('tgl_akhir_minggu', $this->pos['tgl2']);
+				// }
 			}
 
 			if (! $range) {
@@ -390,7 +390,7 @@ class Data extends MX_Model
 			}
 		} else {
 			$this->db->where($field . 'period_id', _TAHUN_ID_);
-			$this->db->where($field . 'term_id', _TERM_ID_);
+			// $this->db->where($field . 'term_id', _TERM_ID_);
 			// $c =$this->session->userdata('data_user');
 			// if ($c['group']['param']['privilege_owner']>=2){
 			// 	if ($c['owner']){
