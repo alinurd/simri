@@ -358,21 +358,28 @@ class Map
     function set_data_profile_mon( $data = [], $post = "" )
     {
 
+        // doi::dump($post);
+         $tm = $this->_ci->db->select('*')->where('id', intval($post['term_mulai']))->get(_TBL_COMBO)->row_array();
+        $tm2 = $this->_ci->db->select('*')->where('id', intval($post['term_akhir']))->get(_TBL_COMBO)->row_array();
+					$tm1 = $tm['param_date'];
+					$tm22 = $tm2['param_date_after']; 
+ 
         if( $data )
         {
             $no = 0;
-
-            foreach( $data as $row )
+             foreach( $data as $row )
             {
                 if( array_key_exists( $row['id'], $this->_data ) )
                 {
-                    if( $post['term_mulai'] > 0 )
+                    if( $tm1)
                     {
-                        if( $post['term_mulai'] == $row['bulan_id'] )
+                        if( $row['tgl_mulai_minggu']=$tm1 )
                         {
-                            $this->_data[$row['id']]['mulai'][]['nilai'] = ++$no;
-                            if( array_key_exists( 'level_color_mon', $data ) )
+
+                            
+                            if( isset( $row['level_color_mon'] ) )
                             {
+                                $this->_data[$row['id']]['mulai']['nilai'] = $row['nilai'];
                                 $this->_data[$row['id']]['mulai']['level_color_mon']      = $row['level_color_mon'];
                                 $this->_data[$row['id']]['mulai']['level_color_residual'] = $row['level_color_residual'];
                                 $this->_data[$row['id']]['mulai']['level_color_target']   = $row['level_color_target'];
@@ -388,13 +395,13 @@ class Map
             {
                 if( array_key_exists( $row['id'], $this->_data ) )
                 {
-                    if( $post['term_akhir'] > 0 )
+                    if( $tm22 )
                     {
-                        if( $post['term_akhir'] == $row['bulan_id'] )
+                        if($row['tgl_akhir_minggu']=$tm2)
                         {
-                            $this->_data[$row['id']]['akhir'][]['nilai'] = ++$no;
-                            if( array_key_exists( 'level_color_mon', $data ) )
+                            if( isset( $row['level_color_mon'] ) )
                             {
+                                $this->_data[$row['id']]['akhir']['nilai'] = $row['nilai'];
                                 $this->_data[$row['id']]['akhir']['level_color_mon']      = $row['level_color_mon'];
                                 $this->_data[$row['id']]['akhir']['level_color_residual'] = $row['level_color_residual'];
                                 $this->_data[$row['id']]['akhir']['level_color_target']   = $row['level_color_target'];
@@ -728,7 +735,7 @@ class Map
         $this->total_nilaiakhir = 0;
         $this->jmlstatus        = [];
         $this->jmlstatusakhir   = [];
-        $getstatus              = $this->_ci->db->select( "tingkat,sum(nilai)as total_nilai, warna_bg" )->group_by( "tingkat" )->order_by( "level_order ASC" )->get( _TBL_VIEW_MATRIK_MONITORING )->result_array();
+        $getstatus              = $this->_ci->db->select( "tingkat,sum(nilai)as total_nilai, warna_bg" )->group_by( "tingkat" )->order_by( "level_order ASC" )->get( _TBL_VIEW_MATRIK_RCSA )->result_array();
 
         foreach( $this->_data as $keySetNilai => $vNilai )
         {
@@ -751,6 +758,7 @@ class Map
                 $content .= "</tr>";
 
         }
+        // doi::dump($this->_data);
         foreach( $this->_data as $keyData => $vData )
         {
 
@@ -762,10 +770,12 @@ class Map
             {
                 if( isset( $vData['mulai'] ) )
                 {
-                    foreach( $vData['mulai'] as $n => $i )
-                    {
-                        $nilaiket .= '<span class="badge bg-primary badge-pill badge-sm"> ' . $i['nilai'] . '</span>';
-                    }
+                    // doi::dump($vData['mulai']['nilai']);
+                    // foreach( $vData['mulai']['nilai'] as $n => $i )
+                    // // doi::dump($i);
+                    // {
+                    // }
+                    $nilaiket .= '<span class="badge bg-primary badge-pill badge-sm"> ' . $vData['mulai']['nilai'] . '</span>';
                 }
                 else
                 {
@@ -773,10 +783,12 @@ class Map
                 }
                 if( isset( $vData['akhir'] ) )
                 {
-                    foreach( $vData['akhir'] as $a => $b )
-                    {
-                        $nilaiketakhir .= '<span style="background-color:#1d445b !important;color: white !important" class="badge badge-pill badge-sm"> ' . $b['nilai'] . '</span>';
-                    }
+                    // foreach( $vData['akhir']['nilai'] as $a => $b )
+                    // {
+                        $nilaiketakhir .= '<span style="background-color:#1d445b !important;color: white !important" class="badge badge-pill badge-sm"> ' . $vData['akhir']['nilai'] . 'ahirrrrr</span>';
+                    // }
+                    // $nilaiketakhir .= '<span class="badge bg-primary badge-pill badge-sm"> ' . $vData['akhir']['nilai'] . '</span>';
+
                 }
                 else
                 {

@@ -1098,7 +1098,7 @@ class Profil_Risiko extends MY_Controller
 		}
 		$this->data->filter_data_mon( $this->_data_user_ );
 
-		$rows = $this->db->SELECT( 'risiko_target_mon as id, COUNT(risiko_target_mon) as nilai, level_color_mon , level_color_residual, level_color_target, bulan_mon, mon_id, id as detail_id, bulan_id' )->group_by( 'risiko_target_mon' )->get( "il_view_rcsa_detail_monitoring" )->result_array();
+		$rows = $this->db->SELECT( 'risiko_target_mon as id, COUNT(risiko_target_mon) as nilai, level_color_mon , level_color_residual, level_color_target, bulan_mon, mon_id, id as detail_id, bulan_id, tgl_mulai_minggu, tgl_akhir_minggu' )->group_by( 'risiko_target_mon' )->get( "il_view_rcsa_detail_monitoring" )->result_array();
 
 
 		$data['map_residual'] = $this->map->set_data_profile_mon( $rows, $this->pos )->set_param( [ 'tipe' => 'angka', 'level' => 2 ] )->draw_profile_dashboard_monitoring();
