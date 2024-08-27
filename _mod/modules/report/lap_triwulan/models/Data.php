@@ -106,9 +106,9 @@ class Data extends MX_Model {
 				$this->db->where('period_id', $this->pos['period']);
 			}
 
-			if ($this->pos['term']) {
-				$this->db->where('term_id', $this->pos['term']);
-			}
+			// if ($this->pos['term']) {
+			// 	$this->db->where('term_id', $this->pos['term']);
+			// }
 
 			if (isset($this->pos['tgl1']) && $custom == false) {
 				$this->db->where('tgl_mulai_minggu>=', $this->pos['tgl1']);
@@ -125,7 +125,7 @@ class Data extends MX_Model {
 			}
 		} else {
 			$this->db->where('period_id', _TAHUN_ID_);
-			$this->db->where('term_id', _TERM_ID_);
+			// $this->db->where('term_id', _TERM_ID_);
 		}
 	}
 }
