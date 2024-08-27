@@ -733,7 +733,7 @@ class Map
         $this->total_nilaiakhir = 0;
         $this->jmlstatus        = [];
         $this->jmlstatusakhir   = [];
-        $getstatus              = $this->_ci->db->select( "tingkat,sum(nilai)as total_nilai, warna_bg" )->group_by( "tingkat" )->order_by( "level_order ASC" )->get( _TBL_VIEW_MATRIK_MONITORING )->result_array();
+        $getstatus              = $this->_ci->db->select( "tingkat,sum(nilai)as total_nilai, warna_bg" )->group_by( "tingkat" )->order_by( "level_order ASC" )->get( _TBL_VIEW_MATRIK_RCSA )->result_array();
 
         foreach( $this->_data as $keySetNilai => $vNilai )
         {
