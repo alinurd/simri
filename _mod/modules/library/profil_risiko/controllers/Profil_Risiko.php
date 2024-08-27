@@ -28,7 +28,7 @@ class Profil_Risiko extends MY_Controller
 		$this->minggu    = $this->crud->combo_select( [ 'id', 'concat(param_string) as minggu' ] )->combo_where( 'kelompok', 'minggu' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 
 
-		$this->set_Tbl_Master( _TBL_VIEW_RCSA_DETAIL );
+		$this->set_Tbl_Master( _TBL_VIEW_CHEKLIST );
 
 		$this->addField( array( 'field' => 'id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ) );
 		$this->addField( array( 'field' => 'rcsa_id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ) );
@@ -63,23 +63,28 @@ class Profil_Risiko extends MY_Controller
 		$this->addField( [ 'field' => 'jml', 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'owner_id', 'title' => 'Owner', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->cbo_owner, 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'period_id', 'title' => 'Period', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->period, 'show' => FALSE ] );
-		$this->addField( [ 'field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->term, 'show' => FALSE ] );
-		$this->addField( [ 'field' => 'minggu_id', 'title' => 'Bulan', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->minggu, 'show' => FALSE ] );
+		// $this->addField( [ 'field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->term, 'show' => FALSE ] );
+		$this->addField( [ 'field' => 'bulan_id', 'title' => 'Bulan', 'type' => 'int', 'required' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->minggu, 'show' => TRUE ] );
 
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 
-		$this->set_Sort_Table( $this->tbl_master, 'profil_id', 'desc' );
-		$this->set_Sort_Table( $this->tbl_master, 'created_at', 'desc' );
+		$this->set_Sort_Table( $this->tbl_master, 'profil_id', 'desc' ); 
+		$this->set_Group_Table( $this->tbl_master, 'bulan_id' );
 		$this->set_Group_Table( $this->tbl_master, 'kode_risk' );
 		$this->set_Group_Table( $this->tbl_master, 'period_id' );
 
-		$this->set_Where_Table( [ 'field' => 'status_final', 'value' => 1 ] );
 
+		$this->set_Where_Table( [ 'field' => 'status_final', 'value' => 1 ] );
+		$this->set_Where_Table(['field'=>'bulan_id', 'op'=>'>', 'value'=>0]);
+
+		
 		$this->set_Table_List( $this->tbl_master, 'id', '<input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;">', '0%', 'left', 'no-sort' );
 		$this->set_Table_List( $this->tbl_master, 'kode_risk', 'Kode Risiko' );
 		$this->set_Table_List( $this->tbl_master, 'owner_name', 'Owner' );
 		$this->set_Table_List( $this->tbl_master, 'period_id', 'Tahun' );
-		// $this->set_Table_List( $this->tbl_master, 'term_id', 'Periode' );
+ 
+		$this->set_Table_List( $this->tbl_master, 'bulan_id', 'Bulan' );
+ 
 		$this->set_Table_List( $this->tbl_master, 'risiko_dept', 'Risiko Dept.' );
 		$this->set_Table_List( $this->tbl_master, 'klasifikasi_risiko', 'Klasifikasi' );
 		$this->set_Table_List( $this->tbl_master, 'like_code', 'Risiko Inheren' );
@@ -191,9 +196,10 @@ class Profil_Risiko extends MY_Controller
 	function listBox_like_code_residual( $field, $rows, $value )
 	{
 
-		if( isset( $this->post['minggu_id'] ) )
-		{
-			$this->db->where( 'bulan_id', $this->post['minggu_id'] );
+		
+		$this->db->where('bulan_id', $rows['bulan_id']); 
+		if(isset($this->post['bulan_id'])){
+			$this->db->where('bulan_id', $this->post['bulan_id']); 
 		}
 		$this->db->select( 'level_color_mon, color_text_mon, color_mon, like_code_mon, impact_code_mon, likximpact' );
 		$this->db->where( 'id', $rows['id'] );
