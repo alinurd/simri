@@ -20,7 +20,7 @@ class Data extends MX_Model
 		}
 
 		$result['parent'] = $rows;
-		return $result;
+		return $result; 
 	}
 }
 /* End of file app_login_model.php */
