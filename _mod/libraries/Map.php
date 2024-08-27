@@ -358,17 +358,22 @@ class Map
     function set_data_profile_mon( $data = [], $post = "" )
     {
 
+        // doi::dump($post);
+         $tm = $this->_ci->db->select('*')->where('id', intval($post['term_mulai']))->get(_TBL_COMBO)->row_array();
+        $tm2 = $this->_ci->db->select('*')->where('id', intval($post['term_akhir']))->get(_TBL_COMBO)->row_array();
+					$tm1 = $tm['param_date'];
+					$tm22 = $tm2['param_date_after']; 
+ 
         if( $data )
         {
             $no = 0;
-
-            foreach( $data as $row )
+             foreach( $data as $row )
             {
                 if( array_key_exists( $row['id'], $this->_data ) )
                 {
-                    if( $post['term_mulai'] > 0 )
+                    if( $tm1)
                     {
-                        if( $post['term_mulai'] == $row['bulan_id'] )
+                        if( $row['tgl_mulai_minggu']=$tm1 )
                         {
                             $this->_data[$row['id']]['mulai'][]['nilai'] = ++$no;
                             if( array_key_exists( 'level_color_mon', $data ) )
@@ -388,9 +393,9 @@ class Map
             {
                 if( array_key_exists( $row['id'], $this->_data ) )
                 {
-                    if( $post['term_akhir'] > 0 )
+                    if( $tm22 )
                     {
-                        if( $post['term_akhir'] == $row['bulan_id'] )
+                        if($row['tgl_akhir_minggu']=$tm2)
                         {
                             $this->_data[$row['id']]['akhir'][]['nilai'] = ++$no;
                             if( array_key_exists( 'level_color_mon', $data ) )
