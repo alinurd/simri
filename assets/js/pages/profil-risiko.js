@@ -158,7 +158,7 @@ $(function(){
 		// var target_combo = $("#term_id");
 		// var url = "ajax/get-term";
         
-		var target_combo = $("#minggu_id");
+		var target_combo = $("#bulan_id");
         
 		// var url = "ajax/get-term";
 		var url = "ajax/get-minggu-by-tahun";
