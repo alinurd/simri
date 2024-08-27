@@ -785,9 +785,9 @@ class Map
                 {
                     // foreach( $vData['akhir']['nilai'] as $a => $b )
                     // {
-                    //     $nilaiketakhir .= '<span style="background-color:#1d445b !important;color: white !important" class="badge badge-pill badge-sm"> ' . $b . '</span>';
+                        $nilaiketakhir .= '<span style="background-color:#1d445b !important;color: white !important" class="badge badge-pill badge-sm"> ' . $vData['akhir']['nilai'] . 'ahirrrrr</span>';
                     // }
-                    $nilaiketakhir .= '<span class="badge bg-primary badge-pill badge-sm"> ' . $vData['akhir']['nilai'] . '</span>';
+                    // $nilaiketakhir .= '<span class="badge bg-primary badge-pill badge-sm"> ' . $vData['akhir']['nilai'] . '</span>';
 
                 }
                 else
