@@ -252,7 +252,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 			 "updated_by"       => $this->ion_auth->get_user_name(),
 			];
 			$statusInsHistory  = $this->db->insert( _TBL_KAJIAN_RISIKO_APPROVAL_HISTORY, $dataInsertHistory );
-			if( $statusInsHistory && ! empty( $dataPost["send_notif_approval"] ) )
+			if( $statusInsHistory && $this->preference['send_notif'] == 1 )
 			{
 				$this->sendEmailNotification( $dataPost, $idkajian );
 			}
@@ -310,7 +310,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 				{
 					if( ! empty( $vOff["email"] ) )
 					{
-						$getTemplate["content_html"] = str_replace( "[[OWNER]]", $getDataKajian['owner_name'], $getTemplate["content_html"] );
+						$getTemplate["content_html"] = str_replace( "[[OWNER]]", $vOff['officer_name'], $getTemplate["content_html"] );
 						$getTemplate["content_html"] = str_replace( "[[NOTE]]", $postData['note'], $getTemplate["content_html"] );
 						$getTemplate["content_html"] = str_replace( "[[STATUS]]", $postData['status_approval'], $getTemplate["content_html"] );
 						$content                     = $this->load->view( "email-notification", $getTemplate, TRUE );
@@ -320,18 +320,32 @@ class Kajian_Risiko_Mr extends MY_Controller
 						$status                      = Doi::kirim_email( $emailData );
 						if( $status == "success" )
 						{
+							$insertOutbox["sender"]       = json_encode( [ $this->preference['email_smtp_user'], $this->preference['email_title'] ] );
+							$insertOutbox["recipient"]    = $vOff["email"];
+							$insertOutbox["subject"]      = $emailData['subject'];
+							$insertOutbox["message"]      = $getTemplate["content_html"];
+							$insertOutbox["subject"]      = $emailData['subject'];
+							$insertOutbox["sent_at"]      = date( "Y-m-d H:i:s" );
+							$insertOutbox["is_sent"]      = 1;
+							$insertOutbox["scheduled_at"] = date( "Y-m-d H:i:s" );
+							$insertOutbox["created_at"]   = date( "Y-m-d H:i:s" );
+							$insertOutbox["updated_at"]   = date( "Y-m-d H:i:s" );
+							$this->db->insert( _TBL_OUTBOX, $insertOutbox );
+
 							$this->crud->crud_table( _TBL_LOG_SEND_EMAIL );
 							$this->crud->crud_type( 'add' );
 							$this->crud->crud_field( 'type', 1, 'int' );
-							$this->crud->crud_field( 'ref_id', $getDataKajian["id"], 'int' );
-							$this->crud->crud_field( 'subject', $getDataKajian["name"], 'string' );
+							$this->crud->crud_field( 'ref_id', $vOff["id"], 'int' );
+							$this->crud->crud_field( 'subject', $vOff["officer_name"], 'string' );
 							$this->crud->crud_field( 'message', $emailData['subject'], 'string' );
-							$this->crud->crud_field( 'ket', '', 'string' );
+							$this->crud->crud_field( 'ket', 'Notifikasi Status Approval Kajian Risiko', 'string' );
 							$this->crud->crud_field( 'to', $vOff["email"], 'string' );
 							$this->crud->process_crud();
 						}
 					}
 				}
+
+
 			}
 		}
 	}
@@ -743,7 +757,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 		$sqlQuery               = "select id,owner_id,name from il_kajian_risiko ikr where date_format(DATE_ADD(release_date , INTERVAL -{$countDays} DAY),'%Y-%m-%d')=date_format(NOW(),'%Y-%m-%d') And status = 1";
 		$getTemplate            = $this->db->get_where( "il_template_email", [ "code" => "NOTIF09" ] )->row_array();
 		$getdateReminderRelease = $this->db->query( $sqlQuery )->result_array();
-		if( ! empty( $getdateReminderRelease ) )
+		if( ! empty( $getdateReminderRelease ) && $this->preference['send_notif'] == 1 )
 		{
 			foreach( $getdateReminderRelease as $kRerelease => $vRelease )
 			{
@@ -763,13 +777,25 @@ class Kajian_Risiko_Mr extends MY_Controller
 							$status                      = Doi::kirim_email( $emailData );
 							if( $status == "success" )
 							{
+								$insertOutbox["sender"]       = json_encode( [ $this->preference['email_smtp_user'], $this->preference['email_title'] ] );
+								$insertOutbox["recipient"]    = $vOff["email"];
+								$insertOutbox["subject"]      = $emailData['subject'];
+								$insertOutbox["message"]      = $getTemplate["content_html"];
+								$insertOutbox["subject"]      = $emailData['subject'];
+								$insertOutbox["sent_at"]      = date( "Y-m-d H:i:s" );
+								$insertOutbox["is_sent"]      = 1;
+								$insertOutbox["scheduled_at"] = date( "Y-m-d H:i:s" );
+								$insertOutbox["created_at"]   = date( "Y-m-d H:i:s" );
+								$insertOutbox["updated_at"]   = date( "Y-m-d H:i:s" );
+								$this->db->insert( _TBL_OUTBOX, $insertOutbox );
+
 								$this->crud->crud_table( _TBL_LOG_SEND_EMAIL );
 								$this->crud->crud_type( 'add' );
 								$this->crud->crud_field( 'type', 1, 'int' );
 								$this->crud->crud_field( 'ref_id', $vOff["id"], 'int' );
 								$this->crud->crud_field( 'subject', $vOff["officer_name"], 'string' );
 								$this->crud->crud_field( 'message', $emailData['subject'], 'string' );
-								$this->crud->crud_field( 'ket', '', 'string' );
+								$this->crud->crud_field( 'ket', 'Reminder Notifikasi Tindak Lanjut Kajian Risiko (Manajemen Risiko)', 'string' );
 								$this->crud->crud_field( 'to', $vOff["email"], 'string' );
 								$this->crud->process_crud();
 							}

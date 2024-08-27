@@ -187,38 +187,61 @@ class Owner extends MY_Controller
 
 	function sendnotificationMitigasi()
 	{
-		$querySelect = "select io2.id, io2.email,io2.nip,irm.mitigasi,irm.reminder_email,irm.id as mitigasi_id from il_rcsa_mitigasi irm join il_owner io on irm.penanggung_jawab_id = io.id join il_officer io2 on io.id=io2.owner_no where irm.batas_waktu= date_format(Date(now())+irm.reminder_email,'%Y-%m-%d') group by io2.id";
-
-		$getTemplate     = $this->db->get_where( "il_template_email", [ "code" => "NOTIF07" ] )->row_array();
-		$getDataMitigasi = $this->db->query( $querySelect )->result_array();
-		if( ! empty( $getDataMitigasi ) )
+		$officerDataemail = [];
+		$statusSend       = FALSE;
+		$queryRcsa        = 'select * from il_rcsa_mitigasi where batas_waktu = date_format(Date(now())+reminder_email,"%Y-%m-%d") group by id';
+		$getRcsaPic       = $this->db->query( $queryRcsa )->result_array();
+		if( ! empty( $getRcsaPic ) )
 		{
-			foreach( $getDataMitigasi as $keyMit => $valueMit )
+			$getTemplate = $this->db->get_where( "il_template_email", [ "code" => "NOTIF07" ] )->row_array();
+			foreach( $getRcsaPic as $keyPic => $valuePic )
 			{
+				$getId = ( ! empty( $valuePic["penanggung_jawab_id"] ) && json_decode( $valuePic["penanggung_jawab_id"] ) ) ? implode( ",", json_decode( $valuePic["penanggung_jawab_id"] ) ) : $valuePic["penanggung_jawab_id"];
 
-				$getTemplate["content_html"] = str_replace( "[[MITIGASI]]", $valueMit['mitigasi'], $getTemplate["content_html"] );
-				$getTemplate["content_html"] = str_replace( "[[day]]", $valueMit['reminder_email'], $getTemplate["content_html"] );
-				$content                     = $this->load->view( "email-notification", $getTemplate, TRUE );
-				$emailData['email']          = [ $valueMit["email"] ];
-				$emailData['subject']        = $getTemplate["subject"] ?? "Reminder Due Date Mitigasi {$valueMit["mitigasi"]}";
-				$emailData['content']        = $content ?? "";
-				$status                      = Doi::kirim_email( $emailData );
-				if( $status )
+				$getOfficer = $this->db->query( "select b.email from il_owner a inner join il_officer b on a.id = b.owner_no where a.id in($getId)" )->result_array();
+				if( ! empty( $getOfficer ) )
 				{
-					$this->crud->crud_table( _TBL_LOG_SEND_EMAIL );
-					$this->crud->crud_type( 'add' );
-					$this->crud->crud_field( 'type', 1, 'int' );
-					$this->crud->crud_field( 'ref_id', $valueMit["mitigasi_id"], 'int' );
-					$this->crud->crud_field( 'subject', $valueMit["mitigasi"], 'string' );
-					$this->crud->crud_field( 'message', $emailData['subject'], 'string' );
-					$this->crud->crud_field( 'ket', '', 'string' );
-					$this->crud->crud_field( 'to', $valueMit["email"], 'string' );
-					$this->crud->process_crud();
+					foreach( $getOfficer as $kOff => $vOff )
+					{
+						$officerDataemail[$kOff] = $vOff["email"];
+					}
 				}
+				$getTemplate["content_html"] = str_replace( "[[MITIGASI]]", $valuePic['mitigasi'], $getTemplate["content_html"] );
+				$getTemplate["content_html"] = str_replace( "[[day]]", $valuePic['reminder_email'], $getTemplate["content_html"] );
+				$content                     = $this->load->view( "email-notification", $getTemplate, TRUE );
+				$emailData['email']          = $officerDataemail;
+				$emailData['subject']        = $getTemplate["subject"] ?? "Reminder Due Date Mitigasi {$valuePic["mitigasi"]}";
+				$emailData['content']        = $content ?? "";
 
+				if( $this->preference['send_notif'] == 1 )
+				{
+					$status = Doi::kirim_email( $emailData );
+					if( $status )
+					{
+						$insertOutbox["sender"]       = json_encode( [ $this->preference['email_smtp_user'], $this->preference['email_title'] ] );
+						$insertOutbox["recipient"]    = json_encode( $officerDataemail );
+						$insertOutbox["subject"]      = $emailData['subject'];
+						$insertOutbox["message"]      = $getTemplate["content_html"];
+						$insertOutbox["subject"]      = $emailData['subject'];
+						$insertOutbox["sent_at"]      = date( "Y-m-d H:i:s" );
+						$insertOutbox["is_sent"]      = 1;
+						$insertOutbox["scheduled_at"] = date( "Y-m-d H:i:s" );
+						$insertOutbox["created_at"]   = date( "Y-m-d H:i:s" );
+						$insertOutbox["updated_at"]   = date( "Y-m-d H:i:s" );
+						$this->db->insert( _TBL_OUTBOX, $insertOutbox );
+
+						$this->crud->crud_table( _TBL_LOG_SEND_EMAIL );
+						$this->crud->crud_type( 'add' );
+						$this->crud->crud_field( 'type', 1, 'int' );
+						$this->crud->crud_field( 'ref_id', $valuePic["id"], 'int' );
+						$this->crud->crud_field( 'subject', $valuePic["mitigasi"], 'string' );
+						$this->crud->crud_field( 'message', $emailData['subject'], 'string' );
+						$this->crud->crud_field( 'ket', 'Send Email Notif Reminder Due Date Rcsa Mitigasi', 'string' );
+						$this->crud->crud_field( 'to', json_encode( $officerDataemail ), 'string' );
+						$this->crud->process_crud();
+					}
+				}
 			}
 		}
 	}
-
-
 }
