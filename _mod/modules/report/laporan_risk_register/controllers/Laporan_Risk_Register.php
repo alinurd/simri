@@ -103,7 +103,7 @@ class Laporan_Risk_Register extends MY_Controller
 		$whereData = [];
 		$post      = $this->input->post();
 		if( ! empty( $post["owner"] ) )
-		{
+		{ 
 			$whereData["owner_id"] = $post["owner"];
 		}
 		if( ! empty( $post["period"] ) )

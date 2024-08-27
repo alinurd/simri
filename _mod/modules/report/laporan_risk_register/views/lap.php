@@ -160,7 +160,7 @@
                             foreach ($hasil['like_indi'][$row['id']][2] as $r) {
                                 $like2[] = $r['kri'];
                             }
-                        }
+                        } 
                         if (array_key_exists(3, $hasil['like_indi'][$row['id']])) {
                             foreach ($hasil['like_indi'][$row['id']][3] as $r) {
                                 $like3[] = $r['kri'];
