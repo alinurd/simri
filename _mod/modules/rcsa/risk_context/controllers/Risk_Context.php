@@ -567,6 +567,7 @@ class Risk_Context extends MY_Controller
 		$kontrol         = '';
 		$kontrolCheckbox = '';
 		$i               = 1;
+		$sts             = FALSE;
 		$control         = [];
 		if( $data )
 		{
@@ -576,13 +577,10 @@ class Risk_Context extends MY_Controller
 
 		$kontrol .= '</div>' . form_textarea( "note_control", ( $data ) ? $data['nama_kontrol_note'] : '', ' class="summernote-risk-evaluate" style="width:100%;" maxlength="999"' ) . '<br/>';
 
-
 		foreach( $cboControl as $row )
 		{
-			if( $i == 1 )
-
-
-				$sts = FALSE;
+			// if( $i == 1 )
+			// 	$sts = FALSE;
 			foreach( $control as $ctrl )
 			{
 				if( $row == $ctrl )
@@ -594,9 +592,10 @@ class Risk_Context extends MY_Controller
 
 			$kontrolCheckbox .= '<label class="pointer">' . form_checkbox( 'check_item[]', $row, $sts );
 			$kontrolCheckbox .= '&nbsp;' . $row . '</label><br/>';
+			$sts             = FALSE;
 
 
-			++$i;
+			// ++$i;
 		}
 
 		$efek_control = [ 0 => _l( 'cbo_select' ), 1 => 'L', 2 => 'D', 3 => 'L & D', 4 => 'Tidak ada kontrol' ];

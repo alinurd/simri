@@ -297,6 +297,7 @@ class Data extends MX_Model
 
 			$this->crud->crud_where( [ 'field' => 'id', 'value' => $id ] );
 			$this->crud->crud_field( 'updated_by', $this->ion_auth->get_user_name() );
+
 			$mode = 'edit';
 		}
 		else
