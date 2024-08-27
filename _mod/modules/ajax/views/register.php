@@ -17,7 +17,8 @@
                     </tr>
                     <tr>
                         <td><em>Period</em></td>
-                        <td><strong><?= $parent['period_name'] . ' - ' . $parent['term']; ?></strong></td>
+                        <!-- <td><strong><?= $parent['period_name'] . ' - ' . $parent['term']; ?></strong></td> -->
+                        <td><strong><?= $parent['period_name'] ?></strong></td>
                     </tr>
                 </table>
                 <div class="table-responsive">

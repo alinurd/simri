@@ -217,7 +217,9 @@ class Ajax extends MY_Controller
 	}
 	function get_detail_map()
 	{
-		$post            = $this->input->post();
+		$post = $this->input->post();
+		unset( $post["minggu"] );
+		unset( $post["term"] );
 		$this->data->pos = $post;
 		$x               = $this->data->get_data_map();
 		$hasil['combo']  = $this->load->view( 'identifikasi', $x, TRUE );

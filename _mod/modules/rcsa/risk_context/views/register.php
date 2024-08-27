@@ -35,7 +35,8 @@ if( isset( $export ) )
                     </tr>
                     <tr>
                         <td><em>Periode</em></td>
-                        <td><strong><?= $parent['period_name'] . ' - ' . $parent['bulan']; ?></strong></td>
+                        <!-- <td><strong><?= $parent['period_name'] . ' - ' . $parent['bulan']; ?></strong></td> -->
+                        <td><strong><?= $parent['period_name'] ?></strong></td>
                     </tr>
                 </table>
                 <!-- <div class="table-responsive "> -->

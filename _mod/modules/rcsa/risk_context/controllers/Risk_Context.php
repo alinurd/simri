@@ -34,7 +34,6 @@ class Risk_Context extends MY_Controller
 		$this->cboStack         = $this->get_combo_parent_dept( FALSE );
 		$resultDivisionDropdown = $this->data->getDataDropdownDivision( $this->uri->segment( 3 ) );
 
-
 		$this->set_Tbl_Master( _TBL_VIEW_RCSA );
 		$this->set_Open_Tab( 'Data RCSA' );
 		$this->addField( [ 'field' => 'id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ] );
@@ -49,8 +48,8 @@ class Risk_Context extends MY_Controller
 		$this->addField( [ 'field' => 'stakeholder_id', 'title' => 'Stakeholder', 'type' => 'string', 'input' => 'combo', 'search' => FALSE, 'values' => $this->cboStack, 'multiselect' => TRUE ] );
 		$this->addField( [ 'field' => 'alat_metode_id', 'title' => 'Alat & Metode', 'type' => 'string', 'input' => 'combo', 'multiselect' => TRUE, 'search' => FALSE, 'values' => $this->alat ] );
 		$this->addField( [ 'field' => 'period_id', 'title' => 'Period', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->period ] );
-		$this->addField( [ 'field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => [] ] );
-		$this->addField( [ 'field' => 'minggu_id', 'title' => 'Bulan', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => [] ] );
+		$this->addField( [ 'field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => TRUE, 'input' => 'text', 'search' => FALSE, "show" => FALSE, 'values' => [] ] );
+		$this->addField( [ 'field' => 'minggu_id', 'title' => 'Bulan', 'type' => 'int', 'required' => TRUE, 'input' => 'text', 'search' => FALSE, "show" => FALSE, 'values' => [] ] );
 
 		// $this->addField(['field'=>'active', 'input'=>'boolean', 'size'=>20]);
 		$this->addField( [ 'field' => 'term', 'show' => FALSE ] );
@@ -78,13 +77,12 @@ class Risk_Context extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'stakeholder_id', '', 15 );
 		$this->set_Table_List( $this->tbl_master, 'type_ass_id' );
 		$this->set_Table_List( $this->tbl_master, 'period_id' );
-		$this->set_Table_List( $this->tbl_master, 'term_id', 'Periode' );
+		// $this->set_Table_List( $this->tbl_master, 'term_id', 'Periode' );
 		$this->set_Table_List( $this->tbl_master, 'status_id' );
 		$this->set_Table_List( $this->tbl_master, 'tgl_propose' );
 		$this->set_Table_List( $this->tbl_master, 'register', '', 7, 'center' );
 		$this->set_Table_List( $this->tbl_master, 'created_at', 'Disusun' );
 		// $this->set_Table_List($this->tbl_master,'active','',7, 'center');
-
 		$this->_set_Where_Owner();
 		$this->set_Save_Table( _TBL_RCSA );
 
@@ -290,35 +288,36 @@ class Risk_Context extends MY_Controller
 		return $o;
 	}
 
-	function inputBox_TERM_ID( $mode, $field, $rows, $value )
-	{
-		$id = 0;
-		if( isset( $rows['period_id'] ) )
-		{
-			$id              = $rows['period_id'];
-			$field['values'] = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'term' )->combo_where( 'pid', $id )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
-		}
+	// function inputBox_TERM_ID( $mode, $field, $rows, $value )
+	// {
+	// 	$id = 0;
+	// 	if( isset( $rows['period_id'] ) )
+	// 	{
+	// 		$id              = $rows['period_id'];
+	// 		$field['values'] = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'term' )->combo_where( 'pid', $id )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+	// 	}
 
-		$content = $this->set_box_input( $field, $value );
-		return $content;
-	}
+	// 	// $content = $this->set_box_input( $field, $value );
+	// 	$content = "<input type='hidden' name='term_id' value='0'>";
+	// 	return $content;
+	// }
 
-	function inputBox_MINGGU_ID( $mode, $field, $rows, $value )
-	{
-		$id = 0;
-		if( isset( $rows['term_id'] ) )
-			$id = $rows['term_id'];
+	// function inputBox_MINGGU_ID( $mode, $field, $rows, $value )
+	// {
+	// 	$id = 0;
+	// 	if( isset( $rows['term_id'] ) )
+	// 		$id = $rows['term_id'];
 
-		$field['values'] = $this->data->get_data_minggu( $id );
-		// if ($mode == 'edit') {
+	// 	$field['values'] = $this->data->get_data_minggu( $id );
+	// 	// if ($mode == 'edit') {
 
-		// $field['values'] = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'minggu')->combo_where('pid', $id)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-		// }
-		// dumps($field['values']);
-		// die();
-		$content = $this->set_box_input( $field, $value );
-		return $content;
-	}
+	// 	// $field['values'] = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'minggu')->combo_where('pid', $id)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
+	// 	// }
+	// 	// dumps($field['values']);
+	// 	// die();
+	// 	$content = $this->set_box_input( $field, $value );
+	// 	return $content;
+	// }
 
 	function identifikasi_risiko()
 	{

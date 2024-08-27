@@ -43,8 +43,8 @@ class History extends MY_Controller
 		$this->addField( [ 'field' => 'stakeholder_id', 'title' => 'Stakeholder', 'type' => 'string', 'input' => 'combo', 'search' => TRUE, 'values' => $this->cboStack, 'multiselect' => TRUE ] );
 		$this->addField( [ 'field' => 'alat_metode_id', 'title' => 'Alat & Metode', 'type' => 'string', 'input' => 'combo', 'multiselect' => TRUE, 'search' => FALSE, 'values' => $this->alat ] );
 		$this->addField( [ 'field' => 'period_id', 'title' => 'Period', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->period ] );
-		$this->addField( [ 'field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => [] ] );
-		$this->addField( [ 'field' => 'minggu_id', 'title' => 'Bulan', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => [] ] );
+		$this->addField( [ 'field' => 'term_id', 'title' => 'Term', 'type' => 'string', 'required' => TRUE, 'input' => 'text', 'search' => FALSE, 'values' => [], "show" => FALSE ] );
+		$this->addField( [ 'field' => 'minggu_id', 'title' => 'Bulan', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => FALSE, 'values' => [], "show" => FALSE ] );
 		// $this->addField(['field'=>'active', 'input'=>'boolean', 'size'=>20]);
 		$this->addField( [ 'field' => 'term', 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'status_id', 'show' => FALSE ] );
@@ -69,7 +69,7 @@ class History extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'stakeholder_id' );
 		$this->set_Table_List( $this->tbl_master, 'type_ass_id' );
 		$this->set_Table_List( $this->tbl_master, 'period_id' );
-		$this->set_Table_List( $this->tbl_master, 'term_id', 'Periode' );
+		// $this->set_Table_List( $this->tbl_master, 'term_id', 'Periode' );
 		$this->set_Table_List( $this->tbl_master, 'status_id' );
 		$this->set_Table_List( $this->tbl_master, 'tgl_propose' );
 		$this->set_Table_List( $this->tbl_master, 'register', '', 7, 'center' );
@@ -270,18 +270,18 @@ class History extends MY_Controller
 		$a         = ( ! empty( $this->term[$value] ) ) ? $this->term[$value] . ' - ' . $minggu : "";
 		return $a;
 	}
-	function inputBox_TERM_ID( $mode, $field, $rows, $value )
-	{
-		if( $mode == 'edit' )
-		{
-			$id = 0;
-			if( isset( $rows['period_id'] ) )
-				$id = $rows['period_id'];
-			$field['values'] = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'term' )->combo_where( 'pid', $id )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
-		}
-		$content = $this->set_box_input( $field, $value );
-		return $content;
-	}
+	// function inputBox_TERM_ID( $mode, $field, $rows, $value )
+	// {
+	// 	if( $mode == 'edit' )
+	// 	{
+	// 		$id = 0;
+	// 		if( isset( $rows['period_id'] ) )
+	// 			$id = $rows['period_id'];
+	// 		$field['values'] = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'term' )->combo_where( 'pid', $id )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+	// 	}
+	// 	$content = $this->set_box_input( $field, $value );
+	// 	return $content;
+	// }
 
 	function identifikasi_risiko()
 	{

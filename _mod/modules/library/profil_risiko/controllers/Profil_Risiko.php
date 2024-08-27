@@ -82,7 +82,9 @@ class Profil_Risiko extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'kode_risk', 'Kode Risiko' );
 		$this->set_Table_List( $this->tbl_master, 'owner_name', 'Owner' );
 		$this->set_Table_List( $this->tbl_master, 'period_id', 'Tahun' );
+ 
 		$this->set_Table_List( $this->tbl_master, 'bulan_id', 'Bulan' );
+ 
 		$this->set_Table_List( $this->tbl_master, 'risiko_dept', 'Risiko Dept.' );
 		$this->set_Table_List( $this->tbl_master, 'klasifikasi_risiko', 'Klasifikasi' );
 		$this->set_Table_List( $this->tbl_master, 'like_code', 'Risiko Inheren' );
@@ -139,18 +141,18 @@ class Profil_Risiko extends MY_Controller
 		return $content;
 	}
 
-	function inputBox_TERM_ID( $mode, $field, $rows, $value )
-	{
-		if( $mode == 'edit' )
-		{
-			$id = 0;
-			if( isset( $rows['period_id'] ) )
-				$id = $rows['period_id'];
-			$field['values'] = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'term' )->combo_where( 'pid', $id )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
-		}
-		$content = $this->set_box_input( $field, $value );
-		return $content;
-	}
+	// function inputBox_TERM_ID( $mode, $field, $rows, $value )
+	// {
+	// 	if( $mode == 'edit' )
+	// 	{
+	// 		$id = 0;
+	// 		if( isset( $rows['period_id'] ) )
+	// 			$id = $rows['period_id'];
+	// 		$field['values'] = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'term' )->combo_where( 'pid', $id )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+	// 	}
+	// 	$content = $this->set_box_input( $field, $value );
+	// 	return $content;
+	// }
 
 	function inputBox_MINGGU_ID( $mode, $field, $rows, $value )
 	{
@@ -193,22 +195,26 @@ class Profil_Risiko extends MY_Controller
 
 	function listBox_like_code_residual( $field, $rows, $value )
 	{
+
 		
 		$this->db->where('bulan_id', $rows['bulan_id']); 
 		if(isset($this->post['bulan_id'])){
 			$this->db->where('bulan_id', $this->post['bulan_id']); 
 		}
-		$this->db->select('level_color_mon, color_text_mon, color_mon, like_code_mon, impact_code_mon, likximpact');
-		$this->db->where('id', $rows['id']); 
-		$this->db->order_by('month', 'DESC');  
-		$this->db->limit(1);  
-		$r = $this->db->get("il_view_rcsa_detail_monitoring")->row_array();
-		if($r){
+		$this->db->select( 'level_color_mon, color_text_mon, color_mon, like_code_mon, impact_code_mon, likximpact' );
+		$this->db->where( 'id', $rows['id'] );
+		$this->db->order_by( 'month', 'DESC' );
+		$this->db->limit( 1 );
+		$r = $this->db->get( "il_view_rcsa_detail_monitoring" )->row_array();
+		if( $r )
+		{
 			$a = '<div class="text-center" style="padding:20px;background-color:' . $r['color_mon'] . ';color' . $r['color_text_mon'] . ';">' . $r['level_color_mon'] . '<br/><small>' . $r['like_code_mon'] . 'x' . $r['impact_code_mon'] . ' : ' . $r['likximpact'] . '</small></div>';
-		}else{
+		}
+		else
+		{
 			$a = '-';
 		}
-		
+
 		return $a;
 	}
 
@@ -1037,7 +1043,7 @@ class Profil_Risiko extends MY_Controller
 		$data['term'] = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'term' )->combo_where( 'pid', _TAHUN_ID_ )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 
 		$data['minggu'] = $this->crud->combo_select( [ 'id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu' ] )->combo_where( 'kelompok', 'minggu' )
- 		->combo_where( 'pid', _TAHUN_ID_ )
+		 ->combo_where( 'pid', _TAHUN_ID_ )
 		->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 
 
@@ -1076,7 +1082,7 @@ class Profil_Risiko extends MY_Controller
 	{
 
 		$this->data->filter_data( $this->_data_user_ );
- 		$rows = $this->db->SELECT( 'risiko_inherent as id, level_color, level_color_residual, level_color_target, minggu_id' )->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
+		$rows = $this->db->SELECT( 'risiko_inherent as id, level_color, level_color_residual, level_color_target, minggu_id' )->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
 
 		$data['map_inherent'] = $this->map->set_data_profile( $rows, $this->pos )->set_param( [ 'tipe' => 'angka', 'level' => 1 ] )->draw_profile_dashboard();
 
@@ -1092,8 +1098,8 @@ class Profil_Risiko extends MY_Controller
 		}
 		$this->data->filter_data_mon( $this->_data_user_ );
 
-		$rows                      = $this->db->SELECT( 'risiko_target_mon as id, COUNT(risiko_target_mon) as nilai, level_color_mon , level_color_residual, level_color_target, bulan_mon, mon_id, id as detail_id, bulan_id' )->group_by( 'risiko_target_mon' )->get( "il_view_rcsa_detail_monitoring" )->result_array();
-  	 
+		$rows = $this->db->SELECT( 'risiko_target_mon as id, COUNT(risiko_target_mon) as nilai, level_color_mon , level_color_residual, level_color_target, bulan_mon, mon_id, id as detail_id, bulan_id' )->group_by( 'risiko_target_mon' )->get( "il_view_rcsa_detail_monitoring" )->result_array();
+
 
 		$data['map_residual'] = $this->map->set_data_profile_mon( $rows, $this->pos )->set_param( [ 'tipe' => 'angka', 'level' => 2 ] )->draw_profile_dashboard_monitoring();
 
