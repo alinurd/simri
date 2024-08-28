@@ -326,6 +326,25 @@ $(function(){
 		var type_ass = $("#type_ass").val();
 		var term_mulai = $("#term_mulai").val();
 		var term_akhir = $("#term_akhir").val();
+        var notif='Silahkan isi ';
+         var n=false;
+        if(term_mulai==0){
+            notif+='bulan awal ';
+            n=true;
+            var nn=true;
+        }
+        if(term_akhir==0){
+            if(nn){
+                notif+='dan ';
+            }
+            n=true;
+            notif+='bulan akhir ';
+        }
+
+        if(n){
+            alert(notif)
+            return false
+        }
 		// var minggu = $("#minggu").val();
 		var data={'period':period,'owner':owner,'type_ass':type_ass, 'term_mulai':term_mulai,'term_akhir':term_akhir};
 		var url = modul_name+"/get-map";

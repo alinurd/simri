@@ -762,8 +762,12 @@ class Map
         foreach( $this->_data as $keyData => $vData )
         {
 
-            $nilai         = ( isset( $row['mulai'] ) ) ? count( $vData['mulai'] ) : "";
-            $nilaiakhir    = ( isset( $row['akhir'] ) ) ? count( $vData['akhir'] ) : "";
+            // $nilai         = ( isset( $row['mulai'] ) ) ? count( $vData['mulai'] ) : "";
+            // $nilaiakhir    = ( isset( $row['akhir'] ) ) ? count( $vData['akhir'] ) : "";
+            $nilai         = ( isset( $vData['mulai']['nilai'] ) ) ?  $vData['mulai']['nilai'] : "";
+            $nilaiakhir    = ( isset( $vData['akhir']['nilai'] ) ) ?  $vData['akhir']['nilai'] : "";
+
+
             $nilaiket      = '';
             $nilaiketakhir = '';
             if( $this->_param['tipe'] == 'angka' )
