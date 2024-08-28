@@ -110,11 +110,36 @@ class Laporan_Risk_Register extends MY_Controller
 		{
 			$whereData["period_id"] = $post["period"];
 		}
-
+		
 		$this->data->post = $post;
-		$data['data']     = $this->data->get_data( $whereData );
+		$data['data'] = $this->data->get_data( $whereData );
+		$data['post']=$post;
+		// doi::dump($data);
 		$hasil['combo']   = $this->load->view( 'lap', $data, TRUE );
 		header( 'Content-type: application/json' );
 		echo json_encode( $hasil );
 	}
+
+	function cetak(){
+		$whereData = []; 
+ 		if( ! empty( $_GET["owner"] ) )
+		{ 
+			$whereData["owner_id"] = $_GET["owner"];
+		}
+		if( ! empty( $_GET["period"] ) )
+		{
+			$whereData["period_id"] = $_GET["period"];
+		}
+ 
+		$data['cetak_grap'] = $this->session->userdata('cetak_grap');
+		$data['data']     = $this->data->get_data( $whereData ); 
+		// doi::dump($data);
+ 		$x = $this->load->view( 'lap-cetak', $data, TRUE ); 
+		$file_name ="report-risk-register.xls";
+		header("Content-type: application/vnd.ms-excel");
+		header("Content-Disposition: attachment; filename=$file_name");
+		echo $x;
+		
+	}
+
 }
