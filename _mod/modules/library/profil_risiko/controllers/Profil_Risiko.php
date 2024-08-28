@@ -1082,7 +1082,7 @@ class Profil_Risiko extends MY_Controller
 	{
 
 		$this->data->filter_data( $this->_data_user_ );
-		$rows = $this->db->SELECT( 'risiko_inherent as id, level_color, level_color_residual, level_color_target, minggu_id' )->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
+		$rows = $this->db->SELECT( 'risiko_inherent as id, level_color, level_color_residual, level_color_target, minggu_id, period_id' )->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
 
 		$data['map_inherent'] = $this->map->set_data_profile( $rows, $this->pos )->set_param( [ 'tipe' => 'angka', 'level' => 1 ] )->draw_profile_dashboard();
 
@@ -1113,7 +1113,7 @@ class Profil_Risiko extends MY_Controller
 		}
 		$this->data->filter_data( $this->_data_user_ );
 		// COUNT(risiko_target) as nilai
-		$rows               = $this->db->SELECT( 'risiko_target as id,  level_color, level_color_residual, level_color_target, minggu_id' )
+		$rows               = $this->db->SELECT( 'risiko_target as id,  level_color, level_color_residual, level_color_target, minggu_id, period_id' )
 		// ->group_by('risiko_target')
 		->get( _TBL_VIEW_RCSA_DETAIL )->result_array();
 		$data['map_target'] = $this->map->set_data_profile( $rows, $this->pos )->set_param( [ 'tipe' => 'angka', 'level' => 3 ] )->draw_profile_dashboard();
