@@ -2,7 +2,7 @@
     <!-- <a href="<?= base_url('/risk-context/cetak-register/' . $id) ?>">
                     <h6 class="card-title"><span class="btn bg-primary pointer pull-right <?= $show; ?>" id="export_excel"> Export to Ms-Excel </span></h6>
                 </a> -->
-                <a class="btn btn-primary" href="<?= base_url(_MODULE_NAME_ . '/cetak?owner=' . urlencode(isset($data['post']["owner"])?$data['post']["owner"]:'') . '&period=' . urlencode($data['post']["period"])); ?>" target="_blank">
+                <a class="btn btn-primary" href="<?= base_url(_MODULE_NAME_ . '/cetak?owner=' . urlencode(isset($data['post']["owner"])?$data['post']["owner"]:'') . '&period=' . urlencode(isset($data['post']["period"])?$data['post']["period"]:_TAHUN_ID_)); ?>" target="_blank">
         <i class="icon-file-excel"> Ms-Excel </i>
     </a>
 </div>
