@@ -91,23 +91,21 @@ class Task extends MY_Controller
 	function notif()
 	{
 
-		$getTemplate = $this->db->get_where("il_template_email", ["code" => "NOssssTIF07"])->row_array();
+		$getTemplate = $this->db->get_where("il_template_email", ["code" => "NOTIF07"])->row_array();
 
 		$post = $this->input->post();
 		$vOff = $this->db->get_where(_TBL_OFFICER, ["owner_no" => $post['owner_id'], "active" => 1])->row_array();
 		$detail = $this->db->get_where('il_view_rcsa_detail', ["id" => $post['detailId']])->row_array();
-		// doi::dump($vOff);
-
+ 
 		if (! empty($vOff["email"])) {
-			$getTemplate["content_html"] = str_replace("[[MITIGASI]]", $$detail["peristiwa_risiko"], $getTemplate["content_html"]);
-			$getTemplate["content_html"] = str_replace("[[day]]", $post['day'], $getTemplate["content_html"]);
+			$getTemplate["content_html"] = str_replace("[[MITIGASI]]", $detail["peristiwa_risiko"], $getTemplate["content_html"]);
+			$getTemplate["content_html"] = str_replace("[[day]]", $post['day'].' hari', $getTemplate["content_html"]);
 			$content                     = $this->load->view("email-notification", $getTemplate, TRUE);
 			$emailData['email']          = [$vOff["email"]];
-			$emailData['subject']        = "Reminder  {$post["day"]}";
+			$emailData['subject']        = "Reminder Due Date Mitigasi {$post["day"]} hari";
 			$emailData['content']        = $content ?? "";
 			$status                      = Doi::kirim_email($emailData);
-			// doi::dump($status);
-			if ($status == "success") {
+ 			if ($status == "success") {
 				$insertOutbox["sender"]       = json_encode([$this->preference['email_smtp_user'], $this->preference['email_title']]);
 				$insertOutbox["recipient"]    = $vOff["email"];
 				$insertOutbox["subject"]      = $emailData['subject'];
@@ -132,6 +130,11 @@ class Task extends MY_Controller
 				$this->crud->crud_field('to',  $vOff["email"], 'string');
 				$this->crud->process_crud();
 			}
-		}
+			$hasil['sts']  = $status;
+			// $hasil['pesan']  ="Reminder Due Date"'. $vOff["email"];
+			header( 'Content-type: application/json' );
+			echo json_encode( $hasil );
+
+ 		}
 	}
 }

@@ -91,13 +91,18 @@ $(document).on("click", "#sendEmail", function () {
     var day = $(this).data('day');
 
     var data = { 'id': id, 'owner_id': owner_id, 'detailId': detailId, 'day':day };
-    console.log(data);
-
+ 
     var url = modul_name + "/notif";
-    _ajax_("post", parent, data, '', url, 'resCekLog');
+    _ajax_("post", parent, data, '', url, '');
+
 });
 
 
+function resSend() {
+    alert("berhasil mengirim pesan");
+    // location.reload();
+
+}
 function resCekLog(hasil) {
     $("#modal_general").find(".modal-title").html("Cek Log");
     $("#modal_general").find(".modal-body").html(hasil.combo);
