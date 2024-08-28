@@ -28,7 +28,7 @@ class Map_Mapping extends MY_Controller
 		$this->addField( [ 'field' => 'score', 'input' => 'updown', 'size' => 30 ] );
 		$this->addField( [ 'field' => 'pgn', 'input' => 'updown', 'size' => 30 ] );
 		$this->addField( [ 'field' => 'treatment_no', 'input' => 'combo', 'values' => $this->cboTreat, 'size' => 100, 'search' => TRUE ] );
-		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1 ] );
+		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1, "show" => FALSE ] );
 		$this->addField( [ 'field' => 'color', 'show' => FALSE, 'save' => FALSE ] );
 		$this->addField( [ 'field' => 'color_text', 'show' => FALSE, 'save' => FALSE ] );
 		$this->addField( [ 'field' => 'level_color', 'show' => FALSE, 'save' => FALSE ] );
@@ -48,7 +48,7 @@ class Map_Mapping extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'impact' );
 		$this->set_Table_List( $this->tbl_master, 'color' );
 		$this->set_Table_List( $this->tbl_master, 'score' );
-		$this->set_Table_List( $this->tbl_master, 'urut' );
+		// $this->set_Table_List( $this->tbl_master, 'urut' );
 		$this->set_Table_List( $this->tbl_master, 'pgn' );
 		$this->set_Table_List( $this->tbl_master, 'created_at', 'Tanggal Dibuat', 10, 'center' );
 		$this->set_Save_Table( _TBL_LEVEL_MAPPING );

@@ -19,7 +19,7 @@ class Period extends MY_Controller
 		$this->addField( [ 'field' => 'id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ] );
 		$this->addField( [ 'field' => 'data', 'title' => 'Periode', 'required' => TRUE, 'search' => TRUE, 'size' => 100 ] );
 		$this->addField( [ 'field' => 'kelompok', 'show' => FALSE, 'save' => TRUE, 'default' => $this->kelompok_id ] );
-		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1 ] );
+		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1, "show" => FALSE ] );
 		$this->addField( [ 'field' => 'active', 'input' => 'boolean', 'size' => 20 ] );
 		$this->addField( [ 'field' => 'risk_type', 'title' => 'List Term', 'type' => 'free', 'mode' => 'a' ] );
 		$this->addField( [ 'field' => 'list_minggu', 'title' => 'List Minggu', 'type' => 'free', 'mode' => 'a' ] );
@@ -32,7 +32,7 @@ class Period extends MY_Controller
 		$this->set_Sort_Table( $this->tbl_master, 'created_at', "desc" );
 
 		$this->set_Table_List( $this->tbl_master, 'data', 'Periode' );
-		$this->set_Table_List( $this->tbl_master, 'urut' );
+		// $this->set_Table_List( $this->tbl_master, 'urut' );
 		$this->set_Table_List( $this->tbl_master, 'active', '', 7, 'center' );
 		$this->set_Table_List( $this->tbl_master, 'created_at', 'Tanggal Dibuat', 10, 'center' );
 

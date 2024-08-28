@@ -21,7 +21,7 @@ class Map_Color extends MY_Controller
 		$this->addField( [ 'field' => 'score_max', 'size' => 30, 'align' => 'center' ] );
 		$this->addField( [ 'field' => 'color', 'input' => 'color', 'size' => 15 ] );
 		$this->addField( [ 'field' => 'color_text', 'input' => 'color', 'size' => 15 ] );
-		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1 ] );
+		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1, "show" => FALSE ] );
 		$this->addField( [ 'field' => 'active', 'input' => 'boolean', 'size' => 20 ] );
 		$this->addField( [ 'field' => 'created_at', 'save' => FALSE, "show" => FALSE ] );
 
@@ -33,7 +33,7 @@ class Map_Color extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'color', '', 10, 'center' );
 		$this->set_Table_List( $this->tbl_master, 'score_min', '', 10, 'center' );
 		$this->set_Table_List( $this->tbl_master, 'score_max', '', 10, 'center' );
-		$this->set_Table_List( $this->tbl_master, 'urut' );
+		// $this->set_Table_List( $this->tbl_master, 'urut' );
 		$this->set_Table_List( $this->tbl_master, 'active', '', 7, 'center' );
 		$this->set_Table_List( $this->tbl_master, 'created_at', 'Tanggal Dibuat', 10, 'center' );
 

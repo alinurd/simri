@@ -20,7 +20,7 @@ class Kpimap extends MY_Controller
 		$this->addField( [ 'field' => 'data', 'title' => 'Nama KPI', 'required' => TRUE, 'search' => TRUE, 'size' => 100, 'save' => FALSE, 'disabled' => TRUE ] );
 		$this->addField( [ 'field' => 'kelompok', 'show' => FALSE, 'save' => TRUE, 'default' => $this->kelompok_id ] );
 		$this->addField( [ 'field' => 'param_text', 'show' => FALSE, 'save' => FALSE ] );
-		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1, 'save' => FALSE, 'disabled' => TRUE ] );
+		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1, 'save' => FALSE, 'disabled' => TRUE, "show" => FALSE ] );
 		$this->addField( [ 'field' => 'active', 'input' => 'boolean', 'size' => 20, 'save' => FALSE, 'disabled' => TRUE ] );
 		$this->addField( [ 'field' => 'risk_type', 'title' => 'List KRI', 'type' => 'free', 'mode' => 'a' ] );
 		$this->addField( [ 'field' => 'uri_title', 'show' => FALSE, 'save' => TRUE ] );
@@ -33,7 +33,7 @@ class Kpimap extends MY_Controller
 
 		$this->set_Table_List( $this->tbl_master, 'data' );
 		$this->set_Table_List( $this->tbl_master, 'param_text', 'Total Dept' );
-		$this->set_Table_List( $this->tbl_master, 'urut' );
+		// $this->set_Table_List( $this->tbl_master, 'urut' );
 		$this->set_Table_List( $this->tbl_master, 'active', '', 7, 'center' );
 		$this->set_Table_List( $this->tbl_master, 'created_at', 'Tanggal Dibuat', 10, 'center' );
 

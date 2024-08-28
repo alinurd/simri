@@ -20,7 +20,7 @@ class Treatment extends MY_Controller
 		$this->addField( [ 'field' => 'treatment', 'title' => 'Level', 'required' => TRUE, 'search' => TRUE, 'size' => 100 ] );
 		$this->addField( [ 'field' => 'color', 'input' => 'color', 'size' => 30 ] );
 		$this->addField( [ 'field' => 'sts_lanjut', 'input' => 'boolean', 'size' => 20 ] );
-		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1 ] );
+		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1, "show" => FALSE ] );
 		$this->addField( [ 'field' => 'active', 'input' => 'boolean', 'size' => 20 ] );
 		$this->addField( [ 'field' => 'created_at', 'save' => FALSE, "show" => FALSE ] );
 
@@ -32,7 +32,7 @@ class Treatment extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'treatment' );
 		$this->set_Table_List( $this->tbl_master, 'color' );
 		$this->set_Table_List( $this->tbl_master, 'sts_lanjut' );
-		$this->set_Table_List( $this->tbl_master, 'urut' );
+		// $this->set_Table_List( $this->tbl_master, 'urut' );
 		$this->set_Table_List( $this->tbl_master, 'active', '', 7, 'center' );
 		$this->set_Table_List( $this->tbl_master, 'created_at', 'Tanggal Dibuat', 10, 'center' );
 

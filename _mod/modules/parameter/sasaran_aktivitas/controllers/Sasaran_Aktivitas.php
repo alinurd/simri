@@ -22,7 +22,7 @@ class Sasaran_Aktivitas extends MY_Controller
 		$this->addField( [ 'field' => 'pid', 'title' => 'Department', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->cboDept ] );
 		$this->addField( [ 'field' => 'data', 'title' => 'Sasaran Aktivitas', 'input' => 'multitext', 'required' => TRUE, 'search' => TRUE, 'size' => 500 ] );
 		$this->addField( [ 'field' => 'kelompok', 'show' => FALSE, 'save' => TRUE, 'default' => $this->kelompok_id ] );
-		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1 ] );
+		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1, "show" => FALSE ] );
 		$this->addField( [ 'field' => 'active', 'input' => 'boolean', 'size' => 20 ] );
 		$this->addField( [ 'field' => 'uri_title', 'show' => FALSE, 'save' => TRUE ] );
 		$this->addField( [ 'field' => 'created_at', 'save' => FALSE, "show" => FALSE ] );
@@ -34,7 +34,7 @@ class Sasaran_Aktivitas extends MY_Controller
 
 		$this->set_Table_List( $this->tbl_master, 'pid' );
 		$this->set_Table_List( $this->tbl_master, 'data' );
-		$this->set_Table_List( $this->tbl_master, 'urut' );
+		// $this->set_Table_List( $this->tbl_master, 'urut' );
 		$this->set_Table_List( $this->tbl_master, 'active', '', 7, 'center' );
 		$this->set_Table_List( $this->tbl_master, 'created_at', 'Tanggal Dibuat', 10, 'center' );
 
