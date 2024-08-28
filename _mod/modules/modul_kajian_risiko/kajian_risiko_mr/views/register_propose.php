@@ -39,7 +39,7 @@
                                         <th rowspan="2" class="text-center">Taksonomi BUMN</th>
                                         <th rowspan="2" class="text-center">Tipe Risiko</th>
                                         <th colspan="3" class="text-center">Inherent Risk Level</th>
-                                        <th colspan="3" class="text-center">Residual Risk Level</th>
+                                        <th colspan="3" class="text-center">Current Risk Level</th>
                                     </tr>
                                     <tr>
                                         <th class="text-center">Likelihood</th>
@@ -69,12 +69,12 @@
                                                         <b><?= $vRegister["inherent_level_name"] ?></b>
                                                     </div>
                                                 </td>
-                                                <td class="text-center"><?= $vRegister["residual_level_likelihood_text"] ?></td>
-                                                <td class="text-center"><?= $vRegister["residual_level_impact_text"] ?></td>
+                                                <td class="text-center"><?= $vRegister["current_level_likelihood_text"] ?></td>
+                                                <td class="text-center"><?= $vRegister["current_level_impact_text"] ?></td>
                                                 <td class="text-center  p-1">
                                                     <div class="alert alert-sm border shadow-none m-0 p-1"
-                                                        style="background-color:<?= $vRegister["residual_level_color"] ?>;color:<?= $vRegister["residual_text_level_color"] ?>">
-                                                        <b><?= $vRegister["residual_level_name"] ?></b>
+                                                        style="background-color:<?= $vRegister["current_level_color"] ?>;color:<?= $vRegister["current_text_level_color"] ?>">
+                                                        <b><?= $vRegister["current_level_name"] ?></b>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -104,7 +104,7 @@
                                         data-toggle="tab">Inherent</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#content-tab-01" class="nav-link " data-toggle="tab">Residual</a>
+                                    <a href="#content-tab-01" class="nav-link " data-toggle="tab">Current</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
@@ -209,20 +209,20 @@
                                                 <div class="card-body bg-light p-2">
                                                     <table class="table table-bordered table-sm table-map">
                                                         <tbody>
-                                                        <?php if( ! empty( $mapData["residual"] ) ) : ?>
-                                                                <?php foreach( $mapData["residual"] as $kResidualRow => $vResidualRow ) : ?>
+                                                        <?php if( ! empty( $mapData["current"] ) ) : ?>
+                                                                <?php foreach( $mapData["current"] as $kcurrentRow => $vcurrentRow ) : ?>
                                                                     <tr>
-                                                                        <?php if( $kResidualRow == 0 ) : ?>
+                                                                        <?php if( $kcurrentRow == 0 ) : ?>
                                                                             <td rowspan="5" class="rotate text-center p-1"
                                                                                 style='letter-spacing:5px;font-weight:400;font-size:12px;writing-mode:tb;'>
                                                                                 LIKELIHOOD
                                                                             </td>
                                                                         <?php endif; ?>
-                                                                        <td class="text-center"><?= $vResidualRow["code"] ?></td>
-                                                                        <?php if( ! empty( $vResidualRow["column"] ) ) : ?>
-                                                                            <?php foreach( $vResidualRow["column"] as $kResidualCol => $vResidualcol ) : ?>
+                                                                        <td class="text-center"><?= $vcurrentRow["code"] ?></td>
+                                                                        <?php if( ! empty( $vcurrentRow["column"] ) ) : ?>
+                                                                            <?php foreach( $vcurrentRow["column"] as $kcurrentCol => $vcurrentcol ) : ?>
                                                                                 <td
-                                                                                    style="background-color: <?= $vResidualcol["color"] ?>;color:<?= $vResidualcol["color_text"]?>" class="text-center"><b><?= $vResidualcol["countregister"] ?></b>
+                                                                                    style="background-color: <?= $vcurrentcol["color"] ?>;color:<?= $vcurrentcol["color_text"]?>" class="text-center"><b><?= $vcurrentcol["countregister"] ?></b>
                                                                                     
                                                                                 </td>
                                                                             <?php endforeach; ?>
@@ -258,7 +258,7 @@
                                                                     <th rowspan="2">No</th>
                                                                     <th rowspan="2" class="text-center">Peristiwa
                                                                         Risiko</th>
-                                                                    <th colspan="3" class="text-center">Residual Risk
+                                                                    <th colspan="3" class="text-center">Current Risk
                                                                         Level</th>
                                                                 </tr>
                                                             </thead>
@@ -273,8 +273,8 @@
                                                                             <td><?= $vRegister["library"] ?></td>
                                                                             <td class="text-center">
                                                                                 <div class="alert alert-sm border shadow-none m-0 p-1"
-                                                                                    style="background-color:<?= $vRegister["residual_level_color"] ?>;color:<?= $vRegister["residual_text_level_color"] ?>">
-                                                                                    <b><?= $vRegister["residual_level_name"] ?></b>
+                                                                                    style="background-color:<?= $vRegister["current_level_color"] ?>;color:<?= $vRegister["current_text_level_color"] ?>">
+                                                                                    <b><?= $vRegister["current_level_name"] ?></b>
                                                                                 </div>
                                                                             </td>
                                                                         </tr>

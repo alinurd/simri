@@ -206,13 +206,13 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 
 			case 'edit':
 				$dataUpdate = [
-				 "risiko"                    => $postData["risiko"],
-				 "inherent_risk_level"       => $postData["inherent_risk_level"],
-				 "residual_risk_level"       => $postData["residual_risk_level"],
-				 "impact_residual_level"     => $postData["impact_residual_level"],
-				 "likelihood_residual_level" => $postData["likelihood_residual_level"],
-				 "updated_at"                => date( "Y-m-d H:i:s" ),
-				 "updated_by"                => $this->ion_auth->get_user_name(),
+				 "risiko"                   => $postData["risiko"],
+				 "inherent_risk_level"      => $postData["inherent_risk_level"],
+				 "current_risk_level"       => $postData["current_risk_level"],
+				 "impact_current_level"     => $postData["impact_current_level"],
+				 "likelihood_current_level" => $postData["likelihood_current_level"],
+				 "updated_at"               => date( "Y-m-d H:i:s" ),
+				 "updated_by"               => $this->ion_auth->get_user_name(),
 				];
 
 				$this->db->update( _TBL_KAJIAN_RISIKO_REGISTER, $dataUpdate, [ "id" => $postData["id"] ] );

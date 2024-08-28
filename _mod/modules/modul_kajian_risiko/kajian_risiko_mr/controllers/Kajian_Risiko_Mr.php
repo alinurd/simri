@@ -276,6 +276,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 
 			$dataView["file_assessmen"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_FILE, [ "id_kajian_risiko" => $dataView["id"], "file_type" => "dokumen_kajian" ] )->result_array();
 			$dataView["file_pendukung"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_FILE, [ "id_kajian_risiko" => $dataView["id"], "file_type" => "dokumen_pendukung" ] )->result_array();
+			$dataView["file_rfa"]       = $this->db->get_where( _TBL_KAJIAN_RISIKO_FILE, [ "id_kajian_risiko" => $dataView["id"], "file_type" => "dokumen_rfa" ] )->result_array();
 
 
 		}

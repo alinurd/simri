@@ -17,6 +17,21 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>
+                                            <em>Tipe Kajian</em>
+                                        </td>
+                                        <td><strong><?= ( ! empty( $headerRisk["tipe_kajian"] ) ? $headerRisk["tipe_kajian"] : "" ) ?></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <em>Latar Belakang</em>
+                                        </td>
+                                        <td><strong><?= ( ! empty( $headerRisk["latar_belakang"] ) ? $headerRisk["latar_belakang"] : "" ) ?></strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
                                         <td><em>Risk Owner</em></td>
                                         <td>
                                             <strong><?= ( ! empty( $headerRisk["owner_name"] ) ? $headerRisk["owner_name"] : "" ) ?></strong>

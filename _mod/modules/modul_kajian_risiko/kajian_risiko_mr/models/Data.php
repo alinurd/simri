@@ -42,23 +42,23 @@ class Data extends MX_Model
 
 		foreach( $getRowLevel as $kLvl2 => $vLvl2 )
 		{
-			$result["residual"][$kLvl2]["id"]     = $vLvl2["id"];
-			$result["residual"][$kLvl2]["code"]   = $vLvl2["code"];
-			$result["residual"][$kLvl2]["level"]  = $vLvl2["level"];
-			$result["residual"][$kLvl2]["column"] = $this->db->query( "select color,color_text,level_color,like_code,like_text,impact_code,impact_text,id from il_view_level_mapping ivlm  where like_code = {$vLvl2['code']} order by impact_code asc " )->result_array();
-			if( ! empty( $result["residual"][$kLvl2]["column"] ) )
+			$result["current"][$kLvl2]["id"]     = $vLvl2["id"];
+			$result["current"][$kLvl2]["code"]   = $vLvl2["code"];
+			$result["current"][$kLvl2]["level"]  = $vLvl2["level"];
+			$result["current"][$kLvl2]["column"] = $this->db->query( "select color,color_text,level_color,like_code,like_text,impact_code,impact_text,id from il_view_level_mapping ivlm  where like_code = {$vLvl2['code']} order by impact_code asc " )->result_array();
+			if( ! empty( $result["current"][$kLvl2]["column"] ) )
 			{
-				foreach( $result["residual"][$kLvl2]["column"] as $kColumnRes => $vColRes )
+				foreach( $result["current"][$kLvl2]["column"] as $kColumnRes => $vColRes )
 				{
-					$result["residual"][$kLvl2]["column"][$kColumnRes]["color"]         = $vColRes["color"];
-					$result["residual"][$kLvl2]["column"][$kColumnRes]["color_text"]    = $vColRes["color_text"];
-					$result["residual"][$kLvl2]["column"][$kColumnRes]["level_color"]   = $vColRes["level_color"];
-					$result["residual"][$kLvl2]["column"][$kColumnRes]["like_code"]     = $vColRes["like_code"];
-					$result["residual"][$kLvl2]["column"][$kColumnRes]["like_text"]     = $vColRes["like_text"];
-					$result["residual"][$kLvl2]["column"][$kColumnRes]["impact_code"]   = $vColRes["impact_code"];
-					$result["residual"][$kLvl2]["column"][$kColumnRes]["impact_text"]   = $vColRes["impact_text"];
-					$result["residual"][$kLvl2]["column"][$kColumnRes]["id"]            = $vColRes["id"];
-					$result["residual"][$kLvl2]["column"][$kColumnRes]["countregister"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "impact_residual_level" => $vColRes["impact_code"], "likelihood_residual_level" => $vColRes["like_code"], "id_kajian_risiko" => $idkajian ] )->num_rows();
+					$result["current"][$kLvl2]["column"][$kColumnRes]["color"]         = $vColRes["color"];
+					$result["current"][$kLvl2]["column"][$kColumnRes]["color_text"]    = $vColRes["color_text"];
+					$result["current"][$kLvl2]["column"][$kColumnRes]["level_color"]   = $vColRes["level_color"];
+					$result["current"][$kLvl2]["column"][$kColumnRes]["like_code"]     = $vColRes["like_code"];
+					$result["current"][$kLvl2]["column"][$kColumnRes]["like_text"]     = $vColRes["like_text"];
+					$result["current"][$kLvl2]["column"][$kColumnRes]["impact_code"]   = $vColRes["impact_code"];
+					$result["current"][$kLvl2]["column"][$kColumnRes]["impact_text"]   = $vColRes["impact_text"];
+					$result["current"][$kLvl2]["column"][$kColumnRes]["id"]            = $vColRes["id"];
+					$result["current"][$kLvl2]["column"][$kColumnRes]["countregister"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "impact_current_level" => $vColRes["impact_code"], "likelihood_current_level" => $vColRes["like_code"], "id_kajian_risiko" => $idkajian ] )->num_rows();
 					;
 				}
 			}

@@ -80,7 +80,7 @@
                             <th><?= _l( 'fld_owner_name' ); ?></th>
                             <th><?= _l( 'risiko_dept' ); ?></th>
                             <th><?= _l( 'fld_due_date' ); ?></th>
-                            <th><?= _l( 'fld_updated_at' ); ?></th>
+                            <th><?= _l( 'fld_tgl_update' ); ?></th>
                             <th><?= _l( 'pic' ); ?></th>
                             <th>Days Left</th>
                             <th width="15%" class="text-center">Aksi</th>
@@ -143,6 +143,7 @@
                             <th>Id</th>
                             <th>Question</th>
                             <th>Answer</th>
+                            <th>Created at</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -157,6 +158,9 @@
                                     <td><?= $vFaq["id"] ?></td>
                                     <td><?= $vFaq["faq"] ?></td>
                                     <td><?= $vFaq["answer"] ?></td>
+                                    <td>
+                                        <?= ! empty( $vFaq["created_at"] ) ? date( "Y-m-d", strtotime( $vFaq["created_at"] ) ) : "" ?>
+                                    </td>
                                     <td><a class='list-icons-item' data-action='collapse'></a></td>
                                 </tr>
                                 <?php
@@ -213,6 +217,7 @@
                 { 'data': 'id', 'visible': false },
                 { 'data': 'faq' },
                 { 'data': 'answer', 'visible': false },
+                { 'data': 'created_at' },
                 {
                     'className': 'details-control',
                     'orderable': false,

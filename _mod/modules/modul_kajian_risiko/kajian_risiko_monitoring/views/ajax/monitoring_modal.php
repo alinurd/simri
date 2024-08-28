@@ -20,7 +20,7 @@
                                         <th>Taksonomi BUMN</th>
                                         <th>Tipe Risiko</th>
                                         <th class="text-center">Inherent Risiko</th>
-                                        <th class="text-center">Residual Risiko</th>
+                                        <th class="text-center">Current Risiko</th>
                                         <th class="text-center">Mitigasi Risiko</th>
                                         <th class="text-center">Progress Update</th>
                                         <th class="text-center">Deadline</th>
@@ -51,8 +51,8 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <div class="alert alert-sm border shadow-none m-0 p-1"
-                                                        style="background-color:<?= $vmonitoring["residual_level_color"] ?>;color:<?= $vmonitoring["residual_text_level_color"] ?>">
-                                                        <b><?= $vmonitoring["residual_level_name"] ?></b>
+                                                        style="background-color:<?= $vmonitoring["current_level_color"] ?>;color:<?= $vmonitoring["current_text_level_color"] ?>">
+                                                        <b><?= $vmonitoring["current_level_name"] ?></b>
                                                     </div>
                                                 </td>
                                                 <td class="text-center"><?= $vmonitoring["mitigasi"] ?></td>

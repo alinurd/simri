@@ -10,6 +10,7 @@
                                     <tr>
                                         <th class="text-center">No</th>
                                         <th class="text-center">Nama Kajian Risiko</th>
+                                        <th class="text-center">Tipe Kajian Risiko</th>
                                         <th class="text-center">Nama Owner</th>
                                         <th class="text-center">Tanggal Permintaan</th>
                                         <th class="text-center">Tanggal Release</th>
@@ -25,6 +26,7 @@
                                             <tr>
                                                 <td class="text-center"><?= $kdata + 1 ?></td>
                                                 <td><?= $vdata["name"] ?></td>
+                                                <td><?= $vdata["tipe_kajian"] ?></td>
                                                 <td><?= $vdata["owner_name"] ?></td>
                                                 <td class="text-center">
                                                     <?= ( ! empty( $vdata["request_date"] ) && $vdata["request_date"] != "0000-00-00 00:00:00" ) ? date( "d-m-Y", strtotime( $vdata["request_date"] ) ) : "" ?>

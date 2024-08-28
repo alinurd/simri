@@ -221,22 +221,22 @@ $(document).on("click", "#btnModalRegister", function (e) {
         }
     })
 })
-$(document).on("change", ".residual-select", function (e) {
-    var data = { 'likelihood': $("#likelihood-residual").val(), "impact": $("#impact-residual").val() };
+$(document).on("change", ".current-select", function (e) {
+    var data = { 'likelihood': $("#likelihood-current").val(), "impact": $("#impact-current").val() };
     var url = "/kajian-risiko-mr/getlevelrisk";
-    _ajax_("post", $("#result-residual-level"), data, "", url, "result_level_residual");
+    _ajax_("post", $("#result-current-level"), data, "", url, "result_level_current");
 })
-function result_level_residual(result) {
+function result_level_current(result) {
     if (result != null) {
-        $("#risk-residual").val(result.id).trigger("change");
-        $("#result-residual-level").html("<b>" + result.level_color + "</b>");
-        $("#result-residual-level").css("background-color", result.color);
-        $("#result-residual-level").css("color", result.color_text);
+        $("#risk-current").val(result.id).trigger("change");
+        $("#result-current-level").html("<b>" + result.level_color + "</b>");
+        $("#result-current-level").css("background-color", result.color);
+        $("#result-current-level").css("color", result.color_text);
     } else {
-        $("#risk-residual").val("").trigger("change");
-        $("#result-residual-level").html("<b>No Result</b>");
-        $("#result-residual-level").css("background-color", "rgb(240, 240, 240)");
-        $("#result-residual-level").css("color", "rgb(0, 0, 0)");
+        $("#risk-current").val("").trigger("change");
+        $("#result-current-level").html("<b>No Result</b>");
+        $("#result-current-level").css("background-color", "rgb(240, 240, 240)");
+        $("#result-current-level").css("color", "rgb(0, 0, 0)");
     }
 }
 $(document).on('change', "#dokumen_pendukung", function () {
