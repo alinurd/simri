@@ -1774,7 +1774,7 @@ class Risk_Context extends MY_Controller
 						$data['s_3_max']        = 0;
 						$data['score']          = 0;
 						$data['dampak_id']      = $post['dampak_id'];
-						// $this->data->simpan_like_indi( $data );
+						$this->data->simpan_like_indi( $data );
 					}
 				}
 				else
@@ -1819,7 +1819,7 @@ class Risk_Context extends MY_Controller
 									$data['s_3_max']        = 0;
 									$data['score']          = 0;
 									$data['dampak_id']      = $post['dampak_id'];
-									// $this->data->simpan_like_indi( $data );
+									$this->data->simpan_like_indi( $data );
 								}
 							}
 						}
