@@ -184,17 +184,17 @@ class Data extends MX_Model
 				$this->db->where('type_ass_id', $this->pos['type_ass']);
 			}
 
-			if ($this->pos['period']) {
-				$this->db->where('period_id', $this->pos['period']);
-			}
+			// if ($this->pos['period']) {
+			// 	$this->db->where('period_id', $this->pos['period']);
+			// }
 
-			if (isset($this->pos['tgl1'])) {
-				$this->db->where('tgl_mulai_minggu', $this->pos['tgl1']);
-			}
+			// if (isset($this->pos['tgl1'])) {
+			// 	$this->db->where('tgl_mulai_minggu', $this->pos['tgl1']);
+			// }
 
-			if (isset($this->pos['tgl2'])) {
-				$this->db->or_where('tgl_akhir_minggu', $this->pos['tgl2']);
-			}
+			// if (isset($this->pos['tgl2'])) {
+			// 	$this->db->or_where('tgl_akhir_minggu', $this->pos['tgl2']);
+			// }
 			if ($this->pos['owner']) {
 				if ($this->owner_child) {
 					$this->db->where_in('owner_id', $this->owner_child);
