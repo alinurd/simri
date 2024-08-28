@@ -1,3 +1,27 @@
+<table>
+    <tr>
+        <td colspan="3"><b>Report Risk Register</b></td>
+    </tr>
+    <tr>
+        <td><b>Owner</b></td>
+        <td width='5px' class="text-center">:</td>
+        <td class="text-left">
+            <?php 
+            $owner_names = array_column($data['parent'], 'owner_name');
+            $owner_names_string = implode(', ', $owner_names);
+            echo isset($owner_names_string) ? $owner_names_string : 'ALL'; 
+            ?>
+        </td>
+    </tr>
+    <tr>
+        <td><b>Periode</b></td>
+        <td width='5px' class="text-center">:</td>
+        <td class="text-left">
+            <?= isset($data['parent'][0]['period_name']) ? $data['parent'][0]['period_name'] : 'Unknown'; ?>
+        </td>
+    </tr>
+</table>
+
 <table class="table table-hover table-striped table-bordered" border="1">
     <thead class="bg-primary">
         <tr>

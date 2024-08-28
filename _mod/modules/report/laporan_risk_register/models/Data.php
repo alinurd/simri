@@ -10,6 +10,7 @@ class Data extends MX_Model
 
 	function get_data( $where )
 	{
+	 
 		$this->db->where('status_final', 1 );
 		if( ! empty( $where ) )
 		{
@@ -17,6 +18,7 @@ class Data extends MX_Model
 		}
 		else
 		{
+			$this->db->where('period_id', _TAHUN_ID_ );
 			$rows = $this->db->get( _TBL_VIEW_RCSA )->result_array();
 		}
 
