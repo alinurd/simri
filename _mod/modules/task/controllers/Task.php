@@ -60,8 +60,10 @@ class Task extends MY_Controller
 			->get(_TBL_VIEW_RCSA_MITIGASI_DETAIL)
 			->result_array();
 
-		$data["faq"] = $this->db->get_where(_TBL_FAQ, ["active" => 1])->result_array();
-		$content     = $this->load->view('task', $data, TRUE);
+
+		$data["faq"] = $this->db->order_by( "created_at", "desc" )->get_where( _TBL_FAQ, [ "active" => 1 ] )->result_array();
+		$content     = $this->load->view( 'task', $data, TRUE );
+
 
 		return $content;
 	}

@@ -41,7 +41,7 @@ class Risk_Context extends MY_Controller
 		$this->addField( [ 'field' => 'owner_id', 'title' => 'Department', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->cboDept ] );
 		// $this->addField( [ 'field' => 'division', 'input' => 'text', 'title' => 'Division' ] );
 
-		$this->addField( [ 'field' => 'seksi', 'type' => 'int', 'input' => 'combo', 'title' => 'Seksi', 'search' => FALSE, 'values' => $resultDivisionDropdown ] );
+		$this->addField( [ 'field' => 'seksi', 'type' => 'int', 'input' => 'combo', 'required' => TRUE, 'title' => 'Seksi', 'search' => TRUE, 'values' => $resultDivisionDropdown ] );
 		$this->addField( [ 'field' => 'judul_ass', 'title' => 'Judul Assement', 'input' => 'text' ] );
 		$this->addField( [ 'field' => 'sasaran_dept', 'input' => 'multitext', 'search' => TRUE, 'size' => 500 ] );
 		$this->addField( [ 'field' => 'ruang_lingkup', 'input' => 'multitext', 'search' => TRUE, 'size' => 500 ] );
@@ -1747,7 +1747,6 @@ class Risk_Context extends MY_Controller
 				$kri = $this->db->get( _TBL_COMBO )->result_array();
 				$cek = $this->db->where( 'bk_tipe', $post['bk_tipe'] )->where( 'rcsa_detail_id', $post['rcsa_detail_no'] )->get( _TBL_VIEW_RCSA_DET_LIKE_INDI )->result_array();
 
-
 				if( count( $cek ) == 0 )
 				{
 					foreach( $kri as $key => $value )
@@ -1839,9 +1838,7 @@ class Risk_Context extends MY_Controller
 		$data['list_like_indi'] = $this->db->where( 'bk_tipe', $post['bk_tipe'] )->where( 'rcsa_detail_id', intval( $post['rcsa_detail_no'] ) )->or_group_start()->where( 'rcsa_detail_id', 0 )->where( 'created_by', $this->ion_auth->get_user_name() )->group_end()->get( _TBL_VIEW_RCSA_DET_LIKE_INDI )->result_array();
 
 		/**------- ------- ------ */
-
 		$data['parent'] = $post['rcsa_detail_no'];
-
 		if( $post['bk_tipe'] == 1 )
 		{
 			$data['sub_title'] = ' Inheren';
@@ -2413,7 +2410,7 @@ class Risk_Context extends MY_Controller
 		$cboKel  = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'lib-cat' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		$cboTipe = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'risk-type' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 
-		$data['form'][] = [ 'title' => _l( 'fld_peristiwa_risiko' ), 'required' => TRUE, 'help' => _h( 'help_add_peristiwa' ), 'isi' => form_input( 'peristiwaBaru', '', 'class="form-control" id="peristiwaBaru"  placeholder="Tambah ' . _l( 'fld_peristiwa_risiko' ) . '"' ) ];
+		$data['form'][] = [ 'title' => _l( 'fld_peristiwa_risiko' ), 'required' => TRUE, 'help' => _h( 'help_add_peristiwa' ), 'isi' => form_input( 'peristiwaBaru', '', 'class="form-control" id="peristiwaBaru"  placeholder="Tambah ' . _l( 'fld_peristiwa_risiko' ) . '"' ) . "<button id='cekkemiripan' type='button' class='btn btn-sm btn-primary'>Cek Kemiripan</button>" ];
 		$data['form'][] = [ 'title' => _l( 'fld_klasifikasi_risiko' ), 'required' => TRUE, 'help' => _h( 'fld_klasifikasi_risiko' ), 'isi' => form_dropdown( 'kelBaru', $cboKel, '', 'class="form-control select" id="kelBaru"' ) ];
 		$data['form'][] = [ 'title' => _l( 'fld_tipe_risiko' ), 'required' => TRUE, 'help' => _h( 'fld_tipe_risiko' ), 'isi' => form_dropdown( 'tipeBaru', $cboTipe, '', 'class="form-control select" id="tipeBaru"' ) ];
 

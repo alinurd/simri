@@ -20,20 +20,22 @@ class Kpi extends MY_Controller
 		$this->addField( [ 'field' => 'data', 'title' => 'Nama KPI', 'required' => TRUE, 'search' => TRUE, 'size' => 100 ] );
 		$this->addField( [ 'field' => 'kelompok', 'show' => FALSE, 'save' => TRUE, 'default' => $this->kelompok_id ] );
 		$this->addField( [ 'field' => 'param_text', 'show' => FALSE, 'save' => FALSE ] );
-		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1 ] );
+		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1, "show" => FALSE ] );
 		$this->addField( [ 'field' => 'active', 'input' => 'boolean', 'size' => 20 ] );
 		$this->addField( [ 'field' => 'risk_type', 'title' => 'List Term', 'type' => 'free', 'mode' => 'a' ] );
 		$this->addField( [ 'field' => 'uri_title', 'show' => FALSE, 'save' => TRUE ] );
+		$this->addField( [ 'field' => 'created_at', 'save' => FALSE, "show" => FALSE ] );
 
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 		$this->set_Where_Table( [ 'field' => 'kelompok', 'value' => $this->kelompok_id ] );
 
-		$this->set_Sort_Table( $this->tbl_master, 'data' );
+		$this->set_Sort_Table( $this->tbl_master, 'created_at', "desc" );
 
 		$this->set_Table_List( $this->tbl_master, 'data' );
 		$this->set_Table_List( $this->tbl_master, 'param_text', 'Total Dept' );
-		$this->set_Table_List( $this->tbl_master, 'urut' );
+		// $this->set_Table_List( $this->tbl_master, 'urut' );
 		$this->set_Table_List( $this->tbl_master, 'active', '', 7, 'center' );
+		$this->set_Table_List( $this->tbl_master, 'created_at', 'Tanggal Dibuat', 10, 'center' );
 
 		$this->set_Close_Setting();
 
@@ -57,6 +59,10 @@ class Kpi extends MY_Controller
 		return [
 		 'configuration' => $configuration,
 		];
+	}
+	function listBox_created_at( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
 	}
 
 	function insertValue_URI_TITLE( $value, $rows, $old )

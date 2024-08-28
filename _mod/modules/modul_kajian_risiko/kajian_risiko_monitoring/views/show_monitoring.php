@@ -24,7 +24,7 @@
                                             <th class="text-center">Taksonomi BUMN</th>
                                             <th class="text-center">Tipe Risiko</th>
                                             <th class="text-center">Inherent Risk Level</th>
-                                            <th class="text-center">Residual Risk Level</th>
+                                            <th class="text-center">Current Risk Level</th>
                                             <th class="text-center">Mitigasi</th>
                                             <th class="text-center">Action</th>
                                         </tr>
@@ -44,8 +44,8 @@
                                                             <b><?= $vReg["inherent_level_name"] ?></b>
                                                         </div>  </td>
                                                     <td> <div class="alert alert-sm border shadow-none m-0 p-1 text-center"
-                                                style="background-color:<?= $vReg["residual_level_color"] ?>;color:<?= $vReg["residual_text_level_color"] ?>">
-                                                <b><?= $vReg["residual_level_name"] ?></b>
+                                                style="background-color:<?= $vReg["current_level_color"] ?>;color:<?= $vReg["current_text_level_color"] ?>">
+                                                <b><?= $vReg["current_level_name"] ?></b>
                                             </div>    </td>
                                                     <td class="text-center">
                                                         <a href="#" data-toggle="collapse"

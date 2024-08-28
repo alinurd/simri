@@ -217,11 +217,22 @@ $(document).on("click", "#pilihPeristiwa", function () {
 });
 
 function risiko(result) {
-    _similarity_lib(2, 70)
+    // _similarity_lib(2, 70)
     $("#modal_general").find(".modal-title").html("Risiko");
     $("#modal_general").find(".modal-body").html(result.combo);
     $("#modal_general").modal("show");
 }
+$(document).on('click', "#cekkemiripan", function () {
+    var parent = $(this).parent();
+    var t = 2;
+    var th = 70;
+    // var input = $("#peristiwaBaru").val();
+    var input = $("#peristiwaBaru").val();
+    var data = { 'library': input, 'type': t, 'percent': th };
+    var target_combo = $("#similarityResults");
+    var url = "ajax/check-similarity-lib";
+    _ajax_("post", parent, data, target_combo, url, "similarityResults");
+});
 
 $(document).on("click", "#getPeristiwa, #backListPeritwa", function () {
     var parent = $(this).parent();
@@ -444,23 +455,23 @@ function result_level_inherent(result) {
 
 }
 
-$(document).on("change", ".residual-select", function (e) {
-    var data = { 'likelihood': $("#likelihood-residual").val(), "impact": $("#impact-residual").val() };
+$(document).on("change", ".current-select", function (e) {
+    var data = { 'likelihood': $("#likelihood-current").val(), "impact": $("#impact-current").val() };
     var url = modul_name + "/getlevelrisk";
-    _ajax_("post", $("#level-residual-risk"), data, "", url, "result_level_residual");
+    _ajax_("post", $("#level-current-risk"), data, "", url, "result_level_current");
 })
 
-function result_level_residual(result) {
+function result_level_current(result) {
     if (result != null) {
-        $("#risk-residual").val(result.id).trigger("change");
-        $("#result-residual-level").html("<b>" + result.level_color + "</b>");
-        $("#result-residual-level").css("background-color", result.color);
-        $("#result-residual-level").css("color", result.color_text);
+        $("#risk-current").val(result.id).trigger("change");
+        $("#result-current-level").html("<b>" + result.level_color + "</b>");
+        $("#result-current-level").css("background-color", result.color);
+        $("#result-current-level").css("color", result.color_text);
     } else {
-        $("#risk-residual").val("").trigger("change");
-        $("#result-residual-level").html("<b>No Result</b>");
-        $("#result-residual-level").css("background-color", "rgb(240, 240, 240)");
-        $("#result-residual-level").css("color", "rgb(0, 0, 0)");
+        $("#risk-current").val("").trigger("change");
+        $("#result-current-level").html("<b>No Result</b>");
+        $("#result-current-level").css("background-color", "rgb(240, 240, 240)");
+        $("#result-current-level").css("color", "rgb(0, 0, 0)");
     }
 }
 

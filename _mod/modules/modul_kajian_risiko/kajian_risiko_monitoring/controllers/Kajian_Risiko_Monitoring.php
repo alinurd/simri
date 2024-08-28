@@ -22,12 +22,13 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		$this->addField( [ 'field' => 'request_date', 'type' => 'date', 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'release_date', 'type' => 'date', 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'status', 'title' => 'Status', 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_status, 'default' => 0, 'size' => 40 ] );
+		$this->addField( [ 'field' => 'created_at', "show" => FALSE, "save" => FALSE ] );
 		$this->set_Close_Coloums();
 
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 		$this->set_Join_Table( [ 'pk' => $this->tbl_master ] );
 
-		$this->set_Sort_Table( $this->tbl_master, 'id' );
+		$this->set_Sort_Table( $this->tbl_master, 'created_at', "desc" );
 		$this->set_Where_Table( [ 'field' => 'status', 'value' => 1, 'op' => '=' ] );
 
 		$this->set_Table_List( $this->tbl_master, 'owner_id', "Risk Owner" );
@@ -35,6 +36,7 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'request_date', "Tanggal Permintaan" );
 		$this->set_Table_List( $this->tbl_master, 'release_date', "Tanggal Release" );
 		$this->set_Table_List( $this->tbl_master, 'status', "Status" );
+		$this->set_Table_List( $this->tbl_master, 'created_at', "Tanggal Dibuat", 0, "center" );
 		$this->set_Close_Setting();
 
 		$this->set_Save_Table( _TBL_KAJIAN_RISIKO );
@@ -71,7 +73,10 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		return $statusContent;
 
 	}
-
+	function listBox_created_at( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
+	}
 	function listBox_release_date( $field, $rows, $value )
 	{
 		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
@@ -201,13 +206,13 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 
 			case 'edit':
 				$dataUpdate = [
-				 "risiko"                    => $postData["risiko"],
-				 "inherent_risk_level"       => $postData["inherent_risk_level"],
-				 "residual_risk_level"       => $postData["residual_risk_level"],
-				 "impact_residual_level"     => $postData["impact_residual_level"],
-				 "likelihood_residual_level" => $postData["likelihood_residual_level"],
-				 "updated_at"                => date( "Y-m-d H:i:s" ),
-				 "updated_by"                => $this->ion_auth->get_user_name(),
+				 "risiko"                   => $postData["risiko"],
+				 "inherent_risk_level"      => $postData["inherent_risk_level"],
+				 "current_risk_level"       => $postData["current_risk_level"],
+				 "impact_current_level"     => $postData["impact_current_level"],
+				 "likelihood_current_level" => $postData["likelihood_current_level"],
+				 "updated_at"               => date( "Y-m-d H:i:s" ),
+				 "updated_by"               => $this->ion_auth->get_user_name(),
 				];
 
 				$this->db->update( _TBL_KAJIAN_RISIKO_REGISTER, $dataUpdate, [ "id" => $postData["id"] ] );

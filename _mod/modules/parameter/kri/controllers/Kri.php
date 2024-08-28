@@ -32,9 +32,10 @@ class Kri extends MY_Controller
 
 		$this->addField( [ 'field' => 'data', 'title' => 'KRI', 'required' => TRUE, 'input' => 'multitext', 'search' => TRUE, 'size' => 500 ] );
 		$this->addField( [ 'field' => 'kelompok', 'show' => FALSE, 'save' => TRUE, 'default' => $this->kelompok_id ] );
-		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1 ] );
+		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1, "show" => FALSE ] );
 		$this->addField( [ 'field' => 'active', 'input' => 'boolean', 'size' => 20 ] );
 		$this->addField( [ 'field' => 'uri_title', 'show' => FALSE, 'save' => TRUE ] );
+		$this->addField( [ 'field' => 'created_at', 'save' => FALSE, "show" => FALSE ] );
 
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 		$this->set_Join_Table( array(
@@ -47,6 +48,7 @@ class Kri extends MY_Controller
 
 		$this->set_Where_Table( [ 'field' => 'kelompok', 'value' => $this->kelompok_id ] );
 
+		$this->set_Sort_Table( $this->tbl_master, 'created_at', "desc" );
 		$this->set_Sort_Table( $this->tbl_master, 'param_int' );
 		$this->set_Sort_Table( $this->tbl_master, 'pid' );
 		$this->set_Sort_Table( $this->tbl_master, 'urut' );
@@ -57,8 +59,9 @@ class Kri extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'data' );
 		$this->set_Table_List( $this->tbl_master, 'id', 'Total Terpakai' );
 		$this->set_Table_List( $this->tbly, 'param_text', 'Total Dept' );
-		$this->set_Table_List( $this->tbl_master, 'urut' );
+		// $this->set_Table_List( $this->tbl_master, 'urut' );
 		$this->set_Table_List( $this->tbl_master, 'active', '', 7, 'center' );
+		$this->set_Table_List( $this->tbl_master, 'created_at', 'Tanggal Dibuat', 10, 'center' );
 
 		$this->set_Close_Setting();
 
@@ -83,7 +86,10 @@ class Kri extends MY_Controller
 		 'configuration' => $configuration,
 		];
 	}
-
+	function listBox_created_at( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
+	}
 	function insertValue_URI_TITLE( $value, $rows, $old )
 	{
 		$title = create_unique_slug( $rows['data'], $this->tbl_master );

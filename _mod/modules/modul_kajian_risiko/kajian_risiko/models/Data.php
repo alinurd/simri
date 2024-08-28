@@ -69,7 +69,7 @@ class Data extends MX_Model
 	}
 	function getDataHistoryKajian( $idkajian )
 	{
-		$queryHistoryKajian = "select ikrah.*,ikr.name,ikr.tiket_terbit from il_kajian_risiko_approval_history ikrah join il_kajian_risiko ikr on ikrah.id_kajian_risiko =ikr.id where ikr.id={$idkajian} ";
+		$queryHistoryKajian = "select ikrah.*,ikr.name,ikr.tiket_terbit,ikr.tipe_kajian from il_kajian_risiko_approval_history ikrah join il_kajian_risiko ikr on ikrah.id_kajian_risiko =ikr.id where ikr.id={$idkajian} ";
 		return $this->db->query( $queryHistoryKajian )->result_array();
 	}
 }

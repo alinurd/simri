@@ -1,13 +1,14 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="jumbotron p-2 mb-3 border">
-            <div class="row">
-                <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="jumbotron p-2 mb-3 border">
                     <div class="card m-0 shadow-none border">
                         <div class="card-header border-bottom text-center p-2 bg-slate">
                             <strong>Dokumen Self-Assessment</strong>
                         </div>
                         <div class="card-body p-2">
+
                             <table class="table table-sm table-bordered">
                                 <thead class="bg-light">
                                     <tr>
@@ -94,7 +95,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+            </div>
+            <div class="col-md-4">
+                <div class="jumbotron p-2 mb-3 border">
                     <div class="card m-0 shadow-none border">
                         <div class="card-header border-bottom text-center p-2 bg-slate">
                             <strong>Dokumen Pendukung</strong>
@@ -192,15 +195,54 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="row mt-2">
-                <div class="col-md-12">
-                    <div class="card shadow-none m-0 border">
-                        <div class="card-body">
+            <div class="col-md-4">
+                <div class="jumbotron p-2 mb-3 border">
+                    <div class="card m-0 shadow-none border">
+                        <div class="card-header border-bottom text-center p-2 bg-slate">
+                            <strong>Dokumen RFA</strong>
+                        </div>
+                        <div class="card-body p-2">
+                            <table class="table table-sm table-bordered">
+                                <thead class="bg-light">
+                                    <th width="75" class="text-center">No</th>
+                                    <th class="text-center"><strong><b>FILE</b></strong></th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <?php if( ! empty( $file_rfa ) )
+                                    {
+                                        foreach( $file_rfa as $kLinkDocfilerfa => $vLinkDocfilerfa )
+                                        { ?>
 
+                                            <tr>
+                                                <td><?= $kLinkDocfilerfa + 1 ?></td>
+                                                <td><strong><?= $vLinkDocfilerfa["filename"] ?></strong></td>
+                                                <td class="text-center">
+                                                    <?php if( ! empty( $vLinkDocfilerfa["server_filename"] ) && file_exists( $vLinkDocfilerfa["file_path"] . $vLinkDocfilerfa["server_filename"] ) )
+                                                    { ?>
+                                                        <a class="btn btn-sm btn-outline-primary" target="_blank"
+                                                            href="<?= ( ! empty( $vLinkDocfilerfa["server_filename"] ) && file_exists( $vLinkDocfilerfa["file_path"] . $vLinkDocfilerfa["server_filename"] ) ? base_url( $vLinkDocfilerfa["file_path"] . $vLinkDocfilerfa["server_filename"] ) : '#' ) ?>"><i
+                                                                class="icon-file-text2"></i></a>
+                                                    <?php } ?>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                        }
+                                    }
+                                    else
+                                    { ?>
+                                        <tr>
+                                            <td colspan="3" class="text-center">Data Empty</td>
+                                        </tr>
+                                    <?php }
+                                    ?>
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </div>

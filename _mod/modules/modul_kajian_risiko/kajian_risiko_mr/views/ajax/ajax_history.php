@@ -10,6 +10,7 @@
                                     <tr>
                                         <th class="text-center">No</th>
                                         <th class="text-center">Nama Kajian Risiko</th>
+                                        <th class="text-center">Tipe Kajian Risiko</th>
                                         <th class="text-center">Status Approval</th>
                                         <th class="text-center">Note</th>
                                         <th class="text-center">Tanggal Update</th>
@@ -25,6 +26,7 @@
                                             <tr>
                                                 <td class="text-center"><?= $kView + 1 ?></td>
                                                 <td class="text-center"><?= $vView["name"] ?></td>
+                                                <td class="text-center"><?= $vView["tipe_kajian"] ?></td>
                                                 <td class="text-center"><?= $vView["status_approval"] ?></td>
                                                 <td class="text-center"><?= $vView["note"] ?></td>
                                                 <td class="text-center"><?= $vView["updated_at"] ?></td>

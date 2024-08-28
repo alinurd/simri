@@ -539,7 +539,7 @@ function similarityResults(hasil) {
   function pesan_toastr(pesan, tipe, title, posisi, progress) {
     if (posisi === undefined) posisi = "toast-bottom-right";
     if (progress === undefined) progress = true;
-  
+
     toastr.options = {
       "closeButton": true,
       "debug": false,

@@ -36,6 +36,7 @@ class Cause_Library extends MY_Controller
 		$this->addField( [ 'field' => 'nama_kelompok', 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'risk_type', 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'created_by', 'show' => FALSE ] );
+		$this->addField( [ 'field' => 'created_at', 'show' => FALSE, "save" => FALSE ] );
 		$this->addField( [ 'field' => 'type', 'type' => 'int', 'default' => $this->type_risk, 'show' => FALSE, 'save' => TRUE ] );
 		$this->addField( [ 'field' => 'active', 'title' => 'Status', 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_status, 'default' => 1, 'size' => 40 ] );
 
@@ -44,7 +45,7 @@ class Cause_Library extends MY_Controller
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 		$this->set_Join_Table( [ 'pk' => $this->tbl_master ] );
 
-		$this->set_Sort_Table( $this->tbl_master, 'id' );
+		$this->set_Sort_Table( $this->tbl_master, 'created_at', "desc" );
 		$this->set_Where_Table( [ 'tbl' => $this->tbl_master, 'field' => 'type', 'op' => '=', 'value' => $this->type_risk ] );
 		// list tabel 
 		// $this->set_Table_List($this->tbl_master,'nama_kelompok', 'Klasifikasi Risiko');
@@ -54,6 +55,7 @@ class Cause_Library extends MY_Controller
 		// $this->set_Table_List($this->tbl_master,'jml_impact', 'Jml Dampak', 10, 'center');
 		$this->set_Table_List( $this->tbl_master, 'used', ' Digunakan', 10, 'center' );
 		$this->set_Table_List( $this->tbl_master, 'created_by', 'Disusun oleh' );
+		$this->set_Table_List( $this->tbl_master, 'created_at', 'Tanggal Dibuat', 10, "center" );
 		$this->set_Table_List( $this->tbl_master, 'active', 'Status' );
 		$this->set_Close_Setting();
 
@@ -77,6 +79,10 @@ class Cause_Library extends MY_Controller
 		// }
 		if( $id )
 			$this->data->cari_total_dipakai( $id );
+	}
+	function listBox_created_at( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
 	}
 	// mengubah inputan
 	function inputBox_RISK_TYPE_NO( $mode, $field, $rows, $value )
