@@ -1477,7 +1477,7 @@ class Data extends MX_Model
 		$data                     = [];
 		if( empty( $id ) )
 		{
-			return [];
+			return [ "" => "- select seksi -" ];
 		}
 
 		if( $isAjax )
@@ -1499,7 +1499,7 @@ class Data extends MX_Model
 
 		}
 
-		return $data;
+		return ( ! empty( $data ) ? $data : [ "" => [ "- select seksi -" ] ] );
 	}
 	private function getDataSeksiByParent( $getChild1, $formAtSelect, $seksi, $mode )
 	{

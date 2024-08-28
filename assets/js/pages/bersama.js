@@ -503,7 +503,7 @@ function remove_install(t, iddel, tbl) {
 
 
 function _similarity_lib(t, th) {
-  $(document).on('keyup', "input[name=\"peristiwaBaru\"], .libraryCekSimilarity, #library", function () {
+  $(document).on('change', "input[name=\"peristiwaBaru\"], .libraryCekSimilarity, #library", function () {
     var parent = $(this).parent();
     // var input = $("#peristiwaBaru").val();
     var input = $(this).val();
@@ -539,7 +539,7 @@ function similarityResults(hasil) {
   function pesan_toastr(pesan, tipe, title, posisi, progress) {
     if (posisi === undefined) posisi = "toast-bottom-right";
     if (progress === undefined) progress = true;
-  
+
     toastr.options = {
       "closeButton": true,
       "debug": false,

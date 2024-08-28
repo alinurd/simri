@@ -112,6 +112,7 @@ $lang['fld_title']                   = 'Informasi Konteks Risiko';
 $lang['fld_treatment']               = 'Treatment';
 $lang['fld_type_ass_id']             = 'Tipe Asesmen';
 $lang['fld_uraian']                  = 'Uraian';
+$lang['fld_seksi']                   = 'Seksi';
 $lang['help_aktifitas']              = 'Menyebutkan uraian dari aktivitas Departemen /PMO/Proyek sebagai Pemilik Risiko';
 $lang['help_biaya']                  = 'Besaran jumlah (Rp) yang dibutuhkan untuk pelaksanaan mitigasi';
 $lang['help_dampak_risiko']          = 'Uraian akibat terjadinya peristiwa risiko yang mempengaruhi sasaran aktivitas pada tahapan proses tersebut';

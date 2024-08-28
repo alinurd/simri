@@ -34,11 +34,13 @@ class Map_Mapping extends MY_Controller
 		$this->addField( [ 'field' => 'level_color', 'show' => FALSE, 'save' => FALSE ] );
 		$this->addField( [ 'field' => 'like_code', 'show' => FALSE, 'save' => FALSE ] );
 		$this->addField( [ 'field' => 'impact_code', 'show' => FALSE, 'save' => FALSE ] );
+		$this->addField( [ 'field' => 'created_at', 'save' => FALSE, "show" => FALSE ] );
 
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 
-		$this->set_Sort_Table( $this->tbl_master, 'like_code', 'desc' );
-		$this->set_Sort_Table( $this->tbl_master, 'impact_code' );
+		$this->set_Sort_Table( $this->tbl_master, 'created_at', "desc" );
+		// $this->set_Sort_Table( $this->tbl_master, 'like_code', 'desc' );
+		// $this->set_Sort_Table( $this->tbl_master, 'impact_code' );
 		// $this->set_Sort_Table($this->tbl_master,'likelihood');
 
 		// $this->set_Table_List($this->tbl_master,'level_risk_no');
@@ -48,6 +50,7 @@ class Map_Mapping extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'score' );
 		$this->set_Table_List( $this->tbl_master, 'urut' );
 		$this->set_Table_List( $this->tbl_master, 'pgn' );
+		$this->set_Table_List( $this->tbl_master, 'created_at', 'Tanggal Dibuat', 10, 'center' );
 		$this->set_Save_Table( _TBL_LEVEL_MAPPING );
 		$this->set_Close_Setting();
 
@@ -72,7 +75,10 @@ class Map_Mapping extends MY_Controller
 		 'configuration' => $configuration,
 		];
 	}
-
+	function listBox_created_at( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
+	}
 	function listBox_COLOR( $fields, $rows, $value )
 	{
 		$o = '<span style="background-color:' . $value . ';color:' . $rows['color_text'] . ';padding:4px 10px;">' . $rows['level_color'] . '</span>';

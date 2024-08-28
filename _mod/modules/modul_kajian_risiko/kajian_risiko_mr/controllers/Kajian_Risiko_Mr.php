@@ -30,6 +30,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 
 		$this->addField( [ 'field' => 'link_dokumen_pendukung', "title" => "Dokumen Pendukung" ] );
 		$this->addField( [ 'field' => 'dokumen_mr', "show" => FALSE, "save" => FALSE ] );
+		$this->addField( [ 'field' => 'created_at', "show" => FALSE, "save" => FALSE ] );
 
 		$this->set_Close_Coloums();
 
@@ -46,6 +47,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 		// $this->set_Table_List( $this->tbl_master, 'status', "Status", 0, "center" );
 		$this->set_Table_List( $this->tbl_master, 'status_approval', "Status Approval", 0, "center" );
 		$this->set_Table_List( $this->tbl_master, 'dokumen_mr', "Dokumen MR", 0, "center" );
+		$this->set_Table_List( $this->tbl_master, 'created_at', "Tanggal Dibuat", 0, "center" );
 		$this->set_Close_Setting();
 
 		$this->set_Save_Table( _TBL_KAJIAN_RISIKO );
@@ -83,6 +85,10 @@ class Kajian_Risiko_Mr extends MY_Controller
 		}
 		return $statusContent;
 
+	}
+	function listBox_created_at( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
 	}
 
 	function listBox_status_approval( $field, $rows, $value )

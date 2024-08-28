@@ -23,15 +23,17 @@ class Taksonomi_Risiko extends MY_Controller
 		$this->addField( [ 'field' => 'active', 'input' => 'boolean', 'size' => 20 ] );
 		$this->addField( [ 'field' => 'risk_type', 'type' => 'free', 'mode' => 'a', "title" => "Tipe Risiko" ] );
 		$this->addField( [ 'field' => 'uri_title', 'show' => FALSE, 'save' => TRUE ] );
+		$this->addField( [ 'field' => 'created_at', 'save' => FALSE, "show" => FALSE ] );
 
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 		$this->set_Where_Table( [ 'field' => 'kelompok', 'value' => $this->kelompok_id ] );
 
-		$this->set_Sort_Table( $this->tbl_master, 'data' );
+		$this->set_Sort_Table( $this->tbl_master, 'created_at', "desc" );
 
 		$this->set_Table_List( $this->tbl_master, 'data' );
 		$this->set_Table_List( $this->tbl_master, 'urut' );
 		$this->set_Table_List( $this->tbl_master, 'active', '', 7, 'center' );
+		$this->set_Table_List( $this->tbl_master, 'created_at', 'Tanggal Dibuat', 10, 'center' );
 
 		$this->set_Close_Setting();
 
@@ -56,7 +58,10 @@ class Taksonomi_Risiko extends MY_Controller
 		 'configuration' => $configuration,
 		];
 	}
-
+	function listBox_created_at( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
+	}
 	function insertValue_URI_TITLE( $value, $rows, $old )
 	{
 		$title = create_unique_slug( $rows['data'], $this->tbl_master );

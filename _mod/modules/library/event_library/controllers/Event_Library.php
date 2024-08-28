@@ -23,17 +23,18 @@ class Event_Library extends MY_Controller
 
 		$this->set_Open_Tab( 'Data Risk Event Library' );
 		$this->addField( [ 'field' => 'id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ] );
-		$this->addField( [ 'field' => 'kel','title' => 'Taksonomi Risiko','required' => TRUE, 'save' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->kel, 'size' => 50 ] );
-		$this->addField( [ 'field' => 'risk_type_no', 'title' => 'Tipe Risiko','required' => TRUE, 'type' => 'int', 'input' => 'combo', 'search' => TRUE, 'values' => [ ' - Pilih - ' ], 'size' => 50 ] );
+		$this->addField( [ 'field' => 'kel', 'title' => 'Taksonomi Risiko', 'required' => TRUE, 'save' => FALSE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->kel, 'size' => 50 ] );
+		$this->addField( [ 'field' => 'risk_type_no', 'title' => 'Tipe Risiko', 'required' => TRUE, 'type' => 'int', 'input' => 'combo', 'search' => TRUE, 'values' => [ ' - Pilih - ' ], 'size' => 50 ] );
 		// $this->addField(['field'=>'code',  'search'=>true, 'size'=>25]);
-		$this->addField( [ 'field' => 'library', 'title' => 'Risk Event', 'required' => TRUE, 'input' =>  'multitext', 'search' => TRUE, 'size' => 500 ] );
-		$this->addField(['field' => 'x', 'title' => '', 'type' => 'free', 'mode' => 'o']);
+		$this->addField( [ 'field' => 'library', 'title' => 'Risk Event', 'required' => TRUE, 'input' => 'multitext', 'search' => TRUE, 'size' => 500 ] );
+		$this->addField( [ 'field' => 'x', 'title' => '', 'type' => 'free', 'mode' => 'o' ] );
 		$this->addField( [ 'field' => 'jml_couse', 'title' => 'Jml Cause', 'type' => 'free', 'show' => FALSE, 'search' => FALSE ] );
 		$this->addField( [ 'field' => 'jml_impact', 'type' => 'free', 'show' => FALSE, 'search' => FALSE ] );
 		$this->addField( [ 'field' => 'nama_kelompok', 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'used', 'type' => 'free', 'show' => FALSE, 'search' => FALSE ] );
 		$this->addField( [ 'field' => 'risk_type', 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'created_by', 'show' => FALSE ] );
+		$this->addField( [ 'field' => 'created_at', 'show' => FALSE, "save" => FALSE ] );
 		$this->addField( [ 'field' => 'type', 'type' => 'int', 'default' => $this->type_risk, 'show' => FALSE, 'save' => TRUE ] );
 		$this->addField( [ 'field' => 'active', 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_status, 'default' => 1, 'size' => 40 ] );
 
@@ -45,7 +46,7 @@ class Event_Library extends MY_Controller
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 		$this->set_Join_Table( [ 'pk' => $this->tbl_master ] );
 
-		$this->set_Sort_Table( $this->tbl_master, 'id' );
+		$this->set_Sort_Table( $this->tbl_master, 'created_at', "desc" );
 		$this->set_Where_Table( [ 'tbl' => $this->tbl_master, 'field' => 'type', 'op' => '=', 'value' => $this->type_risk ] );
 
 		// $this->set_Table_List($this->tbl_master,'nama_kelompok');
@@ -59,7 +60,8 @@ class Event_Library extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'jml_couse', '', 10, 'center' );
 		$this->set_Table_List( $this->tbl_master, 'jml_impact', '', 10, 'center' );
 		$this->set_Table_List( $this->tbl_master, 'used', '', 10, 'center' );
-		$this->set_Table_List( $this->tbl_master, 'created_by' );
+		$this->set_Table_List( $this->tbl_master, 'created_by', "Dibuat Oleh" );
+		$this->set_Table_List( $this->tbl_master, 'created_at', 'Tanggal Dibuat', 10, "center" );
 		$this->set_Table_List( $this->tbl_master, 'active' );
 
 		$this->set_Close_Setting();
@@ -71,16 +73,20 @@ class Event_Library extends MY_Controller
 		 'configuration' => $configuration,
 		];
 	}
+	function listBox_created_at( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
+	}
 	function inputBox_CAUSE( $mode, $field, $rows, $value )
 	{
 		$content = $this->get_cause();
 		return $content;
 	}
-	
+
 	function inputBox_X( $mode, $field, $rows, $value )
 	{
-		$data['angka']    = "10";
-		return $this->load->view('similarityLib', $data, TRUE);
+		$data['angka'] = "10";
+		return $this->load->view( 'similarityLib', $data, TRUE );
 
 	}
 

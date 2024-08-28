@@ -260,6 +260,16 @@ $(document).on("click", ".dz-preview", function () {
     window.open(url);
 })
 
+$(document).on("click", "#btn_save", function (e) {
+    var getdocLength = $("#link_dokumen_kajian .dz-preview").length;
+    if (getdocLength == 0) {
+        alert("Dokumen Self Assessment Tidak Boleh Kosong");
+        return false;
+    } else {
+        return true;
+    }
+})
+
 
 
 

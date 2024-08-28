@@ -217,7 +217,7 @@ $(function () {
 
     $(document).on("click", ".delete-like-indi", function () {
         var parent = $(this).parent();
-        var id = $(this).data('id');
+        var id = $(this).attr('data-id');
         var rcsa = $(this).data('parent');
         var bk = $(this).data('bk');
 
@@ -956,7 +956,7 @@ $(function () {
 
     $(document).ready(function () {
         $('#seksi').select2({
-            placeholder: "-- Select --",
+            // placeholder: "-- Select --",
             allowClear: false,
             escapeMarkup: function (m) { return m; }
         });

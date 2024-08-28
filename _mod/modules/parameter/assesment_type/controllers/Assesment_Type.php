@@ -23,15 +23,16 @@ class Assesment_Type extends MY_Controller
 		$this->addField( [ 'field' => 'pid', 'input' => 'combo', 'values' => $this->cbomodel, 'size' => 100, 'search' => TRUE ] );
 		$this->addField( [ 'field' => 'kelompok', 'show' => FALSE, 'save' => TRUE, 'default' => $this->kelompok_id ] );
 		$this->addField( [ 'field' => 'active', 'input' => 'boolean', 'size' => 20 ] );
+		$this->addField( [ 'field' => 'created_at', 'save' => FALSE, "show" => FALSE ] );
 
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 		$this->set_Where_Table( [ 'field' => 'kelompok', 'value' => $this->kelompok_id ] );
-
-		$this->set_Sort_Table( $this->tbl_master, 'data' );
+		$this->set_Sort_Table( $this->tbl_master, 'created_at', "desc" );
 
 		$this->set_Table_List( $this->tbl_master, 'data' );
 		$this->set_Table_List( $this->tbl_master, 'pid' );
 		$this->set_Table_List( $this->tbl_master, 'active', '', 7, 'center' );
+		$this->set_Table_List( $this->tbl_master, 'created_at', 'Tanggal Dibuat', 10, 'center' );
 
 		$this->set_Close_Setting();
 
@@ -55,5 +56,10 @@ class Assesment_Type extends MY_Controller
 		return [
 		 'configuration' => $configuration,
 		];
+
+	}
+	function listBox_created_at( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
 	}
 }
