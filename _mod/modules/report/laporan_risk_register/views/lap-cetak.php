@@ -1,6 +1,6 @@
 <table>
     <tr>
-        <td colspan="3"><b>Report Risk Register</b></td>
+        <td colspan="3"><b>Report Risk Register Tahun <?= isset($data['parent'][0]['period_name']) ? $data['parent'][0]['period_name'] : 'Unknown'; ?></b></td>
     </tr>
     <tr>
         <td><b>Owner</b></td>
@@ -13,13 +13,7 @@
             ?>
         </td>
     </tr>
-    <tr>
-        <td><b>Periode</b></td>
-        <td width='5px' class="text-center">:</td>
-        <td class="text-left">
-            <?= isset($data['parent'][0]['period_name']) ? $data['parent'][0]['period_name'] : 'Unknown'; ?>
-        </td>
-    </tr>
+  
 </table>
 
 <table class="table table-hover table-striped table-bordered" border="1">
