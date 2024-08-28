@@ -310,7 +310,7 @@ class Map
         if( $data )
         {
             $no = 0;
-
+// doi::dump($data);
             foreach( $data as $row )
             {
                 if( array_key_exists( $row['id'], $this->_data ) )
@@ -319,7 +319,7 @@ class Map
                     {
                         if( $post['period'] == $row['period_id'] )
                         {
-                            $this->_data[$row['id']]['mulai'][]['nilai'] = ++$no;
+                            $this->_data[$row['id']]['mulai'][]['nilai'] =$row['dId'];
                             if( array_key_exists( 'level_color', $data ) )
                             {
                                 $this->_data[$row['id']]['mulai']['level_color']          = $row['level_color'];
@@ -341,7 +341,7 @@ class Map
                     {
                         if( $post['period'] == $row['period_id'] )
                         {
-                            $this->_data[$row['id']]['akhir'][]['nilai'] = ++$no;
+                            $this->_data[$row['id']]['akhir'][]['nilai'] =$row['level_color'];
                             if( array_key_exists( 'level_color', $data ) )
                             {
                                 $this->_data[$row['id']]['akhir']['level_color']          = $row['level_color'];
@@ -353,6 +353,8 @@ class Map
                 }
             }
         }
+        // doi::dump($this->_data);
+        // die;
         return $this;
     }
     function set_data_profile_mon( $data = [], $post = "" )
@@ -958,9 +960,9 @@ class Map
                 $content .= "</tr>";
 
         }
-        // doi::dump($this->_data);
         foreach( $this->_data as $keyData => $vData )
         {
+          
 
             $nilai         = ( isset( $vData['mulai'] ) ) ? count( $vData['mulai'] ) : "";
             $nilaiakhir    = ( isset( $vData['akhir'] ) ) ? count( $vData['akhir'] ) : "";
@@ -970,10 +972,11 @@ class Map
             {
                 if( isset( $vData['mulai'] ) )
                 {
-                    foreach( $vData['mulai'] as $n => $i )
-                    {
-                        $nilaiket .= '<span class="badge bg-primary badge-pill badge-sm"> ' . $i['nilai'] . '</span>';
-                    }
+                    $nilaiket .= '<span class="badge bg-primary badge-pill badge-sm"> ' .count( $vData['mulai'] ). '</span>';
+                    // foreach( $vData['mulai'] as $n => $i )
+                    // {
+                    //     $nilaiket .= '<span class="badge bg-primary badge-pill badge-sm"> ' .count( $vData['mulai'] ). '</span>';
+                    // }
                 }
                 else
                 {
@@ -983,10 +986,11 @@ class Map
                 // $nilaiketakhir = (!empty($nilaiakhir)) ? '<span style="background-color:#1d445b !important;color: white !important" class="badge badge-pill badge-sm"> '.$nilaiakhir.'</span>':$nilaiakhir;
                 if( isset( $vData['akhir'] ) )
                 {
-                    foreach( $vData['akhir'] as $a => $b )
-                    {
-                        $nilaiketakhir .= '<span style="background-color:#1d445b !important;color: white !important" class="badge badge-pill badge-sm"> ' . $b['nilai'] . '</span>';
-                    }
+                    $nilaiketakhir .= '<span style="background-color:#1d445b !important;color: white !important" class="badge badge-pill badge-sm"> ' . count($vData['akhir']) . '</span>';
+                    // foreach( $vData['akhir'] as $a => $b )
+                    // {
+                    //     $nilaiketakhir .= '<span style="background-color:#1d445b !important;color: white !important" class="badge badge-pill badge-sm"> ' . count($vData['akhir']) . '</span>';
+                    // }
                 }
                 else
                 {
