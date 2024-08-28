@@ -436,7 +436,7 @@ class Data extends MX_Model
 			}
 			if( ! empty( $this->pos['minggu'] ) && $this->pos['minggu'] != "" )
 			{
-				$this->db->where( 'minggu_id', $this->pos['minggu'] );
+				$this->db->where( 'bulan_id', $this->pos['minggu'] );
 			}
 			// if ($this->pos['term']!=""){
 			// 	$this->db->where_in('term_id', $this->pos['term']);
