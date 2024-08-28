@@ -85,6 +85,7 @@ foreach ($details as $detailRow) {
                     <?php
                     $no = 0;
                     // doi::dump($detail);
+                    $processedIds=[];
                     foreach ($details as $del) :
                         foreach ($del as $row) :
                             // doi::dump($row);
@@ -95,9 +96,15 @@ foreach ($details as $detailRow) {
                                 $this->db->where('bulan_id', $b);
                                 $this->db->limit(1);
                                 $r = $this->db->get("il_view_rcsa_detail_monitoring")->row_array();
+                                
                             }
+                            
+
                     ?>
-                            <?php if ($b == $del['bulan_id'] && isset($r) && isset($row['id']) == isset($r['id'])) : ?>
+                            <?php if ($b == $del['bulan_id'] && isset($r) && isset($row['id']) == isset($r['id'])) : 
+                            if (isset($row['id']) && !in_array($row['id'], $processedIds)):
+                                $processedIds[] = $row['id']; 
+                                ?>
                                 <tr class="pointer detail-rcsa" data-id="<?= $row['id']; ?>" data-rcsa="<?= $row['rcsa_id']; ?>" data-dampak="<?= $row['impact_residual_id']; ?>">
                                     <td><?= ++$no; ?></td>
                                     <td><?= $row['kode_risk']; ?></td>
@@ -122,7 +129,7 @@ foreach ($details as $detailRow) {
                                 </tr>
 
                             <?php endif; ?>
-                            <?php //endif; 
+                            <?php endif; 
                             ?>
                         <?php endforeach; ?>
                     <?php endforeach; ?>

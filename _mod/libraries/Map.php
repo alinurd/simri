@@ -1319,7 +1319,8 @@ class Map
         }
         $content .= '<tr><td>Total Risiko</td><td>' . $total . '</td><td>' . round( $totpersentase ) . '%</td><td class="d-none">' . $totalakhir . '</td><td class="d-none">' . round( $totpersentaseakhir ) . '%</td></tr>';
         $content .= '</table><br/>&nbsp;';
-        return $content;
+        return ['content' => $content, 'total' => $total];
+        // return $content;
     }
 }
 

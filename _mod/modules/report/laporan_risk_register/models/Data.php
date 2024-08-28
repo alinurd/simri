@@ -10,6 +10,7 @@ class Data extends MX_Model
 
 	function get_data( $where )
 	{
+		$this->db->where('status_final', 1 );
 		if( ! empty( $where ) )
 		{
 			$rows = $this->db->get_where( _TBL_VIEW_RCSA, $where )->result_array();
@@ -20,6 +21,7 @@ class Data extends MX_Model
 		}
 
 		$result['parent'] = $rows;
+		$result['post'] = $this->post;
 		return $result; 
 	}
 }
