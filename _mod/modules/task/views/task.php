@@ -47,15 +47,15 @@
                             ?>
                             <tr class="<?= ( $days_overdue_sign == '-' && $days_overdue > 3 ) ? 'table-danger' : '' ?>">
                                 <td><?= $no++ ?></td>
-                                <td><b><?= $q['kode_dept'] ?></b><?= $q['owner_name'] ?></td>
+                                <td><b><?= $q['kode_dept'] ?></b> - <?= $q['owner_name'] ?></td>
                                 <td><?= $q['risiko_dept'] ?></td>
                                 <td><?= $q['batas_waktu'] ?></td>
                                 <td><?= $q['updated_at'] ?></td>
                                 <td><?= $pic ?></td>
                                 <td><?= $days_overdue_sign . $days_overdue ?></td>
                                 <td class="text-center">
-                                    <span class="btn btn-light" id="cekLog" data-id="<?= $q['id'] ?>">Histori</span>
-                                    <span class="btn btn-light" id="sendEmail" data-id="<?= $q['id'] ?>">Remider</span>
+                                    <span class="btn btn-light" id="cekLog" data-id="<?= $q['rcsa_detail_id'] ?>">Histori</span>
+                                    <span class="btn btn-light" id="sendEmail" data-id="<?= $q['id'] ?>" data-detail_id="<?= $q['rcsa_detail_id'] ?>" data-day="<?= $days_overdue_sign . $days_overdue ?>" data-owner_id="<?= $q['owner_id'] ?>">Reminder</span>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -110,15 +110,15 @@
                             ?>
                             <tr class="<?= ( $days_left_sign == '-' && $days_left > 3 ) ? 'table-danger' : '' ?>">
                                 <td><?= $no++ ?></td>
-                                <td><b><?= $q['kode_dept'] ?></b><?= $q['owner_name'] ?></td>
+                                <td><b><?= $q['kode_dept'] ?></b> - <?= $q['owner_name'] ?></td>
                                 <td><?= $q['risiko_dept'] ?></td>
                                 <td><?= $q['batas_waktu'] ?></td>
                                 <td><?= $q['updated_at'] ?></td>
                                 <td><?= $pic ?></td>
                                 <td><?= $days_left_sign . $days_left ?></td>
                                 <td class="text-center">
-                                    <span class="btn btn-light" id="cekLog" data-id="<?= $q['id'] ?>">Histori</span>
-                                    <span class="btn btn-light" id="sendEmail" data-id="<?= $q['id'] ?>">Remider</span>
+                                    <span class="btn btn-light" id="cekLog" data-id="<?= $q['rcsa_detail_id'] ?>">Histori</span>
+                                    <span class="btn btn-light" id="sendEmail" data-id="<?= $q['id'] ?>" data-detail_id="<?= $q['rcsa_detail_id'] ?>" data-day="<?= $days_left_sign . $days_left ?>" data-owner_id="<?= $q['owner_id'] ?>">Reminder</span>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

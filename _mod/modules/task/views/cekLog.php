@@ -2,13 +2,13 @@
 <h3>Log peringatan</h3>
 <table class="table table-hover" id="tbl_list_mitigasi">
     <thead>
-        <tr>
-            <th>No</th>
-            <th>ref id</th>
+    <tr class="text-center">
+    <th>No</th>
+            <!-- <th>ref id</th> -->
+            <th>Recipient</th>
             <th>subject</th>
              <th>message</th>
-            <th>created_at</th>
-            <th>to</th>
+            <th> Sent At </th>
         </tr>
     </thead>
     <tbody>
@@ -17,13 +17,13 @@
         foreach ($log as $q): 
       
         ?>
-            <tr>
+            <tr class="text-center">
             <td><?= $no++?></td>
-            <td><?=$q['ref_id'];?></td>
+            <td><?=$q['to'];?></td> 
+            <!-- <td><?=$q['ref_id'];?></td> -->
             <td><?=$q['subject'];?></td>
-            <td><?=$q['message'];?></td>
-             <td>created_at</td>
-            <td>to</td>
+            <td><?=$q['ket'];?></td>
+            <td><?=$q['created_at'];?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

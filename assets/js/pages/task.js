@@ -84,14 +84,25 @@ $(document).on("click", "#cekLog", function () {
     _ajax_("post", parent, data, '', url, 'resCekLog');
 })
 $(document).on("click", "#sendEmail", function () {
-    return false
     var parent = $(this).parent();
     var id = $(this).data('id');
-    var data = { 'id': id };
-     var url = modul_name + "/send-email";
-    _ajax_("post", parent, data, '', url, 'resCekLog');
-})
+    var detailId = $(this).data('detail_id');
+    var owner_id = $(this).data('owner_id');
+    var day = $(this).data('day');
 
+    var data = { 'id': id, 'owner_id': owner_id, 'detailId': detailId, 'day':day };
+ 
+    var url = modul_name + "/notif";
+    _ajax_("post", parent, data, '', url, '');
+
+});
+
+
+function resSend() {
+    alert("berhasil mengirim pesan");
+    // location.reload();
+
+}
 function resCekLog(hasil) {
     $("#modal_general").find(".modal-title").html("Cek Log");
     $("#modal_general").find(".modal-body").html(hasil.combo);
