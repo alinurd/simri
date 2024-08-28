@@ -1090,11 +1090,11 @@ class Profil_Risiko extends MY_Controller
 		$jml       = $this->map->get_total_nilai();
 		$jmlstatus = $this->map->get_jumlah_status_profil();
 
-		$data['jml_inherent_status'] = $jmlstatus;
+		$data['jml_inherent_status'] = $jmlstatus['content'];
 		$data['jml_inherent']        = '';
-		if( $jml > 0 )
+		if( $jmlstatus['total'] > 0 )
 		{
-			$data['jml_inherent'] = '<span class="badge bg-primary badge-pill"> ' . $jml . ' </span>';
+			$data['jml_inherent'] = '<span class="badge bg-primary badge-pill"> ' . $jmlstatus['total'] . ' </span>';
 		}
 		$this->data->filter_data_mon( $this->_data_user_ );
 
@@ -1105,11 +1105,11 @@ class Profil_Risiko extends MY_Controller
 
 		$jml                         = $this->map->get_total_nilai();
 		$jmlstatus                   = $this->map->get_jumlah_status_profil();
-		$data['jml_residual_status'] = $jmlstatus;
+		$data['jml_residual_status'] = $jmlstatus['content'];
 		$data['jml_residual']        = '';
-		if( $jml > 0 )
+		if( $jmlstatus['total'] > 0 )
 		{
-			$data['jml_residual'] = '<span class="badge bg-success badge-pill"> ' . $jml . ' </span>';
+			$data['jml_residual'] = '<span class="badge bg-success badge-pill"> ' . $jmlstatus['total'] . ' </span>';
 		}
 		$this->data->filter_data( $this->_data_user_ );
 		// COUNT(risiko_target) as nilai
@@ -1120,11 +1120,11 @@ class Profil_Risiko extends MY_Controller
 
 		$jml                       = $this->map->get_total_nilai();
 		$jmlstatus                 = $this->map->get_jumlah_status_profil();
-		$data['jml_target_status'] = $jmlstatus;
+		$data['jml_target_status'] = $jmlstatus['content'];
 		$data['jml_target']        = '';
-		if( $jml > 0 )
+		if($jmlstatus['total'] > 0 )
 		{
-			$data['jml_target'] = '<span class="badge bg-warning badge-pill"> ' . $jml . ' </span>';
+			$data['jml_target'] = '<span class="badge bg-warning badge-pill"> ' .$jmlstatus['total'] . ' </span>';
 		}
 
 		return $data;
