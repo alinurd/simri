@@ -2410,7 +2410,7 @@ class Risk_Context extends MY_Controller
 		$cboKel  = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'lib-cat' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		$cboTipe = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'risk-type' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 
-		$data['form'][] = [ 'title' => _l( 'fld_peristiwa_risiko' ), 'required' => TRUE, 'help' => _h( 'help_add_peristiwa' ), 'isi' => form_input( 'peristiwaBaru', '', 'class="form-control" id="peristiwaBaru"  placeholder="Tambah ' . _l( 'fld_peristiwa_risiko' ) . '"' ) ];
+		$data['form'][] = [ 'title' => _l( 'fld_peristiwa_risiko' ), 'required' => TRUE, 'help' => _h( 'help_add_peristiwa' ), 'isi' => form_input( 'peristiwaBaru', '', 'class="form-control" id="peristiwaBaru"  placeholder="Tambah ' . _l( 'fld_peristiwa_risiko' ) . '"' ) . "<button id='cekkemiripan' type='button' class='btn btn-sm btn-primary'>Cek Kemiripan</button>" ];
 		$data['form'][] = [ 'title' => _l( 'fld_klasifikasi_risiko' ), 'required' => TRUE, 'help' => _h( 'fld_klasifikasi_risiko' ), 'isi' => form_dropdown( 'kelBaru', $cboKel, '', 'class="form-control select" id="kelBaru"' ) ];
 		$data['form'][] = [ 'title' => _l( 'fld_tipe_risiko' ), 'required' => TRUE, 'help' => _h( 'fld_tipe_risiko' ), 'isi' => form_dropdown( 'tipeBaru', $cboTipe, '', 'class="form-control select" id="tipeBaru"' ) ];
 

@@ -503,7 +503,7 @@ function remove_install(t, iddel, tbl) {
 
 
 function _similarity_lib(t, th) {
-  $(document).on('change', "input[name=\"peristiwaBaru\"], .libraryCekSimilarity, #library", function () {
+  $(document).on('keyup', "input[name=\"peristiwaBaru\"], .libraryCekSimilarity, #library", function () {
     var parent = $(this).parent();
     // var input = $("#peristiwaBaru").val();
     var input = $(this).val();

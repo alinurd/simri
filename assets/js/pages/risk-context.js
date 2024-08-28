@@ -1610,7 +1610,7 @@ $(document).on("click", "#pilihPeristiwa", function () {
 });
 
 function peristiwa(hasil) {
-    _similarity_lib(2, 70)
+    // _similarity_lib(2, 70)
     $("#modal_general").find(".modal-title").html("Peristiwa Risiko");
     $("#modal_general").find(".modal-body").html(hasil.combo);
     $("#modal_general").modal("show");
@@ -1780,6 +1780,18 @@ function resultaddlibrary(lib) {
     changeRisikoDepartmentVal();
     $("#modal_general").modal("hide");
 }
+
+$(document).on('click', "#cekkemiripan", function () {
+    var parent = $(this).parent();
+    var t = 2;
+    var th = 70;
+    // var input = $("#peristiwaBaru").val();
+    var input = $("#peristiwaBaru").val();
+    var data = { 'library': input, 'type': t, 'percent': th };
+    var target_combo = $("#similarityResults");
+    var url = "ajax/check-similarity-lib";
+    _ajax_("post", parent, data, target_combo, url, "similarityResults");
+});
 
 $(document).on('hidden.bs.modal', '#modal_general', function () {
     // $("#refreshRiskLikeHood").trigger("click");
