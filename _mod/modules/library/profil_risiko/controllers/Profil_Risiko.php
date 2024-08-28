@@ -1164,7 +1164,7 @@ class Profil_Risiko extends MY_Controller
 		// $y=$this->data->get_data_kompilasi($this->pos['period'],$this->pos['owner'],$this->pos['type_ass'], $this->_data_user_);
 		$y        = $this->data->get_data_kompilasi( $this->_data_user_ );
 		$y['pos'] = $this->pos;
-
+		$y['picku'] = $this->get_data_dept();
 		$hasil['progress'] = $this->load->view( 'monitoring', $y, TRUE );
 
 		header( 'Content-type: application/json' );

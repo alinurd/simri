@@ -25,27 +25,27 @@ if (isset($export)) {
 
     .table-responsivey .tiga {
         position: sticky;
-        left: 85px;
+        left: 43px;
     }
 
     .table-responsivey .empat {
         position: sticky;
-        left: 200px;
+        left: 136px;
     }
 
     .table-responsivey .lima {
         position: sticky;
-        left: 280px;
+        left: 210px;
     }
 
     .table-responsivey .enam {
         position: sticky;
-        left: 320px;
+        left: 300px;
     }
 
     .table-responsivey .tujuh {
         position: sticky;
-        left: 400px;
+        left: 443px;
     }
 
     .table-responsivey td[scope="row"] {
@@ -73,42 +73,37 @@ if (isset($export)) {
                     <tr>
                         <td width="20%">Nama Departemen</td>
                         <td>: <strong><?php echo isset($parent['owner_name']) ? $parent['owner_name'] : "-"; ?></strong></td>
-                        <!-- <td><strong><?= $parent['owner_name']; ?></strong></td> -->
-
                         </tr>
                     <tr>
                         <td><em>Sasaran Departmen</em></td>
                         <td>: <strong><?php echo isset($parent['sasaran_dept']) ? $parent['sasaran_dept'] : "-"; ?></strong></td>
-                        <!-- <td><strong><?= $parent['sasaran_dept']; ?></strong></td> -->
-                    </tr>
+                     </tr>
                     <tr>
                         <td><em>Periode</em></td>
                         <td>: <strong><?php echo isset($parent['period_name']) ? $parent['period_name'] : "-"; ?></strong></td>
-                        <!-- <td><strong><?= $parent['period_name']; ?></strong></td> -->
-                    </tr>
+                     </tr>
                 </table>
                 <div class="table-responsive table-responsivey">
                     <table class="table table-hover table-striped table-bordered" border="1">
                         <thead class="bg-primary">
-                            <tr>
-                                <th rowspan="4" scope="row" class="satu">No.</th>
-                                <th rowspan="4" scope="row" class="dua">Kode Risiko</th>
-                                <th rowspan="4" scope="row" class="tiga">Nama Risiko</th>
-                                <th rowspan="4" scope="row" class="empat">Mitigasi</th>
-                                <th rowspan="4" scope="row" class="lima">Biaya</th>
-                                <th rowspan="4" scope="row" class="enam">PIC</th>
-                                <th rowspan="4" scope="row" class="tujuh">Koordinator</th>
-                                <th colspan="29">Monitoring Mitigasi Risiko</th>
+                            <tr >
+                                <th  rowspan="4" scope="row" class="text-center satu">No.</th>
+                                <!-- <th  rowspan="4" scope="row" class="text-center dua"></th> -->
+                                <th  rowspan="4" scope="row" class="text-center tiga">Nama Risiko</th>
+                                <th  rowspan="4" scope="row" class="text-center empat">Mitigasi</th>
+                                <th  rowspan="4" scope="row" class="text-center lima">Biaya</th>
+                                <th  rowspan="4" scope="row" class="text-center enam">PIC</th>
+                                <th  rowspan="4" scope="row" class="text-center tujuh">Koordinator</th>
+                                <th  colspan="29">Monitoring Mitigasi Risiko</th>
                                 <th rowspan="4">Status</th>
                             </tr>
                             <tr>
-                                <!-- <th rowspan="3">Risk Indikator Inheren</th> -->
-
+ 
                                 <th colspan="24">Progres Mitigasi (%)</th>
                             </tr>
                             <tr>
                                 <?php foreach (range(1, 12) as $v) : ?>
-                                    <th colspan="2"><?= date("M", mktime(0, 0, 0, $v, 10)); ?></th>
+                                    <th class="text-center" colspan="2"><?= date("M", mktime(0, 0, 0, $v, 10)); ?></th>
 
                                 <?php endforeach ?>
 
@@ -125,9 +120,7 @@ if (isset($export)) {
                         <tbody>
                             <?php
                             $no = 0;
-                            $identi_id = 0;
-                            // dumps($rows);
-                            // dumps($mitigasi);
+                            $identi_id = 0; 
                             $tmp = 0;
                             $tmp2 = 0;
                             $core = [];
@@ -137,40 +130,34 @@ if (isset($export)) {
                                 if (!in_array($row['penyebab_id'], $core)) {
 
                                     $core[] = $row['penyebab_id'];
-                                    $jml = 1;
-                                    // if (array_key_exists($row['id'], $aktif)){
-                                    //     $jml=count($aktif[$row['id']]);
-                                    // }
-                                    $jml_miti = 1;
-                                    // if (array_key_exists($row['mitigasi_id'], $miti)){
-                                    //     $jml_miti=count($miti[$row['mitigasi_id']]);
-                                    // }
+                                    $jml = 1; 
+                                    $jml_miti = 1; 
                                     $jml_ident = 1;
-                                    // if (array_key_exists($row['rcsa_detail_id'], $identi)){
-                                    //     $jml_ident=count($identi[$row['rcsa_detail_id']]);
-                                    // }
+                                    
                             ?>
 
                                     <tr class="pointer detail-progress" data-id="<?= $row['rcsa_detail_id']; ?>" data-rcsa="<?= $row['rcsa_id']; ?>">
-                                        <?php
-                                        //if ($row['rcsa_detail_id']!==$tmp):
-                                        //  $tmp=$row['rcsa_detail_id'];
-                                        ?>
                                         <td class="satu" scope="row" rowspan="<?= ($jml > 0) ? $jml : $jml_ident; ?>"><?= ++$no; ?></td>
-                                        <td class="dua" scope="row" rowspan="<?= ($jml > 0) ? $jml : $jml_ident; ?>"><?= $row['kode_risiko']; ?></td>
+                                        <!-- <td class="dua" scope="row" rowspan="<?= ($jml > 0) ? $jml : $jml_ident; ?>"><?= $row['kode_risiko']; ?></td> -->
                                         <td class="tiga" scope="row" rowspan="<?= ($jml > 0) ? $jml : $jml_ident; ?>"><?= $row['penyebab_risiko']; ?></td>
-                                        <!-- <td rowspan="<?= ($jml > 0) ? $jml : $jml_ident; ?>" style="background-color:<?= $row['color']; ?>;color:<?= $row['color_text']; ?>;"><?= $row['level_color']; ?></td> -->
-
-                                        <?php //endif;
-                                        ?>
-                                        <?php
-                                        //if ($row['mitigasi_id']!==$tmp2):
-                                        // $tmp2=$row['mitigasi_id'];
-                                        ?>
+                                       
                                         <td class="empat" scope="row" rowspan="<?= ($jml > 0) ? $jml : $jml_miti; ?>"><?= $row['mitigasi']; ?></td>
                                         <td class="lima" scope="row" rowspan="<?= ($jml > 0) ? $jml : $jml_miti; ?>"><?= number_format($row['biaya']); ?></td>
-                                        <td class="enam" scope="row" rowspan="<?= ($jml > 0) ? $jml : $jml_miti; ?>"><?= $row['penanggung_jawab']; ?></td>
-                                        <td class="tujuh" scope="row" rowspan="<?= ($jml > 0) ? $jml : $jml_miti; ?>"><?= $row['koordinator']; ?></td>
+                                        <td class="enam" class="text-left" scope="row" rowspan="<?= ($jml > 0) ? $jml : $jml_miti; ?>">
+                                        <ol>
+                                                <?php
+                                                $a = json_decode($row['penanggung_jawab_detail_id']);
+                                                if (is_array($a)) {
+                                                    foreach ($a as $v) {
+                                                        echo "<li>" . $picku[$v]['title'] . "</li>";
+                                                    }
+                                                } else {
+                                                    echo "<li>" . $picku[$a]['title'] . "</li>";
+                                                }
+                                                ?>
+                                            </ol>
+                                        </td>
+                                                                                <td class="tujuh" scope="row" rowspan="<?= ($jml > 0) ? $jml : $jml_miti; ?>"><?= $row['koordinator']; ?></td>
                                         <?php if (array_key_exists($row['penyebab_id'], $mitigasi)) : ?>
                                             <?php $bl = [];
                                             $blx = [];
