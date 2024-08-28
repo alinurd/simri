@@ -315,9 +315,9 @@ class Map
             {
                 if( array_key_exists( $row['id'], $this->_data ) )
                 {
-                    if( ! empty( $post['term_mulai'] ) && $post['term_mulai'] > 0 )
+                    if( ! empty( $post['period'] ) && $post['period'] > 0 )
                     {
-                        if( $post['term_mulai'] == $row['minggu_id'] )
+                        if( $post['period'] == $row['period_id'] )
                         {
                             $this->_data[$row['id']]['mulai'][]['nilai'] = ++$no;
                             if( array_key_exists( 'level_color', $data ) )
@@ -337,9 +337,9 @@ class Map
             {
                 if( array_key_exists( $row['id'], $this->_data ) )
                 {
-                    if( ! empty( $post['term_akhir'] ) && $post['term_akhir'] > 0 )
+                    if( ! empty( $post['period'] ) && $post['period'] > 0 )
                     {
-                        if( $post['term_akhir'] == $row['minggu_id'] )
+                        if( $post['period'] == $row['period_id'] )
                         {
                             $this->_data[$row['id']]['akhir'][]['nilai'] = ++$no;
                             if( array_key_exists( 'level_color', $data ) )
@@ -762,8 +762,12 @@ class Map
         foreach( $this->_data as $keyData => $vData )
         {
 
-            $nilai         = ( isset( $row['mulai'] ) ) ? count( $vData['mulai'] ) : "";
-            $nilaiakhir    = ( isset( $row['akhir'] ) ) ? count( $vData['akhir'] ) : "";
+            // $nilai         = ( isset( $row['mulai'] ) ) ? count( $vData['mulai'] ) : "";
+            // $nilaiakhir    = ( isset( $row['akhir'] ) ) ? count( $vData['akhir'] ) : "";
+            $nilai         = ( isset( $vData['mulai']['nilai'] ) ) ?  $vData['mulai']['nilai'] : "";
+            $nilaiakhir    = ( isset( $vData['akhir']['nilai'] ) ) ?  $vData['akhir']['nilai'] : "";
+
+
             $nilaiket      = '';
             $nilaiketakhir = '';
             if( $this->_param['tipe'] == 'angka' )
@@ -954,11 +958,12 @@ class Map
                 $content .= "</tr>";
 
         }
+        // doi::dump($this->_data);
         foreach( $this->_data as $keyData => $vData )
         {
 
-            $nilai         = ( isset( $row['mulai'] ) ) ? count( $vData['mulai'] ) : "";
-            $nilaiakhir    = ( isset( $row['akhir'] ) ) ? count( $vData['akhir'] ) : "";
+            $nilai         = ( isset( $vData['mulai'] ) ) ? count( $vData['mulai'] ) : "";
+            $nilaiakhir    = ( isset( $vData['akhir'] ) ) ? count( $vData['akhir'] ) : "";
             $nilaiket      = '';
             $nilaiketakhir = '';
             if( $this->_param['tipe'] == 'angka' )
