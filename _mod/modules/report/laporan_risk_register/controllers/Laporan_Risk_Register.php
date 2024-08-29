@@ -141,8 +141,8 @@ class Laporan_Risk_Register extends MY_Controller
 		// doi::dump($data);
  		$x = $this->load->view( 'lap-cetak', $data, TRUE ); 
 		$file_name ="report-risk-register.xls";
-		// header("Content-type: application/vnd.ms-excel");
-		// header("Content-Disposition: attachment; filename=$file_name");
+		header("Content-type: application/vnd.ms-excel");
+		header("Content-Disposition: attachment; filename=$file_name");
 		echo $x;
 		
 	}
