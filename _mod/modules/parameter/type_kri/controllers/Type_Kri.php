@@ -30,7 +30,7 @@ class Type_Kri extends MY_Controller
 		$this->set_Sort_Table( $this->tbl_master, 'created_at', "desc" );
 
 		$this->set_Table_List( $this->tbl_master, 'data' );
-		$this->set_Table_List( $this->tbl_master, 'urut' );
+		// $this->set_Table_List( $this->tbl_master, 'urut' );
 		$this->set_Table_List( $this->tbl_master, 'active', '', 7, 'center' );
 		$this->set_Table_List( $this->tbl_master, 'created_at', 'Tanggal Dibuat', 10, 'center' );
 
