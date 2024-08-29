@@ -228,7 +228,11 @@ class Profil_Risiko extends MY_Controller
 
 	function listBox_jml( $field, $rows, $value )
 	{
-		$a = '<div class="text-center"><span class="badge bg-teal-400 badge-pill align-self-center ml-auto">' . $rows['jml'] . '</span></div>';
+		$mit  = $this->db->select( 'jml' )->where( 'rcsa_detail_id', $rows['id'] )->get( _TBL_VIEW_RCSA_MITIGASI )->row_array();
+
+
+		// doi::dump($rows);
+		$a = '<div class="text-center"><span class="badge bg-teal-400 badge-pill align-self-center ml-auto">' . $mit['jml'] . '</span></div>';
 		return $a;
 	}
 
