@@ -5,8 +5,9 @@
     var option1;
 
     option1 = {
+        color: ["#bd4d4d", "#5e8a3d", "#c79275"],
         title: {
-            text: 'Referer of a Website',
+            text: 'Status Kajian Risiko ' + "(<?= $labeltahun ?>)",
             // subtext: 'Fake Data',
             left: 'center',
         },
@@ -14,14 +15,14 @@
             trigger: 'item'
         },
         legend: {
-            show: false,
+            show: true,
             fontSize: 8,
             orient: 'horizontal',
-            bottom: 0,
+            bottom: "left",
         },
         series: [
             {
-                name: 'Access From',
+                name: 'status_kajian',
                 type: 'pie',
                 radius: '70%',
                 center: ['50%', '55%'],
@@ -32,8 +33,11 @@
                     }
                 },
                 label: {
+                    show: true,
                     position: 'inside',
-                    formatter: '{d}%',
+                    formatter: function (params) {
+                        return params.value
+                    },
                 },
                 data: <?= $graph1 ?>,
                 emphasis: {
@@ -58,4 +62,5 @@
         }, 200);
     });
     option1 && myChart1.setOption(option1);
+    myChart1.on('click', getdataKajianDashboard);
 </script>

@@ -351,8 +351,6 @@ class Kajian_Risiko_Mr extends MY_Controller
 						}
 					}
 				}
-
-
 			}
 		}
 	}
