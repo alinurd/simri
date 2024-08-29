@@ -1166,7 +1166,7 @@ class Profil_Risiko extends MY_Controller
 		$hasil['kpi'] = $this->load->view( 'detail', $det, TRUE );
 
 		// $y=$this->data->get_data_kompilasi($this->pos['period'],$this->pos['owner'],$this->pos['type_ass'], $this->_data_user_);
-		$y        = $this->data->get_data_kompilasi( $this->_data_user_ );
+		$y        = $this->data->get_data_kompilasi( $this->_data_user_, false );
 		$y['pos'] = $this->pos;
 		$y['picku'] = $this->get_data_dept();
 		$hasil['progress'] = $this->load->view( 'monitoring', $y, TRUE );
@@ -1278,7 +1278,7 @@ class Profil_Risiko extends MY_Controller
 		];
 		$this->pos       = $data;
 		$this->data->pos = $this->pos;
-		$data            = $this->data->get_data_kompilasi( $this->_data_user_ );
+		$data            = $this->data->get_data_kompilasi( $this->_data_user_, true );
 		$data['picku'] = $this->get_data_dept();
 
 		// $data['id']=$id;

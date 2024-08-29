@@ -332,7 +332,7 @@ class Data extends MX_Model
 		}
 
 		if ($this->pos) {
-			if (isset($this->pos['owner'])) {
+			if ($this->pos['owner']) {
 				if ($this->pos['owner'] != 0 && $this->pos['owner'] != 1) {
 					$this->owner_child[] = intval($this->pos['owner']);
 					$this->get_owner_child(intval($this->pos['owner']));
@@ -348,10 +348,10 @@ class Data extends MX_Model
 			}
 
 
-			if (isset($this->pos['type_ass'])) {
+			if ($this->pos['type_ass']) {
 				$this->db->where($field . 'type_ass_id', $this->pos['type_ass']);
 			}
-			if (isset($this->pos['period'])) {
+			if ($this->pos['period']) {
 				$this->db->where($field . 'period_id', $this->pos['period']);
 			}
 
@@ -750,12 +750,16 @@ class Data extends MX_Model
 		return $text;
 	}
 
-	function get_data_kompilasi($dtuser)
+	function get_data_kompilasi($dtuser, $cetak)
 	{
 
 		$rcsa        = [0];
 		$rcsa_detail = [0];
-		$this->filter_data_all(_TBL_VIEW_RCSA_DETAIL, $dtuser, TRUE);
+		if($cetak){
+			$this->filter_data_all_cetak(_TBL_VIEW_RCSA_DETAIL, $dtuser, TRUE);
+		}else{
+			$this->filter_data_all(_TBL_VIEW_RCSA_DETAIL, $dtuser, TRUE);
+		}
 		$rows = $this->db->order_by('tgl_mulai_minggu')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 
 		foreach ($rows as $key => $value) {
@@ -802,6 +806,139 @@ class Data extends MX_Model
 		$hasil['mitigasi'] = $mit;
 		$hasil['minggu']   = $this->crud->combo_select(['id', 'concat(param_string) as minggu'])->combo_where('kelompok', 'minggu')->combo_where('active', 1)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		return $hasil;
+	}
+
+	function filter_data_all_cetak($customfield = '', $dtuser = "", $range = FALSE)
+	{
+
+		if (isset($this->pos['owner'])) {
+			$check = $this->checklist($this->pos['owner'], $this->pos['period']);
+		} else {
+			$this->super_user = intval($dtuser['is_admin']);
+			$this->ownerx     = intval(($this->super_user == 0) ? $dtuser['owner_id'] : 0);
+			$check            = $this->checklist($this->ownerx, _TAHUN_ID_);
+		}
+		$ck = [];
+		if (count($check) > 0) {
+			foreach ($check as $key => $value) {
+				$k    = explode('-', $value);
+				$ck[] = $k[0] . '-' . $k[1] . '-' . str_pad($k[2], 3, 0, STR_PAD_LEFT);
+			}
+		}
+		$field = ($customfield != '') ? $customfield . "." : '';
+		if ($this->cek_tgl) {
+			if (isset($this->pos['minggu'])) {
+				if (intval($this->pos['minggu'])) {
+					$rows              = $this->db->select('*')->where('id', intval($this->pos['minggu']))->get(_TBL_COMBO)->row_array();
+					$this->pos['tgl1'] = $rows['param_date'];
+					$this->pos['tgl2'] = $rows['param_date_after'];
+				}
+			}
+
+			if (! isset($this->pos['tgl1'])) {
+				if (isset($this->pos['term_mulai'])) {
+					if (intval($this->pos['term_mulai'])) {
+						$rows              = $this->db->select('*')->where('id', intval($this->pos['term_mulai']))->get(_TBL_COMBO)->row_array();
+						$this->pos['tgl1'] = $rows['param_date'];
+						// $this->pos['tgl2']=$rows['param_date_after'];
+					}
+				}
+
+				if (isset($this->pos['term_akhir'])) {
+					if (intval($this->pos['term_akhir'])) {
+						$rows = $this->db->select('*')->where('id', intval($this->pos['term_akhir']))->get(_TBL_COMBO)->row_array();
+						// $this->pos['tgl1']=$rows['param_date'];
+						$this->pos['tgl2'] = $rows['param_date_after'];
+					}
+				}
+			}
+		}
+
+		if ($this->pos) {
+			if (isset($this->pos['owner'])) {
+				if ($this->pos['owner'] != 0 && $this->pos['owner'] != 1) {
+					$this->owner_child[] = intval($this->pos['owner']);
+					$this->get_owner_child(intval($this->pos['owner']));
+
+					$this->db->where_in($field . 'owner_id', $this->owner_child);
+				}
+			}
+
+			if (count($ck) > 0) {
+				$this->db->where_in('kode_risk', $ck);
+			} else {
+				$this->db->where('kode_risk', '-1');
+			}
+
+
+			if (isset($this->pos['type_ass'])) {
+				$this->db->where($field . 'type_ass_id', $this->pos['type_ass']);
+			}
+			if (isset($this->pos['period'])) {
+				$this->db->where($field . 'period_id', $this->pos['period']);
+			}
+
+			if ($range) {
+				// if (isset($this->pos['tgl1'])) {
+				// 	$this->db->where('tgl_mulai_minggu>=', $this->pos['tgl1']);
+				// }
+				// if (isset($this->pos['tgl2'])) {
+				// 	$this->db->where('tgl_akhir_minggu<=', $this->pos['tgl2']);
+				// }
+			} else {
+
+				// if (isset($this->pos['tgl1'])) {
+				// 	$this->db->where('tgl_mulai_minggu', $this->pos['tgl1']);
+				// }
+
+				// if (isset($this->pos['tgl2'])) {
+				// 	$this->db->or_where('tgl_akhir_minggu', $this->pos['tgl2']);
+				// }
+			}
+
+			if (! $range) {
+				if ($this->pos['owner']) {
+					if ($this->pos['owner'] != 0 && $this->pos['owner'] != 1) {
+
+						$this->db->where_in($field . 'owner_id', $this->owner_child);
+					}
+				}
+
+				if ($this->pos['type_ass']) {
+					$this->db->where($field . 'type_ass_id', $this->pos['type_ass']);
+				}
+				if ($this->pos['period']) {
+					$this->db->where($field . 'period_id', $this->pos['period']);
+				}
+			}
+		} else {
+			$this->db->where($field . 'period_id', _TAHUN_ID_);
+			// $this->db->where($field . 'term_id', _TERM_ID_);
+			// $c =$this->session->userdata('data_user');
+			// if ($c['group']['param']['privilege_owner']>=2){
+			// 	if ($c['owner']){
+			// 		$this->db->where_in($field.'owner_id', $c['owner']);
+
+			// 	}
+			// }
+		}
+		if (! $range) {
+			if (isset($this->pos['type_ass'])) {
+				if (intval($this->pos['type_ass'])) {
+					$this->db->where('type_ass_id', $this->pos['type_ass']);
+				}
+			}
+
+			if (count($ck) > 0) {
+				$this->db->where_in('kode_risk', $ck);
+			} else {
+				$this->db->where('kode_risk', '-1');
+			}
+		}
+
+
+
+		// $this->db->where('type_ass_id', 128);
 	}
 
 	function get_data_grap($rcsa, $id)
