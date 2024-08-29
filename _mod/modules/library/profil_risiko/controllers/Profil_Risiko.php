@@ -1196,7 +1196,7 @@ class Profil_Risiko extends MY_Controller
 	{
 		$id        = $this->input->post( 'id' );
 		$this->pos = $this->input->post();
-
+		$y['picku'] = $this->get_data_dept();
 		$y        = $this->data->get_data_kompilasi_by_id( $id );
 		$y['pos'] = $this->pos;
 
@@ -1246,6 +1246,7 @@ class Profil_Risiko extends MY_Controller
 		$data['id']   = $id;
 		$data['rcsa'] = $rcsa;
 		$data['url']  = 'profil-risiko';
+		$data['picku'] = $this->get_data_dept();
 		// $data['export']=false;
 		$data['back'] = TRUE;
 		$x['combo']   = $this->load->view( 'risk_context/monitoring', $data, TRUE );
@@ -1256,6 +1257,7 @@ class Profil_Risiko extends MY_Controller
 	function cetak_lap( $id, $rcsa )
 	{
 		$data           = $this->data->get_data_monitoring_profil( $id, $rcsa );
+		$data['picku'] = $this->get_data_dept();
 		$data['id']     = $id;
 		$data['rcsa']   = $rcsa;
 		$data['export'] = FALSE;
