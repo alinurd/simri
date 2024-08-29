@@ -1196,9 +1196,9 @@ class Profil_Risiko extends MY_Controller
 	{
 		$id        = $this->input->post( 'id' );
 		$this->pos = $this->input->post();
-		$y['picku'] = $this->get_data_dept();
 		$y        = $this->data->get_data_kompilasi_by_id( $id );
 		$y['pos'] = $this->pos;
+		$y['picku'] = $this->get_data_dept();
 
 		$hasil['combo'] = $this->hasil = $this->load->view( 'monitoring', $y, TRUE );
 		header( 'Content-type: application/json' );
