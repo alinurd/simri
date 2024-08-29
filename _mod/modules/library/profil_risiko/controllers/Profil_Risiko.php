@@ -1272,9 +1272,10 @@ class Profil_Risiko extends MY_Controller
 		 'term_mulai' => $term_mulai,
 		 'term_akhir' => $term_akhir,
 		];
-		$this->pos       = $data['pos'];
+		$this->pos       = [];
 		$this->data->pos = $this->pos;
 		$data            = $this->data->get_data_kompilasi( $this->_data_user_ );
+		$data['picku'] = $this->get_data_dept();
 
 		// $data['id']=$id;
 		$data['export'] = FALSE;
@@ -1282,8 +1283,7 @@ class Profil_Risiko extends MY_Controller
 
 		$hasil = $this->load->view( 'monitoring', $data, TRUE );
 
-
-		$cetak   = 'register_excel';
+ 		$cetak   = 'register_excel';
 		$nm_file = 'Laporan-Mitigasi-Kompilasi';
 		$this->$cetak( $hasil, $nm_file );
 	}
