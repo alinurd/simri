@@ -43,6 +43,7 @@ class Laporan_Risk_Register extends MY_Controller
 		$data['minggu'] = $this->crud->combo_select( [ 'id', 'concat(param_string, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu' ] )->combo_where( 'kelompok', 'minggu' )->combo_where( 'param_date>=', $tgl1 )->combo_where( 'param_date<=', $tgl2 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		// $data['minggu']=$this->crud->combo_select(['id', 'concat(param_string,\' minggu ke - \',data, \' ( \', param_date, \' s.d \', param_date_after, \' ) \') as minggu'])->combo_where('kelompok', 'minggu')->combo_where('param_date>=', $tgl1)->combo_where('param_date<=', $tgl2)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
 		$data['data'] = $this->data->get_data( [] );
+		$data['picku'] = $this->get_data_dept();
 		$data['tbl']  = $this->hasil = $this->load->view( 'lap', $data, TRUE );
 		$this->hasil = $this->load->view( 'view', $data, TRUE );
 
@@ -115,6 +116,8 @@ class Laporan_Risk_Register extends MY_Controller
 		$data['data'] = $this->data->get_data( $whereData );
 		$data['post']=$post;
 		// doi::dump($data);
+		$data['picku'] = $this->get_data_dept();
+
 		$hasil['combo']   = $this->load->view( 'lap', $data, TRUE );
 		header( 'Content-type: application/json' );
 		echo json_encode( $hasil );
@@ -133,11 +136,13 @@ class Laporan_Risk_Register extends MY_Controller
  
 		$data['cetak_grap'] = $this->session->userdata('cetak_grap');
 		$data['data']     = $this->data->get_data( $whereData ); 
+		$data['picku'] = $this->get_data_dept();
+
 		// doi::dump($data);
  		$x = $this->load->view( 'lap-cetak', $data, TRUE ); 
 		$file_name ="report-risk-register.xls";
-		header("Content-type: application/vnd.ms-excel");
-		header("Content-Disposition: attachment; filename=$file_name");
+		// header("Content-type: application/vnd.ms-excel");
+		// header("Content-Disposition: attachment; filename=$file_name");
 		echo $x;
 		
 	}
