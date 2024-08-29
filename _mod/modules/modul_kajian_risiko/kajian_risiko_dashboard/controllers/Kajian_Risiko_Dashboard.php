@@ -156,6 +156,17 @@ class Kajian_Risiko_Dashboard extends MY_Controller
                     break;
                 case "status_progress":
                     $dataKajian["data"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_MONITORING, [ "status" => strtolower( url_title( $name ) ) ] )->result_array();
+                    if( ! empty( $dataKajian["data"] ) )
+                    {
+                        foreach( $dataKajian["data"] as $kModMon => $vModMon )
+                        {
+                            if( ! empty( $vModMon["pic"] ) && json_decode( $vModMon["pic"] ) )
+                            {
+                                $dataKajian["data"][$kModMon]["pic"] = $this->db->select( "owner_name" )->where_in( "id", json_decode( $vModMon["pic"] ) )->get( _TBL_OWNER )->result_array();
+
+                            }
+                        }
+                    }
                     $viewContent["content"] = $this->load->view( "ajax/ajaxlistmonitoring", $dataKajian, TRUE );
                     $viewContent["title"] = "Status Progress Mitigasi";
                     break;
