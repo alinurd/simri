@@ -332,7 +332,7 @@ class Data extends MX_Model
 		}
 
 		if ($this->pos) {
-			if ($this->pos['owner']) {
+			if (isset($this->pos['owner'])) {
 				if ($this->pos['owner'] != 0 && $this->pos['owner'] != 1) {
 					$this->owner_child[] = intval($this->pos['owner']);
 					$this->get_owner_child(intval($this->pos['owner']));
@@ -348,10 +348,10 @@ class Data extends MX_Model
 			}
 
 
-			if ($this->pos['type_ass']) {
+			if (isset($this->pos['type_ass'])) {
 				$this->db->where($field . 'type_ass_id', $this->pos['type_ass']);
 			}
-			if ($this->pos['period']) {
+			if (isset($this->pos['period'])) {
 				$this->db->where($field . 'period_id', $this->pos['period']);
 			}
 
