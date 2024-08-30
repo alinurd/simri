@@ -78,13 +78,13 @@
                                                                 <span
                                                                     class="btn btn-sm disabled btn-block btn-warning"><strong>REVIEW</strong></span>
                                                                 <?php break; ?>
-                                                            <?php case "review": ?>
+                                                            <?php case "rejected": ?>
                                                                 <span
-                                                                    class="btn btn-sm disabled btn-block btn-danger"><strong>REVISI</strong></span>
+                                                                    class="btn btn-sm disabled btn-block btn-danger"><strong>REJECTED</strong></span>
                                                                 <?php break; ?>
-                                                            <?php case "submitted": ?>
+                                                            <?php case "approved": ?>
                                                                 <span
-                                                                    class="btn btn-sm disabled btn-block btn-success"><strong>SUBMITTED</strong></span>
+                                                                    class="btn btn-sm disabled btn-block btn-success"><strong>APPROVED</strong></span>
                                                                 <?php break; ?>
                                                             <?php default:
 
