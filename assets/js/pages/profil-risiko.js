@@ -86,7 +86,7 @@ $(function(){
             var cek = cek_isian_identifikasi();
             // if (cek) {
                 var notyConfirm = new Noty({
-                    text: '<h6 class="mb-3">Konfisssssssssssrmasi</h6><label>Apa Anda yakin akan merubah '+jml+' data  tersebut pada Dashboard Profil Risiko ?</label>',
+                    text: '<h6 class="mb-3">Konfirmasi</h6><label>Apa Anda yakin akan merubah '+jml+' data  tersebut pada Dashboard Profil Risiko ?</label>',
                     timeout: false,
                     modal: true,
                     layout: 'center',
