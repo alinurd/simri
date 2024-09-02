@@ -225,13 +225,17 @@ class Data extends MX_Model
 			{
 				$this->db->where_in( 'il_view_rcsa_approval_mitigasi.owner_id', $id );
 			}
+ 			$this->db->where( 'minggu_id', $this->pos['minggu'] );
+			
+			
 			$this->db->join( 'il_view_rcsa_mitigasi_detail', 'il_view_rcsa_mitigasi_detail.rcsa_id = il_view_rcsa_approval_mitigasi.rcsa_id' );
-			$rows = $this->db->select( 'il_view_rcsa_approval_mitigasi.owner_id, il_view_rcsa_approval_mitigasi.kode_dept as owner_code, il_view_rcsa_approval_mitigasi.owner_name, il_view_rcsa_approval_mitigasi.tgl_propose, 0 as status, avg(target) as target, avg(aktual) as aktual,  file_att as file  ' )
+			$rows = $this->db->select( 'il_view_rcsa_approval_mitigasi.owner_id, il_view_rcsa_approval_mitigasi.kode_dept as owner_code, il_view_rcsa_approval_mitigasi.owner_name,il_view_rcsa_approval_mitigasi.minggu_id, il_view_rcsa_approval_mitigasi.tgl_propose, 0 as status, avg(target) as target, avg(aktual) as aktual,  file_att as file  ' )
 			->group_by( [ 'il_view_rcsa_approval_mitigasi.owner_id', 'il_view_rcsa_approval_mitigasi.kode_dept', 'il_view_rcsa_approval_mitigasi.owner_name' ] )
 			// ->get_compiled_select(_TBL_VIEW_RCSA_APPROVAL_MITIGASI);
 			->get( _TBL_VIEW_RCSA_APPROVAL_MITIGASI )->result_array();
 
 		}
+		// doi::dump($rows);die;
 		// dumps($rows);
 		// die();
 		$hasil['data'] = $rows;
