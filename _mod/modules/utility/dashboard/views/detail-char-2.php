@@ -17,6 +17,7 @@ if (!$mode):?>
     <tbody>
         <?php
         $no=0;
+        doi::dump($data);
         foreach($data as $key=>$row):
             $file='';
             if (!empty($row['file'])){

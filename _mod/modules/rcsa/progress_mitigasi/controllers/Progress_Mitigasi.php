@@ -1613,6 +1613,8 @@ class Progress_Mitigasi extends MY_Controller
 				. form_hidden(['month' => $bln, 'id' => $bln])
 				. form_hidden(['minggu' => $getMinggu['id']])
 				. form_hidden(['periode' => $periodeId])
+				. form_hidden(['rcsa_detail_id' => $mit['rcsa_detail_id']])
+				. form_hidden(['rcsa_id' => $rcsa_detail['rcsa_id']])
 		];
 		$data['progres'][] = ['title' => _l('fld_target'), 'help' => _h('help_target'), 'mandatori' => true, 'isi' => $target];
 		$data['progres'][] = ['title' => _l('fld_aktual'), 'help' => _h('help_aktual'), 'mandatori' => true, 'isi' => $aktual];

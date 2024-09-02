@@ -341,5 +341,130 @@ class MX_Model extends CI_Model
 
 		return $setFinal;
 	}
+	function data_alur($own_no)
+	{
+		$rows = $this->db->where('id', $own_no)->get(_TBL_VIEW_OWNER_PARENT)->row_array();
+		$owner = [];
+		$officer = [];
+		if ($rows) {
+			if (!empty($rows['level_approval'])) {
+				$level = explode(',', $rows['level_approval']);
+				foreach ($level as $x) {
+					$owner[$x] = ['id' => $rows['id'], 'name' => $rows['parent_name']];
+					$officer[$x] = $rows['id'];
+				}
+			}
+			if (!empty($rows['level_approval_1'])) {
+				$level = explode(',', $rows['level_approval_1']);
+				foreach ($level as $x) {
+					$owner[$x] = ['id' => $rows['lv_1_id'], 'name' => $rows['lv_1_name']];
+					$officer[$x] = $rows['lv_1_id'];
+				}
+			}
+			if (!empty($rows['level_approval_2'])) {
+				$level = explode(',', $rows['level_approval_2']);
+				foreach ($level as $x) {
+					$owner[$x] = ['id' => $rows['lv_2_id'], 'name' => $rows['lv_2_name']];
+					$officer[$x] = $rows['lv_2_id'];
+				}
+			}
+			if (!empty($rows['level_approval_3'])) {
+				$level = explode(',', $rows['level_approval_3']);
+				foreach ($level as $x) {
+					$owner[$x] = ['id' => $rows['lv_3_id'], 'name' => $rows['lv_3_name']];
+					$officer[$x] = $rows['lv_3_id'];
+				}
+			}
+		}
+		$staft_tahu = [];
+		$staft_setuju = [];
+		$staft_valid = [];
+		if ($officer) {
+			$rows = $this->db->where_in('owner_no', $officer)->group_start()->where('sts_mengetahui', 1)->or_where('sts_menyetujui', 1)->or_where('sts_menvalidasi', 1)->group_end()->get(_TBL_VIEW_OFFICER)->result_array();
+			foreach ($rows as $row) {
+				if ($row['sts_mengetahui'] == 1) {
+					$staft_tahu[$row['owner_no']]['name'][] = $row['officer_name'];
+					$staft_tahu[$row['owner_no']]['id'][] = $row['id'];
+					$staft_tahu[$row['owner_no']]['email'][] = $row['email'];
+				} elseif ($row['sts_menyetujui'] == 1) {
+					$staft_setuju[$row['owner_no']]['name'][] = $row['officer_name'];
+					$staft_setuju[$row['owner_no']]['id'][] = $row['id'];
+					$staft_setuju[$row['owner_no']]['email'][] = $row['email'];
+				} elseif ($row['sts_menvalidasi'] == 1) {
+					$staft_valid[$row['owner_no']]['name'][] = $row['officer_name'];
+					$staft_valid[$row['owner_no']]['id'][] = $row['id'];
+					$staft_valid[$row['owner_no']]['email'][] = $row['email'];
+				}
+			}
+		}
+
+		$rows = $this->db->select("'' as staft, '' as bagian, " . _TBL_VIEW_APPROVAL . ".*")->where('pid', 249)->order_by('urut')->get(_TBL_VIEW_APPROVAL)->result_array();
+		$alur[0] = ['level' => 'Risk Officer', 'owner' => '', 'staft' => '', 'level_approval_id' => 0, 'owner_no' => 0, 'staft_no' => 0, 'urut' => 0, 'sts_last' => 0, 'email' => '', 'tanggal' => '', 'sts_monit' => 0];
+		foreach ($rows as $row) {
+			$prm = json_decode($row['param_text'], true);
+			$ow = '';
+			$ow_id = '';
+			$of = '';
+			$of_id = '';
+			$email = '';
+			if (intval($prm['tipe_approval']) == 0) {
+				if (array_key_exists($row['param_int'], $owner)) {
+					$ow = $owner[$row['param_int']]['name'];
+					$ow_id = $owner[$row['param_int']]['id'];
+					if ($prm['level_approval'] == 1) {
+						if (array_key_exists($owner[$row['param_int']]['id'], $staft_tahu)) {
+							$of = implode(', ', $staft_tahu[$owner[$row['param_int']]['id']]['name']);
+							$of_id = implode(', ', $staft_tahu[$owner[$row['param_int']]['id']]['id']);
+							$email = implode(', ', $staft_tahu[$owner[$row['param_int']]['id']]['email']);
+						}
+					} elseif ($prm['level_approval'] == 2) {
+						if (array_key_exists($owner[$row['param_int']]['id'], $staft_setuju)) {
+							$of = implode(', ', $staft_setuju[$owner[$row['param_int']]['id']]['name']);
+							$of_id = implode(', ', $staft_setuju[$owner[$row['param_int']]['id']]['id']);
+							$email = implode(', ', $staft_setuju[$owner[$row['param_int']]['id']]['email']);
+						}
+					} elseif ($prm['level_approval'] == 3) {
+						if (array_key_exists($owner[$row['param_int']]['id'], $staft_valid)) {
+							$of = implode(', ', $staft_valid[$owner[$row['param_int']]['id']]['name']);
+							$of_id = implode(', ', $staft_valid[$owner[$row['param_int']]['id']]['id']);
+							$email = implode(', ', $staft_valid[$owner[$row['param_int']]['id']]['email']);
+						}
+					}
+				}
+			} elseif (intval($prm['tipe_approval']) == 1) {
+				$arr_free = $this->db->where_in('level_approval', $row['param_int'])->get(_TBL_OWNER)->row_array();
+				if ($arr_free) {
+					$ow = $arr_free['owner_name'];
+					$ow_id = $arr_free['id'];
+					$of_arr = [];
+					$of_id_arr = [];
+					$email_arr = [];
+					$arr_free = $this->db->where('owner_no', $ow_id)->group_start()->where('sts_mengetahui', 1)->or_where('sts_menyetujui', 1)->or_where('sts_menvalidasi', 1)->group_end()->get(_TBL_VIEW_OFFICER)->result_array();
+					if ($arr_free) {
+						foreach ($arr_free as $fr) {
+							if ($prm['level_approval'] == 1 && $fr['sts_mengetahui'] == 1) {
+								$of_arr[] = $fr['officer_name'];
+								$of_id_arr[] = $fr['id'];
+								$email_arr[] = $fr['email'];
+							} elseif ($prm['level_approval'] == 2 && $fr['sts_menyetujui'] == 1) {
+								$of_arr[] = $fr['officer_name'];
+								$of_id_arr[] = $fr['id'];
+								$email_arr[] = $fr['email'];
+							} elseif ($prm['level_approval'] == 3 && $fr['sts_menvalidasi'] == 1) {
+								$of_arr[] = $fr['officer_name'];
+								$of_id_arr[] = $fr['id'];
+								$email_arr[] = $fr['email'];
+							}
+						}
+						$of = implode(', ', $of_arr);
+						$of_id = implode(', ', $of_id_arr);
+						$email = implode(', ', $email_arr);
+					}
+				}
+			}
+			$alur[$row['urut']] = ['level' => $row['model'], 'owner' => $ow, 'staft' => $of, 'level_approval_id' => $row['id'], 'owner_no' => $ow_id, 'staft_no' => $of_id, 'urut' => $row['urut'], 'sts_last' => $row['sts_last'], 'email' => $email, 'tanggal' => '', 'sts_monit' => $prm['monit'], 'sts_notif' => $prm['notif_email']];
+		}
+		return $alur;
+	}
 }
 /* End of file app_login_model.php */
