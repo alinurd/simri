@@ -103,7 +103,7 @@
                 </div>
             </div>
             <div class="card-body" id="result_grap1" style="height:420px;overflow-y:hidden;overflow-x:hidden;">
-                <?= $grap1; ?>
+                <!-- <?= $grap1; ?> -->
             </div>
         </div>
     </div>
