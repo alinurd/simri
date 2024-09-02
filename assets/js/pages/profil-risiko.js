@@ -56,7 +56,8 @@ $(function(){
 
     $('#btn_save_modul').click(function(event) {
         var x=$(this);
-        var jml=0;
+        // var jml=0;
+        var jml = $('input[type="checkbox"]:checked').length-1; 
         var data = $("#idOfHiddenInput").val();
         var dataOri = $("#idOri").val();
         // var period = $("#period").val();
@@ -80,12 +81,12 @@ $(function(){
             dtori:dtOri,
             is_admin:is_admin, 
             owner:owner
-        };
+        }; 
         // if (data!=""){
             var cek = cek_isian_identifikasi();
             // if (cek) {
                 var notyConfirm = new Noty({
-                    text: '<h6 class="mb-3">Konfirmasi</h6><label>Apa Anda yakin akan merubah '+jml+' data tersebut pada Dashboard Profil Risiko ?</label>',
+                    text: '<h6 class="mb-3">Konfisssssssssssrmasi</h6><label>Apa Anda yakin akan merubah '+jml+'  risiko tersebut pada Dashboard Profil Risiko ?</label>',
                     timeout: false,
                     modal: true,
                     layout: 'center',
