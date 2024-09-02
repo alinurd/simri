@@ -22,7 +22,7 @@ class Data extends MX_Model
 	}
 
 	function simpan_progres( $data )
-	{
+	{ 
 		$id = intval( $data['id'] );
 		$this->crud->crud_table( _TBL_RCSA_MITIGASI_PROGRES );
 		$this->crud->crud_field( 'rcsa_mitigasi_detail_id', $data['aktifitas_mitigasi_id'] );
@@ -68,7 +68,83 @@ class Data extends MX_Model
 		}
 		$getMinggu = $this->db->where( 'id', $rows['minggu_id'] )->get( "il_view_minggu" )->row_array();
 
-		$this->data->cek_mitigasi_final( $rows['rcsa_detail_id'], $getMinggu['param_int'], TRUE );
+		$rcsa_id        = $data['rcsa_id'];
+		$id_detail        = $data['rcsa_detail_id'];
+		$detail    = $this->db->where( 'id', $id_detail )->get( "il_view_rcsa_detail" )->row_array();
+		$alur  =	$this->data->data_alur($detail['owner_id']);
+			$sts_final = 1;
+			$urut      = count( $alur );
+			$final     = "Final";
+			$setFinal  = TRUE;
+
+			$rowsx = $this->db->where('minggu_id', $getMinggu['id'])->where('detail_id', $id_detail)->get(_TBL_RCSA_APPROVAL_MITIGASI)->row_array();
+			$status_lengkap = 0;
+			if ($getMinggu['id'] == _MINGGU_ID_ && empty($file_name)) {
+				$status_lengkap = 1;
+			} elseif ($getMinggu['id'] == _MINGGU_ID_ && !empty($file_name)) {
+				$status_lengkap = 2;
+			}
+			$file_name = '';
+			// $this->load->library('image');
+			// if (array_key_exists('attr', $_FILES)) {
+			// 	if (!empty($_FILES['attr']['name'])) {
+			// 		$this->image->set_Param('nm_file', 'attr');
+			// 		$this->image->set_Param('file_name', $_FILES['attr']['name']);
+			// 		$this->image->set_Param('path', file_path_relative('rcsa'));
+			// 		$this->image->set_Param('thumb', false);
+			// 		$this->image->set_Param('type', '*');
+			// 		$this->image->set_Param('size', 10000000);
+			// 		$this->image->set_Param('nm_random', false);
+			// 		$this->image->set_Param('multi', false);
+			// 		$this->image->upload();
+	
+			// 		$file_name = 'rcsa/' . $this->image->result('file_name');
+			// 	}
+			// }
+			if (!$rowsx) {
+				$this->crud->crud_table(_TBL_RCSA_APPROVAL_MITIGASI);
+				$this->crud->crud_type('add');
+				$this->crud->crud_field('rcsa_id', $rcsa_id, 'int');
+				$this->crud->crud_field('detail_id', $id_detail, 'int');
+				$this->crud->crud_field('note', "Final");
+				$this->crud->crud_field('minggu_id', $getMinggu['id'], 'int');
+				$this->crud->crud_field('minggu_aktif_id', _MINGGU_ID_, 'int');
+				$this->crud->crud_field('term_id', _TERM_ID_, 'int');
+				$this->crud->crud_field('tgl_propose', date('Y-m-d H:i:s'), 'datetime');
+				$this->crud->crud_field('param_approval', json_encode($alur));
+				$this->crud->crud_field('file_att', $file_name);
+				$this->crud->crud_field('status_lengkap', $status_lengkap);
+				$this->crud->crud_field('officer_id', $this->ion_auth->get_user_id());
+				$this->crud->crud_field('created_by', $this->ion_auth->get_user_name());
+				$this->crud->process_crud();
+			} else {
+				$this->crud->crud_table(_TBL_RCSA_APPROVAL_MITIGASI);
+				$this->crud->crud_type('edit');
+				$this->crud->crud_field('minggu_id', $getMinggu['id'], 'int');
+				$this->crud->crud_field('minggu_aktif_id', _MINGGU_ID_, 'int');
+				$this->crud->crud_field('note', "Final");
+				$this->crud->crud_field('term_id', _TERM_ID_, 'int');
+				$this->crud->crud_field('tgl_propose', date('Y-m-d H:i:s'), 'datetime');
+				$this->crud->crud_field('param_approval', json_encode($alur));
+				$this->crud->crud_field('file_att', $file_name);
+				$this->crud->crud_field('status_lengkap', $status_lengkap);
+				$this->crud->crud_field('officer_id', $this->ion_auth->get_user_id());
+				$this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
+				$this->crud->crud_where(['field' => 'id', 'value' => $rows['id']]);
+				$this->crud->process_crud();
+			}
+	
+			$this->crud->crud_table(_TBL_RCSA_KPI);
+			$this->crud->crud_type('edit');
+			$this->crud->crud_field('sts_add', 1, 'int');
+			$this->crud->crud_field('minggu_id', $getMinggu['id'], 'int');
+			$this->crud->crud_where(['field' => 'rcsa_id', 'value' => $rcsa_id]);
+			$this->crud->crud_where(['field' => 'sts_add', 'value' => 1]);
+			$this->crud->process_crud();
+		
+
+
+		$this->data->cek_mitigasi_final( $id_detail, $getMinggu['param_int'], TRUE );
 
 		return $id;
 	}

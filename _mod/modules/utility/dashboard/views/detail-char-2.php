@@ -10,14 +10,13 @@ if (!$mode):?>
             <th>Dir/Dept/Proyek</th>
             <th>Tanggal Pelaporan</th>
             <th width="8%">Target</th>
-            <th width="8%">Aktual</th>
-            <th width="8%">File</th>
+            <th width="8%">Aktual</th> 
         </tr>
     </thead>
     <tbody>
         <?php
         $no=0;
-        foreach($data as $key=>$row):
+         foreach($data as $key=>$row):
             $file='';
             if (!empty($row['file'])){
                 $file='<a href="'.file_url($row['file']).'"> Download </a>';
@@ -31,8 +30,7 @@ if (!$mode):?>
             <td><?=$row['tgl_propose'];?></td>
             <td class="text-center"><?=number_format($row['target'],2);?></td>
             <td class="text-center"><?=number_format($row['aktual'],2);?></td>
-            <td><?=$file;?></td>
-        </tr><?php endforeach;?>
+         </tr><?php endforeach;?>
     </tbody>
 
 </table>
