@@ -54,9 +54,13 @@ $(function () {
         }
     });
 
-    $('#btn_save_modul').click(function (event) {
-        var x = $(this);
-        var jml = $("input[name='chk_list[]']:checked").length;
+
+    $('#btn_save_modul').click(function(event) {
+        var x=$(this);
+        // var jml=0;
+        var jml = $('input[type="checkbox"]:checked').length-1; 
+
+
         var data = $("#idOfHiddenInput").val();
         var dataOri = $("#idOri").val();
         // var period = $("#period").val();
@@ -76,6 +80,65 @@ $(function () {
         }
 
         var datax = {
+
+            id:dt,
+            dtori:dtOri,
+            is_admin:is_admin, 
+            owner:owner
+        }; 
+        // if (data!=""){
+            var cek = cek_isian_identifikasi();
+            // if (cek) {
+                var notyConfirm = new Noty({
+                    text: '<h6 class="mb-3">Konfirmasi</h6><label>Apa Anda yakin akan merubah '+jml+' data  tersebut pada Dashboard Profil Risiko ?</label>',
+                    timeout: false,
+                    modal: true,
+                    layout: 'center',
+                    theme: '  p-0 bg-white',
+                    closeWith: 'button',
+                    type: 'confirm',
+                    buttons: [
+                        Noty.button('Cancel', 'btn btn-link', function () {
+                            notyConfirm.close();
+                        }),
+    
+                        Noty.button('Ubah Data <i class="icon-paperplane ml-2"></i>', 'btn bg-blue ml-1', function () {
+                                notyConfirm.close();
+                                looding('light',x.parent().parent());
+                                $.ajax({
+                                    type:'post',
+                                    url:x.data('url'),
+                                    data:datax,
+                                    dataType: "json",
+                                    success:function(result){
+                                        stopLooding(x.parent().parent());
+                                        console.log(result);
+                                        alert("data berhasil disimpan");
+                                        // oTable.ajax.reload()
+                                        oTable.ajax.url(modul_name+ "/list-data").load(function () {
+                                            setTimeout(function () {
+                                
+                                                readyCheckbox();
+                                              
+                                            }, 200)
+                                        } );
+                                        // location.reload();
+                                    },
+                                    error:function(msg){
+                                        stopLooding(x.parent().parent());
+                                    },
+                                    complate:function(){
+                                    }
+                                })
+                            },
+                            {id: 'button1', 'data-status': 'ok'}
+                        )
+                    ]
+                }).show();
+            // }else{
+            //     alert(pesan);
+            // }
+
             id: dt,
             dtori: dtOri,
             is_admin: is_admin,
@@ -133,6 +196,7 @@ $(function () {
         // }else{
         //     alert(pesan);
         // }
+
         // }
     });
 

@@ -676,8 +676,7 @@ class Data extends MX_Model
 				$y[$row['id']]['satuan']    = $row['satuan'];
 				$y[$row['id']]['title']     = trim($row['title']);
 				$y[$row['id']]['indikator'] = $row['indikator'];
-				$owner_id                   = $row['id'];
-				$idi                        = $d['id'];
+				$owner_id                   = $row['id']; 
 			}
 			if (count($rcsa_id) > 0) {
 				$this->db->where_in('rcsa_id', $rcsa_id);
