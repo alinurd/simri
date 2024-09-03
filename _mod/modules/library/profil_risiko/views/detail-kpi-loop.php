@@ -116,15 +116,15 @@ Sasaran Departemen :
                     <?php for ($x = $bulan[0]; $x <= $bulan[1]; ++$x) : ?>
                         <?php
                         // doi::dump($row['bulan']);
-                        $nilai=0;
-                        if(isset( $row['bulan'][$x])){
-                            $det=$this->db->where('rcsa_id', $row['bulan'][$x]['rcsa_id'])->where('kri_id', $row['bulan'][$x]['kpi_id'])->get(_TBL_VIEW_RCSA_DET_LIKE_INDI)->result_array();
+                        // $nilai=0;
+                        // if(isset( $row['bulan'][$x])){
+                        //     $det=$this->db->where('rcsa_id', $row['bulan'][$x]['rcsa_id'])->where('kri_id', $row['bulan'][$x]['kpi_id'])->get(_TBL_VIEW_RCSA_DET_LIKE_INDI)->result_array();
 
-                            $nilai   = ( $row['indikator'] / 100 ) * ( $det[0]['pembobotan'] * count( $det ) );
-                            // doi::dump(count($det));
-                            // doi::dump($nilai);
+                        //     $nilai   = ( $row['indikator'] / 100 ) * ( $det[0]['pembobotan'] * count( $det ) );
+                        //     // doi::dump(count($det));
+                        //     // doi::dump($nilai);
 
-                        }
+                        // }
 
                         $warna = 'bg-default';
                         $int = intval($row['indikator']);
