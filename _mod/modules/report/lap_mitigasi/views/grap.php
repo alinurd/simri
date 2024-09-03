@@ -1,11 +1,12 @@
 <div class="chart has-fixed-height" id="pie_basic"></div>
 <?php
 $resultD   = [];
-$resultD[] = [ 'value' => $data['110'], 'name' => 'Sebelum Due Date (110%)', 'type_chat' => 2, 'param_id' => 4 ];
-$resultD[] = [ 'value' => $data['100'], 'name' => 'On Schedule (100%)', 'type_chat' => 2, 'param_id' => 3 ];
-$resultD[] = [ 'value' => $data['90'], 'name' => 'Delay 1 month  (90%)', 'type_chat' => 2, 'param_id' => 2 ];
-$resultD[] = [ 'value' => $data['75'], 'name' => 'Delay &#62; 1 month(75%)', 'type_chat' => 2, 'param_id' => 1 ];
-$resultD[] = [ 'value' => $data['0'], 'name' => 'Tidak terlaksana(0%)', 'type_chat' => 2, 'param_id' => 0 ];
+
+$resultD[] = [ 'value' => $data['110'], 'name' => 'Sebelum Due Date (110%)', 'type_chat' => 2, 'param_id' => 4, 'owner'=>$data['owner_id110'] ];
+$resultD[] = [ 'value' => $data['100'], 'name' => 'On Schedule (100%)', 'type_chat' => 2, 'param_id' => 3, 'owner'=>$data['owner_id100'] ];
+$resultD[] = [ 'value' => $data['90'], 'name' => 'Delay 1 month  (90%)', 'type_chat' => 2, 'param_id' => 2, 'owner'=>$data['owner_id90'] ];
+$resultD[] = [ 'value' => $data['75'], 'name' => 'Delay &#62; 1 month(75%)', 'type_chat' => 2, 'param_id' => 1, 'owner'=>$data['owner_id75'] ];
+$resultD[] = [ 'value' => $data['0'], 'name' => 'Tidak terlaksana(0%)', 'type_chat' => 2, 'param_id' => 0, 'owner'=>0 ];
 
 
 $x['data']  = $resultD;

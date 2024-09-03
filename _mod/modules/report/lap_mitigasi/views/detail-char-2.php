@@ -16,12 +16,12 @@ if (!$mode):?>
     <tbody>
         <?php
         $no=0;
-        foreach($data as $key=>$row):?>
+         foreach($data as $key=>$row):?>
         <tr>
             <td><?=++$no;?></td>
             <td><?=$row['owner_code'];?></td>
             <td><?=$row['owner_name'];?></td>
-            <td><?=$row['owner_code'];?></td>
+            <td><?=$row['tgl_propose'];?></td>
             <td class="text-center"><?=number_format($row['target'],2);?></td>
             <td class="text-center"><?=number_format($row['aktual'],2);?></td>
         </tr><?php endforeach;?>
