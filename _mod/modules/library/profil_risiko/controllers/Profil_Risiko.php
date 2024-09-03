@@ -1185,6 +1185,7 @@ class Profil_Risiko extends MY_Controller
 		$data            = $this->data->get_data_kpi_by_id( $this->_data_user_, $pos['rcsa_id'], $pos['id'] );
 		$data['mode']    = 0;
 		$data['id']      = $pos['rcsa_id'];
+		$data['pos']      = $pos;
 
 		$x = $this->load->view( 'detail-kpi', $data, TRUE );
 		$y = $this->load->view( 'detail-kpi2', $data, TRUE );
