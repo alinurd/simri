@@ -31,7 +31,7 @@ class Data extends MX_Model
 		return $rows;
 	}
 
-	function detail_lap_ketepatan_bak()
+	function detail_lap_ketepatan()
 	{
 		$owner = [];
 		$rows  = $this->db->select( '*, 0 as target, 0 as aktual , "" as tgl_propose, "" as file  ' )->where( 'owner_code<>', '' )->get( _TBL_OWNER )->result_array();
@@ -559,121 +559,7 @@ class Data extends MX_Model
 	}
 
 
-	function filter_data( $custom = FALSE, $field = '' )
 
-	{
-
-		$minggu = [];
-		if( $this->cek_tgl )
-		{
-			if( isset( $this->pos['minggu'] ) )
-			{
-				if( intval( $this->pos['minggu'] ) && $custom == FALSE )
-				{
-
-					$rows              = $this->db->select( '*' )->where( 'id', intval( $this->pos['minggu'] ) )->get( _TBL_COMBO )->row_array();
-					$this->pos['tgl1'] = $rows['param_date'];
-					$this->pos['tgl2'] = $rows['param_date_after'];
-
-
-				}
-				else
-				{
-
-					if( $custom == TRUE && intval( $this->pos['minggu'] ) == 0 )
-					{
-						$rows = $this->db->select( '*' )->where( 'id', $this->pos['term'] )->get( _TBL_COMBO )->row();
-						$tgl1 = date( 'Y-m-d' );
-						$tgl2 = date( 'Y-m-d' );
-						if( $rows )
-						{
-							$tgl1 = $rows->param_date;
-							$tgl2 = $rows->param_date_after;
-						}
-						$bulan  = $this->db->select( 'id' )->where( 'kelompok', 'minggu' )->where( 'param_date>=', $tgl1 )->where( 'param_date_after<=', $tgl2 )->get( _TBL_COMBO )->result_array();
-						$minggu = array_column( $bulan, 'id' );
-					}
-				}
-			}
-
-			if( ! isset( $this->pos['tgl1'] ) )
-			{
-				if( isset( $this->pos['term'] ) )
-				{
-					if( intval( $this->pos['term'] ) )
-					{
-						$rows              = $this->db->select( '*' )->where( 'id', intval( $this->pos['term'] ) )->get( _TBL_COMBO )->row_array();
-						$this->pos['tgl1'] = $rows['param_date'];
-						$this->pos['tgl2'] = $rows['param_date_after'];
-					}
-				}
-			}
-		}
-		if( $this->pos )
-		{
-			if( $this->pos['owner'] )
-			{
-				if( count( $this->owner_child ) )
-				{
-					if( $field )
-					{
-						$this->db->where_in( $field . '.owner_id', $this->owner_child );
-					}
-					else
-					{
-						$this->db->where_in( 'owner_id', $this->owner_child );
-					}
-				}
-			}
-			if( $this->pos['type_ass'] )
-			{
-				if( $field )
-				{
-					$this->db->where_in( $field . '.type_ass_id', $this->pos['type_ass'] );
-				}
-				else
-				{
-					$this->db->where_in( 'type_ass_id', $this->pos['type_ass'] );
-				}
-			}
-			if( $this->pos['period'] )
-			{
-				if( $field )
-				{
-					$this->db->where_in( $field . '.period_id', $this->pos['period'] );
-				}
-				else
-				{
-					$this->db->where_in( 'period_id', $this->pos['period'] );
-				}
-			}
-			// // if ($this->pos['term']){
-			// // 	if ($field) {
-			// // 		$this->db->where_in($field.'.term_id', $this->pos['term']);
-			// // 	} else {
-			// // 		$this->db->where_in('term_id', $this->pos['term']);
-			// // 	}
-			// // 	}
-
-			// if (isset($this->pos['tgl1']) && $custom==false){
-			// 	$this->db->where('tgl_mulai_minggu>=', $this->pos['tgl1']);
-			// 	$this->db->where('tgl_akhir_minggu<=', $this->pos['tgl2']);
-			// }elseif (isset($this->pos['minggu'])){
-			// 	$this->db->where('minggu_id', $this->pos['minggu']);
-
-			// 	if (count($minggu)>0) {
-			// 		$this->db->where_in('minggu_id', $minggu);
-			// 	}elseif(intval($this->pos['minggu']) > 0){
-			// 		$this->db->where('minggu_id', $this->pos['minggu']);
-			// 	}
-			// }
-		}
-		else
-		{
-			$this->db->where( 'period_id', _TAHUN_ID_ );
-			// $this->db->where('term_id', _TERM_ID_);
-		}
-	}
 
 
 	function grap_mitigasi()
@@ -687,7 +573,10 @@ class Data extends MX_Model
 		$semilanpuluh   = 0;
 		$tujuhlima      = 0;
 		$nol            = 0;
-
+		$owner_id110 = [];
+		$owner_id100 = [];
+		$owner_id90 = [];
+		$owner_id75 = [];
 		foreach( $rows_progres as $key => $value )
 		{
 			$histori = $this->db->where( 'rcsa_id', $value['rcsa_id'] )->where( 'tipe_log', 2 )->where( 'keterangan like', '%final%' )->order_by( 'tanggal', 'desc' )->get( _TBL_VIEW_LOG_APPROVAL )->row_array();
@@ -697,7 +586,7 @@ class Data extends MX_Model
 				$tgl_final = $histori['tanggal'];
 
 				$this->db->where( 'rcsa_detail_id', $value['rcsa_detail_id'] );
-				$rows = $this->db->select( 'rcsa_detail_id as id, aktual, created_at, batas_waktu' )
+				$rows = $this->db->select( 'owner_id, rcsa_detail_id as id, aktual, created_at, batas_waktu' )
 				->get( _TBL_VIEW_RCSA_MITIGASI_DETAIL )->result_array();
 
 				$jmlmiti += count( $rows );
@@ -723,23 +612,31 @@ class Data extends MX_Model
 					elseif( $diff == 110 )
 					{
 						$seratussepuluh += 1;
+						$owner_id110[] = $row['owner_id'];
 					}
 					elseif( $diff == 100 )
 					{
+						$owner_id100[] = $row['owner_id'];
 						$seratus += 1;
 					}
 					elseif( $diff == 90 )
 					{
+						$owner_id90[] = $row['owner_id'];
 						$semilanpuluh += 1;
 					}
 					elseif( $diff == 75 )
 					{
+						$owner_id75[] = $row['owner_id'];
 						$tujuhlima += 1;
 					}
 
 				}
 			}
 		}
+		$hasil['owner_id110'] = $owner_id110;
+		$hasil['owner_id100'] = $owner_id100;
+		$hasil['owner_id90'] = $owner_id90;
+		$hasil['owner_id75'] = $owner_id75;
 		$hasil['total'] = $jmlmiti;
 		$hasil['110']   = $seratussepuluh;
 		$hasil['100']   = $seratus;
@@ -1027,6 +924,10 @@ class Data extends MX_Model
 		$semilanpuluh   = 0;
 		$tujuhlima      = 0;
 		$nol            = 0;
+		$owner_id110 = [];
+		$owner_id100 = [];
+		$owner_id90 = [];
+		$owner_id75 = [];
 		foreach( $rows as $row )
 		{
 			$tgl  = $this->get_minggu( $row['minggu_id'] );
@@ -1045,17 +946,21 @@ class Data extends MX_Model
 			if( $diff == 110 )
 			{
 				$seratussepuluh += 1;
+				$owner_id110[] = $row['owner_id'];
 			}
 			elseif( $diff == 100 )
 			{
+				$owner_id100[] = $row['owner_id'];
 				$seratus += 1;
 			}
 			elseif( $diff == 90 )
 			{
 				$semilanpuluh += 1;
+				$owner_id90[] = $row['owner_id'];
 			}
 			elseif( $diff == 75 )
 			{
+				$owner_id75[] = $row['owner_id'];
 				$tujuhlima += 1;
 			}
 
@@ -1081,6 +986,11 @@ class Data extends MX_Model
 		unset( $row );
 		// dumps($ownerx);
 		// die();
+		
+		$hasil['tepat']['owner_id110'] = $owner_id110;
+		$hasil['tepat']['owner_id100'] = $owner_id100;
+		$hasil['tepat']['owner_id90'] = $owner_id90;
+		$hasil['tepat']['owner_id75'] = $owner_id75;
 		$hasil['tepat']['owner'] = $ownerx;
 		$hasil['tepat']['total'] = count( $owner );
 		$hasil['tepat']['110']   = $seratussepuluh;
