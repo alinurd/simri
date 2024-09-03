@@ -219,8 +219,9 @@ class Data extends MX_Model
 		}
 		else
 		{
-			$id=$this->pos['data']['owner'];
-			$this->filter_data( FALSE, 'il_view_rcsa_approval_mitigasi' );
+			if(isset($this->pos['data']['owner'])){
+				$id=$this->pos['data']['owner'];
+			}			$this->filter_data( FALSE, 'il_view_rcsa_approval_mitigasi' );
 
 			if( count( $id ) )
 			{
