@@ -71,7 +71,7 @@ class Risk_Context extends MY_Controller
 		$this->set_Field_Primary( $this->tbl_master, 'id', TRUE );
 
 		$this->set_Sort_Table( $this->tbl_master, 'created_at', 'desc' );
-		$this->set_Table_List( $this->tbl_master, 'id', '<input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;">', '0%', 'left', 'no-sort' );
+		$this->set_Table_List( $this->tbl_master, 'id', ( $this->_mode_ == "export" ) ? "ID" : '<input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;">', '0%', 'left', 'no-sort', 4, "left", FALSE );
 		$this->set_Table_List( $this->tbl_master, 'owner_name', _l( 'fld_owner_id' ) );
 		$this->set_Table_List( $this->tbl_master, 'kode_dept', '' );
 		$this->set_Table_List( $this->tbl_master, 'stakeholder_id', '', 15 );
@@ -2219,9 +2219,9 @@ class Risk_Context extends MY_Controller
 			 'tag'   => 'a',
 			 'round' => ( $this->configuration['round_button'] ) ? 'rounded-round' : '',
 			 'icon'  => 'icon-import',
-			 'url'   => '#!',
+			 'url'   => base_url( _MODULE_NAME_ . '/export-lap' ),
 
-			 'attr'  => ' target="" data-url="' . base_url( _MODULE_NAME_ . '/export-lap/' ) . '"',
+			 'attr'  => ' target="_blank" data-url="' . base_url( _MODULE_NAME_ . '/export-lap' ) . '"',
 			 'align' => 'left',
 			];
 
@@ -2232,9 +2232,9 @@ class Risk_Context extends MY_Controller
 			 'tag'   => 'a',
 			 'round' => ( $this->configuration['round_button'] ) ? 'rounded-round' : '',
 			 'icon'  => 'icon-import',
-			 'url'   => '#!',
+			 'url'   => base_url( _MODULE_NAME_ . '/export-lap-summary' ),
 
-			 'attr'  => ' target="" data-url="' . base_url( _MODULE_NAME_ . '/export-lap-summary/' ) . '"',
+			 'attr'  => ' target="_blank" data-url="' . base_url( _MODULE_NAME_ . '/export-lap-summary' ) . '"',
 			 'align' => 'left',
 			];
 		}

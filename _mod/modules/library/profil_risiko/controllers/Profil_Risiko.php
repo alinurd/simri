@@ -68,34 +68,34 @@ class Profil_Risiko extends MY_Controller
 
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 
-		$this->set_Sort_Table( $this->tbl_master, 'profil_id', 'desc' ); 
+		$this->set_Sort_Table( $this->tbl_master, 'profil_id', 'desc' );
 		$this->set_Group_Table( $this->tbl_master, 'bulan_id' );
 		$this->set_Group_Table( $this->tbl_master, 'kode_risk' );
 		$this->set_Group_Table( $this->tbl_master, 'period_id' );
 
 
 		$this->set_Where_Table( [ 'field' => 'status_final', 'value' => 1 ] );
-		$this->set_Where_Table(['field'=>'bulan_id', 'op'=>'>', 'value'=>0]);
+		$this->set_Where_Table( [ 'field' => 'bulan_id', 'op' => '>', 'value' => 0 ] );
 
-		
+
 		$this->set_Table_List( $this->tbl_master, 'id', '<input type="checkbox" class="form-check-input pointer" name="chk_list_parent" id="chk_list_parent"  style="padding:0;margin:0;">', '0%', 'left', 'no-sort' );
 		$this->set_Table_List( $this->tbl_master, 'kode_risk', 'Kode Risiko' );
 		$this->set_Table_List( $this->tbl_master, 'owner_name', 'Owner' );
 		$this->set_Table_List( $this->tbl_master, 'period_id', 'Tahun' );
- 
+
 		$this->set_Table_List( $this->tbl_master, 'bulan_id', 'Bulan' );
- 
+
 		$this->set_Table_List( $this->tbl_master, 'risiko_dept', 'Risiko Dept.' );
 		$this->set_Table_List( $this->tbl_master, 'klasifikasi_risiko', 'Klasifikasi' );
-		$this->set_Table_List( $this->tbl_master, 'like_code', 'Risiko Inheren' );
+		$this->set_Table_List( $this->tbl_master, 'like_code', 'Risiko Inherent' );
 		$this->set_Table_List( $this->tbl_master, 'efek_kontrol_text', 'Efek Kontrol' );
 		$this->set_Table_List( $this->tbl_master, 'like_code_residual', 'Risiko Current' );
 		$this->set_Table_List( $this->tbl_master, 'treatment', 'Respon' );
 		$this->set_Table_List( $this->tbl_master, 'like_code_target', 'Risiko Residual' );
 		$this->set_Table_List( $this->tbl_master, 'jml', 'Mitigasi' );
 
-		$this->_set_Where_Owner();
 
+		$this->_set_Where_Owner();
 		$this->set_Close_Setting();
 		$this->super_user = intval( $this->_data_user_['is_admin'] );
 		$this->ownerx     = intval( ( $this->super_user == 0 ) ? $this->_data_user_['owner_id'] : 0 );
@@ -103,7 +103,7 @@ class Profil_Risiko extends MY_Controller
 
 		$configuration = [
 		 'show_title_header' => FALSE,
-		 'show_list_header'  => TRUE,
+		 'show_list_header'  => FALSE,
 		 'content_title'     => 'Profil Risiko List' . form_hidden( [ 'is_admin' => $this->super_user, 'owner' => $this->ownerx ] )
 		];
 		return [
@@ -196,10 +196,11 @@ class Profil_Risiko extends MY_Controller
 	function listBox_like_code_residual( $field, $rows, $value )
 	{
 
-		
-		$this->db->where('bulan_id', $rows['bulan_id']); 
-		if(isset($this->post['bulan_id'])){
-			$this->db->where('bulan_id', $this->post['bulan_id']); 
+
+		$this->db->where( 'bulan_id', $rows['bulan_id'] );
+		if( isset( $this->post['bulan_id'] ) )
+		{
+			$this->db->where( 'bulan_id', $this->post['bulan_id'] );
 		}
 		$this->db->select( 'level_color_mon, color_text_mon, color_mon, like_code_mon, impact_code_mon, likximpact' );
 		$this->db->where( 'id', $rows['id'] );
@@ -228,11 +229,11 @@ class Profil_Risiko extends MY_Controller
 
 	function listBox_jml( $field, $rows, $value )
 	{
-		$mit  = $this->db->select( 'jml' )->where( 'rcsa_detail_id', $rows['id'] )->get( _TBL_VIEW_RCSA_MITIGASI )->row_array();
+		$mit = $this->db->select( 'jml' )->where( 'rcsa_detail_id', $rows['id'] )->get( _TBL_VIEW_RCSA_MITIGASI )->row_array();
 
 
 		// doi::dump($rows);
-		$a = '<div class="text-center"><span class="badge bg-teal-400 badge-pill align-self-center ml-auto">' . $mit['jml'] . '</span></div>';
+		$a = '<div class="text-center"><span class="badge bg-teal-400 badge-pill align-self-center ml-auto">' . ( ! empty( $mit['jml'] ) ? $mit['jml'] : "" ) . '</span></div>';
 		return $a;
 	}
 
@@ -584,17 +585,17 @@ class Profil_Risiko extends MY_Controller
 			}
 			$tipe_analisa_no = $data['tipe_analisa_no'];
 		}
-		$tipe_analisa .= '<div class="form-check form-check-inline"><label class="form-check-label">';
-		$tipe_analisa .= form_radio( 'tipe_analisa_no', 1, $check1, 'id="tipe_analisa_no_1"  class="form-check-primary" ' );
-		$tipe_analisa .= form_label( '&nbsp;&nbsp;&nbsp; Kualitatif &nbsp;&nbsp;', 'tipe_analisa_no_1', [ 'class' => 'pointer' ] );
-		$tipe_analisa .= '</label></div>';
+		// $tipe_analisa .= '<div class="form-check form-check-inline"><label class="form-check-label">';
+		// $tipe_analisa .= form_radio( 'tipe_analisa_no', 1, $check1, 'id="tipe_analisa_no_1"  class="form-check-primary" ' );
+		// $tipe_analisa .= form_label( '&nbsp;&nbsp;&nbsp; Kualitatif &nbsp;&nbsp;', 'tipe_analisa_no_1', [ 'class' => 'pointer' ] );
+		// $tipe_analisa .= '</label></div>';
 		$tipe_analisa .= '<div class="form-check form-check-inline"><label class="form-check-label">';
 		$tipe_analisa .= form_radio( 'tipe_analisa_no', 2, $check2, 'id="tipe_analisa_no_2"  class="form-check-primary" ' );
 		$tipe_analisa .= form_label( '&nbsp;&nbsp;&nbsp; Kuantitatif &nbsp;&nbsp;', 'tipe_analisa_no_2', [ 'class' => 'pointer' ] );
 		$tipe_analisa .= '</label></div>';
 		$tipe_analisa .= '<div class="form-check form-check-inline"><label class="form-check-label">';
 		$tipe_analisa .= form_radio( 'tipe_analisa_no', 3, $check3, 'id="tipe_analisa_no_3"  class="form-check-primary" ' );
-		$tipe_analisa .= form_label( '&nbsp;&nbsp;&nbsp; Semi Kuantitatif &nbsp;&nbsp;', 'tipe_analisa_no_3', [ 'class' => 'pointer' ] );
+		$tipe_analisa .= form_label( '&nbsp;&nbsp;&nbsp; Kualitatif &nbsp;&nbsp;', 'tipe_analisa_no_3', [ 'class' => 'pointer' ] );
 		$tipe_analisa .= '</label></div><br/>&nbsp<br/>&nbsp;';
 
 		$param['tipe_analisa_no'] = $tipe_analisa_no;
@@ -1126,9 +1127,9 @@ class Profil_Risiko extends MY_Controller
 		$jmlstatus                 = $this->map->get_jumlah_status_profil();
 		$data['jml_target_status'] = $jmlstatus['content'];
 		$data['jml_target']        = '';
-		if($jmlstatus['total'] > 0 )
+		if( $jmlstatus['total'] > 0 )
 		{
-			$data['jml_target'] = '<span class="badge bg-warning badge-pill"> ' .$jmlstatus['total'] . ' </span>';
+			$data['jml_target'] = '<span class="badge bg-warning badge-pill"> ' . $jmlstatus['total'] . ' </span>';
 		}
 
 		return $data;
@@ -1166,9 +1167,9 @@ class Profil_Risiko extends MY_Controller
 		$hasil['kpi'] = $this->load->view( 'detail', $det, TRUE );
 
 		// $y=$this->data->get_data_kompilasi($this->pos['period'],$this->pos['owner'],$this->pos['type_ass'], $this->_data_user_);
-		$y        = $this->data->get_data_kompilasi( $this->_data_user_, false );
-		$y['pos'] = $this->pos;
-		$y['picku'] = $this->get_data_dept();
+		$y                 = $this->data->get_data_kompilasi( $this->_data_user_, FALSE );
+		$y['pos']          = $this->pos;
+		$y['picku']        = $this->get_data_dept();
 		$hasil['progress'] = $this->load->view( 'monitoring', $y, TRUE );
 
 		header( 'Content-type: application/json' );
@@ -1194,10 +1195,10 @@ class Profil_Risiko extends MY_Controller
 
 	function get_progress()
 	{
-		$id        = $this->input->post( 'id' );
-		$this->pos = $this->input->post();
-		$y        = $this->data->get_data_kompilasi_by_id( $id );
-		$y['pos'] = $this->pos;
+		$id         = $this->input->post( 'id' );
+		$this->pos  = $this->input->post();
+		$y          = $this->data->get_data_kompilasi_by_id( $id );
+		$y['pos']   = $this->pos;
 		$y['picku'] = $this->get_data_dept();
 
 		$hasil['combo'] = $this->hasil = $this->load->view( 'monitoring', $y, TRUE );
@@ -1240,12 +1241,12 @@ class Profil_Risiko extends MY_Controller
 
 	function get_monitoring()
 	{
-		$id           = $this->input->post( 'id' );
-		$rcsa         = $this->input->post( 'rcsa' );
-		$data         = $this->data->get_data_monitoring_profil( $id, $rcsa );
-		$data['id']   = $id;
-		$data['rcsa'] = $rcsa;
-		$data['url']  = 'profil-risiko';
+		$id            = $this->input->post( 'id' );
+		$rcsa          = $this->input->post( 'rcsa' );
+		$data          = $this->data->get_data_monitoring_profil( $id, $rcsa );
+		$data['id']    = $id;
+		$data['rcsa']  = $rcsa;
+		$data['url']   = 'profil-risiko';
 		$data['picku'] = $this->get_data_dept();
 		// $data['export']=false;
 		$data['back'] = TRUE;
@@ -1257,7 +1258,7 @@ class Profil_Risiko extends MY_Controller
 	function cetak_lap( $id, $rcsa )
 	{
 		$data           = $this->data->get_data_monitoring_profil( $id, $rcsa );
-		$data['picku'] = $this->get_data_dept();
+		$data['picku']  = $this->get_data_dept();
 		$data['id']     = $id;
 		$data['rcsa']   = $rcsa;
 		$data['export'] = FALSE;
@@ -1280,8 +1281,8 @@ class Profil_Risiko extends MY_Controller
 		];
 		$this->pos       = $data;
 		$this->data->pos = $this->pos;
-		$data            = $this->data->get_data_kompilasi( $this->_data_user_, true );
-		$data['picku'] = $this->get_data_dept();
+		$data            = $this->data->get_data_kompilasi( $this->_data_user_, TRUE );
+		$data['picku']   = $this->get_data_dept();
 
 		// $data['id']=$id;
 		$data['export'] = FALSE;
@@ -1289,7 +1290,7 @@ class Profil_Risiko extends MY_Controller
 
 		$hasil = $this->load->view( 'monitoring', $data, TRUE );
 
- 		$cetak   = 'register_excel';
+		$cetak   = 'register_excel';
 		$nm_file = 'Laporan-Mitigasi-Kompilasi';
 		$this->$cetak( $hasil, $nm_file );
 	}

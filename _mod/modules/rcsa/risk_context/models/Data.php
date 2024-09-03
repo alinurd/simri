@@ -1471,7 +1471,7 @@ class Data extends MX_Model
 
 	function getDataDropdownDivision( $id, $seksi = "", $isAjax = FALSE, $validate = "" )
 	{
-
+		$id                       = ( intval( $id ) ) ? (int) $id : "";
 		$queryGet["formAtSelect"] = [ "id", "owner_code", "CONCAT(owner_name,' - ',owner_code) as text", "level" ];
 		$queryGet["orderBy"]      = "urut ASC";
 		$data                     = [];

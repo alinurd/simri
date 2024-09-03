@@ -33,10 +33,10 @@ class Lost_Event_Database extends MY_Controller
 		$this->set_Table( _TBL_OWNER );
 		$this->set_Open_Tab( 'Data Loss Risk Event Library' );
 		$this->addField( array( 'field' => 'id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ) );
-		$this->addField( [ 'field' => 'owner_code', 'title' => 'Kode Departemen', 'readonly' => 'readonly', 'input' => 'text' ] );
+		$this->addField( [ 'field' => 'owner_code', 'title' => 'Kode Departement', 'readonly' => 'readonly', 'input' => 'text' ] );
 
-		$this->addField( [ 'field' => 'owner_no', 'title' => 'Departemen', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->cbo_owner ] );
-		$this->addField( array( 'field' => 'peristiwa', 'title' => 'Risiko Departemen', 'required' => TRUE, 'input' => 'combo', 'values' => $this->risiko_dept ) );
+		$this->addField( [ 'field' => 'owner_no', 'title' => 'Departement', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->cbo_owner ] );
+		$this->addField( array( 'field' => 'peristiwa', 'title' => 'Risiko Departement', 'required' => TRUE, 'input' => 'combo', 'values' => $this->risiko_dept ) );
 		$this->addField( array( 'field' => 'tempat_kejadian', 'title' => 'Sumber / Tempat Kejadian', 'input' => 'multitext', 'size' => 500 ) );
 		$this->addField( array( 'field' => 'tanggal', 'title' => 'Waktu Kejadian', 'input' => 'date', 'type' => 'date', 'size' => 100 ) );
 
@@ -144,9 +144,8 @@ class Lost_Event_Database extends MY_Controller
 	function import()
 	{
 		ini_set( 'MAX_EXECUTION_TIME', -1 );
-		$post = $this->input->post();
-		$file = $_FILES;
-
+		$post     = $this->input->post();
+		$file     = $_FILES;
 		$fileName = time() . $file['import']['name'];
 		$upload   = upload_image_new( array( 'type' => 'xls|xlsx|csv', 'nm_file' => 'import', 'path' => 'upload', 'thumb' => FALSE ) );
 
@@ -196,9 +195,10 @@ class Lost_Event_Database extends MY_Controller
 					$data[] = $upd;
 				}
 			}
-
-
-			$this->db->insert_batch( _TBL_LOSS_EVENT, $data );
+			if( ! empty( $data ) )
+			{
+				$this->db->insert_batch( _TBL_LOSS_EVENT, $data );
+			}
 			unlink( $inputFileName ); //File Deleted After uploading in database .		
 			$this->session->set_flashdata( 'message_crud', 'Data berhasil diimport' );
 			header( 'location:' . base_url( _MODULE_NAME_ ) );

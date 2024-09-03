@@ -690,7 +690,7 @@ class MY_Controller extends MX_Controller
 		}
 	}
 
-	function set_Table_List( $nmtbl, $field, $title = '', $size = 0, $align = 'left', $print = TRUE )
+	function set_Table_List( $nmtbl, $field, $title = '', $size = 0, $align = 'left', $print = TRUE, $sort = FALSE )
 	{
 
 		if( empty( $title ) )
@@ -705,7 +705,7 @@ class MY_Controller extends MX_Controller
 			}
 		}
 
-		$this->tmp_data['title'][] = array( $nmtbl, $field, $title, $size, $align, $print );
+		$this->tmp_data['title'][] = array( $nmtbl, $field, $title, $size, $align, $print, $sort );
 	}
 
 	function _DONT_UPDATE()
@@ -2324,7 +2324,7 @@ class MY_Controller extends MX_Controller
 			{
 				$data[] = '';
 			}
-			$data[] = '<div class="text-center">' . ++$no . '</div>';
+			$data[] = '<div class="text-center" data-ordering="false">' . ++$no . '</div>';
 			foreach( $this->tmp_data['title'] as $tit )
 			{
 				$mod = 'listBox_' . strtoupper( $tit[1] );
