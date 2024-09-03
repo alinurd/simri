@@ -7,7 +7,7 @@
             <th>Departement</th>
             <th>Risiko Dept.</th>
             <th>Klasifikasi</th>
-            <th>Risiko Inheren</th>
+            <th>Risiko Inherent</th>
             <th>Risiko Current</th>
             <th>Risiko Residual</th>
             <th width="6%">Mitigasi</th>
