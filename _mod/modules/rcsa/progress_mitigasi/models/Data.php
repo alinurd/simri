@@ -176,12 +176,22 @@ class Data extends MX_Model
 		{
 			$indi = 0;
 		}
+		$this->db->where( 'id', intval( $this->post['rcsa_detail_no'] ) );
+		$this->db->where( 'month', intval( $this->post['month'] ) );
+		$p = $this->db->get( "il_view_rcsa_detail_monitoring" )->row_array();
 
-		$this->crud->crud_table( _TBL_RCSA_KPI );
-		$this->crud->crud_field( 'rcsa_id', $this->post['rcsa_id'], 'int' );
-		$this->crud->crud_field( 'minggu_id', $this->post['minggu'], 'int' );
-		$this->crud->crud_field( 'kpi_id', 0, 'int' );
-		$this->crud->crud_field( 'title', $this->post['title'] );
+		$this->db->where( 'id', intval( $this->post['kri_id'] ) );
+		$c = $this->db->get( "il_combo" )->row_array();
+
+		$this->db->where( 'rcsa_id', intval( $p['rcsa_id'] ) );
+		$this->db->where( 'minggu_id', intval( $p['bulan_id'] ) );
+		$kpi = $this->db->get( _TBL_RCSA_KPI )->row_array(); 
+
+ 		$this->crud->crud_table( _TBL_RCSA_KPI );
+		$this->crud->crud_field( 'rcsa_id', $p['rcsa_id'], 'int' );
+		$this->crud->crud_field( 'minggu_id', $p['bulan_id'], 'int' );
+		$this->crud->crud_field( 'kpi_id', $this->post['kri_id'], 'int' );
+		$this->crud->crud_field( 'title', $c['data'] );
 		$this->crud->crud_field( 'satuan_id', $this->post['satuan_id'] );
 		$this->crud->crud_field( 'p_1', $this->post['p_1'] );
 		$this->crud->crud_field( 's_1_min', $this->post['s_1_min'] );
@@ -200,16 +210,17 @@ class Data extends MX_Model
 		$this->crud->crud_field( 's_3_max', $this->post['s_3_max'] );
 		$this->crud->crud_field( 'score', $this->post['score'] );
 		$this->crud->crud_field( 'indikator', $indi );
-		if( $this->post['edit_id'] == 0 )
+		if($kpi)
 		{
-			$this->crud->crud_type( 'add' );
-			$this->crud->crud_field( 'created_by', $this->ion_auth->get_user_name() );
+			$this->crud->crud_type( 'edit' );
+			$this->crud->crud_where( [ 'field' => 'id', 'value' => $kpi['id'] ] );
+			$this->crud->crud_field( 'updated_by', $this->ion_auth->get_user_name() );
 		}
 		else
 		{
-			$this->crud->crud_type( 'edit' );
-			$this->crud->crud_where( [ 'field' => 'id', 'value' => $this->post['edit_id'] ] );
-			$this->crud->crud_field( 'updated_by', $this->ion_auth->get_user_name() );
+			
+			$this->crud->crud_type( 'add' );
+			$this->crud->crud_field( 'created_by', $this->ion_auth->get_user_name() );
 		}
 		$this->crud->process_crud();
 		return TRUE;

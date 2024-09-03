@@ -2455,8 +2455,10 @@ class Progress_Mitigasi extends MY_Controller
 	function simpan_like_indi()
 	{
 		$post = $this->input->post();
+		// model simpan
+		$this->data->post = $post;
 
-		// model simpan 
+		$sKPI = $this->data->simpan_kpi();
 		$hasil = $this->data->simpan_like_indi($post);
 
 		$id_detail = intval($post['rcsa_detail_no']);
@@ -2610,9 +2612,9 @@ class Progress_Mitigasi extends MY_Controller
 			$disabled = '';
 			if( intval( $post['bk_tipe'] ) > 1 )
 			{
-				$disabled = ' disabled="disabled" ';
+				$disabled = ' readonly="readonly" ';
 			}
-			$disabled = ' disabled="disabled" ';
+			$disabled = ' readonly="readonly" ';
 			$pembobotan = '<div class="input-group" style="width:15% !important;">
 				<button type="button" onclick="this.parentNode.querySelector(\'[type=number]\').stepDown();">
 					-
