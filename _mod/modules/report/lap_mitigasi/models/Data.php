@@ -133,7 +133,7 @@ class Data extends MX_Model
 			{
 				$this->db->where_in( 'il_view_rcsa_approval_mitigasi.owner_id', $id );
 			}
- 			// $this->db->where( 'minggu_id', $this->pos['minggu'] );
+ 			$this->db->where( 'minggu_id', $this->pos['minggu'] );
 			
 			
 			$this->db->join( 'il_view_rcsa_mitigasi_detail', 'il_view_rcsa_mitigasi_detail.rcsa_id = il_view_rcsa_approval_mitigasi.rcsa_id' );
