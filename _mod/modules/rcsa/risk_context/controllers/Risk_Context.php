@@ -2219,9 +2219,9 @@ class Risk_Context extends MY_Controller
 			 'tag'   => 'a',
 			 'round' => ( $this->configuration['round_button'] ) ? 'rounded-round' : '',
 			 'icon'  => 'icon-import',
-			 'url'   => '#!',
+			 'url'   => base_url( _MODULE_NAME_ . '/export-lap' ),
 
-			 'attr'  => ' target="" data-url="' . base_url( _MODULE_NAME_ . '/export-lap/' ) . '"',
+			 'attr'  => ' target="_blank" data-url="' . base_url( _MODULE_NAME_ . '/export-lap' ) . '"',
 			 'align' => 'left',
 			];
 
@@ -2232,9 +2232,9 @@ class Risk_Context extends MY_Controller
 			 'tag'   => 'a',
 			 'round' => ( $this->configuration['round_button'] ) ? 'rounded-round' : '',
 			 'icon'  => 'icon-import',
-			 'url'   => '#!',
+			 'url'   => base_url( _MODULE_NAME_ . '/export-lap-summary' ),
 
-			 'attr'  => ' target="" data-url="' . base_url( _MODULE_NAME_ . '/export-lap-summary/' ) . '"',
+			 'attr'  => ' target="_blank" data-url="' . base_url( _MODULE_NAME_ . '/export-lap-summary' ) . '"',
 			 'align' => 'left',
 			];
 		}

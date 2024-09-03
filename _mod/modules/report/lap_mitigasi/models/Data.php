@@ -31,6 +31,175 @@ class Data extends MX_Model
 		return $rows;
 	}
 
+	function detail_lap_ketepatan()
+	{
+		$owner = [];
+		$rows  = $this->db->select( '*, 0 as target, 0 as aktual , "" as tgl_propose, "" as file  ' )->where( 'owner_code<>', '' )->get( _TBL_OWNER )->result_array();
+		foreach( $rows as $row )
+		{
+			$owner[$row['id']] = $row;
+		}
+
+		unset( $this->pos['tgl1'] );
+		$this->filter_data();
+		$this->db->where( 'kode_dept<>', '' );
+		$rows           = $this->db->select( 'owner_id as id, kode_dept as owner_code, owner_name, 0 as status, tgl_propose, minggu_id' )->group_by( [ 'owner_id', 'kode_dept', 'owner_name' ] )->get( _TBL_VIEW_RCSA_APPROVAL_MITIGASI )->result_array();
+		$tmp            = [];
+		$seratussepuluh = [];
+		$seratus        = [];
+		$semilanpuluh   = [];
+		$tujuhlima      = [];
+		$nol            = [];
+		foreach( $rows as $row )
+		{
+			$tgl  = $this->get_minggu( $row['minggu_id'] );
+			$time = strtotime( $tgl );
+
+			$newformat = date( 'Y-m', $time );
+			$deadline  = $newformat . '-05';
+
+			$date1      = date_create( $row['tgl_propose'] );
+			$date2      = date_create( $deadline );
+			$diffo      = date_diff( $date2, $date1 );
+			$nilai_diff = intval( $diffo->format( "%R%a" ) );
+			$diff       = $this->kepatuhan( $nilai_diff );
+
+
+			if( $diff == 110 )
+			{
+				$seratussepuluh[] = $row['id'];
+				$tmp[$row['id']]  = $row;
+
+			}
+			elseif( $diff == 100 )
+			{
+				$seratus[]       = $row['id'];
+				$tmp[$row['id']] = $row;
+
+			}
+			elseif( $diff == 90 )
+			{
+				$semilanpuluh[]  = $row['id'];
+				$tmp[$row['id']] = $row;
+
+			}
+			elseif( $diff == 75 )
+			{
+				$tujuhlima[]     = $row['id'];
+				$tmp[$row['id']] = $row;
+
+			}
+		}
+		$id = [];
+		foreach( $owner as $key => $row )
+		{
+			if( array_key_exists( $key, $tmp ) )
+			{
+				unset( $owner[$key] );
+				$nol[] = $key;
+			}
+		}
+
+		if( intval( $this->pos['data']['param_id'] ) == 1 )
+		{
+			$id = $tujuhlima;
+		}
+		elseif( intval( $this->pos['data']['param_id'] ) == 2 )
+		{
+			$id = $semilanpuluh;
+		}
+		elseif( intval( $this->pos['data']['param_id'] ) == 3 )
+		{
+			$id = $seratus;
+		}
+		elseif( intval( $this->pos['data']['param_id'] ) == 4 )
+		{
+			$id = $seratussepuluh;
+		}
+
+		unset( $row );
+		if( intval( $this->pos['data']['param_id'] ) == 0 )
+		{
+			$rows = $owner;
+		}
+		else
+		{
+			$this->filter_data();
+			if( ! empty( $id ) )
+			{
+				$this->db->where_in( 'owner_id', $id );
+			}
+
+			$rows = $this->db->select( 'owner_id, kode_dept as owner_code, owner_name, tgl_propose,0 as status,0 as target,0 as aktual,file_att as file' )->group_by( [ 'owner_id', 'kode_dept', 'owner_name' ] )
+			// ->get_compiled_select( _TBL_VIEW_RCSA_APPROVAL_MITIGASI );
+			->get( _TBL_VIEW_RCSA_APPROVAL_MITIGASI )->result_array();
+
+
+		}
+		// dumps($rows);
+		// die();
+		$hasil['data'] = $rows;
+
+		return $hasil;
+	}
+
+	function detail_lap_komitment()
+	{
+		$owner = [];
+		$rows  = $this->db->select( '*, 0 as target, 0 as aktual , "" as tgl_propose, "" as file ' )->where( 'owner_code<>', '' )->get( _TBL_OWNER )->result_array();
+		foreach( $rows as $row )
+		{
+			$owner[$row['id']] = $row;
+		}
+
+		$this->filter_data();
+		$rows = $this->db->select( 'owner_id, status_lengkap, 0 as status' )->group_by( [ 'owner_id', 'status_lengkap' ] )->get( _TBL_VIEW_RCSA_APPROVAL_MITIGASI )->result_array();
+		$tmp  = [];
+		foreach( $rows as $row )
+		{
+			$tmp[$row['owner_id']] = $row;
+		}
+		$id = [];
+		foreach( $owner as $key => &$row )
+		{
+			if( array_key_exists( $key, $tmp ) )
+			{
+				unset( $owner[$key] );
+				if( intval( $this->pos['data']['param_id'] ) == 1 && $tmp[$key]['status_lengkap'] == 1 )
+				{
+					$id[] = $key;
+				}
+				elseif( intval( $this->pos['data']['param_id'] ) == 2 && $tmp[$key]['status_lengkap'] == 2 )
+				{
+					$id[] = $key;
+				}
+			}
+			else
+			{
+				if( intval( $this->pos['data']['param_id'] ) == 0 )
+				{
+					$id[] = $key;
+				}
+			}
+		}
+		if( ! $id )
+		{
+			$id[] = 0;
+		}
+		if( intval( $this->pos['data']['param_id'] ) > 0 )
+		{
+			$this->filter_data();
+			$this->db->where_in( 'owner_id', $id );
+			$rows = $this->db->select( 'owner_id, kode_dept as owner_code, owner_name, tgl_propose, 0 as status, 0 as target, 0 as aktual, file_att as file  ' )->get( _TBL_VIEW_RCSA_APPROVAL_MITIGASI )->result_array();
+		}
+		else
+		{
+			$rows = $owner;
+		}
+		$hasil['data'] = $rows;
+
+		return $hasil;
+	}
 	function get_data_kompilasi( $period, $owner, $type )
 	{
 		if( $type == '' || $type == 0 )

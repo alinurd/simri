@@ -2324,7 +2324,7 @@ class MY_Controller extends MX_Controller
 			{
 				$data[] = '';
 			}
-			$data[] = '<div class="text-center">' . ++$no . '</div>';
+			$data[] = '<div class="text-center" data-ordering="false">' . ++$no . '</div>';
 			foreach( $this->tmp_data['title'] as $tit )
 			{
 				$mod = 'listBox_' . strtoupper( $tit[1] );

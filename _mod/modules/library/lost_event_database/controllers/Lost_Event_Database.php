@@ -144,9 +144,8 @@ class Lost_Event_Database extends MY_Controller
 	function import()
 	{
 		ini_set( 'MAX_EXECUTION_TIME', -1 );
-		$post = $this->input->post();
-		$file = $_FILES;
-
+		$post     = $this->input->post();
+		$file     = $_FILES;
 		$fileName = time() . $file['import']['name'];
 		$upload   = upload_image_new( array( 'type' => 'xls|xlsx|csv', 'nm_file' => 'import', 'path' => 'upload', 'thumb' => FALSE ) );
 
@@ -196,9 +195,10 @@ class Lost_Event_Database extends MY_Controller
 					$data[] = $upd;
 				}
 			}
-
-
-			$this->db->insert_batch( _TBL_LOSS_EVENT, $data );
+			if( ! empty( $data ) )
+			{
+				$this->db->insert_batch( _TBL_LOSS_EVENT, $data );
+			}
 			unlink( $inputFileName ); //File Deleted After uploading in database .		
 			$this->session->set_flashdata( 'message_crud', 'Data berhasil diimport' );
 			header( 'location:' . base_url( _MODULE_NAME_ ) );

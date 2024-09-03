@@ -41,7 +41,7 @@ class Officer extends MY_Controller
 		$this->set_Close_Coloums();
 		$this->set_Open_Coloums();
 		$this->addField( [ 'field' => 'sts_login', 'input' => 'boolean', 'search' => TRUE, 'line' => TRUE, 'line-text' => 'Authentication', 'line-icon' => 'icon-users' ] );
-		$this->addField( [ 'field' => 'username', 'save' => FALSE ] );
+		$this->addField( [ 'field' => 'username', 'save' => FALSE, "title" => "NIP [Username]", "readonly" => TRUE ] );
 		$this->addField( [ 'field' => 'password', 'type' => 'free', 'input' => 'pass' ] );
 		$this->addField( [ 'field' => 'passwordc', 'type' => 'free', 'required' => FALSE, 'input' => 'pass' ] );
 		$this->addField( [ 'field' => 'group', 'title' => 'Group', 'type' => 'free', 'input' => 'combo', 'values' => $this->cboGroup, 'multiselect' => TRUE ] );
@@ -69,7 +69,9 @@ class Officer extends MY_Controller
 		$configuration = [
 		 'show_title_header' => FALSE,
 		 'modal_box_search'  => FALSE,
+		 'box_list_header'   => FALSE,
 		];
+
 		return [
 		 'configuration' => $configuration,
 		];
@@ -98,14 +100,36 @@ class Officer extends MY_Controller
 
 	function inputBox_USERNAME( $mode, $field, $row, $value )
 	{
-
 		if( $mode == 'edit' )
 		{
 			$rows = $this->db->where( 'id', $row['id'] )->get( _TBL_OFFICER )->row();
 			if( $rows )
 				$value = $rows->nip;
 		}
+		$content = $this->set_box_input( $field, $value );
+		return $content;
+	}
 
+	function inputBox_password( $mode, $field, $row, $value )
+	{
+		if( $mode == 'edit' )
+		{
+			$rows = $this->db->where( 'id', $row['id'] )->get( _TBL_USERS )->row();
+			if( $rows )
+				$value = $rows->password_text;
+		}
+		$content = $this->set_box_input( $field, $value );
+		return $content;
+	}
+
+	function inputBox_passwordc( $mode, $field, $row, $value )
+	{
+		if( $mode == 'edit' )
+		{
+			$rows = $this->db->where( 'id', $row['id'] )->get( _TBL_USERS )->row();
+			if( $rows )
+				$value = $rows->password_text;
+		}
 		$content = $this->set_box_input( $field, $value );
 		return $content;
 	}
@@ -158,10 +182,6 @@ class Officer extends MY_Controller
 				$this->logdata->set_error( "username - " . $data['username'] . ' - sudah digunakan' );
 				++$no;
 			}
-
-
-
-
 			$errors = [];
 			if( $data['password'] !== $data['passwordc'] )
 			{
@@ -216,7 +236,6 @@ class Officer extends MY_Controller
 
 	function afterSave( $id, $new_data, $old_data, $mode )
 	{
-
 		$result = TRUE;
 		if( $new_data['sts_login'] == 1 )
 		{
@@ -227,6 +246,7 @@ class Officer extends MY_Controller
 				$this->crud->crud_field( 'staft_id', $id, 'int' );
 				$this->crud->crud_field( 'username', $new_data['nip'] );
 				$this->crud->crud_field( 'real_name', $new_data['officer_name'] );
+				$this->crud->crud_field( 'password_text', $new_data['password'] );
 				$this->crud->crud_field( 'photo', $new_data['photo'] );
 				$this->crud->crud_field( 'email', $new_data['email'] );
 				$this->crud->crud_field( 'group_no', implode( ',', $new_data['group'] ) );
@@ -241,6 +261,7 @@ class Officer extends MY_Controller
 				$this->crud->crud_where( [ 'field' => 'staft_id', 'value' => $id ] );
 				$this->crud->crud_field( 'username', $new_data['nip'] );
 				$this->crud->crud_field( 'real_name', $new_data['officer_name'] );
+				$this->crud->crud_field( 'password_text', $new_data['password'] );
 				if( empty( $new_data['photo'] ) )
 				{
 					$this->crud->crud_field( 'photo', ( ! empty( $new_data["photo_tmp"] ) ) ? $new_data['photo_tmp'] : "" );
