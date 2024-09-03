@@ -1,9 +1,9 @@
 <?php
-$r[] = ['value' => $data['110'], 'name' => 'Sebelum Due Date (110%)', 'type_chat' => $data['110%']];
-$r[] = ['value' => $data['100'], 'name' => 'On Schedule (100%)', 'type_chat' => $data['100%']];
-$r[] = ['value' => $data['90'], 'name' => 'Delay 1 month (90%)', 'type_chat' => $data['90%']];
-$r[] = ['value' => $data['75'], 'name' => 'Delay &#62; 1 month (75%)', 'type_chat' => $data['75%']];
-$r[] = ['value' => $data['0'], 'name' => 'Tidak terlaksana (0%)', 'type_chat' => $data['0%']];
+$r[] = ['value' => $data['110'], 'name' => 'Sebelum Due Date (110%)', 'type_chat' => $data['110%'], 'owner'=>$data['owner_id110'] ];
+$r[] = ['value' => $data['100'], 'name' => 'On Schedule (100%)', 'type_chat' => $data['100%'], 'owner'=>$data['owner_id100'] ];
+$r[] = ['value' => $data['90'], 'name' => 'Delay 1 month (90%)', 'type_chat' => $data['90%'], 'owner'=>$data['owner_id90'] ];
+$r[] = ['value' => $data['75'], 'name' => 'Delay &#62; 1 month (75%)', 'type_chat' => $data['75%'], 'owner'=>$data['owner_id75'] ];
+$r[] = ['value' => $data['0'], 'name' => 'Tidak terlaksana (0%)', 'type_chat' => $data['0%'], 'owner'=>0];
 
 $warna = ['#23890f', '#1460d1', '#7e57c2', '#ff0000', '#009688'];
 
