@@ -126,7 +126,6 @@ $(function () {
             _ajax_("post", parent, data, '', url, 'reset_approval');
         }
     })
-
     $("#period_id").change(function () {
         var parent = $(this).parent();
         var nilai = $(this).val();
@@ -137,6 +136,17 @@ $(function () {
         var url = "ajax/get-term";
         _ajax_("post", parent, data, target_combo, url);
     })
+
+    // $(document).on("change", "#period_id", function () {
+    //     var parent = $(this).parent();
+    //     var nilai = $(this).val();
+    //     var data = {
+    //         'id': nilai
+    //     };
+    //     var target_combo = $("#term_id");
+    //     var url = "ajax/get-term";
+    //     _ajax_("post", parent, data, "", url, 'term_data');
+    // })
 
     $("#term_id").change(function () {
         var parent = $(this).parent();
@@ -1798,6 +1808,13 @@ $(document).on('hidden.bs.modal', '#modal_general', function () {
     // $("#refreshRiskDampak").trigger("click");
 });
 
+function term_data(result) {
+    if (result.term_id == 0 || result.minggu_id == 0) {
+        alert("Silahkan Untuk Mengisi Term Dan Minggu Di Menu Parameter");
+    }
+    $("#term_id").val(result.term_id);
+    $("#minggu_id").val(result.minggu_id);
+}
 
 
 
