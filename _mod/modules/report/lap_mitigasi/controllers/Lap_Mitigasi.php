@@ -193,9 +193,8 @@ class Lap_Mitigasi extends MY_Controller
 		$this->owner_child = $this->data->owner_child;
 
 		$data = $this->data->get_detail_char();
-		// dumps($data);
-		// die();
-		$data['mode']   = 0;
+
+ 		$data['mode']   = 0;
 		$x              = $this->load->view( 'detail-char-' . $pos['data']['type_chat'], $data, TRUE );
 		$hasil['combo'] = $x;
 		$this->session->set_userdata( [ 'cetak_grap' => $data ] );
