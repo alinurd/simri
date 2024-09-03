@@ -138,21 +138,21 @@ Sasaran Departemen :
                                 $bg = "background-color: #2c5b29";
                                 $p='p_1';
                                 $smin='s_1_min';
-                                $max='s_1_max';
+                                $smax='s_1_max';
                                 $int = 1;
                             } elseif ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_4_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_4_max']) {
                                 $warna = 'bg-orange-400';
                                 $bg = "background-color: #50ca4e";
                                 $p='p_4';
                                 $smin='s_4_min';
-                                $max='s_4_max';
+                                $smax='s_4_max';
                                 $int = 2;
                             } elseif ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_2_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_2_max']) {
                                 $warna = 'bg-danger-400';
                                 $bg = "background-color: #edfd17";
                                 $p='p_2';
                                 $smin='s_2_min';
-                                $max='s_2_max';
+                                $smax='s_2_max';
                                 $int = 3;
                             } elseif ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_5_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_5_max']) {
                                 $warna = 'bg-danger-400';
