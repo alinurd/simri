@@ -1161,6 +1161,7 @@ class Profil_Risiko extends MY_Controller
 		$hasil['detail_list'] = $this->load->view( 'identifikasi', $x, TRUE );
 
 		$det         = $this->data->get_detail_data( $this->_data_user_ );
+		// doi::dump($det);
 		$det['mode'] = 0;
 		$det['pos']  = $this->pos;
 		// $hasil['kpi'] = '';
@@ -1184,6 +1185,7 @@ class Profil_Risiko extends MY_Controller
 		$data            = $this->data->get_data_kpi_by_id( $this->_data_user_, $pos['rcsa_id'], $pos['id'] );
 		$data['mode']    = 0;
 		$data['id']      = $pos['rcsa_id'];
+		$data['pos']      = $pos;
 
 		$x = $this->load->view( 'detail-kpi', $data, TRUE );
 		$y = $this->load->view( 'detail-kpi2', $data, TRUE );
@@ -1214,6 +1216,7 @@ class Profil_Risiko extends MY_Controller
 		$this->data->pos = $this->pos;
 
 		$x = $this->data->get_data_grap( $rcsa, $id );
+		
 		if( ! empty( $x ) )
 		{
 			$dat['data']    = $x['tepat'];
@@ -1307,6 +1310,7 @@ class Profil_Risiko extends MY_Controller
 		$this->pos       = $data['pos'];
 		$this->data->pos = $this->pos;
 		$data            = $this->data->get_detail_data( $this->_data_user_ );
+		// doi::dump($data);
 		$data['mode']    = 1;
 
 		$hasil = $this->load->view( 'detail', $data, TRUE );
