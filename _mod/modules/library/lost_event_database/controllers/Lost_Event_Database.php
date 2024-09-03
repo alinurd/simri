@@ -33,10 +33,10 @@ class Lost_Event_Database extends MY_Controller
 		$this->set_Table( _TBL_OWNER );
 		$this->set_Open_Tab( 'Data Loss Risk Event Library' );
 		$this->addField( array( 'field' => 'id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ) );
-		$this->addField( [ 'field' => 'owner_code', 'title' => 'Kode Departemen', 'readonly' => 'readonly', 'input' => 'text' ] );
+		$this->addField( [ 'field' => 'owner_code', 'title' => 'Kode Departement', 'readonly' => 'readonly', 'input' => 'text' ] );
 
-		$this->addField( [ 'field' => 'owner_no', 'title' => 'Departemen', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->cbo_owner ] );
-		$this->addField( array( 'field' => 'peristiwa', 'title' => 'Risiko Departemen', 'required' => TRUE, 'input' => 'combo', 'values' => $this->risiko_dept ) );
+		$this->addField( [ 'field' => 'owner_no', 'title' => 'Departement', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->cbo_owner ] );
+		$this->addField( array( 'field' => 'peristiwa', 'title' => 'Risiko Departement', 'required' => TRUE, 'input' => 'combo', 'values' => $this->risiko_dept ) );
 		$this->addField( array( 'field' => 'tempat_kejadian', 'title' => 'Sumber / Tempat Kejadian', 'input' => 'multitext', 'size' => 500 ) );
 		$this->addField( array( 'field' => 'tanggal', 'title' => 'Waktu Kejadian', 'input' => 'date', 'type' => 'date', 'size' => 100 ) );
 
