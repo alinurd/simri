@@ -31,7 +31,7 @@ class Data extends MX_Model
 		return $rows;
 	}
 
-	function detail_lap_ketepatan_bak()
+	function detail_lap_ketepatan()
 	{
 		$owner = [];
 		$rows  = $this->db->select( '*, 0 as target, 0 as aktual , "" as tgl_propose, "" as file  ' )->where( 'owner_code<>', '' )->get( _TBL_OWNER )->result_array();
@@ -573,7 +573,10 @@ class Data extends MX_Model
 		$semilanpuluh   = 0;
 		$tujuhlima      = 0;
 		$nol            = 0;
-
+		$owner_id110 = [];
+		$owner_id100 = [];
+		$owner_id90 = [];
+		$owner_id75 = [];
 		foreach( $rows_progres as $key => $value )
 		{
 			$histori = $this->db->where( 'rcsa_id', $value['rcsa_id'] )->where( 'tipe_log', 2 )->where( 'keterangan like', '%final%' )->order_by( 'tanggal', 'desc' )->get( _TBL_VIEW_LOG_APPROVAL )->row_array();
@@ -583,7 +586,7 @@ class Data extends MX_Model
 				$tgl_final = $histori['tanggal'];
 
 				$this->db->where( 'rcsa_detail_id', $value['rcsa_detail_id'] );
-				$rows = $this->db->select( 'rcsa_detail_id as id, aktual, created_at, batas_waktu' )
+				$rows = $this->db->select( 'owner_id, rcsa_detail_id as id, aktual, created_at, batas_waktu' )
 				->get( _TBL_VIEW_RCSA_MITIGASI_DETAIL )->result_array();
 
 				$jmlmiti += count( $rows );
@@ -609,23 +612,31 @@ class Data extends MX_Model
 					elseif( $diff == 110 )
 					{
 						$seratussepuluh += 1;
+						$owner_id110[] = $row['owner_id'];
 					}
 					elseif( $diff == 100 )
 					{
+						$owner_id100[] = $row['owner_id'];
 						$seratus += 1;
 					}
 					elseif( $diff == 90 )
 					{
+						$owner_id90[] = $row['owner_id'];
 						$semilanpuluh += 1;
 					}
 					elseif( $diff == 75 )
 					{
+						$owner_id75[] = $row['owner_id'];
 						$tujuhlima += 1;
 					}
 
 				}
 			}
 		}
+		$hasil['owner_id110'] = $owner_id110;
+		$hasil['owner_id100'] = $owner_id100;
+		$hasil['owner_id90'] = $owner_id90;
+		$hasil['owner_id75'] = $owner_id75;
 		$hasil['total'] = $jmlmiti;
 		$hasil['110']   = $seratussepuluh;
 		$hasil['100']   = $seratus;
@@ -913,6 +924,10 @@ class Data extends MX_Model
 		$semilanpuluh   = 0;
 		$tujuhlima      = 0;
 		$nol            = 0;
+		$owner_id110 = [];
+		$owner_id100 = [];
+		$owner_id90 = [];
+		$owner_id75 = [];
 		foreach( $rows as $row )
 		{
 			$tgl  = $this->get_minggu( $row['minggu_id'] );
@@ -931,17 +946,21 @@ class Data extends MX_Model
 			if( $diff == 110 )
 			{
 				$seratussepuluh += 1;
+				$owner_id110[] = $row['owner_id'];
 			}
 			elseif( $diff == 100 )
 			{
+				$owner_id100[] = $row['owner_id'];
 				$seratus += 1;
 			}
 			elseif( $diff == 90 )
 			{
 				$semilanpuluh += 1;
+				$owner_id90[] = $row['owner_id'];
 			}
 			elseif( $diff == 75 )
 			{
+				$owner_id75[] = $row['owner_id'];
 				$tujuhlima += 1;
 			}
 
@@ -967,6 +986,11 @@ class Data extends MX_Model
 		unset( $row );
 		// dumps($ownerx);
 		// die();
+		
+		$hasil['tepat']['owner_id110'] = $owner_id110;
+		$hasil['tepat']['owner_id100'] = $owner_id100;
+		$hasil['tepat']['owner_id90'] = $owner_id90;
+		$hasil['tepat']['owner_id75'] = $owner_id75;
 		$hasil['tepat']['owner'] = $ownerx;
 		$hasil['tepat']['total'] = count( $owner );
 		$hasil['tepat']['110']   = $seratussepuluh;
