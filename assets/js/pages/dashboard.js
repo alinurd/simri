@@ -203,7 +203,7 @@ function show_detail_char(hasil) {
 function grafik_pie(data, target) {
     var pie_basic_element = document.getElementById(target);
     var myChart = echarts.init(pie_basic_element);
-
+console.log(pie_basic_element)
     // specify chart configuration item and data
     var option = {
 
