@@ -62,7 +62,7 @@ Sasaran Departemen :
                     $monthNum = $x;
                     $monthName = date("F", mktime(0, 0, 0, $monthNum, 10));
                     ?>
-                    <th colspan="3" width="15%"><?= $monthName; ?></th>
+                    <th colspan="3" class="text-center" width="15%"><?= $monthName; ?></th>
                 <?php endfor; ?>
             </tr>
             <tr>
@@ -180,8 +180,7 @@ Sasaran Departemen :
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
-                        <?php endif; ?>
+                         <?php endif; ?>
                     <?php endfor; ?>
                 </tr>
                 <?php 
