@@ -581,21 +581,21 @@ class Data extends MX_Model
 		$this->filter_data_all(_TBL_VIEW_RCSA_DETAIL, $dtuser, TRUE);
 		$rcsa = $this->db->select('rcsa_id')->group_by('rcsa_id')
 			->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
-
-		$rcsa_id = [];
-		foreach ($rcsa as $key => $value) {
-			$rcsa_id[] = $value['rcsa_id'];
+			$rcsa_id = [];
+			foreach ($rcsa as $key => $value) {
+				$rcsa_id[] = $value['rcsa_id'];
 		}
 		if (count($rcsa_id) > 0) {
-			$this->db->where("`minggu_id`", "`minggu_id_rcsa`", FALSE);
+			// $this->db->where("`minggu_id`", "`minggu_id_rcsa`", FALSE);
 			$this->db->where_in('rcsa_id', $rcsa_id);
 		} else {
 			$this->db->where('rcsa_id', '-1');
 		}
-
+		
 		$rows = $this->db
-			// ->get_compiled_select(_TBL_VIEW_RCSA_KPI);
-			->get(_TBL_VIEW_RCSA_KPI)->result_array();
+		// ->get_compiled_select(_TBL_VIEW_RCSA_KPI);
+		->get(_TBL_VIEW_RCSA_KPI)->result_array();
+		// doi::dump($rows);die;
 		// dumps($rows);
 		// die();
 		$lap2 = [];
@@ -687,7 +687,7 @@ class Data extends MX_Model
 				// ->where('bulan_int>=',$bulan[0])
 				// ->where('bulan_int<=',$bulan[1])
 				// ->where('period_id',$period)
-				->where("`minggu_id`", "`minggu_id_rcsa`", FALSE)
+				// ->where("`minggu_id`", "`minggu_id_rcsa`", FALSE)
 				->where('title like ', "%" . $row['title'])
 				->get(_TBL_VIEW_RCSA_KPI)->result_array();
 

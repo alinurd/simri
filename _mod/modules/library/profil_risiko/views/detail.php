@@ -56,13 +56,13 @@ Sasaran Departemen :
                 <th rowspan="2" scope="row" class="duax">Owner</th>
                 <th rowspan="2" scope="row" class="tigax">Parameter</th>
                 <th rowspan="2" scope="row" width="8%" class="empatx">Satuan</th>
-                <th rowspan="2" scope="row" width="8%" class="limax">Target</th>
+                <!-- <th rowspan="2" scope="row" width="8%" class="limax">Target</th> -->
                 <?php for ($x = $bulan[0]; $x <= $bulan[1]; ++$x) : ?>
                     <?php
                     $monthNum = $x;
                     $monthName = date("F", mktime(0, 0, 0, $monthNum, 10));
                     ?>
-                    <th colspan="4" width="15%"><?= $monthName; ?></th>
+                    <th colspan="3" width="15%"><?= $monthName; ?></th>
                 <?php endfor; ?>
             </tr>
             <tr>
@@ -70,7 +70,7 @@ Sasaran Departemen :
                     <th>Std</th>
                     <th>Act</th>
                     <th>Sta</th>
-                    <th>Nilai</th>
+                    <!-- <th>Nilai</th> -->
                 <?php endfor; ?>
             </tr>
         </thead>
@@ -101,17 +101,31 @@ Sasaran Departemen :
                     }
                 }
             }
-
+            
             ?>
-            <?php foreach ($det as $key => $row) : ?>
+            <?php foreach ($det as $key => $row) :
+            
+
+                 ?>
                 <tr>
                     <td scope="row" class="satux"><?= ++$no; ?></td>
                     <td scope="row" class="duax"><?= $row['name']; ?></td>
                     <td scope="row" class="tigax"><?= $row['title']; ?></td>
                     <td scope="row" class="empatx"><?= $row['satuan']; ?></td>
-                    <td scope="row" class="limax"></td>
+                    <!-- <td scope="row" class="limax"></td> -->
                     <?php for ($x = $bulan[0]; $x <= $bulan[1]; ++$x) : ?>
                         <?php
+                        // doi::dump($row['bulan']);
+                        $nilai=0;
+                        if(isset( $row['bulan'][$x])){
+                            $det=$this->db->where('rcsa_id', $row['bulan'][$x]['rcsa_id'])->where('kri_id', $row['bulan'][$x]['kpi_id'])->get(_TBL_VIEW_RCSA_DET_LIKE_INDI)->result_array();
+
+                            $nilai   = ( $row['indikator'] / 100 ) * ( $det[0]['pembobotan'] * count( $det ) );
+                            // doi::dump(count($det));
+                            // doi::dump($nilai);
+
+                        }
+
                         $warna = 'bg-default';
                         $int = intval($row['indikator']);
                         if ($int < 1 || $int > 5) {
@@ -122,34 +136,44 @@ Sasaran Departemen :
                             <?php if ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_1_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_1_max']) {
                                 $warna = 'bg-success-400';
                                 $bg = "background-color: #2c5b29";
-
+                                $p='p_1';
+                                $smin='s_1_min';
+                                $max='s_1_max';
                                 $int = 1;
                             } elseif ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_4_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_4_max']) {
                                 $warna = 'bg-orange-400';
                                 $bg = "background-color: #50ca4e";
-
+                                $p='p_4';
+                                $smin='s_4_min';
+                                $max='s_4_max';
                                 $int = 2;
                             } elseif ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_2_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_2_max']) {
                                 $warna = 'bg-danger-400';
                                 $bg = "background-color: #edfd17";
-
+                                $p='p_2';
+                                $smin='s_2_min';
+                                $max='s_2_max';
                                 $int = 3;
                             } elseif ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_5_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_5_max']) {
                                 $warna = 'bg-danger-400';
                                 $bg = "background-color: #f0ca0f";
-
+                                $p='p_5';
+                                $smin='s_5_min';
+                                $smax='s_5_max';
                                 $int = 4;
                             } elseif ($row['bulan'][$x]['score'] >= $row['bulan'][$x]['s_3_min'] && $row['bulan'][$x]['score'] <= $row['bulan'][$x]['s_3_max']) {
                                 $warna = 'bg-danger-400';
                                 $bg = "background-color: #e70808";
-
+                                $p='p_3';
+                                $smin='s_3_min';
+                                $smax='s_3_max';
                                 $int = 5;
                             }
                             ?>
-                            <td><?= $row['bulan'][$x]['p_1'] . ' ' . $row['bulan'][$x]['s_1_min'] . '-' . $row['bulan'][$x]['s_1_max']; ?></td>
+                            <td><?= $row['bulan'][$x][$p] . ' ' . $row['bulan'][$x][$smin] . '-' . $row['bulan'][$x][$smax]; ?></td>
                             <td><?= $row['bulan'][$x]['score']; ?></td>
                             <td class="<?= $warna; ?>" style="<?= $bg ?>"></td>
-                            <td></td>
+                            <!-- <td></td> -->
 
                         <?php else : ?>
 
@@ -160,7 +184,9 @@ Sasaran Departemen :
                         <?php endif; ?>
                     <?php endfor; ?>
                 </tr>
-                <?php foreach ($row['detail'] as $kdx => $row_det) : ?>
+                <?php 
+                if(isset($row['detail'])){
+                foreach ($row['detail'] as $kdx => $row_det) : ?>
                     <tr>
                         <td scope="row" class="satux"></td>
                         <td scope="row" class="duax"></td>
@@ -218,7 +244,7 @@ Sasaran Departemen :
 
                     </tr>
 
-                <?php endforeach; ?>
+                <?php endforeach; }?>
 
             <?php endforeach; ?>
         </tbody>
