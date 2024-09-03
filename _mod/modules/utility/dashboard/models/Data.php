@@ -683,6 +683,10 @@ class Data extends MX_Model
 		$semilanpuluh   = 0;
 		$tujuhlima      = 0;
 		$nol            = 0;
+		$owner_id110 = [];
+		$owner_id100 = [];
+		$owner_id90 = [];
+		$owner_id75 = [];
 		foreach( $rows as $row )
 		{
 			$tgl  = $this->get_minggu( $row['minggu_id'] );
@@ -701,17 +705,21 @@ class Data extends MX_Model
 			if( $diff == 110 )
 			{
 				$seratussepuluh += 1;
+				$owner_id110[] = $row['owner_id'];
 			}
 			elseif( $diff == 100 )
 			{
+				$owner_id100[] = $row['owner_id'];
 				$seratus += 1;
 			}
 			elseif( $diff == 90 )
 			{
 				$semilanpuluh += 1;
+				$owner_id90[] = $row['owner_id'];
 			}
 			elseif( $diff == 75 )
 			{
+				$owner_id75[] = $row['owner_id'];
 				$tujuhlima += 1;
 			}
 
@@ -737,6 +745,10 @@ class Data extends MX_Model
 		unset( $row );
 		// dumps($ownerx);
 		// die();
+		$hasil['tepat']['owner_id110'] = $owner_id110;
+		$hasil['tepat']['owner_id100'] = $owner_id100;
+		$hasil['tepat']['owner_id90'] = $owner_id90;
+		$hasil['tepat']['owner_id75'] = $owner_id75;
 		$hasil['tepat']['owner'] = $ownerx;
 		$hasil['tepat']['total'] = count( $owner );
 		$hasil['tepat']['110']   = $seratussepuluh;
