@@ -1,5 +1,5 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
-$lang['help_']=' sadasd';
-$lang['ph_']='dsfds f';
-$lang['msg_title']='dfg fdgdfgfd';
+<?php if( ! defined( 'BASEPATH' ) ) exit( 'No direct script access allowed' );
+$lang['help_']     = ' sadasd';
+$lang['ph_']       = 'dsfds f';
+$lang['msg_title'] = 'dfg fdgdfgfd';
 /* End of file change_password_lang.php */

@@ -1,12 +1,12 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if( ! defined( 'BASEPATH' ) ) exit( 'No direct script access allowed' );
 /* untuk nama field input */
-$lang['_title']='';
-$lang['fld_']='';
+$lang['_title'] = '';
+$lang['fld_']   = '';
 
 /* untuk keterangan help */
-$lang['help_']='';
+$lang['help_'] = '';
 
 /* untuk placeholder */
-$lang['ph_']='';
+$lang['ph_'] = '';
 
 /* End of file _lang.php */
