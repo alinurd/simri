@@ -74,6 +74,8 @@ class Lap_Mitigasi extends MY_Controller
 		$dat['data'] = $x['mitigasi'];
 		// dumps($x['mitigasi']);
 		// die();
+		// var_dump( $dat );
+		// exit;
 		$data['grap1']      = $this->hasil = $this->load->view( 'grap', $dat, TRUE );
 		$data['data_grap1'] = $this->hasil = $this->load->view( 'grap2', $dat, TRUE );
 		$this->hasil = $this->load->view( 'dashboard', $data, TRUE );
@@ -135,8 +137,7 @@ class Lap_Mitigasi extends MY_Controller
 			$hasil['kompi'] = '';
 		}
 
-		$x = $this->data->get_data_grap();
-
+		$x                   = $this->data->get_data_grap();
 		$dat['data']         = $x['mitigasi'];
 		$hasil['grap1']      = $this->hasil = $this->load->view( 'grap', $dat, TRUE );
 		$hasil['data_grap1'] = $this->hasil = $this->load->view( 'grap2', $dat, TRUE );

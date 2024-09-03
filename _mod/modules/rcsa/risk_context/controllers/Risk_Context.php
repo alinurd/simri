@@ -22,7 +22,6 @@ class Risk_Context extends MY_Controller
 
 	function init( $action = 'list' )
 	{
-
 		$this->type_ass_no = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'ass-type' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		$this->period      = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'period' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		$this->alat        = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'metode-alat' )->combo_where( 'active', 1 )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
@@ -48,8 +47,10 @@ class Risk_Context extends MY_Controller
 		$this->addField( [ 'field' => 'stakeholder_id', 'title' => 'Stakeholder', 'type' => 'string', 'input' => 'combo', 'search' => FALSE, 'values' => $this->cboStack, 'multiselect' => TRUE ] );
 		$this->addField( [ 'field' => 'alat_metode_id', 'title' => 'Alat & Metode', 'type' => 'string', 'input' => 'combo', 'multiselect' => TRUE, 'search' => FALSE, 'values' => $this->alat ] );
 		$this->addField( [ 'field' => 'period_id', 'title' => 'Period', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => TRUE, 'values' => $this->period ] );
-		$this->addField( [ 'field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => TRUE, 'input' => 'text', 'search' => FALSE, "show" => FALSE, 'values' => [] ] );
-		$this->addField( [ 'field' => 'minggu_id', 'title' => 'Bulan', 'type' => 'int', 'required' => TRUE, 'input' => 'text', 'search' => FALSE, "show" => FALSE, 'values' => [] ] );
+		// $this->addField( [ 'field' => 'term_id', 'input' => 'text', "type" => "string", 'search' => TRUE, 'size' => 500,] );
+		// $this->addField( [ 'field' => 'minggu_id', 'input' => 'text', "type" => "string", 'search' => TRUE, 'size' => 500,] );
+		$this->addField( [ 'field' => 'term_id', 'title' => 'Term', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => FALSE, 'values' => [] ] );
+		$this->addField( [ 'field' => 'minggu_id', 'title' => 'Bulan', 'type' => 'int', 'required' => TRUE, 'input' => 'combo', 'search' => FALSE, 'values' => [] ] );
 
 		// $this->addField(['field'=>'active', 'input'=>'boolean', 'size'=>20]);
 		$this->addField( [ 'field' => 'term', 'show' => FALSE ] );
@@ -120,7 +121,12 @@ class Risk_Context extends MY_Controller
 	// 	// return $this->__insert();
 
 	// }
-
+	// function inputContent( $mode, $data )
+	// {
+	// 	$data["fields"]["minggu_id"]["title"] = "";
+	// 	$data["fields"]["term_id"]["title"]   = "";
+	// 	return $this->load->view( 'material/input', $data, TRUE );
+	// }
 
 
 	public function MASTER_DATA_LIST( $arrId, $rows )
@@ -288,36 +294,43 @@ class Risk_Context extends MY_Controller
 		return $o;
 	}
 
-	// function inputBox_TERM_ID( $mode, $field, $rows, $value )
-	// {
-	// 	$id = 0;
-	// 	if( isset( $rows['period_id'] ) )
-	// 	{
-	// 		$id              = $rows['period_id'];
-	// 		$field['values'] = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'term' )->combo_where( 'pid', $id )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
-	// 	}
+	function inputBox_TERM_ID( $mode, $field, $rows, $value )
+	{
+		$id = 0;
+		if( isset( $rows['period_id'] ) )
+		{
+			$id              = $rows['period_id'];
+			$field['values'] = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'term' )->combo_where( 'pid', $id )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+		}
 
-	// 	// $content = $this->set_box_input( $field, $value );
-	// 	$content = "<input type='hidden' name='term_id' value='0'>";
-	// 	return $content;
-	// }
+		$content = $this->set_box_input( $field, $value );
+		// $content = "<input type='hidden' name='term_id' value='{$value}' size='500' maxlength='100'  class='form-control  text-left' placeholder='Periode' id='term_id'  style='width:500% !important;'/>";
 
-	// function inputBox_MINGGU_ID( $mode, $field, $rows, $value )
-	// {
-	// 	$id = 0;
-	// 	if( isset( $rows['term_id'] ) )
-	// 		$id = $rows['term_id'];
+		return $content;
+	}
 
-	// 	$field['values'] = $this->data->get_data_minggu( $id );
-	// 	// if ($mode == 'edit') {
+	function inputBox_MINGGU_ID( $mode, $field, $rows, $value )
+	{
 
-	// 	// $field['values'] = $this->crud->combo_select(['id', 'data'])->combo_where('kelompok', 'minggu')->combo_where('pid', $id)->combo_tbl(_TBL_COMBO)->get_combo()->result_combo();
-	// 	// }
-	// 	// dumps($field['values']);
-	// 	// die();
-	// 	$content = $this->set_box_input( $field, $value );
-	// 	return $content;
-	// }
+		$id = 0;
+		if( isset( $rows['term_id'] ) )
+		{
+			$id = $rows['term_id'];
+
+		}
+		$field['values'] = $this->data->get_data_minggu( $id );
+
+		if( $mode == 'edit' )
+		{
+
+			$field['values'] = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'minggu' )->combo_where( 'pid', $id )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+		}
+		// dumps($field['values']);
+		// die();
+		$content = $this->set_box_input( $field, $value );
+		// $content = "<input type='hidden' name='minggu_id' value='{$value}'   size='500' maxlength='100'  class='form-control  text-left' placeholder='Bulan' id='minggu_id'  style='width:500% !important;'/>";
+		return $content;
+	}
 
 	function identifikasi_risiko()
 	{
@@ -2302,6 +2315,7 @@ class Risk_Context extends MY_Controller
 		{
 			unset( $button['delete'] );
 		}
+
 		return $button;
 	}
 
@@ -2355,8 +2369,6 @@ class Risk_Context extends MY_Controller
 		{
 			$result .= $this->cetak_register_sum( $value );
 		}
-		// dumps($result);
-		// die();
 		$nm_file = 'Laporan-Risk-Register-Summary';
 		$cetak   = 'register_excel';
 		header( "Content-type:appalication/vnd.ms-excel" );
