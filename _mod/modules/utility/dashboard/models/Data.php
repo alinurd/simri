@@ -219,6 +219,7 @@ class Data extends MX_Model
 		}
 		else
 		{
+			$id=$this->pos['data']['owner'];
 			$this->filter_data( FALSE, 'il_view_rcsa_approval_mitigasi' );
 
 			if( count( $id ) )
@@ -540,65 +541,88 @@ class Data extends MX_Model
 		$semilanpuluh   = 0;
 		$tujuhlima      = 0;
 		$nol            = 0;
-
+		$owner_id110 = [];
+		$owner_id100 = [];
+		$owner_id90 = [];
+		$owner_id75 = [];
+		$seratussepuluh = 0;
+		$seratus = 0;
+		$semilanpuluh = 0;
+		$tujuhlima = 0;
+		$nol = 0;
+		$jmlmiti = 0;
+		
 		foreach( $rows_progres as $key => $value )
 		{
-			$histori = $this->db->where( 'rcsa_id', $value['rcsa_id'] )->where( 'tipe_log', 2 )->where( 'keterangan like', '%final%' )->order_by( 'tanggal', 'desc' )->get( _TBL_VIEW_LOG_APPROVAL )->row_array();
-
+			$histori = $this->db->where( 'rcsa_id', $value['rcsa_id'] )
+				->where( 'tipe_log', 2 )
+				->where( 'keterangan like', '%final%' )
+				->order_by( 'tanggal', 'desc' )
+				->get( _TBL_VIEW_LOG_APPROVAL )
+				->row_array();
+		
 			if( isset( $histori['tanggal'] ) )
 			{
 				$tgl_final = $histori['tanggal'];
-
+		
 				$this->db->where( 'rcsa_detail_id', $value['rcsa_detail_id'] );
-				$rows = $this->db->select( 'rcsa_detail_id as id, aktual, created_at, batas_waktu' )
-				->get( _TBL_VIEW_RCSA_MITIGASI_DETAIL )->result_array();
-
+				$rows = $this->db->select( 'owner_id, rcsa_detail_id as id, aktual, created_at, batas_waktu' )
+					->get( _TBL_VIEW_RCSA_MITIGASI_DETAIL )
+					->result_array();
+		
 				$jmlmiti += count( $rows );
 				foreach( $rows as $row )
 				{
-					$deadline   = date(
-					 'Y-m-d',
-					 strtotime( $row['batas_waktu'] ),
-					);
-					$tgl_finalx = date( 'Y-m-d', strtotime( $tgl_final ) );
-
-					$date1      = date_create( $tgl_finalx );
-					$date2      = date_create( $deadline );
-					$diffo      = date_diff( $date2, $date1 );
-					$nilai_diff = intval( $diffo->format( "%R%a" ) );
-
-					$diff = $this->kepatuhan_mitigasi( $nilai_diff );
-
-					if( intval( $row['aktual'] ) == 0 )
+					$deadline   = date('Y-m-d', strtotime($row['batas_waktu']));
+					$tgl_finalx = date('Y-m-d', strtotime($tgl_final));
+		
+					$date1      = date_create($tgl_finalx);
+					$date2      = date_create($deadline);
+					$diffo      = date_diff($date2, $date1);
+					$nilai_diff = intval($diffo->format("%R%a"));
+		
+					$diff = $this->kepatuhan_mitigasi($nilai_diff);
+		
+					if( intval($row['aktual']) == 0 )
 					{
 						$nol += 1;
 					}
 					elseif( $diff == 110 )
 					{
 						$seratussepuluh += 1;
+						$owner_id110[] = $row['owner_id'];
 					}
 					elseif( $diff == 100 )
 					{
+						$owner_id100[] = $row['owner_id'];
 						$seratus += 1;
 					}
 					elseif( $diff == 90 )
 					{
+						$owner_id90[] = $row['owner_id'];
 						$semilanpuluh += 1;
 					}
 					elseif( $diff == 75 )
 					{
+						$owner_id75[] = $row['owner_id'];
 						$tujuhlima += 1;
 					}
-
+		
 				}
 			}
 		}
+		
+		$hasil['owner_id110'] = $owner_id110;
+		$hasil['owner_id100'] = $owner_id100;
+		$hasil['owner_id90'] = $owner_id90;
+		$hasil['owner_id75'] = $owner_id75;
 		$hasil['total'] = $jmlmiti;
-		$hasil['110']   = $seratussepuluh;
-		$hasil['100']   = $seratus;
-		$hasil['90']    = $semilanpuluh;
-		$hasil['75']    = $tujuhlima;
-		$hasil['0']     = $nol;
+		$hasil['110'] = $seratussepuluh;
+		$hasil['100'] =$seratus;
+		$hasil['90'] = $semilanpuluh;
+		$hasil['75'] = $tujuhlima;
+		$hasil['0'] = $nol;
+		
 		$hasil['110%']  = ( $jmlmiti > 0 ) ? number_format( ( $seratussepuluh / $jmlmiti ) * 100, 2 ) : 0;
 		$hasil['100%']  = ( $jmlmiti > 0 ) ? number_format( ( $seratus / $jmlmiti ) * 100, 2 ) : 0;
 		$hasil['90%']   = ( $jmlmiti > 0 ) ? number_format( ( $semilanpuluh / $jmlmiti ) * 100, 2 ) : 0;
