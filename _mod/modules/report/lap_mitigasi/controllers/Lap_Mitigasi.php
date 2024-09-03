@@ -193,7 +193,7 @@ class Lap_Mitigasi extends MY_Controller
 		$this->owner_child = $this->data->owner_child;
 
 		$data = $this->data->get_detail_char();
-
+// doi::dump($data);
  		$data['mode']   = 0;
 		$x              = $this->load->view( 'detail-char-' . $pos['data']['type_chat'], $data, TRUE );
 		$hasil['combo'] = $x;
