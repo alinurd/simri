@@ -59,7 +59,7 @@ class Officer extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'nip' );
 		$this->set_Table_List( $this->tbl_master, 'officer_name' );
 		$this->set_Table_List( $this->tbl_master, 'email' );
-		$this->set_Table_List( $this->tbl_master, 'username' );
+		// $this->set_Table_List( $this->tbl_master, 'username' );
 		$this->set_Table_List( $this->tbl_master, 'sts_owner' );
 		// $this->set_Table_List($this->tbl_master,'sts_approval');
 		$this->set_Table_List( $this->tbl_master, 'active' );
