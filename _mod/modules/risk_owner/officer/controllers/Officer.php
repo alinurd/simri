@@ -119,6 +119,7 @@ class Officer extends MY_Controller
 				$value = $rows->password_text;
 		}
 		$content = $this->set_box_input( $field, $value );
+
 		return $content;
 	}
 
@@ -131,6 +132,7 @@ class Officer extends MY_Controller
 				$value = $rows->password_text;
 		}
 		$content = $this->set_box_input( $field, $value );
+		$content .= "<div class='form-check'><input class='form-check-input' type='checkbox' value='' id='showpass'><label class='form-check-label' for='showpass'>Show Password</label></div>";
 		return $content;
 	}
 
