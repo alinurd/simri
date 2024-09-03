@@ -1054,7 +1054,7 @@ class Data extends MX_Model
 			$owner_name = $parent['owner_name'];
 			$owner_kode = $parent['owner_code'];
 		}
-		$this->db->where("`minggu_id`", "`minggu_id_rcsa`", FALSE);
+		// $this->db->where("`minggu_id`", "`minggu_id_rcsa`", FALSE);
 		$this->db->where('rcsa_id', $rcsa_id);
 
 		$rows = $this->db
@@ -1154,7 +1154,7 @@ class Data extends MX_Model
 				// ->where('bulan_int>=',$bulan[0])
 				// ->where('bulan_int<=',$bulan[1])
 				// ->where('period_id',$period)
-				->where("`minggu_id`", "`minggu_id_rcsa`", FALSE)
+				// ->where("`minggu_id`", "`minggu_id_rcsa`", FALSE)
 				->where('title like ', "%" . $row['title'])
 				->get(_TBL_VIEW_RCSA_KPI)->result_array();
 
