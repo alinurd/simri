@@ -1202,7 +1202,7 @@ class MY_Controller extends MX_Controller
 			case 'pass':
 				$id_pass = 'password' . ++$nopass;
 				$result_pass = "result" . $nopass;
-				$content = form_password( $label, '', " size=$row[size] $disabled $required class='form-control $error $align' autocomplete='new-password' id='$id_pass' $autofocus  style='$width'  " );
+				$content = form_password( $label, $isi, " size=$row[size] $disabled $required class='form-control $error $align' autocomplete='new-password' id='$id_pass' $autofocus  style='$width'  " );
 				if( ! empty( $disabled ) )
 					$content .= form_hidden( $label, '' );
 				break;
