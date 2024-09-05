@@ -51,9 +51,9 @@ class Lost_Event_Database extends MY_Controller
 		$this->addField( array( 'field' => 'tindakan', 'title' => 'Tindakan Perbaikan', 'input' => 'multitext', 'size' => 500 ) );
 		$this->addField( array( 'field' => 'keterangan', 'title' => 'Jenis Tindakan Perbaikan', 'input' => 'multitext', 'size' => 500 ) );
 
-		$this->addField( [ 'field' => 'penanggung_jawab_no', 'title' => 'Pelaksana PIC', 'type' => 'string', 'input' => 'combo', 'search' => TRUE, 'values' => $this->cbo_owner, 'multiselect' => TRUE ] );
+		$this->addField( [ 'field' => 'penanggung_jawab_no', 'title' => 'Pelaksana PIC', 'type' => 'string', 'input' => 'combo', 'search' => FALSE, 'values' => $this->cbo_owner, 'multiselect' => TRUE ] );
 
-		$this->addField( [ 'field' => 'koordinator_id', 'title' => 'Koordinator', 'type' => 'string', 'input' => 'combo', 'search' => TRUE, 'values' => $this->cbo_owner, 'multiselect' => TRUE ] );
+		$this->addField( [ 'field' => 'koordinator_id', 'title' => 'Koordinator', 'type' => 'string', 'input' => 'combo', 'search' => FALSE, 'values' => $this->cbo_owner, 'multiselect' => TRUE ] );
 		$this->addField( array( 'field' => 'due_date', 'title' => 'Due Date', 'input' => 'date', 'type' => 'date', 'size' => 100 ) );
 		$this->addField( array( 'field' => 'anggaran', 'type' => 'float', 'input' => 'float', 'required' => TRUE, 'prepend' => 'Rp.', 'size' => 50 ) );
 

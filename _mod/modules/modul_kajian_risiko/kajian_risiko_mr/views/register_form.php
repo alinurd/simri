@@ -41,61 +41,7 @@
                                     <input type="text" value="<?= ( ! empty( $register[0]["tipe_risiko_name"] ) ? $register[0]["tipe_risiko_name"] : "" ) ?>" class="form-control border" id="tipe-risiko-name" placeholder="Tipe Risiko" readonly required="required">
                                 </div>
                             </div>
-                            <div class="form-group row mb-3">
-                                <label for="inherent-likelihood" class="col-md-3 col-form-label text-right">Level
-                                    Kemungkinan
-                                    Inherent<sup class="text-danger ml-1">(*)</sup></label>
-                                <div class="col-md-9">
-                                    <select class="form-control select-form inherent-select" name="likelihood_inherent_level"
-                                        id="inherent-likelihood" required="required">
-                                        <option value=""><i>-- Please Select --</i></option>
-                                        <?php if( ! empty( $levelLikelihood ) )
-                                        {
-                                            foreach( $levelLikelihood as $kLikelihood => $vLikelihood )
-                                            { ?>
-                                                <option value="<?= $vLikelihood["code"] ?>" <?= ( ! empty( $register[0]["likelihood_inherent_level"] ) && $register[0]["likelihood_inherent_level"] == $vLikelihood["code"] ? "selected" : "" ) ?>><?= $vLikelihood["code"] ?> - <?= $vLikelihood["level"] ?>
-                                                </option>
-                                            <?php }
-                                        } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label for="inherent-impact" class="col-md-3 col-form-label text-right">Level Dampak
-                                    Inherent<sup class="text-danger ml-1">(*)</sup></label>
-                                <div class="col-md-9">
-                                    <select class="form-control select-form inherent-select" name="impact_inherent_level"
-                                        id="inherent-impact" required="required">
-                                        <option value=""><i>-- Please Select --</i></option>
-                                        <?php if( ! empty( $levelImpact ) )
-                                        {
-                                            foreach( $levelImpact as $kImpact => $vImpact )
-                                            { ?>
-                                                <option value="<?= $vImpact["code"] ?>" <?= ( ! empty( $register[0]["impact_inherent_level"] ) && $register[0]["impact_inherent_level"] == $vImpact["code"] ? "selected" : "" ) ?>><?= $vImpact["code"] ?> - <?= $vImpact["level"] ?></option>
-                                            <?php }
-                                        } ?>
-                                    </select>
-                                </div>
-                            </div>
-                           
-                            <div class="form-group row mb-3">
-                                <label for="inherent-level" class="col-md-3 col-form-label text-right">Risk Level
-                                    Inherent
-                                    (RL)</label>
-                                <div class="col-md-9">
-                                    <input type="hidden" name="inherent_risk_level" id="inherent-level"
-                                        value="<?= ( ! empty( $register[0]["inherent_risk_level"] ) ? $register[0]["inherent_risk_level"] : "" ) ?>">
-                                    <div class="row">
-                                        <div class="col-md-6" id="level-inherent-risk">
-                                            <div role="alert" id="result-inherent-level"
-                                                class="alert alert-sm shadow-none border text-center m-0 p-1"
-                                                style="cursor:default;background-color:<?= ( ! empty( $register[0]["inherent_level_color"] ) ? $register[0]["inherent_level_color"] : "" ) ?>;color:<?= ( ! empty( $register[0]["inherent_text_level_color"] ) ? $register[0]["inherent_text_level_color"] : "" ) ?>;">
-                                                <b><?= ( ! empty( $register[0]["inherent_level_name"] ) ? $register[0]["inherent_level_name"] : "No Result" ) ?></b>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                          
                             <div class="form-group row mb-3">
                                 <label for="likelihood-current" class="col-md-3 col-form-label text-right">Level
                                     Kemungkinan
@@ -151,6 +97,64 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <div class="form-group row mb-3">
+                                <label for="residual-likelihood" class="col-md-3 col-form-label text-right">Level
+                                    Kemungkinan
+                                    Residual<sup class="text-danger ml-1">(*)</sup></label>
+                                <div class="col-md-9">
+                                    <select class="form-control select-form residual-select" name="likelihood_residual_level"
+                                        id="residual-likelihood" required="required">
+                                        <option value=""><i>-- Please Select --</i></option>
+                                        <?php if( ! empty( $levelLikelihood ) )
+                                        {
+                                            foreach( $levelLikelihood as $kLikelihood => $vLikelihood )
+                                            { ?>
+                                                <option value="<?= $vLikelihood["code"] ?>" <?= ( ! empty( $register[0]["likelihood_residual_level"] ) && $register[0]["likelihood_residual_level"] == $vLikelihood["code"] ? "selected" : "" ) ?>><?= $vLikelihood["code"] ?> - <?= $vLikelihood["level"] ?>
+                                                </option>
+                                            <?php }
+                                        } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="residual-impact" class="col-md-3 col-form-label text-right">Level Dampak
+                                    Residual<sup class="text-danger ml-1">(*)</sup></label>
+                                <div class="col-md-9">
+                                    <select class="form-control select-form residual-select" name="impact_residual_level"
+                                        id="residual-impact" required="required">
+                                        <option value=""><i>-- Please Select --</i></option>
+                                        <?php if( ! empty( $levelImpact ) )
+                                        {
+                                            foreach( $levelImpact as $kImpact => $vImpact )
+                                            { ?>
+                                                <option value="<?= $vImpact["code"] ?>" <?= ( ! empty( $register[0]["impact_residual_level"] ) && $register[0]["impact_residual_level"] == $vImpact["code"] ? "selected" : "" ) ?>><?= $vImpact["code"] ?> - <?= $vImpact["level"] ?></option>
+                                            <?php }
+                                        } ?>
+                                    </select>
+                                </div>
+                            </div>
+                           
+                            <div class="form-group row mb-3">
+                                <label for="residual-level" class="col-md-3 col-form-label text-right">Risk Level
+                                    Residual
+                                    (RL)</label>
+                                <div class="col-md-9">
+                                    <input type="hidden" name="residual_risk_level" id="residual-level"
+                                        value="<?= ( ! empty( $register[0]["residual_risk_level"] ) ? $register[0]["residual_risk_level"] : "" ) ?>">
+                                    <div class="row">
+                                        <div class="col-md-6" id="level-residual-risk">
+                                            <div role="alert" id="result-residual-level"
+                                                class="alert alert-sm shadow-none border text-center m-0 p-1"
+                                                style="cursor:default;background-color:<?= ( ! empty( $register[0]["residual_level_color"] ) ? $register[0]["residual_level_color"] : "" ) ?>;color:<?= ( ! empty( $register[0]["residual_text_level_color"] ) ? $register[0]["residual_text_level_color"] : "" ) ?>;">
+                                                <b><?= ( ! empty( $register[0]["residual_level_name"] ) ? $register[0]["residual_level_name"] : "No Result" ) ?></b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div class="form-group row mb-3">
                                 <label for="penyebab-risiko" class="col-md-3 col-form-label text-right">Penyebab
                                     Risiko<sup class="text-danger ml-1">(*)</sup></label>

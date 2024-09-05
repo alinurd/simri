@@ -207,7 +207,7 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 			case 'edit':
 				$dataUpdate = [
 				 "risiko"                   => $postData["risiko"],
-				 "inherent_risk_level"      => $postData["inherent_risk_level"],
+				 "residual_risk_level"      => $postData["residual_risk_level"],
 				 "current_risk_level"       => $postData["current_risk_level"],
 				 "impact_current_level"     => $postData["impact_current_level"],
 				 "likelihood_current_level" => $postData["likelihood_current_level"],

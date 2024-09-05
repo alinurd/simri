@@ -170,18 +170,18 @@ class Officer extends MY_Controller
 
 		if( $data['sts_login'] == 1 )
 		{
-			if( $mode == 'edit' && $data['username'] !== $old_data['username'] )
+			if( $mode == 'edit' && $data['nip'] !== $old_data['nip'] )
 			{
-				$result = $this->ion_auth->username_check( $data['username'], $old_data['username'] );
+				$result = $this->ion_auth->nip_check( $data['nip'], $old_data['nip'] );
 			}
 			elseif( $mode == 'add' )
 			{
-				$result = $this->ion_auth->username_check( $data['username'], '' );
+				$result = $this->ion_auth->nip_check( $data['nip'], '' );
 			}
 
 			if( $result )
 			{
-				$this->logdata->set_error( "username - " . $data['username'] . ' - sudah digunakan' );
+				$this->logdata->set_error( "nip - " . $data['nip'] . ' - sudah digunakan' );
 				++$no;
 			}
 			$errors = [];

@@ -10,8 +10,8 @@
                                 <th class="text-center">Peristiwa Risiko</th>
                                 <th>Taksonomi BUMN</th>
                                 <th>Tipe Risiko</th>
-                                <th class="text-center">Inherent Risk Level</th>
                                 <th class="text-center">Current Risk Level</th>
+                                <th class="text-center">Residual Risk Level</th>
                                 <th class="text-center">Created At</th>
                                 <th class="text-center">Action</th>
                             </tr>
@@ -27,16 +27,17 @@
                                         <td><?= $vRegister["library"] ?></td>
                                         <td><?= $vRegister["taksonomi_name"] ?></td>
                                         <td><?= $vRegister["tipe_risiko_name"] ?></td>
-                                        <td class="text-center">
-                                            <div class="alert alert-sm border shadow-none m-0 p-1"
-                                                style="background-color:<?= $vRegister["inherent_level_color"] ?>;color:<?= $vRegister["inherent_text_level_color"] ?>">
-                                                <b><?= $vRegister["inherent_level_name"] ?></b>
-                                            </div>
-                                        </td>
+
                                         <td class="text-center">
                                             <div class="alert alert-sm border shadow-none m-0 p-1"
                                                 style="background-color:<?= $vRegister["current_level_color"] ?>;color:<?= $vRegister["current_text_level_color"] ?>">
                                                 <b><?= $vRegister["current_level_name"] ?></b>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="alert alert-sm border shadow-none m-0 p-1"
+                                                style="background-color:<?= $vRegister["residual_level_color"] ?>;color:<?= $vRegister["residual_text_level_color"] ?>">
+                                                <b><?= $vRegister["residual_level_name"] ?></b>
                                             </div>
                                         </td>
                                         <td class="text-center">

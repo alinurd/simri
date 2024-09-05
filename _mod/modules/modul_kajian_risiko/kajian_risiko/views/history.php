@@ -40,7 +40,7 @@
 
                                                         case 2: ?>
                                                             <span
-                                                                class="btn btn-sm disabled btn-block btn-warning"><strong>REVISI</strong></span>
+                                                                class="btn btn-sm disabled btn-block btn-warning"><strong>REVISION</strong></span>
                                                             <?php break;
 
                                                         default: ?>

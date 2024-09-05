@@ -813,19 +813,36 @@ class Kajian_Risiko_Mr extends MY_Controller
 		}
 	}
 
-	function getDataKajianRisikoBeforeUpload( $owner_id )
+	function getDataKajianRisikoBeforeUpload( $owner_id, $export = FALSE )
 	{
-
-		if( ! $this->input->is_ajax_request() )
+		if( (bool) $export )
 		{
-			return $this->data->getDataNotificationDocument( $owner_id, TRUE );
+			$getData["data"]      = $this->data->getDataNotificationDocument( $owner_id, FALSE );
+			$getData["btnExport"] = base_url( $this->modul_name . "/getDataKajianRisikoBeforeUpload/" . $owner_id . "/True" );
+			$getData["export"]    = $export;
+			$content              = $this->load->view( 'ajax/dokument-mr-not-uploaded', $getData, TRUE );
+			$nm_file              = "Report Risk Register Yang Belum Terupload Dokumen- " . date( "Y-m-d" );
+			header( "Content-type:appalication/vnd.ms-excel" );
+			header( "content-disposition:attachment;filename=" . $nm_file . ".xls" );
+			echo $content;
+			exit;
 		}
 		else
 		{
-			$getData["data"] = $this->data->getDataNotificationDocument( $owner_id, FALSE );
-			$content         = $this->load->view( 'ajax/dokument-mr-not-uploaded', $getData, TRUE );
-			echo $content;
-		}
+			if( ! $this->input->is_ajax_request() )
+			{
+				return $this->data->getDataNotificationDocument( $owner_id, TRUE );
+			}
+			else
+			{
+				$getData["data"]      = $this->data->getDataNotificationDocument( $owner_id, FALSE );
+				$getData["btnExport"] = base_url( $this->modul_name . "/getDataKajianRisikoBeforeUpload/" . $owner_id . "/True" );
+				$getData["export"]    = $export;
+				$content              = $this->load->view( 'ajax/dokument-mr-not-uploaded', $getData, TRUE );
+				echo $content;
 
+
+			}
+		}
 	}
 }

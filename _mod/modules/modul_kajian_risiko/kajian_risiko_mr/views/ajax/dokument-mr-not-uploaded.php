@@ -3,6 +3,15 @@
         <div class="jumbotron p-2 border">
             <div class="card shadow-none border m-0">
                 <div class="card-body p-2">
+                    <?php if( ! $export ) : ?>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="<?= $btnExport ?>" class="btn bg-green btn-labeled btn-labeled-left"><b><i
+                                            class="icon-database-export"></i></b> Export To Excel</a>
+                            </div>
+                        </div>
+                        <hr>
+                    <?php endif ?>
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-bordered table-sm" border="1">

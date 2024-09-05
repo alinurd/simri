@@ -56,7 +56,16 @@
             </tr>
         </tfoot>
     </table>
-
+    <?php if( ! empty( $gTtl[0] ) && $gTtl[0] > 100 )
+    { ?>
+        <div class="row mt-2">
+            <div class="col-md-12">
+                <div class="alert alert-sm alert-danger shadow-none p-2">
+                    <span class="icon-warning22"></span>&nbsp;Pembobotan Melebihi 100%
+                </div>
+            </div>
+        </div>
+    <?php } ?>
     <br />&nbsp;<br />&nbsp;
     <div class="form-group row">
         <label class="col-lg-1 col-form-label">T O T A L</label>

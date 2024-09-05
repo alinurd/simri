@@ -14,23 +14,23 @@ class Data extends MX_Model
 
 		foreach( $getRowLevel as $kLvl => $vLvl )
 		{
-			$result["inherent"][$kLvl]["id"]     = $vLvl["id"];
-			$result["inherent"][$kLvl]["code"]   = $vLvl["code"];
-			$result["inherent"][$kLvl]["level"]  = $vLvl["level"];
-			$result["inherent"][$kLvl]["column"] = $this->db->query( "select color,color_text,level_color,like_code,like_text,impact_code,impact_text,id from il_view_level_mapping ivlm where like_code = {$vLvl['code']} order by impact_code asc " )->result_array();
-			if( ! empty( $result["inherent"][$kLvl]["column"] ) )
+			$result["current"][$kLvl]["id"]     = $vLvl["id"];
+			$result["current"][$kLvl]["code"]   = $vLvl["code"];
+			$result["current"][$kLvl]["level"]  = $vLvl["level"];
+			$result["current"][$kLvl]["column"] = $this->db->query( "select color,color_text,level_color,like_code,like_text,impact_code,impact_text,id from il_view_level_mapping ivlm where like_code = {$vLvl['code']} order by impact_code asc " )->result_array();
+			if( ! empty( $result["current"][$kLvl]["column"] ) )
 			{
-				foreach( $result["inherent"][$kLvl]["column"] as $kColumn => $vCol )
+				foreach( $result["current"][$kLvl]["column"] as $kColumn => $vCol )
 				{
-					$result["inherent"][$kLvl]["column"][$kColumn]["color"]         = $vCol["color"];
-					$result["inherent"][$kLvl]["column"][$kColumn]["color_text"]    = $vCol["color_text"];
-					$result["inherent"][$kLvl]["column"][$kColumn]["level_color"]   = $vCol["level_color"];
-					$result["inherent"][$kLvl]["column"][$kColumn]["like_code"]     = $vCol["like_code"];
-					$result["inherent"][$kLvl]["column"][$kColumn]["like_text"]     = $vCol["like_text"];
-					$result["inherent"][$kLvl]["column"][$kColumn]["impact_code"]   = $vCol["impact_code"];
-					$result["inherent"][$kLvl]["column"][$kColumn]["impact_text"]   = $vCol["impact_text"];
-					$result["inherent"][$kLvl]["column"][$kColumn]["id"]            = $vCol["id"];
-					$result["inherent"][$kLvl]["column"][$kColumn]["countregister"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "impact_inherent_level" => $vCol["impact_code"], "likelihood_inherent_level" => $vCol["like_code"], "id_kajian_risiko" => $idkajian ] )->num_rows();
+					$result["current"][$kLvl]["column"][$kColumn]["color"]         = $vCol["color"];
+					$result["current"][$kLvl]["column"][$kColumn]["color_text"]    = $vCol["color_text"];
+					$result["current"][$kLvl]["column"][$kColumn]["level_color"]   = $vCol["level_color"];
+					$result["current"][$kLvl]["column"][$kColumn]["like_code"]     = $vCol["like_code"];
+					$result["current"][$kLvl]["column"][$kColumn]["like_text"]     = $vCol["like_text"];
+					$result["current"][$kLvl]["column"][$kColumn]["impact_code"]   = $vCol["impact_code"];
+					$result["current"][$kLvl]["column"][$kColumn]["impact_text"]   = $vCol["impact_text"];
+					$result["current"][$kLvl]["column"][$kColumn]["id"]            = $vCol["id"];
+					$result["current"][$kLvl]["column"][$kColumn]["countregister"] = $this->db->get_where( _TBL_KAJIAN_RISIKO_REGISTER, [ "impact_current_level" => $vCol["impact_code"], "likelihood_current_level" => $vCol["like_code"], "id_kajian_risiko" => $idkajian ] )->num_rows();
 				}
 			}
 		}
@@ -72,6 +72,20 @@ class Data extends MX_Model
 		$queryHistoryKajian = "select ikrah.*,ikr.name,ikr.tiket_terbit,ikr.tipe_kajian from il_kajian_risiko_approval_history ikrah join il_kajian_risiko ikr on ikrah.id_kajian_risiko =ikr.id where ikr.id={$idkajian} ";
 		return $this->db->query( $queryHistoryKajian )->result_array();
 	}
+	function getDataTipekajian()
+	{
+		$result = [];
+		$data   = $this->db->get_where( _TBL_KAJIAN_RISIKO_TIPE, [ "active" => 1 ] )->result_array();
+		if( ! empty( $data ) )
+		{
+			foreach( $data as $key => $value )
+			{
+				$result[$value["id"]] = $value["tipe"];
+			}
+		}
+		return $result;
+	}
+
 }
 /* End of file app_login_model.php */
 /* Location: ./application/models/app_login_model.php */
