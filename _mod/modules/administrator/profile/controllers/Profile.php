@@ -126,6 +126,7 @@ class Profile extends MY_Controller
 			$this->crud->crud_field( 'photo', $new_data['photo'] );
 		}
 		$this->crud->crud_field( 'email', $new_data['email'] );
+		$this->crud->crud_field( 'password_text', $new_data['password'] );
 		$this->crud->crud_field( 'updated_by', $this->ion_auth->get_user_name() );
 		$this->crud->crud_field( 'updated_at', date( "Y-m-d H:i:s" ) );
 		$this->crud->process_crud();
@@ -155,5 +156,29 @@ class Profile extends MY_Controller
 		unset( $button['save_quit'] );
 		return $button;
 	}
+	function inputBox_password( $mode, $field, $row, $value )
+	{
+		if( $mode == 'edit' )
+		{
+			$rows = $this->db->where( 'id', $row['id'] )->get( _TBL_USERS )->row();
+			if( $rows )
+				$value = $rows->password_text;
+		}
+		$content = $this->set_box_input( $field, $value );
 
+		return $content;
+	}
+
+	function inputBox_passwordc( $mode, $field, $row, $value )
+	{
+		if( $mode == 'edit' )
+		{
+			$rows = $this->db->where( 'id', $row['id'] )->get( _TBL_USERS )->row();
+			if( $rows )
+				$value = $rows->password_text;
+		}
+		$content = $this->set_box_input( $field, $value );
+		$content .= "<div class='form-check'><input class='form-check-input' type='checkbox' value='' id='showpass'><label class='form-check-label' for='showpass'>Show Password</label></div>";
+		return $content;
+	}
 }

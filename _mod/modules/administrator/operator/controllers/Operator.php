@@ -167,6 +167,7 @@ class Operator extends MY_Controller
 		$result = TRUE;
 		if( ! empty( $new_data['password'] ) )
 		{
+			$this->db->update( _TBL_USERS, [ "password_text" => $new_data['password'], [ "id" => $id ] ] );
 			$result = $this->ion_auth->reset_password( $new_data['username'], $new_data['password'] );
 		}
 
@@ -189,5 +190,31 @@ class Operator extends MY_Controller
 		$this->db->update( _TBL_USERS, $dataUpdt, [ "id" => $users->id ] );
 
 		return $result;
+	}
+
+	function inputBox_password( $mode, $field, $row, $value )
+	{
+		if( $mode == 'edit' )
+		{
+			$rows = $this->db->where( 'id', $row['id'] )->get( _TBL_USERS )->row();
+			if( $rows )
+				$value = $rows->password_text;
+		}
+		$content = $this->set_box_input( $field, $value );
+
+		return $content;
+	}
+
+	function inputBox_passwordc( $mode, $field, $row, $value )
+	{
+		if( $mode == 'edit' )
+		{
+			$rows = $this->db->where( 'id', $row['id'] )->get( _TBL_USERS )->row();
+			if( $rows )
+				$value = $rows->password_text;
+		}
+		$content = $this->set_box_input( $field, $value );
+		$content .= "<div class='form-check'><input class='form-check-input' type='checkbox' value='' id='showpass'><label class='form-check-label' for='showpass'>Show Password</label></div>";
+		return $content;
 	}
 }
