@@ -95,7 +95,7 @@
     <div class="col-xl-6">
         <div class="card">
             <div class="card-header header-elements-sm-inline">
-                <h6 class="card-title">Taksonomi & Tipe Risiko</h6>
+                <h6 class="card-title">Pelaksanaan Mitigasi</h6>
                 <div class="header-elements">
                     <div class="list-icons">
                         <a class="list-icons-item" data-action="collapse"></a>
@@ -110,7 +110,7 @@
     <div class="col-xl-6">
         <div class="card">
             <div class="card-header header-elements-sm-inline">
-                <h6 class="card-title">Tipe Risiko</h6>
+                <h6 class="card-title">Detail Pelaksanaan Mitigasi</h6>
                 <div class="header-elements">
                     <div class="list-icons">
                         <a class="list-icons-item" data-action="collapse"></a>
@@ -125,10 +125,10 @@
 </div>
 
 <div class="row">
-    <div class="col-xl-12">
+    <div class="col-xl-6">
         <div class="card">
             <div class="card-header header-elements-sm-inline">
-                <h6 class="card-title">Progrres Aktifivas Mitigasi</h6>
+                <h6 class="card-title">Ketepatan Pelaporan</h6>
                 <div class="header-elements">
                     <div class="list-icons">
                         <a class="list-icons-item" data-action="collapse"></a>
@@ -140,9 +140,55 @@
             </div>
         </div>
     </div>
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-header header-elements-sm-inline">
+                <h6 class="card-title">Detail Ketepatan Pelaporan</h6>
+                <div class="header-elements">
+                    <div class="list-icons">
+                        <a class="list-icons-item" data-action="collapse"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" id="result_grap4" style="height:420px;overflow-y:auto;overflow-x:hidden;">
+                <?= $data_grap2; ?>
+            </div>
+        </div>
+    </div>
 </div>
 
- 
+<div class="row d-none">
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-header header-elements-sm-inline">
+                <h6 class="card-title">Komitmen</h6>
+                <div class="header-elements">
+                    <div class="list-icons">
+                        <a class="list-icons-item" data-action="collapse"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" id="result_grap5" style="height:420px;overflow-y:hidden;overflow-x:hidden;">
+                <?= $grap3; ?>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-header header-elements-sm-inline">
+                <h6 class="card-title">Detail Komitmen</h6>
+                <div class="header-elements">
+                    <div class="list-icons">
+                        <a class="list-icons-item" data-action="collapse"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" id="result_grap6" style="height:420px;overflow-y:auto;overflow-x:hidden;">
+                <?= $data_grap3; ?>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- Modal -->
