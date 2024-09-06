@@ -2647,6 +2647,25 @@ class Progress_Mitigasi extends MY_Controller
 			header( 'Content-type: application/json' );
 			echo json_encode( $result );
 		}
+
+	function update_sts()
+	{
+		$id = intval($this->input->post('id'));
+$sts = intval($this->input->post('sts'));
+$this->crud->crud_table(_TBL_RCSA_DETAIL);
+
+$this->crud->crud_type('edit');
+$this->crud->crud_where(['field' => 'id', 'value' => $id]);
+$this->crud->crud_field('sts_mon', $sts, 'int');
+$this->crud->crud_field('updated_at', date('Y-m-d H:i:s'), 'datetime');
+$this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
+ 
+  
+header('Content-type: application/json'); 
+     echo json_encode(['status' => $sts ]);
+ 
+
+ 	}
 	
 	 
 }

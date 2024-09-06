@@ -31,6 +31,27 @@ $(function () {
     }
   });
 
+  $(document).ready(function() {
+    var mit = $("#mit_level_residual_text").val(); 
+    var sts_mon = $("#sts_mon").val(); 
+    update_sts(sts_mon, mit);
+  });
+  
+  $("#done, #progress").click(function (event) {
+    var sts = $(this).val(); 
+    var mit = $("#mit_level_residual_text").val(); 
+    if (confirm("Apakah anda merubah status monitoring?")) {
+      var parent = $(this).parent();
+      var id = $(this).data("id"); 
+      var data = { id: id, sts: sts };
+      var url = modul_name + "/update_sts";
+      _ajax_("post", parent, data, "", url, "");
+    }else{
+      return false
+    }
+    update_sts(sts, mit);
+  });
+
   $("#btn_lap").click(function (event) {
     event.preventDefault();
     var x = $(this);
@@ -893,7 +914,13 @@ function indikator_like(hasil) {
 		$("#simpanResidual").addClass("disabled");
 	  } 
 	  $('input[name="like_text_kuantitatif"]').val(isiLike);
-
+    if (hasil.level_color) {
+      $("#notyet").prop("checked", false); // Set the radio button as checked 
+      $("#progress").prop("checked", true); // Set the radio button as checked 
+    } else {
+      $("#progress").prop("checked", false); // Set the radio button as checked 
+      $("#notyet").prop("checked", false); // Uncheck the radio button 
+    }
 	  // Update fields with residual likelihood data
 	  $("#mit_level_residual_text").val(hasil.hasil.warna.level_color);
 	  $('input[name="mit_like_id"]').val(likeCode);
@@ -955,6 +982,15 @@ function resultInherent(hasil) {
     $("#simpanResidual").addClass("disabled");
   }
 
+  if (hasil.level_color) {
+    $("#notyet").prop("checked", false); // Set the radio button as checked 
+    $("#progress").prop("checked", true); // Set the radio button as checked 
+  } else {
+    $("#progress").prop("checked", false); // Set the radio button as checked 
+    $("#notyet").prop("checked", false); // Uncheck the radio button 
+  }
+  
+  
   $("#mit_level_residual_text").val(hasil.level_color);
   $('input[name="mit_like_id"]').val(hasil.like_code);
   $('input[name="mit_impact_id"]').val(hasil.impact_code);
@@ -1003,6 +1039,33 @@ $(document).on("click", "#back_like_indi", function () {
   var url = modul_name + "/indikator-like";
   _ajax_("post", parent, data, "", url, "indikator_like");
 });
+function update_sts(sts_mon, mit) {
+  if(sts_mon!=0){
+  if (sts_mon == 1) { 
+    $("#sts_mon").val(sts_mon);
+    $("#progress").attr("disabled", true);
+    $("#notyet").attr("disabled", true);
+    $("#done").attr("disabled", false);
+  } else if (sts_mon == 2) { 
+    $("#sts_mon").val(sts_mon);
+    $("#progress").attr("disabled", false);
+    $("#notyet").attr("disabled", true);
+    $("#done").attr("disabled", true);
+  }
+ 
+  if (sts_mon == 2) {
+    $("#done").prop("checked", true); 
+  } else {
+    if (mit) {
+      $("#notyet").prop("checked", false);  
+      $("#progress").prop("checked", true); 
+    } else {
+      $("#progress").prop("checked", false); 
+      $("#notyet").prop("checked", true);   
+    }
+  }
+}
+}
 function result_dampak(hasil) {
   console.log(hasil);
   if (hasil.bk_tipe == 1) {
