@@ -28,7 +28,7 @@
     </div>
 </div>
 <br />
-<strong>LIST AKTIFITAS MITIGASI</strong><br />
+<strong>LIST PROGRESS AKTIFITAS MITIGASI</strong><br />
 <table class="table table-hover" id="tbl_list_mitigasi">
     <thead>
         <tr class="bg-slate-300">
