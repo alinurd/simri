@@ -90,7 +90,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row d-none">
     <div class="col-xl-6">
         <div class="card">
             <div class="card-header header-elements-sm-inline">

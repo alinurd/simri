@@ -28,7 +28,7 @@
     </div>
 </div>
 <br />
-<strong>LIST AKTIFITAS MONITORING</strong><br />
+<strong>LIST PROGRESS MONITORING</strong><br />
 <table class="table table-hover" id="tbl_list_mitigasi">
     <thead>
         <tr class="bg-slate-300">

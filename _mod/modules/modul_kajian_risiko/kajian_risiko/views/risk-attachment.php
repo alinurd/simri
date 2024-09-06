@@ -12,7 +12,7 @@
         </div>
     <?php } ?>
 
-    <div class=" row justify-content-center">
+    <div class=" row justify-content-center d-none">
         <div class="col-md-12">
             <?php
 
@@ -66,7 +66,7 @@
             ?>
         </div>
     </div>
-    <hr>
+    <!-- <hr> -->
     <div class="row justify-content-center mb-3">
         <div class="col-md-12">
             <div class="dropzone pointer border-info bg-light" id="<?= $inputname ?>">
