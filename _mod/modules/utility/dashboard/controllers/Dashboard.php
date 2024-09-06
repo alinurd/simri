@@ -74,7 +74,7 @@ class Dashboard extends MY_Controller
 
 		$x           = $this->data->get_data_grap();
 		$dat['data'] = $x['mitigasi'];
-
+		$dat['tasktonomi']   = $this->db->where( 'kelompok', 'lib-cat' )->where( 'active', 1 )->get( _TBL_COMBO )->result_array();
 		$data['grap1']      = $this->hasil = $this->load->view( 'grap', $dat, TRUE );
 		$data['data_grap1'] = '';
 		// $data['data_grap1']= $this->hasil=$this->load->view('grap2',$dat, true);
@@ -171,12 +171,16 @@ class Dashboard extends MY_Controller
 		$data["legendImpactMatrix"]     = [ 5 => "High", 4 => "Moderate to High", 3 => "Moderate", 2 => "Low to Moderate", 1 => "Low" ];
 		$hasil['combo']                 = $this->load->view( 'map', $data, TRUE );
 
+		
+		 
 		$x                   = $this->data->get_data_grap();
 		$dat['data']         = $x['mitigasi'];
+		$dat['tasktonomi']   = $this->db->select('data, id, param_string')->where( 'kelompok', 'lib-cat' )->where( 'active', 1 )->get( _TBL_COMBO )->result_array(); 
 		$hasil['grap1']      = $this->hasil = $this->load->view( 'grap', $dat, TRUE );
 		$hasil['data_grap1'] = $this->hasil = $this->load->view( 'grap2', $dat, TRUE );
 
-		$dat['data']         = $x['tepat'];
+		$dat['data']         = $x['tepat']; 
+
 		$hasil['grap2']      = $this->hasil = $this->load->view( 'grap3', $dat, TRUE );
 		$hasil['data_grap2'] = $this->hasil = $this->load->view( 'grap4', $dat, TRUE );
 
