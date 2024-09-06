@@ -22,6 +22,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 		$this->addField( [ 'field' => 'owner_id', 'title' => 'Risk Owner', 'input' => 'combo', 'values' => $this->cboDept, 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'name', 'title' => 'Nama Kajian Risiko', 'type' => 'string', 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'request_date', 'type' => 'date', 'search' => TRUE, "required" => TRUE ] );
+		$this->addField( [ 'field' => 'date_submit', 'type' => 'date', "show" => FALSE, "save" => TRUE, 'search' => TRUE ] );
 		$this->addField( [ 'field' => 'release_date', 'type' => 'date', 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'tiket_terbit', 'type' => 'date', "show" => FALSE,] );
 		$this->addField( [ 'field' => 'status', 'title' => 'Status', "show" => FALSE, 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_status, 'default' => 0, 'size' => 40 ] );
@@ -41,9 +42,11 @@ class Kajian_Risiko_Mr extends MY_Controller
 		$this->set_Where_Table( [ 'field' => 'status', 'value' => 1, 'op' => '=' ] );
 		$this->set_Table_List( $this->tbl_master, 'owner_id', "Risk Owner" );
 		$this->set_Table_List( $this->tbl_master, 'name', "Nama Kajian Risiko" );
-		$this->set_Table_List( $this->tbl_master, 'request_date', "Tanggal Permintaan" );
-		$this->set_Table_List( $this->tbl_master, 'tiket_terbit', "Tanggal Tiket Terbit" );
-		$this->set_Table_List( $this->tbl_master, 'release_date', "Max Tanggal Release" );
+		// $this->set_Table_List( $this->tbl_master, 'request_date', "Tanggal Permintaan" );
+
+		$this->set_Table_List( $this->tbl_master, 'date_submit', "Tanggal Submit (TMRD)" );
+		$this->set_Table_List( $this->tbl_master, 'tiket_terbit', "Tanggal Tiket Terbit (MR)" );
+		$this->set_Table_List( $this->tbl_master, 'release_date', "Max Tanggal Release (MR)" );
 		// $this->set_Table_List( $this->tbl_master, 'status', "Status", 0, "center" );
 		$this->set_Table_List( $this->tbl_master, 'status_approval', "Status Approval", 0, "center" );
 		$this->set_Table_List( $this->tbl_master, 'dokumen_mr', "Dokumen MR", 0, "center" );
@@ -596,8 +599,26 @@ class Kajian_Risiko_Mr extends MY_Controller
 		{
 			exit( 'No direct script access allowed' );
 		}
-		$postData                     = $this->input->post();
-		$getdataRegister["register"]  = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $postData["id_kajian"] ] )->result_array();
+		$postData                    = $this->input->post();
+		$getdataRegister["register"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $postData["id_kajian"] ] )->result_array();
+		if( ! empty( $getdataRegister["register"] ) )
+		{
+			foreach( $getdataRegister["register"] as $kReg => $vReg )
+			{
+				$getdataRegister["register"][$kReg]["mitigasi"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_MONITORING, [ "id_register" => $vReg["id"] ] )->result_array();
+				if( ! empty( $getdataRegister["register"][$kReg]["mitigasi"] ) )
+				{
+					foreach( $getdataRegister["register"][$kReg]["mitigasi"] as $kMit => $vMit )
+					{
+						if( ! empty( $vMit["pic"] ) && json_decode( $vMit["pic"] ) )
+						{
+							$getdataRegister["register"][$kReg]["mitigasi"][$kMit]["pic"] = $this->db->where_in( "id", json_decode( $vMit["pic"] ) )->get( _TBL_OWNER )->result_array();
+						}
+
+					}
+				}
+			}
+		}
 		$getdataRegister["btnExport"] = base_url( $this->modul_name . "/export_excel/" . $postData["id_kajian"] );
 		$result                       = $this->load->view( "ajax/register_modal", $getdataRegister, TRUE );
 
@@ -608,9 +629,19 @@ class Kajian_Risiko_Mr extends MY_Controller
 
 	function export_excel( $id )
 	{
-		$getdataRegister["register"]  = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_REGISTER, [ "id_kajian_risiko" => $id ] )->result_array();
+		$getdataRegister["register"] = $this->db->query( "select * from il_view_kajian_risiko_register ivkrr join il_view_kajian_risiko_monitoring ivkrm on ivkrr.id =ivkrm.id_register where ivkrr.id_kajian_risiko={$id}" )->result_array();
+		if( ! empty( $getdataRegister["register"] ) )
+		{
+			foreach( $getdataRegister["register"] as $kReg => $vReg )
+			{
+				if( ! empty( $getdataRegister["register"][$kReg]["pic"] ) )
+				{
+					$getdataRegister["register"][$kReg]["pic"] = $this->db->where_in( "id", json_decode( $vReg["pic"] ) )->get( _TBL_OWNER )->result_array();
+				}
+			}
+		}
 		$getdataRegister["btnExport"] = base_url( $this->modul_name . "/export_excel/" . $id );
-		$result                       = $this->load->view( "ajax/register_modal", $getdataRegister, TRUE );
+		$result                       = $this->load->view( "ajax/export-register-mitigasi", $getdataRegister, TRUE );
 		$nm_file                      = "Report Risk Register " . date( "Y-m-d" );
 		header( "Content-type:appalication/vnd.ms-excel" );
 		header( "content-disposition:attachment;filename=" . $nm_file . ".xls" );
@@ -821,7 +852,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 			$getData["btnExport"] = base_url( $this->modul_name . "/getDataKajianRisikoBeforeUpload/" . $owner_id . "/True" );
 			$getData["export"]    = $export;
 			$content              = $this->load->view( 'ajax/dokument-mr-not-uploaded', $getData, TRUE );
-			$nm_file              = "Report Risk Register Yang Belum Terupload Dokumen- " . date( "Y-m-d" );
+			$nm_file              = "Report Kajian Risiko Yang Belum Release- " . date( "Y-m-d" );
 			header( "Content-type:appalication/vnd.ms-excel" );
 			header( "content-disposition:attachment;filename=" . $nm_file . ".xls" );
 			echo $content;

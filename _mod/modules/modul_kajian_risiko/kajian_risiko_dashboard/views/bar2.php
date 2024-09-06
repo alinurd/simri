@@ -6,7 +6,7 @@
     var optionBar2;
     optionBar2 = {
         title: {
-            text: 'Tanggal Release Berdasarkan Bulan ' + "(<?= $labeltahun ?>)",
+            text: 'Total Release Berdasarkan Bulan ' + "(<?= $labeltahun ?>)",
             // subtext: 'Fake Data',
             left: 'center',
         },

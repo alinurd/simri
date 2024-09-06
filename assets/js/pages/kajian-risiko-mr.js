@@ -488,7 +488,7 @@ $(document).on("click", "#btn-list-upload-dokumen-mr", function (e) {
             looding('light', $("#btn-list-upload-dokumen-mr"));
         },
         success: function (result) {
-            $("#modal_general").find(".modal-title").text("Daftar Kajian Risiko Yang Belum Terupload Dokumen");
+            $("#modal_general").find(".modal-title").text("Daftar Kajian Risiko Yang Belum Release");
             $("#modal_general").find(".modal-body").html(result);
             $("#modal_general").modal("show");
 

@@ -21,9 +21,9 @@
                                         <th class="text-center">Nama Kajian Risiko</th>
                                         <th class="text-center">Tipe Kajian Risiko</th>
                                         <th class="text-center">Nama Owner</th>
-                                        <th class="text-center">Tanggal Permintaan</th>
-                                        <th class="text-center">Tanggal Release</th>
+                                        <th class="text-center">Tanggal Dibuat</th>
                                         <th class="text-center">Tanggal Submit</th>
+                                        <th class="text-center">Tanggal Release</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -38,14 +38,15 @@
                                                 <td><?= $vdata["tipe_kajian"] ?></td>
                                                 <td><?= $vdata["owner_name"] ?></td>
                                                 <td class="text-center">
-                                                    <?= ( ! empty( $vdata["request_date"] ) && $vdata["request_date"] != "0000-00-00 00:00:00" ) ? date( "d-m-Y", strtotime( $vdata["request_date"] ) ) : "" ?>
-                                                </td>
-                                                <td class="text-center">
-                                                    <?= ( ! empty( $vdata["release_date"] ) && $vdata["release_date"] != "0000-00-00 00:00:00" ) ? date( "d-m-Y", strtotime( $vdata["release_date"] ) ) : "" ?>
+                                                    <?= ( ! empty( $vdata["created_at"] ) && $vdata["created_at"] != "0000-00-00 00:00:00" ) ? date( "d-m-Y", strtotime( $vdata["created_at"] ) ) : "" ?>
                                                 </td>
                                                 <td class="text-center">
                                                     <?= ( ! empty( $vdata["date_submit"] ) && $vdata["date_submit"] != "0000-00-00 00:00:00" ) ? date( "d-m-Y", strtotime( $vdata["date_submit"] ) ) : "" ?>
                                                 </td>
+                                                <td class="text-center">
+                                                    <?= ( ! empty( $vdata["release_date"] ) && $vdata["release_date"] != "0000-00-00 00:00:00" ) ? date( "d-m-Y", strtotime( $vdata["release_date"] ) ) : "" ?>
+                                                </td>
+
                                             </tr>
                                             <?php
                                         }

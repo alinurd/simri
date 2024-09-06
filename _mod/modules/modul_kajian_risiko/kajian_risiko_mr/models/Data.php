@@ -68,7 +68,7 @@ class Data extends MX_Model
 
 	function getDataNotificationDocument( $ownerId, $is_ajax = FALSE )
 	{
-		$sqlQuery = "select a.*, b.owner_name FROM il_kajian_risiko a join il_owner b on a.owner_id = b.id WHERE a.status = 1 AND a.active = 1 AND a.dokumen_mr IS NULL AND owner_id = {$ownerId}";
+		$sqlQuery = "select a.*, b.owner_name FROM il_kajian_risiko a join il_owner b on a.owner_id = b.id WHERE a.status = 1 AND a.active = 1 AND a.release_date IS NULL AND owner_id = {$ownerId}";
 		if( $is_ajax )
 		{
 			return $this->db->query( $sqlQuery )->num_rows();

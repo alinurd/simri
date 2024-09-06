@@ -6,7 +6,7 @@
     var optionBar;
     optionBar = {
         title: {
-            text: 'Tanggal Tiket Terbit Berdasarkan Bulan ' + "(<?= $labeltahun ?>)",
+            text: 'Total Tiket Terbit Berdasarkan Bulan ' + "(<?= $labeltahun ?>)",
             // subtext: 'Fake Data',
             left: 'center',
         },
