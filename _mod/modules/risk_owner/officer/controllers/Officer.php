@@ -28,7 +28,7 @@ class Officer extends MY_Controller
 		$this->addField( [ 'field' => 'officer_name', 'required' => TRUE, 'search' => TRUE ] );
 		$this->addField( [ 'field' => 'owner_no', 'title' => 'Department', 'required' => TRUE, 'type' => 'int', 'input' => 'combo', 'search' => TRUE, 'values' => $this->cboDept ] );
 		$this->addField( [ 'field' => 'position_no', 'required' => TRUE, 'title' => 'Title', 'type' => 'int', 'input' => 'combo', 'search' => TRUE, 'values' => $this->cboTitle ] );
-		$this->addField( [ 'field' => 'gender_no', 'type' => 'int', 'input' => 'combo', 'values' => $this->cboGender, 'size' => 100, 'search' => TRUE ] );
+		$this->addField( [ 'field' => 'gender_no', 'title' => "Gender", 'type' => 'int', 'input' => 'combo', 'values' => $this->cboGender, 'size' => 100, 'search' => TRUE ] );
 		$this->addField( [ 'field' => 'phone', 'search' => TRUE ] );
 		$this->addField( [ 'field' => 'email', 'type' => 'email', 'required' => TRUE, 'search' => TRUE ] );
 		$this->addField( [ 'field' => 'sts_owner', 'input' => 'boolean', 'search' => TRUE ] );
