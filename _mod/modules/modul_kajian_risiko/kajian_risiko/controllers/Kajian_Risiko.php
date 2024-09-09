@@ -182,6 +182,7 @@ class Kajian_Risiko extends MY_Controller
 		{
 			$dataView["inputname"]  = $field['field'];
 			$dataView["attachment"] = ( ! empty( $value ) ) ? json_decode( $value ) : [];
+			$dataView["display"]    = TRUE;
 			return $this->load->view( "risk-attachment", $dataView, TRUE );
 		}
 	}
@@ -196,6 +197,7 @@ class Kajian_Risiko extends MY_Controller
 		{
 			$dataView["inputname"]  = $field['field'];
 			$dataView["attachment"] = ( ! empty( $value ) ) ? json_decode( $value ) : [];
+			$dataView["display"]    = FALSE;
 			return $this->load->view( "risk-attachment", $dataView, TRUE );
 		}
 	}
