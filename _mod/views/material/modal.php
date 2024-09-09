@@ -2,12 +2,12 @@
 <div id="modal_full" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-full">
         <div class="modal-content">
-            <div class="modal-header bg-teal-300">
-                <h5 class="modal-title">&nbsp;</h5>
+            <div class="modal-header  bg-bumn-gradient-1 p-2 text-center">
+                <h5 class="modal-title  w-100 text-center">&nbsp;</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body p-2">
 
             </div>
 
@@ -21,12 +21,12 @@
 <div id="modal_notif" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Notif</h5>
+            <div class="modal-header  bg-bumn-gradient-1 p-2">
+                <h5 class="modal-title  w-100 text-center">Notif</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body p-2">
             </div>
 
             <div class="modal-footer">
@@ -38,12 +38,12 @@
 <div id="modal_general" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-full">
         <div class="modal-content">
-            <div class="modal-header bg-teal-300">
-                <h5 class="modal-title"><i class="icon-search4"></i> Title</h5>
+            <div class="modal-header bg-bumn-gradient-1 p-2">
+                <h5 class="modal-title  w-100 text-center"><i class="icon-search4"></i> Title</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <?php echo form_open_multipart( $this->uri->uri_string, array( 'id' => 'form_general', 'class' => 'form-horizontal', 'role' => 'form' ) ); ?>
-            <div class="modal-body">
+            <div class="modal-body p-2">
 
             </div>
             <div class="modal-footer">
@@ -56,7 +56,7 @@
 <div id="modal_general_title" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-full">
         <div class="modal-content">
-            <div class="modal-header bg-primary-300">
+            <div class="modal-header bg-bumn-gradient-1 p-2">
                 <div class="row">
                     <div class="col-lg-3">
                         <?php if( file_exists( img_path( "logo_icon_light.png" ) ) )
@@ -72,10 +72,8 @@
                 </div>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body">
-
+            <div class="modal-body p-2">
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
             </div>
@@ -85,11 +83,11 @@
 <div id="modal_form" class="modal fade " tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="icon-search4"></i> Title</h5>
+            <div class="modal-header bg-bumn-gradient-1 p-2">
+                <h5 class="modal-title w-100 text-center"><i class="icon-search4"></i> Title</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body"></div>
+            <div class="modal-body p-2"></div>
         </div>
     </div>
 </div>

@@ -9,7 +9,7 @@ if( file_exists( file_url( $params['user']['photo'] ) ) )
 <div class="navbar navbar-expand-md navbar-light fixed-top">
 
     <!-- Header with logos -->
-    <div class="navbar-header navbar-dark d-none d-md-flex align-items-md-center">
+    <div class="navbar-header navbar-dark d-none d-md-flex align-items-md-center bg-bumn-gradient-1">
         <div class="navbar-brand navbar-brand-md">
             <a href="/" class="d-inline-flex">
                 <img src="<?= img_url( 'logo.png' ); ?>" alt="" style="width: 100px; height: 25px; margin-right: 5px;">
@@ -61,10 +61,10 @@ if( file_exists( file_url( $params['user']['photo'] ) ) )
 
 
     <!-- Navbar content -->
-    <div class="collapse navbar-collapse" id="navbar-mobile">
+    <div class="collapse navbar-collapse bg-bumn-gradient" id="navbar-mobile">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="#" class="navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block">
+                <a href="#" class="navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block text-white">
                     <i class="icon-paragraph-justify3"></i>
                 </a>
             </li>
@@ -92,7 +92,7 @@ if( file_exists( file_url( $params['user']['photo'] ) ) )
                     class="dropdown-item bg-primary ml-2" id="modul-manual"><i class="icon-book"></i> Manual </a>
             </li> -->
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle p-0" href="#" id="navbarDropdownMenuLink" role="button"
+                <a class="nav-link dropdown-toggle p-0 text-white" href="#" id="navbarDropdownMenuLink" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="<?= $photo; ?>" width="38" height="38"
                         class="img-fluid rounded-circle border border-secondary shadow-sm" alt="">

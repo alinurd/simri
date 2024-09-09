@@ -228,14 +228,14 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-light">
-                <h3 class="modal-title" id="modal-startupTitle"><i class="icon-info22 info3"></i>&nbsp;Info Update</h3>
+            <div class="modal-header  bg-bumn-gradient-1 p-2 text-center">
+                <h5 class="modal-title" id="modal-startupTitle"><i class="icon-info22 info3"></i>&nbsp;Info Update</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body p-0">
-                <div class="card">
+            <div class="modal-body p-2">
+                <div class="card shadow-none border mb-0">
                     <div class="card-header text-center">
                         <h3><?= $notif_startup["title"] ?></h3>
                     </div>
@@ -244,9 +244,8 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-outline-secondary text-center" data-dismiss="modal"><i
-                        class="fa fa-close"></i>&nbsp;Close</button>
+            <div class="modal-footer justify-content-center p-2">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
