@@ -169,5 +169,6 @@ $lang['slider_title']        = 'Risk Context';
 $lang['fld_upload']          = 'File Upload';
 $lang['help_ket_peristiwa']  = 'Pilih peristiwa risiko terlebih dahulu';
 $lang['help_add_peristiwa']  = 'Input peristiwa baru. selanjutnya data akan menjadi nonaktif';
+$lang['progress_aktifitas']  = 'Progress Persentase';
 
 /* End of file risk_context_lang.php */

@@ -28,7 +28,7 @@
     </div>
 </div>
 <br />
-<strong>LIST PROGRESS MONITORING AKTIVITAS MITIGASI</strong><br />
+<strong>LIST PROGRESS AKTIFITAS MONITORING</strong><br />
 <table class="table table-hover" id="tbl_list_mitigasi">
     <thead>
         <tr class="bg-slate-300">
@@ -46,8 +46,14 @@
         if( ! empty( $progres ) )
         {
 
-
-            foreach( $progres as $row ) : ?>
+            $sumtar=0;
+            $sumAk=0;
+            $avarage=0;
+            $count=count($progres); 
+            foreach( $progres as $row ) : 
+                $sumtar += $row['target'];
+                $sumAk += $row['aktual'];
+            ?>
                 <tr>
                     <td><?= ++$no; ?></td>
                     <td><?= $row['target']; ?></td>
@@ -56,7 +62,19 @@
                     <td><?= date( 'd-m-Y', strtotime( $row['created_at'] ) ); ?></td>
                     <td><?= $row['kendala']; ?></td>
                 </tr>
-            <?php endforeach; ?>
+            <?php endforeach; 
+            $avarageTar=$sumtar/$count;
+            $avarageAK=$sumAk/$count;
+            $avarage=$avarageTar/$avarageAK;
+            ?>
+            <!-- <tr>
+                    <td></td>
+                    <td>sum:<?=$sumtar?> :<?=$count?>=> <?=$avarageTar?></td>
+                    <td>sum:<?=$sumAk?> :<?=$count?>=> <?=$avarageAK?></td>
+                     <td>avarage (target/aktual): <?=$avarage?></td> 
+                     <td></td>
+                     <td></td>
+                </tr> -->
         <?php }
         else
         { ?>
