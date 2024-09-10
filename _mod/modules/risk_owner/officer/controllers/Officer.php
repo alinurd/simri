@@ -28,7 +28,7 @@ class Officer extends MY_Controller
 		$this->addField( [ 'field' => 'officer_name', 'required' => TRUE, 'search' => TRUE ] );
 		$this->addField( [ 'field' => 'owner_no', 'title' => 'Department', 'required' => TRUE, 'type' => 'int', 'input' => 'combo', 'search' => TRUE, 'values' => $this->cboDept ] );
 		$this->addField( [ 'field' => 'position_no', 'required' => TRUE, 'title' => 'Title', 'type' => 'int', 'input' => 'combo', 'search' => TRUE, 'values' => $this->cboTitle ] );
-		$this->addField( [ 'field' => 'gender_no', 'type' => 'int', 'input' => 'combo', 'values' => $this->cboGender, 'size' => 100, 'search' => TRUE ] );
+		$this->addField( [ 'field' => 'gender_no', 'title' => "Gender", 'type' => 'int', 'input' => 'combo', 'values' => $this->cboGender, 'size' => 100, 'search' => TRUE ] );
 		$this->addField( [ 'field' => 'phone', 'search' => TRUE ] );
 		$this->addField( [ 'field' => 'email', 'type' => 'email', 'required' => TRUE, 'search' => TRUE ] );
 		$this->addField( [ 'field' => 'sts_owner', 'input' => 'boolean', 'search' => TRUE ] );
@@ -46,13 +46,12 @@ class Officer extends MY_Controller
 		$this->addField( [ 'field' => 'passwordc', 'type' => 'free', 'required' => FALSE, 'input' => 'pass' ] );
 		$this->addField( [ 'field' => 'group', 'title' => 'Group', 'type' => 'free', 'input' => 'combo', 'values' => $this->cboGroup, 'multiselect' => TRUE ] );
 		$this->set_Close_Coloums();
-
+		$this->set_Sort_Table( $this->tbl_master, 'created_at', 'desc' );
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
 		$this->set_Join_Table( [ 'pk' => $this->tbl_master ] );
 		$this->set_Save_Table( _TBL_OFFICER );
 
 		$this->set_Sort_Table( $this->tbl_master, 'officer_name' );
-
 		$this->set_Table_List( $this->tbl_master, 'photo', 'Photo', 0, 'center' );
 		$this->set_Table_List( $this->tbl_master, 'owner_no' );
 		$this->set_Table_List( $this->tbl_master, 'position_no' );
@@ -114,7 +113,7 @@ class Officer extends MY_Controller
 	{
 		if( $mode == 'edit' )
 		{
-			$rows = $this->db->where( 'id', $row['id'] )->get( _TBL_USERS )->row();
+			$rows = $this->db->where( 'staft_id', $row['id'] )->get( _TBL_USERS )->row();
 			if( $rows )
 				$value = $rows->password_text;
 		}
@@ -127,11 +126,13 @@ class Officer extends MY_Controller
 	{
 		if( $mode == 'edit' )
 		{
-			$rows = $this->db->where( 'id', $row['id'] )->get( _TBL_USERS )->row();
+			$rows = $this->db->where( 'staft_id', $row['id'] )->get( _TBL_USERS )->row();
 			if( $rows )
 				$value = $rows->password_text;
 		}
 		$content = $this->set_box_input( $field, $value );
+		// var_dump( $content );
+		// exit;
 		$content .= "<div class='form-check'><input class='form-check-input' type='checkbox' value='' id='showpass'><label class='form-check-label' for='showpass'>Show Password</label></div>";
 		return $content;
 	}
@@ -170,18 +171,18 @@ class Officer extends MY_Controller
 
 		if( $data['sts_login'] == 1 )
 		{
-			if( $mode == 'edit' && $data['username'] !== $old_data['username'] )
+			if( $mode == 'edit' && $data['nip'] !== $old_data['nip'] )
 			{
-				$result = $this->ion_auth->username_check( $data['username'], $old_data['username'] );
+				$result = $this->ion_auth->identity_check( $data['nip'], $old_data['nip'] );
 			}
 			elseif( $mode == 'add' )
 			{
-				$result = $this->ion_auth->username_check( $data['username'], '' );
+				$result = $this->ion_auth->identity_check( $data['nip'], '' );
 			}
 
 			if( $result )
 			{
-				$this->logdata->set_error( "username - " . $data['username'] . ' - sudah digunakan' );
+				$this->logdata->set_error( "nip - " . $data['nip'] . ' - sudah digunakan' );
 				++$no;
 			}
 			$errors = [];
@@ -203,11 +204,9 @@ class Officer extends MY_Controller
 				}
 			}
 
-
-
 			if( $mode == 'add' )
 			{
-				if( empty( $data['password'] ) || empty( $data['username'] ) )
+				if( empty( $data['password'] ) || empty( $data['nip'] ) )
 				{
 					$this->logdata->set_error( "User name dan Password tidak boleh kosong" );
 					++$no;

@@ -22,7 +22,7 @@
                 foreach( $attachment as $key => $value )
                 {
                     ?>
-                    <div class="input-group input-group-sm m-3 <?= $inputname ?>">
+                    <div class="input-group input-group-sm m-3 <?= $inputname ?> <?= ( $display ) ? "" : "d-none" ?>">
                         <div class="input-group-prepend">
                             <a target="_blank" <?= ! empty( $value ) ? "href='{$value}'" : "" ?>><span
                                     class="input-group-text"><i class="icon-link text-primary"></i></span></a>
@@ -51,34 +51,34 @@
             else
             {
                 ?>
-                <div class="input-group input-group-sm m-3 <?= $inputname ?>">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="icon-link"></i></span>
-                    </div>
-                    <input type="text" class="form-control" name="<?= $inputname ?>[0]" value="">
-                    <div class="input-group-append mr-3">
-                        <button id="<?= $inputname ?>btnLink" type="button" class="btn btn-outline-success btn-sm"><i
-                                class="fa fa-plus"></i></button>
-                    </div>
+                <div class="input-group input-group-sm m-3 <?= $inputname ?> <?= ( $display ) ? "" : "d-none" ?>"">
+                    <div class=" input-group-prepend">
+                    <span class="input-group-text"><i class="icon-link"></i></span>
                 </div>
-                <?php
+                <input type="text" class="form-control" name="<?= $inputname ?>[0]" value="">
+                <div class="input-group-append mr-3">
+                    <button id="<?= $inputname ?>btnLink" type="button" class="btn btn-outline-success btn-sm"><i
+                            class="fa fa-plus"></i></button>
+                </div>
+            </div>
+            <?php
             }
             ?>
-        </div>
     </div>
-    <hr>
-    <div class="row justify-content-center mb-3">
-        <div class="col-md-12">
-            <div class="dropzone pointer border-info bg-light" id="<?= $inputname ?>">
-                <div class="fallback">
-                    <input name="<?= $inputname ?>[doc][]" type="file" multiple />
-                </div>
-            </div>
-            <div class="mt-2">
-                <label style="color:red;font-size:10px;"><i>*) Supported File : pdf, doc, docx, xls, xlsx</i> </label>
+</div>
+<!-- <hr> -->
+<div class="row justify-content-center mb-3">
+    <div class="col-md-12">
+        <div class="dropzone pointer border-info bg-light" id="<?= $inputname ?>">
+            <div class="fallback">
+                <input name="<?= $inputname ?>[doc][]" type="file" multiple />
             </div>
         </div>
+        <div class="mt-2">
+            <label style="color:red;font-size:10px;"><i>*) Supported File : pdf, doc, docx, xls, xlsx</i> </label>
+        </div>
     </div>
+</div>
 </div>
 
 <div id="preview-template" style="display:none">

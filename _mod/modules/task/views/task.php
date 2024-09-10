@@ -54,8 +54,12 @@
                                 <td><?= $pic ?></td>
                                 <td><?= $days_overdue_sign . $days_overdue ?></td>
                                 <td class="text-center">
-                                    <span class="btn btn-light" id="cekLog" data-id="<?= $q['rcsa_detail_id'] ?>">Histori</span>
-                                    <span class="btn btn-light" id="sendEmail" data-id="<?= $q['id'] ?>" data-detail_id="<?= $q['rcsa_detail_id'] ?>" data-day="<?= $days_overdue_sign . $days_overdue ?>" data-owner_id="<?= $q['owner_id'] ?>">Reminder</span>
+                                    <span class="btn btn-light" id="cekLog"
+                                        data-id="<?= $q['rcsa_detail_id'] ?>">Histori</span>
+                                    <span class="btn btn-light" id="sendEmail" data-id="<?= $q['id'] ?>"
+                                        data-detail_id="<?= $q['rcsa_detail_id'] ?>"
+                                        data-day="<?= $days_overdue_sign . $days_overdue ?>"
+                                        data-owner_id="<?= $q['owner_id'] ?>">Reminder</span>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -117,8 +121,12 @@
                                 <td><?= $pic ?></td>
                                 <td><?= $days_left_sign . $days_left ?></td>
                                 <td class="text-center">
-                                    <span class="btn btn-light" id="cekLog" data-id="<?= $q['rcsa_detail_id'] ?>">Histori</span>
-                                    <span class="btn btn-light" id="sendEmail" data-id="<?= $q['id'] ?>" data-detail_id="<?= $q['rcsa_detail_id'] ?>" data-day="<?= $days_left_sign . $days_left ?>" data-owner_id="<?= $q['owner_id'] ?>">Reminder</span>
+                                    <span class="btn btn-light" id="cekLog"
+                                        data-id="<?= $q['rcsa_detail_id'] ?>">Histori</span>
+                                    <span class="btn btn-light" id="sendEmail" data-id="<?= $q['id'] ?>"
+                                        data-detail_id="<?= $q['rcsa_detail_id'] ?>"
+                                        data-day="<?= $days_left_sign . $days_left ?>"
+                                        data-owner_id="<?= $q['owner_id'] ?>">Reminder</span>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -143,6 +151,7 @@
                             <th>Id</th>
                             <th>Question</th>
                             <th>Answer</th>
+                            <th>Dokumen Faq</th>
                             <th>Created at</th>
                             <th></th>
                         </tr>
@@ -158,6 +167,8 @@
                                     <td><?= $vFaq["id"] ?></td>
                                     <td><?= $vFaq["faq"] ?></td>
                                     <td><?= $vFaq["answer"] ?></td>
+                                    <td><?= ( ! empty( $vFaq["dokumen_faq"] ) && file_exists( "files/" . $vFaq["dokumen_faq"] ) ) ? "<a href='" . base_url( "file/" . $vFaq["dokumen_faq"] ) . "'><i class='icon-file-text'></i></a>" : "" ?>
+                                    </td>
                                     <td>
                                         <?= ! empty( $vFaq["created_at"] ) ? date( "Y-m-d", strtotime( $vFaq["created_at"] ) ) : "" ?>
                                     </td>
@@ -174,7 +185,7 @@
 </div>
 <script>
     <?php
-    $setLabelDatatable = '<span class="text-info" style="font-style: italic;"><i class="fa fa-info-circle"></i> Untuk Pertanyaan Lebih Lanjut Silahkan Menghubungi Manajemen Risiko. </span>';
+    $setLabelDatatable = '<span class="text-info" style="font-style: italic;"><i class="fa fa-info-circle"></i> Untuk Pertanyaan Lebih Lanjut Silahkan Menghubungi ke Manajemen Risiko. </span>';
     ?>
     $(document).ready(function () {
         $('#tbl_list_mitigasi').DataTable({
@@ -217,6 +228,7 @@
                 { 'data': 'id', 'visible': false },
                 { 'data': 'faq' },
                 { 'data': 'answer', 'visible': false },
+                { 'data': 'dokumen_faq' },
                 { 'data': 'created_at' },
                 {
                     'className': 'details-control',

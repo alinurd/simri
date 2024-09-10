@@ -40,7 +40,7 @@
 
                                                         case 2: ?>
                                                             <span
-                                                                class="btn btn-sm disabled btn-block btn-warning"><strong>REVISI</strong></span>
+                                                                class="btn btn-sm disabled btn-block btn-warning"><strong>REVISION</strong></span>
                                                             <?php break;
 
                                                         default: ?>
@@ -66,7 +66,7 @@
                                     else
                                     { ?>
                                         <tr>
-                                            <td colspan="7" class="text-center">Data Empty</td>
+                                            <td colspan="9" class="text-center">Data Empty</td>
                                         </tr>
                                     <?php } ?>
 

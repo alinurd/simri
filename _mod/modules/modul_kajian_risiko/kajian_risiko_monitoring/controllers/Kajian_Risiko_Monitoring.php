@@ -20,6 +20,7 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 		$this->addField( [ 'field' => 'owner_id', 'title' => 'Risk Owner', 'input' => 'combo', 'values' => $this->cboDept, 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'name', 'title' => 'Nama Kajian Risiko', 'type' => 'string', 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'request_date', 'type' => 'date', 'search' => TRUE, "required" => TRUE ] );
+		$this->addField( [ 'field' => 'date_submit', 'type' => 'date', 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'release_date', 'type' => 'date', 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'status', 'title' => 'Status', 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_status, 'default' => 0, 'size' => 40 ] );
 		$this->addField( [ 'field' => 'created_at', "show" => FALSE, "save" => FALSE ] );
@@ -33,8 +34,9 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 
 		$this->set_Table_List( $this->tbl_master, 'owner_id', "Risk Owner" );
 		$this->set_Table_List( $this->tbl_master, 'name', "Nama Kajian Risiko" );
-		$this->set_Table_List( $this->tbl_master, 'request_date', "Tanggal Permintaan" );
-		$this->set_Table_List( $this->tbl_master, 'release_date', "Tanggal Release" );
+		// $this->set_Table_List( $this->tbl_master, 'request_date', "Tanggal Permintaan" );
+		$this->set_Table_List( $this->tbl_master, 'date_submit', "Tanggal Submit (TMRD)" );
+		$this->set_Table_List( $this->tbl_master, 'release_date', "Tanggal Release (MR)" );
 		$this->set_Table_List( $this->tbl_master, 'status', "Status" );
 		$this->set_Table_List( $this->tbl_master, 'created_at', "Tanggal Dibuat", 0, "center" );
 		$this->set_Close_Setting();
@@ -74,6 +76,10 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 
 	}
 	function listBox_created_at( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
+	}
+	function listBox_date_submit( $field, $rows, $value )
 	{
 		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
 	}
@@ -207,7 +213,7 @@ class Kajian_Risiko_Monitoring extends MY_Controller
 			case 'edit':
 				$dataUpdate = [
 				 "risiko"                   => $postData["risiko"],
-				 "inherent_risk_level"      => $postData["inherent_risk_level"],
+				 "residual_risk_level"      => $postData["residual_risk_level"],
 				 "current_risk_level"       => $postData["current_risk_level"],
 				 "impact_current_level"     => $postData["impact_current_level"],
 				 "likelihood_current_level" => $postData["likelihood_current_level"],

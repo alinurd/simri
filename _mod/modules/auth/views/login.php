@@ -34,7 +34,7 @@ if( empty( $message ) )
       </div>
     </div>
     <div class="form-group mt-3">
-      <button type="submit" class="btn btn-primary btn-block"><?= lang( 'login_submit_btn' ); ?><i
+      <button type="submit" class="btn btn-info btn-block bg-bumn-gradient-1"><?= lang( 'login_submit_btn' ); ?><i
           class="icon-circle-right2 ml-2"></i></button>
     </div>
   </div>

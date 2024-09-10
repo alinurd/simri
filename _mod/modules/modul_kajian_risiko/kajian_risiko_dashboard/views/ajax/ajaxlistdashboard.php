@@ -13,7 +13,7 @@
                                         <th class="text-center">Tipe Kajian</th>
                                         <th class="text-center">Latar Belakang</th>
                                         <th class="text-center">Nama Owner</th>
-                                        <th class="text-center">Request Date</th>
+                                        <!-- <th class="text-center">Request Date</th> -->
                                         <th class="text-center">Release Date</th>
                                         <th class="text-center">Date Submit</th>
                                         <th class="text-center">Status</th>
@@ -34,11 +34,11 @@
                                                 <td><?= $vData["tipe_kajian"] ?></td>
                                                 <td><?= $vData["tipe_kajian"] ?></td>
                                                 <td class="text-center"><?= $vData["tipe_kajian"] ?></td>
-                                                <td class="text-center">
+                                                <!-- <td class="text-center">
                                                     <?= ! empty( $vData["request_date"] ) && $vData["request_date"] != "0000-00-00 00:00:00" ? date( "d-m-Y", strtotime( $vData["request_date"] ) ) : "" ?>
-                                                </td>
+                                                </td> -->
                                                 <td class="text-center">
-                                                    <?= ! empty( $vData["release_date"] ) && $vData["release_date"] != "0000-00-00 00:00:00" ? date( "d-m-Y", strtotime( $vData["release_date"] ) ) : "" ?>
+                                                    <?= ! empty( $vData["release_date"] ) && $vData["release_date"] != "0000-00-00" ? date( "d-m-Y", strtotime( $vData["release_date"] ) ) : "" ?>
                                                 </td>
                                                 <td class="text-center">
                                                     <?= ! empty( $vData["date_submit"] ) && $vData["date_submit"] != "0000-00-00 00:00:00" ? date( "d-m-Y", strtotime( $vData["date_submit"] ) ) : "" ?>
@@ -59,7 +59,7 @@
                                                                 <?php break; ?>
                                                             <?php case 2: ?>
                                                                 <span
-                                                                    class="btn btn-sm disabled btn-block btn-warning"><strong>REVISI</strong></span>
+                                                                    class="btn btn-sm disabled btn-block btn-warning"><strong>REVISION</strong></span>
                                                                 <?php break; ?>
                                                             <?php default:
 

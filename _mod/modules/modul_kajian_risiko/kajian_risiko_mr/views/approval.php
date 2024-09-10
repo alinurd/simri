@@ -37,13 +37,13 @@
                                             <strong><?= ( ! empty( $headerRisk["owner_name"] ) ? $headerRisk["owner_name"] : "" ) ?></strong>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td><em>Tanggal Permintaan</em></td>
                                         <td><strong><?= ( ! empty( $headerRisk["request_date"] ) && $headerRisk["request_date"] != "0000-00-00" ? date( "d-m-Y", strtotime( $headerRisk["request_date"] ) ) : "" ) ?></strong>
                                         </td>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
-                                        <td><em>Tanggal Release</em></td>
+                                        <td><em>Tanggal Release (MR)</em></td>
                                         <td><strong><?= ( ! empty( $headerRisk["release_date"] ) && $headerRisk["release_date"] != "0000-00-00" ? date( "d-m-Y", strtotime( $headerRisk["release_date"] ) ) : "" ) ?></strong>
                                         </td>
                                     </tr>
@@ -75,7 +75,7 @@
                                     <?php if( ! empty( $headerRisk["date_submit"] ) )
                                     { ?>
                                         <tr>
-                                            <td><em>Tanggal Submit</em></td>
+                                            <td><em>Tanggal Submit (TMRD)</em></td>
                                             <td><strong><?= ! empty( $headerRisk["date_submit"] ) && date( "d-m-Y", strtotime( $headerRisk["date_submit"] ) ) != "00-00-0000" ? date( "d-m-Y", strtotime( $headerRisk["date_submit"] ) ) : "" ?></strong>
                                             </td>
                                         </tr>
@@ -212,8 +212,8 @@
                                             Anda Memiliki
                                             <strong><?= ! empty( $countNotifDocumen ) ? $countNotifDocumen : 0 ?></strong>
                                             daftar
-                                            Kajian Risiko yang belum
-                                            terupload dokumen.&nbsp;
+                                            Kajian Risiko yang
+                                            belum Release.&nbsp;
                                             <button type="button" id="btn-list-upload-dokumen-mr"
                                                 data-url="<?= ( ! empty( $notifdokumenUrl ) ? $notifdokumenUrl : "" ) ?>"
                                                 class="btn btn-sm btn-primary">Lihat

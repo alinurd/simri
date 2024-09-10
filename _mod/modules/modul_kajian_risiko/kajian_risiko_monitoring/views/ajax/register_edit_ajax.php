@@ -22,21 +22,7 @@
                                             id="risiko" placeholder="Risiko" required>
                                     </div>
                                 </div>
-                                <div class="form-group row mb-3">
-                                    <label for="inherent-level" class="col-md-4 col-form-label text-right">Risk Level
-                                        Inherent
-                                        (RL)<sup class="text-danger ml-1">(*)</sup></label>
-                                    <div class="col-md-8">
-                                        <input type="hidden"
-                                            value="<?= ( ! empty( $formdata["inherent_risk_level"] ) ? $formdata["inherent_risk_level"] : "" ) ?>"
-                                            name="inherent_risk_level" required>
-                                        <div class="alert alert-sm border shadow-none m-0 p-1 text-center"
-                                            style="background-color:<?= $formdata["inherent_level_color"] ?>;color:<?= $formdata["inherent_text_level_color"] ?>">
-                                            <b><?= $formdata["inherent_level_name"] ?></b>
-                                        </div>
 
-                                    </div>
-                                </div>
                                 <div class="form-group row mb-3">
                                     <label for="risk-current" class="col-md-4 col-form-label text-right">Risk Level
                                         Current
@@ -49,6 +35,21 @@
                                             style="background-color:<?= $formdata["current_level_color"] ?>;color:<?= $formdata["current_text_level_color"] ?>">
                                             <b><?= $formdata["current_level_name"] ?></b>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label for="residual-level" class="col-md-4 col-form-label text-right">Risk Level
+                                        Residual
+                                        (RL)<sup class="text-danger ml-1">(*)</sup></label>
+                                    <div class="col-md-8">
+                                        <input type="hidden"
+                                            value="<?= ( ! empty( $formdata["residual_risk_level"] ) ? $formdata["residual_risk_level"] : "" ) ?>"
+                                            name="residual_risk_level" required>
+                                        <div class="alert alert-sm border shadow-none m-0 p-1 text-center"
+                                            style="background-color:<?= $formdata["residual_level_color"] ?>;color:<?= $formdata["residual_text_level_color"] ?>">
+                                            <b><?= $formdata["residual_level_name"] ?></b>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="jumbotron p-3 border">

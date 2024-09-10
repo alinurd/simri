@@ -49,7 +49,7 @@ class Kajian_Risiko_Dashboard extends MY_Controller
     function getDataChart( $type, $filter = FALSE )
     {
         $dataChart       = [];
-        $datamapStatus   = [ "Draft", "Submitted", "Revisi" ];
+        $datamapStatus   = [ "Draft", "Submitted", "Revision" ];
         $datamapApproval = [ "Rejected", "Review", "Approved" ];
         $datamapProgress = [ "Not Started", "On Progress", "Closed" ];
         $datamapfileajax = [ "tiket_terbit" => "bar1", "tanggal_release" => "bar2", "status_kajian" => "graph1", "status_approval" => "graph2", "status_progress" => "graph3" ];
@@ -125,7 +125,7 @@ class Kajian_Risiko_Dashboard extends MY_Controller
 
     function getDataModalDashboard()
     {
-        $datamapStatus = [ "draft" => 0, "revisi" => 2, "submitted" => 1 ];
+        $datamapStatus = [ "draft" => 0, "revision" => 2, "submitted" => 1 ];
         if( ! empty( $this->input->post() ) )
         {
             $viewContent = [];

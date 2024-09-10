@@ -42,8 +42,8 @@ class Left_Sidebar extends Widget
 
 		$html .= $item;
 		$html .= '<li class="nav-item" >
-                    <a href="' . base_url( 'auth/logout' ) . '"  id="logout"  class="nav-link" style="color:blue !important;">
-                        <i class="icon-enter3" ></i><span> Logout </span>
+                    <a href="' . base_url( 'auth/logout' ) . '"  id="logout"  class="nav-link text-center">
+                        <i class="icon-enter3" ></i><span> LOGOUT </span>
                     </a>
                 </li>';
 		$html .= '</ul>';

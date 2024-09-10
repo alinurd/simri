@@ -1,5 +1,5 @@
 <br /><br />
-<legend class="text-uppercase font-size-lg text-slate font-weight-bold"><i class="icon-grid"></i> DETAIL MITIGASI
+<legend class="text-uppercase font-size-lg text-slate font-weight-bold"><i class="icon-grid"></i> DETAIL MONITORING
 </legend>
 <div class="row">
     <div class="col-xl-6">

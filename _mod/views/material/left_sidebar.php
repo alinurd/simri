@@ -4,7 +4,7 @@ $photo = img_url( 'profile.jpg' );
 if( file_exists( file_url( $params['user']['photo'] ) ) )
 	$photo = file_url( $params['user']['photo'] );
 ?>
-<div class="sidebar sidebar-light sidebar-main sidebar-expand-md">
+<div class="sidebar sidebar-light sidebar-main sidebar-expand-md bg-bumn-gradient-1">
 
 	<!-- Sidebar mobile toggler -->
 	<div class="sidebar-mobile-toggler text-center">
@@ -21,7 +21,7 @@ if( file_exists( file_url( $params['user']['photo'] ) ) )
 
 
 	<!-- Sidebar content -->
-	<div class="sidebar-content">
+	<div class="sidebar-content ">
 		<!-- User menu -->
 		<div class="sidebar-user-material">
 			<div class="sidebar-user-material-body"

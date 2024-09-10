@@ -434,23 +434,23 @@ function resultaddlibrary(lib) {
     $("#modal_general").modal("hide");
 }
 
-$(document).on("change", ".inherent-select", function (e) {
-    var data = { 'likelihood': $("#inherent-likelihood").val(), "impact": $("#inherent-impact").val() };
+$(document).on("change", ".residual-select", function (e) {
+    var data = { 'likelihood': $("#residual-likelihood").val(), "impact": $("#residual-impact").val() };
     var url = modul_name + "/getlevelrisk";
-    _ajax_("post", $("#level-inherent-risk"), data, "", url, "result_level_inherent");
+    _ajax_("post", $("#level-residual-risk"), data, "", url, "result_level_residual");
 })
 
-function result_level_inherent(result) {
+function result_level_residual(result) {
     if (result != null) {
-        $("#inherent-level").val(result.id).trigger("change");
-        $("#result-inherent-level").html("<b>" + result.level_color + "</b>");
-        $("#result-inherent-level").css("background-color", result.color);
-        $("#result-inherent-level").css("color", result.color_text);
+        $("#residual-level").val(result.id).trigger("change");
+        $("#result-residual-level").html("<b>" + result.level_color + "</b>");
+        $("#result-residual-level").css("background-color", result.color);
+        $("#result-residual-level").css("color", result.color_text);
     } else {
-        $("#inherent-level").val("").trigger("change");
-        $("#result-inherent-level").html("<b>No Result</b>");
-        $("#result-inherent-level").css("background-color", "rgb(240, 240, 240)");
-        $("#result-inherent-level").css("color", "rgb(0, 0, 0)");
+        $("#residual-level").val("").trigger("change");
+        $("#result-residual-level").html("<b>No Result</b>");
+        $("#result-residual-level").css("background-color", "rgb(240, 240, 240)");
+        $("#result-residual-level").css("color", "rgb(0, 0, 0)");
     }
 
 }
@@ -488,7 +488,7 @@ $(document).on("click", "#btn-list-upload-dokumen-mr", function (e) {
             looding('light', $("#btn-list-upload-dokumen-mr"));
         },
         success: function (result) {
-            $("#modal_general").find(".modal-title").text("Daftar Kajian Risiko Yang Belum Terupload Dokumen");
+            $("#modal_general").find(".modal-title").text("Daftar Kajian Risiko Yang Belum Release");
             $("#modal_general").find(".modal-body").html(result);
             $("#modal_general").modal("show");
 

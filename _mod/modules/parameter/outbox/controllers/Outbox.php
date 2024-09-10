@@ -28,7 +28,7 @@ class Outbox extends MY_Controller
 		$this->addField( [ 'field' => 'scheduled_at', 'search' => TRUE, 'size' => 100 ] );
 		$this->addField( [ 'field' => 'is_sent', 'search' => TRUE, 'size' => 100 ] );
 		$this->addField( [ 'field' => 'sent_at', 'size' => 500 ] );
-		$this->addField( [ 'field' => 'created_at', 'show' => FALSE ] );
+		// $this->addField( [ 'field' => 'created_at', 'show' => FALSE ] );	
 		$this->addField( [ 'field' => 'cc', 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'bcc', 'show' => FALSE ] );
 		$this->addField( [ 'field' => 'message_text', 'show' => FALSE ] );

@@ -11,6 +11,7 @@ class Kajian_Risiko extends MY_Controller
 	{
 		$this->cboDept    = $this->get_combo_parent_dept();
 		$this->cbo_status = $this->crud->combo_value( [ 0 => 'DRAFT', 1 => 'SUBMIT' ] )->result_combo();
+		$getdataTipe      = $this->data->getDataTipekajian();
 
 		$this->set_Tbl_Master( _TBL_VIEW_KAJIAN_RISIKO );
 
@@ -19,18 +20,20 @@ class Kajian_Risiko extends MY_Controller
 		$this->addField( [ 'field' => 'owner_id', 'title' => 'Risk Owner', 'input' => 'combo', 'values' => $this->cboDept, 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'name', 'title' => 'Nama Kajian Risiko', 'type' => 'string', 'search' => TRUE, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'latar_belakang', 'title' => 'Latar Belakang', 'type' => 'string', 'search' => FALSE, "required" => TRUE ] );
-		$this->addField( [ 'field' => 'tipe_kajian', 'title' => 'Tipe Kajian', 'type' => 'string', 'search' => TRUE, "required" => TRUE ] );
-		$this->addField( [ 'field' => 'request_date', 'type' => 'date', "show" => FALSE, "save" => TRUE ] );
-		$this->addField( [ 'field' => 'release_date', 'type' => 'date', "show" => FALSE,] );
-		$this->addField( [ 'field' => 'tiket_terbit', 'type' => 'date', "show" => FALSE,] );
+		$this->addField( [ 'field' => 'tipe_kajian', 'title' => 'Tipe Kajian', 'input' => 'combo', 'type' => 'string', 'search' => FALSE, "required" => TRUE, "values" => $getdataTipe ] );
+		$this->addField( [ 'field' => 'request_date', 'type' => 'date', "show" => FALSE, "save" => TRUE, 'search' => TRUE ] );
+		$this->addField( [ 'field' => 'date_submit', 'type' => 'date', "show" => FALSE, "save" => TRUE, 'search' => TRUE ] );
+		$this->addField( [ 'field' => 'release_date', 'type' => 'date', "show" => FALSE, 'search' => TRUE ] );
+		$this->addField( [ 'field' => 'tiket_terbit', 'type' => 'date', "show" => FALSE, "search" => FALSE ] );
 		$this->addField( [ 'field' => 'urutan_tiket', 'type' => 'int', "show" => FALSE,] );
 		$this->addField( [ 'field' => 'status_approval', 'type' => 'string', "show" => FALSE,] );
 		$this->addField( [ 'field' => 'status', 'title' => 'Status', "show" => FALSE, 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_status, 'default' => 0, 'size' => 40 ] );
-		$this->addField( [ 'field' => 'dokumen_rfa', "title" => "Dokumen RFA", "show" => FALSE, "save" => FALSE, "type" => "free" ] );
+
 		$this->addField( [ 'field' => 'link_dokumen_kajian', "title" => "Dokumen Self-Assessment", "required" => TRUE ] );
+		$this->addField( [ 'field' => 'dokumen_rfa', "title" => "Dokumen RFA", "show" => FALSE, "save" => FALSE, "type" => "free" ] );
 		$this->addField( [ 'field' => 'link_dokumen_pendukung', "title" => "Dokumen Pendukung" ] );
 		$this->addField( [ 'field' => 'dokumen_mr', "show" => FALSE, "save" => FALSE ] );
-		$this->addField( [ 'field' => 'created_at', "show" => FALSE, "save" => FALSE ] );
+		$this->addField( [ 'field' => 'created_at', "show" => FALSE, "save" => TRUE ] );
 
 		$this->set_Close_Coloums();
 		$this->set_Field_Primary( $this->tbl_master, 'id' );
@@ -40,9 +43,10 @@ class Kajian_Risiko extends MY_Controller
 
 		$this->set_Table_List( $this->tbl_master, 'owner_id', "Risk Owner" );
 		$this->set_Table_List( $this->tbl_master, 'name', "Nama Kajian Risiko" );
-		$this->set_Table_List( $this->tbl_master, 'request_date', "Tanggal Permintaan" );
-		$this->set_Table_List( $this->tbl_master, 'tiket_terbit', "Tanggal Tiket Terbit" );
-		$this->set_Table_List( $this->tbl_master, 'release_date', "Max Tanggal Release" );
+		// $this->set_Table_List( $this->tbl_master, 'request_date', "Tanggal Permintaan" );
+		$this->set_Table_List( $this->tbl_master, 'date_submit', "Tanggal Submit (TMRD)" );
+		$this->set_Table_List( $this->tbl_master, 'tiket_terbit', "Tanggal Tiket Terbit (MR)" );
+		$this->set_Table_List( $this->tbl_master, 'release_date', "Max Tanggal Release (MR)" );
 
 		// $this->set_Table_List( $this->tbl_master, 'urutan_tiket', "Urutan Tiket" );
 
@@ -82,6 +86,7 @@ class Kajian_Risiko extends MY_Controller
 		{
 			$data["fields"]["id"]["isi"]           = $this->data->getIdIncrementDb();
 			$data["fields"]["request_date"]["isi"] = date( "Y-m-d H:i:s" );
+			$data["fields"]["created_at"]["isi"]   = date( "Y-m-d H:i:s" );
 
 		}
 		return $this->load->view( 'material/input', $data, TRUE );
@@ -100,7 +105,7 @@ class Kajian_Risiko extends MY_Controller
 				$statusContent = "<span class='btn btn-sm btn-block btn-success' style='cursor:default'>SUBMITTED</span>";
 				break;
 			case 2:
-				$statusContent = "<span class='btn btn-sm btn-block btn-warning' style='cursor:default'>REVISI</span>";
+				$statusContent = "<span class='btn btn-sm btn-block btn-warning' style='cursor:default'>REVISION</span>";
 				break;
 
 			default:
@@ -137,7 +142,7 @@ class Kajian_Risiko extends MY_Controller
 
 	function listBox_created_at( $field, $rows, $value )
 	{
-		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
+		return ( ! empty( $value ) && date( $value ) != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
 	}
 
 	function listBox_release_date( $field, $rows, $value )
@@ -149,6 +154,10 @@ class Kajian_Risiko extends MY_Controller
 		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
 	}
 	function listBox_tiket_terbit( $field, $rows, $value )
+	{
+		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
+	}
+	function listBox_date_submit( $field, $rows, $value )
 	{
 		return ( ! empty( $value ) && $value != "0000-00-00" ) ? date( "d-m-Y", strtotime( $value ) ) : "";
 	}
@@ -173,6 +182,7 @@ class Kajian_Risiko extends MY_Controller
 		{
 			$dataView["inputname"]  = $field['field'];
 			$dataView["attachment"] = ( ! empty( $value ) ) ? json_decode( $value ) : [];
+			$dataView["display"]    = TRUE;
 			return $this->load->view( "risk-attachment", $dataView, TRUE );
 		}
 	}
@@ -187,6 +197,7 @@ class Kajian_Risiko extends MY_Controller
 		{
 			$dataView["inputname"]  = $field['field'];
 			$dataView["attachment"] = ( ! empty( $value ) ) ? json_decode( $value ) : [];
+			$dataView["display"]    = FALSE;
 			return $this->load->view( "risk-attachment", $dataView, TRUE );
 		}
 	}
