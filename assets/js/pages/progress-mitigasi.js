@@ -1041,7 +1041,6 @@ $(document).on("click", "#back_like_indi", function () {
   var url = modul_name + "/indikator-like";
   _ajax_("post", parent, data, "", url, "indikator_like");
 });
-
 function update_sts(sts_mon, mit) {
   console.log(sts_mon)
   console.log(mit)
@@ -1069,8 +1068,12 @@ function update_sts(sts_mon, mit) {
       $("#progress").prop("checked", false); 
       $("#notyet").prop("checked", true);   
     }
-    $("#notyet").prop("checked", true);   
   }
+}else{
+  
+  $("#done").prop("checked", true); 
+  $("#progress").prop("checked", false); 
+  $("#notyet").prop("checked", true);   
 }
 }
 function result_dampak(hasil) {
