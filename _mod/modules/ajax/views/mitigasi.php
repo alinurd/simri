@@ -163,14 +163,32 @@
                             <th><?= _l( 'fld_koordinator' ); ?></th>
                             <th><?= _l( 'fld_jml_aktifitas' ); ?></th>
                             <th><?= _l( 'fld_due_date' ); ?></th>
+                            <th><?= _l( 'progress_aktifitas' ); ?></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $no = 0;
+                        $sumtar=0;
+                        $sumAk=0;
+                        $avarage=0;
+                        $count=0; 
                         if( ! empty( $mitigasi ) )
                         {
-                            foreach( $mitigasi as $row ) : ?>
+                            if( ! empty( $progres ) )
+                            {
+                                $count=count($progres); 
+                                foreach( $progres as $row ) : 
+                                    $sumtar += $row['target'];
+                                    $sumAk += $row['aktual'];
+                                endforeach; 
+                                $avarageTar=$sumtar/$count;
+                                $avarageAK=$sumAk/$count;
+                                $avarage=$avarageTar/$avarageAK;
+                                $percentage = $avarage * 100;
+                            }
+                            foreach( $mitigasi as $row ) :
+                             ?>
                                 <tr class="pointer detail-mitigasi" data-id="<?= $row['id']; ?>">
                                     <td><?= ++$no; ?></td>
                                     <td><?= $row['mitigasi']; ?></td>
@@ -179,6 +197,7 @@
                                     <td><?= $row['koordinator']; ?></td>
                                     <td><?= $row['jml']; ?></td>
                                     <td><?= date( 'd-m-Y', strtotime( $row['batas_waktu'] ) ); ?></td>
+                                    <td>target/aktual:<?= $avarage ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php }
