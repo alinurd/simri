@@ -197,7 +197,7 @@
                                     <td><?= $row['koordinator']; ?></td>
                                     <td><?= $row['jml']; ?></td>
                                     <td><?= date( 'd-m-Y', strtotime( $row['batas_waktu'] ) ); ?></td>
-                                    <td>target/aktual:<?= $avarage ?></td>
+                                    <td><?= $avarage ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php }
