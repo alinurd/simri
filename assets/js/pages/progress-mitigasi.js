@@ -34,8 +34,6 @@ $(function () {
   $(document).ready(function() {
     var mit = $("#mit_level_residual_text").val(); 
     var sts_mon = $("#sts_mon").val(); 
-    console.log(sts_mon)
-    console.log(mit)
     update_sts(sts_mon, mit);
   });
   
@@ -47,7 +45,7 @@ $(function () {
       var id = $(this).data("id"); 
       var data = { id: id, sts: sts };
       var url = modul_name + "/update_sts";
-      _ajax_("post", "", data, "", url, "");
+      _ajax_("post", parent, data, "", url, "");
     }else{
       return false
     }
@@ -1042,8 +1040,6 @@ $(document).on("click", "#back_like_indi", function () {
   _ajax_("post", parent, data, "", url, "indikator_like");
 });
 function update_sts(sts_mon, mit) {
-  console.log(sts_mon)
-  console.log(mit)
   if(sts_mon!=0){
   if (sts_mon == 1) { 
     $("#sts_mon").val(sts_mon);
@@ -1055,25 +1051,46 @@ function update_sts(sts_mon, mit) {
     $("#progress").attr("disabled", false);
     $("#notyet").attr("disabled", true);
     $("#done").attr("disabled", true);
+  }else{
+    $("#done").prop("checked", false); 
+    $("#progress").prop("checked", false); 
+      $("#notyet").prop("checked", true); 
+      
+    $("#progress").attr("disabled", false);
+    $("#notyet").attr("disabled", true);
+    $("#done").attr("disabled", true);
+  }
+  // if (sts_mon == 2) {
+  //   $("#done").prop("checked", true); 
+  // } else {
+  //   if (mit) {
+  //     $("#notyet").prop("checked", false);  
+  //     $("#progress").prop("checked", true); 
+  //   } else {
+  //     $("#progress").prop("checked", false); 
+  //     $("#notyet").prop("checked", true);   
+  //   }
+  // }
+}
+else{
+  if(mit){
+    $("#progress").prop("checked", true); 
+    $("#done").prop("checked", false); 
+    $("#notyet").prop("checked", false); 
+    
+    $("#progress").attr("disabled", true);
+    $("#done").attr("disabled", false);  
+    $("#notyet").attr("disabled", true);
+  }else{
+    $("#progress").prop("checked", false); 
+    $("#done").prop("checked", false); 
+    $("#notyet").prop("checked", true); 
+    
+    $("#progress").attr("disabled", false);
+    $("#done").attr("disabled", false);  
+    $("#notyet").attr("disabled", true);
   }
  
-  if (sts_mon == 2) {
-    $("#done").prop("checked", true); 
-  } 
-  else {
-    if (mit) {
-      $("#notyet").prop("checked", false);  
-      $("#progress").prop("checked", true); 
-    } else {
-      $("#progress").prop("checked", false); 
-      $("#notyet").prop("checked", true);   
-    }
-  }
-}else{
-  
-  $("#done").prop("checked", true); 
-  $("#progress").prop("checked", false); 
-  $("#notyet").prop("checked", true);   
 }
 }
 function result_dampak(hasil) {
