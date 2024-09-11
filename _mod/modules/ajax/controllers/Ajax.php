@@ -263,6 +263,7 @@ class Ajax extends MY_Controller
 		$this->data->pos = $post;
 		$x               = $this->data->get_data_detail_rcsa();
 		$x['kpi']        = $this->indikator_like( $post );
+		$x['picku'] = $this->get_data_dept();
 
 		$hasil['combo'] = $this->load->view( 'mitigasi', $x, TRUE );
 		header( 'Content-type: application/json' );
@@ -273,6 +274,8 @@ class Ajax extends MY_Controller
 		$post            = $this->input->post();
 		$this->data->pos = $post;
 		$x               = $this->data->get_data_detail_mitigasi();
+		$x['picku'] = $this->get_data_dept();
+
 		$hasil['combo']  = $this->load->view( 'aktifitas-mitigasi', $x, TRUE );
 		header( 'Content-type: application/json' );
 		echo json_encode( $hasil );
@@ -282,6 +285,7 @@ class Ajax extends MY_Controller
 		$post            = $this->input->post();
 		$this->data->pos = $post;
 		$x               = $this->data->get_detail_progres_mitigasi();
+		$x['picku'] = $this->get_data_dept();
 		$hasil['combo']  = $this->load->view( 'progres-aktifitas-mitigasi', $x, TRUE );
 		header( 'Content-type: application/json' );
 		echo json_encode( $hasil );
