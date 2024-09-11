@@ -123,8 +123,8 @@
     </div>
 </div>
 
-<div class="row d-none">
-    <div class="col-xl-6">
+<div class="row ">
+    <div class="col-xl-12">
         <div class="card">
             <div class="card-header header-elements-sm-inline">
                 <h6 class="card-title">Taksonomi & Tipe Risiko</h6>
@@ -134,8 +134,8 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body" id="result_grap1" style="height:420px;overflow-y:hidden;overflow-x:hidden;">
-                <!-- <?= $grap1; ?> -->
+            <div class="card-body" id="result_grap1" style="height:420px;overflow-y:tru;overflow-x:true;">
+                <?= $grap1; ?>
             </div>
         </div>
     </div>
@@ -162,7 +162,7 @@
 
         <div class="card">
             <div class="card-header header-elements-sm-inline">
-                <h6 class="card-title">Progrres Aktifivas Mitigasi</h6>
+                <h6 class="card-title">Progrres Aktifivas Mitigasaaaaaaaaaaaaai</h6>
                 <div class="header-elements">
                     <div class="list-icons">
                         <a class="list-icons-item" data-action="collapse"></a>

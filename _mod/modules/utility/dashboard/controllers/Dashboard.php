@@ -74,8 +74,8 @@ class Dashboard extends MY_Controller
 
 		$x           = $this->data->get_data_grap();
 		$dat['data'] = $x['mitigasi'];
-		$dat['tasktonomi']   = $this->db->where( 'kelompok', 'lib-cat' )->where( 'active', 1 )->get( _TBL_COMBO )->result_array();
-		$data['grap1']      = $this->hasil = $this->load->view( 'grap', $dat, TRUE );
+		$tasktonomi   = $this->data->grap_task_tonomi();
+		$data['grap1']      = $this->hasil = $this->load->view( 'grap', $tasktonomi, TRUE );
 		$data['data_grap1'] = '';
 		// $data['data_grap1']= $this->hasil=$this->load->view('grap2',$dat, true);
 

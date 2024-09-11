@@ -842,7 +842,29 @@ class Data extends MX_Model
 
 		return $hasil;
 	}
+	
+	function grap_task_tonomi(){
+		$taskTonomi = $this->db->select('id, data, param_string')->where('kelompok', 'lib-cat')->where('active', 1)->get(_TBL_COMBO)->result_array();
+$dat['tasktonomi'] = $taskTonomi;
+
+$detail = $this->db->get(_TBL_RCSA_DETAIL)->result_array();
+$xxx = [];
+$dCOunt = 0;
+
+foreach ($taskTonomi as $q) {
+    foreach ($detail as  $d) {
+        if ($d['klasifikasi_risiko_id'] == $q['id']) {
+            $xxx[$q['data']] = $dCOunt++;
+        }
+    }
 }
+$dat['detail'] = $xxx;
+  
+return $dat;
+
+	}
+
+ }
 
 
 /* End of file app_login_model.php */
