@@ -346,6 +346,7 @@ class Data extends MX_Model
 
 	function get_data_detail_rcsa()
 	{
+		$data['progres'] = $this->db->where( 'rcsa_detail_id', $this->pos['id'] )->get( _TBL_VIEW_RCSA_MITIGASI_PROGRES )->result_array();
 		$rows = $this->db->where( 'id', $this->pos['id'] )->get( _TBL_VIEW_RCSA_DETAIL )->row_array();
 		$idx  = explode( ',', $rows['peristiwa_id'] );
 		$libs = $this->db->where_in( 'id', $idx )->get( _TBL_LIBRARY )->result_array();
