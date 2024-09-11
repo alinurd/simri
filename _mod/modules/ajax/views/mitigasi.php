@@ -174,7 +174,7 @@
                                 endforeach;
                                 $avarageTar = $sumtar / $count;
                                 $avarageAK = $sumAk / $count;
-                                $avarage = $avarageTar / $avarageAK;
+                                $avarage = $avarageAK / $avarageTar;
                                 $percentage = $avarage * 100;
                             }
                             foreach ($mitigasi as $row) :
