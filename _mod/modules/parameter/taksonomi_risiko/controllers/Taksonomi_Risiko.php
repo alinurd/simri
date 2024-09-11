@@ -19,6 +19,7 @@ class Taksonomi_Risiko extends MY_Controller
 		$this->addField( [ 'field' => 'id', 'type' => 'int', 'show' => FALSE, 'size' => 4 ] );
 		$this->addField( [ 'field' => 'data', 'title' => 'Taksonomi & Tipe Risiko', 'required' => TRUE, 'search' => TRUE, 'size' => 100 ] );
 		$this->addField( [ 'field' => 'kelompok', 'show' => FALSE, 'save' => TRUE, 'default' => $this->kelompok_id ] );
+		$this->addField( [ 'field' => 'param_string','title' => 'Warna Chart', 'input' => 'color', 'size' => 20, 'min' => 1, 'required' => TRUE, ] );
 		$this->addField( [ 'field' => 'urut', 'input' => 'updown', 'size' => 20, 'min' => 1, 'default' => 1, "show" => FALSE ] );
 		$this->addField( [ 'field' => 'active', 'input' => 'boolean', 'size' => 20 ] );
 		$this->addField( [ 'field' => 'risk_type', 'type' => 'free', 'mode' => 'a', "title" => "Tipe Risiko" ] );
