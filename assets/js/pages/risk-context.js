@@ -117,6 +117,15 @@ $(function () {
         updateCheckboxes($(this));
     });
 
+    $(document).on('click', 'input[name="check_item[]"]', function (event) {
+        var len = $('input[name="check_item[]"]:checked').length;
+        if (len > 0) {
+            $('input[name="lampiran"]').prop("required", true);
+        } else {
+            $('input[name="lampiran"]').prop("required", false);
+        }
+    });
+
     $(document).on("click", "#btn_reset_one", function () {
         if (confirm("Anda akan membatalkan approval untuk risk context ini, \nYakin akan melanjutkan ?")) {
             var parent = $(this).parent();
@@ -1190,14 +1199,29 @@ function cek_isian_identifikasi(awal = false) {
                 pesan += '- Dampak Inheren\n';
             }
         }
-
         if (isNaN(parseFloat($('#efek_kontrol').val())) || parseFloat($('#efek_kontrol').val()) == 0) {
             hasil = false;
             pesan += '- Efek Kontrol\n';
         }
     }
-
+    if (checkLampiranFile() == false) {
+        hasil = false;
+        pesan += '- Lampiran File\n';
+    }
     return hasil;
+}
+
+function checkLampiranFile() {
+
+    var len = $('input[name="check_item[]"]:checked').length;
+    var myFile = '';
+    if (len > 0) {
+        myFile = $('input[name="lampiran"]').prop('files').length;
+        if (myFile == 0) {
+            return false;
+        }
+    }
+    return true;
 }
 
 var checkboxes = [];
@@ -1529,9 +1553,6 @@ $(document).ajaxComplete(function () {
         $("#list_mitigasi").show();
         $(".btnNextEvaluasi").show();
     }
-
-
-
     // changeRisikoDepartmentVal();
 });
 $(document).on("click", "#getPeristiwa, #backListPeritwa", function () {
