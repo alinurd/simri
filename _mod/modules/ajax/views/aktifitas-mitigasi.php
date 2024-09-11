@@ -5,27 +5,41 @@
     <div class="col-xl-6">
         <table class="table table-bordered">
             <tr>
-                <td width="30%"><em><?= _l( 'fld_mitigasi' ); ?></em></td>
+                <td width="30%"><em><?= _l('fld_mitigasi'); ?></em></td>
                 <td><strong><?= $parent['mitigasi']; ?></strong></td>
             </tr>
             <tr>
-                <td><em><?= _l( 'fld_biaya' ); ?></em></td>
+                <td><em><?= _l('fld_biaya'); ?></em></td>
                 <td><strong><?= $parent['biaya']; ?></strong></td>
             </tr>
             <tr>
-                <td><em><?= _l( 'fld_pic' ); ?></em></td>
-                <td><strong><?= $parent['penanggung_jawab']; ?></strong></td>
+                <td><em><?= _l('fld_pic'); ?></em></td>
+                <td>
+                    <ol>
+                        <?php
+                        $a = json_decode($parent['penanggung_jawab_id']);
+
+                        if (is_array($a)) {
+                            foreach ($a as $v) {
+                                echo "<li>" . $picku[$v]['title'] . "</li>";
+                            }
+                        } else {
+                            echo "<li>" . $picku[$a]['title'] . "</li>";
+                        }
+                        ?>
+                    </ol>
+                </td>
             </tr>
         </table>
     </div>
     <div class="col-xl-6">
         <table class="table table-bordered">
             <tr>
-                <td><em><?= _l( 'fld_koordinator' ); ?></em></td>
+                <td><em><?= _l('fld_koordinator'); ?></em></td>
                 <td><strong><?= $parent['koordinator']; ?></strong></td>
             </tr>
             <tr>
-                <td><em><?= _l( 'fld_due_date' ); ?></em></td>
+                <td><em><?= _l('fld_due_date'); ?></em></td>
                 <td><strong><?= $parent['batas_waktu']; ?></strong></td>
             </tr>
         </table>
@@ -37,29 +51,40 @@
     <thead>
         <tr class="bg-warning-300">
             <th width="5%">No</th>
-            <th><?= _l( 'fld_aktifitas_mitigasi' ); ?></th>
-            <th><?= _l( 'fld_pic' ); ?></th>
-            <th><?= _l( 'fld_koordinator' ); ?></th>
-            <th><?= _l( 'fld_due_date' ); ?></th>
+            <th><?= _l('fld_aktifitas_mitigasi'); ?></th>
+            <th><?= _l('fld_pic'); ?></th>
+            <th><?= _l('fld_koordinator'); ?></th>
+            <th><?= _l('fld_due_date'); ?></th>
         </tr>
     </thead>
     <tbody>
         <?php
         $no = 0;
-        if( ! empty( $aktifitas ) )
-        {
-            foreach( $aktifitas as $row ) : ?>
+        if (! empty($aktifitas)) {
+            foreach ($aktifitas as $row) : ?>
                 <tr class="pointer detail-progres-mitigasi" data-id="<?= $row['id']; ?>">
                     <td><?= ++$no; ?></td>
                     <td><?= $row['aktifitas_mitigasi']; ?></td>
-                    <td><?= $row['penanggung_jawab_detail']; ?></td>
+                    <td>
+                        <ol>
+                            <?php
+                            $a = json_decode($row['penanggung_jawab_id']);
+
+                            if (is_array($a)) {
+                                foreach ($a as $v) {
+                                    echo "<li>" . $picku[$v]['title'] . "</li>";
+                                }
+                            } else {
+                                echo "<li>" . $picku[$a]['title'] . "</li>";
+                            }
+                            ?>
+                        </ol>
+                    </td>
                     <td><?= $row['koordinator_detail']; ?></td>
-                    <td><?= date( 'd-m-Y', strtotime( $row['batas_waktu_detail'] ) ); ?></td>
+                    <td><?= date('d-m-Y', strtotime($row['batas_waktu_detail'])); ?></td>
                 </tr>
             <?php endforeach; ?>
-        <?php }
-        else
-        { ?>
+        <?php } else { ?>
             <tr>
                 <td colspan="5" class="text-center"><i>No Data Found</i></td>
             </tr>

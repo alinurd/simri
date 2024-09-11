@@ -279,16 +279,16 @@
                                 <label class="col-lg-3 col-form-label text-right "> Status Monitoring </label>
                                 <div class="col-lg-9">
                                     <div class="form-group form-group-feedback form-group-feedback-right">
-                                          <input type="hidden" value="<?=$detail['sts_mon']?>" id="sts_mon">
-                                        <input type="radio" name="status" class="" disabled id="notyet"> 
-                                        <label for="notyet">Not Yet</label> <br>
+                                        <input type="hidden" value="<?=$detail['sts_mon']?>" id="sts_mon"> 
+                                        <input type="radio" name="status" id="notyet" value="0" <?=($detail['sts_mon'] == 0 ? 'checked' : '')?>>
+                                        <label for="notyet">Not Yet</label> <br> 
+
+                                        <input type="radio" name="status" id="progress" value="1" <?=($detail['sts_mon'] == 1 ? 'checked' : '')?> data-id="<?=$detail['id']?>">
+                                        <label for="progress">Progress</label> <br> 
                                         
-                                        <input type="radio" value="1" name="status" id="progress" data-id="<?=$detail['id']?>">
-                                        <label for="progress">Progress</label> <br>
-
-
-                                        <input type="radio" name="status" id="done" value="2" data-id="<?=$detail['id']?>">
+                                        <input type="radio" name="status" id="done" value="2" <?=($detail['sts_mon'] == 2 ? 'checked' : '')?> data-id="<?=$detail['id']?>">
                                         <label for="done">Done</label> <br>
+
                                     </div>
                                 </div>
                             </div>
