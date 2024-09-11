@@ -15,7 +15,7 @@ if (!$mode):?>
             <th width="8%">Aktual</th>
         </tr>
     </thead>
-    <tbody>
+    <!-- <tbody>
         <?php
         $no=0;
         foreach($data as $key=>$row):?>
@@ -29,5 +29,5 @@ if (!$mode):?>
             <td class="text-center"><?=number_format($row['target'],2);?></td>
             <td class="text-center"><?=number_format($row['aktual'],2);?></td>
         </tr><?php endforeach;?>
-    </tbody>
+    </tbody> -->
 </table>

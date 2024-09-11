@@ -195,7 +195,27 @@ function eConsole(param) {
     }
 }
 
+function eConsoleTask(param) {
+    if (typeof param.seriesIndex != 'undefined') { 
+
+        var parent = $(this).parent().parent().parent();
+
+        var owner = $("#owner").val();
+        var period = $("#period").val(); 
+        var data = { 'id': param.data.id, 'period': period, 'owner': owner, 'param_id': param.data.param_id };
+ 
+         var target_combo = '';
+        var url = modul_name + "/get-detail-char-task";
+        _ajax_("post", parent, data, target_combo, url, 'show_detail_char');
+    }
+}
+
 function show_detail_char(hasil) {
+    var title = hasil.title;
+    if(!hasil.title){
+        title = "";
+    }
+    $("#modal_general").find(".modal-title").html(title);
     $("#modal_general").find(".modal-body").html(hasil.combo);
     $("#modal_general").modal("show");
 }
@@ -282,7 +302,7 @@ function grafik_pie(data, target) {
     myChart.on('click', eConsole);
 }
 
-function grafik_pie_count(data, target) {
+function grafik_pie_taksonomi(data, target) {
     var pie_basic_element = document.getElementById(target);
     var myChart = echarts.init(pie_basic_element); 
     // specify chart configuration item and data
@@ -322,11 +342,10 @@ function grafik_pie_count(data, target) {
         },
         
 
-        // Add series
         series: [{
             name: '',
             type: 'pie',
-            radius: '75%',
+            radius: '55%',
             center: ['50%', '46.5%'],
             
             itemStyle: {
@@ -336,11 +355,12 @@ function grafik_pie_count(data, target) {
                 }
             },
             label: {
-                position: 'outside',
+                 position: 'outside',
                 formatter: '{b}: {c} ({d}%)',
             },
             data: data.data
         }]
+        
     };
 
      myChart.setOption(option);
@@ -358,5 +378,5 @@ function grafik_pie_count(data, target) {
         }, 200);
     });
 
-    myChart.on('click', eConsole);
+    myChart.on('click', eConsoleTask);
 }

@@ -12,7 +12,7 @@ class Data extends MX_Model
 	}
 
 	function get_detail_char()
-	{
+	{ 	
 		switch( intval( $this->pos['data']['type_chat'] ) )
 		{
 			case 1:
@@ -22,8 +22,7 @@ class Data extends MX_Model
 				$rows = $this->detail_lap_ketepatan();
 				break;
 			case 3:
-				$rows = $this->detail_lap_komitment();
-				break;
+				$rows = $this->detail_lap_komitment(); 
 			default:
 				break;
 		}
@@ -305,6 +304,7 @@ class Data extends MX_Model
 
 		return $hasil;
 	}
+	
 
 	function filter_data( $custom = FALSE, $field = '' )
 	{
@@ -842,28 +842,57 @@ class Data extends MX_Model
 
 		return $hasil;
 	}
-	
-	function grap_task_tonomi(){
-		$taskTonomi = $this->db->select('id, data, param_string')->where('kelompok', 'lib-cat')->where('active', 1)->get(_TBL_COMBO)->result_array();
-$dat['tasktonomi'] = $taskTonomi;
 
-$detail = $this->db->get(_TBL_RCSA_DETAIL)->result_array();
-$xxx = [];
-$dCOunt = 0;
-
-foreach ($taskTonomi as $q) {
-    foreach ($detail as  $d) {
-        if ($d['klasifikasi_risiko_id'] == $q['id']) {
-            $xxx[$q['data']] = $dCOunt++;
-        }
-    }
-}
-$dat['detail'] = $xxx;
-  
-return $dat;
-
+	function grap_taksonomi($lib)
+	{
+		$taskTonomi = $this->db->select('id, data, param_string')->where('kelompok', $lib)->where('active', 1)->order_by('data')->get(_TBL_COMBO)->result_array();
+		$dat['tasktonomi'] = $taskTonomi;
+		$total=0;
+		foreach ($taskTonomi as $q) {
+			if ($this->pos['period']){
+				$this->db->where('period_id', $this->pos['period']);
+			}
+			
+			if( $this->pos['owner'] != "" )
+			{
+				if( count( $this->owner_child ) )
+				{
+					$this->db->where_in( 'owner_id', $this->owner_child );
+				}
+			}
+			$r = $this->db->select('id')->where('tasktonomi_no', $q['id'])->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+			$detailxxx[$q['data']] = count($r);
+			$total+=count($r);
+		}
+		$dat['detail'] = $detailxxx;
+		$dat['total'] = $total;
+		return $dat;
 	}
 
+	function detail_taks_tipe()
+	{
+		if($this->pos['param_id']==1){
+			$this->db->where( 'tasktonomi_no', $this->pos['id']  );
+		}
+
+		if($this->pos['param_id']==2){
+			$this->db->where( 'klasifikasi_risiko_id', $this->pos['id']  );
+		}
+
+		// if($this->pos['owner']){
+		// 	$this->db->where( 'klasifikasi_risiko_id', $this->pos['id']  );
+		// }
+
+		// if($this->pos['period']){
+		// 	$this->db->where( 'klasifikasi_risiko_id', $this->pos['id']  );
+		// }
+
+		$detail = $this->db->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+
+		$hasil['data'] = $detail;
+
+		return $hasil;
+	}
  }
 
 

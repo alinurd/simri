@@ -1,26 +1,22 @@
 <div class="chart has-fixed-height" id="pie_basic"></div>
-<!-- <center>Total: <?=count($detail)?></center> -->
- <?php 
+  <?php 
 $resultD   = [];
-foreach ($tasktonomi as $key => $p) {
-    // Periksa apakah $p['data'] ada di $detail sebelum diakses
+foreach ($tasktonomi as $key => $p) { 
     if (isset($detail[$p['data']])) {
         $resultD[] = [
-            'value' => $p['id'], 
-            'name' => $p['data'], 
-            'type_chat' => 1, 
+            'value' => $detail[$p['data']], 
+            'name' =>$p['data'], 
+            'type_chat' => 4, 
             'param_id' => 1, 
-            'id' => $detail[$p['data']]
+            'id' => $p['id']
         ];
-    } else {
-        // Handle kasus jika data tidak ada
-        // Misalnya: isi dengan nilai default atau abaikan
+    } else { 
         $resultD[] = [
-            'value' => $p['id'], 
-            'name' => $p['data'], 
-            'type_chat' => 1, 
+            'value' => 0, 
+            'name' =>$p['data'], 
+            'type_chat' => 4, 
             'param_id' => 1, 
-            'id' => null // Atau tambahkan fallback nilai jika diperlukan
+            'id' => $p['id']
         ];
     }
     if (isset($p['param_string'])) {
@@ -28,18 +24,20 @@ foreach ($tasktonomi as $key => $p) {
     }
 }
 
-
 $x['data']  = $resultD;
 $x['title'] = [
     'text'         => '',
     'subtext'      => '',
+    // 'text'         => 'Data Tasktonomi & Tipe Risiko Yang Sudah Termapping',
+    // 'subtext'      => 'Total:'.$total,
     'left'         => 'center',
     'textStyle'    => [
-        'fontSize'   => 17,
-        'fontWeight' => 500,
+        'fontSize'   => 12,
+        'fontWeight' => 10,
     ],
     'subtextStyle' => [
         'fontSize' => 12,
+        'fontWeight' => 5,
     ],
 ];
 $hasil      = json_encode( $x );
@@ -48,5 +46,5 @@ $hasil      = json_encode( $x );
 
 <script>
     var data = <?= $hasil; ?>;
-    grafik_pie_count(data, 'pie_basic');
+    grafik_pie_taksonomi(data, 'pie_basic');
 </script>
