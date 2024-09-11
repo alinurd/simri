@@ -1214,8 +1214,9 @@ function cek_isian_identifikasi(awal = false) {
 function checkLampiranFile() {
 
     var len = $('input[name="check_item[]"]:checked').length;
+    var checkFileExist = $("#file-exist").attr("href");
     var myFile = '';
-    if (len > 0) {
+    if (len > 0 && checkFileExist == '') {
         myFile = $('input[name="lampiran"]').prop('files').length;
         if (myFile == 0) {
             return false;
@@ -1223,6 +1224,7 @@ function checkLampiranFile() {
     }
     return true;
 }
+
 
 var checkboxes = [];
 
