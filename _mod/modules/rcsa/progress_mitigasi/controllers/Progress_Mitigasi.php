@@ -2907,9 +2907,10 @@ $this->crud->crud_field('sts_mon', $sts, 'int');
 $this->crud->crud_field('updated_at', date('Y-m-d H:i:s'), 'datetime');
 $this->crud->crud_field('updated_by', $this->ion_auth->get_user_name());
  
-  
-header('Content-type: application/json'); 
-     echo json_encode(['status' => $sts ]);
+$this->crud->process_crud();
+
+	header('Content-type: application/json'); 
+     echo json_encode(['status' => $this->input->post() ]);
  
 
  	}
