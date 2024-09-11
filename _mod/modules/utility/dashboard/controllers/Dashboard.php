@@ -39,7 +39,6 @@ class Dashboard extends MY_Controller
 		// die();
 
 		// dumps($this->_preference_);die();
-
 	}
 
 	function content( $ty = 'detail' )
@@ -71,11 +70,13 @@ class Dashboard extends MY_Controller
 		$this->data->pos['period']   = _TAHUN_ID_;
 		$this->data->pos['term']     = _TERM_ID_;
 		$this->data->pos['minggu']   = _MINGGU_ID_;
+		$this->data->pos['id']   		= 0;
+		$this->data->pos['param_id']   = 0;
 
 		$x           = $this->data->get_data_grap();
 		$dat['data'] = $x['mitigasi'];
-		$dat['tasktonomi']   = $this->db->where( 'kelompok', 'lib-cat' )->where( 'active', 1 )->get( _TBL_COMBO )->result_array();
-		$data['grap1']      = $this->hasil = $this->load->view( 'grap', $dat, TRUE );
+		$tasktonomi   = $this->data->grap_taksonomi('lib-cat');
+		$data['grap1']      = $this->hasil = $this->load->view( 'grap', $tasktonomi, TRUE );
 		$data['data_grap1'] = '';
 		// $data['data_grap1']= $this->hasil=$this->load->view('grap2',$dat, true);
 
@@ -205,6 +206,23 @@ class Dashboard extends MY_Controller
 		echo json_encode( $hasil );
 	}
 
+	function get_detail_char_task()
+	{
+		$pos             = $this->input->post();
+		
+		$this->data->pos = $pos;
+		$data            = $this->data->detail_taks_tipe();
+		$data['mode']    = 0;
+		$x               = $this->load->view( 'detail-char-task', $data, TRUE );
+		$hasil['combo']  = $x;
+		$hasil['title']  = "Taksonomi & Tipe Risiko";
+		// doi::dump($pos);
+		// doi::dump($data);die;
+		$this->session->set_userdata( [ 'cetak_grap' => $data ] );
+ 		header( 'Content-type: application/json' );
+		echo json_encode( $hasil );
+	}
+
 	function init( $aksi = '' )
 	{
 		$configuration = [
@@ -218,6 +236,17 @@ class Dashboard extends MY_Controller
 		];
 	}
 
+	function cetak_task()
+	{
+		$data=$this->session->userdata( 'cetak_grap' );
+ 		$data['mode'] = 1; 
+		$x               = $this->load->view( 'detail-char-task', $data, TRUE );
+		$file_name    = "file_name.xls";
+		header( "Content-type: application/vnd.ms-excel" );
+		header( "Content-Disposition: attachment; filename=$file_name" );
+		echo $x;
+
+	}
 	function cetak()
 	{
 		$data         = $this->session->userdata( 'cetak_grap' );
