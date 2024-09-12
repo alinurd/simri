@@ -153,7 +153,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body" id="result_grap3" style="height:420px;overflow-y:hidden;overflow-x:hidden;">
+            <div class="card-body" id="result_grap3" >
                 <?= $grap2; ?>
             </div>
         </div>

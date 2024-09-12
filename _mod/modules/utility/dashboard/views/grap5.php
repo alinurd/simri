@@ -1,5 +1,7 @@
 <div class="chart has-fixed-height" id="pie_basic_3"></div>
 <?php
+$r = $this->db->select('id, month, level_color, color_text, color as bg, rcsa_detail_id')->get("il_update_residual")->result_array();
+doi::dump($r);
     $resultD=[];
     $resultD[]=['value'=>$data['data'][2]['nilai'], 'name'=>$data['data'][2]['category'], 'type_chat'=>3, 'param_id'=>2];
     $resultD[]=['value'=>$data['data'][1]['nilai'], 'name'=>$data['data'][1]['category'], 'type_chat'=>3, 'param_id'=>1];
@@ -9,7 +11,7 @@
     $x['data']=$resultD;
 
     $x['title']=[
-                'text'=>'Komitmen Pelaksanaan Manajemen Risiko',
+                'text'=>'Komitmzzzzzzzzen Pelaksanaan Manajemen Risiko',
                 'subtext'=>'Last updated: '.date('M d, Y, H:i'),
                 'left'=>'center',
                 'textStyle'=>[
