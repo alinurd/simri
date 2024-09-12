@@ -850,9 +850,9 @@ class Data extends MX_Model
 		$total=0;
 		foreach ($taskTonomi as $q) {
 			if ($this->pos['period']){
-				$this->db->where('period_id', $this->pos['period']);
 			}
 			
+			$this->db->where('period_id', $this->pos['period']);
 			if( $this->pos['owner'] != "" )
 			{
 				if( count( $this->owner_child ) )
@@ -892,6 +892,15 @@ class Data extends MX_Model
 		$hasil['data'] = $detail;
 
 		return $hasil;
+	}
+
+	function get_data_grap_mitigasi(){
+		$r = $this->db->select('id, month, level_color, color_text, color as bg, rcsa_detail_id')
+              ->get("il_update_residual")->result_array();
+			 
+			 
+		$dat['levelRisiko'] = $r;
+		return $dat;
 	}
  }
 

@@ -80,12 +80,10 @@ class Dashboard extends MY_Controller
 		$data['data_grap1'] = '';
 		// $data['data_grap1']= $this->hasil=$this->load->view('grap2',$dat, true);
 
-		$dat['data']        = $x['tepat'];
-		$data['grap2']      = $this->hasil = $this->load->view( 'grap3', $dat, TRUE );
-		$data['data_grap2'] = $this->hasil = $this->load->view( 'grap4', $dat, TRUE );
+		$mit           = $this->data->get_data_grap_mitigasi();
+		$data['graplr']      = $this->hasil = $this->load->view( 'graplr', $mit, TRUE ); 
 
 		$dat['data'] = $x['komitment'];
-
 		$data['grap3']      = $this->hasil = $this->load->view( 'grap5', $dat, TRUE );
 		$data['data_grap3'] = $this->hasil = $this->load->view( 'grap6', $dat, TRUE );
 
@@ -225,13 +223,13 @@ class Dashboard extends MY_Controller
 	function get_detail_char_progress()
 	{
 		$pos             = $this->input->post();
-		
+		 
 		$this->data->pos = $pos;
 		$data            = $this->data->detail_taks_tipe();
 		$data['mode']    = 0;
 		$x               = $this->load->view( 'detail-char-progress', $data, TRUE );
 		$hasil['combo']  = $x;
-		$hasil['title']  = "Aktifitas Monitoring";
+		$hasil['title']  = $pos['title'];
 		// doi::dump($pos);
 		// doi::dump($data);die;
 		$this->session->set_userdata( [ 'cetak_grap' => $data ] );

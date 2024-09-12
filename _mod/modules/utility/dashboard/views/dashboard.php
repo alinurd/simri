@@ -143,10 +143,9 @@
 
 <div class="row">
     <div class="col-xl-12">
-
         <div class="card">
             <div class="card-header header-elements-sm-inline">
-                <h6 class="card-title">Progrres Aktifivas Mitigsi</h6>
+                <h6 class="card-title">Progrres Current & Aktifivas Mitigsi</h6>
                 <div class="header-elements">
                     <div class="list-icons">
                         <a class="list-icons-item" data-action="collapse"></a>
@@ -154,7 +153,7 @@
                 </div>
             </div>
             <div class="card-body" id="result_grap3" >
-                <?= $grap2; ?>
+                <?= $graplr; ?>
             </div>
         </div>
     </div>
