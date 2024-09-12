@@ -174,9 +174,9 @@
                                 endforeach;
                                 $avarageTar = $sumtar / $count;
                                 $avarageAK = $sumAk / $count;
-                                $avarage = $avarageAK / $avarageTar;
+                                $x = $avarageAK / $avarageTar;
                                 $percentage = $avarage * 100;
-                            }
+                                $avarage = round($x);                            }
                             foreach ($mitigasi as $row) :
                         ?>
                                 <tr class="pointer detail-mitigasi" data-id="<?= $row['id']; ?>">
