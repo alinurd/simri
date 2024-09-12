@@ -78,16 +78,18 @@
             <?php endforeach;
             $avarageTar = $sumtar / $count;
             $avarageAK = $sumAk / $count;
-            $avarage = $avarageTar / $avarageAK;
+            $avarage = $avarageAK / $avarageTar;
+            
+            
             ?>
-            <!-- <tr>
+            <tr>
                     <td></td>
                     <td>sum:<?= $sumtar ?> :<?= $count ?>=> <?= $avarageTar ?></td>
                     <td>sum:<?= $sumAk ?> :<?= $count ?>=> <?= $avarageAK ?></td>
-                     <td>avarage (target/aktual): <?= $avarage ?></td> 
+                     <td>avarage (target/aktual): <?= round($avarage); ?></td> 
                      <td></td>
                      <td></td>
-                </tr> -->
+                </tr>
         <?php } else { ?>
             <tr>
                 <td colspan="6" class="text-center"><i>No Data Found</i></td>
