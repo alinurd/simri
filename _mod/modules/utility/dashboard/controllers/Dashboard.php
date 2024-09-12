@@ -222,6 +222,22 @@ class Dashboard extends MY_Controller
  		header( 'Content-type: application/json' );
 		echo json_encode( $hasil );
 	}
+	function get_detail_char_progress()
+	{
+		$pos             = $this->input->post();
+		
+		$this->data->pos = $pos;
+		$data            = $this->data->detail_taks_tipe();
+		$data['mode']    = 0;
+		$x               = $this->load->view( 'detail-char-progress', $data, TRUE );
+		$hasil['combo']  = $x;
+		$hasil['title']  = "Aktifitas Monitoring";
+		// doi::dump($pos);
+		// doi::dump($data);die;
+		$this->session->set_userdata( [ 'cetak_grap' => $data ] );
+ 		header( 'Content-type: application/json' );
+		echo json_encode( $hasil );
+	}
 
 	function init( $aksi = '' )
 	{
