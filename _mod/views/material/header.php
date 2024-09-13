@@ -61,10 +61,10 @@ if( file_exists( file_url( $params['user']['photo'] ) ) )
 
 
     <!-- Navbar content -->
-    <div class="collapse navbar-collapse bg-bumn-gradient" id="navbar-mobile">
+    <div class="collapse navbar-collapse" id="navbar-mobile">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="#" class="navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block text-white">
+                <a href="#" class="navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block">
                     <i class="icon-paragraph-justify3"></i>
                 </a>
             </li>
@@ -92,7 +92,7 @@ if( file_exists( file_url( $params['user']['photo'] ) ) )
                     class="dropdown-item bg-primary ml-2" id="modul-manual"><i class="icon-book"></i> Manual </a>
             </li> -->
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle p-0 text-white" href="#" id="navbarDropdownMenuLink" role="button"
+                <a class="nav-link dropdown-toggle p-0" href="#" id="navbarDropdownMenuLink" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="<?= $photo; ?>" width="38" height="38"
                         class="img-fluid rounded-circle border border-secondary shadow-sm" alt="">

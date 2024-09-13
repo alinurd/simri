@@ -834,7 +834,7 @@ class Risk_Context extends MY_Controller
 			$url    = '#';
 			$nmfile = 'Belum ada File';
 		}
-		$param['analisa2'][] = [ 'title' => _l( 'fld_upload' ), 'help' => _h( 'help_upload' ), 'isi' => '<a href="' . $url . '" target="_blank">' . $nmfile . '</a><br><br><b>Max size file 10MB, file yang dibolehkan xlsx | csv | docx | pdf | zip | rar </b><br>' ];
+		$param['analisa2'][] = [ 'title' => _l( 'fld_upload' ), 'help' => _h( 'help_upload' ), 'isi' => '<a id="file-exist" href="' . $url . '" target="_blank">' . $nmfile . '</a><br><br><b>Max size file 10MB, file yang dibolehkan xlsx | csv | docx | pdf | zip | rar </b><br>' ];
 		$param['analisa2'][] = [ 'title' => _l( 'fld_lampiran' ), 'help' => _h( 'help_lampiran' ), 'isi' => form_upload( 'lampiran' ) ];
 		return $param;
 	}
