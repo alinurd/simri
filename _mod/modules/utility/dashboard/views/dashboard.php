@@ -124,7 +124,7 @@
 </div>
 
 <div class="row ">
-    <div class="col-xl-12">
+    <div class="col-xl-7">
         <div class="card">
             <div class="card-header header-elements-sm-inline">
                 <h6 class="card-title">Taksonomi & Tipe Risiko</h6>
@@ -139,9 +139,24 @@
             </div>
         </div>
     </div>
+    <div class="col-xl-5">
+        <div class="card">
+            <div class="card-header header-elements-sm-inline">
+                <h6 class="card-title">Progress Aktifitas Mitigasi</h6>
+                <div class="header-elements">
+                    <div class="list-icons">
+                        <a class="list-icons-item" data-action="collapse"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" id="grap3" style="height:420px;overflow-y:hidden;overflow-x:hidden;">
+                <?= $grap3; ?>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="row">
+<div class="row d-none">
     <div class="col-xl-12">
         <div class="card">
             <div class="card-header header-elements-sm-inline">

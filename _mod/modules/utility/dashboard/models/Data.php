@@ -869,6 +869,40 @@ class Data extends MX_Model
 		return $dat;
 	}
 
+	function detail_stsmon()
+	{
+ 
+ 		if($this->pos['param_id']==2){
+			$this->db->where( 'klasifikasi_risiko_id', $this->pos['id']  );
+		}
+		if($this->pos['id']){
+			if($this->pos['id']=='Done'){
+				$sts=2;
+			}
+			if($this->pos['id']=='Porgress'){
+				$sts=1;
+			}
+			if($this->pos['id']=='Not Yet'){
+				$sts=0;
+			}
+			$this->db->where( 'sts_mon', $sts  );
+		}
+
+		if($this->pos['owner']){
+			$this->db->where( 'klasifikasi_risiko_id', $this->pos['id']  );
+		}
+
+		if($this->pos['period']){
+			$this->db->where( 'period_id', $this->pos['period']  );
+		}
+
+		$detail = $this->db->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+
+		$hasil['data'] = $detail;
+
+		return $hasil;
+	}
+
 	function detail_taks_tipe()
 	{
 		if($this->pos['param_id']==1){
@@ -895,11 +929,24 @@ class Data extends MX_Model
 	}
 
 	function get_data_grap_mitigasi(){
+		// doi::dump($this->pos); die;
 		$r = $this->db->select('id, month, level_color, color_text, color as bg, rcsa_detail_id')
               ->get("il_update_residual")->result_array();
 			 
+			  $this->db->where('period_id', 1808);
+			if( $this->pos['owner'] != "" )
+			{
+				if( count( $this->owner_child ) )
+				{
+					$this->db->where_in( 'owner_id', $this->owner_child );
+				}
+			}
+			$this->db->where( 'status_final', 1 );
+			$detail = $this->db->select('period_id, owner_name, id, sts_mon')->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
+		 
 			 
 		$dat['levelRisiko'] = $r;
+		$dat['detail'] = $detail;
 		return $dat;
 	}
  }

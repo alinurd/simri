@@ -79,13 +79,16 @@ class Dashboard extends MY_Controller
 		$data['grap1']      = $this->hasil = $this->load->view( 'grap', $tasktonomi, TRUE );
 		$data['data_grap1'] = '';
 		// $data['data_grap1']= $this->hasil=$this->load->view('grap2',$dat, true);
+		$xx   = $this->data->get_data_grap_mitigasi(); 
+		$data['grap3']      = $this->hasil = $this->load->view( 'grap-sts-mitigasi', $xx, TRUE );
+		$data['data_grap3'] = '';
 
 		$mit           = $this->data->get_data_grap_mitigasi();
 		$data['graplr']      = $this->hasil = $this->load->view( 'graplr', $mit, TRUE ); 
 
-		$dat['data'] = $x['komitment'];
-		$data['grap3']      = $this->hasil = $this->load->view( 'grap5', $dat, TRUE );
-		$data['data_grap3'] = $this->hasil = $this->load->view( 'grap6', $dat, TRUE );
+		// $dat['data'] = $x['komitment'];
+		// $data['grap3']      = $this->hasil = $this->load->view( 'grap5', $dat, TRUE );
+		// $data['data_grap3'] = $this->hasil = $this->load->view( 'grap6', $dat, TRUE );
 
 
 		$data["legendLikelihoodMatrix"] = [ 5 => "Hampir Pasti Terjadi", 4 => "Sangat Mungkin Terjadi", 3 => "Mungkin Terjadi", 2 => "Jarang Terjadi", 1 => "Hampir Tidak Terjadi" ];
@@ -176,16 +179,20 @@ class Dashboard extends MY_Controller
 		$dat['data']         = $x['mitigasi'];
 		$dat['tasktonomi']   = $this->db->select('data, id, param_string')->where( 'kelompok', 'lib-cat' )->where( 'active', 1 )->get( _TBL_COMBO )->result_array(); 
 		$hasil['grap1']      = $this->hasil = $this->load->view( 'grap', $dat, TRUE );
-		$hasil['data_grap1'] = $this->hasil = $this->load->view( 'grap2', $dat, TRUE );
+		// $hasil['data_grap1'] = $this->hasil = $this->load->view( 'grap2', $dat, TRUE );
 
-		$dat['data']         = $x['tepat']; 
+		// $dat['data']         = $x['tepat']; 
 
-		$hasil['grap2']      = $this->hasil = $this->load->view( 'grap3', $dat, TRUE );
-		$hasil['data_grap2'] = $this->hasil = $this->load->view( 'grap4', $dat, TRUE );
+		// $hasil['grap2']      = $this->hasil = $this->load->view( 'grap3', $dat, TRUE );
+		// $hasil['data_grap2'] = $this->hasil = $this->load->view( 'grap4', $dat, TRUE );
 
-		$dat['data']         = $x['komitment'];
-		$hasil['grap3']      = $this->hasil = $this->load->view( 'grap4', $dat, TRUE );
-		$hasil['data_grap3'] = $this->hasil = $this->load->view( 'grap5', $dat, TRUE );
+		$xx   = $this->data->get_data_grap_mitigasi(); 
+ 		$hasil['grap3']      = $this->hasil = $this->load->view( 'grap-sts-mitigasi', $xx, TRUE );
+		// $data['grap3'] = '';
+
+		// $dat['data']         = $x['komitment'];
+		// $hasil['grap3']      = $this->hasil = $this->load->view( 'grap4', $dat, TRUE );
+		// $hasil['data_grap3'] = $this->hasil = $this->load->view( 'grap5', $dat, TRUE );
 		header( 'Content-type: application/json' );
 		echo json_encode( $hasil );
 	}
@@ -214,6 +221,23 @@ class Dashboard extends MY_Controller
 		$x               = $this->load->view( 'detail-char-task', $data, TRUE );
 		$hasil['combo']  = $x;
 		$hasil['title']  = "Taksonomi & Tipe Risiko";
+		// doi::dump($pos);
+		// doi::dump($data);die;
+		$this->session->set_userdata( [ 'cetak_grap' => $data ] );
+ 		header( 'Content-type: application/json' );
+		echo json_encode( $hasil );
+	}
+
+	function get_detail_char_stsmon()
+	{
+		$pos             = $this->input->post();
+		
+		$this->data->pos = $pos;
+		$data            = $this->data->detail_stsmon();
+		$data['mode']    = 0;
+		$x               = $this->load->view( 'detail-char-stsmon', $data, TRUE );
+		$hasil['combo']  = $x;
+		$hasil['title']  = "Progress Aktifitas Mitigasi (".$pos['id'].")";
 		// doi::dump($pos);
 		// doi::dump($data);die;
 		$this->session->set_userdata( [ 'cetak_grap' => $data ] );
