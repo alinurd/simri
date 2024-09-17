@@ -1,5 +1,12 @@
 /** Custom Sidebar **/
 
+@media (min-width: 768px) {
+    .sidebar-xs .sidebar-main.sidebar-light .nav-sidebar>.nav-item-submenu>.nav-group-sub {
+        background-color: #004a5fa1 !important;
+
+    }
+}
+
 .sidebar-light .nav-sidebar .nav-item-open>.nav-link:not(.disabled) {
     background-color: #004a5fa1 !important;
 }
