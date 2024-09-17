@@ -187,8 +187,8 @@ class Dashboard extends MY_Controller
 		// $hasil['data_grap2'] = $this->hasil = $this->load->view( 'grap4', $dat, TRUE );
 
 		$xx   = $this->data->get_data_grap_mitigasi(); 
-		$data['grap3']      = $this->hasil = $this->load->view( 'grap-sts-mitigasi', $xx, TRUE );
-		$data['data_grap3'] = '';
+ 		$hasil['grap3']      = $this->hasil = $this->load->view( 'grap-sts-mitigasi', $xx, TRUE );
+		// $data['grap3'] = '';
 
 		// $dat['data']         = $x['komitment'];
 		// $hasil['grap3']      = $this->hasil = $this->load->view( 'grap4', $dat, TRUE );

@@ -141,9 +141,11 @@ function list_map(hasil) {
 }
 
 function result_map(hasil) {
+    console.log(hasil)
     $("#maps").html(hasil.combo);
     $("#result_grap1").html(hasil.grap1);
-    $("#result_grap2").html(hasil.data_grap1);
+    // $("#result_grap2").html(hasil.grap3);
+    $("#grap3").html(hasil.grap3);
     $("#result_grap3").html(hasil.grap2);
     $("#result_grap4").html(hasil.data_grap2);
 }

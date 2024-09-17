@@ -1,6 +1,6 @@
 <div class="chart has-fixed-height" id="pie_basic_2"></div>
 <?php
- 
+//  doi::dump($detail);
 $statuses = [
     'Porgress' => 0,  // For sts_mon = 1
     'Done' => 0,  // For sts_mon = 1
