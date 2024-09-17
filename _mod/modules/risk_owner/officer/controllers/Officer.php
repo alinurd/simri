@@ -23,7 +23,7 @@ class Officer extends MY_Controller
 
 		$this->set_Open_Coloums();
 		$this->addField( [ 'field' => 'id', 'show' => FALSE ] );
-		$this->addField( [ 'field' => 'photo', 'input' => 'upload', 'path' => 'file/staft', 'file_thumb' => TRUE, 'file_size' => '5120', 'size_pic' => 132 ] );
+		$this->addField( [ 'field' => 'photo', 'input' => 'upload', 'path' => 'file/staft', 'file_thumb' => TRUE, 'file_size' => '5120', 'size_pic' => 132, "required" => TRUE ] );
 		$this->addField( [ 'field' => 'nip', 'type' => 'int', 'required' => TRUE, 'search' => TRUE, 'title' => 'NIP [Username]' ] );
 		$this->addField( [ 'field' => 'officer_name', 'required' => TRUE, 'search' => TRUE ] );
 		$this->addField( [ 'field' => 'owner_no', 'title' => 'Department', 'required' => TRUE, 'type' => 'int', 'input' => 'combo', 'search' => TRUE, 'values' => $this->cboDept ] );
@@ -76,6 +76,22 @@ class Officer extends MY_Controller
 		];
 	}
 
+	function listBox_photo( $field, $rows, $value )
+	{
+
+		if( empty( $value ) || ! file_exists( file_path_relative( $value ) ) )
+		{
+			$value = img_url( "profile.jpg" );
+		}
+		else
+		{
+			$value = file_path_relative( $value );
+		}
+
+		$content = '<img width="50" height="50" src="' . $value . '" class="rounded-circle detail-img pointer" data-file="' . $value . '" data-path="file">';
+		return $content;
+
+	}
 	function inputBox_GROUP( $mode, $field, $row, $value )
 	{
 		if( $mode == 'edit' )

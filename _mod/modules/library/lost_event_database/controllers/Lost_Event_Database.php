@@ -76,10 +76,10 @@ class Lost_Event_Database extends MY_Controller
 		$this->set_Sort_Table( $this->tbl_master, 'id' );
 
 		$this->set_Table_List( $this->tbl_master, 'owner_no' );
-		$this->set_Table_List( $this->tbl_master, 'peristiwa' );
-		$this->set_Table_List( $this->tbl_master, 'penyebab' );
-		$this->set_Table_List( $this->tbl_master, 'tanggal' );
-		$this->set_Table_List( $this->tbl_master, 'dampak_kerugian' );
+		// $this->set_Table_List( $this->tbl_master, 'peristiwa', '', 5 );
+		$this->set_Table_List( $this->tbl_master, 'penyebab', "", 5 );
+		$this->set_Table_List( $this->tbl_master, 'tanggal', "", 10 );
+		$this->set_Table_List( $this->tbl_master, 'dampak_kerugian', '', 10 );
 		$this->_set_Where_Owner( array( 'field' => 'owner_no' ) );
 
 		$this->set_Close_Setting();
@@ -128,9 +128,11 @@ class Lost_Event_Database extends MY_Controller
 
 	function listBox_tanggal( $field, $rows, $value )
 	{
-		$id = $rows['id'];
-		$a  = $rows['tanggal'];
-		$b  = date( 'd-m-Y', strtotime( $a ) );
+
+		$id            = $rows['id'];
+		$a             = $rows['tanggal'];
+		$b             = date( 'd-m-Y', strtotime( $a ) );
+		$field["size"] = 5;
 		return $b;
 	}
 
