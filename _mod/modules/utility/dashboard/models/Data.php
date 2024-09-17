@@ -933,7 +933,7 @@ class Data extends MX_Model
 		$r = $this->db->select('id, month, level_color, color_text, color as bg, rcsa_detail_id')
               ->get("il_update_residual")->result_array();
 			 
-			  $this->db->where('period_id', 1808);
+			  $this->db->where('period_id', $this->pos['period']);
 			if( $this->pos['owner'] != "" )
 			{
 				if( count( $this->owner_child ) )
