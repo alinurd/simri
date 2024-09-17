@@ -210,6 +210,21 @@ function eConsoleTask(param) {
     }
 }
 
+function eConsoleStsMon(param) {
+    if (typeof param.seriesIndex != 'undefined') { 
+
+        var parent = $(this).parent().parent().parent();
+
+        var owner = $("#owner").val();
+        var period = $("#period").val(); 
+        var data = { 'id': param.data.id, 'period': period, 'owner': owner, 'param_id': param.data.param_id };
+ 
+         var target_combo = '';
+        var url = modul_name + "/get-detail-char-stsmon";
+        _ajax_("post", parent, data, target_combo, url, 'show_detail_char');
+    }
+}
+
 function show_detail_char(hasil) {
     var title = hasil.title;
     if(!hasil.title){
@@ -379,6 +394,85 @@ function grafik_pie_taksonomi(data, target) {
     });
 
     myChart.on('click', eConsoleTask);
+}
+
+function grafik_pie_sts_mon(data, target) {
+    var pie_basic_element = document.getElementById(target);
+    var myChart = echarts.init(pie_basic_element); 
+    // specify chart configuration item and data
+    var option = {
+
+        // Colors
+        color: data.warna,
+
+        // Global text styles
+        textStyle: {
+            fontFamily: 'Roboto, Arial, Verdana, sans-serif',
+            fontSize: 13
+        },
+
+        // Add title
+        title: data.title,
+
+        // Add tooltip
+        tooltip: {
+            trigger: '',
+            backgroundColor: 'rgba(0,0,0,0.75)',
+            padding: [10, 15],
+            textStyle: {
+                fontSize: 13,
+                fontFamily: 'Roboto, sans-serif'
+            },
+            formatter: '{b}: {c} ({d}%)',
+        },
+
+        legend: {
+            type: 'scroll',
+            orient: 'horizontal',
+            left: 'center',
+            top: 'bottom',
+            padding: [5, 5],
+            selected: data.selected
+        },
+        
+
+        series: [{
+            name: '',
+            type: 'pie',
+            radius: '55%',
+            center: ['50%', '46.5%'],
+            
+            itemStyle: {
+                normal: {
+                    borderWidth: 1,
+                    borderColor: '#fff'
+                }
+            },
+            label: {
+                 position: 'outside',
+                formatter: '{b}: {c} ({d}%)',
+            },
+            data: data.data
+        }]
+        
+    };
+
+     myChart.setOption(option);
+
+    var triggerChartResize = function () {
+        pie_basic_element && myChart.resize();
+    };
+
+    // On window resize
+    var resizeCharts;
+    window.addEventListener('resize', function () {
+        clearTimeout(resizeCharts);
+        resizeCharts = setTimeout(function () {
+            triggerChartResize();
+        }, 200);
+    });
+
+    myChart.on('click', eConsoleStsMon);
 }
 
 function grafik_aktifitas(data) {
