@@ -888,12 +888,13 @@ class Data extends MX_Model
 			$this->db->where( 'sts_mon', $sts  );
 		}
 
-		if($this->pos['owner']){
-			$this->db->where( 'klasifikasi_risiko_id', $this->pos['id']  );
-		}
-
-		if($this->pos['period']){
-			$this->db->where( 'period_id', $this->pos['period']  );
+		$this->db->where('period_id', $this->pos['period']);
+		if( $this->pos['owner'] != "" )
+		{
+			if( count( $this->owner_child ) )
+			{
+				$this->db->where_in( 'owner_id', $this->owner_child );
+			}
 		}
 
 		$detail = $this->db->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
@@ -913,14 +914,16 @@ class Data extends MX_Model
 			$this->db->where( 'klasifikasi_risiko_id', $this->pos['id']  );
 		}
 
-		// if($this->pos['owner']){
-		// 	$this->db->where( 'klasifikasi_risiko_id', $this->pos['id']  );
-		// }
-
-		// if($this->pos['period']){
-		// 	$this->db->where( 'klasifikasi_risiko_id', $this->pos['id']  );
-		// }
-
+		if( $this->pos['owner'] != "" )
+		{
+			if( count( $this->owner_child ) )
+			{
+				$this->db->where_in( 'owner_id', $this->owner_child );
+			}
+		}
+		
+		$this->db->where('period_id', $this->pos['period']);
+		
 		$detail = $this->db->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 
 		$hasil['data'] = $detail;
@@ -933,7 +936,7 @@ class Data extends MX_Model
 		$r = $this->db->select('id, month, level_color, color_text, color as bg, rcsa_detail_id')
               ->get("il_update_residual")->result_array();
 			 
-			  $this->db->where('period_id', 1808);
+			  $this->db->where('period_id', $this->pos['period']);
 			if( $this->pos['owner'] != "" )
 			{
 				if( count( $this->owner_child ) )
