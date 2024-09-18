@@ -896,6 +896,7 @@ class Data extends MX_Model
 				$this->db->where_in( 'owner_id', $this->owner_child );
 			}
 		}
+		$this->db->where( 'status_final', 1 );
 
 		$detail = $this->db->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 
