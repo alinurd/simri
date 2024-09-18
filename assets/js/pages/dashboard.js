@@ -418,6 +418,88 @@ function grafik_pie_sts_mon(data, target) {
 
         // Add tooltip
         tooltip: {
+            trigger: 'item',
+            backgroundColor: 'rgba(0,0,0,0.75)',
+            padding: [10, 15],
+            textStyle: {
+                fontSize: 13,
+                fontFamily: 'Roboto, sans-serif'
+            },
+            formatter: "{b}: {c} ({d}%)"
+        },
+
+        // Add legend
+        // legend: {
+        //     // type: 'scroll',
+        //     // orient: 'horizontal',
+        //     // right: 10,
+        //     // top: 20,
+        //     bottom: 0,
+        //     top: 'bottom',
+        //     left: 'center',
+        //     padding: [-20, 10],
+        //     selected: data.selected
+        // },
+
+        // Add series
+        series: [{
+            name: '',
+            type: 'pie',
+            radius: '75%',
+            center: ['50%', '57.5%'],
+            itemStyle: {
+                normal: {
+                    borderWidth: 1,
+                    borderColor: '#fff'
+                }
+            },
+            label: {
+                position: 'inside',
+                formatter: '{d}%',
+            },
+            data: data.data
+        }]
+    };
+
+    // use configuration item and data specified to show chart
+    myChart.setOption(option);
+
+    var triggerChartResize = function () {
+        pie_basic_element && myChart.resize();
+    };
+
+       // On window resize
+       var resizeCharts;
+       window.addEventListener('resize', function () {
+           clearTimeout(resizeCharts);
+           resizeCharts = setTimeout(function () {
+               triggerChartResize();
+           }, 200);
+       });
+   
+       myChart.on('click', eConsoleStsMon);
+}
+
+function grafik_pie_sts_mon_(data, target) {
+    var pie_basic_element = document.getElementById(target);
+    var myChart = echarts.init(pie_basic_element); 
+    // specify chart configuration item and data
+    var option = {
+
+        // Colors
+        color: data.warna,
+
+        // Global text styles
+        textStyle: {
+            fontFamily: 'Roboto, Arial, Verdana, sans-serif',
+            fontSize: 13
+        },
+
+        // Add title
+        title: data.title,
+
+        // Add tooltip
+        tooltip: {
             trigger: '',
             backgroundColor: 'rgba(0,0,0,0.75)',
             padding: [10, 15],
