@@ -684,9 +684,9 @@ class Data extends MX_Model
 		$total = 0;
 		foreach ($taskTonomi as $q) {
 			if ($this->pos['period']) {
+				$this->db->where('period_id', $this->pos['period']);
 			}
 
-			$this->db->where('period_id', $this->pos['period']);
 			if ($this->pos['owner'] != "") {
 				if (count($this->owner_child)) {
 					$this->db->where_in('owner_id', $this->owner_child);
