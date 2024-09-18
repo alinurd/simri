@@ -683,15 +683,20 @@ class Data extends MX_Model
 		$dat['tasktonomi'] = $taskTonomi;
 		$total = 0;
 		foreach ($taskTonomi as $q) {
-			if ($this->pos['period']) {
-			}
-
-			$this->db->where('period_id', $this->pos['period']);
-			if ($this->pos['owner'] != "") {
-				if (count($this->owner_child)) {
-					$this->db->where_in('owner_id', $this->owner_child);
+			if ($this->pos['owner']) {
+				$ownerChld[] = intval($this->pos['owner']);
+				$this->data->get_owner_child(intval($this->pos['owner']));
+				$ownerChldRes = $ownerChld;
+				if (count($ownerChldRes)) {
+					$this->db->where_in('owner_id', $ownerChldRes);
 				}
 			}
+			
+			if ($this->pos['period']) {
+				$this->db->where('period_id', $this->pos['period']);
+			}
+
+			 
 			$r = $this->db->select('id')->where('tasktonomi_no', $q['id'])->get(_TBL_VIEW_RCSA_DETAIL)->result_array();
 			$detailxxx[$q['data']] = count($r);
 			$total += count($r);
