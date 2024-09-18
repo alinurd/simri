@@ -565,7 +565,6 @@ class Kajian_Risiko_Mr extends MY_Controller
 
 	function setDataViewRegister( $dataView )
 	{
-
 		if( ! empty( $dataView ) )
 		{
 			foreach( $dataView as $kView => $vView )
@@ -576,7 +575,8 @@ class Kajian_Risiko_Mr extends MY_Controller
 					$dataView[$kView]["risk_cause"] = [];
 					foreach( $getdatariskCause as $kRiskCause => $vRiskCause )
 					{
-						$dataView[$kView]["risk_cause"][$kRiskCause] = [ "risk_cause_id" => $vRiskCause, "risk_cause_name" => $this->db->get_where( _TBL_LIBRARY, [ "id" => $vRiskCause ] )->row_array()["library"] ];
+						$dataRiskcause                               = $this->db->get_where( _TBL_LIBRARY, [ "id" => $vRiskCause ] )->row_array();
+						$dataView[$kView]["risk_cause"][$kRiskCause] = [ "risk_cause_id" => $vRiskCause, "risk_cause_name" => ! empty( $dataRiskcause["library"] ) ? $dataRiskcause["library"] : "" ];
 					}
 				}
 				$getdatariskImpact = json_decode( $vView["risk_impact"] );
@@ -585,7 +585,8 @@ class Kajian_Risiko_Mr extends MY_Controller
 					$dataView[$kView]["risk_impact"] = [];
 					foreach( $getdatariskImpact as $kRiskImpact => $vRiskImpact )
 					{
-						$dataView[$kView]["risk_impact"][$kRiskImpact] = [ "risk_impact_id" => $vRiskImpact, "risk_impact_name" => $this->db->get_where( _TBL_LIBRARY, [ "id" => $vRiskImpact ] )->row_array()["library"] ];
+						$dataImpact                                    = $this->db->get_where( _TBL_LIBRARY, [ "id" => $vRiskImpact ] )->row_array();
+						$dataView[$kView]["risk_impact"][$kRiskImpact] = [ "risk_impact_id" => $vRiskImpact, "risk_impact_name" => ! empty( $dataImpact["library"] ) ? $dataImpact["library"] : "" ];
 					}
 				}
 			}
