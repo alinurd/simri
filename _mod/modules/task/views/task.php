@@ -167,7 +167,7 @@
                                     <td><?= $vFaq["id"] ?></td>
                                     <td><?= $vFaq["faq"] ?></td>
                                     <td><?= $vFaq["answer"] ?></td>
-                                    <td><?= ( ! empty( $vFaq["dokumen_faq"] ) && file_exists( "files/" . $vFaq["dokumen_faq"] ) ) ? "<a href='" . base_url( "file/" . $vFaq["dokumen_faq"] ) . "'><i class='icon-file-text'></i></a>" : "" ?>
+                                    <td><?= ( ! empty( $vFaq["dokumen_faq"] ) && file_exists( "files/" . $vFaq["dokumen_faq"] ) ) ? "<a href='" . base_url( "files/" . $vFaq["dokumen_faq"] ) . "'><i class='icon-file-text'></i></a>" : "" ?>
                                     </td>
                                     <td>
                                         <?= ! empty( $vFaq["created_at"] ) ? date( "Y-m-d", strtotime( $vFaq["created_at"] ) ) : "" ?>
