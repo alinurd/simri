@@ -302,7 +302,6 @@ class Risk_Context extends MY_Controller
 			$id              = $rows['period_id'];
 			$field['values'] = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'term' )->combo_where( 'pid', $id )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
 		}
-
 		$content = $this->set_box_input( $field, $value );
 		// $content = "<input type='hidden' name='term_id' value='{$value}' size='500' maxlength='100'  class='form-control  text-left' placeholder='Periode' id='term_id'  style='width:500% !important;'/>";
 
@@ -320,11 +319,15 @@ class Risk_Context extends MY_Controller
 		}
 		$field['values'] = $this->data->get_data_minggu( $id );
 
-		if( $mode == 'edit' )
-		{
 
-			$field['values'] = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'minggu' )->combo_where( 'pid', $id )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
-		}
+		// if( $mode == 'edit' )
+		// {
+		// 	$field['values'] = $this->crud->combo_select( [ 'id', 'data' ] )->combo_where( 'kelompok', 'minggu' )->combo_where( 'pid', $id )->combo_tbl( _TBL_COMBO )->get_combo()->result_combo();
+		// }
+		// var_dump( $rows );
+		// var_dump( $this->db->last_query() );
+		// var_dump( $field["values"] );
+		// exit;
 		// dumps($field['values']);
 		// die();
 		$content = $this->set_box_input( $field, $value );
