@@ -12,7 +12,7 @@
                         Tahun</label>
                     <div class="col-md-9">
                         <select class="form-control select-filter text-center border" name="filter_tiket_terbit"
-                            id="filter-tiket-terbit" identity="tiket_terbit">
+                            id="filter-tiket-terbit" identity="tiket_terbit" filter-year="<?= $labeltahun ?>">
                             <option value=""><i>-- Pilih Tahun --</i></option>
                             <?= ! empty( $tahun ) ? $tahun : "" ?>
                         </select>
@@ -32,7 +32,7 @@
                         Tahun</label>
                     <div class="col-md-9">
                         <select class="form-control select-filter text-center border" name="filter-tanggal-release"
-                            id="filter-tanggal-release" identity="tanggal_release">
+                            id="filter-tanggal-release" identity="tanggal_release" filter-year="<?= $labeltahun ?>">
                             <option value=""><i>-- Pilih Tahun --</i></option>
                             <?= ! empty( $tahun ) ? $tahun : "" ?>
                         </select>
@@ -54,7 +54,7 @@
                         Tahun</label>
                     <div class="col-md-8">
                         <select class="form-control select-filter text-center border" name="filter-status-kajian"
-                            id="filter-status-kajian" identity="status_kajian">
+                            id="filter-status-kajian" identity="status_kajian" filter-year="<?= $labeltahun ?>">
                             <option value=""><i>-- Pilih Tahun --</i></option>
                             <?= ! empty( $tahun ) ? $tahun : "" ?>
                         </select>
@@ -74,7 +74,7 @@
                         Tahun</label>
                     <div class="col-md-8">
                         <select class="form-control select-filter text-center border" name="filter-status-approval"
-                            id="filter-status-approval" identity="status_approval">
+                            id="filter-status-approval" identity="status_approval" filter-year="<?= $labeltahun ?>">
                             <option value=""><i>-- Pilih Tahun --</i></option>
                             <?= ! empty( $tahun ) ? $tahun : "" ?>
                         </select>
@@ -94,7 +94,7 @@
                         Tahun</label>
                     <div class="col-md-8">
                         <select class="form-control select-filter text-center border" name="filter-progress-mitigasi"
-                            id="filter-progress-mitigasi" identity="status_progress">
+                            id="filter-progress-mitigasi" identity="status_progress" filter-year="<?= $labeltahun ?>">
                             <option value=""><i>-- Pilih Tahun --</i></option>
                             <?= ! empty( $tahun ) ? $tahun : "" ?>
                         </select>

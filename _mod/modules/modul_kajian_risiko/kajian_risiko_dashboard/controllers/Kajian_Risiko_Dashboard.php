@@ -132,30 +132,31 @@ class Kajian_Risiko_Dashboard extends MY_Controller
             $dataview    = [];
             $type        = $this->input->post()["type"];
             $name        = $this->input->post()["name"];
+            $year        = $this->input->post()["year"];
             switch( $type )
             {
                 case "tiket_terbit":
-                    $dataKajian["data"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, [ "month(tiket_terbit)" => date( "n", strtotime( $name ) ), "active" => 1 ] )->result_array();
+                    $dataKajian["data"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, [ "month(tiket_terbit)" => date( "n", strtotime( $name ) ), "active" => 1, "year(tiket_terbit)" => $year ] )->result_array();
                     $viewContent["content"] = $this->load->view( "ajax/ajaxlistdashboard", $dataKajian, TRUE );
                     $viewContent["title"] = "kajian Resiko Tiket Terbit Berdasarkan Bulan";
                     break;
                 case "tanggal_release":
-                    $dataKajian["data"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, [ "month(release_date)" => date( "n", strtotime( $name ) ), "active" => 1 ] )->result_array();
+                    $dataKajian["data"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, [ "month(release_date)" => date( "n", strtotime( $name ) ), "active" => 1, "year(release_date)" => $year ] )->result_array();
                     $viewContent["content"] = $this->load->view( "ajax/ajaxlistdashboard", $dataKajian, TRUE );
                     $viewContent["title"] = "kajian Resiko Tanggal Release Berdasarkan Bulan";
                     break;
                 case "status_kajian":
-                    $dataKajian["data"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, [ "status" => $datamapStatus[strtolower( $name )], "active" => 1 ] )->result_array();
+                    $dataKajian["data"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, [ "status" => $datamapStatus[strtolower( $name )], "active" => 1, "year(created_at)" => $year ] )->result_array();
                     $viewContent["content"] = $this->load->view( "ajax/ajaxlistdashboard", $dataKajian, TRUE );
                     $viewContent["title"] = "Kajian Risiko Berdasarkan Status";
                     break;
                 case "status_approval":
-                    $dataKajian["data"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, [ "status_approval" => strtolower( $name ), "active" => 1 ] )->result_array();
+                    $dataKajian["data"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO, [ "status_approval" => strtolower( $name ), "active" => 1, "year(created_at)" => $year ] )->result_array();
                     $viewContent["content"] = $this->load->view( "ajax/ajaxlistdashboard", $dataKajian, TRUE );
                     $viewContent["title"] = "Kajian Risiko Berdasarkan Status Approval";
                     break;
                 case "status_progress":
-                    $dataKajian["data"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_MONITORING, [ "status" => strtolower( url_title( $name ) ) ] )->result_array();
+                    $dataKajian["data"] = $this->db->get_where( _TBL_VIEW_KAJIAN_RISIKO_MONITORING, [ "status" => strtolower( url_title( $name ) ), "year(created_at)" => $year ] )->result_array();
                     if( ! empty( $dataKajian["data"] ) )
                     {
                         foreach( $dataKajian["data"] as $kModMon => $vModMon )

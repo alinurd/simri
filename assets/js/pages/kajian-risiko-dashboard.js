@@ -5,8 +5,9 @@ $(function () {
 })
 
 function getdataKajianDashboard(param) {
+    var year = $("select[identity='" + param.seriesName + "']").attr("filter-year");
     var url = modul_name + "/getDataModalDashboard";
-    var data = { type: param.seriesName, name: param.name };
+    var data = { type: param.seriesName, name: param.name, year: year };
     if (typeof param.seriesIndex != 'undefined') {
         $.ajax({
             type: "post",

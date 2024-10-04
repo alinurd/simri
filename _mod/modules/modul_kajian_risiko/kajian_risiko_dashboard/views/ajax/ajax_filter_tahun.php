@@ -5,7 +5,7 @@
                 Tahun</label>
             <div class="col-md-9">
                 <select class="form-control select-filter text-center border" name="<?= $identityFilter ?>"
-                    id="<?= $identityFilter ?>" identity="<?= $identity ?>">
+                    id="<?= $identityFilter ?>" identity="<?= $identity ?>" filter-year="<?= $labeltahun ?>">
                     <option value=""><i>-- Pilih Tahun --</i></option>
                     <?= ! empty( $tahun ) ? $tahun : "" ?>
                 </select>
