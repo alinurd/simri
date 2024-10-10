@@ -126,7 +126,7 @@ if( isset( $url ) )
                                     <td rowspan="<?= ( $jml > 0 ) ? $jml : $jml_miti; ?>">
                                     <ol>
                             <?php
-                             $a = json_decode( $row['penanggung_jawab_detail_id'] );
+                             $a = json_decode( $row['koordinator_detail_id'] );
 
                             if( is_array( $a ) )
                             {
@@ -146,7 +146,28 @@ if( isset( $url ) )
                             ?>
                         </ol>
                                     </td>
-                                    <td rowspan="<?= ( $jml > 0 ) ? $jml : $jml_miti; ?>"><?= $row['koordinator']; ?></td>
+                                    <td rowspan="<?= ( $jml > 0 ) ? $jml : $jml_miti; ?>">
+                                    <ol>
+                            <?php
+                             $a = json_decode( $row['penanggung_jawab_detail_id'] );
+
+                            if( is_array( $a ) )
+                            {
+                                foreach( $a as $v )
+                                {
+                                    if( ! empty( $picku[$v]['title'] ) )
+                                    {
+                                        echo "<li>" . $picku[$v]['title'] . "</li>";
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                $ll = ( isset( $picku[$a] ) ) ? $picku[$a]['title'] : '-';
+                                echo "<li>" . $ll . "</li>";
+                            }
+                            ?>
+                            </td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['aktifitas_mitigasi'] ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['batas_waktu_detail']; ?></td>
                                     <?php
