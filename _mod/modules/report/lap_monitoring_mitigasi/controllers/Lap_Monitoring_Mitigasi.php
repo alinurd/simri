@@ -129,6 +129,8 @@ class Lap_Monitoring_Mitigasi extends MY_Controller
 		{
 			$y              = $this->data->get_data_kompilasi( $this->pos['period'], $this->pos['owner'], $this->pos['type_ass'] );
 			$y['pos']       = $this->pos;
+			$y['picku']           = $this->get_data_dept();
+
 			$hasil['kompi'] = $this->hasil = $this->load->view( 'monitoring_detail', $y, TRUE );
 
 		}
@@ -164,6 +166,7 @@ class Lap_Monitoring_Mitigasi extends MY_Controller
 		 'type_ass' => $type_ass,
 		];
 		$data['export'] = FALSE;
+		$data['picku']           = $this->get_data_dept();
 
 
 		$hasil = $this->load->view( 'monitoring_detail', $data, TRUE );

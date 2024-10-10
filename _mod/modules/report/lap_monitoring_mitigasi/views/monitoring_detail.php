@@ -79,7 +79,7 @@ if( isset( $url ) )
                                 <th>Aktual</th>
                                 <th>Uraian Progres</th>
                                 <th>Kendala Pelaksanaan</th>
-                                <th>"Tindak Lanjut/Dukungan<br /> Yang Diperlukan<br />(Jika ada kendala)</th>
+                                <th>Tindak Lanjut/Dukungan<br /> Yang Diperlukan<br />(Jika ada kendala)</th>
                                 <th>Due Date Tindak Lanjut</th>
                             </tr>
                         </thead>
@@ -123,7 +123,28 @@ if( isset( $url ) )
                                     <td rowspan="<?= ( $jml > 0 ) ? $jml : $jml_miti; ?>">
                                         <?= number_format( $row['biaya'] ); ?>
                                     </td>
-                                    <td rowspan="<?= ( $jml > 0 ) ? $jml : $jml_miti; ?>"><?= $row['penanggung_jawab']; ?>
+                                    <td rowspan="<?= ( $jml > 0 ) ? $jml : $jml_miti; ?>">
+                                    <ol>
+                            <?php
+                            $a = json_decode( $row['penanggung_jawab_id'] );
+
+                            if( is_array( $a ) )
+                            {
+                                foreach( $a as $v )
+                                {
+                                    if( ! empty( $picku[$v]['title'] ) )
+                                    {
+                                        echo "<li>" . $picku[$v]['title'] . "</li>";
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                $ll = ( isset( $picku[$a] ) ) ? $picku[$a]['title'] : '-';
+                                echo "<li>" . $ll . "</li>";
+                            }
+                            ?>
+                        </ol>
                                     </td>
                                     <td rowspan="<?= ( $jml > 0 ) ? $jml : $jml_miti; ?>"><?= $row['koordinator']; ?></td>
                                     <td rowspan="<?= $jml; ?>"><?= $row['aktifitas_mitigasi'] ?></td>

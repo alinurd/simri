@@ -98,7 +98,7 @@
                                     ?>
                                 <td rowspan="<?=($jml>0)?$jml:$jml_miti;?>"><?=$row['mitigasi'];?></td>
                                 <td rowspan="<?=($jml>0)?$jml:$jml_miti;?>"><?=number_format($row['biaya']);?></td>
-                                <td rowspan="<?=($jml>0)?$jml:$jml_miti;?>"><?=$row['penanggung_jawab'];?></td>
+                                <td rowspan="<?=($jml>0)?$jml:$jml_miti;?>"><?=$row['penanggung_jawab_id'];?></td>
                                 <td rowspan="<?=($jml>0)?$jml:$jml_miti;?>"><?=$row['koordinator'];?></td>
                                 <?php if (array_key_exists($row['penyebab_id'], $mitigasi)):?>
                                     <?php $bl =[];$blx =[];if($mitigasi[$row['penyebab_id']]):?>
