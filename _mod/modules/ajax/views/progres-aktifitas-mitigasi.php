@@ -84,9 +84,9 @@
             ?>
             <tr>
                     <td></td>
-                    <td>sum:<?= $sumtar ?> :<?= $count ?>=> <?= $avarageTar ?></td>
-                    <td>sum:<?= $sumAk ?> :<?= $count ?>=> <?= $avarageAK ?></td>
-                     <td>avarage (target/aktual): <?= round($avarage); ?></td> 
+                    <td><strong><?= $avarageTar ?></strong></td>
+                    <td><strong><?= $avarageAK ?></strong></td>
+                     <td></strong></td> 
                      <td></td>
                      <td></td>
                 </tr>
