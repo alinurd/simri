@@ -1,8 +1,9 @@
 _mod/config/database*.php
 _mod/config/config*.php
 _mod/logs/*.php
-files
-2024
+files/*
+_system_dev/*
+2024/*
 ssh-keygen -t rsa -b 4096 -C "ali.nrdn14005@gmail.com"
 ssh-keygen -t rsa -b 4096 -C "ali.nrdn14005@gmail.com".pub
 
