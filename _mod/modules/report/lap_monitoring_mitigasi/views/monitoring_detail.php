@@ -126,8 +126,7 @@ if( isset( $url ) )
                                     <td rowspan="<?= ( $jml > 0 ) ? $jml : $jml_miti; ?>">
                                     <ol>
                             <?php
-                            doi::dump($row);
-                            $a = json_decode( $row['penanggung_jawab_id'] );
+                             $a = json_decode( $row['penanggung_jawab_detail_id'] );
 
                             if( is_array( $a ) )
                             {
