@@ -3,3 +3,6 @@ _mod/config/config*.php
 _mod/logs/*.php
 files
 2024
+ssh-keygen -t rsa -b 4096 -C "ali.nrdn14005@gmail.com"
+ssh-keygen -t rsa -b 4096 -C "ali.nrdn14005@gmail.com".pub
+
