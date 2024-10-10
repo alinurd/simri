@@ -34,8 +34,29 @@
         <td><?=++$no;?></td>
         <td><?=$row['mitigasi'];?></td>
         <td class="text-right"><?=number_format($row['biaya']);?></td>
-        <td><?=$row['penanggung_jawab'];?></td>
-        <td><?=$row['koordinator'];?></td>
+        <td>
+                        <ol>
+                            <?php
+                            $a = json_decode( $row['penanggung_jawab_id'] );
+
+                            if( is_array( $a ) )
+                            {
+                                foreach( $a as $v )
+                                {
+                                    if( ! empty( $picku[$v]['title'] ) )
+                                    {
+                                        echo "<li>" . $picku[$v]['title'] . "</li>";
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                $ll = ( isset( $picku[$a] ) ) ? $picku[$a]['title'] : '-';
+                                echo "<li>" . $ll . "</li>";
+                            }
+                            ?>
+                        </ol>
+                    </td>        <td><?=$row['koordinator'];?></td>
         <td><?=$row['jml'];?></td>
         <td><?=date('d-m-Y', strtotime($row['batas_waktu']));?></td>
         <td class="pointer text-center">
