@@ -29,10 +29,10 @@ class Officer extends MY_Controller
 
 		$this->addField(['field' => 'owner_no', 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_owner, 'search' => true, 'size' => 100]);
 		$this->addField(['field' => 'nip', 'search' => true, 'size' => 50, 'required' => true]);
-		$this->addField(['field' => 'officer_name', 'search' => true, 'required' => true, 'size' => 50]);
+		$this->addField(['field' => 'officer_name', 'search' => true, 'required' => false, 'size' => 50]);
 		$this->addField(['field' => 'position_no', 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_posisi, 'search' => true, 'size' => 50]);
 		$this->addField(['field' => 'address', 'input' => 'multitext', 'search' => true, 'size' => 50]);
-		$this->addField(['field' => 'phone', 'search' => true, 'size' => 50]);
+		$this->addField(['field' => 'phone', 'search' => true, 'required' => false,'size' => 50]);
 		$this->addField(['field' => 'mobile', 'search' => true, 'size' => 20]);
 		$this->addField(['field' => 'email', 'search' => true, 'size' => 100]);
 		$this->addField(['field' => 'username', 'line'=>true, 'line-text'=>'Authentication', 'line-icon'=>'icon-users']);
