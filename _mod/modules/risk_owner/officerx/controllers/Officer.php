@@ -25,7 +25,7 @@ class Officer extends MY_Controller
 		$this->set_Open_Tab('Data Owner');
 		$this->addField(['field' => 'id', 'type' => 'int', 'show' => false, 'size' => 4]);
 		if ($this->configuration['show_list_photo'])
-			$this->addField(['field' => 'photo', 'input' => 'upload', 'path' => 'file/staft', 'file_thumb' => true]);
+			$this->addField(['field' => 'photo', 'input' => 'upload', 'path' => 'files/staft', 'file_thumb' => true]);
 
 		$this->addField(['field' => 'owner_no', 'type' => 'int', 'input' => 'combo', 'values' => $this->cbo_owner, 'search' => true, 'size' => 100]);
 		$this->addField(['field' => 'nip', 'search' => true, 'size' => 50, 'required' => true]);
