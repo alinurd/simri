@@ -23,13 +23,13 @@ class Officer extends MY_Controller
 
 		$this->set_Open_Coloums();
 		$this->addField( [ 'field' => 'id', 'show' => FALSE ] );
-		$this->addField( [ 'field' => 'photo', 'input' => 'upload', 'path' => 'file/staft', 'file_thumb' => TRUE, 'file_size' => '5120', 'size_pic' => 132, "required" => TRUE ] );
+		$this->addField( [ 'field' => 'photo', 'input' => 'upload', 'path' => 'files/staft', 'file_thumb' => TRUE, 'file_size' => '5120', 'size_pic' => 132, "required" => false ] );
 		$this->addField( [ 'field' => 'nip', 'type' => 'int', 'required' => TRUE, 'search' => TRUE, 'title' => 'NIP [Username]' ] );
 		$this->addField( [ 'field' => 'officer_name', 'required' => TRUE, 'search' => TRUE ] );
 		$this->addField( [ 'field' => 'owner_no', 'title' => 'Department', 'required' => TRUE, 'type' => 'int', 'input' => 'combo', 'search' => TRUE, 'values' => $this->cboDept ] );
 		$this->addField( [ 'field' => 'position_no', 'required' => TRUE, 'title' => 'Title', 'type' => 'int', 'input' => 'combo', 'search' => TRUE, 'values' => $this->cboTitle ] );
 		$this->addField( [ 'field' => 'gender_no', 'title' => "Gender", 'type' => 'int', 'input' => 'combo', 'values' => $this->cboGender, 'size' => 100, 'search' => TRUE, 'required' => TRUE ] );
-		$this->addField( [ 'field' => 'phone', 'search' => TRUE, 'required' => TRUE ] );
+		$this->addField( [ 'field' => 'phone', 'search' => TRUE, 'required' => false ] );
 		$this->addField( [ 'field' => 'email', 'type' => 'email', 'required' => TRUE, 'search' => TRUE ] );
 		$this->addField( [ 'field' => 'sts_owner', 'input' => 'boolean', 'search' => TRUE ] );
 		// $this->addField(['field'=>'sts_approval', 'input'=>'boolean', 'search'=>true]);
