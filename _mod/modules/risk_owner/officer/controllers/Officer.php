@@ -23,7 +23,7 @@ class Officer extends MY_Controller
 
 		$this->set_Open_Coloums();
 		$this->addField( [ 'field' => 'id', 'show' => FALSE ] );
-		$this->addField( [ 'field' => 'photo', 'input' => 'upload', 'path' => 'files/staft', 'file_thumb' => TRUE, 'file_size' => '5120', 'size_pic' => 132, "required" => false ] );
+		$this->addField( [ 'field' => 'photo', 'input' => 'upload', 'path' => 'file/staft', 'file_thumb' => TRUE, 'file_size' => '5120', 'size_pic' => 132, "required" => false ] );
 		$this->addField( [ 'field' => 'nip', 'type' => 'int', 'required' => TRUE, 'search' => TRUE, 'title' => 'NIP [Username]' ] );
 		$this->addField( [ 'field' => 'officer_name', 'required' => TRUE, 'search' => TRUE ] );
 		$this->addField( [ 'field' => 'owner_no', 'title' => 'Department', 'required' => TRUE, 'type' => 'int', 'input' => 'combo', 'search' => TRUE, 'values' => $this->cboDept ] );
