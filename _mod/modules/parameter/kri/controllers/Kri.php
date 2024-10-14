@@ -59,7 +59,7 @@ class Kri extends MY_Controller
 		$this->set_Table_List( $this->tbl_master, 'data' );
 		$this->set_Table_List( $this->tbl_master, 'id', 'Total Terpakai' );
 		$this->set_Table_List( $this->tbly, 'param_text', 'Total Dept' );
-		// $this->set_Table_List( $this->tbl_master, 'urut' );
+		$this->set_Table_List( $this->tbl_master, 'urut' );
 		$this->set_Table_List( $this->tbl_master, 'active', '', 7, 'center' );
 		$this->set_Table_List( $this->tbl_master, 'created_at', 'Tanggal Dibuat', 10, 'center' );
 
