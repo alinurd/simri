@@ -19,7 +19,7 @@
                                         <th rowspan="2" class="text-center">Peristiwa Risiko</th>
                                         <th rowspan="2" class="text-center">Taksonomi BUMN</th>
                                         <th rowspan="2" class="text-center">Tipe Risiko</th>
-                                        <th colspan="3" class="text-center">Curresssssssssssnt Risk Level</th>
+                                        <th colspan="3" class="text-center">Current Risk Level</th>
                                         <th colspan="3" class="text-center">Residual Risk Level</th>
                                     </tr>
                                     <tr>
