@@ -220,7 +220,7 @@ class Kajian_Risiko extends MY_Controller
 		$id           = $this->input->post( "id" );
 		$resultUpload = FALSE;
 		$paramUpload  = [
-		 "path"        => "file/kajian_risiko",
+		 "path"        => "files/kajian_risiko",
 		 "field"       => ( ! empty( $_POST["field"] ) ) ? $_POST["field"] : "",
 		 "file_type"   => "pdf|doc|xls|xlsx|docx",
 		 "file_thumb"  => FALSE,
