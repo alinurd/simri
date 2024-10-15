@@ -165,8 +165,7 @@
                         $sumAk = 0;
                         $avarage = 0;
                         $count = 0;
-                        doi::dump($progres);
-                        if (! empty($mitigasi)) {
+                         if (! empty($mitigasi)) {
                             if (! empty($progres)) {
                                 $xxxx= $this->db->where( 'rcsa_mitigasi_id', $progres[0]['rcsa_mitigasi_id'] )->get( _TBL_VIEW_RCSA_MITIGASI_DETAIL )->result_array();
                                 $count = count($xxxx);
