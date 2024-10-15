@@ -30,7 +30,7 @@
                                                 <tr>
                                                     <td><?= $n = $n + 1 ?></td>
                                                     <td><?= $vLinkDocPendukung ?></td>
-                                                    <td>
+                                                    <td width="75px">
                                                         <?php if( ! empty( $vLinkDocPendukung ) )
                                                         { ?>
                                                             <a class="btn btn-sm btn-outline-primary" target="_blank"
