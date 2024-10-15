@@ -729,7 +729,7 @@ class Kajian_Risiko_Mr extends MY_Controller
 		$paramUpload  = [
 		 "path"        => "file/kajian_risiko_mr",
 		 "field"       => "file",
-		 "file_type"   => "pdf|xlsx|docx|doc|docx",
+		 "file_type"   => "pdf|xlsx|docx|doc|docx|xls",
 		 "file_thumb"  => FALSE,
 		 "file_size"   => "10000",
 		 "file_random" => FALSE,
