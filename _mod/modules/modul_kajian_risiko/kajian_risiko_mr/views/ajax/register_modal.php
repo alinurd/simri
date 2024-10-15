@@ -51,20 +51,20 @@
                                                         <b><i class="icon-arrow-down16"></i></b>
                                                     </a>
                                                 </td>
-                                                <td class="text-center"><?= $vRegister["residual_level_likelihood_text"] ?></td>
-                                                <td class="text-center"><?= $vRegister["residual_level_impact_text"] ?></td>
-                                                <td class="text-center p-1">
-                                                    <div class="alert alert-sm border shadow-none m-0 p-1"
-                                                        style="background-color:<?= $vRegister["residual_level_color"] ?>;color:<?= $vRegister["residual_text_level_color"] ?>">
-                                                        <b><?= $vRegister["residual_level_name"] ?></b>
-                                                    </div>
-                                                </td>
                                                 <td class="text-center"><?= $vRegister["current_level_likelihood_text"] ?></td>
                                                 <td class="text-center"><?= $vRegister["current_level_impact_text"] ?></td>
                                                 <td class="text-center  p-1">
                                                     <div class="alert alert-sm border shadow-none m-0 p-1"
                                                         style="background-color:<?= $vRegister["current_level_color"] ?>;color:<?= $vRegister["current_text_level_color"] ?>">
                                                         <b><?= $vRegister["current_level_name"] ?></b>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center"><?= $vRegister["residual_level_likelihood_text"] ?></td>
+                                                <td class="text-center"><?= $vRegister["residual_level_impact_text"] ?></td>
+                                                <td class="text-center p-1">
+                                                    <div class="alert alert-sm border shadow-none m-0 p-1"
+                                                        style="background-color:<?= $vRegister["residual_level_color"] ?>;color:<?= $vRegister["residual_text_level_color"] ?>">
+                                                        <b><?= $vRegister["residual_level_name"] ?></b>
                                                     </div>
                                                 </td>
                                                
