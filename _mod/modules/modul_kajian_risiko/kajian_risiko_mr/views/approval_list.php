@@ -29,7 +29,7 @@
                                                     ?>
                                                 <tr>
                                                     <td><?= $n = $n + 1 ?></td>
-                                                    <td>    <?= (strlen($vLinkDocPendukung) > 20) ? substr($vLinkDocPendukung, 0, 20) . '...' : $vLinkDocPendukung ?></td>
+                                                    <td> <?= (strlen($vLinkDocPendukung) > 25) ? substr($vLinkDocPendukung, 0, 25) . '...' : $vLinkDocPendukung ?></td>
                                                     <td>
                                                         <?php if( ! empty( $vLinkDocPendukung ) )
                                                         { ?>
@@ -128,7 +128,7 @@
                                                 ?>
                                                 <tr>
                                                     <td><?= $n = $n + 1 ?></td>
-                                                    <td><?= $vLinkDockajian ?></td>
+                                                    <td><?= (strlen($vLinkDockajian) > 25) ? substr($vLinkDockajian, 0, 25) . '...' : $vLinkDockajian ?></td>
                                                     <td>
                                                         <?php if( ! empty( $vLinkDockajian ) )
                                                         { ?>
