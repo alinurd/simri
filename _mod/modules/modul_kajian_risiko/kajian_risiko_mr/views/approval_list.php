@@ -12,9 +12,9 @@
                             <table class="table table-sm table-bordered">
                                 <thead class="bg-light">
                                     <tr>
-                                        <th width="75" class="text-center">No</th>
+                                        <th width="75px" class="text-center">No</th>
                                         <th class="text-center"><strong><b>LINK</b></strong></th>
-                                        <th width="75"></th>
+                                        <th width="75px"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
