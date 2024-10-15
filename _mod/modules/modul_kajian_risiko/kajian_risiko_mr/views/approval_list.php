@@ -29,7 +29,7 @@
                                                     ?>
                                                 <tr>
                                                     <td><?= $n = $n + 1 ?></td>
-                                                    <td width="75px"><?= $vLinkDocPendukung ?></td>
+                                                    <td>    <?= (strlen($vLinkDocPendukung) > 20) ? substr($vLinkDocPendukung, 0, 20) . '...' : $vLinkDocPendukung ?></td>
                                                     <td>
                                                         <?php if( ! empty( $vLinkDocPendukung ) )
                                                         { ?>
