@@ -165,9 +165,11 @@
                         $sumAk = 0;
                         $avarage = 0;
                         $count = 0;
+                        doi::dump($progres);
                         if (! empty($mitigasi)) {
                             if (! empty($progres)) {
-                                $count = count($progres);
+                                $xxxx= $this->db->where( 'rcsa_mitigasi_id', $progres[0]['rcsa_mitigasi_id'] )->get( _TBL_VIEW_RCSA_MITIGASI_DETAIL )->result_array();
+                                $count = count($xxxx);
                                 foreach ($progres as $row) :
                                     $sumtar += $row['target'];
                                     $sumAk += $row['aktual'];
@@ -202,7 +204,7 @@
                                     <td><?= $row['koordinator']; ?></td>
                                     <td><?= $row['jml']; ?></td>
                                     <td><?= date('d-m-Y', strtotime($row['batas_waktu'])); ?></td>
-                                    <td><?= $avarage ?></td>
+                                    <td><?= $avarageAK ?> %</td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php } else { ?>
