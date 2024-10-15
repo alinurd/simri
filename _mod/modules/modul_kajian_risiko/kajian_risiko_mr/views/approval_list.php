@@ -29,8 +29,8 @@
                                                     ?>
                                                 <tr>
                                                     <td><?= $n = $n + 1 ?></td>
-                                                    <td><?= $vLinkDocPendukung ?></td>
-                                                    <td width="75px">cccccccccccccccccxccccccccccccccccccccccccccc
+                                                    <td width="75px"><?= $vLinkDocPendukung ?></td>
+                                                    <td>
                                                         <?php if( ! empty( $vLinkDocPendukung ) )
                                                         { ?>
                                                             <a class="btn btn-sm btn-outline-primary" target="_blank"
