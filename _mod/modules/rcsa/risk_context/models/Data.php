@@ -266,7 +266,7 @@ class Data extends MX_Model
 		ini_set( 'MAX_EXECUTION_TIME', -1 );
 
 
-		$upload = upload_image_new( array( 'type' => 'xls|xlsx|csv|doc|docx|pdf|zip|rar', 'nm_file' => 'lampiran', 'path' => 'rcsa', 'thumb' => FALSE ) );
+		$upload = upload_image_new( array( 'type' => 'pdf|xlsx|docx|doc|docx|xls', 'nm_file' => 'lampiran', 'path' => 'rcsa', 'thumb' => FALSE ) );
 
 		if( $upload )
 		{

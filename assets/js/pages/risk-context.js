@@ -1168,6 +1168,12 @@ function cek_isian_identifikasi(awal = false) {
                 hasil = false;
                 pesan += '- Input Risk Indikator Dampak\n';
             }
+            if (!$('input[name="lampiran"]').val()) {
+                console.log("lampiran kosong")
+                hasil = false;
+                pesan += '- lampiran harus diisi\n';
+            }
+            
 
             if (isNaN(parseFloat($('input[name=\"like_id_2\"]').val()))) {
                 hasil = false;
