@@ -131,7 +131,11 @@ class Auth extends MY_Controller
 			 'id'    => 'password',
 			 'type'  => 'password',
 			];
-
+			$this->datas['recaptcha'] = array(
+				'widget' => $this->recaptcha->getWidget(),
+				'script' => $this->recaptcha->getScriptTag(),
+				'key' => $this->recaptcha->getKey(),
+			);
 			$this->_render_page( 'login', $this->datas, TRUE );
 		}
 	}
