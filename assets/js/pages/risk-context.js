@@ -476,6 +476,26 @@ $(function () {
     })
 
     $(document).on("click", ".update-identifikasi", function () {
+
+         if ($("#treatment_id").val() == 1 || $("#treatment_id").val() == '') { 
+            $('#efek_mitigasi_wrapper').addClass("d-none");
+            $('#efek_mitigasi1_wrapper').removeClass("d-none");
+            
+            $("li.nav-item > a[href='#content-tab-03']").parent().addClass("d-none");
+            $("li.nav-item > a[href='#content-tab-03']").hide();
+            $("#list_mitigasi").hide();
+            $(".btnNextEvaluasi").hide();
+        } else { 
+            $('#efek_mitigasi1_wrapper').addClass("d-none");
+            $('#efek_mitigasi_wrapper').removeClass("d-none");
+     
+            $("li.nav-item > a[href='#content-tab-03']").parent().removeClass("d-none");
+            $("li.nav-item > a[href='#content-tab-03']").show();
+            $("#list_mitigasi").show();
+            $(".btnNextEvaluasi").show();
+        }
+
+
         var parent = $(this).parent().parent().parent();
         var nilai = $(this).data('rcsa');
         var edit = $(this).data('id');
@@ -753,21 +773,8 @@ $(function () {
             $(this).closest('td').closest('tr').remove();
         }
     });
-    $(document).on('change', '#treatment_id', function () {
-        if ($(this).val() == 1 || $(this).val() == '') {
-            $('#efek_mitigasi').val('4').trigger("change");
-            // $('#efek_mitigasi').trigger('change');
-            $("li.nav-item > a[href='#content-tab-03']").parent().addClass("d-none");
-            $("li.nav-item > a[href='#content-tab-03']").hide();
-            $("#list_mitigasi").hide();
-            $(".btnNextEvaluasi").hide();
-        } else {
-            $("li.nav-item > a[href='#content-tab-03']").parent().removeClass("d-none");
-            $("li.nav-item > a[href='#content-tab-03']").show();
-            $("#list_mitigasi").show();
-            $(".btnNextEvaluasi").show();
-        }
-    });
+    
+   
     $(document).on('change', 'select[name=\"peristiwa_id[]\"], select[name=\"penyebab_id\"]', function () {
         var text = '';
         $("select[name=\"peristiwa_id[]\"] :selected").each(function (i, sel) {
@@ -812,6 +819,7 @@ $(function () {
     })
 
     $(document).on('click', '#simpan_evaluasi', function () {
+         $('#efek_mitigasi').prop('disabled', false);
         var parent = $(this).parent().parent().parent();
         var data = $("#form_identifikasi").serialize();
         var treatment = $("#treatment_id").val();
@@ -974,6 +982,7 @@ $(function () {
     })
 
     $(document).ready(function () {
+        
         $('#seksi').select2({
             // placeholder: "-- Select --",
             allowClear: false,
@@ -1048,6 +1057,32 @@ $(function () {
         });
     })
 });
+
+$(document).on('change', '#treatment_id', function () {
+    if ($(this).val() == 1 || $(this).val() == '') {
+        // Tampilkan efek_mitigasi1 dan sembunyikan efek_mitigasi
+        $('#efek_mitigasi_wrapper').addClass("d-none");
+        $('#efek_mitigasi1_wrapper').removeClass("d-none");
+
+        // Sembunyikan tab dan elemen yang tidak diperlukan
+        $("li.nav-item > a[href='#content-tab-03']").parent().addClass("d-none");
+        $("li.nav-item > a[href='#content-tab-03']").hide();
+        $("#list_mitigasi").hide();
+        $(".btnNextEvaluasi").hide();
+    } else {
+        // Tampilkan efek_mitigasi dan sembunyikan efek_mitigasi1
+        $('#efek_mitigasi1_wrapper').addClass("d-none");
+        $('#efek_mitigasi_wrapper').removeClass("d-none");
+
+        // Tampilkan kembali tab dan elemen yang disembunyikan
+        $("li.nav-item > a[href='#content-tab-03']").parent().removeClass("d-none");
+        $("li.nav-item > a[href='#content-tab-03']").show();
+        $("#list_mitigasi").show();
+        $(".btnNextEvaluasi").show();
+    }
+});
+
+
 
 function cek_isian_identifikasi(awal = false) {
     var hasil = true;

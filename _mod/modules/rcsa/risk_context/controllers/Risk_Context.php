@@ -990,9 +990,39 @@ class Risk_Context extends MY_Controller
 		}
 		$param['evaluasi'][] = [ 'title' => _l( 'fld_treatment' ), 'help' => _h( 'help_treatment' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'treatment_id', $treatment, ( $data ) ? $data['treatment_id'] : '', 'class="form-control select" id="treatment_id" style="width:100%;"' ) ];
 
-		$param['evaluasi'][] = [ 'title' => _l( 'fld_efek_mitigasi' ), 'help' => _h( 'help_efek_mitigasi' ), 'mandatori' => TRUE, 'isi' => form_dropdown( 'efek_mitigasi', $efek_mitigasi, ( $data ) ? $data['efek_mitigasi'] : '', 'id="efek_mitigasi" class="form-control select" style="width:100%;"' ) ];
-
-
+		$efek_mitigasi1 = [4 => 'Tidak ada mitigasi'];
+		$efek_mitigasi = [0 => _l('cbo_select'), 1 => 'L', 2 => 'D', 3 => 'L & D'];
+		
+		if($data['treatment_id']==1){
+			$dNon='d-none';
+			$dNon1='';
+		}else{
+			$dNon1='d-none';
+			$dNon='';
+		}
+		$param['evaluasi'][] = [
+			'title' => _l('fld_efek_mitigasi'),
+			'help' => _h('help_efek_mitigasi'),
+			'mandatori' => TRUE,
+			'isi' =>
+				'<div id="efek_mitigasi_wrapper" class="'.$dNon.'">'.
+					form_dropdown(
+						'efek_mitigasi', 
+						$efek_mitigasi, 
+						$data ? $data['efek_mitigasi'] : '', 
+						'id="efek_mitigasi" class="form-control select" style="width:100%;"'
+					).
+				'</div>'.
+				'<div id="efek_mitigasi1_wrapper" class="'.$dNon1.'">'.
+					form_dropdown(
+						'efek_mitigasi', 
+						$efek_mitigasi1, 
+						$data ? $data['efek_mitigasi'] : '', 
+						'id="efek_mitigasi" class="form-control select" disabled style="width:100%;"'
+					).
+				'</div>'
+		];
+		
 		$param['info'][] = [ 'title' => _l( 'fld_risiko_dept' ), 'isi' => $data['risiko_dept'] ];
 		$param['info'][] = [ 'title' => _l( 'fld_level_risiko' ), 'isi' => form_input( 'level_inherent_info', ( $data ) ? $data['risiko_inherent_text'] : '', 'class="form-control text-center" id="level_inherent_info" readonly="readonly"  style="width:40%;"' ) . '<span class="input-group-append">
 		<button class="btn btn-light legitRipple" type="button" style="' . $csslevel_inherent . '">' . $data['level_color'] . '</button>
