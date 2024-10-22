@@ -203,7 +203,7 @@
                                     <td><?= $row['koordinator']; ?></td>
                                     <td><?= $row['jml']; ?></td>
                                     <td><?= date('d-m-Y', strtotime($row['batas_waktu'])); ?></td>
-                                    <td><?= $avarageAK ?> %</td>
+                                    <td><?= $sumAk ?> %</td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php } else { ?>

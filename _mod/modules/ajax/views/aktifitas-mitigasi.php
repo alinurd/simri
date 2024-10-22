@@ -98,14 +98,14 @@
             </tr>
 
             <!-- Tampilkan header detail mitigasi terkait -->
-            <tr class="pointer detail-progres-mitigasi" data-id="<?= $row['id']; ?>">
+            <!-- <tr class="pointer detail-progres-mitigasi" data-id="<?= $row['id']; ?>">
                  <td>ID</td>
                  <td>TARGET</td>
                  <td>AKTUAL</td>
-            </tr>
+            </tr> -->
             
             <!-- Tampilkan detail mitigasi terkait -->
-            <?php foreach ($detail as $d) : 
+            <!-- <?php foreach ($detail as $d) : 
                 // Tambahkan target dan aktual ke total
                 $totalTarget += $d['target'];
                 $totalAktual += $d['aktual'];
@@ -117,23 +117,23 @@
                      <td><?= $d['target']; ?></td>
                      <td><?= $d['aktual']; ?></td> 
                 </tr>
-            <?php endforeach; ?>
+            <?php endforeach; ?> -->
             
             <!-- Tampilkan total target dan aktual untuk aktivitas ini -->
-            <tr class="pointer detail-progres-mitigasi" data-id="<?= $row['id']; ?>">
+            <!-- <tr class="pointer detail-progres-mitigasi" data-id="<?= $row['id']; ?>">
                  <td><strong>Total:</strong></td> 
                 <td><?= $totalTarget; ?></td> 
                 <td><?= $totalAktual; ?> (hasil sum)</td>
-            </tr>
+            </tr> -->
 
         <?php endforeach; ?>
 
         <!-- Tampilkan rata-rata untuk semua aktivitas -->
-        <tr>
+        <!-- <tr>
             <td colspan="6" style="text-align: end;"><strong>Rata-rata:</strong></td>
             <td><?= ($no > 0) ? round($grandTotalTarget / $no, 2) : 0; ?></td>
             <td><?= ($no > 0) ? round($grandTotalAktual / $no, 2) : 0; ?><br> (hasil sum / jumlah data mitigasi)</td> 
-        </tr>
+        </tr> -->
           
     <?php } else { ?>
         <tr>
