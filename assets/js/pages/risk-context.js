@@ -1438,7 +1438,7 @@ function result_dampak(hasil) {
         $('#impact_text_kuantitatif_residual').val(hasil.text);
         $('input[name="impact_residual_id"]').val(hasil.nil);
 
-        $("#risiko_residual_text").val(parseFloat(hasil.like_code) * parseFloat(hasil.impact_code));
+        $("#risiko_residual_text").val(hasil.score);
         $("#level_residual_text").val(hasil.level_color);
         $("input[name=\"risiko_residual\"]").val(hasil.id);
         $("input[name=\"level_residual\"]").val(hasil.level_risk_no);
@@ -1448,7 +1448,7 @@ function result_dampak(hasil) {
         $('#impact_text_kuantitatif_target').val(hasil.text);
         $('input[name="impact_target_id"]').val(hasil.nil);
 
-        $("#risiko_target_text").val(parseFloat(hasil.like_code) * parseFloat(hasil.impact_code));
+        $("#risiko_target_text").val(hasil.score);
         $("#level_target_text").val(hasil.level_color);
         $("input[name=\"risiko_target\"]").val(hasil.id);
         $("input[name=\"level_target\"]").val(hasil.level_risk_no);
@@ -1478,7 +1478,7 @@ function result_inherent(hasil) {
 }
 
 function result_residual(hasil) {
-    $("#risiko_residual_text").val(parseFloat(hasil.like_code) * parseFloat(hasil.impact_code));
+    $("#risiko_residual_text").val(hasil.score);
     $("#level_residual_text").val(hasil.level_color);
     $("input[name=\"risiko_residual\"]").val(hasil.id);
     $("input[name=\"level_residual\"]").val(hasil.level_risk_no);
@@ -1488,7 +1488,7 @@ function result_residual(hasil) {
 }
 
 function result_target(hasil) {
-    $("#risiko_target_text").val(parseFloat(hasil.like_code) * parseFloat(hasil.impact_code));
+    $("#risiko_target_text").val(hasil.score);
     $("#level_target_text").val(hasil.level_color);
     $("input[name=\"risiko_target\"]").val(hasil.id);
     $("input[name=\"level_target\"]").val(hasil.level_risk_no);
