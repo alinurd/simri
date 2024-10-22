@@ -1426,8 +1426,8 @@ function result_dampak(hasil) {
 
         $('#impact_text_kuantitatif_semi').val(hasil.text);
         $('input[name="impact_id_3"]').val(hasil.nil);
+        $("#risiko_inherent_text").val(hasil.score);
 
-        $("#risiko_inherent_text").val(parseFloat(hasil.like_code) * parseFloat(hasil.impact_code));
         $("#level_inherent_text").val(hasil.level_color);
         $("input[name=\"risiko_inherent\"]").val(hasil.id);
         $("input[name=\"level_inherent\"]").val(hasil.level_risk_no);
@@ -1467,7 +1467,7 @@ function list_mitigasi(hasil) {
 
 function result_inherent(hasil) {
 
-    $("#risiko_inherent_text").val(parseFloat(hasil.like_code) * parseFloat(hasil.impact_code));
+     $("#risiko_inherent_text").val(hasil.score);
     $("#level_inherent_text").val(hasil.level_color);
     $("input[name=\"risiko_inherent\"]").val(hasil.id);
     $("input[name=\"level_inherent\"]").val(hasil.level_risk_no);
